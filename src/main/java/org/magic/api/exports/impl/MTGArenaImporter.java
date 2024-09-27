@@ -16,6 +16,7 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
@@ -121,10 +122,12 @@ public class MTGArenaImporter extends AbstractCardExport {
 		return new ImageIcon(MTGArenaExport.class.getResource("/icons/plugins/mtgarena.png"));
 	}
 
-
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(ARENA_LOG_FILE,"C:\\Users\\"+System.getProperty("user.name")+"\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\Player.log");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put(ARENA_LOG_FILE, MTGProperty.newFileProperty(new File("C:\\Users\\"+System.getProperty("user.name")+"\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\Player.log")));
+		return m;
 	}
-
+	
+	
 }

@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -101,8 +102,8 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(MAX, "5");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of(MAX, MTGProperty.newIntegerProperty("5","max results to return",1,25));
 
 
 	}

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.jolokia.config.ConfigKey;
 import org.jolokia.jvmagent.JolokiaServer;
 import org.jolokia.jvmagent.JolokiaServerConfig;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 
 public class JolokiaJMXServer extends AbstractMTGServer {
@@ -34,14 +35,14 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String,String>();
-		m.put("HOST", "127.0.0.1");
-		m.put("PORT", "8778");
-		m.put("CONTEXT", "/");
-		m.put("USER", "jolokia");
-		m.put("PASS", "jolokia");
-		m.put("AUTOSTART", "false");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = new HashMap<String,MTGProperty>();
+		m.put("HOST", new MTGProperty("127.0.0.1","server name or ip"));
+		m.put("PORT", MTGProperty.newIntegerProperty("8778", "listening port for webserver", 80, -1));
+		m.put("CONTEXT", new MTGProperty("/","context page for the jolokia index"));
+		m.put("USER", new MTGProperty("jolokia","user allowed to connect to jolokia"));
+		m.put("PASS", new MTGProperty("jolokia","password for the user allowed to connect to jolokia"));
+		m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
 		return m;
 	}
 	

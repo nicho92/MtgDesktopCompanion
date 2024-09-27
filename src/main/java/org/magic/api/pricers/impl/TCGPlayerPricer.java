@@ -11,6 +11,7 @@ import org.apache.groovy.util.Maps;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
@@ -189,8 +190,8 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("MAX", "10");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("MAX", MTGProperty.newIntegerProperty("10","number of results to return",1,-1));
 
 	}
 

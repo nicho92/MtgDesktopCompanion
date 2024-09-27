@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathFactory;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
@@ -113,12 +114,12 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 
 		var m = super.getDefaultAttributes();
-		m.put("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
-		m.put("SLEEVE_ID", "0");
-		m.put(SHARED, "False");
+		m.put("MAGIC_GAME_ID", new MTGProperty("a6c8d2e8-7cd8-11dd-8f94-e62b56d89593", "The MTG game ID"));
+		m.put("SLEEVE_ID", new MTGProperty("0", "The Sleeve ID"));
+		m.put(SHARED, MTGProperty.newBooleanProperty("false", "Mark the deck as shared"));
 
 		return m;
 

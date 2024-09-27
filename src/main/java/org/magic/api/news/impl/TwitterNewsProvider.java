@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGNewsContent;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 
 import twitter4j.Twitter;
@@ -84,9 +85,9 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("MAX_RESULT", "25",
-								"LOG", "false");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("MAX_RESULT", MTGProperty.newIntegerProperty("25","max results",5,-1),
+								"LOG", MTGProperty.newBooleanProperty(FALSE, "Enable twitter's api log"));
 
 	}
 

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
@@ -49,8 +50,8 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("PROVIDER","MTGSQLive");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("PROVIDER",new MTGProperty("MTGSQLive","The MTGJson provider name.","MTGSQLive","MTGJson5"));
 	}
 
 	@Override

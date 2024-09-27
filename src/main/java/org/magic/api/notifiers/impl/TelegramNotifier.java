@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.network.URLTools;
@@ -68,8 +69,8 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("CHANNEL","");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("CHANNEL", new MTGProperty("","ID of the channel where notification is send. See https://neliosoftware.com/content/help/how-do-i-get-the-channel-id-in-telegram/ to get this information"));
 	}
 
 }

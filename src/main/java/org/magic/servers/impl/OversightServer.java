@@ -12,8 +12,10 @@ import java.util.TimerTask;
 
 import javax.swing.Icon;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
@@ -119,13 +121,13 @@ public class OversightServer extends AbstractMTGServer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("AUTOSTART", "false",
-								TIMEOUT_MINUTE, "120",
-								"ALERT_MIN_PERCENT","40",
-								"NOTIFIER","Tray,Console",
-								"SORT_FILTER","DAY_PRICE_CHANGE",
-								"FORMAT_FILTER","");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of( "AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
+	   			 			  TIMEOUT_MINUTE, MTGProperty.newIntegerProperty("120","Timeout in minute when server will do the job",1,-1),
+								"ALERT_MIN_PERCENT",MTGProperty.newIntegerProperty("40","Percentage threshold of the price variation where notification will be send",1,100),
+								"NOTIFIER",new MTGProperty("Tray,Console","select the notifiers to push information. Separated by comma. See  [Notifiers](Plugins#notifier)"),
+								"SORT_FILTER", new MTGProperty("DAY_PRICE_CHANGE","Select how are sort results to return",ArrayUtils.toStringArray(SORT.values())));
+								
 	}
 
 	@Override

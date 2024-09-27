@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
 
@@ -51,9 +52,9 @@ public class CaffeineCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("EXPIRATION_MINUTE","10",
-							    "CAPACITY","100");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("EXPIRATION_MINUTE",  MTGProperty.newIntegerProperty("10", "timeout in minute when cache will remove expired items", 0, -1),
+				 "CAPACITY",MTGProperty.newIntegerProperty("100", "number of items stored in the cache", 0, -1));
 	}
 
 

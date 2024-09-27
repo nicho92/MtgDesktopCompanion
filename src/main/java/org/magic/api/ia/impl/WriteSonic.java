@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -23,11 +24,11 @@ public class WriteSonic extends AbstractIA {
 
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = super.getDefaultAttributes();
-		map.put("GOOGLE_RESULTS", FALSE);
-		map.put("ENABLE_MEMORY", TRUE);
+		
+		map.put("GOOGLE_RESULTS", MTGProperty.newBooleanProperty("false", "use google search for result"));
+		map.put("ENABLE_MEMORY", MTGProperty.newBooleanProperty("true", "ChatSonic can maintain the context of your conversations just like you would with a person. It remembers past questions or comments in your conversation and can easily answer follow-up questions."));
 		return map;
 	}
 	

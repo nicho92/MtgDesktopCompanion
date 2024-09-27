@@ -15,6 +15,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -24,8 +25,6 @@ import org.magic.services.tools.MTG;
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String MAX_PAGE = "MAX_PAGE";
-	private static final String TIMEOUT = "TIMEOUT";
-	private static final String URL = "URL";
 	private Map<Integer, String> cacheColor;
 
 
@@ -168,7 +167,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 1; i <= nbPage; i++) {
-			Document d = URLTools.extractAsHtml(getString(URL) + "/" + filter + "/?lng=fr&page=" + i);
+			Document d = URLTools.extractAsHtml("https://deckstats.net/decks/f/" + filter + "/?lng=fr&page=" + i);
 			Elements e = d.select("tr.deck_row");
 
 			for (Element cont : e) {
@@ -202,11 +201,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(URL, "https://deckstats.net/decks/f/",
-							  TIMEOUT, "0",
-							  MAX_PAGE, "2");
-
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
+		return m;
 	}
 
 	@Override

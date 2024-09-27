@@ -45,6 +45,7 @@ import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
@@ -519,15 +520,15 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var map = new HashMap<String,String>();
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var map = new HashMap<String,MTGProperty>();
 
-		map.put(SERVERNAME, "localhost");
-		map.put(SERVERPORT, "");
-		map.put(DB_NAME, "mtgdesktopclient");
-		map.put(LOGIN, "login");
-		map.put(PASS, "pass");
-		map.put(PARAMS, "");
+		map.put(SERVERNAME,   new MTGProperty("localhost","server name or ip where database is stored"));
+		map.put(SERVERPORT, MTGProperty.newIntegerProperty("", "listening port of the database",1024,65535));
+		map.put(DB_NAME, new MTGProperty("mtgdesktopclient","database name"));
+		map.put(LOGIN, new MTGProperty("login","user allowed to connect to the database"));
+		map.put(PASS, new MTGProperty("pass","password of the connected user"));
+		map.put(PARAMS, new MTGProperty("","JDBC parameters append to the url"));
 		return map;
 	}
 

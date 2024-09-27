@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -34,6 +35,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
@@ -53,12 +55,24 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	private JsonExport serializer;
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-			return Map.of(BOOST, "false",
-							MIN_TERM_FREQ, "1",
-							FIELDS,"cost,text,scryfallId,numbercolor,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted,retro",
-							MAX_RESULTS,"20",
-							DIRECTORY,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "luceneIndex").toFile().getAbsolutePath());
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+			var m = super.getDefaultAttributes();
+			m.put(BOOST, MTGProperty.newBooleanProperty("false", "enable Document level field boosting"));
+			m.put(MIN_TERM_FREQ, MTGProperty.newIntegerProperty("1", "Sets the frequency below which terms will be ignored in the source doc", 1, -1));
+			m.put(DIRECTORY, MTGProperty.newDirectoryProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "luceneIndex")));
+			m.put(MAX_RESULTS, MTGProperty.newIntegerProperty("20", "set max return result of similar query", 1, -1));
+			
+			
+			try {
+				m.put(FIELDS, new MTGProperty("cost,text,scryfallId,numbercolor,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted,retro","indexed fields for cards. Separated by comma", BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
+			} catch (Exception e) {
+				
+				m.put(FIELDS, new MTGProperty("cost,text,scryfallId,numbercolor,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted,retro","indexed fields for cards. Separated by comma"));
+			}
+			
+			
+			return m;
 	}
 
 	public LuceneIndexer() {

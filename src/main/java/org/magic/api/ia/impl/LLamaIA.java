@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -84,14 +85,18 @@ public class LLamaIA  extends AbstractIA{
 	
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 			var map = super.getDefaultAttributes();
-			map.put("MODEL", "meta/llama-2-70b-chat");
-			map.put("TEMPERATURE", "0.5");
-			map.put("MAX_TOKEN", "2000");
-			map.put("SYSTEM_MSG", "You are a helpful assistant that generate Magic the gathering card in json format.");
+			map.put("MODEL", new MTGProperty("meta/llama-2-70b-chat","choose langage model"));
+			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0", "You can think of temperature like randomness, with 0 being least random (or most deterministic) and 2 being most random (least deterministic)", 0, 2));
+			map.put("MAX_TOKEN", MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
+			map.put("SYSTEM_MSG", new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
+
 			return map;
 	}
+	
+	
+
 	
 	
 	

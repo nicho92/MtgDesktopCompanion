@@ -13,6 +13,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.sorters.CardsDeckSorter;
@@ -124,10 +125,10 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("AUTHOR", System.getProperty("user.name"),
-							   "PRINT_CUT_LINE","true",
-							   SPACE,"0");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("AUTHOR", new MTGProperty(System.getProperty("user.name")," the Author of the PDF File"),
+							   "PRINT_CUT_LINE",MTGProperty.newBooleanProperty("false", "mark the cutline between cards"),
+							   SPACE, MTGProperty.newIntegerProperty("0", "set padding between cards", 0, -1));
 
 	}
 
@@ -136,19 +137,5 @@ public class PDFExport extends AbstractCardExport {
 		return POMReader.readVersionFromPom(PdfDocument.class, "/META-INF/maven/com.itextpdf/kernel/pom.properties");
 	}
 
-
-	@Override
-	public boolean equals(Object obj) {
-
-		if(obj ==null)
-			return false;
-
-		return hashCode()==obj.hashCode();
-	}
-
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
 
 }

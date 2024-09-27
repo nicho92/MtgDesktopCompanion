@@ -12,6 +12,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -168,9 +169,9 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(REGEX, "default");
+			  m.put(REGEX, new MTGProperty("default", "select regex for export items. You can write your own"));
 
 		return m;
 	}

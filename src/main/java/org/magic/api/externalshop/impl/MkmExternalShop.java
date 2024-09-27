@@ -11,6 +11,7 @@ import java.util.Objects;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.lang3.ArrayUtils;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Game;
@@ -36,6 +37,7 @@ import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
@@ -363,10 +365,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("STATE", STATE.paid.name(),
-				"ACTOR", ACTOR.seller.name(),
-				ID_GAME,"1");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+			m.put("STATE",new MTGProperty("paid", "filter states of orders to import. Separated by comma", ArrayUtils.toStringArray(STATE.values())));
+			m.put("ACTOR", new MTGProperty("seller", "filter orders you bought or sell ", ArrayUtils.toStringArray(ACTOR.values())));
+			m.put(ID_GAME, MTGProperty.newIntegerProperty("1","set ID Game. let 1 for MTG",1,21));
+		
+			return m;
 	}
 
 	@Override

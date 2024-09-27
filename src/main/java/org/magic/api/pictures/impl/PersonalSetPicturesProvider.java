@@ -10,6 +10,7 @@ import javax.swing.Icon;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
@@ -97,10 +98,10 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		return Map.of(PICS_DIR,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"privateSets","pics").toFile().getAbsolutePath(),
-							   FORMAT,"PNG");
+		return Map.of(PICS_DIR,MTGProperty.newDirectoryProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"privateSets","pics")),
+							   FORMAT, new MTGProperty("PNG","Image format for storage","PNG","JPG","BMP"));
 	}
 
 

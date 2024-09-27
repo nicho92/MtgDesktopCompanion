@@ -13,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -23,7 +24,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	private static final String PAUPER = "pauper";
 	private static final String PIONEER = "pioneer";
 	private static final String MAX_PAGE = "MAX_PAGE";
-	private static final String URL = "URL";
 	private static final String SUBDECK_GROUP_CARD_QTY = "subdeck-group__card-qty";
 	private static final String COMMANDER = "commander";
 	private static final String VINTAGE = "vintage";
@@ -96,13 +96,16 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
-		String url = getString(URL) + "/magic/deck/search?format=" + filter;
+		
+		var baseUrl="https://decks.tcgplayer.com";
+		
+		String url = baseUrl + "/magic/deck/search?format=" + filter;
 		logger.debug("get List deck at {}",url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		int maxPage = getInt(MAX_PAGE);
 
 		for (var i = 1; i <= maxPage; i++) {
-			url = getString(URL) + "/magic/deck/search?format=" + filter + "&page=" + i;
+			url = baseUrl + "/magic/deck/search?format=" + filter + "&page=" + i;
 			Document d = URLTools.extractAsHtml(url);
 
 			for (Element tr : d.getElementsByClass("gradeA")) {
@@ -123,7 +126,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 					mana += "{G}";
 
 				String deckName = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-				String link = getString(URL) + tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
+				String link = baseUrl + tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
 				String deckPlayer = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text();
 				String deckDesc = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text();
 
@@ -155,10 +158,11 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(	URL, "https://decks.tcgplayer.com",
-						MAX_PAGE, "1");
-
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("1", "number of page to query", 1, 10));
+		return m;
 	}
 
 }

@@ -15,6 +15,7 @@ import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
@@ -85,14 +86,14 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		for(var k : EnumItems.values())
-			m.put(ID_CATEG+k.name(), "");
+			m.put(ID_CATEG+k.name(), new MTGProperty("", "default id category for "+k));
 		
 		for(var k : EnumPaymentProvider.values())
-			m.put(ID_PAY+k.name(), "");
-		
+			m.put(ID_PAY+k.name(), new MTGProperty("", "default id payment for "+k));
+				
 		return m;
 	}
 	

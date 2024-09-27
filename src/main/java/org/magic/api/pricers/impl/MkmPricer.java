@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.providers.MTGJsonPricerProvider;
 
@@ -40,8 +41,8 @@ public class MkmPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("EXPIRE_FILE_DAYS","1");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("EXPIRE_FILE_DAYS",MTGProperty.newIntegerProperty("1","Number of day when the file will be updated",1,-1));
 	}
 
 

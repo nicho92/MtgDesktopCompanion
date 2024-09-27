@@ -13,6 +13,7 @@ import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
@@ -25,11 +26,11 @@ public class CardTraderPricer extends AbstractPricesProvider {
 	private CardTraderService service;
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 
-		m.put("AUTOMATIC_ADD_CART", "false");
-		m.put(COUNTRY_FILTER, "IT,FR");
+		m.put("AUTOMATIC_ADD_CART", MTGProperty.newBooleanProperty("false","set to true if you want add finded item to your online cart"));
+		m.put(COUNTRY_FILTER, new MTGProperty("", "Set seller's country filter in card search. Separated by comma","IT","FR","EN","SK","ES","BE","AT","GR","SE","CH"));
 
 		return m;
 	}

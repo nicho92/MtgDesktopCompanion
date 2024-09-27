@@ -10,6 +10,7 @@ import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -110,12 +111,12 @@ public class ChatGPT extends AbstractIA {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 			var map = super.getDefaultAttributes();
-			map.put("MODEL", "gpt-3.5-turbo");
-			map.put("TEMPERATURE", "0");
-			map.put("MAX_TOKEN", "2000");
-			map.put("SYSTEM_MSG", "You are a helpful assistant that generate Magic the gathering card in json format.");
+			map.put("MODEL", new MTGProperty("gpt-3.5-turbo","choose langage model","gpt-4o","gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"));
+			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0", "You can think of temperature like randomness, with 0 being least random (or most deterministic) and 2 being most random (least deterministic)", 0, 2));
+			map.put("MAX_TOKEN", MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
+			map.put("SYSTEM_MSG", new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
 			return map;
 	}
 	

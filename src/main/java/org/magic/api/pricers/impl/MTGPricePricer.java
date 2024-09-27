@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
@@ -37,7 +38,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 		
 		String set = card.getEdition().getSet().replace(" ", "_");
 
-		String url = getString("WS_URL") + "?apiKey=" + getAuthenticator().get(API_KEY) + "&s=" + set;
+		String url = "https://www.mtgprice.com/api?apiKey=" + getAuthenticator().get(API_KEY) + "&s=" + set;
 
 		List<MTGPrice> ret = new ArrayList<>();
 
@@ -69,7 +70,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 					price.setCurrency("USD");
 					price.setCardData(card);
 					price.setSeller(getName());
-					price.setUrl(getString("WEBSITE") + "/sets/" + set + "/"+ mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
+					price.setUrl("https://www.mtgprice.com/sets/" + set + "/"+ mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
 					price.setValue(UITools.parseDouble(fairPrice));
 					price.setQuality("NM");
 					var start=mtgpriceID.indexOf(set) + set.length();
@@ -106,11 +107,9 @@ public class MTGPricePricer extends AbstractPricesProvider {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		return Map.of("MAX", "5",
-							   "WS_URL", "https://www.mtgprice.com/api",
-								"WEBSITE", "https://www.mtgprice.com/");
+		return Map.of("MAX", MTGProperty.newIntegerProperty("5","Max results to return",1,-1));
 
 	}
 

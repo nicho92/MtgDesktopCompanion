@@ -2,7 +2,6 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
@@ -31,11 +30,6 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String getName() {
 		return "Gatherer";
-	}
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("SET_SIZE", "medium");
 	}
 
 	@Override

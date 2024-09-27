@@ -19,6 +19,7 @@ import javax.swing.JInternalFrame;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
@@ -129,7 +130,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		return new HashMap<>();
 	}
 

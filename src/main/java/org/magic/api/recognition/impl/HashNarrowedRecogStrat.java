@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.technical.MTGDocumentation;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.services.recognition.DescContainer;
@@ -28,9 +29,9 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put("LIMIT_TO_TOP_N_HASH_MATCH", "500");
+		m.put("LIMIT_TO_TOP_N_HASH_MATCH", MTGProperty.newIntegerProperty("500", "maximum MatchResult", 10, -1));
 		return m;
 	}
 

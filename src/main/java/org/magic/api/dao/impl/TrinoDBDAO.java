@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.Level;
 import org.jooq.SQLDialect;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGControler;
@@ -41,12 +42,12 @@ public class TrinoDBDAO extends AbstractMagicSQLDAO {
 	
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(SERVERPORT,"8080");
-		m.put(DB_NAME,"catalog/schema");
-		m.put(LOGIN, "trino");
-		m.put(PASS, "");
+		m.get(SERVERPORT).setDefaultValue("8080");
+		m.get(DB_NAME).setDefaultValue("catalog/schema");
+		m.get(LOGIN).setDefaultValue("trino");
+		m.get(PASS).setDefaultValue("");
 		return m;
 	}
 

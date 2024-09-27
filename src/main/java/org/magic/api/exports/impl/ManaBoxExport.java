@@ -14,12 +14,15 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
 
 public class ManaBoxExport extends AbstractFormattedFileCardExport {
 
@@ -185,10 +188,9 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put("CURRENCY", Currency.getInstance(Locale.getDefault()).getCurrencyCode());
-		
+		m.put("CURRENCY", new MTGProperty(Currency.getInstance(Locale.getDefault()).getCurrencyCode(), "Choose current currency for your prices",ArrayUtils.toStringArray(Currency.getAvailableCurrencies().stream().map(c->c.getCurrencyCode()).toArray())));
 		return m;
 	}
 	

@@ -13,6 +13,7 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGWallpaper;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.tools.FileTools;
 
@@ -58,9 +59,8 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("DIRECTORY", ".",
-								"PREF_SIZE", "");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("DIRECTORY", MTGProperty.newDirectoryProperty(new File(".")));
 	}
 
 	@Override

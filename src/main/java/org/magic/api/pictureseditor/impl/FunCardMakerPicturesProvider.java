@@ -16,6 +16,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
@@ -188,10 +189,10 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("COPYRIGHT", "(c)2021-Wizards of the coast",
-							   LAYOUT_OLD_MODERN,"modern",
-							   HYBRIDE,"");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("COPYRIGHT", new MTGProperty("(c)2024-Wizards of the coast","Bottom card information"),
+							   LAYOUT_OLD_MODERN, new MTGProperty("modern","choose the layout of the card","old","modern"),
+							   HYBRIDE, new MTGProperty("","information about hybrid card"));
 	}
 
 	@Override

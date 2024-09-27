@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.MTGWallpaper;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -106,9 +107,9 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("MATURE","false",
-								LIMIT,"50");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"),
+								LIMIT,MTGProperty.newIntegerProperty("50", "Max results to return", 5, 150));
 	}
 
 }

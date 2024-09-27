@@ -29,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.messages.UsersTechnicalMessage;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -52,15 +53,15 @@ public class ActiveMQServer extends AbstractMTGServer {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String,String>();
-			 m.put("ENABLE_JMX_MNG", "true");
-			 m.put(LISTENERS_TCP, "tcp://"+URLTools.getInternalIP()+":61616");
-			 m.put("SECURITY_ENABLED", "false");
-			 m.put(LOG_DIR, new File(MTGConstants.DATA_DIR,"activemq").getAbsolutePath());
-			 m.put("ADRESSES", "trade,news");
-			 m.put("RETENTION_DAYS", "7");
-			 m.put("AUTOSTART", "false");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = new HashMap<String,MTGProperty>();
+			 m.put("ENABLE_JMX_MNG", MTGProperty.newBooleanProperty("true","enable the jmx console management"));
+			 m.put(LISTENERS_TCP, new MTGProperty("tcp://"+URLTools.getInternalIP()+":61616","listening endoints.Separated by comma"));
+			 m.put("SECURITY_ENABLED", MTGProperty.newBooleanProperty("false","Sets whether security is enabled for this server."));
+			 m.put(LOG_DIR, MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR,"activemq")));
+			 m.put("ADRESSES", new MTGProperty("trade,news","defaults adresses of messaging"));
+			 m.put("RETENTION_DAYS", MTGProperty.newIntegerProperty("7","retention days for the log",1,-1));
+			 m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
 			 return m;
 	}
 	

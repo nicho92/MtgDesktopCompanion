@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -94,7 +95,8 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 		var arr = RequestBuilder.build()
 						.setClient(URLTools.newClient())
-						.url(BASE_URI+"/decks/cards/").get()
+						.url(BASE_URI+"/decks/cards/")
+						.get()
 						.addContent("orderBy", "-createdAt")
 						.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), filter)+1))
 						.addContent("pageSize", getString("PAGE_SIZE"))
@@ -143,8 +145,13 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("PAGE_SIZE","50");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		
+		m.put("PAGE_SIZE", MTGProperty.newIntegerProperty("50", "number of items per page to query", 50, 100));
+		
+		return m;
 	}
 
 }

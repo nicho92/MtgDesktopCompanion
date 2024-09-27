@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
@@ -104,10 +105,10 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("CACHE_FILE", new File(MTGConstants.DATA_DIR,"markov.gen").getAbsolutePath(),
-							"NGEN", "5",
-							"TAG_NAME","CARD_NAME");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("CACHE_FILE", MTGProperty.newFileProperty(new File(MTGConstants.DATA_DIR,"markov.gen")),
+							"NGEN", MTGProperty.newIntegerProperty("5", "n-factor - the length of each n-gram stored in the model", 2, 10),
+							"TAG_NAME",new MTGProperty("CARD_NAME", "tagname to replace card name in the oracle text"));
 	}
 
 	@Override

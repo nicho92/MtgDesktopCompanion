@@ -12,13 +12,17 @@ import java.util.Map;
 import javax.swing.Icon;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.api.pricers.impl.MTGPricePricer;
 import org.magic.services.MTGConstants;
+import org.magic.services.PluginRegistry;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
@@ -118,11 +122,20 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String, String>();
-		m.put(PRICER, "mkm");
-		m.put("PROPERTIES_CARD", "name,edition,number,types,border,frameEffects");
-		m.put(DECIMAL_SEPARATOR,""+DecimalFormatSymbols.getInstance().getDecimalSeparator());
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put(PRICER, new MTGProperty("mkm", "select pricer to pull price. See [Pricer plugins](Plugins#pricer)"));
+		
+		try {
+			m.put("PROPERTIES_CARD", new MTGProperty("name,edition,number,types,border,frameEffects","choose cards attributs you want to export. Separated by comma", BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
+		} catch (Exception e) {
+			
+			m.put("PROPERTIES_CARD", new MTGProperty("name,edition,number,types,border,frameEffects","choose cards attributs you want to export. Separated by comma"));
+		}
+		m.put(DECIMAL_SEPARATOR, new MTGProperty(""+DecimalFormatSymbols.getInstance().getDecimalSeparator(), "Decimal separator format"));
+		
+		
+		
 		return m;
 	}
 

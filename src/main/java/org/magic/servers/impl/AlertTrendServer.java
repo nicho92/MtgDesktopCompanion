@@ -17,6 +17,7 @@ import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
@@ -158,12 +159,12 @@ public class AlertTrendServer extends AbstractMTGServer {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(AUTOSTART, "false",
-							   TIMEOUT_MINUTE, "120",
-							   ALERT_MIN_PERCENT,"40",
-							   THREAD_PAUSE,"2000",
-							   NOTIFIER,"Tray,Console");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
+				   			 TIMEOUT_MINUTE, MTGProperty.newIntegerProperty("120","Timeout in minute when server will do the job",1,-1),
+							   ALERT_MIN_PERCENT,MTGProperty.newIntegerProperty("40","Percentage threshold of the price variation where notification will be send",1,100),
+							   THREAD_PAUSE,MTGProperty.newIntegerProperty("2000","Timeout in minute between each query. Used when external source block for ddos",2000,-1),
+							   NOTIFIER, new MTGProperty("Tray,Console","select the notifiers to push information. Separated by comma. See  [Notifiers](Plugins#notifier)"));
 	}
 
 	@Override

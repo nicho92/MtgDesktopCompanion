@@ -18,6 +18,7 @@ import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -121,10 +122,12 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("AUTOSTART", "false",
-								TIMEOUT_MINUTE, "120",
-								"NOTIFIER","Tray");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
+								TIMEOUT_MINUTE, MTGProperty.newIntegerProperty("120","Timeout in minute where server will do the job",1,-1),
+								"NOTIFIER", new MTGProperty("Tray","select the notifiers where you wan't to send the information. Separated by comma. See [plugins](Plugins#notifier)"));
+		
+		
 	}
 
 	@Override

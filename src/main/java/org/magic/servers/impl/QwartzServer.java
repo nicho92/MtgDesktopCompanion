@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.technical.MTGDocumentation;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
@@ -111,16 +112,17 @@ public class QwartzServer extends AbstractMTGServer {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String,String>();
-		m.put("org.quartz.scheduler.instanceName", "MTGCompanion-schedule");
-		m.put("org.quartz.threadPool.threadCount", "3");
-		m.put("org.quartz.jobStore.class","org.quartz.simpl.RAMJobStore");
-		m.put("org.quartz.plugin.jobInitializer.class","org.quartz.plugins.xml.XMLSchedulingDataProcessorPlugin");
-		m.put(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES,new File(MTGConstants.DATA_DIR,"quartz-config.xml").getAbsolutePath());
-		m.put("org.quartz.plugin.jobInitializer.failOnFileNotFound","true");
-		m.put("org.quartz.plugin.jobInitializer.scanInterval","60");
-		m.put("AUTOSTART", "false");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = new HashMap<String,MTGProperty>();
+		m.put("org.quartz.scheduler.instanceName", new MTGProperty("MTGCompanion-schedule","the instance name of qwartz"));
+		m.put("org.quartz.threadPool.threadCount", MTGProperty.newIntegerProperty("3","number of thread in the pool",1,-1));
+		m.put(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES, MTGProperty.newFileProperty(new File(MTGConstants.DATA_DIR,"quartz-config.xml"),"path to the config file"));
+		m.put("org.quartz.jobStore.class", new MTGProperty("org.quartz.simpl.RAMJobStore","class implementation used for the jobs"));
+		m.put("org.quartz.plugin.jobInitializer.class", new MTGProperty("org.quartz.plugins.xml.XMLSchedulingDataProcessorPlugin","Class implementation of config file processor"));
+		m.put("org.quartz.plugin.jobInitializer.failOnFileNotFound",MTGProperty.newBooleanProperty("true","don't startup if any error on the jobs initialization"));
+		m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
+		m.put("org.quartz.plugin.jobInitializer.scanInterval",MTGProperty.newIntegerProperty("60","Timeout in second where new jobs are scanned",10,-1));
+		
 
 		return m;
 	}

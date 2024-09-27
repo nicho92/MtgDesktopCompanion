@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -39,9 +40,10 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String,String>();
-		m.put("DATA",Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"recog").toFile().getAbsolutePath());
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = new HashMap<String,MTGProperty>();
+			 m.put("DATA", MTGProperty.newFileProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"recog")));
+		
 
 		return m;
 	}

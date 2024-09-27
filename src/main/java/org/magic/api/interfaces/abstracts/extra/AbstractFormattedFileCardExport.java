@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
@@ -152,9 +153,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String,String>();
-		m.put("SEPARATOR", ",");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put("SEPARATOR", new MTGProperty(",","Item separator used for export"));
 		return m;
 	}
 

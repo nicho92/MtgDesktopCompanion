@@ -29,6 +29,7 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
@@ -40,7 +41,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 	private static final String STOCK_USE = "STOCK_USE";
 	private static final String MAX_WANTLIST_SIZE = "MAX_WANTLIST_SIZE";
 	private static final String LANGUAGES = "LANGUAGES";
-	private static final String DEFAULT_QTE = "DEFAULT_QTE";
 	private static final String QUALITY = "QUALITY";
 
 
@@ -51,7 +51,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.DEPRECATED;
 	}
 
 	@Override
@@ -425,12 +425,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(QUALITY, "GD",
-								DEFAULT_QTE, "1",
-								LANGUAGES, "1",
-								MAX_WANTLIST_SIZE, "150",
-								STOCK_USE, "true");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of(QUALITY, new MTGProperty("GD","Default quality of uploaded card","MT","NM","EX","GD","LP","PL","PO"),
+								LANGUAGES, MTGProperty.newIntegerProperty("1", "1 - English, 2 - French, 3 - German,4 - Spanish, 5 - Italian,6 - Simplified Chinese,7 - Japanese, 8 - Portuguese, 9 - Russian,10 - Korean,11 - Traditional Chinese", 1, 11),
+								MAX_WANTLIST_SIZE, MTGProperty.newIntegerProperty("150","Max size of want list",2,150),
+								STOCK_USE, MTGProperty.newBooleanProperty("true","i don't remember the use XD"));
 
 	}
 

@@ -4,6 +4,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -240,11 +242,15 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(EXTRA_PROPERTIES, "id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
-		m.put("SEPARATOR", ";");
-
+		m.get("SEPARATOR").setDefaultValue(";");
+		try {
+			m.put(EXTRA_PROPERTIES, new MTGProperty("id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt","choose cards extra attributs you want to export. Separated by comma", BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
+		} catch (Exception e) {
+			
+			m.put(EXTRA_PROPERTIES, new MTGProperty("id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt","choose cards extra attributs you want to export. Separated by comma"));
+		}
 		return m;
 	}
 

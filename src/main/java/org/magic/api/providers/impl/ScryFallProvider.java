@@ -26,6 +26,7 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -80,9 +81,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("MULTILANG",FALSE,
-								"LOAD_RULING",FALSE);
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("LOAD_RULING",MTGProperty.newBooleanProperty(FALSE, "Set to true if you want to load rulings data. take longer time to load"));
 	}
 
 

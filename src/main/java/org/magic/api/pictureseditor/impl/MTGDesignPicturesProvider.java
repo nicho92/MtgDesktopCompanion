@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
@@ -276,8 +277,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(DESIGNER,System.getProperty("user.name"));
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of(DESIGNER, new MTGProperty(System.getProperty("user.name"), "The name of the designer"));
 	}
 
 	@Override

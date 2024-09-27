@@ -12,6 +12,7 @@ import org.jooq.SQLDialect;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 
@@ -88,10 +89,10 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(DB_NAME, "derbyDB");
-		m.put(SERVERNAME, new File(MTGConstants.DATA_DIR,m.get(DB_NAME)).getAbsolutePath());
+		m.get(DB_NAME).setDefaultValue("derbyDB");
+		m.get(SERVERNAME).setDefaultValue(new File(MTGConstants.DATA_DIR,m.get(DB_NAME).getDefaultValue()).getAbsolutePath());
 		return m;
 	}
 	

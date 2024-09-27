@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;
 import org.magic.services.MTGConstants;
 
@@ -30,8 +31,8 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("ROOT", Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "ged.zip").toAbsolutePath().toString());
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("ROOT", MTGProperty.newFileProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "ged.zip")));
 	}
 
 

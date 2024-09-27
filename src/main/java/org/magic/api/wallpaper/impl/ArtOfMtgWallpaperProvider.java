@@ -16,13 +16,16 @@ import org.magic.services.network.URLTools;
 
 public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 
+	
+	private static final String URL="http://www.artofmtg.com";
+	
 
 	@Override
 	public List<MTGWallpaper> search(String search) {
 		List<MTGWallpaper> list = new ArrayList<>();
 		try {
 
-			Document d = URLTools.extractAsHtml(getString("URL") + "/?s=" + URLTools.encode(search));
+			Document d = URLTools.extractAsHtml(URL + "/?s=" + URLTools.encode(search));
 
 			for (Element e : d.select("article.result")) {
 				var w = new MTGWallpaper();
@@ -44,7 +47,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 	public List<MTGWallpaper> search(MTGEdition ed) {
 		List<MTGWallpaper> list = new ArrayList<>();
 		try {
-			var d = URLTools.extractAsHtml(getString("URL") + "/set/" + ed.getSet().toLowerCase().replace(" ", "-"));
+			var d = URLTools.extractAsHtml(URL + "/set/" + ed.getSet().toLowerCase().replace(" ", "-"));
 			for (Element e : d.select("div.elastic-portfolio-item img")) {
 				var w = new MTGWallpaper();
 				w.setName(e.attr("title"));
@@ -68,11 +71,6 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public String getName() {
 		return "Art of Mtg";
-	}
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("URL", "http://www.artofmtg.com");
 	}
 
 	@Override

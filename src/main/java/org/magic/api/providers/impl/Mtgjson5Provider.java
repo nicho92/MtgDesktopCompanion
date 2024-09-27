@@ -28,6 +28,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
@@ -783,9 +784,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-			  m.put("LRU_CACHE", "400");
+			  m.put("LRU_CACHE", MTGProperty.newIntegerProperty("400", "Size of the LRU cache. Used for cache optimization", 50, -1));
 		return m;
 	}
 

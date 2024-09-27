@@ -15,6 +15,7 @@ import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
@@ -145,14 +146,14 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 
-		m.put(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath()).toFile().getAbsolutePath());
-		m.put(LOGIN, "SA");
-		m.put(MODE,"file");
-		m.put("WEB_ENABLE","true");
-		m.put("WEB_PORT","8082");
+		m.get(SERVERNAME).setDefaultValue(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath()).toFile().getAbsolutePath());
+		m.get(LOGIN).setDefaultValue("SA");
+		m.put(MODE, new MTGProperty("file", "select storage mode. File will persiste data on drive, mem will store data in memory", "file","mem"));
+		m.put("WEB_ENABLE",MTGProperty.newBooleanProperty("true", "set to true to enable web console"));
+		m.put("WEB_PORT",  MTGProperty.newIntegerProperty("8082","set web console port if enable",1024,65535));
 		return m;
 	}
 

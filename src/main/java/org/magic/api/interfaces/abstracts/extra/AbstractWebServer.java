@@ -23,6 +23,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.JSONHttpServer;
@@ -229,19 +230,19 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = new HashMap<String,String>();
+		var m = new HashMap<String, MTGProperty>();;
 
-		m.put(SERVER_PORT, "80");
-		m.put(SERVER_SSL_PORT, "443");
-		m.put(AUTOSTART, FALSE);
-		m.put(ALLOW_LIST_DIR, FALSE);
-		m.put(SSL_ENABLED, FALSE);
-		m.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
-		m.put(KEYSTORE_PASS, "changeit");
-		m.put(REST_BACKEND_URI, "http://localhost:8080");
-		m.put(JSON_SERVER_START,"true");
+		m.put(SERVER_PORT, MTGProperty.newIntegerProperty("80", "listening port for webserver", 80, -1));
+		m.put(SERVER_SSL_PORT, MTGProperty.newIntegerProperty("443", "listening port for https", 443, -1));
+		m.put(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
+		m.put(ALLOW_LIST_DIR, MTGProperty.newBooleanProperty(FALSE, "alow root directory listing"));
+		m.put(SSL_ENABLED, MTGProperty.newBooleanProperty(FALSE, "Run server with ssl"));
+		m.put(KEYSTORE_URI, MTGProperty.newFileProperty(new File(MTGConstants.DATA_DIR,"jetty.jks"),"location of certificate keystore"));
+		m.put(KEYSTORE_PASS, new MTGProperty("changeit", "password for the keystore"));
+		m.put(REST_BACKEND_URI, new MTGProperty("http://localhost:8080", "frontal endpoint of Json Http Server"));
+		m.put(JSON_SERVER_START, MTGProperty.newBooleanProperty(TRUE, "Run Json Http server on startup."));
 
 		return m;
 	}

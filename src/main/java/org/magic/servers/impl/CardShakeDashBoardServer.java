@@ -11,6 +11,7 @@ import java.util.TimerTask;
 import javax.swing.Icon;
 
 import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
@@ -111,11 +112,11 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(AUTOSTART, "false",
-							   TIMEOUT_MINUTE, "1440",
-							   THREAD_PAUSE,"2000",
-							   COLLECTION,"Library");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
+							   TIMEOUT_MINUTE, MTGProperty.newIntegerProperty("1440","Timeout in minute when server will do the job",1,-1),
+							   THREAD_PAUSE,MTGProperty.newIntegerProperty("2000","Timeout in minute between each query. Used when external source block for ddos",2000,-1),
+							   COLLECTION,new MTGProperty("Library","Choose the collection for the price caching"));
 	}
 
 	@Override

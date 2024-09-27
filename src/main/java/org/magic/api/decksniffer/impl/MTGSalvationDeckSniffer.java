@@ -15,6 +15,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -94,7 +95,9 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 
-		String url = getString("URL") + "/decks?filter-format=" + getFormatCode(filter)+ "&filter-deck-time-frame=" + getString("FILTER");
+		var baseUrl="https://www.mtgsalvation.com/";
+		
+		String url = baseUrl + "/decks?filter-format=" + getFormatCode(filter)+ "&filter-deck-time-frame=" + getString("FILTER");
 
 		List<RetrievableDeck> list = new ArrayList<>();
 
@@ -115,7 +118,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 				var deck = new RetrievableDeck();
 				deck.setName(cont.select("a.deck-name").html());
 				deck.setAuthor(cont.select("small.deck-credit a").text());
-				deck.setUrl(URI.create(getString("URL") + "/" + cont.select("a.deck-name").attr("href")));
+				deck.setUrl(URI.create(baseUrl + "/" + cont.select("a.deck-name").attr("href")));
 				deck.setDescription(cont.select("span.deck-type").html());
 				deck.setColor(parseColor(cont.select("script").html()));
 				list.add(deck);
@@ -168,10 +171,12 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("URL", "https://www.mtgsalvation.com/",
-								"MAX_PAGE", "2",
-								"FILTER", "1");// HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
+		m.put("FILTER", MTGProperty.newIntegerProperty("1", "HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5",1,5));
+		return m;
 	}
 
 	@Override

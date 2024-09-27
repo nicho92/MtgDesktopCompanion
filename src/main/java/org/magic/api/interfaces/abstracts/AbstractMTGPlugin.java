@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
@@ -257,12 +258,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 
 	protected void initDefault() {
-		getDefaultAttributes().entrySet().forEach(e->setProperty(e.getKey(), e.getValue()));
+		getDefaultAttributes().entrySet().forEach(e->setProperty(e.getKey(), e.getValue().getDefaultValue()));
 	}
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		return new HashMap<>();
 	}
 

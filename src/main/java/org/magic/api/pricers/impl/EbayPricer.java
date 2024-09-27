@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -78,11 +79,11 @@ public class EbayPricer extends AbstractPricesProvider {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("MAX", "10",
-							"EBAY_MARKETPLACE","EBAY_US",
-							"FIXEDPRICE_ONLY","false",
-							CCG_CATEG_ID,"183454");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("MAX", MTGProperty.newIntegerProperty("10","max results to return",5,-1),
+							"EBAY_MARKETPLACE", new MTGProperty("EBAY_US","choose country market place. Type EBAY_XXX where is is the country code","EBAY_AT","EBAY_AU","EBAY_BE","EBAY_CA","EBAY_CH","EBAY_DE","EBAY_ES","EBAY_FR","EBAY_GB","EBAY_HK","EBAY_IE","EBAY_IT","EBAY_NL","EBAY_PL","EBAY_SG","EBAY_US"),
+							"FIXEDPRICE_ONLY",MTGProperty.newBooleanProperty("false","chose if you want to filter to fixed price items"),
+							CCG_CATEG_ID,MTGProperty.newIntegerProperty("183454","The id of TCG ebay category",-1,-1));
 
 	}
 

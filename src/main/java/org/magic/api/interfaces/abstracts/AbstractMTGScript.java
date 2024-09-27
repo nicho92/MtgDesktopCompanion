@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.script.ScriptException;
 
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -108,9 +109,9 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String,String>();
-		m.put(DIR, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "scripts").toFile().getAbsolutePath());
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put(DIR, MTGProperty.newDirectoryProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "scripts")));
 		return m;
 	}
 }

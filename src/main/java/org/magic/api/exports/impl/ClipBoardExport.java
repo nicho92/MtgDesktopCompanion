@@ -7,6 +7,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.TCache;
 
@@ -75,8 +76,11 @@ public class ClipBoardExport extends AbstractCardExport {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("CLEAN_AFTER_IMPORT","true");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		m.put("CLEAN_AFTER_IMPORT", MTGProperty.newBooleanProperty("true"," set to true if you want to empty the clipboard after import"));
+		return m;
 	}
 
 

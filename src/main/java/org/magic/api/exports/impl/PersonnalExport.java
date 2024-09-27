@@ -8,6 +8,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.tech.ExportConfiguratorPanel;
@@ -85,8 +86,8 @@ public class PersonnalExport extends AbstractCardExport {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(REGEX,"");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of(REGEX,new MTGProperty("","latest regex"));
 	}
 
 

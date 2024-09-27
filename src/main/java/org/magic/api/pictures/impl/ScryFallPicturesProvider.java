@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.network.URLTools;
 
@@ -83,10 +84,8 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("CERT_SERV", "scryfall.com",
-							   "PIC_SIZE", "large",
-							   "ICON_SET_SIZE", "medium");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of( "PIC_SIZE", new MTGProperty("large", "Image quality to download from scryfall", "large","normal","small"));
 	}
 
 	@Override

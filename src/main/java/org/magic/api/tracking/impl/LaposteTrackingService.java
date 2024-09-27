@@ -8,6 +8,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -79,8 +80,8 @@ public class LaposteTrackingService extends AbstractTrackingService{
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LANG", "en_EN");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("LANG", new MTGProperty("en_EN","ISO code of the result"));
 	}
 
 

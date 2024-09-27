@@ -22,6 +22,7 @@ import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
@@ -112,11 +113,14 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOGIN","default",
-					  "PASS","redispw",
-					  "SERVER","localhost",
-					  "PORT","6379");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = new HashMap<String, MTGProperty>();
+		m.put("LOGIN", new MTGProperty("default", "username allowed to connect"));
+		m.put("PASS", new MTGProperty("redispw", "password of user to connect"));
+		m.put("SERVER", new MTGProperty("localhost", "servername of ip of the server"));
+		m.put("PORT", MTGProperty.newIntegerProperty("6379", "listening port of the redis server", 1024,65535));
+		return m;
 	}
 	
 	@Override

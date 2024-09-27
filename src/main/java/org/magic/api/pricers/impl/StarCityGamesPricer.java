@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -95,8 +96,8 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("NB_PAGE", "1");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("NB_PAGE", MTGProperty.newIntegerProperty("1","number of page to check",1,-1));
 
 	}
 

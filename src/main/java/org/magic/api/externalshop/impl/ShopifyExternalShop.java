@@ -15,6 +15,7 @@ import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
@@ -480,11 +481,11 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-			m.put(FOIL_OPTION_NUMBER, "1");
-			m.put(SET_OPTION_NUMBER, "2");
-			m.put("DEFAULT_VENDOR", "MTGCompanion");
+			m.put(FOIL_OPTION_NUMBER, MTGProperty.newStringProperty("1","Foil category number"));
+			m.put(SET_OPTION_NUMBER, MTGProperty.newStringProperty("2","set category number"));
+			m.put("DEFAULT_VENDOR", MTGProperty.newStringProperty("MTGCompanion","default vendor name"));
 		return m;
 	}
 

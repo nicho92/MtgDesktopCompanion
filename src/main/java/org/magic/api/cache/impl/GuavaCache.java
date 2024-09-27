@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
 import org.magic.services.tools.POMReader;
@@ -43,11 +44,14 @@ public class GuavaCache extends AbstractCacheProvider {
 		cache.put(generateIdIndex(mc), im);
 
 	}
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("MAX_ITEM","1000","EXPIRATION_MINUTE","10");
-	}
 
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("EXPIRATION_MINUTE",  MTGProperty.newIntegerProperty("10", "timeout in minute when cache will remove expired items", 0, -1),
+				 "MAX_ITEM",MTGProperty.newIntegerProperty("1000", "number of items stored in the cache", 0, -1));
+	}
+	
+	
 	@Override
 	public void clear() {
 		cache.invalidateAll();

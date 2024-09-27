@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
 import dorkbox.notify.Notify;
@@ -52,7 +53,7 @@ public class DorkBox extends AbstractMTGNotifier {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("DARK", "true");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("DARK", MTGProperty.newBooleanProperty(FALSE, "use dark mode"));
 	}
 }

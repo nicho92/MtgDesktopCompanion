@@ -62,6 +62,7 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.beans.technical.audit.JsonQueryInfo;
 import org.magic.api.beans.technical.audit.NetworkInfo;
@@ -1589,25 +1590,25 @@ public class JSONHttpServer extends AbstractMTGServer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = super.getDefaultAttributes();
 
-		map.put(SERVER_PORT, "8080");
-		map.put(AUTOSTART, FALSE);
-		map.put(ENABLE_GZIP, TRUE);
-		map.put(URLTools.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		map.put(URLTools.ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
-		map.put(URLTools.ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
-		map.put(BLOCKED_IPS,"");
-		map.put("THREADS",String.valueOf(Runtime.getRuntime().availableProcessors()));
-		map.put(ENABLE_SSL,FALSE);
-		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
-		map.put(KEYSTORE_PASS, "changeit");
-		map.put("INDEX_ROUTES", TRUE);
-		map.put("PRETTY_PRINT", FALSE);
-		map.put("JWT_SECRET",JWTServices.generateRandomSecret());
-		map.put("JWT_EXPIRATION_MINUTES", "60");
-		map.put("JWT_REFRESH_EXPIRATION_MINUTES","21600");
+		map.put(SERVER_PORT, MTGProperty.newIntegerProperty("8080", "listening port for webserver", 80, -1));
+		map.put(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
+		map.put(ENABLE_GZIP, MTGProperty.newBooleanProperty(TRUE, "set to true to compress stream returned by the server"));
+		map.put("INDEX_ROUTES", MTGProperty.newBooleanProperty(TRUE,"set to true to enable endpoints visibility on index page"));
+		map.put(ENABLE_SSL,MTGProperty.newBooleanProperty(FALSE,"set to true if you want to set the server on https. Need to feel the Keystore fields"));
+		map.put("PRETTY_PRINT", MTGProperty.newBooleanProperty(FALSE,"set to true if you want to print human readable json. Set to false in production"));
+		map.put(KEYSTORE_URI, MTGProperty.newFileProperty(new File(MTGConstants.DATA_DIR,"jetty.jks"), "File where are stored certificates"));
+		map.put(KEYSTORE_PASS, new MTGProperty("changeit","password to open the keystore"));
+		map.put(BLOCKED_IPS,new MTGProperty("","blocked IP. will return 403. Separated by comma"));
+		map.put(URLTools.ACCESS_CONTROL_ALLOW_ORIGIN, new MTGProperty("*","fill the Access-Control-Allow-Origin header"));
+		map.put(URLTools.ACCESS_CONTROL_REQUEST_METHOD, new MTGProperty("GET,PUT,POST,DELETE,OPTIONS","allow http request method, separated by comma","GET","PUT","POST","DELETE","OPTIONS"));
+		map.put(URLTools.ACCESS_CONTROL_ALLOW_HEADERS,new MTGProperty("Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin","Fill the Access-Control-Allow-Headers header"));
+		map.put("THREADS",MTGProperty.newIntegerProperty(""+Runtime.getRuntime().availableProcessors(), "Max thread to run", 0, Runtime.getRuntime().availableProcessors()));
+		map.put("JWT_SECRET",new MTGProperty(JWTServices.generateRandomSecret(),"JWT server secret token"));
+		map.put("JWT_EXPIRATION_MINUTES", MTGProperty.newIntegerProperty("60","Expiration of the user token in minute",1,-1));
+		map.put("JWT_REFRESH_EXPIRATION_MINUTES",MTGProperty.newIntegerProperty("21600", "Expiration of the user refresh token in minutes",2,-1));
 		return map;
 	}
 

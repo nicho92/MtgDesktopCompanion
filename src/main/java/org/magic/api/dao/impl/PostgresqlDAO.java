@@ -13,6 +13,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.postgresql.util.PGobject;
@@ -147,10 +148,10 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 
 		var m = super.getDefaultAttributes();
-		m.put(SERVERPORT, "5432");
+		m.get(SERVERPORT).setDefaultValue("5432");
 		return m;
 	}
 

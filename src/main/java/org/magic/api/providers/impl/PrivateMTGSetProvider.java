@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.exports.impl.JsonExport;
@@ -300,8 +301,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(DIRECTORY,new File(MTGConstants.DATA_DIR, "privateSets").getAbsolutePath());
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of(DIRECTORY, MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR, "privateSets")));
 	}
 
 

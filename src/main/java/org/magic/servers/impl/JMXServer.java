@@ -15,6 +15,7 @@ import javax.management.StandardMBean;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.Chrono;
@@ -87,8 +88,8 @@ public class JMXServer extends AbstractMTGServer {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("AUTOSTART", "false");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
 	}
 
 	@Override

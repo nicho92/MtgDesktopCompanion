@@ -12,6 +12,7 @@ import java.util.Map;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -21,7 +22,6 @@ import org.magic.services.network.URLTools;
 public class LotusNoirDecks extends AbstractDeckSniffer {
 
 
-	private static final String URL = "URL";
 	private static final String MAX_PAGE = "MAX_PAGE";
 
 	@Override
@@ -74,7 +74,10 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 
-		String decksUrl = getString(URL) + "?dpage=" + getString(MAX_PAGE) + "&action=" + filter;
+		var baseUrl="http://www.lotusnoir.info/magic/decks/";
+		
+		
+		String decksUrl = baseUrl + "?dpage=" + getString(MAX_PAGE) + "&action=" + filter;
 
 		logger.debug("snif decks : {} ",decksUrl);
 
@@ -82,7 +85,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 1; i <= nbPage; i++) {
-			var d = URLTools.extractAsHtml(getString(URL) + "?dpage=" + i + "&action=" + filter);
+			var d = URLTools.extractAsHtml(baseUrl + "?dpage=" + i + "&action=" + filter);
 			var e = d.select("div.thumb_page");
 
 			for (Element cont : e) {
@@ -145,11 +148,10 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(URL, "http://www.lotusnoir.info/magic/decks/",
-			MAX_PAGE, "2");
-
-
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
+		return m;
 	}
 
 

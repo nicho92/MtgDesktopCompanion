@@ -15,6 +15,7 @@ import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -325,7 +326,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 
 		var temp = new StringBuilder();
 		for(EnumItems it : EnumItems.values())
@@ -333,7 +334,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			temp.append(it.name()).append("=").append("").append(",");
 		}
 
-		return Map.of("MAP_CATEG_TYPE",temp.toString().substring(0, temp.toString().length()-1));
+		return Map.of("MAP_CATEG_TYPE", new MTGProperty(temp.toString().substring(0, temp.toString().length()-1), "set mapping for category with type of product"));
 	}
 
 	@Override

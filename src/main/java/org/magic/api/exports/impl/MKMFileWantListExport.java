@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -119,10 +120,10 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 
 		var m = super.getDefaultAttributes();
-		m.put("SEPARATOR", getSeparator());
+		m.get("SEPARATOR").setDefaultValue(" ");
 		return m;
 	}
 

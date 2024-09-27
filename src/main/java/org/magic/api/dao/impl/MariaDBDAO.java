@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.util.Map;
 
 import org.jooq.SQLDialect;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class MariaDBDAO extends AbstractMagicSQLDAO {
@@ -31,10 +32,10 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(SERVERPORT, "3306");
-		m.put(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
+		m.get(SERVERPORT).setDefaultValue("3306");
+		m.get(PARAMS).setDefaultValue("?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
 		return m;
 	}
 

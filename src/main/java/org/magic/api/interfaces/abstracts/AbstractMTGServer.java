@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
 import org.magic.services.ReportsService;
@@ -50,9 +51,9 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put("TIMEOUT_CACHE_MINUTES", "720");
+		m.put("TIMEOUT_CACHE_MINUTES", MTGProperty.newIntegerProperty("720", "Timeout in minute for server cache management", 0, -1));
 		return m;
 	}
 

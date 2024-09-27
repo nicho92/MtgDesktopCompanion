@@ -24,6 +24,7 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -268,10 +269,9 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String,String>();
-		m.put(FORCE_RELOAD, "false");
-
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = new HashMap<String,MTGProperty>();
+		m.put(FORCE_RELOAD, MTGProperty.newBooleanProperty("false", "force data reloading at initialisation. Will be back to false after update"));
 		return m;
 	}
 

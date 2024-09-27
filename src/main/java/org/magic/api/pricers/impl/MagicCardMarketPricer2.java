@@ -23,6 +23,7 @@ import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -230,17 +231,18 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var map = new HashMap<String,String>();
-		map.put(LANGUAGE_ID, "");
-		map.put(IS_EXACT, "");
-		map.put(MIN_CONDITION, "");
-		map.put("COMMONCHECK", FALSE);
-		map.put("MAX", "10");
-		map.put("USER_ARTICLE", TRUE);
-		map.put("AUTOMATIC_ADD_CARD_ALERT", FALSE);
-		map.put(FILTER_COUNTRY, "EN,"+Locale.getDefault().getCountry());
+		var map = new HashMap<String,MTGProperty>();
+				
+		map.put(LANGUAGE_ID, MTGProperty.newIntegerProperty("1", "1 - English, 2 - French, 3 - German,4 - Spanish, 5 - Italian,6 - Simplified Chinese,7 - Japanese, 8 - Portuguese, 9 - Russian,10 - Korean,11 - Traditional Chinese", 1, 11));
+		map.put(IS_EXACT, new MTGProperty("","set to 1 f you want to search with the exact cardname","","1"));
+		map.put(MIN_CONDITION, new MTGProperty("Minimum condition for filter.  (MT for Mint > NM for Near Mint > EX for Exellent > GD for Good > LP for Light Played > PL for Played > PO for Poor). Separated by comma", "","MT","NM","EX","EX","GD","LP","PL","PO"));
+		map.put("COMMONCHECK", MTGProperty.newBooleanProperty(FALSE, "set to true if you want to check price of common rarity cards"));
+		map.put("MAX", MTGProperty.newIntegerProperty("10","Max result to return",1,20));
+		map.put("USER_ARTICLE", MTGProperty.newBooleanProperty(TRUE,"Set to true if you want to check prices from users stock. False will return average"));
+		map.put("AUTOMATIC_ADD_CARD_ALERT", MTGProperty.newBooleanProperty(FALSE,"set to true if you want to automaticaly add product to your online cart when card is found"));
+		map.put(FILTER_COUNTRY, new MTGProperty("EN,"+Locale.getDefault().getCountry()," Filter users country for results. Separated by comma"));
 
 		return map;
 

@@ -15,6 +15,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.POMReader;
 
@@ -193,16 +194,20 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(EVENT_NAME, "my Event",
-								DECK_DESIGNER, "MTGDesktopCompanion",
-								LAST_NAME, "My name",
-								FIRST_NAME, "My first name",
-								DCI_NUMBER, "0000000000",
-								LOCATION, "fill it",
-								DATE_FORMAT, "dd/MM/YYYY",
-								FORCED_DATE, "");
-
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		
+		m.put(EVENT_NAME, new MTGProperty("My Event", "the name of the event"));
+		m.put(DECK_DESIGNER, new MTGProperty("MTGCompanion", "Tool you used to build the deck"));
+		m.put(LAST_NAME, new MTGProperty("LastName", "Your lastname"));		
+		m.put(FIRST_NAME, new MTGProperty("FirstName", "Your firstname"));
+		m.put(DCI_NUMBER, new MTGProperty("0000000000", "Your DCI number"));
+		m.put(LOCATION, new MTGProperty("Fill It", "Where you leaves"));
+		m.put(DATE_FORMAT, new MTGProperty("dd/MM/YYYY", "Date format for the sheet. Will use current date"));
+		m.put(FORCED_DATE, new MTGProperty("", "if you want to specify a date for that sheet"));
+		
+		return m;
 	}
 
 

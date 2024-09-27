@@ -13,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -22,7 +23,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 
 	private static final String MAX_PAGE = "MAX_PAGE";
-	private static final String URL = "URL";
+	private static final String URL =  "https://mtgdecks.net";
 
 	@Override
 	public String[] listFilter() {
@@ -87,7 +88,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		var maxPage = getInt(MAX_PAGE);
 
 		for (var i = 1; i <= maxPage; i++) {
-			var url = getString(URL) + "/" + filter + "/decklists/page:" + nbPage;
+			var url = URL + "/" + filter + "/decklists/page:" + nbPage;
 			logger.debug("read deck list at {}", url);
 			Document d = URLTools.extractAsHtml(url);
 
@@ -99,7 +100,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 				deck.setName(tr.select("td a").first().text());
 				try {
-					deck.setUrl(new URI(getString(URL) + '/' + tr.select("td a").first().attr("href")));
+					deck.setUrl(new URI(URL + '/' + tr.select("td a").first().attr("href")));
 				} catch (URISyntaxException e) {
 					deck.setUrl(null);
 				}
@@ -136,10 +137,12 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(URL, "https://mtgdecks.net",
-							   MAX_PAGE, "2");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
+		return m;
 	}
+
 
 	@Override
 	public String getVersion() {

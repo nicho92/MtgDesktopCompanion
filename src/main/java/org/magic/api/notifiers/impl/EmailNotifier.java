@@ -8,6 +8,7 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
@@ -35,15 +36,15 @@ public class EmailNotifier extends AbstractMTGNotifier{
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of(
-								"SMTP", "smtp.server.com",
-								"PORT", "25",
-								"FROM", "me@server.com",
-								"SEND_TO", "you@server.com",
-								SMTP_LOGIN, "login",
-								SMTP_PASS, "password",
-								"SSL", "true");
+								"SMTP", new MTGProperty("smtp.server.com","the smtp server name or ip"),
+								"PORT", MTGProperty.newIntegerProperty("25","the smtp port",25,-1),
+								"FROM", new MTGProperty("me@server.com","the sender email."),
+								"SEND_TO", new MTGProperty("you@server.com","the destination mail for notification"),
+								SMTP_LOGIN, new MTGProperty("login","allowed user for the smtp server"),
+								SMTP_PASS, new MTGProperty("password","password for the authentication"),
+								"SSL", MTGProperty.newBooleanProperty("true","the smtp server use SSL"));
 	}
 
 

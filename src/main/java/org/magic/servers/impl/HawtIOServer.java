@@ -7,6 +7,7 @@ import java.util.Map;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
@@ -62,10 +63,10 @@ public class HawtIOServer extends AbstractMTGServer{
 
 
 		@Override
-		public Map<String, String> getDefaultAttributes() {
-				return Map.of("AUTOSTART","false",
-									 "PORT","8082",
-									 "AUTHENTICATION","false");
+		public Map<String, MTGProperty> getDefaultAttributes() {
+				return Map.of("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
+									"PORT", MTGProperty.newIntegerProperty("8082", "listening port for webserver", 80, -1),
+									 "AUTHENTICATION",MTGProperty.newBooleanProperty("false","enable or not hawt authentication"));
 		}
 		
 		@Override

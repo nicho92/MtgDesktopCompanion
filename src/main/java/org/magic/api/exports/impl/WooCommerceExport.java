@@ -19,6 +19,7 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.externalshop.impl.WooCommerceExternalShop;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -415,15 +416,16 @@ public class WooCommerceExport extends AbstractCardExport {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = new HashMap<String, String>();
-				m.put(CATEGORY_EDITION_MAPPING, "true");
-				m.put(CATEGORY_ID, "");
-				m.put(DEFAULT_STATUT, "private");
-				m.put(STOCK_MANAGEMENT,"true");
-				m.put(CARD_LANG_DESCRIPTION,"English");
-				m.put(BATCH_THRESHOLD,"50");
-				m.put(BATCH_SIZE, "75");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+				m.put(CATEGORY_EDITION_MAPPING, MTGProperty.newBooleanProperty("true", "create a category for each card's set"));
+				m.put(CATEGORY_ID, new MTGProperty("", "Woocommerce category id you want to import"));
+				m.put(DEFAULT_STATUT, new MTGProperty("private", "select default status of the exported product","private","public"));
+				m.put(STOCK_MANAGEMENT,MTGProperty.newBooleanProperty("true", "enable (or note) the stock management of the product"));
+				m.put(CARD_LANG_DESCRIPTION, new MTGProperty("English","Choose lang for the card's data"));
+				m.put(BATCH_THRESHOLD,MTGProperty.newIntegerProperty("50", "items threshold when api will use the batch endpoint", 2, -1));
+				m.put(BATCH_SIZE, MTGProperty.newIntegerProperty("75", "number of items by batch if threshold is reached", 50, 100));
+				
 		return m;
 	}
 

@@ -49,7 +49,7 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 	Integer number=0;
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		Lists.partition(stock, getInt("MAX_ITEMS")).forEach(list->{
+		Lists.partition(stock, 2000).forEach(list->{
 			var temp = new StringBuilder(COLUMNS);
 			temp.append(System.lineSeparator());
 			
@@ -80,16 +80,6 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 		
 	}
 	
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m =  super.getDefaultAttributes();
-		
-		m.put("MAX_ITEMS", "2000");
-		
-		return m;
-	}
-	
-
 	@Override
 	protected boolean skipFirstLine() {
 		return true;

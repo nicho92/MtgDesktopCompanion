@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
 
@@ -104,8 +105,8 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("CHANNELID", "");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("CHANNELID", new MTGProperty("","ID of the channel where notification is send. To get a Channel ID right click the channel and click on \"Copy ID\" then paste it into your Discord or on a text editor. Alternatively type the channel as a mention and place a backslash \\ in front of the mention. It should look like this <#475182341782896651> and the number is the ID"));
 	}
 
 	@Override

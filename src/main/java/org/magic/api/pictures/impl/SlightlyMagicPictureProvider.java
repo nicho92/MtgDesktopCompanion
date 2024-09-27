@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
@@ -96,8 +97,8 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(PICS_DIR,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"forge").toFile().getAbsolutePath());
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of(PICS_DIR, MTGProperty.newDirectoryProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"forge")));
 	}
 
 

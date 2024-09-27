@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.util.Map;
 
 import org.jooq.SQLDialect;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class FirebirdDAO extends AbstractMagicSQLDAO {
@@ -35,11 +36,10 @@ public class FirebirdDAO extends AbstractMagicSQLDAO {
 	
 	
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-			m.put(SERVERPORT, "3050");
-			m.put(LOGIN, "SYSDBA");
-			
+			m.get(SERVERPORT).setDefaultValue("3050");
+			m.get(LOGIN).setDefaultValue("SYSDBA");
 		return m;
 	}
 }

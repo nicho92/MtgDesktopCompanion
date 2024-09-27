@@ -25,7 +25,6 @@ import org.xml.sax.InputSource;
 
 public class CocatriceDeckExport extends AbstractCardExport {
 
-	private static final String DEFAULT_PRICE = "DEFAULT_PRICE";
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -53,14 +52,14 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		temp.append("<zone name='main'>");
 		for (MTGCard mc : deck.getMain().keySet()) {
 			temp.append("<card number='").append(deck.getMain().get(mc))
-					.append("' price='" + getString(DEFAULT_PRICE) + "' name=\"").append(mc.getName()).append("\"/>");
+					.append("' price='" + 0 + "' name=\"").append(mc.getName()).append("\"/>");
 			notify(mc);
 		}
 		temp.append(endZoneTag);
 		temp.append("<zone name='side'>");
 		for (MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append("<card number='").append(deck.getSideBoard().get(mc))
-					.append("' price='" + getString(DEFAULT_PRICE) + "' name=\"").append(mc.getName()).append("\"/>");
+					.append("' price='" + 0 + "' name=\"").append(mc.getName()).append("\"/>");
 			notify(mc);
 		}
 		temp.append(endZoneTag);
@@ -118,13 +117,6 @@ public class CocatriceDeckExport extends AbstractCardExport {
 	@Override
 	public String getName() {
 		return "Cockatrice";
-	}
-
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(DEFAULT_PRICE, "0");
-
 	}
 
 }

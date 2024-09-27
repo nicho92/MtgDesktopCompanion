@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -200,11 +199,5 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return "\t";
 	}
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("SEPARATOR",getSeparator());
-	}
-
 
 }

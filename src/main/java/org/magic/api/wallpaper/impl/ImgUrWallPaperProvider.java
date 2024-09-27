@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MTGWallpaper;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
@@ -101,8 +102,8 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("SORT", "time",
-					  "WINDOW", "all");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("SORT", new MTGProperty("time", "The default sorter of the results", "time","viral","top"),
+					  "WINDOW", new MTGProperty("all", "Change the date range of the request if the sort is top","day"," week","month","year","all"));
 	}
 }

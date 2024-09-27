@@ -33,6 +33,7 @@ import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.DiscordInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -556,18 +557,18 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var map = new HashMap<String,String>();
-				map.put(AUTOSTART, "false");
-				map.put(THUMBNAIL_IMAGE, "THUMBNAIL");
-				map.put(SHOWCOLLECTIONS,"true");
-				map.put(PRICE_KEYWORDS,"price,prix,how much,cost");
-				map.put(RESULTS_SHAKES,"10");
-				map.put(ACTIVITY_TYPE,ActivityType.WATCHING.name());
-				map.put(ACTIVITY,"bees flying");
-				map.put("BLOCKED_USERS","");
-				map.put(EXTERNAL_LINK,"https://my.mtgcompanion.org/prices-ui/pages/index.html?id=");
-
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var map = new HashMap<String,MTGProperty>();
+				map.put(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run bot at startup"));
+				map.put(SHOWCOLLECTIONS,MTGProperty.newBooleanProperty(TRUE, "return the collections where the searched card is present"));
+				map.put(ACTIVITY_TYPE, new MTGProperty(ActivityType.WATCHING.name(),"The current activity of the bot",ArrayUtils.toStringArray(ActivityType.values())));
+				map.put(ACTIVITY, new MTGProperty("bees flying","textual complement of the bot activity"));
+				map.put("BLOCKED_USERS",new MTGProperty("","enter here the usernames that are blocked by the bot. The bot will not respond to their queries. Separated by a comma."));
+				map.put(EXTERNAL_LINK,new MTGProperty("https://my.mtgcompanion.org/prices-ui/pages/index.html?id=","if you want to redirect the response with a external link. Bot will complete the url with scryfallID"));
+				map.put(PRICE_KEYWORDS,new MTGProperty("price,prix,how much,cost","keywords parsed in query message that will activate price search"));
+				map.put(THUMBNAIL_IMAGE, new MTGProperty("THUMBNAIL","how is integrate the card picture in the response","THUMBNAIL","IMAGE"));
+				map.put(RESULTS_SHAKES,MTGProperty.newIntegerProperty("10","the number of max results returned by the bot on cardshakes query",1,-1));
+				
 		return map;
 	}
 

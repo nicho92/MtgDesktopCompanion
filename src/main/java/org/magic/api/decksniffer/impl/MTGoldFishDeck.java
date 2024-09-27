@@ -17,6 +17,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardsPatterns;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -112,11 +113,13 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			maxPage = 1;
 
 		for (var i = 1; i <= maxPage; i++) {
-
+			
+			var baseUrl="https://www.mtggoldfish.com/";
+			
 			if (!metagames)
-				url = getString("URL") + "/deck/custom/" + filter + "?page=" + nbPage + "#"+ getString(SUPPORT);
+				url = baseUrl + "/deck/custom/" + filter + "?page=" + nbPage + "#"+ getString(SUPPORT);
 			else
-				url = getString("URL") + "metagame/" + filter + "#" + getString(SUPPORT);
+				url = baseUrl + "metagame/" + filter + "#" + getString(SUPPORT);
 
 			logger.debug("sniff url : {} ",url);
 
@@ -179,11 +182,14 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(SUPPORT, "paper",
-								"URL", "https://www.mtggoldfish.com/",
-								"MAX_PAGE", "2",
-								"METAGAME", "false");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		
+		m.put(SUPPORT,new MTGProperty("paper","get physical decks or MTGO","paper","online"));
+		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
+		m.put("METAGAME", MTGProperty.newBooleanProperty("false", "load metagames deck (true) or user's deck (false)"));
+		return m;
 	}
 
 

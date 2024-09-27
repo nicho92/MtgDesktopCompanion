@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.beans.technical.MTGDocumentation;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.services.AccountsManager;
 import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observer;
@@ -77,7 +78,7 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 
 	public boolean isPartner();
 
-	public Map<String,String> getDefaultAttributes();
+	public Map<String,MTGProperty> getDefaultAttributes();
 
 	public List<String> listAuthenticationAttributes();
 

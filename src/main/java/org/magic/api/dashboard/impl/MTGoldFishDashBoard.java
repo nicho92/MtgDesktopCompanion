@@ -22,6 +22,7 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.RequestBuilder;
@@ -34,7 +35,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
-	private static final String TIMEOUT = "TIMEOUT";
 	private static final String FORMAT = "FORMAT";
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
 	private static final String WEBSITE = "https://www.mtggoldfish.com";
@@ -498,12 +498,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(FORMAT, "paper",
-							   TIMEOUT, "0",
-							   DAILY_WEEKLY, "wow",
-							   SET_EXTRA,"true"
-							   );
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		
+		m.put(FORMAT, new MTGProperty("paper", "paper = price of physical cards, online= price of MTGO cards","paper","online"));
+		m.put(DAILY_WEEKLY, new MTGProperty("wow", "wow = shakes of the week, dod = shakes of the days","wow","dod"));
+		m.put(SET_EXTRA, MTGProperty.newBooleanProperty("true", "if true, all extra cards will be loaded"));
+		return m;
 	}
 
 	@Override

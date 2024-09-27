@@ -9,6 +9,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
@@ -57,7 +58,7 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 			stock.forEach(st->{
 				temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
 				temp.append("\"").append(slug(st.getProduct())).append("\"").append(getSeparator());
-				temp.append(getString("ACTIVE")).append(getSeparator());
+				temp.append(getString("ACTIVE").toUpperCase()).append(getSeparator());
 				temp.append("\"").append(getString("CATEGORY_CARD_ID")).append("\"").append(getSeparator());
 				temp.append("\"").append("").append("\"").append(getSeparator());
 				temp.append("\"").append("").append("\"").append(getSeparator());
@@ -85,10 +86,10 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
+	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m  = super.getDefaultAttributes();
-		m.put("ACTIVE", "TRUE");
-		m.put("CATEGORY_CARD_ID", "1");
+		m.put("ACTIVE", MTGProperty.newBooleanProperty("true", "set product active or not"));
+		m.put("CATEGORY_CARD_ID", new MTGProperty("1", "set default category"));
 		return m;
 	}
 	

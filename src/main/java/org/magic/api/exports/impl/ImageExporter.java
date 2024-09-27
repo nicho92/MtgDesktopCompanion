@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGComparator;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -171,9 +172,13 @@ public class ImageExporter extends AbstractCardExport{
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(FORMAT, "png",
-								SORTER,"ColorSorter");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+			 m.put(FORMAT,new MTGProperty("PNG","File format for the image","PNG","JPG"));
+			 m.put(SORTER,new MTGProperty("ColorSorter","how is sorted your export","ColorSorter","CardNameSorter","NumberSorter","RaritySorter","TypesSorter","CmcSorter"));
+			 
+			 return m;
 	}
 
 	@Override

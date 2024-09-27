@@ -23,6 +23,7 @@ import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -228,8 +229,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("PERIOD", "WEEKLY");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+			m.put("PERIOD", new MTGProperty("WEEKLY", "choose periode for cards update WEEKLY or DAILY"));
+		
+			return m;
 	}
 
 	@Override

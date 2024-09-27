@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.api.mtgstock.modele.CardSet;
 import org.api.mtgstock.modele.FullPrint;
 import org.api.mtgstock.modele.Interest;
@@ -32,6 +33,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
@@ -331,11 +333,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(
-					PRICE_VALUE, "MARKET",
-					GET_FOIL,"false",
-					INTEREST_TYPE,"week");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		
+		var m = super.getDefaultAttributes();
+		
+		m.put(PRICE_VALUE, new MTGProperty("MARKET", "select if you want price from market or average", ArrayUtils.toStringArray(MTGStockConstants.PRICES.values())));
+		m.put(GET_FOIL, MTGProperty.newBooleanProperty("false", "load foil prices"));
+		m.put(INTEREST_TYPE, new MTGProperty("week", "select if you want price from market or average", ArrayUtils.toStringArray(MTGStockConstants.INTEREST.values())));
+		return m;
 	}
 
 

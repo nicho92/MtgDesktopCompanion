@@ -21,6 +21,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
@@ -291,8 +292,8 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("URL", "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml");
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("URL", new MTGProperty("https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml", "The url where the cockatrice tokens file is stored"));
 
 	}
 

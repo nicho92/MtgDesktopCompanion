@@ -36,6 +36,7 @@ import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGSerializable;
@@ -97,16 +98,18 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String[] collectionsNames = new String[] {colCollects,colStocks,colAlerts,colNews,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed};
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-			return Map.of(
-					SERVERNAME, "localhost",
-					SERVERPORT, "27017",
-					DB_NAME, "mtgdesktopcompanion",
-					LOGIN, "login",
-					PASS, "",
-					DRIVER, "mongodb://",
-					PARAMETERS, ""
-					);
+	public Map<String, MTGProperty> getDefaultAttributes() {
+			
+			var m = new HashMap<String, MTGProperty>();
+			
+				m.put(SERVERNAME,new MTGProperty("localhost", "servername or ip of the server"));
+				m.put(SERVERPORT, MTGProperty.newIntegerProperty("27017", "listening port of the database",1024,65535));
+				m.put(DB_NAME, new MTGProperty("mtgdesktopcompanion","database name"));
+				m.put(LOGIN, new MTGProperty("login","user allowed to connect to the database"));
+				m.put(PASS, new MTGProperty("","password of the connected user"));
+				m.put(PARAMETERS, new MTGProperty("","MongoDB parameters append to the url"));
+				m.put(DRIVER, new MTGProperty("mongodb://","Mongo server protocol. Use mongodb:// for standard network. Use mongodb+srv:// for atlas","mongodb://","mongodb+srv://"));
+				return m;
 	}
 
 	private <T> T deserialize(Object o, Class<T> classe) {
