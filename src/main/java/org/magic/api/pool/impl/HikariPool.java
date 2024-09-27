@@ -1,14 +1,10 @@
 package org.magic.api.pool.impl;
 
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.magic.api.beans.technical.MTGDocumentation;
-import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
 import org.magic.services.threads.ThreadManager;
@@ -37,15 +33,6 @@ public class HikariPool extends AbstractPoolProvider {
 			throw new SQLException(e);
 		}
 
-	}
-
-	@Override
-	public MTGDocumentation getDocumentation() {
-		try {
-			return new MTGDocumentation(URI.create("https://raw.githubusercontent.com/brettwooldridge/HikariCP/dev/README.md").toURL(),FORMAT_NOTIFICATION.MARKDOWN);
-		} catch (MalformedURLException e) {
-			return super.getDocumentation();
-		}
 	}
 
 
