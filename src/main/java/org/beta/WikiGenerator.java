@@ -12,6 +12,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.FileTools;
 
+import com.mchange.v1.util.ArrayUtils;
+
 public class WikiGenerator {
 
 	private static final String WIKIDIR="D:\\programmation\\GIT\\MtgDesktopCompanion.wiki";
@@ -22,7 +24,7 @@ public class WikiGenerator {
 		
 		buildPluginsdirectory();
 		
-		buildePluginsIndex();
+		//buildePluginsIndex();
 		
 		System.exit(0);
 
@@ -86,12 +88,25 @@ public class WikiGenerator {
 					temp.append("\n\n");
 					temp.append("# Configure the plugin").append("\n\n");
 					if(!p.getDefaultAttributes().isEmpty()) { 
-						p.getDefaultAttributes().entrySet().forEach(e->
-							temp.append(e.getKey()).append(" : ")
-									.append("_").append(parseType(p.getProperties().getProperty(e.getKey()))).append("_ : ")
-									.append(e.getValue().getDefaultValue().replace(SystemUtils.getUserHome().getAbsolutePath(), "$USER_HOME"))
-									.append("\n\n")
-						);
+						temp.append("| Key | Description | Type | Default Value | Allowed Values|\n");
+						temp.append("|------|---------------|-------|-----------------|-------------------|\n");
+						
+						p.getDefaultAttributes().entrySet().forEach(e->{
+							temp.append(e.getKey()).append("|");
+							temp.append(e.getValue().getComment()).append("|");
+							temp.append(parseType(p.getProperties().getProperty(e.getKey()))).append("|");
+							temp.append(e.getValue().getDefaultValue().replace(SystemUtils.getUserHome().getAbsolutePath(), "$USER_HOME")).append("|");
+							
+							if(e.getValue().getAllowedProperties()==null)
+							{
+								temp.append("").append("|");
+							}
+							else {
+								temp.append(ArrayUtils.toString(e.getValue().getAllowedProperties())).append("|");
+							}
+							temp.append("\n");
+						});
+
 					}	
 					else
 					{

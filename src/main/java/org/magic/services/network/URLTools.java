@@ -10,12 +10,15 @@ import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.logging.log4j.Logger;
+import org.commonmark.Extension;
+import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -127,13 +130,16 @@ public class URLTools {
 			throw new IOException(e);
 		}
 	}
-
+	
 
 	private static String toHtmlFromMarkdown(String c)
 	{
-		var parser = Parser.builder().build();
+		
+		List<Extension> extensions = List.of(TablesExtension.create());
+		
+		var parser = Parser.builder().extensions(extensions).build();
 		Node document = parser.parse(c);
-		return HtmlRenderer.builder().build().render(document);
+		return HtmlRenderer.builder().extensions(extensions).build().render(document);
 	}
 
 	public static org.w3c.dom.Document extractAsXml(String url) throws IOException {
@@ -165,7 +171,6 @@ public class URLTools {
 	public static Document extractMarkdownAsHtml(String url) throws IOException
 	{
 		var ret = toHtmlFromMarkdown(extractAsString(url));
-		ret=ret.replace("img/", MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/img/");
 		return toHtml(ret);
 	}
 
