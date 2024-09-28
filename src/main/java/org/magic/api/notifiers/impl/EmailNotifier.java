@@ -8,8 +8,8 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.magic.api.beans.technical.MTGNotification;
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
 

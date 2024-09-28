@@ -161,7 +161,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		
 		var m = super.getDefaultAttributes();
-		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("1", "number of page to query", 1, 10));
+		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("1", "number of page to query", 1, 10));
 		return m;
 	}
 

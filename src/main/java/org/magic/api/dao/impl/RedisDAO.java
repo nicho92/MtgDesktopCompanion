@@ -178,23 +178,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	
 	
-	public static void main(String[] args) throws Exception {
-		
-		var col = new MTGCollection("Library");
-		
-		MTGControler.getInstance().init();
-		
-		var rds = new RedisDAO();
-			 rds.init();
-					 
-		
-		for(var c : rds.listCardsFromCollection(col))
-				{
-			System.out.println(c);
-				}
-		
-	}
-	
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException {
 		

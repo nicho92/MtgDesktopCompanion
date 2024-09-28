@@ -3,7 +3,6 @@ package org.magic.api.wallpaper.impl;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.nodes.Document;

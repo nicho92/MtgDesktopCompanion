@@ -15,8 +15,8 @@ import javax.swing.Icon;
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.technical.MTGNotification;
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -25,6 +25,7 @@ import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.services.MTGConstants;
 
 public class OversightServer extends AbstractMTGServer {
+	private static final String ALERT_MIN_PERCENT = "ALERT_MIN_PERCENT";
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
 	private Timer timer;
 	private TimerTask tache;
@@ -51,8 +52,8 @@ public class OversightServer extends AbstractMTGServer {
 					try {
 						ret = getEnabledPlugin(MTGDashBoard.class).getShakerFor(null);
 						
-						logger.debug("Filtering dayly change <{}% with array of {} results",getInt("ALERT_MIN_PERCENT"),ret.size());
-						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT")/100);
+						logger.debug("Filtering dayly change <{}% with array of {} results",getInt(ALERT_MIN_PERCENT),ret.size());
+						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt(ALERT_MIN_PERCENT)/100);
 						Collections.sort(ret, new PricesCardsShakeSorter(SORT.valueOf(getString("SORT_FILTER")),false));
 					} catch (IOException e1) {
 						logger.error(e1);
@@ -124,7 +125,7 @@ public class OversightServer extends AbstractMTGServer {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of( "AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
 	   			 			  TIMEOUT_MINUTE, MTGProperty.newIntegerProperty("120","Timeout in minute when server will do the job",1,-1),
-								"ALERT_MIN_PERCENT",MTGProperty.newIntegerProperty("40","Percentage threshold of the price variation where notification will be send",1,100),
+								ALERT_MIN_PERCENT,MTGProperty.newIntegerProperty("40","Percentage threshold of the price variation where notification will be send",1,100),
 								"NOTIFIER",new MTGProperty("Tray,Console","select the notifiers to push information. Separated by comma. See  [Notifiers](Plugins#notifier)"),
 								"SORT_FILTER", new MTGProperty("DAY_PRICE_CHANGE","Select how are sort results to return",ArrayUtils.toStringArray(SORT.values())));
 								

@@ -76,6 +76,7 @@ import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtil
 public class DiscordBotServer extends AbstractMTGServer {
 
 
+	private static final String THUMBNAIL = "THUMBNAIL";
 	private static final String EXTERNAL_LINK = "EXTERNAL_LINK";
 	private static final String ACTIVITY = "ACTIVITY";
 	private static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
@@ -449,7 +450,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		}
 		eb.setDescription(temp.toString());
 
-		if(getString(THUMBNAIL_IMAGE).equalsIgnoreCase("THUMBNAIL"))
+		if(getString(THUMBNAIL_IMAGE).equalsIgnoreCase(THUMBNAIL))
 			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
 		else
 			eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
@@ -566,7 +567,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				map.put("BLOCKED_USERS",new MTGProperty("","enter here the usernames that are blocked by the bot. The bot will not respond to their queries. Separated by a comma."));
 				map.put(EXTERNAL_LINK,new MTGProperty("https://my.mtgcompanion.org/prices-ui/pages/index.html?id=","if you want to redirect the response with a external link. Bot will complete the url with scryfallID"));
 				map.put(PRICE_KEYWORDS,new MTGProperty("price,prix,how much,cost","keywords parsed in query message that will activate price search"));
-				map.put(THUMBNAIL_IMAGE, new MTGProperty("THUMBNAIL","how is integrate the card picture in the response","THUMBNAIL","IMAGE"));
+				map.put(THUMBNAIL_IMAGE, new MTGProperty(THUMBNAIL,"how is integrate the card picture in the response",THUMBNAIL,"IMAGE"));
 				map.put(RESULTS_SHAKES,MTGProperty.newIntegerProperty("10","the number of max results returned by the bot on cardshakes query",1,-1));
 				
 		return map;

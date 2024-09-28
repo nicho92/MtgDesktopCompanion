@@ -232,7 +232,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = new HashMap<String, MTGProperty>();;
+		var m = new HashMap<String, MTGProperty>();
 
 		m.put(SERVER_PORT, MTGProperty.newIntegerProperty("80", "listening port for webserver", 80, -1));
 		m.put(SERVER_SSL_PORT, MTGProperty.newIntegerProperty("443", "listening port for https", 443, -1));

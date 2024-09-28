@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Map;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;

@@ -2746,6 +2746,14 @@
 	
 	<edition id="FDN">
 		<set lang="en" num="1" url="https://i0.wp.com/mtgazone.com/wp-content/uploads/2024/06/MTG-Foundations.png"/>
+		<box lang="en" num="1" extra="play" url="https://versusgamecenter.pt/cdn/shop/files/tcg_mtg_foundations_play_booster_display_550x.png"/>
+		<box lang="en" num="2" extra="collector" url="https://versusgamecenter.pt/cdn/shop/files/tcg_mtg_foundations_collector_booster_display_1100x.png"/>
+		<booster lang="en" num="1" extra="play" url="https://thecardvault.co.uk/cdn/shop/files/MTGFND_EN_Bstr_Play_01_01.png"/>
+		<booster lang="en" num="2" extra="collector" url="https://armchairgenerals.co.za/cdn/shop/files/MTGFND_EN_Bstr_Clctr_01_02.webp"/>
+		<starter lang="en" num="1" extra="play" url="https://www.dicearcade.com.au/assets/full/D36310000.png"/>
+		<bundle lang="en" num="1" url="https://www.trader-online.de/out/pictures/master/product/1/foundations_beginner_box_englisch_english_guenstig_billig_kaufen_tcg_mtg_fnd.png" desc="beginner box"/>
+		<bundle lang="en" num="2" url="https://www.dicearcade.com.au/assets/full/D36350000.png"/>
+		
 	</edition>
 	
 	<edition id="DSC">
