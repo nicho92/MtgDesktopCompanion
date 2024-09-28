@@ -22,9 +22,9 @@ public class WikiGenerator {
 		
 		MTGControler.getInstance();
 		
-		buildPluginsdirectory();
+		//buildPluginsdirectory();
 		
-		//buildePluginsIndex();
+		buildePluginsIndex();
 		
 		System.exit(0);
 

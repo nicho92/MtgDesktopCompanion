@@ -87,10 +87,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					if (historyPrice.get(date) == null)
 					{
 
-						if(getString(FORMAT).equals("paper") && isPaperparsing)
+						if(getString(FORMAT).equalsIgnoreCase("paper") && isPaperparsing)
 							historyPrice.put(date, UITools.parseDouble(res[1]));
 
-						if(getString(FORMAT).equals("online") && !isPaperparsing)
+						if(getString(FORMAT).equalsIgnoreCase("online") && !isPaperparsing)
 							historyPrice.put(date, UITools.parseDouble(res[1]));
 					}
 

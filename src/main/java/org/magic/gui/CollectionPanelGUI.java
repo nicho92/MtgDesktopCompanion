@@ -5,6 +5,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -203,6 +204,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		magicEditionDetailPanel = new MagicEditionDetailPanel();
 		magicCardDetailPanel = new MagicCardDetailPanel(true);
+		
 		typeRepartitionPanel = new TypeRepartitionPanel(false);
 		manaRepartitionPanel = new ManaRepartitionPanel(false);
 		rarityRepartitionPanel = new RarityRepartitionPanel(false);
@@ -218,6 +220,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 
 		///////// CONFIGURE COMPONENTS
+		magicCardDetailPanel.setMinimumSize(new Dimension(100, 200)); // used to rereduce the vertical split bar
 		splitListPanel.setDividerLocation(0.5);
 		splitListPanel.setResizeWeight(0.5);
 		tree.setRootVisible(false);
