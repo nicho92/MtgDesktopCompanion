@@ -16,13 +16,14 @@ import com.mchange.v1.util.ArrayUtils;
 
 public class WikiGenerator {
 
+	private static final String USER_HOME_VAR = "$USER_HOME";
 	private static final String WIKIDIR="D:\\programmation\\GIT\\MtgDesktopCompanion.wiki";
 
 	public static void main(String[] args) throws IOException {
 		
 		MTGControler.getInstance();
 		
-		//buildPluginsdirectory();
+		buildPluginsdirectory();
 		
 		buildePluginsIndex();
 		
@@ -61,12 +62,12 @@ public class WikiGenerator {
 			
 			List<MTGPlugin> ps = PluginRegistry.inst().listPlugins(e.getKey()); 
 			
-			ps.forEach(p->{
+			ps.forEach(p->
 				builder.append("* [").append(p.getName()).append("]")
 						  .append("(").append(p.getType()).append("-").append(p.getName().replace(" ", "_")).append(")")
 						  .append(p.getStatut()!=STATUT.STABLE?" - _"+p.getStatut().name().toLowerCase()+"_":"")
-						  .append("\n");
-				});
+						  .append("\n")
+				);
 			
 		});
 		
@@ -80,7 +81,7 @@ public class WikiGenerator {
 			
 			var temp = new StringBuilder();
 					temp.append("# Technical information").append("\n\n");
-					temp.append("File Location : ").append(p.getConfFile().getAbsolutePath().replace(SystemUtils.getUserHome().getAbsolutePath(), "$USER_HOME").replace('\\', '/')).append("\n\n");
+					temp.append("File Location : ").append(p.getConfFile().getAbsolutePath().replace(SystemUtils.getUserHome().getAbsolutePath(), USER_HOME_VAR).replace('\\', '/')).append("\n\n");
 					temp.append("Category :").append(p.getType()).append("\n\n");
 					temp.append("Status : ").append(p.getStatut()).append("\n\n");
 					temp.append("Need Authenticator : ").append(p.listAuthenticationAttributes().isEmpty()?"No":"Yes").append("\n\n");
@@ -95,7 +96,7 @@ public class WikiGenerator {
 							temp.append(e.getKey()).append("|");
 							temp.append(e.getValue().getComment()).append("|");
 							temp.append(parseType(p.getProperties().getProperty(e.getKey()))).append("|");
-							temp.append(e.getValue().getDefaultValue().replace(SystemUtils.getUserHome().getAbsolutePath(), "$USER_HOME")).append("|");
+							temp.append(e.getValue().getDefaultValue().replace(SystemUtils.getUserHome().getAbsolutePath(), USER_HOME_VAR)).append("|");
 							
 							if(e.getValue().getAllowedProperties()==null)
 								temp.append("").append("|");
@@ -150,7 +151,7 @@ public class WikiGenerator {
 		if(s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false"))
 				return "Boolean";
 		
-		if(s.startsWith("$USER_HOME"))
+		if(s.startsWith(USER_HOME_VAR))
 			return "File";
 		
 		if(s.startsWith("http"))
