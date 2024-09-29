@@ -52,7 +52,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 								   .addContent("client_secret", getAuthenticator().get("CLIENT_SECRET"))
 								   .toJson().getAsJsonObject().get("access_token").getAsString();
 
-		  
+		  logger.debug("Auth with {}", bToken);
 		    
 		    var offset = 0;
 		    var ret= readOffset(offset,search);
@@ -86,7 +86,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	private JsonObject readOffset(int offset,String search) {
 		var obj=  build.clean()
 				  .get()
-				  .url(BASE_URL+"/api/v1/oauth2/browse/newest")
+				  .url(BASE_URL+"/api/v1/oauth2/browse/home")
 				  .addContent("q", search)
 				  .addContent("limit", getString(LIMIT))
 				  .addContent("offset", String.valueOf(offset))
