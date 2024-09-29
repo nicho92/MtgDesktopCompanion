@@ -53,7 +53,7 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
 		<jwt.version>0.12.6</jwt.version>
-		<lucene.version>9.11.1</lucene.version>
+		<lucene.version>9.12.0</lucene.version>
 		<artemis.version>2.37.0</artemis.version>
 		<flatlaf.version>3.5.1</flatlaf.version>
 		<qwartz.version>2.5.0-rc1</qwartz.version>
