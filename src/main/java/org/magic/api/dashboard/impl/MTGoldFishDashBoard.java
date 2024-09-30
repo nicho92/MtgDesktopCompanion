@@ -132,7 +132,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			else
 			{
 				var filteredArray = new JsonArray();
-				var set = aliases.getSetIdFor(this,mc.getEdition());
+				var set = aliases.getReversedSetIdFor(this,mc.getEdition());
 				for(var el : arr)
 				{
 					if(el.getAsJsonObject().get("id").getAsString().contains("["+set+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
