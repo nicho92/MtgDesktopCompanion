@@ -22,6 +22,7 @@ import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.editor.LanguageComboBoxCellEditor;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
@@ -73,6 +74,10 @@ public class CardStockPanel extends MTGUIComponent {
 		table = UITools.createNewTable(model,true);
 
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
+		
+		table.getColumn(8).setCellEditor(new LanguageComboBoxCellEditor());
+		
+		
 
 		for(int i : model.defaultHiddenColumns())
 		{

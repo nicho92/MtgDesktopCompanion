@@ -745,7 +745,7 @@ private MTGPool pool;
 	}
 
 	@Override
-	public String[] getLanguages() {
+	public List<String> loadCardsLangs() {
 		List<String> ret = new ArrayList<>();
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("Select DISTINCT "+LANGUAGE+" from cardForeignData");ResultSet rs = pst.executeQuery())
 		{
@@ -760,7 +760,7 @@ private MTGPool pool;
 
 		}
 
-		return ret.stream().toArray(String[]::new);
+		return ret;
 	}
 
 	@Override

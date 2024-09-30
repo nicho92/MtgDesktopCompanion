@@ -43,7 +43,7 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public MTGEdition getSetByName(String name) throws IOException;
 
-	public String[] getLanguages();
+	public List<String> getLanguages();
 
 	public QueryAttribute[] getQueryableAttributs();
 

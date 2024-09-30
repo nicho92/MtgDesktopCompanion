@@ -228,10 +228,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public String[] getLanguages() {
-		return new String[] { "en","es","fr","de","it","pt","ja","ru","zhs","he","ar"};
+	public List<String> loadCardsLangs() throws IOException {
+		return Lists.newArrayList("en","es","fr","de","it","pt","ja","ru","zhs","he","ar");
 	}
 
+	
+	
 	@Override
 	public List<QueryAttribute> loadQueryableAttributs() {
 		List<QueryAttribute> arr = new ArrayList<>();

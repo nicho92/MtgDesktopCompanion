@@ -262,8 +262,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public String[] getLanguages() {
-		return new String[] { "French" };
+	public List<String> loadCardsLangs() throws IOException {
+		return new ArrayList<>();
 	}
 
 	@Override

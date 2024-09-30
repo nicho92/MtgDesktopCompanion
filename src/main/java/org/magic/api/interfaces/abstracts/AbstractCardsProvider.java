@@ -31,14 +31,18 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	protected TCache<MTGCard> cacheCards;
 	private TCache<MTGEdition> cacheEditions;
+	private TCache<String> cacheLanguages;
 
 	protected abstract List<QueryAttribute> loadQueryableAttributs();
 	public abstract List<MTGEdition> loadEditions() throws IOException;
-
+	public abstract List<String> loadCardsLangs() throws IOException;
+	
+	
 
 	protected AbstractCardsProvider() {
 		cacheCards = new TCache<>("cards");
 		cacheEditions = new TCache<>("editions");
+		cacheLanguages = new TCache<>("langs");
 	}
 
 	@Override
@@ -52,6 +56,21 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		initBuilder(b);
 		return b;
 	}
+	
+	
+	@Override
+	public List<String> getLanguages() {
+		if(cacheLanguages.isEmpty())
+			try {
+				loadCardsLangs().forEach(s->cacheLanguages.put(s, s));
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		
+		return cacheLanguages.values();
+	}
+	
+	
 
 	protected void initBuilder(MTGQueryBuilder<?> b)
 	{

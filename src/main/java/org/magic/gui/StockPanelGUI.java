@@ -59,6 +59,7 @@ import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.deck.CardsDeckCheckerPanel;
 import org.magic.gui.components.dialog.importer.CardChooseDialog;
+import org.magic.gui.components.editor.LanguageComboBoxCellEditor;
 import org.magic.gui.components.prices.PriceSuggesterComponent;
 import org.magic.gui.components.prices.PricesTablePanel;
 import org.magic.gui.components.shops.StockItemsSynchronizationPanel;
@@ -556,7 +557,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		var	importLogPanel = new LoggerViewPanel();
 		
 		
-		
 		importLogPanel.enabledAutoLoad();
 		importLogPanel.setLevel(Level.ERROR);
 		
@@ -609,11 +609,14 @@ public class StockPanelGUI extends MTGUIComponent {
 		actionPanel.add(lblLoading);
 
 		table = UITools.createNewTable(model,true);
-		
+		table.getColumn(8).setCellEditor(new LanguageComboBoxCellEditor());
+	
 		UITools.initTableVisibility(table, model);
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		UITools.sort(table,0,SortOrder.DESCENDING);
 		UITools.setSorter(table,1,new NumberSorter());
+	
+		
 		table.packAll();
 		
 		magicCardDetailPanel.enableThumbnail(true);
