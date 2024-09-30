@@ -72,13 +72,13 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	}
 
 	@Override
-	public File getDataFile() {
+	protected File getDataFile() {
 		return new File(MTGConstants.DATA_DIR, "AllSets-x5.json");
 	}
 
 
 	@Override
-	public String getOnlineDataFileZip() {
+	protected String getOnlineDataFileZip() {
 		return MTGJSON_API_URL+"/AllPrintings.json.zip";
 	}
 

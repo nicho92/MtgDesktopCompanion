@@ -57,7 +57,7 @@ private MTGPool pool;
 	private String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.* FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
 
 	@Override
-	public String getOnlineDataFileZip() {
+	protected String getOnlineDataFileZip() {
 		return MTGJSON_API_URL+"/AllPrintings.sqlite.zip";
 	}
 
@@ -187,7 +187,7 @@ private MTGPool pool;
 
 
 	@Override
-	public File getDataFile() {
+	protected File getDataFile() {
 		return new File(MTGConstants.DATA_DIR, "AllPrintings.sqlite");
 	}
 
@@ -347,12 +347,11 @@ private MTGPool pool;
 				else
 					pst.setString(1, "%"+crit+"%");
 
-			try (ResultSet rs = pst.executeQuery())
+			try (var rs = pst.executeQuery())
 			{
 				while(rs.next())
-				{
 					cards.add(generateCardsFromRs(rs,true));
-				}
+			
 			}
 
 

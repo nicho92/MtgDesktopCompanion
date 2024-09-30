@@ -139,8 +139,8 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected String version;
 	protected Chrono chrono = new Chrono();
 
-	public abstract File getDataFile();
-	public abstract String getOnlineDataFileZip();
+	protected abstract File getDataFile();
+	protected abstract String getOnlineDataFileZip();
 	public abstract List<MTGCard> listToken(MTGEdition ed) throws IOException;
 	public abstract MTGCard getTokenFor(MTGCard mc, EnumLayout layout) throws IOException;
 
