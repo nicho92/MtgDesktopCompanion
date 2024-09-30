@@ -27,7 +27,6 @@ import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.interfaces.abstracts.extra.AbstractKeyValueDao;
-import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
