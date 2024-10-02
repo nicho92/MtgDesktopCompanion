@@ -56,7 +56,7 @@ public class MTGCard extends AbstractProduct {
 	private List<EnumFinishes> finishes;
 	private String flavor="";
 	private String flavorName;
-	private transient List<MTGCardNames> foreignNames;
+	private List<MTGCardNames> foreignNames;
 	private List<EnumFrameEffects> frameEffects;
 	private String frameVersion;
 	private String gathererCode;
