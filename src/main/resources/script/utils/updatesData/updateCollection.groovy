@@ -10,24 +10,14 @@ import java.util.stream.Collectors;
 	var col = new MTGCollection("Library");
 	
 
-String ed ="NEO";
+String ed ="10E";
 //dao.listEditionsIDFromCollection(col).each{ ed->
  	 System.out.println("========================================="+ed);
-	 dao.listCardsFromCollection(col, new MTGEdition(ed)).stream().filter(mc->mc.getDateUpdated().before(dateBefore)).collect(Collectors.toList()).each{ c->
+	 dao.listStocks(col, new MTGEdition(ed)).stream().filter(mcs->mcs.getDateUpdate().before(dateBefore)).collect(Collectors.toList()).each{ mcs->
 		try {
-			var newC = provider.getCardByScryfallId(c.getScryfallId());
-			if(newC!=null)
-			{
-				c.setMultiverseid(newC.getMultiverseid());
-				c.setNumber(newC.getNumber());
-				
-				dao.updateCard(c,newC, col);
-				System.out.println(""+col + ";" + newC.getEdition() + ";" + c + ";OK;" + newC+"\n");
-			}
-			else
-			{
-				System.out.println(""+col + ";" + newC.getEdition() + ";" + c + ";NOTFOUND;" + newC+"\n");
-			}
+			var newC = provider.getCardByScryfallId(mcs.getProduct().getScryfallId());
+			mcs.setProduct(newC);
+			dao.saveOrUpdateStock(mcs);
 		} catch (Exception e) {
 			System.out.println(""+col + ";" + newC.getEdition() + ";" + c + ";ERROR;" + e+"\n");
 		} 
