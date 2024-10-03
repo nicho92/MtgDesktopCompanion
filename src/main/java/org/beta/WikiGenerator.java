@@ -99,12 +99,14 @@ public class WikiGenerator {
 							temp.append(e.getValue().getDefaultValue().replace(SystemUtils.getUserHome().getAbsolutePath(), USER_HOME_VAR)).append("|");
 							
 							if(e.getValue().getAllowedProperties()==null)
+							{
 								temp.append("").append("|");
+							}
 							else 
 							{
 								for(var v : e.getValue().getAllowedProperties())
 								{
-									temp.append(v).append(",");	
+									temp.append(v).append("<br>");	
 								}
 								temp.append("|");
 							}
@@ -163,6 +165,8 @@ public class WikiGenerator {
 		if(s.startsWith("http"))
 			return "Url";
 		
+		if(s.length()>1 && s.contains(","))
+			return "Array";
 		
 		return "Text";
 		
