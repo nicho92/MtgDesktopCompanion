@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
@@ -77,6 +79,12 @@ public class MTG {
 	public static <T extends MTGPlugin> List<T> listPlugins(Class<T> t)
 	{
 		return PluginRegistry.inst().listPlugins(t);
+	}
+
+
+	public static void notifyError(String msg) {
+		
+			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),msg, MESSAGE_TYPE.ERROR));
 	}
 
 

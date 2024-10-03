@@ -24,6 +24,7 @@ import org.magic.services.AccountsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class MTGAuthenticatorEditor extends JPanel {
@@ -99,7 +100,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 
 			if(!key.equals(key2))
 			{
-				MTGControler.getInstance().notify(new MTGNotification("KeyPass", "KeyPass are different",MESSAGE_TYPE.ERROR));
+				MTG.notifyError( "KeyPass are different");
 			}
 			else
 			{

@@ -12,8 +12,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.FileTools;
 
-import com.mchange.v1.util.ArrayUtils;
-
 public class WikiGenerator {
 
 	private static final String USER_HOME_VAR = "$USER_HOME";

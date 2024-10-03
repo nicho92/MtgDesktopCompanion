@@ -835,7 +835,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			}
 			catch(Exception e)
 			{
-				MTGControler.getInstance().notify(new MTGNotification("ERROR", "Choose a stock", MESSAGE_TYPE.ERROR));
+				MTG.notifyError("Choose a stock");
 			}
 		});
 

@@ -6,12 +6,11 @@ import java.awt.event.KeyEvent;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
-import org.magic.api.beans.technical.MTGNotification;
-import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.tools.MTG;
 
 public class MeldActions extends AbstractCardAction {
 
@@ -46,7 +45,7 @@ public class MeldActions extends AbstractCardAction {
 		try {
 			card2 = GamePanelGUI.getInstance().getPanelBattleField().lookupCardBy("name", meldWith).get(0);
 		} catch (Exception ex) {
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), "Could not meld the card, " + meldWith + " is not on the battlefield", MESSAGE_TYPE.ERROR));
+			MTG.notifyError("Could not meld the card, " + meldWith + " is not on the battlefield");
 			return;
 		}
 

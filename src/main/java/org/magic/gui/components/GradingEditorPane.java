@@ -20,14 +20,13 @@ import javax.swing.SwingWorker;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.beans.technical.MTGNotification;
-import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 public class GradingEditorPane extends MTGUIComponent {
 
@@ -119,7 +118,7 @@ public class GradingEditorPane extends MTGUIComponent {
 
 			if(grader==null)
 			{
-				MTGControler.getInstance().notify(new MTGNotification("ERROR", "Choose a Grader", MESSAGE_TYPE.ERROR));
+				MTG.notifyError("Choose a Grader");
 				return;
 			}
 

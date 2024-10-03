@@ -5,11 +5,10 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import org.magic.api.beans.technical.MTGNotification;
-import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.tools.MTG;
 
 public class DrawActions extends AbstractAction {
 
@@ -36,7 +35,7 @@ public class DrawActions extends AbstractAction {
 			GamePanelGUI.getInstance().getHandPanel().addComponent(c);
 
 		} catch (IndexOutOfBoundsException ex) {
-			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), "Not enougth cards in library", MESSAGE_TYPE.ERROR));
+			MTG.notifyError("Not enougth cards in library");
 		}
 	}
 

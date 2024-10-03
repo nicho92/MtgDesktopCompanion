@@ -21,11 +21,9 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExportCategory;
-import org.magic.api.beans.technical.MTGNotification;
-import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
-import org.magic.services.MTGControler;
+import org.magic.services.tools.MTG;
 
 public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
@@ -124,7 +122,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
 		if(trf==null)
 		{
-			MTGControler.getInstance().notify(new MTGNotification("Error", "Clipboard is empty", MESSAGE_TYPE.INFO));
+			MTG.notifyError("Clipboard is empty");
 			return deck;
 		}
 
