@@ -26,6 +26,10 @@ public class MTGCard extends AbstractProduct {
 
 	public static boolean isBasicLand(String cardName)
 	{
+		
+		if(cardName==null)
+			return false;
+		
 		return (cardName.trim().equalsIgnoreCase("Plains")  ||
 				cardName.trim().equalsIgnoreCase("Island")  ||
 				cardName.trim().equalsIgnoreCase("Swamp")   ||

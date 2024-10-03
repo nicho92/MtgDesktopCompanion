@@ -101,7 +101,13 @@ public class WikiGenerator {
 							if(e.getValue().getAllowedProperties()==null)
 								temp.append("").append("|");
 							else 
-								temp.append(ArrayUtils.toString(e.getValue().getAllowedProperties())).append("|");
+							{
+								for(var v : e.getValue().getAllowedProperties())
+								{
+									temp.append(v).append(",");	
+								}
+								temp.append("|");
+							}
 							
 							temp.append("\n");
 						});
