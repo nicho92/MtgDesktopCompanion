@@ -504,7 +504,7 @@ public class MTGCard extends AbstractProduct {
 
 	public boolean isCompanion()
 	{
-		return isCreature() && getFrameEffects().contains(EnumFrameEffects.COMPANION);
+		return isCreature() && isLegendary() && (getText().startsWith("Companion ") || getFrameEffects().contains(EnumFrameEffects.COMPANION));
 	}
 
 	public boolean isCreature()
