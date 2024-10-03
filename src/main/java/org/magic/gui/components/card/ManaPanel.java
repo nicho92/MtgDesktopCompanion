@@ -141,7 +141,8 @@ public class ManaPanel extends JPanel {
 		map.put("C/G",85);
 		map.put("Paw Print",86);
 		map.put("C/P",87);
-		
+		map.put("D",88);
+		map.put("L",89);
 		
 	}
 
