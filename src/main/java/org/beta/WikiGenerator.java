@@ -60,7 +60,7 @@ public class WikiGenerator {
 				builder.append(" Multiple can be active.\n\n");
 			
 			
-			List<MTGPlugin> ps = PluginRegistry.inst().listPlugins(e.getKey()); 
+			List<MTGPlugin> ps = PluginRegistry.inst().listPlugins(e.getKey()).stream().sorted().toList(); 
 			
 			ps.forEach(p->
 				builder.append("* [").append(p.getName()).append("]")

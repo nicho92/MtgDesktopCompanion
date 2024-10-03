@@ -140,6 +140,9 @@ public class ManaPanel extends JPanel {
 		map.put("C/R",84);
 		map.put("C/G",85);
 		map.put("Paw Print",86);
+		map.put("C/P",87);
+		
+		
 	}
 
 	public Image getManaSymbol(String el) {
@@ -152,7 +155,7 @@ public class ManaPanel extends JPanel {
 				val= map.get(el);
 			else
 			{
-				logger.error("can't find icon for manacost ={}",el);
+				logger.error("can't find icon for mana={}",el);
 				val=21;
 			}
 		}
