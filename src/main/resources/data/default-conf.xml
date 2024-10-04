@@ -375,10 +375,6 @@
       <enable>true</enable>
     </pricer>
     <pricer>
-      <class>org.magic.api.pricers.impl.MTGPricePricer</class>
-      <enable>false</enable>
-    </pricer>
-    <pricer>
       <class>org.magic.api.pricers.impl.CardKingdomPricer</class>
       <enable>true</enable>
     </pricer>
