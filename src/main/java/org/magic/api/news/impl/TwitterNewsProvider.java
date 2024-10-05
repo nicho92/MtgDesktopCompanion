@@ -21,11 +21,15 @@ import twitter4j.v1.QueryResult;
 import twitter4j.v1.Status;
 
 
+
+/***
+ * Bugged cause of use of deprecated class org/slf4j/spi/LoggerFactoryBinder. 
+ * */
+
 public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
 	private Twitter twitter;
-
-
+	
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return List.of("CONSUMER_KEY","CONSUMER_SECRET","ACCESS_TOKEN","ACCESS_TOKEN_SECRET");
@@ -37,7 +41,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		if(twitter==null)
 		{
 			twitter = Twitter.newBuilder().oAuthConsumer(getAuthenticator().get("CONSUMER_KEY"),getAuthenticator().get("CONSUMER_SECRET"))
-					.oAuthAccessToken(getAuthenticator().get("ACCESS_TOKEN"),getAuthenticator().get("ACCESS_TOKEN_SECRET")).prettyDebugEnabled(true).build();
+					.oAuthAccessToken(getAuthenticator().get("ACCESS_TOKEN"),getAuthenticator().get("ACCESS_TOKEN_SECRET")).prettyDebugEnabled(getBoolean("LOG")).build();
 		}
 		var query = Query.of(n.getName());
 		 	 query.count(getInt("MAX_RESULT"));
@@ -75,7 +79,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BUGGED;
 	}
 
 
