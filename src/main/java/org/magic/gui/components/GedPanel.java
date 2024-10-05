@@ -318,6 +318,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 						{
 							if(!Files.isDirectory(p))
 							{
+								
 								var ged = (GedEntry<T>) MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
 								publish(ged);
 							}

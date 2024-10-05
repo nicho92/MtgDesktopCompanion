@@ -15,6 +15,8 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.tools.MTG;
 
+
+@SuppressWarnings("unchecked")
 public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 
 	/**
@@ -23,6 +25,7 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 	private static final long serialVersionUID = 1L;
 	private DefaultComboBoxModel<MTGEdition> model;
 
+	
 	public MagicEditionsComboBoxCellEditor() {
 		super(new JComboBox<>());
 		model = (DefaultComboBoxModel<MTGEdition>) ((JComboBox<MTGEdition>) getComponent()).getModel();

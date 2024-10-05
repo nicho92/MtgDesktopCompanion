@@ -122,6 +122,7 @@ import spark.Spark;
 import spark.route.HttpMethod;
 import spark.routematch.RouteMatch;
 
+@SuppressWarnings("unchecked")
 public class JSONHttpServer extends AbstractMTGServer {
 
 	public static final String JSON_HTTP_SERVER = "Json Http Server";
@@ -427,7 +428,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void initGed()
 	{
 		post("/ged/uploadPic/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
