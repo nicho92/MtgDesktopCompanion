@@ -24,7 +24,7 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 
 		try {
 			client = UITools.getPandomiumInstance().createClient();
-			browser = client.loadURL("about:blank");
+			browser = client.loadURL(MTGConstants.MTG_DESKTOP_WEBSITE);
 			add(browser.getUIComponent(),BorderLayout.CENTER);
 
 			client.getCefClient().addLoadHandler(new CefLoadHandlerAdapter() {

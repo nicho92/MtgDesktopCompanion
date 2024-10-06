@@ -35,7 +35,7 @@ public class CardSpherePricer extends AbstractPricesProvider {
 				try {
 					var obj = je.getAsJsonObject();
 					var p = new MTGPrice();
-						 p.setUrl("https://www.cardsphere.com/buynow"+obj.get("url").getAsString());
+						 p.setUrl("https://www.cardsphere.com"+obj.get("url").getAsString());
 						 p.setFoil(obj.get("is_foil").getAsBoolean());
 						 p.setValue(obj.get("prices").getAsJsonObject().get("price").getAsDouble());
 						 p.setCurrency(Currency.getInstance("USD"));

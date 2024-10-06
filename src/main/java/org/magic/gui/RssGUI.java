@@ -5,6 +5,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -40,6 +41,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
+import javax.swing.BoxLayout;
 
 
 
@@ -82,7 +84,7 @@ public class RssGUI extends MTGUIComponent {
 		var splitTreeTable = new JSplitPane();
 		var leftPanel = new JPanel();
 		rootNode = new DefaultMutableTreeNode(capitalize("RSS_MODULE"));
-		var panelControl = new JPanel();
+		
 		btnNewButton = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"new news entry");
 		btnSave = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_S,"save news entry");
 		btnDelete =UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete news entry");
@@ -104,12 +106,18 @@ public class RssGUI extends MTGUIComponent {
 		splitTreeTable.setLeftComponent(leftPanel);
 		leftPanel.add(new JScrollPane(tree), BorderLayout.CENTER);
 
-		leftPanel.add(panelControl, BorderLayout.NORTH);
-		panelControl.add(btnNewButton);
-		panelControl.add(btnSave);
-		panelControl.add(btnDelete);
-		panelControl.add(lblLoading);
-		leftPanel.add(newsPanel, BorderLayout.SOUTH);
+		var panelControl = UITools.createFlowCenterPanel(btnNewButton,btnSave,btnDelete,lblLoading);
+		
+		
+		var bottomPanel = new JPanel();
+		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+		
+		
+		bottomPanel.add(newsPanel);
+		bottomPanel.add(panelControl);
+		
+		
+		leftPanel.add(bottomPanel, BorderLayout.SOUTH);
 
 		initActions();
 
