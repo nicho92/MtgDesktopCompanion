@@ -148,10 +148,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(!mc.getArtist().isEmpty())
 			build.addParameter("artist", mc.getArtist());
 
-		if(!mc.getPower().isEmpty())
+		if(!StringUtils.isEmpty(mc.getPower()))
 			build.addParameter("power", mc.getPower());
 
-		if(!mc.getToughness().isEmpty())
+		if(!StringUtils.isEmpty(mc.getToughness()))
 			build.addParameter("toughness", mc.getToughness());
 
 		if(mc.getLoyalty()!=null)
