@@ -318,6 +318,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnNewCard.addActionListener(e -> {
 				var mc = new MTGCard();
 				var ed = (MTGEdition)cboSets.getSelectedItem();
+				
+				mc.setEdition(ed);
 				mc.getEditions().add(ed);
 				try {
 					mc.setNumber(String.valueOf(provider.searchCardByEdition((MTGEdition) cboSets.getSelectedItem()).size() + 1));
