@@ -94,7 +94,7 @@ public class WikiGenerator {
 							temp.append(e.getKey()).append("|");
 							temp.append(e.getValue().getComment()).append("|");
 							temp.append(parseType(p.getProperties().getProperty(e.getKey()))).append("|");
-							temp.append(e.getValue().getDefaultValue().replace(SystemUtils.getUserHome().getAbsolutePath(), USER_HOME_VAR)).append("|");
+							temp.append(e.getValue().getDefaultValue().replace(SystemUtils.getUserHome().getAbsolutePath(), USER_HOME_VAR+"/")).append("|");
 							
 							if(e.getValue().getAllowedProperties()==null)
 							{
