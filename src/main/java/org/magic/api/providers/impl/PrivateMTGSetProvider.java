@@ -78,7 +78,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		var f = new File(setDirectory, me.getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
 		var cards = root.get(CARDS).getAsJsonArray();
-		
+		mc.setEdition(me);
 		postTreatmentCard(mc);
 		
 		int index = indexOf(mc, cards);

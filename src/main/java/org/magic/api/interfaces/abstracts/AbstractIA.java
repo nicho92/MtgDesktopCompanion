@@ -33,9 +33,27 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	protected MTGCard parseIaCardSuggestion(JsonObject obj) {
 
 		var mc = new MTGCard();
-			 mc.setName(read(obj,"name").getAsString());
-			 mc.setText(read(obj,"text","oracleText").getAsString());
 			 mc.setLayout(EnumLayout.NORMAL);
+		
+			 
+			 try {
+				 mc.setName(read(obj,"name").getAsString());
+			 }
+			 catch(Exception e)
+			 {
+				 
+			 }
+			 
+			 
+			 try {
+				 mc.setText(read(obj,"text","oracleText").getAsString());
+			 }
+			 catch(Exception e)
+			 {
+				 
+			 }
+			 
+			 
 			
 			 try {
 				 var rarity = read(obj,"rarity").getAsString();

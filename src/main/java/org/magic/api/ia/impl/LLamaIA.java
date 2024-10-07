@@ -49,7 +49,7 @@ public class LLamaIA  extends AbstractIA{
 		
 		
 		var sysMsg = new JsonObject();
-				sysMsg.addProperty("role", "user");
+				sysMsg.addProperty("role", "system");
 				sysMsg.addProperty("content", getString(SYSTEM_MSG));
 
 		
@@ -60,6 +60,9 @@ public class LLamaIA  extends AbstractIA{
 		msgs.add(sysMsg);
 		msgs.add(userMsg);
 		obj.add("messages", msgs);
+		
+		
+		obj.addProperty("stream", false);
 		
 		if(!getString(MAX_TOKEN).isEmpty())
 			obj.addProperty(MAX_TOKEN.toLowerCase(),getInt(MAX_TOKEN));
