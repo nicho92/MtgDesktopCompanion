@@ -20,6 +20,9 @@ import com.google.gson.JsonObject;
 public class LLamaIA  extends AbstractIA{
 
 	
+	private static final String SYSTEM_MSG = "SYSTEM_MSG";
+	private static final String TEMPERATURE = "TEMPERATURE";
+	private static final String MAX_TOKEN = "MAX_TOKEN";
 	private MTGHttpClient client;
 	private static final String TOKEN = "TOKEN";
 	
@@ -40,11 +43,14 @@ public class LLamaIA  extends AbstractIA{
 	
 		var obj = new JsonObject();
 		var msgs = new JsonArray();
-
+		
+		
+		obj.addProperty("model",getString("MODEL"));
+		
 		
 		var sysMsg = new JsonObject();
 				sysMsg.addProperty("role", "user");
-				sysMsg.addProperty("content", getString("SYSTEM_MSG"));
+				sysMsg.addProperty("content", getString(SYSTEM_MSG));
 
 		
 		var userMsg = new JsonObject();
@@ -54,6 +60,12 @@ public class LLamaIA  extends AbstractIA{
 		msgs.add(sysMsg);
 		msgs.add(userMsg);
 		obj.add("messages", msgs);
+		
+		if(!getString(MAX_TOKEN).isEmpty())
+			obj.addProperty(MAX_TOKEN.toLowerCase(),getInt(MAX_TOKEN));
+		
+		if(!getString(TEMPERATURE).isEmpty())
+			obj.addProperty(TEMPERATURE,getDouble(TEMPERATURE));
 		
 		
 		logger.debug("Ask = {}", msgs);
@@ -65,7 +77,7 @@ public class LLamaIA  extends AbstractIA{
 		
 		var ret = URLTools.toJson(resp.getEntity().getContent());
 		
-		logger.debug("Ret = {}", ret);
+		logger.debug("response = {}", ret);
 		
 		return ret;
 	}
@@ -80,9 +92,9 @@ public class LLamaIA  extends AbstractIA{
 	public Map<String, MTGProperty> getDefaultAttributes() {
 			var map = super.getDefaultAttributes();
 			map.put("MODEL", new MTGProperty("llama3.1-70b","choose langage model"));
-			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0", "You can think of temperature like randomness, with 0 being least random (or most deterministic) and 2 being most random (least deterministic)", 0, 2));
-			map.put("MAX_TOKEN", MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
-			map.put("SYSTEM_MSG", new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
+			map.put(TEMPERATURE, MTGProperty.newIntegerProperty("0", "You can think of temperature like randomness, with 0 being least random (or most deterministic) and 2 being most random (least deterministic)", 0, 2));
+			map.put(MAX_TOKEN, MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
+			map.put(SYSTEM_MSG, new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
 			return map;
 	}
 	
