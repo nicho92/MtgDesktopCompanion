@@ -132,6 +132,7 @@ public class ConstructPanel extends MTGUIComponent {
 	private JButton btnNewDeck;
 	private JButton btnOpen;
 	private JButton btnImport;
+	private JButton btnPin;
 
 	public ConstructPanel() {
 		deck = new MTGDeck();
@@ -148,6 +149,7 @@ public class ConstructPanel extends MTGUIComponent {
 		btnNewDeck.setVisible(!hidecomponent);
 		btnOpen.setVisible(!hidecomponent);
 		btnImport.setVisible(!hidecomponent);
+		btnPin.setVisible(!hidecomponent);
 	}
 	
 	
@@ -219,6 +221,7 @@ public class ConstructPanel extends MTGUIComponent {
 		btnUpdate = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "Refresh");
 		var btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "Save");
 		btnImport = UITools.createBindableJButton("", MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "Import");
+		btnPin = UITools.createBindableJButton("", MTGConstants.ICON_PIN, KeyEvent.VK_P, "Pin");
 		
 		btnExports = new JExportButton(MODS.EXPORT);
 		stockPanel = new DeckStockComparatorPanel();
@@ -316,6 +319,8 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauHaut.add(btnImport);
 		panneauHaut.add(btnExports);
 		panneauHaut.add(btnRandom);
+		panneauHaut.add(btnPin);
+		
 		panneauHaut.add(buzyLabel);
 		panneauDeck.setRightComponent(getContextTabbedPane());
 		add(panneauBas, BorderLayout.SOUTH);
@@ -384,7 +389,15 @@ public class ConstructPanel extends MTGUIComponent {
 		});
 		
 		tabbedDeckSide.addChangeListener(e -> selectedIndex = tabbedDeckSide.getSelectedIndex());
-
+		
+		
+		btnPin.addActionListener(al->{
+			
+			//MTGUIComponent.createJDialog(MTGUIComponent.build(tabbedDeckSide, "Deck", getIcon()), true, false).setVisible(true)
+			
+		});
+		
+		
 		
 		btnRandom.addActionListener(al->{
 				buzyLabel.start();
