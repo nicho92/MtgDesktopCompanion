@@ -15,11 +15,12 @@ import org.magic.services.tools.FileTools;
 
 public class DeckStatExport extends AbstractFormattedFileCardExport {
 	
+	private static final String FORMAT = "FORMAT";
 	private String columns="amount,card_name,is_foil,is_pinned,is_signed,set_id,set_code,collector_number,language,condition,comment,added\n";
 
 	@Override
 	public String getFileExtension() {
-		return "."+getString("FORMAT").toLowerCase();
+		return "."+getString(FORMAT).toLowerCase();
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 		var line = new StringBuilder(columns);
 		for(MTGCardStock mc : stock)
 		{
-			if(getString("FORMAT").equalsIgnoreCase("TXT"))
+			if(getString(FORMAT).equalsIgnoreCase("TXT"))
 				line.append(exportAsTxt(mc));
 			else
 				line.append(exportAsCSV(mc));
@@ -69,10 +70,11 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 				.append(mc.getProduct().getName()).append(" ")
 				.append("#")
 				.append(mc.getComment()).append(" ")
-				.append(mc.isFoil()?"!Foil":"").append(" ")
-				.append(mc.isSigned()?"!Signed":"").append(" ")
 				.append("(COND=").append(aliases.getConditionFor(this, mc.getCondition())).append(")").append(" ")
 				.append("(LANG=").append(mc.getLanguage().substring(0, 2)).append(")").append(" ")
+				.append(mc.isFoil()?"!Foil":"").append(" ")
+				.append(mc.isSigned()?"!Signed":"")
+			
 				
 				.toString();
 	}
@@ -107,7 +109,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return aliases.getRegexFor(this, getString("FORMAT"));
+		return aliases.getRegexFor(this, getString(FORMAT));
 	}
 	
 	
@@ -115,7 +117,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = new HashMap<String, MTGProperty>();
-			m.put("FORMAT", new MTGProperty("CSV", "select format for import/export items","CSV","TXT"));
+			m.put(FORMAT, new MTGProperty("CSV", "select format for import/export items","CSV","TXT"));
 
 		return m;
 	}
