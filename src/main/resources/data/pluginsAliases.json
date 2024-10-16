@@ -105,6 +105,14 @@
 			"default":"(\\d+) (\\[(.*?)\\])?(.*?)$",
 			"txt":"(\\d+) \\[(.*?)[(.*?){#(.*?)}]?\\] (.*?)$",
 			"csv":""
+		},
+		"conditions": {
+			"MINT": "NM",
+			"NEAR_MINT": "NM",						
+			"DAMAGED":"DM",						
+			"LIGHTLY_PLAYED":"LP",
+			"PLAYED":"MP",
+			"POOR":"HP"
 		}	
 	},
 	"MKM File": {
