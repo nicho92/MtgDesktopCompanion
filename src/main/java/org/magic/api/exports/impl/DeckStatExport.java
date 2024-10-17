@@ -128,13 +128,12 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 		
 		
 		try {
-			var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(setNumber, setId);
-				mcs.setProduct(mc);
+				mcs.setProduct(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(setNumber, setId));
 				mcs.setQte(Integer.parseInt(m.group(1)));
 				mcs.setFoil(m.group(4).contains("!Foil"));
 				mcs.setSigned(m.group(4).contains("!Signed"));
-				
-				
+				mcs.setLanguage(parseAttributs("LNG",m.group(4)));
+				mcs.setCondition(aliases.getReversedConditionFor(this, parseAttributs("COND",m.group(4)), EnumCondition.NEAR_MINT));
 		} catch (IOException e) {
 			logger.error("can't find card with {} for the set {}",setNumber,setId);
 		}
@@ -143,6 +142,14 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 	}
 	
 	
+
+	private String parseAttributs(String key, String data) {
+		
+		
+		
+		
+		return "";
+	}
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
