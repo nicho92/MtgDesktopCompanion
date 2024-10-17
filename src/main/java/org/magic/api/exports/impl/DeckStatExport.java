@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -35,18 +35,10 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
 	
-	
-	public static void main(String[] args) throws Exception {
-		MTGControler.getInstance().init();
-		
-		
-		var exp = new DeckStatExport();
-			exp.importStockFromFile(new File(SystemUtils.getUserHome()+"\\Downloads\\collection.txt"));
-			
-			System.exit(0);
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
 	}
-	
-	
 	
 	
 	@Override
@@ -146,7 +138,11 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 	private String parseAttributs(String key, String data) {
 		
 		
+		var p  = Pattern.compile("\\("+key+"=(.*?)\\)");
+		var m = p.matcher(data);
 		
+		if(m.find())
+			return m.group(1);
 		
 		return "";
 	}
