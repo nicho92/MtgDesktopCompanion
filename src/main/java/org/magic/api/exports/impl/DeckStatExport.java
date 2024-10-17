@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -15,12 +16,11 @@ import org.magic.services.tools.FileTools;
 
 public class DeckStatExport extends AbstractFormattedFileCardExport {
 	
-	private static final String FORMAT = "FORMAT";
 	private String columns="amount,card_name,is_foil,is_pinned,is_signed,set_id,set_code,collector_number,language,condition,comment,added\n";
 
 	@Override
 	public String getFileExtension() {
-		return "."+getString(FORMAT).toLowerCase();
+		return "."+getString("FORMAT").toLowerCase();
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 		var line = new StringBuilder(columns);
 		for(MTGCardStock mc : stock)
 		{
-			if(getString(FORMAT).equalsIgnoreCase("TXT"))
+			if(getString("FORMAT").equalsIgnoreCase("TXT"))
 				line.append(exportAsTxt(mc));
 			else
 				line.append(exportAsCSV(mc));
@@ -70,14 +70,26 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 				.append(mc.getProduct().getName()).append(" ")
 				.append("#")
 				.append(mc.getComment()).append(" ")
+				.append(mc.isFoil()?"!Foil":"").append(" ")
+				.append(mc.isSigned()?"!Signed":"").append(" ")
 				.append("(COND=").append(aliases.getConditionFor(this, mc.getCondition())).append(")").append(" ")
 				.append("(LANG=").append(mc.getLanguage().substring(0, 2)).append(")").append(" ")
-				.append(mc.isFoil()?"!Foil":"").append(" ")
-				.append(mc.isSigned()?"!Signed":"")
-			
 				
 				.toString();
 	}
+	
+	
+	private MTGCardStock parseAsCsv(Matcher line)
+	{
+		return null;
+	}
+	
+	private MTGCardStock parseAsTxt(Matcher line)
+	{
+		return null;
+	}
+	
+	
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
@@ -86,6 +98,11 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 
 		matches(content,true).forEach(m->{
 			
+			if(getString("FORMAT").equalsIgnoreCase("TXT"))
+				list.add(parseAsTxt(m));
+			else
+				list.add(parseAsCsv(m));
+
 		});
 
 		return list;
@@ -109,7 +126,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return aliases.getRegexFor(this, getString(FORMAT));
+		return aliases.getRegexFor(this, getString("FORMAT"));
 	}
 	
 	
@@ -117,7 +134,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = new HashMap<String, MTGProperty>();
-			m.put(FORMAT, new MTGProperty("CSV", "select format for import/export items","CSV","TXT"));
+			m.put("FORMAT", new MTGProperty("CSV", "select format for import/export items","CSV","TXT"));
 
 		return m;
 	}
