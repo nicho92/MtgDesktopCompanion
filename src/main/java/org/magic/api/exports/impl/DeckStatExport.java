@@ -14,9 +14,11 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.MTG;
 
 public class DeckStatExport extends AbstractFormattedFileCardExport {
 	
@@ -116,9 +118,28 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 		return mcs;
 	}
 	
-	private MTGCardStock parseAsTxt(Matcher line)
+	private MTGCardStock parseAsTxt(Matcher m)
 	{
-		return null;
+		
+		var mcs = MTGControler.getInstance().getDefaultStock();
+		
+		var setId = m.group(2).split("#")[0];
+		var setNumber = m.group(2).split("#")[1];
+		
+		
+		try {
+			var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(setNumber, setId);
+				mcs.setProduct(mc);
+				mcs.setQte(Integer.parseInt(m.group(1)));
+				mcs.setFoil(m.group(4).contains("!Foil"));
+				mcs.setSigned(m.group(4).contains("!Signed"));
+				
+				
+		} catch (IOException e) {
+			logger.error("can't find card with {} for the set {}",setNumber,setId);
+		}
+		
+		return mcs;
 	}
 	
 	
