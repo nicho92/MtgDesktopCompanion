@@ -140,7 +140,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return aliases.getRegexFor(this, getString("FORMAT"));
+		return aliases.getRegexFor(this, getString("FORMAT").toLowerCase());
 	}
 	
 	
