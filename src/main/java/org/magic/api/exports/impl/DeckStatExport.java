@@ -12,6 +12,7 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 
 public class DeckStatExport extends AbstractFormattedFileCardExport {
@@ -27,6 +28,19 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		MTGControler.getInstance().init();
+		
+		
+		var exp = new DeckStatExport();
+			exp.importStockFromFile(new File("C:\\Users\\nicolas.pihen\\Downloads\\collection.csv"));
+			
+			
+	}
+	
+	
 	
 	
 	@Override
