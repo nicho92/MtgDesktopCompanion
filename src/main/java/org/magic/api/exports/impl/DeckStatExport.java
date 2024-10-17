@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -38,7 +39,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 		
 		
 		var exp = new DeckStatExport();
-			exp.importStockFromFile(new File("C:\\Users\\nicolas.pihen\\Downloads\\collection.csv"));
+			exp.importStockFromFile(new File(SystemUtils.getUserHome()+"\\Downloads\\collection.txt"));
 			
 			System.exit(0);
 	}
