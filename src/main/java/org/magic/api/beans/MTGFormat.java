@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class MTGFormat implements Serializable {
+public class MTGFormat implements Serializable , Comparable<MTGFormat>{
 
 	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER, BRAWL, FRONTIER}
 	public enum AUTHORIZATION {LEGAL, RESTRICTED, BANNED,  NOT_LEGAL}
@@ -49,7 +49,7 @@ public class MTGFormat implements Serializable {
 
 	@Override
 	public String toString() {
-		return getFormat() + " " + formatLegality;
+		return getFormat();
 	}
 
 	@Override
@@ -69,5 +69,10 @@ public class MTGFormat implements Serializable {
 	public void setFormat(FORMATS standard) {
 		format = StringUtils.capitalize(standard.name().toLowerCase());
 
+	}
+
+	@Override
+	public int compareTo(MTGFormat o) {
+		return getFormat().compareTo(o.getFormat());
 	}
 }
