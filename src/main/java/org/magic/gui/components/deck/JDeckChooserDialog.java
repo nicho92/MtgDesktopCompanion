@@ -1,4 +1,4 @@
-	package org.magic.gui.components.dialog;
+	package org.magic.gui.components.deck;
 
 import static org.magic.services.tools.MTG.capitalize;
 
@@ -53,15 +53,8 @@ public class JDeckChooserDialog extends JDialog {
 	private MTGDeck selectedDeck;
 	private JTagsPanel tagsPanel;
 	private AbstractBuzyIndicatorComponent buzy;
-	private JTree tree;
-	private DefaultTreeModel model;
-	private DefaultMutableTreeNode root;
-	private DefaultMutableTreeNode creatureNode = new DefaultMutableTreeNode("Creatures");
-	private DefaultMutableTreeNode artifactsNode = new DefaultMutableTreeNode("Artifacts");
-	private DefaultMutableTreeNode planeswalkerNode = new DefaultMutableTreeNode("Planeswalkers");
-	private DefaultMutableTreeNode landsNode = new DefaultMutableTreeNode("Lands");
-	private DefaultMutableTreeNode spellsNode = new DefaultMutableTreeNode("Spells");
-	private DefaultMutableTreeNode sideNode = new DefaultMutableTreeNode("Sideboard");
+	private DeckTree tree;
+
 	private transient MTGDeckManager manager;
 
 
@@ -69,56 +62,15 @@ public class JDeckChooserDialog extends JDialog {
 		return selectedDeck;
 	}
 
-	private void initTree() {
-
-		creatureNode.removeAllChildren();
-		artifactsNode.removeAllChildren();
-		planeswalkerNode.removeAllChildren();
-		landsNode.removeAllChildren();
-		spellsNode.removeAllChildren();
-		sideNode.removeAllChildren();
-
-		if (selectedDeck != null) {
-			for (var mc : selectedDeck.getMain().entrySet()) {
-				if (mc.getKey().isCreature() && !mc.getKey().isArtifact())
-					creatureNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
-				else if (mc.getKey().isArtifact())
-					artifactsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
-				else if (mc.getKey().isLand())
-					landsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
-				else if (mc.getKey().isPlaneswalker())
-					planeswalkerNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
-				else
-					spellsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
-			}
-
-			for (var mc : selectedDeck.getSideBoard().entrySet())
-				sideNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
-
-			model.reload();
-
-			expandAll(new TreePath(root));
-		}
-	}
-
-	private void expandAll(TreePath parent) {
-		TreeNode node = (TreeNode) parent.getLastPathComponent();
-		if (node.getChildCount() >= 0) {
-			for (Enumeration<? extends TreeNode>e = node.children(); e.hasMoreElements();) {
-				TreeNode n =  e.nextElement();
-				TreePath path = parent.pathByAddingChild(n);
-				expandAll(path);
-			}
-		}
-		tree.expandPath(parent);
-	}
+	
+	
 
 	public JDeckChooserDialog() {
 		setTitle(capitalize("OPEN_DECK"));
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		setSize(950, 600);
 
-		model = new DefaultTreeModel(root);
+		
 		manager = new MTGDeckManager();
 		var decksModel = new DeckSelectionTableModel();
 		manager.addObserver((o,d)->decksModel.addItem((MTGDeck)d));
@@ -171,7 +123,7 @@ public class JDeckChooserDialog extends JDialog {
 					return;
 
 				selectedDeck = UITools.getTableSelection(table, 0);
-				initTree();
+				tree.setDeck(selectedDeck);
 				tagsPanel.clean();
 				tagsPanel.addTags(selectedDeck.getTags());
 				cmcChartPanel.init(selectedDeck.getMainAsList());
@@ -241,24 +193,14 @@ public class JDeckChooserDialog extends JDialog {
 		cmcChartPanel = new CmcChartPanel();
 		cmcChartPanel.setPreferredSize(new Dimension(250, 150));
 		panelRight.setBottomComponent(cmcChartPanel);
-		root = new DefaultMutableTreeNode("Cards");
-		// add the child nodes to the root node
-		root.add(creatureNode);
-		root.add(artifactsNode);
-		root.add(planeswalkerNode);
-		root.add(landsNode);
-		root.add(spellsNode);
-		root.add(sideNode);
-		model = new DefaultTreeModel(root);
+		
 
 		panelRight.setDividerLocation(300);
 
 		var panelTree = new JPanel();
 		panelTree.setLayout(new BorderLayout(0, 0));
 		panelRight.setTopComponent(panelTree);
-		tree = new JTree();
-		tree.setCellRenderer(new DeckTreeCellRenderer());
-		tree.setModel(model);
+		tree = new DeckTree();
 
 		panelTree.add(new JScrollPane(tree));
 		tagsPanel = new JTagsPanel();

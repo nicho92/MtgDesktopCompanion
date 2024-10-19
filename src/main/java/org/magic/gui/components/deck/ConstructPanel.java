@@ -72,7 +72,6 @@ import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
-import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.components.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.components.prices.DeckPricePanel;
 import org.magic.gui.components.tech.CriteriaComponent;
@@ -393,7 +392,10 @@ public class ConstructPanel extends MTGUIComponent {
 		
 		btnPin.addActionListener(al->{
 			
-			//MTGUIComponent.createJDialog(MTGUIComponent.build(tabbedDeckSide, "Deck", getIcon()), true, false).setVisible(true)
+			var tree = new DeckTree();
+			tree.setDeck(deck);
+			
+			MTGUIComponent.createJDialog(MTGUIComponent.build(tree, "Deck", MTGConstants.ICON_DECK),true,false).setVisible(true);
 			
 		});
 		

@@ -49,7 +49,7 @@ import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.gui.StockPanelGUI;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.deck.ConstructPanel;
-import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.components.deck.JDeckChooserDialog;
 import org.magic.gui.components.dialog.importer.CardChooseDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.CardStockTableModel;

@@ -11,7 +11,7 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.gui.components.dialog.DeckSnifferDialog;
+import org.magic.gui.components.deck.DeckSnifferDialog;
 import org.magic.services.MTGConstants;
 
 public class WebsiteDeckImport extends AbstractCardExport {

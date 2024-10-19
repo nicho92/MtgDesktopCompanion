@@ -40,7 +40,7 @@ import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.gui.components.dialog.DeckSideBoardSwitcherDialog;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.components.deck.JDeckChooserDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.utils.patterns.observer.Observable;
