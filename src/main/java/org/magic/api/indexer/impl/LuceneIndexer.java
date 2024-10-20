@@ -143,7 +143,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 			 logger.debug("found {} items for {}",top.totalHits,q);
 
-			 for(var i =0;i<top.totalHits.value;i++)
+			 for(var i =0;i<top.totalHits.value();i++)
 				 ret.add(serializer.fromJson(searcher.storedFields().document(top.scoreDocs[i].doc).get("data"),MTGCard.class));
 
 
@@ -206,7 +206,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		 logger.trace(query);
 		 var top = searcher.search(query, 1);
 
-		 if(top.totalHits.value>0)
+		 if(top.totalHits.value()>0)
 		 {
 			 var mlt = new MoreLikeThis(indexReader);
 			  mlt.setFieldNames(getArray(FIELDS));
