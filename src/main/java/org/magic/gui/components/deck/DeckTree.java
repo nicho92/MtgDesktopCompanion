@@ -12,6 +12,8 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.gui.renderer.DeckTreeCellRenderer;
 
 public class DeckTree extends JTree{
+	
+	private static final long serialVersionUID = 1L;
 	private DefaultTreeModel model;
 	private DefaultMutableTreeNode root;
 	private DefaultMutableTreeNode creatureNode = new DefaultMutableTreeNode("Creatures");
@@ -48,8 +50,8 @@ public class DeckTree extends JTree{
 		TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {
 			for (Enumeration<? extends TreeNode>e = node.children(); e.hasMoreElements();) {
-				TreeNode n =  e.nextElement();
-				TreePath path = parent.pathByAddingChild(n);
+				var n =  e.nextElement();
+				var path = parent.pathByAddingChild(n);
 				expandAll(path);
 			}
 		}
@@ -64,7 +66,8 @@ public class DeckTree extends JTree{
 		landsNode.removeAllChildren();
 		spellsNode.removeAllChildren();
 		sideNode.removeAllChildren();
-
+		
+		
 		if (selectedDeck != null) {
 			for (var mc : selectedDeck.getMain().entrySet()) {
 				if (mc.getKey().isCreature() && !mc.getKey().isArtifact())
@@ -86,11 +89,6 @@ public class DeckTree extends JTree{
 
 			expandAll(new TreePath(root));
 		}
-	}
-
-	public void enableSelection() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	
