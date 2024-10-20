@@ -14,7 +14,8 @@
 		"ABLB"
 	],
 	"ACR": [
-		"AACR"
+		"AACR",
+		"MACR"
 	],
 	"MH3" : [
 		"SMH3",
@@ -349,6 +350,7 @@
 		"4BB"
 	],
 	"PMEI": [
+		"PSPL",
 		"P30M",
 		"PH22",
 		"PWCS",
