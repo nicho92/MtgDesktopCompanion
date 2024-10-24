@@ -62,7 +62,7 @@
 		<poi.version>5.3.0</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.7.15</rhino.version>
-		<commonmark.version>0.23.0</commonmark.version>
+		<commonmark.version>0.24.0</commonmark.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -283,7 +283,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.19.13</version>
+			<version>3.19.14</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
