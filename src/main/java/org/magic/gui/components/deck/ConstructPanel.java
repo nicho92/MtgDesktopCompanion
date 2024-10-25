@@ -396,7 +396,7 @@ public class ConstructPanel extends MTGUIComponent {
 			tree.enableThumbnail();
 			tree.setDeck(deck);
 			
-			MTGUIComponent.createJDialog(MTGUIComponent.build(tree, "Deck", MTGConstants.ICON_DECK),true,false).setVisible(true);
+			MTGUIComponent.createJDialog(MTGUIComponent.build(new JScrollPane(tree), "Deck", MTGConstants.ICON_DECK),true,false).setVisible(true);
 			
 		});
 		
