@@ -74,7 +74,7 @@ public class MTGProperty implements Serializable {
 	{
 		
 		if(max<0)
-			return new MTGProperty(defaultValue, comment, "Any value from "+min  );
+			return new MTGProperty(defaultValue, comment, "Any value > "+min  );
 		
 		return new MTGProperty(defaultValue, comment, "Any value between "+min+ " and " + max );
 	}

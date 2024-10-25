@@ -78,11 +78,12 @@ public class WikiGenerator {
 		PluginRegistry.inst().listPlugins().stream().filter(p->p.getType()!=PLUGINS.DASHLET).forEach(p->{
 			
 			var temp = new StringBuilder();
-					temp.append("# Technical information").append("\n\n");
-					temp.append("File Location : ").append(p.getConfFile().getAbsolutePath().replace(SystemUtils.getUserHome().getAbsolutePath(), USER_HOME_VAR).replace('\\', '/')).append("\n\n");
-					temp.append("Category :").append(p.getType()).append("\n\n");
-					temp.append("Status : ").append(p.getStatut()).append("\n\n");
-					temp.append("Need Authenticator : ").append(p.listAuthenticationAttributes().isEmpty()?"No":"Yes").append("\n\n");
+					temp.append("# Technical information").append("\n");
+					temp.append("* File Location : ").append(p.getConfFile().getAbsolutePath().replace(SystemUtils.getUserHome().getAbsolutePath(), USER_HOME_VAR).replace('\\', '/')).append("\n");
+					temp.append("* Category : ").append(p.getType()).append("\n");
+					temp.append("* Version : ").append(p.getVersion()).append("\n");
+					temp.append("* Status : ").append(p.getStatut()).append("\n");
+					temp.append("* Need Authenticator : ").append(p.listAuthenticationAttributes().isEmpty()?"No":"Yes").append("\n");
 					
 					temp.append("\n\n");
 					temp.append("# Configure the plugin").append("\n\n");
