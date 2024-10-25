@@ -1,9 +1,11 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
 
 import org.magic.services.MTGConstants;
@@ -16,15 +18,30 @@ public class DeckTreeCellRenderer implements TreeCellRenderer{
 		var lab = new JLabel();
 		lab.setBackground(tree.getBackground());
 		lab.setForeground(tree.getForeground());
-		lab.setText(value.toString());
-		try {
-			var ic = MTGConstants.getManaSymbol(value.toString());
-			lab.setIcon(ImageTools.resize(ic, 18, 18));	
-		}
-		catch(Exception e)
+		
+		var node = (DefaultMutableTreeNode)value;
+		
+		if(node.getUserObject() instanceof String s)
 		{
-			//do nothing
+			
+			lab.setText(s);
+			try {
+				var ic = MTGConstants.getManaSymbol(s);
+				lab.setIcon(ImageTools.resize(ic, 18, 18));	
+			}
+			catch(Exception e)
+			{
+				//do nothing
+			}
+			
 		}
+		
+		if(node.getUserObject() instanceof Map.Entry entry)
+		{
+			lab.setText(entry.getValue() + " " + entry.getKey());
+		}
+		
+		
 		
 		return lab;
 	}

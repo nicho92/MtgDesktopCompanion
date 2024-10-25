@@ -1,15 +1,30 @@
 package org.magic.gui.components.deck;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.swing.JPopupMenu;
 import javax.swing.JTree;
+import javax.swing.border.LineBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.card.MagicCardMainDetailPanel;
 import org.magic.gui.renderer.DeckTreeCellRenderer;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class DeckTree extends JTree{
 	
@@ -71,19 +86,19 @@ public class DeckTree extends JTree{
 		if (selectedDeck != null) {
 			for (var mc : selectedDeck.getMain().entrySet()) {
 				if (mc.getKey().isCreature() && !mc.getKey().isArtifact())
-					creatureNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+					creatureNode.add(new DefaultMutableTreeNode(mc));
 				else if (mc.getKey().isArtifact())
-					artifactsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+					artifactsNode.add(new DefaultMutableTreeNode(mc));
 				else if (mc.getKey().isLand())
-					landsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+					landsNode.add(new DefaultMutableTreeNode(mc));
 				else if (mc.getKey().isPlaneswalker())
-					planeswalkerNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+					planeswalkerNode.add(new DefaultMutableTreeNode(mc));
 				else
-					spellsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+					spellsNode.add(new DefaultMutableTreeNode(mc));
 			}
 
 			for (var mc : selectedDeck.getSideBoard().entrySet())
-				sideNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+				sideNode.add(new DefaultMutableTreeNode(mc));
 
 			model.reload();
 
@@ -91,6 +106,56 @@ public class DeckTree extends JTree{
 		}
 	}
 
+	
+	public void enableThumbnail()
+	{
+		final var popUp = new JPopupMenu();
+		addTreeSelectionListener(tsl->{
+			
+				var p = ((DefaultMutableTreeNode)tsl.getPath().getLastPathComponent()).getUserObject();
+				
+				
+				if(p instanceof Map.Entry e)
+				{
+					var mc = (MTGCard) e.getKey();
+					
+					var pane = new MagicCardMainDetailPanel();
+					pane.enableThumbnail(true);
+					pane.init(mc);
+					
+					popUp.setBorder(new LineBorder(Color.black));
+					popUp.setVisible(false);
+					popUp.removeAll();
+					popUp.setLayout(new BorderLayout());
+					popUp.add(pane, BorderLayout.CENTER);
+					popUp.show(this,getParent().getWidth(),0);
+					popUp.setVisible(true);
+					
+				}
+			
+			
+		});
+	}
+	
+	
+	public static void main(String[] args) throws SQLException {
+		
+		MTGControler.getInstance().init();
+		
+		
+		var d = MTG.getEnabledPlugin(MTGDao.class).getDeckById(163);
+		
+		var tree = new DeckTree();
+		tree.setDeck(d);
+		tree.enableThumbnail();
+		
+		
+		MTGUIComponent.createJDialog(MTGUIComponent.build(tree, "Deck", MTGConstants.ICON_DECK),true,false).setVisible(true);
+		
+	}
+	
+	
+	
 	
 	
 }

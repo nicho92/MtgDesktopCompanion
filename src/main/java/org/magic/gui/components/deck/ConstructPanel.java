@@ -393,6 +393,7 @@ public class ConstructPanel extends MTGUIComponent {
 		btnPin.addActionListener(al->{
 			
 			var tree = new DeckTree();
+			tree.enableThumbnail();
 			tree.setDeck(deck);
 			
 			MTGUIComponent.createJDialog(MTGUIComponent.build(tree, "Deck", MTGConstants.ICON_DECK),true,false).setVisible(true);
