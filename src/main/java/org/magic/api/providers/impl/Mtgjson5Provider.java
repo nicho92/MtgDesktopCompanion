@@ -66,7 +66,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
-		MTGQueryBuilder<?> b= new JsonCriteriaBuilder();
+		var b= new JsonCriteriaBuilder();
 		initBuilder(b);
 		return b;
 	}

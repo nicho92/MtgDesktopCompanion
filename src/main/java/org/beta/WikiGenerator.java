@@ -21,7 +21,7 @@ public class WikiGenerator {
 		
 		MTGControler.getInstance();
 		
-		buildPluginsdirectory();
+		//buildPluginsdirectory();
 		
 		buildePluginsIndex();
 		
@@ -60,12 +60,22 @@ public class WikiGenerator {
 			
 			List<MTGPlugin> ps = PluginRegistry.inst().listPlugins(e.getKey()).stream().sorted().toList(); 
 			
-			ps.forEach(p->
-				builder.append("* [").append(p.getName()).append("]")
+			builder.append("|     |  Name | Status |\n");
+			builder.append("|----|---------|---------|\n");
+			
+			
+			ps.forEach(p->{
+				
+				builder.append("![](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/refs/heads/master/src/main/resources/icons/plugins/"+p.getName().toLowerCase().replace(" ","%20")+".png)").append("|");
+				
+				builder.append("[").append(p.getName()).append("]")
 						  .append("(").append(p.getType()).append("-").append(p.getName().replace(" ", "_")).append(")")
-						  .append(p.getStatut()!=STATUT.STABLE?" - _"+p.getStatut().name().toLowerCase()+"_":"")
-						  .append("\n")
-				);
+						  .append("|");
+				
+				  builder.append(p.getStatut()).append("|\n");
+				
+				
+			});
 			
 		});
 		

@@ -184,8 +184,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			logger.error(e);
 			return null;
 		}
-	
-
 	}
 
 	@Override
