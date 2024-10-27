@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,6 +14,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -41,7 +41,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
-import javax.swing.BoxLayout;
 
 
 

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPopupMenu;
@@ -24,7 +23,6 @@ import org.magic.gui.renderer.DeckTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
-import org.magic.services.tools.UITools;
 
 public class DeckTree extends JTree{
 	

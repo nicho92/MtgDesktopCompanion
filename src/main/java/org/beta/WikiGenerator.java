@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
-import org.magic.api.interfaces.MTGPlugin.STATUT;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.FileTools;
@@ -21,7 +20,7 @@ public class WikiGenerator {
 		
 		MTGControler.getInstance();
 		
-		//buildPluginsdirectory();
+		buildPluginsdirectory();
 		
 		buildePluginsIndex();
 		

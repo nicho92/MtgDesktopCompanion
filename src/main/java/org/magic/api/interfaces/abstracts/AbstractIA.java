@@ -41,7 +41,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 }
 			 catch(Exception e)
 			 {
-				 
+				 //do nothing
 			 }
 			 
 			 
@@ -50,7 +50,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 }
 			 catch(Exception e)
 			 {
-				 
+				 //do nothing				 
 			 }
 			 
 			 
