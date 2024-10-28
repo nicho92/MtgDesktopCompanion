@@ -3,7 +3,10 @@ package org.magic.api.beans.enums;
 import org.apache.commons.lang3.StringUtils;
 
 public enum EnumExtra {
+
+	ARENA("arena"),
 	BEYOND("beyond"),
+	BOXTOPPER("box-topper"),
 	BRAWL("brawl"),
 	COLLECTOR ("collector"), 
 	DRAFT("draft"),
@@ -13,14 +16,16 @@ public enum EnumExtra {
 	JUMP ("jumpstart"),
 	PLANESWALKER("default"),	
 	PLAY("play"),
+	PREMIUM("premium"),
+	PRERELEASE("prerelease"),
 	SET ("set"),
+	SIX("six"),
 	STARTER("starter"),
 	THEME("default"),
+	TOURNAMENT("tournament"),
 	VIP ("vip"),
-	WELCOME("welcome"),
-	ARENA("arena"),
-	SIX("six"),
-	PRERELEASE("prerelease");
+	WELCOME("welcome");
+
 	
 	private String mtgjsonname;
 
@@ -45,6 +50,7 @@ public enum EnumExtra {
 				return e;
 		}
 		
+		System.out.println(s);
 		return null;
 		
 	}
