@@ -21,6 +21,7 @@ import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
@@ -728,6 +729,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			ed.setPreview(LocalDate.parse(obj.get(RELEASED_AT).getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
 		}
 
+		ed.getBooster().add(EnumExtra.DRAFT);
+		
+		
 		notify(ed);
 
 		return ed;

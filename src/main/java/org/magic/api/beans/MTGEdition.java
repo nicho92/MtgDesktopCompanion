@@ -32,7 +32,6 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	private int tcgplayerGroupId;
 	private boolean preview;
 	private boolean foreignOnly;
-	
 	private List<EnumExtra> booster;
 	
 	@Override
@@ -116,15 +115,15 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 
 	public MTGEdition(String idMe)
 	{
+		super();
 		setId(idMe);
-		booster = new ArrayList<>();
 	}
 
 	public MTGEdition(String idMe,String name)
 	{
+		super();
 		setId(idMe);
 		setSet(name);
-		booster = new ArrayList<>();
 	}
 
 	public MTGEdition() {
@@ -133,10 +132,6 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 
 	public List<EnumExtra> getBooster() {
 		return booster;
-	}
-
-	public void setBooster(List<EnumExtra> booster) {
-		this.booster = booster;
 	}
 
 	public String getReleaseDate() {

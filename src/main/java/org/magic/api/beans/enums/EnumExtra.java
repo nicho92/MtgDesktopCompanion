@@ -17,7 +17,10 @@ public enum EnumExtra {
 	STARTER("starter"),
 	THEME("default"),
 	VIP ("vip"),
-	WELCOME("welcome");
+	WELCOME("welcome"),
+	ARENA("arena"),
+	SIX("six"),
+	PRERELEASE("prerelease");
 	
 	private String mtgjsonname;
 
@@ -33,4 +36,18 @@ public enum EnumExtra {
 	public String toString() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}
+	
+	public static EnumExtra parseByLabel(String s)
+	{
+		for(var e : EnumExtra.values())
+		{
+			if(e.getMtgjsonname().equalsIgnoreCase(s))
+				return e;
+		}
+		
+		return null;
+		
+	}
+	
+	
 }

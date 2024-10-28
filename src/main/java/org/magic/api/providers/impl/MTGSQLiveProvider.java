@@ -609,6 +609,29 @@ private MTGPool pool;
 			catch (SQLException e) {
 				throw new IOException(e);
 			}
+			
+			
+			try(var c = pool.getConnection(); var pst = c.prepareStatement("select DISTINCT setBoosterSheets.setCode as 'set', setBoosterSheets.boosterName as 'sheet' FROM setBoosterSheets"); var rs = pst.executeQuery())
+			{
+				while(rs.next())
+				{
+					
+					for(var ed : eds) 
+					{
+						if(ed.getId().equalsIgnoreCase(rs.getString("set"))){
+							{
+								var e = EnumExtra.parseByLabel(rs.getString("sheet"));
+								if(e!=null)
+									ed.getBooster().add(e);
+							}
+						}
+					}
+
+				}
+			} catch (SQLException e) {
+				logger.error(e);
+			}
+			
 		return eds;
 	}
 
