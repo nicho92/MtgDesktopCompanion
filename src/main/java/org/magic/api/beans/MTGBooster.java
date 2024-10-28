@@ -10,7 +10,7 @@ public class MTGBooster implements Serializable
 {
 
 	private static final long serialVersionUID = 1L;
-	private String boosterNumber;
+	private Integer boosterNumber;
 	private List<MTGCard> cards;
 	private Double price;
 	private MTGEdition edition;
@@ -53,11 +53,11 @@ public class MTGBooster implements Serializable
 		this.edition = edition;
 	}
 
-	public String getBoosterNumber() {
+	public Integer getBoosterNumber() {
 		return boosterNumber;
 	}
 
-	public void setBoosterNumber(String boosterNumber) {
+	public void setBoosterNumber(Integer boosterNumber) {
 		this.boosterNumber = boosterNumber;
 	}
 

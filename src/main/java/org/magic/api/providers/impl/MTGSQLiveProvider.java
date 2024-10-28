@@ -153,7 +153,7 @@ private MTGPool pool;
 				var booster = new MTGBooster();
 					  booster.setEdition(me);
 					  booster.setTypeBooster(typeBooster);
-					  booster.setBoosterNumber(""+i);
+					  booster.setBoosterNumber(i);
 					  notify(booster);
 					  
 				for(var e : boosterStructure.entrySet()){
