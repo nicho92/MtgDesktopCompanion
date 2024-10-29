@@ -9,7 +9,6 @@ Personal Magic the Gathering card manager Deck Builder, Collection Editor and pr
 [![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
 [![GitHub stars](https://img.shields.io/github/stars/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/stargazers)
 [![GitHub stars](https://img.shields.io/twitter/url/https/shields.io.svg?style=social)](https://twitter.com/mtgdesktopcomp1)
-[![Support me on Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dmtgcompanion%26type%3Dpatrons&style=flat)](https://patreon.com/mtgcompanion)
 
 # Help
 MTGCompanion is developped with many contributors, and is and will remain open source. Online service ( like Discord bot, Websites) are hosted on my own server, and DNS are paid on my a personnal funds.
