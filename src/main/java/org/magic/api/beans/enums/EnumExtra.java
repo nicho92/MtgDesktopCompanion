@@ -49,8 +49,6 @@ public enum EnumExtra {
 			if(e.getMtgjsonname().equalsIgnoreCase(s))
 				return e;
 		}
-		
-		System.out.println(s);
 		return null;
 		
 	}
