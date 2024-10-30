@@ -1,8 +1,9 @@
 package org.magic.api.beans.enums;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
-public enum EnumExtra {
+public enum EnumExtra implements MTGEnumeration{
 
 	ARENA("arena"),
 	BEYOND("beyond"),
@@ -22,6 +23,11 @@ public enum EnumExtra {
 	SIX("six"),
 	STARTER("starter"),
 	THEME("default"),
+	THEME_W("theme-w"),
+	THEME_U("theme-u"),
+	THEME_B("theme-b"),
+	THEME_R("theme-r"),
+	THEME_G("theme-g"),
 	TOURNAMENT("tournament"),
 	VIP ("vip"),
 	WELCOME("welcome");
@@ -49,6 +55,8 @@ public enum EnumExtra {
 			if(e.getMtgjsonname().equalsIgnoreCase(s))
 				return e;
 		}
+		logger.warn("No extra found for {}", s);
+		
 		return null;
 		
 	}
