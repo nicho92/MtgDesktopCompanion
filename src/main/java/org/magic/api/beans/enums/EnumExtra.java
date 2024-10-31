@@ -10,6 +10,7 @@ public enum EnumExtra implements MTGEnumeration{
 	BOXTOPPER("box-topper"),
 	BRAWL("brawl"),
 	COLLECTOR ("collector"), 
+	COLLECTOR_SAMPLE("collector-sample"),
 	DRAFT("draft"),
 	GIFT ("gift-bundle-promo"),
 	FATPACK ("fat-pack"),
