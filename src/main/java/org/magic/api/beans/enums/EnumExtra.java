@@ -11,19 +11,20 @@ public enum EnumExtra implements MTGEnumeration{
 	BRAWL("brawl"),
 	COLLECTOR ("collector"), 
 	COLLECTOR_SAMPLE("collector-sample"),
+	DEFAULT("default"),
 	DRAFT("draft"),
 	GIFT ("gift-bundle-promo"),
 	FATPACK ("fat-pack"),
 	INTRO ("intro"),
 	JUMP ("jumpstart"),
-	PLANESWALKER("default"),	
+	PLANESWALKER("planeswalker"),	
 	PLAY("play"),
 	PREMIUM("premium"),
 	PRERELEASE("prerelease"),
 	SET ("set"),
 	SIX("six"),
 	STARTER("starter"),
-	THEME("default"),
+	THEME("theme"),
 	THEME_W("theme-w"),
 	THEME_U("theme-u"),
 	THEME_B("theme-b"),
@@ -56,7 +57,7 @@ public enum EnumExtra implements MTGEnumeration{
 			if(e.getMtgjsonname().equalsIgnoreCase(s))
 				return e;
 		}
-		logger.warn("No extra found for {}", s);
+		logger.trace("No extra found for {}", s);
 		
 		return null;
 		
