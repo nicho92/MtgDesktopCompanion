@@ -364,8 +364,7 @@ public class SealedDeckBuildPanel extends JPanel {
 					column++;
 					for(MTGCard mc : e.getCards()) {
 						list.add(mc);
-						DisplayableCard c = createCard(mc);
-						panelOpenedBooster.addComponent(c, column);
+						panelOpenedBooster.addComponent(createCard(mc), column);
 					}
 
 				});
