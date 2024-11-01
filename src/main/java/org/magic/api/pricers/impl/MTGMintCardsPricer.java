@@ -27,7 +27,7 @@ public class MTGMintCardsPricer  extends AbstractPricesProvider{
 		var ret = new ArrayList<MTGPrice>();
 		var client = URLTools.newClient();
 		
-		
+		//15 is for variants, 11 for regular
 		var category = (card.isBorderLess()||card.isExtendedArt()||card.isShowCase()||card.isRetro())?"15":"11";
 		
 		logger.info("{} looking for price for {}", getName(), card);
@@ -44,7 +44,7 @@ public class MTGMintCardsPricer  extends AbstractPricesProvider{
 			
 			
 			
-			
+			//12 is for regular foil, 16 for variants foil
 			if(card.getFinishes().size()>1)
 			{
 				trs = RequestBuilder.build().url(URL_BASE+"mtg/singles/search")

@@ -422,6 +422,10 @@
       <class>org.magic.api.pricers.impl.CardSpherePricer</class>
       <enable>false</enable>
     </pricer>
+     <pricer>
+      <class>org.magic.api.pricers.impl.MTGMintCardsPricer</class>
+      <enable>true</enable>
+    </pricer>
   </pricers>
   <providers>
     <provider>
