@@ -1,4 +1,13 @@
 {
+
+	"MTGMintCard" : {
+				"conditions": {
+				"NEAR_MINT" :"NM",
+				"LIGHTLY_PLAYED":"SP",
+				"PLAYED":"PLD",
+			}
+	},
+		
 	"TCGHome" : {
 			"conditions": {
 				"MINT":"mint",
