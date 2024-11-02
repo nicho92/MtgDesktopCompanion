@@ -1,12 +1,10 @@
-package org.magic.services.providers;
+package org.magic.services.network;
 
 import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.audit.Location;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.TCache;
 
 import com.google.common.net.InetAddresses;
@@ -28,6 +26,13 @@ public class IPTranslator {
 		return inst;
 	}
 	
+	
+	public static void main(String[] args) {
+		var o = IPTranslator.getInstance().getLocationFor("178.24.34.150");
+		
+		
+		System.out.println(o);
+	}
 	
 	
 	private IPTranslator() {
