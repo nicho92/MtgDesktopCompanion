@@ -80,6 +80,19 @@
 			"DAMAGED":"Heavily Played"
 		}
 	},
+	
+	"MagicCardMarket":{
+			"conditions": {
+					"POOR": "PO",
+					"LIGHTLY_PLAYED": "LP",
+					"NEAR_MINT": "NM",
+					"PLAYED": "PL",
+					"EXCELLENT": "NM",
+					"GOOD": "NM",
+					"MINT": "MT",
+					"DAMAGED":"PO"
+				}
+	},
 	"Manabox": {
 		"regex": {
 			"stock": "((?=\")\".*?\"|.*?),(.*?),(.*?),(.*?),(normal|foil|etched),(.*?),(\\d+),(\\d+),(.*?),(.*?),(true|false),(true|false),(.*?),(.*?),(.*?)$",

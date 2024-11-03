@@ -274,7 +274,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 						a.setFoil(mcs.isFoil());
 						a.setPrice(mcs.getPrice());
 						a.setComments(mcs.getComment());
-						a.setCondition(convert(mcs.getCondition()));
+						a.setCondition(aliases.getConditionFor(this, mcs.getCondition()));
 						a.setLanguage(convertLang(mcs.getLanguage()));
 						a.setProduct(p);
 						a.setIdProduct(p.getIdProduct());
@@ -370,7 +370,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 
 			mcs.setProduct(mc);
-			mcs.setCondition(convert(a.getCondition()));
+			mcs.setCondition(aliases.getReversedConditionFor(this, a.getCondition(), EnumCondition.NEAR_MINT));
 			mcs.getTiersAppIds().put(getName(), String.valueOf(a.getIdArticle()));
 			stock.add(mcs);
 			notify(mcs.getProduct());
@@ -385,44 +385,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 		l.setLanguageName(s);
 		return l;
 	}
-
-	public static String convert(EnumCondition condition) {
-		switch (condition) {
-		case MINT:
-			return "MT";
-		case NEAR_MINT:
-			return "NM";
-		case LIGHTLY_PLAYED:
-			return "LP";
-		case PLAYED:
-			return "PL";
-		case POOR:
-			return "PO";
-		default : return "MT";
-		}
-	}
-
-	public static EnumCondition convert(String condition) {
-		switch (condition) {
-		case "MT":
-			return EnumCondition.MINT;
-		case "NM":
-			return EnumCondition.NEAR_MINT;
-		case "EX":
-			return EnumCondition.NEAR_MINT;
-		case "GD":
-			return EnumCondition.NEAR_MINT;
-		case "LP":
-			return EnumCondition.LIGHTLY_PLAYED;
-		case "PL":
-			return EnumCondition.PLAYED;
-		case "PO":
-			return EnumCondition.POOR;
-		default:
-			return null;
-		}
-	}
-
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
