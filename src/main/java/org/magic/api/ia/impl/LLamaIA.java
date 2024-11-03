@@ -20,6 +20,7 @@ import com.google.gson.JsonObject;
 public class LLamaIA  extends AbstractIA{
 
 	
+	private static final String CONTENT = "content";
 	private static final String SYSTEM_MSG = "SYSTEM_MSG";
 	private static final String TEMPERATURE = "TEMPERATURE";
 	private static final String MAX_TOKEN = "MAX_TOKEN";
@@ -50,12 +51,12 @@ public class LLamaIA  extends AbstractIA{
 		
 		var sysMsg = new JsonObject();
 				sysMsg.addProperty("role", "system");
-				sysMsg.addProperty("content", getString(SYSTEM_MSG));
+				sysMsg.addProperty(CONTENT, getString(SYSTEM_MSG));
 
 		
 		var userMsg = new JsonObject();
 				userMsg.addProperty("role", "user");
-				userMsg.addProperty("content", prompt);
+				userMsg.addProperty(CONTENT, prompt);
 		
 		msgs.add(sysMsg);
 		msgs.add(userMsg);
@@ -111,7 +112,7 @@ public class LLamaIA  extends AbstractIA{
 		return query(prompt).getAsJsonObject().get("choices").getAsJsonArray()
 																  .get(0).getAsJsonObject()
 																  .get("message").getAsJsonObject()
-																  .get("content").getAsString();
+																  .get(CONTENT).getAsString();
 	}
 
 	@Override

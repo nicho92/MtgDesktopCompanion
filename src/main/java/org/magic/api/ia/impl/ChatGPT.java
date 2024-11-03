@@ -23,6 +23,7 @@ import com.google.gson.JsonObject;
 public class ChatGPT extends AbstractIA {
 
 	
+	private static final String CONTENT = "content";
 	private static final String SYSTEM_MSG = "SYSTEM_MSG";
 	private MTGHttpClient client;
 	private static final String TOKEN = "TOKEN";
@@ -61,12 +62,12 @@ public class ChatGPT extends AbstractIA {
 					{
 						var sysObj = new JsonObject();
 						sysObj.addProperty("role","system");
-						sysObj.addProperty("content", getString(SYSTEM_MSG));
+						sysObj.addProperty(CONTENT, getString(SYSTEM_MSG));
 						arr.add(sysObj);
 					}
 					
 					var obj2 = new JsonObject();
-						  obj2.addProperty("content", prompt);
+						  obj2.addProperty(CONTENT, prompt);
 						  obj2.addProperty("role", "user");
 						  
 						  arr.add(obj2);
@@ -82,7 +83,7 @@ public class ChatGPT extends AbstractIA {
 		
 		try {
 			
-			var ret = jsonReponse.getAsJsonObject().get("choices").getAsJsonArray().get(0).getAsJsonObject().get("message").getAsJsonObject().get("content").getAsString();
+			var ret = jsonReponse.getAsJsonObject().get("choices").getAsJsonArray().get(0).getAsJsonObject().get("message").getAsJsonObject().get(CONTENT).getAsString();
 			logger.debug("{} answer : {} ",getName(), ret);
 			return ret;
 		}

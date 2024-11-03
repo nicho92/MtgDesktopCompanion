@@ -619,11 +619,11 @@ private MTGPool pool;
 					for(var ed : eds) 
 					{
 						if(ed.getId().equalsIgnoreCase(rs.getString("set"))){
-							{
+							
 								var e = EnumExtra.parseByLabel(rs.getString("sheet"));
 								if(e!=null)
 									ed.getBooster().add(e);
-							}
+							
 						}
 					}
 

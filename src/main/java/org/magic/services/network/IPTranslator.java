@@ -26,15 +26,6 @@ public class IPTranslator {
 		return inst;
 	}
 	
-	
-	public static void main(String[] args) {
-		var o = IPTranslator.getInstance().getLocationFor("178.24.34.150");
-		
-		
-		System.out.println(o);
-	}
-	
-	
 	private IPTranslator() {
 		cache = new TCache<>("ips");
 	}
