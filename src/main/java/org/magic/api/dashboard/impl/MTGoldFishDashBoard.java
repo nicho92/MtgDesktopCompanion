@@ -298,6 +298,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 
+	public static void main(String[] args) throws IOException {
+		
+		
+		new MTGoldFishDashBoard().getOnlineShakerFor(null);
+	}
+	
+	
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
@@ -323,8 +330,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
 				var cs = new CardShake();
+				
 				cs.setProviderName(getName());
-				cs.setName(StringUtils.remove(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text(), "(RL)").trim());
+				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).select("span a").text());
 				cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
 				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));

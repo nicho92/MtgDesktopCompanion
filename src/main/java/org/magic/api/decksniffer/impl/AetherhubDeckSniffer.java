@@ -5,6 +5,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonElement;
 
@@ -135,7 +137,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 			var d = new RetrievableDeck();
 			    d.setAuthor(je.getAsJsonObject().get("username").getAsString());
 			    d.setName(je.getAsJsonObject().get("name").getAsString());
-			    d.setDescription(je.getAsJsonObject().get("updated").toString());
+			    d.setDescription(UITools.formatDate(Instant.ofEpochMilli(je.getAsJsonObject().get("updated").getAsLong()/1000)));
 
 			    var colors = je.getAsJsonObject().get("color").getAsJsonArray();
 			    var temp = new StringBuilder();
