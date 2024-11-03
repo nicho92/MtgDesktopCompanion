@@ -33,7 +33,8 @@ public class IPTranslator {
 	public Location getLocationFor(String ip)
 	{
 
-		try {
+		try 
+		{
 			var inaddr = InetAddresses.forString(ip);
 			if(inaddr.isAnyLocalAddress() || inaddr.isLoopbackAddress() || inaddr.isSiteLocalAddress())
 				return null;

@@ -20,13 +20,12 @@ public class SealedStockChooseDialog extends AbstractDelegatedImporterDialog<MTG
 
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
-	private AbstractBuzyIndicatorComponent buzy;
 
 	@Override
 	public JComponent getSelectComponent() {
 		var model = new SealedStockTableModel();
 		table = UITools.createNewTable(model, true);
-		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
 		
 		var sw2 = new AbstractObservableWorker<List<MTGSealedStock>, MTGSealedStock, MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class))

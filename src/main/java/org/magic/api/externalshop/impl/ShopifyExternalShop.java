@@ -363,7 +363,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 				try {
 					var content = URLTools.toJson(res.getEntity().getContent());
-					logger.info("ret={}",content);
+					logger.info("return {}",content);
 					return c.getId();
 				}
 				catch(Exception e)

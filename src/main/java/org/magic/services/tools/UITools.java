@@ -334,7 +334,7 @@ public class UITools {
 		  txtSearch = new JXSearchField(capitalize("SEARCH_MODULE"));
 		  ((JXSearchField)txtSearch).setSearchMode(SearchMode.REGULAR);
 		  ((JXSearchField)txtSearch).setRecentSearchesSaveKey("K");
-		  ((JXSearchField)txtSearch).setBackground(Color.WHITE);
+		  txtSearch.setBackground(Color.WHITE);
 		}
 
 
