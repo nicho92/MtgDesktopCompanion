@@ -121,7 +121,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 									  item.setFoil(!art.get("Foil?").isEmpty());
 									  item.setSigned(!art.get("Signed?").isEmpty());
 									  item.setAltered(!art.get("Altered?").isEmpty());
-									  item.setCondition(MkmOnlineExport.convert(art.get("Condition")));
+									  item.setCondition(aliases.getReversedConditionFor(this,art.get("Condition"),EnumCondition.NEAR_MINT));
 								   }
 									catch(IllegalArgumentException e)
 									{
@@ -312,7 +312,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.getProduct().setProductId(Long.valueOf(article.getIdProduct()));
 
 			if(article.getCondition()!=null)
-				item.setCondition(MkmOnlineExport.convert(article.getCondition()));
+				item.setCondition(aliases.getReversedConditionFor(this, article.getCondition(), EnumCondition.NEAR_MINT));
 
 			item.setQte(article.getCount());
 			item.setFoil(article.isFoil());
@@ -403,7 +403,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			art.setIdArticle(it.getId().intValue());
 			art.setIdProduct(it.getProduct().getProductId().intValue());
 			art.setPrice(it.getPrice());
-			art.setCondition(MkmOnlineExport.convert(it.getCondition()));
+			art.setCondition(aliases.getConditionFor(this,it.getCondition()));
 			art.setFoil(it.isFoil());
 			art.setSigned(it.isSigned());
 			art.setAltered(it.isAltered());

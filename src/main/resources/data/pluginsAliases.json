@@ -4,7 +4,7 @@
 				"conditions": {
 				"NEAR_MINT" :"NM",
 				"LIGHTLY_PLAYED":"SP",
-				"PLAYED":"PLD",
+				"PLAYED":"PLD"
 			}
 	},
 		
@@ -80,7 +80,6 @@
 			"DAMAGED":"Heavily Played"
 		}
 	},
-	
 	"MagicCardMarket":{
 			"conditions": {
 					"POOR": "PO",
