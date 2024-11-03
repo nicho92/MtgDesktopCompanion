@@ -48,7 +48,6 @@ public class MTGLogger {
 			logger.error("Error setting logger level to {}",l);
 			
 		}
-		
 		Configurator.setLevel(logger, lev);
 	}
 
