@@ -38,7 +38,6 @@ import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.MTGProperty;
-import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;

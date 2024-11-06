@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -29,7 +29,7 @@ public class MTGLogger {
 	}
 
 	public static Logger getLogger(String n) {
-		return LogManager.getLogger(n);
+		return ((LoggerContext) LogManager.getContext(false)).getLogger(n);
 	}
 
 	public static void changeLevel(String l) {
@@ -49,6 +49,7 @@ public class MTGLogger {
 			
 		}
 		Configurator.setLevel(logger, lev);
+		((LoggerContext) LogManager.getContext(false)).updateLoggers();
 	}
 
 	public static void changeLevel(Level l) {

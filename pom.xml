@@ -283,7 +283,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.19.14</version>
+			<version>3.19.15</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -485,7 +485,7 @@
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
-			<version>6.0.0</version>
+			<version>6.1.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>xml-apis</groupId>

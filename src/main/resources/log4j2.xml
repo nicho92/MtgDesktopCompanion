@@ -22,42 +22,42 @@
     </Appenders>
     
 	<Loggers>
-		<Logger name="freemarker.cache" level="ERROR"></Logger>
-		<Logger name="org.cache2k" level="ERROR"></Logger>
-	    <Logger name="org.ehcache" level="ERROR"></Logger>
-	    <Logger name="org.api.mkm" level="ERROR"></Logger>
-	    <Logger name="org.api.cardtrader" level="ERROR"></Logger>
-	    <Logger name="org.mtgstock.services" level="ERROR"></Logger>
-	    <Logger name="org.apache.poi" level="ERROR"></Logger>
-	    <Logger name="org.apache.http" level="ERROR"></Logger>
-	    <Logger name="org.apache.http.wire" level="ERROR"></Logger>
-	    <Logger name="org.apache.activemq" level="ERROR"></Logger>
-	    <Logger name="org.apache.commons" level="ERROR"></Logger>
-	    <Logger name="org.apache.commons.jcs" level="ERROR"></Logger>
-	    <Logger name="org.apache.lucene" level="ERROR"></Logger>
-	    <Logger name="com.jayway.jsonpath.internal.path" level="ERROR"></Logger>
-	    <Logger name="org.mariadb.jdbc" level="ERROR"></Logger>
-	    <Logger name="com.mchange.v2.c3p0" level="ERROR"></Logger>
-	    <Logger name="twitter4j" level="ERROR"></Logger>
-	    <Logger name="cz.vutbr" level="ERROR"></Logger>
-	    <Logger name="org.fit" level="ERROR"></Logger>
-	    <Logger name="org.eclipse.jetty" level="ERROR"></Logger>
-	    <Logger name="io.milton" level="ERROR"></Logger>
-	    <Logger name="com.zaxxer.hikari" level="OFF"></Logger>
-	    <Logger name="org.quartz" level="ERROR"></Logger>
-	    <Logger name="org.reflections" level="OFF"></Logger>
-	    <Logger name="spark.route" level="ERROR"></Logger>
-	    <Logger name="com.google.guava" level="ERROR"></Logger>
-	    <Logger name="net.dv8tion.jda.internal" level="ERROR"></Logger>
-	    <Logger name="org.mongodb.driver" level="ERROR"></Logger>
-	    <Logger name="org.cache2k.core" level="ERROR"></Logger>
-	    <Logger name="spark.embeddedserver.jetty" level="ERROR"></Logger>
-	    <Logger name="spark.Request" level="ERROR"></Logger>
-	    <Logger name="net.tomp2p" level="ERROR"></Logger>
-	    <Logger name="io.netty" level="ERROR"></Logger>
-	    <Logger name="com.github.sarxos.webcam" level="ERROR"></Logger>
-	    <Logger name="nl.basjes.parse.useragent" level="ERROR"></Logger>
-	    <Logger name="org.jsoup" level="ERROR"></Logger>
+		<Logger name="freemarker.cache" level="ERROR" additivity="false"></Logger>
+		<Logger name="org.cache2k" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.ehcache" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.api.mkm" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.api.cardtrader" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.mtgstock.services" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.apache.poi" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.apache.http" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.apache.http.wire" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.apache.activemq" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.apache.commons" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.apache.commons.jcs" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.apache.lucene" level="ERROR" additivity="false"></Logger>
+	    <Logger name="com.jayway.jsonpath.internal.path" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.mariadb.jdbc" level="ERROR" additivity="false"></Logger>
+	    <Logger name="com.mchange.v2.c3p0" level="ERROR" additivity="false"></Logger>
+	    <Logger name="twitter4j" level="ERROR" additivity="false"></Logger>
+	    <Logger name="cz.vutbr" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.fit" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.eclipse.jetty" level="ERROR" additivity="false"></Logger>
+	    <Logger name="io.milton" level="ERROR" additivity="false"></Logger>
+	    <Logger name="com.zaxxer.hikari" level="OFF" additivity="false"></Logger>
+	    <Logger name="org.quartz" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.reflections" level="OFF" additivity="false"></Logger>
+	    <Logger name="spark.route" level="ERROR" additivity="false"></Logger>
+	    <Logger name="com.google.guava" level="ERROR" additivity="false"></Logger>
+	    <Logger name="net.dv8tion.jda.internal" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.mongodb.driver" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.cache2k.core" level="ERROR" additivity="false"></Logger>
+	    <Logger name="spark.embeddedserver.jetty" level="ERROR" additivity="false"></Logger>
+	    <Logger name="spark.Request" level="ERROR" additivity="false"></Logger>
+	    <Logger name="net.tomp2p" level="ERROR" additivity="false"></Logger>
+	    <Logger name="io.netty" level="ERROR" additivity="false"></Logger>
+	    <Logger name="com.github.sarxos.webcam" level="ERROR" additivity="false"></Logger>
+	    <Logger name="nl.basjes.parse.useragent" level="ERROR" additivity="false"></Logger>
+	    <Logger name="org.jsoup" level="ERROR" additivity="false"></Logger>
 		
         <Root level="INFO">
         	<AppenderRef ref="APPS"/>
