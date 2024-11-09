@@ -141,14 +141,10 @@
 		        "bLengthChange": false,
 		        "order": [[ 1, "asc" ]],
 		        "columns": [
-		        		{ "data": "editions","defaultContent": "", 
-			        	  "width": "10%",
-			        	  "render": function(data, type, row, meta){
-			                   if(type === 'display'){
-			                       return data[0].number;
-			                   }
-			                   return data;
-			                }
+		        		{ 
+						  "data": "number",
+						  "defaultContent": "", 
+			        	  "width": "10%"
 		        		},	
 		        		{ "data": "name",
 			        	  "width": "30%",
