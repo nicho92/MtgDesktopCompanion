@@ -397,7 +397,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public String getVersion() {
-		return MkmConstants.MKM_API_VERSION;
+		return MkmConstants.MKM_API_GIT_VERSION;
 	}
 
 	@Override

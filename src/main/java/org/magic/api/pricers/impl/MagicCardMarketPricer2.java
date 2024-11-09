@@ -250,7 +250,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 	@Override
 	public String getVersion() {
-		return MkmConstants.MKM_API_VERSION;
+		return MkmConstants.MKM_API_GIT_VERSION;
 	}
 
 	@Override

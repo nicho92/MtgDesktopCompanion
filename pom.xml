@@ -278,7 +278,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mkm-api-java</artifactId>
-			<version>0.20.3</version>
+			<version>0.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jooq</groupId>
@@ -644,7 +644,7 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.20</version>
+			<version>1.4.21</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
@@ -654,7 +654,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>3.0.22</version>
+			<version>3.0.23</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
