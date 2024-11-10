@@ -157,10 +157,10 @@
 			        	  
 			        	},
 			        	
-			        	{ "data": "editions","width": "10%", "defaultContent": "", 
+			        	{ "data": "edition","width": "10%", "defaultContent": "", 
 			        		"render": function(data, type, row, meta){
 				                   if(type === 'display'){
-				                       return '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+				                       return '<i class="ss ss-grad ss-'+data.keyRuneCode+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
 				                   }
 				                   return data;
 				                }
