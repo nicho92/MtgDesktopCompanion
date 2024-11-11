@@ -78,6 +78,7 @@ public class StockTableRenderer implements TableCellRenderer{
 		else if(value instanceof EnumCondition cond)
 		{
 			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.CENTER);
+			((JLabel)pane).setOpaque(true);
 		}
 
 		

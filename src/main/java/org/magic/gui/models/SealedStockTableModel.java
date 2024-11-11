@@ -73,7 +73,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 		switch(column)
 		{
 			case 4: it.setLanguage(String.valueOf(aValue));break;
-			case 5: it.setCondition(EnumCondition.valueOf(aValue.toString()));break;
+			case 5: it.setCondition((EnumCondition)aValue);break;
 			case 6: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
 			case 7: it.setMagicCollection(new MTGCollection(String.valueOf(aValue)));break;
 			case 8: it.setPrice(UITools.parseDouble(aValue.toString()));break;

@@ -190,7 +190,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 13:
-			items.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
+			items.get(row).setPrice(UITools.parseDouble(String.valueOf(aValue)));
 			break;
 		case 14:
 			items.get(row).setGrade((MTGGrading)aValue);
