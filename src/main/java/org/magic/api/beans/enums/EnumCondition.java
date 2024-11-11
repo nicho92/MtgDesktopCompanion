@@ -61,7 +61,8 @@ public enum EnumCondition {
 			var icon = new ImageIcon() {
 				private static final long serialVersionUID = 1L;
 
-				public void paintIcon(Component c, Graphics g, int x, int y) {
+				@Override
+				public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
 			        Graphics2D g2 = (Graphics2D) g;
 			        Ellipse2D.Double circle = new Ellipse2D.Double(0, 0, MTGConstants.TABLE_ROW_HEIGHT, MTGConstants.TABLE_ROW_HEIGHT);
 			        
