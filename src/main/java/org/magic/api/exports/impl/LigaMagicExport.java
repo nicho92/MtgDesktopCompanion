@@ -17,7 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.interfaces.MTGCardsProvider;

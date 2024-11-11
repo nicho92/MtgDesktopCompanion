@@ -58,7 +58,7 @@ public enum EnumCondition {
 	
 	public ImageIcon getIcon()
 	{
-			var icon = new ImageIcon() {
+			return new ImageIcon() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -70,7 +70,6 @@ public enum EnumCondition {
 			        g2.fill(circle);
 			    }    
 			};
-			return icon;
 	}
 	
 	
