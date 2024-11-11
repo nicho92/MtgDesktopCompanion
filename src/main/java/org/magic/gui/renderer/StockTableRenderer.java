@@ -14,6 +14,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
@@ -74,7 +75,10 @@ public class StockTableRenderer implements TableCellRenderer{
 		{
 			pane = new MagicEditionJLabelRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
-
+		else if(value instanceof EnumCondition cond)
+		{
+			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.CENTER);
+		}
 
 		
 		if(value==null)
