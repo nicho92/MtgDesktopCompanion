@@ -68,10 +68,10 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 				.append(mc.isSigned()?"1":"").append(getSeparator())
 				.append("").append(getSeparator())
 				.append("\"").append(mc.getProduct().getEdition().getId()).append("\"").append(getSeparator())
-				.append("\"").append(mc.getLanguage().substring(0, 2)).append("\"").append(getSeparator())
+				.append("\"").append(mc.getProduct().getNumber()).append("\"").append(getSeparator())
+				.append("\"").append(mc.getLanguage().toLowerCase().substring(0, 2)).append("\"").append(getSeparator())
 				.append("\"").append(aliases.getConditionFor(this, mc.getCondition())).append("\"").append(getSeparator())
 				.append("\"").append(mc.getComment()).append("\"").append(getSeparator())
-				.append("").append(getSeparator())
 				.toString();
 	}
 

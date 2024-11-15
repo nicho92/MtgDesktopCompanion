@@ -169,8 +169,10 @@ public class WebShopService {
 			wsc.getCollections().forEach(c->arrCols.add(c.getName()));
 			jsonconfig.add("collections", arrCols);
 			
-			productConf.addProperty("top", wsc.getTopProduct().getId());
 			productConf.addProperty("autoSelection",wsc.isAutomaticProduct());
+			
+			if(wsc.getTopProduct().getId()!=null)
+				productConf.addProperty("top", wsc.getTopProduct().getId());
 			
 			jsondelivery.addProperty("shippingRules", wsc.getShippingRules());
 			jsondelivery.addProperty("deliveryDay",wsc.getAverageDeliveryTime());

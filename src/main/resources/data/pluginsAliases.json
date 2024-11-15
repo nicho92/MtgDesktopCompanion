@@ -1,5 +1,12 @@
 {
 
+
+	"MTGAProTracker" : {
+		"regex":{
+			"default":"\"(.*?)\",(.*?),(.*?),(\\d+)"
+		},
+	}
+
 	"MTGMintCard" : {
 				"conditions": {
 				"NEAR_MINT" :"NM",
