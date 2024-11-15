@@ -4,8 +4,8 @@
 	"MTGAProTracker" : {
 		"regex":{
 			"default":"\"(.*?)\",(.*?),(.*?),(\\d+)"
-		},
-	}
+		}
+	},
 
 	"MTGMintCard" : {
 				"conditions": {
