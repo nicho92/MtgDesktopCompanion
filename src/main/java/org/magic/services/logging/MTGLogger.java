@@ -38,18 +38,15 @@ public class MTGLogger {
 
 	public static void changeLevel(Logger logger, String l) {
 		
-		var lev = logger.getLevel();
-		
 		try {
-			lev=  Level.toLevel(l);
+			Configurator.setLevel(logger, Level.toLevel(l));
+			getContext().getLogger(MTGLogger.class).info("change {} to level {}", logger.getName(),l);
 		}
 		catch(Exception e)
 		{
-			logger.error("Error setting logger level to {}",l);
-			
+			getContext().getLogger(MTGLogger.class).error("Error setting logger level to {}",l);
 		}
-		Configurator.setLevel(logger, lev);
-		getContext().updateLoggers();
+	
 	}
 
 	public static void changeLevel(Level l) {
