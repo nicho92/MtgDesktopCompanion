@@ -43,7 +43,7 @@ public class MtgDesktopCompanion {
 			MTGLogger.getMTGAppender().addObserver(launch);	
 		}catch(Exception e)
 		{
-			logger.error("Error getting MTGLogger",e);
+			logger.error("Error getting MTGLogger : {} ",e.getMessage());
 		}
 		
 		launch.start();

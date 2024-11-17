@@ -29,7 +29,7 @@ public class MTGLogger {
 	}
 
 	public static Logger getLogger(String n) {
-		return ((LoggerContext) LogManager.getContext(false)).getLogger(n);
+		return getContext().getLogger(n);
 	}
 
 	public static void changeLevel(String l) {
@@ -49,26 +49,29 @@ public class MTGLogger {
 			
 		}
 		Configurator.setLevel(logger, lev);
-		((LoggerContext) LogManager.getContext(false)).updateLoggers();
+		getContext().updateLoggers();
 	}
 
 	public static void changeLevel(Level l) {
 		Configurator.setRootLevel(l);
 	}
+	
+	private static LoggerContext getContext()
+	{
+		return (LoggerContext) LogManager.getContext(true);
+	}
+	
 
 	public static Appender getAppender(String name) {
-		var	logContext = (LoggerContext) LogManager.getContext(false);
-		return logContext.getConfiguration().getAppender(name);
+		return getContext().getConfiguration().getAppender(name);
 	}
 
 	public static List<LoggerConfig> getLoggers() {
-		var	logContext = (LoggerContext) LogManager.getContext(false);
-		return new ArrayList<>(logContext.getConfiguration().getLoggers().values());
+		return new ArrayList<>(getContext().getConfiguration().getLoggers().values());
 	}
 
 	public static List<Appender> getAppenders() {
-		var	logContext = (LoggerContext) LogManager.getContext(false);
-		return logContext.getRootLogger().getAppenders().entrySet().stream().map(Entry::getValue).toList();
+		return getContext().getRootLogger().getAppenders().entrySet().stream().map(Entry::getValue).toList();
 	}
 
 	public static MTGAppender getMTGAppender() {
