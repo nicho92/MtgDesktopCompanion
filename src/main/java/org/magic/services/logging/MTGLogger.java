@@ -53,7 +53,7 @@ public class MTGLogger {
 		Configurator.setRootLevel(l);
 	}
 	
-	private static LoggerContext getContext()
+	public static LoggerContext getContext()
 	{
 		return (LoggerContext) LogManager.getContext(true);
 	}
