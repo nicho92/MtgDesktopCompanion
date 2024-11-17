@@ -1597,7 +1597,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		if (state.getId() < 0) {
 			logger.debug("save stock {}",state);
 			try (var c = pool.getConnection(); var pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate,name) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-				pst.setString(1, String.valueOf(state.getCondition()));
+				pst.setString(1, state.getCondition().name());
 				pst.setBoolean(2, state.isFoil());
 				pst.setBoolean(3, state.isSigned());
 				pst.setString(4, state.getLanguage());
@@ -1625,7 +1625,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			try (var c = pool.getConnection(); var pst = c.prepareStatement(
 					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=?, dateUpdate=?, name=? where idstock=?")) {
 				pst.setString(1, state.getComment());
-				pst.setString(2, state.getCondition().toString());
+				pst.setString(2, state.getCondition().name());
 				pst.setBoolean(3, state.isFoil());
 				pst.setBoolean(4, state.isSigned());
 				pst.setString(5, state.getLanguage());
