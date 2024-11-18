@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
