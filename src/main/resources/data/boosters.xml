@@ -2753,8 +2753,15 @@
 		<starter lang="en" num="1" extra="play" url="https://www.dicearcade.com.au/assets/full/D36310000.png"/>
 		<bundle lang="en" num="1" url="https://www.trader-online.de/out/pictures/master/product/1/foundations_beginner_box_englisch_english_guenstig_billig_kaufen_tcg_mtg_fnd.png" desc="beginner box"/>
 		<bundle lang="en" num="2" url="https://www.dicearcade.com.au/assets/full/D36350000.png"/>
-		
 	</edition>
+	
+	<edition id="J25">
+		<set lang="en" num="1" url="https://i0.wp.com/mtgazone.com/wp-content/uploads/2024/06/MTG-Foundations.png"/>
+		<booster lang="en" num="1" extra="jump" url="https://www.laribouldingue.ca/cdn/shop/files/MTGFND_EN_Bstr_Jmp_01_02_500x909.png"/>
+		<box lang="en" num="1" extra="jump" url="https://www.trader-online.de/out/pictures/master/product/1/foundations_jumpstart_booster_display_englisch_english_guenstig_billig_kaufen_tcg_mtg_fnd.png"/>
+	</edition>
+	
+	
 	
 	<edition id="DSC">
 		<set lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_CAZrDSqF06WE.png"/>
@@ -2763,10 +2770,20 @@
 			<constructpack lang="en" num="3" url="https://media.wizards.com/2024/images/daily/en_GITpwsK7Abc4.png" desc="Jump Scare !"/>
 			<constructpack lang="en" num="4" url="https://media.wizards.com/2024/images/daily/en_QaJPChLUiLcR.png" desc="Endless Punishment"/>
 	</edition>
+	
 	<edition id="MB2">
 		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/XOdITHsd94w7A69iHonLj/01fdae0320319c82db8df7cf28c63ed4/LOGO.png"/>
 		<box lang="en" num="1" extra="draft" url="https://media.wizards.com/2024/images/daily/nA12WtuPo.png"/>
 		<booster lang="en" num="1" extra="draft" url="https://media.wizards.com/2024/images/daily/qwer12BX23.png"/>
 	</edition>
+	
+	<edition id="DFT">
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/1s8ocS6wdQICyC0raPWdO4/3fec32f79f88853904a44cfc4d5ddc4c/dSeihHhY6478009Lk_EN.png"/>
+	</edition>
+	
+	<edition id="INR">
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/7358s8yvDA4PVKlRPhDzVz/6ec17ac8b7952687fb257a90145f5ae7/Lduih34879dgkj-600x380_EN.png"/>
+	</edition>
+	
 
 </boosterUrls>

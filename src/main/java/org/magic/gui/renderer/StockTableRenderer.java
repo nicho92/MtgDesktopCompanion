@@ -24,6 +24,7 @@ import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 
 public class StockTableRenderer implements TableCellRenderer{
 
@@ -90,15 +91,8 @@ public class StockTableRenderer implements TableCellRenderer{
 		}
 		
 		
-		if(value==null)
-			return pane;
-		
-		
-
-		
-		
-		if (((MTGStockItem) table.getModel().getValueAt(row, 0)).isUpdated()) {
-			pane.setBackground(Color.GREEN);
+		if (((MTGStockItem) UITools.getModelValueAt(table, row, 0)).isUpdated()) {
+			pane.setBackground(MTGConstants.COLOR_UPDATE);
 			pane.setForeground(table.getForeground());
 		} else if (isSelected) {
 			pane.setBackground(table.getSelectionBackground());

@@ -143,7 +143,7 @@ public class MTGConstants {
 	public static final Color COLLECTION_90PC = new Color(188, 245, 169);
 	public static final Color COLLECTION_50PC = Color.ORANGE;
 	public static final Color COLLECTION_1PC = Color.YELLOW;
-
+	public static final Color COLOR_UPDATE = new Color(0, 220, 0);
 	
 //IMAGES CONSTANTS
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
@@ -325,6 +325,7 @@ public class MTGConstants {
 
 //EnumExtra CONSTANTS
 	public static final float WEIGHT_BOOSTER=28.7f;
+	
 	
 
 
