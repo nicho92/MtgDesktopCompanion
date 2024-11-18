@@ -161,6 +161,9 @@
 	"MTGArena": {
 		"regex": {
 			"default": "^\\s*$|(\\d+) (.*?) \\((.*?)\\) (\\d+)$"
+		},
+		"idSet": {
+			"DOM": "DAR"
 		}
 	},
 	"MTGO": {

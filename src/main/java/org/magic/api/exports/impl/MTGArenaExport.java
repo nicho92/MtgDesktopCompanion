@@ -5,16 +5,10 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
@@ -27,14 +21,8 @@ import org.magic.services.tools.MTG;
 
 public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
-	Map<String,String> correpondance;
 	boolean side=false;
 
-	public MTGArenaExport() {
-		correpondance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		correpondance.put("DOM", "DAR");
-	}
-	
 	@Override
 	public String getFileExtension() {
 		return "";
@@ -62,7 +50,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 				.append(" ")
 				.append(entry.getKey())
 				.append(" (")
-				.append(translate(entry.getKey().getEdition().getId()).toUpperCase())
+				.append(aliases.getReversedSetIdFor(this,entry.getKey().getEdition()).toUpperCase())
 				.append(")")
 				.append(" ")
 				.append(entry.getKey().getNumber())
@@ -79,7 +67,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 					.append(" ")
 					.append(entry.getKey())
 					.append(" (")
-					.append(translate(entry.getKey().getEdition().getId()).toUpperCase())
+					.append(aliases.getReversedSetIdFor(this,entry.getKey().getEdition()).toUpperCase())
 					.append(")")
 					.append(" ")
 					.append(entry.getKey().getNumber());
@@ -94,31 +82,12 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	}
 
 
-	private String reverse(String s) {
-
-		if(correpondance.containsValue(s))
-			for(Entry<String, String> k : correpondance.entrySet())
-				if(k.getValue().equalsIgnoreCase(s))
-					return k.getKey();
-
-		return s;
-	}
-
-
-	private String translate(String s) {
-
-		if(correpondance.get(s)!=null)
-			return correpondance.get(s);
-		else
-			return s;
-	}
-
 	@Override
 	public MTGDeck importDeck(String f,String dname) throws IOException {
 		var deck = new MTGDeck();
 		deck.setName(dname);
 		side=false;
-		Transferable trf = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
+		var trf = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
 
 		if(trf==null)
 		{
@@ -146,7 +115,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 				try {
 					var qte = Integer.parseInt(m.group(1));
 					String name = m.group(2).trim();
-					String ed =  reverse( m.group(3).trim());
+					String ed =  aliases.getSetIdFor(this,m.group(3));
 					MTGEdition me = getEnabledPlugin(MTGCardsProvider.class).getSetById(ed);
 					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0);
 					notify(mc);
@@ -210,9 +179,5 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 		return " ";
 	}
 
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(MTGArenaExport.class.getResource("/icons/plugins/mtgarena.png"));
-	}
 
 }
