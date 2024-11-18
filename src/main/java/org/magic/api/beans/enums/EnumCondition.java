@@ -64,7 +64,7 @@ public enum EnumCondition {
 				@Override
 				public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
 			        Graphics2D g2 = (Graphics2D) g;
-			        Ellipse2D.Double circle = new Ellipse2D.Double(0, 0, MTGConstants.TABLE_ROW_HEIGHT-2, MTGConstants.TABLE_ROW_HEIGHT-2);
+			        Ellipse2D.Double circle = new Ellipse2D.Double(0, 0, MTGConstants.TABLE_ROW_HEIGHT-2.0, MTGConstants.TABLE_ROW_HEIGHT-2.0);
 			        g2.setColor(getColor());
 			        g2.fill(circle);
 			        

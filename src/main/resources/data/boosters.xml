@@ -2783,6 +2783,11 @@
 	
 	<edition id="INR">
 		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/7358s8yvDA4PVKlRPhDzVz/6ec17ac8b7952687fb257a90145f5ae7/Lduih34879dgkj-600x380_EN.png"/>
+		
+		<booster lang="en" num="1" extra="play" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/original/products/254426/336748/D38140000-1__38517.1731439417.png"/>
+		<booster lang="en" num="2" extra="collector" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/original/products/254428/336752/D38160000-1__35264.1731440039.png"/>
+		<booster lang="en" num="1" extra="play" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/original/products/254426/336747/D38140000-2__46387.1731439417.png"/>
+		<booster lang="en" num="1" extra="collector" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/original/products/254428/336751/D38160000-2__08563.1731440039.png"/>
 	</edition>
 	
 

@@ -1,6 +1,5 @@
 package org.magic.gui.renderer;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.Map;
