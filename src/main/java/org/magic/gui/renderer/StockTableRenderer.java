@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
@@ -64,7 +63,7 @@ public class StockTableRenderer implements TableCellRenderer{
 
 			try {
 				var c = PluginRegistry.inst().getPlugin(g.getGraderName(), MTGGraders.class).getIcon();
-				pane= new JLabel(g.toString(),c,SwingConstants.LEFT);
+				pane= new JLabel(g.toString(),c,SwingConstants.CENTER );
 			}
 			catch(Exception e)
 			{
@@ -77,11 +76,11 @@ public class StockTableRenderer implements TableCellRenderer{
 		}
 		else if(value instanceof EnumCondition cond)
 		{
-			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.CENTER);
+			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.CENTER );
 		}
 		else if(value instanceof MTGCollection c)
 		{
-			pane = new JLabel(c.getName(),MTGConstants.ICON_COLLECTION,SwingUtilities.CENTER);
+			pane = new JLabel(c.getName(),MTGConstants.ICON_TAB_BACK,SwingConstants.CENTER );
 		}
 		
 		

@@ -28,6 +28,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.charts.SealedHistoryPricesPanel;
+import org.magic.gui.components.editor.LanguageComboBoxCellEditor;
 import org.magic.gui.components.shops.StockItemsSynchronizationPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.models.SealedStockTableModel;
@@ -59,6 +60,9 @@ public class SealedStockGUI extends MTGUIComponent {
 		var objectpanel = new ObjectViewerPanel();
 		table = UITools.createNewTable(model,true);
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
+		table.getColumn(4).setCellEditor(new LanguageComboBoxCellEditor());
+		
+		
 		
 		var packagePanel = new PackagesBrowserPanel(false);
 		var gedPanel = new GedPanel<MTGSealedStock>();
