@@ -8,6 +8,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +16,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.MTG;
@@ -146,7 +148,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
 
@@ -178,6 +180,12 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return " ";
 	}
+	
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return new HashMap<>();
+	}
+	
 
 
 }
