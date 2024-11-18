@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
@@ -64,7 +66,7 @@ public class WikiGenerator {
 			
 			
 			ps.forEach(p->{
-				
+
 				builder.append("![](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/refs/heads/master/src/main/resources/icons/plugins/"+p.getName().toLowerCase().replace(" ","%20")+".png)").append("|");
 				
 				builder.append("[").append(p.getName()).append("]")

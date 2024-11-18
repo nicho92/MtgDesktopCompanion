@@ -17,7 +17,6 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.MTGProperty;
-import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
@@ -203,11 +202,6 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	@Override
 	public String getVersion() {
 		return "0.4.1-alpha";
-	}
-
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(PDFExport.class.getResource("/icons/plugins/smf.png"));
 	}
 
 	@Override
