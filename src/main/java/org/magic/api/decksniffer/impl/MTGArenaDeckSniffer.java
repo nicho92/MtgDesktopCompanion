@@ -27,7 +27,10 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 
 	private MTGArenaTools arena ;
 
-	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEPRECATED;
+	}
 	
 	private void init()
 	{
