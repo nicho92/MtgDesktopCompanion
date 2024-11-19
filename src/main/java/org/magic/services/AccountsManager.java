@@ -129,7 +129,7 @@ public class AccountsManager {
 			try {
 				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(content,getKey()), JsonObject.class));
 			} catch (Exception e) {
-				logger.error("Error while decryptions {}",content,e);
+				logger.error("Error while decryptions");
 			}
 		}
 		else
