@@ -420,8 +420,8 @@ public class UITools {
 
 	public static <T> JComboBox<T> createCombobox(List<T> items,ImageIcon i)
 	{
-		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
-		JComboBox<T> combo = new JComboBox<>(model);
+		var model = new DefaultComboBoxModel<T>();
+		var combo = new JComboBox<T>(model);
 
 		items.stream().forEach(model::addElement);
 

@@ -38,7 +38,7 @@ public class EbayPricer extends AbstractPricesProvider {
 						.url(domain+"/buy/browse/v1/item_summary/search")
 						.addHeader("X-EBAY-C-MARKETPLACE-ID",getString("EBAY_MARKETPLACE"))
 						.addHeader(URLTools.AUTHORIZATION, "bearer " + token)
-						.addContent("q", card.getName());
+						.addContent("q", card.getName() + (getBoolean("FILTER_SET")?" " +card.getEdition().getSet():""));
 						
 						if(!getString(CCG_CATEG_ID).isEmpty())
 							query = query.addContent("category_ids",getString(CCG_CATEG_ID));
@@ -83,7 +83,8 @@ public class EbayPricer extends AbstractPricesProvider {
 		return Map.of("MAX", MTGProperty.newIntegerProperty("10","max results to return",5,-1),
 							"EBAY_MARKETPLACE", new MTGProperty("EBAY_US","choose country market place. Type EBAY_XXX where is is the country code","EBAY_AT","EBAY_AU","EBAY_BE","EBAY_CA","EBAY_CH","EBAY_DE","EBAY_ES","EBAY_FR","EBAY_GB","EBAY_HK","EBAY_IE","EBAY_IT","EBAY_NL","EBAY_PL","EBAY_SG","EBAY_US"),
 							"FIXEDPRICE_ONLY",MTGProperty.newBooleanProperty("false","chose if you want to filter to fixed price items"),
-							CCG_CATEG_ID,MTGProperty.newIntegerProperty("183454","The id of TCG ebay category",-1,-1));
+							CCG_CATEG_ID,MTGProperty.newIntegerProperty("183454","The id of TCG ebay category",-1,-1),
+							"FILTER_SET", MTGProperty.newBooleanProperty("true", "append the set name to the query")  );
 
 	}
 

@@ -63,7 +63,7 @@ public class StockTableRenderer implements TableCellRenderer{
 
 			try {
 				var c = PluginRegistry.inst().getPlugin(g.getGraderName(), MTGGraders.class).getIcon();
-				pane= new JLabel(g.toString(),c,SwingConstants.CENTER );
+				pane= new JLabel(g.toString(),c,SwingConstants.LEADING );
 			}
 			catch(Exception e)
 			{
@@ -76,11 +76,11 @@ public class StockTableRenderer implements TableCellRenderer{
 		}
 		else if(value instanceof EnumCondition cond)
 		{
-			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.CENTER );
+			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.LEADING );
 		}
 		else if(value instanceof MTGCollection c)
 		{
-			pane = new JLabel(c.getName(),MTGConstants.ICON_TAB_BACK,SwingConstants.CENTER );
+			pane = new JLabel(c.getName(),MTGConstants.ICON_TAB_BACK,SwingConstants.LEADING );
 		}
 		
 		
