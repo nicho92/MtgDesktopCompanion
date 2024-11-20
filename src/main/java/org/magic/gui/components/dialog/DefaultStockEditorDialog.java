@@ -183,7 +183,7 @@ public class DefaultStockEditorDialog extends JDialog {
 						cboConditions.addItemListener(ie->
 						{
 							if(ie.getStateChange()==ItemEvent.SELECTED)
-								magicCardStock.setCondition(EnumCondition.valueOf(cboConditions.getSelectedItem().toString()));
+								magicCardStock.setCondition((EnumCondition)cboConditions.getSelectedItem());
 
 						});
 
