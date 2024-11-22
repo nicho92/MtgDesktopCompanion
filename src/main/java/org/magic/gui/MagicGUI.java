@@ -106,9 +106,12 @@ public class MagicGUI extends JFrame {
 		setSize(new Dimension(1620, 1024));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
 
+		var inst = this;
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				UITools.getComponentsFrom(inst);
 				MTGControler.getInstance().closeApp();
 			}
 		});

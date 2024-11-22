@@ -215,12 +215,11 @@ public class MTGControler {
 	
 
 	public MTGCardStock getDefaultStock() {
-		var defaultBool = FALSE;
 		var st = new MTGCardStock();
-					   st.setSigned(Boolean.parseBoolean(get("collections/defaultStock/signed",defaultBool)));
-					   st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered",defaultBool)));
-					   st.setFoil(Boolean.parseBoolean(get("collections/defaultStock/foil",defaultBool)));
-					   st.setEtched(Boolean.parseBoolean(get("collections/defaultStock/etched",defaultBool)));
+					   st.setSigned(Boolean.parseBoolean(get("collections/defaultStock/signed",FALSE)));
+					   st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered",FALSE)));
+					   st.setFoil(Boolean.parseBoolean(get("collections/defaultStock/foil",FALSE)));
+					   st.setEtched(Boolean.parseBoolean(get("collections/defaultStock/etched",FALSE)));
 					   st.setLanguage(get("collections/defaultStock/language","English"));
 					   st.setCondition(EnumCondition.valueOf(get("collections/defaultStock/condition","NEAR_MINT")));
 					   st.setQte(Integer.parseInt(get("collections/defaultStock/qty","1")));

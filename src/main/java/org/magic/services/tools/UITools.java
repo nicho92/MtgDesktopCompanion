@@ -8,6 +8,7 @@ import static org.magic.services.tools.MTG.listPlugins;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -140,6 +141,29 @@ public class UITools {
 
 	    return -1;
 	  }
+	
+	public static List<JComponent> getComponentsFrom(Container root)
+	{
+		var list = new ArrayList<JComponent>();
+		
+		for(var c : root.getComponents())
+		{
+			if(c instanceof JComponent comp)
+			{
+						list.add(comp);
+					list.addAll(getComponentsFrom(comp));
+					System.out.println(comp);
+			}
+		}
+			
+			
+		
+		
+		return list;
+	}
+	
+	
+	
 
 	public static String humanReadableSize(long bytes) {
 	    var absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
