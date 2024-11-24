@@ -152,7 +152,6 @@ public class UITools {
 			{
 						list.add(comp);
 					list.addAll(getComponentsFrom(comp));
-					System.out.println(comp);
 			}
 		}
 			
