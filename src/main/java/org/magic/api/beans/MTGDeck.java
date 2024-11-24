@@ -12,7 +12,7 @@ import java.util.Set;
 
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.EnumColors;
-import org.magic.api.interfaces.MTGSerializable;
+import org.magic.api.interfaces.extra.MTGSerializable;
 
 
 public class MTGDeck implements MTGSerializable {

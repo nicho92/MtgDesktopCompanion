@@ -7,6 +7,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.extra.MTGProduct;
 
 public interface MTGExternalShop extends MTGPlugin {
 

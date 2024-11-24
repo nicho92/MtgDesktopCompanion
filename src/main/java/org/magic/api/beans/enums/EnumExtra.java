@@ -1,7 +1,7 @@
 package org.magic.api.beans.enums;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.interfaces.MTGEnumeration;
+import org.magic.api.interfaces.extra.MTGEnumeration;
 
 public enum EnumExtra implements MTGEnumeration{
 

@@ -10,8 +10,8 @@ import javax.swing.Icon;
 
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;
+import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
 

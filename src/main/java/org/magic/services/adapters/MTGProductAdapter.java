@@ -5,7 +5,7 @@ import java.lang.reflect.Type;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.extra.MTGProduct;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

@@ -6,8 +6,8 @@ import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
 

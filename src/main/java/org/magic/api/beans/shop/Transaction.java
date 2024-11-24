@@ -10,8 +10,8 @@ import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.technical.WebShopConfig;
-import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.extra.MTGSerializable;
 
 public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	private static final long serialVersionUID = 1L;

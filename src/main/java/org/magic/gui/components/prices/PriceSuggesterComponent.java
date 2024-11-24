@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.api.interfaces.MTGPriceSuggester;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.extra.MTGPriceSuggester;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;

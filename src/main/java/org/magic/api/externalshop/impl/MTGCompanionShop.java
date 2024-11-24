@@ -14,10 +14,10 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
 

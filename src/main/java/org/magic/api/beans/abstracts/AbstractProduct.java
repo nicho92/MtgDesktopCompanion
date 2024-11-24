@@ -3,7 +3,7 @@ package org.magic.api.beans.abstracts;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
-import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.extra.MTGProduct;
 
 import com.google.gson.annotations.SerializedName;
 

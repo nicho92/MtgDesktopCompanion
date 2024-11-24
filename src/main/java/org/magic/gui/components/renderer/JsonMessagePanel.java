@@ -23,7 +23,7 @@ import org.magic.api.beans.messages.DeckMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;

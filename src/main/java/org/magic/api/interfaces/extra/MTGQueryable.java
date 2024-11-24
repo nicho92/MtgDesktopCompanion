@@ -1,4 +1,4 @@
-package org.magic.api.interfaces;
+package org.magic.api.interfaces.extra;
 
 import java.io.IOException;
 import java.util.List;

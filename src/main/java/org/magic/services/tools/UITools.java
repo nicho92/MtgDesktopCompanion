@@ -87,13 +87,13 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicCardMainDetailPanel;
 import org.magic.gui.renderer.ContactRenderer;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
-import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.gui.renderer.MagicEditionJLabelRenderer;
@@ -467,6 +467,10 @@ public class UITools {
 						{
 							l.setIcon(MTGConstants.getIconFor(qa.getType()));
 						}
+						else if (value instanceof MTGIconable qa)
+						{
+							l.setIcon(qa.getIcon());
+						}
 						else
 						{
 							l.setIcon(i);
@@ -500,9 +504,7 @@ public class UITools {
 	{
 		
 		try {
-			var combo = createCombobox(getEnabledPlugin(MTGDao.class).listCollections());
-				  combo.setRenderer(new MagicCollectionIconListRenderer());
-		return combo;
+			return createCombobox(getEnabledPlugin(MTGDao.class).listCollections());
 		} catch (Exception e) {
 			logger.error(e);
 			return new JComboBox<>();

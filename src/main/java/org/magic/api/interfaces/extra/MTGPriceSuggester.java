@@ -1,6 +1,7 @@
-package org.magic.api.interfaces;
+package org.magic.api.interfaces.extra;
 
 import org.magic.api.beans.MTGCard;
+import org.magic.api.interfaces.MTGPlugin;
 
 public interface MTGPriceSuggester extends MTGPlugin{
 

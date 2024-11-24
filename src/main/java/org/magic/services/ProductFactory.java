@@ -9,7 +9,7 @@ import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.extra.MTGProduct;
 
 public class ProductFactory {
 

@@ -16,7 +16,7 @@ import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;

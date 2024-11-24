@@ -1,6 +1,6 @@
 package org.magic.api.beans.shop;
 
-import org.magic.api.interfaces.MTGSerializable;
+import org.magic.api.interfaces.extra.MTGSerializable;
 
 public class Contact implements MTGSerializable {
 

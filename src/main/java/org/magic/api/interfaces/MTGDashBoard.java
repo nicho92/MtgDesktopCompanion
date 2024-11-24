@@ -13,6 +13,7 @@ import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.interfaces.extra.MTGPriceSuggester;
 
 public interface MTGDashBoard extends MTGPriceSuggester {
 

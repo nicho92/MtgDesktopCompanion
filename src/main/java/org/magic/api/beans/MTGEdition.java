@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import org.magic.api.beans.enums.EnumExtra;
-import org.magic.api.interfaces.MTGSerializable;
+import org.magic.api.interfaces.extra.MTGIconable;
+import org.magic.api.interfaces.extra.MTGSerializable;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.UITools;
 
 
-public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
+public class MTGEdition implements MTGSerializable, Comparable<MTGEdition>, MTGIconable {
 	public static final long serialVersionUID = 1L;
 
 	private String set;
@@ -246,6 +250,11 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 
 	public void setTcgplayerGroupId(int tcgplayerGroupId) {
 		this.tcgplayerGroupId = tcgplayerGroupId;
+	}
+
+	@Override
+	public ImageIcon getIcon() {
+		return IconsProvider.getInstance().get16(getId());
 	}
 
 

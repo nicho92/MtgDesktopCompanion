@@ -5,6 +5,8 @@ import java.util.Map;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.interfaces.extra.MTGProduct;
+import org.magic.api.interfaces.extra.MTGSerializable;
 
 public interface MTGStockItem extends MTGSerializable, Comparable<MTGStockItem> {
 

@@ -20,6 +20,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.interfaces.extra.MTGSerializable;
 
 public interface MTGDao extends MTGPlugin{
 

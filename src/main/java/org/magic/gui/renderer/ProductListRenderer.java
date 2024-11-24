@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.gui.components.renderer.ProductRendererComponent;
 
 public class ProductListRenderer implements ListCellRenderer<MTGProduct> {

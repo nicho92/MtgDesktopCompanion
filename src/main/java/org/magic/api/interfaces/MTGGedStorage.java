@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.interfaces.extra.MTGSerializable;
 
 public interface MTGGedStorage extends MTGPlugin{
 

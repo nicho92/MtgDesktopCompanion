@@ -7,6 +7,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.interfaces.extra.MTGPriceSuggester;
 
 public interface MTGPricesProvider extends MTGPriceSuggester {
 

@@ -2,7 +2,7 @@ package org.magic.api.beans.technical;
 
 import java.io.Serializable;
 
-import org.magic.api.interfaces.MTGSerializable;
+import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 

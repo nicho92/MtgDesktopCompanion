@@ -1,7 +1,7 @@
 package org.magic.gui.models;
 
 import org.magic.api.beans.technical.GedEntry;
-import org.magic.api.interfaces.MTGSerializable;
+import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class GedEntryTableModel extends GenericTableModel<GedEntry<MTGSerializable>> {

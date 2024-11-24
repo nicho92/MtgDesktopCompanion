@@ -21,10 +21,10 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
+import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.ProductFactory;
 import org.magic.services.tools.MTG;
 

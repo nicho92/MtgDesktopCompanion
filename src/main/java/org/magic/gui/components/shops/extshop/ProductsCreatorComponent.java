@@ -22,7 +22,7 @@ import javax.swing.SwingWorker;
 
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGExternalShop;
-import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.ProductListRenderer;

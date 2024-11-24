@@ -3,7 +3,7 @@ package org.magic.api.beans.enums;
 import java.util.List;
 import java.util.Objects;
 
-import org.magic.api.interfaces.MTGEnumeration;
+import org.magic.api.interfaces.extra.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
 

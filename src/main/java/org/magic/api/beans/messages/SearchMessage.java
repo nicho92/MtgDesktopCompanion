@@ -1,7 +1,7 @@
 package org.magic.api.beans.messages;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
-import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.extra.MTGProduct;
 
 public class SearchMessage extends AbstractMessage {
 

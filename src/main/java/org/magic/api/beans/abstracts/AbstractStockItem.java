@@ -8,8 +8,8 @@ import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.extra.MTGProduct;
 
 public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStockItem {
 

@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumLayout;
-import org.magic.api.interfaces.MTGComparator;
+import org.magic.api.interfaces.extra.MTGComparator;
 
 public class CardsEditionSorter implements MTGComparator<MTGCard> {
 

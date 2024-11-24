@@ -1,4 +1,4 @@
-package org.magic.api.interfaces;
+package org.magic.api.interfaces.extra;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;

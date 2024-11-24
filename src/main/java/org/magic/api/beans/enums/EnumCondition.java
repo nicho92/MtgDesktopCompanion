@@ -9,9 +9,10 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.services.MTGConstants;
 
-public enum EnumCondition {
+public enum EnumCondition implements MTGIconable{
 
 	MINT ("M", new Color(34,249,26) ), 
 	NEAR_MINT ("NM",new Color(36,210,30)), 

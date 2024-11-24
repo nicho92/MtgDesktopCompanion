@@ -15,8 +15,8 @@ import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
-import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.MTGConstants;
 
 public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
