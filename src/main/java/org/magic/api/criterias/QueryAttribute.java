@@ -2,7 +2,12 @@ package org.magic.api.criterias;
 
 import java.io.Serializable;
 
-public class QueryAttribute implements Serializable, Comparable<QueryAttribute>{
+import javax.swing.Icon;
+
+import org.magic.api.interfaces.extra.MTGIconable;
+import org.magic.services.MTGConstants;
+
+public class QueryAttribute implements Serializable, Comparable<QueryAttribute>, MTGIconable{
 
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -35,6 +40,11 @@ public class QueryAttribute implements Serializable, Comparable<QueryAttribute>{
 	@Override
 	public int compareTo(QueryAttribute o) {
 		return (getName().compareTo(String.valueOf(o)));
+	}
+
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.getIconFor(getType());
 	}
 
 }

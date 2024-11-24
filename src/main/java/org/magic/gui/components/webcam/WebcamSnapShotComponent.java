@@ -69,7 +69,7 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 
 
 		var panelControl = new JPanel();
-		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
+		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam());
 		var controlWebcamPanel = new JPanel();
 		var btnStarting = new JButton("Start",MTGConstants.PLAY_ICON);
 		var btnSnap = new JButton("Snap",MTGConstants.ICON_WEBCAM);

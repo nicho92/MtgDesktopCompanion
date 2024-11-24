@@ -1,10 +1,10 @@
 package org.magic.api.interfaces.extra;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 
 public interface MTGIconable {
 
 	
-	public ImageIcon getIcon();
+	public Icon getIcon();
 	
 }

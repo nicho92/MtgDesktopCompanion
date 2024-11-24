@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
@@ -56,8 +57,8 @@ public enum EnumCondition implements MTGIconable{
 		return color;
 	}
 	
-	
-	public ImageIcon getIcon()
+	@Override	
+	public Icon getIcon()
 	{
 			return new ImageIcon() {
 				private static final long serialVersionUID = 1L;

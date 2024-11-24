@@ -112,6 +112,8 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.panda_lang.pandomium.Pandomium;
 
+import com.github.sarxos.webcam.Webcam;
+
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.FilterSettings;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -439,11 +441,6 @@ public class UITools {
 
 	public static <T> JComboBox<T> createCombobox(List<T> items)
 	{
-		return createCombobox(items, MTGConstants.ICON_MANA_INCOLOR);
-	}
-
-	public static <T> JComboBox<T> createCombobox(List<T> items,ImageIcon i)
-	{
 		var model = new DefaultComboBoxModel<T>();
 		var combo = new JComboBox<T>(model);
 
@@ -461,19 +458,19 @@ public class UITools {
 						if(value instanceof LookAndFeelInfo lafi)
 						{
 							l=new JLabel(lafi.getName());
-							l.setIcon(i);
-						}
-						else if (value instanceof QueryAttribute qa)
-						{
-							l.setIcon(MTGConstants.getIconFor(qa.getType()));
+							l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
 						}
 						else if (value instanceof MTGIconable qa)
 						{
 							l.setIcon(qa.getIcon());
 						}
+						else if  (value instanceof Webcam)
+						{
+							l.setIcon(MTGConstants.ICON_WEBCAM);
+						}
 						else
 						{
-							l.setIcon(i);
+							l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
 						}
 
 					}

@@ -118,7 +118,7 @@ public class WebcamCardImportDialog extends JDialog {
 
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var panelControl = new JPanel();
-		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
+		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam());
 		var cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat(), new RadiusAreaStrat()});
 		var chkpause = new JCheckBox("Pause");
 		var sldThreshold = new JSlider(0,100,40);

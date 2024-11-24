@@ -1,6 +1,6 @@
 package org.magic.api.beans;
 
-import javax.swing.ImageIcon;
+import javax.swing.Icon;
 
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.api.interfaces.extra.MTGSerializable;
@@ -58,7 +58,7 @@ public class MTGCollection implements MTGSerializable, MTGIconable {
 	}
 	
 	@Override
-	public ImageIcon getIcon() {
+	public Icon getIcon() {
 		return MTGConstants.ICON_COLLECTION;
 	}
 	
