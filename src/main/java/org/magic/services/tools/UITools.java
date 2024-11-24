@@ -39,7 +39,6 @@ import java.util.concurrent.Callable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -81,7 +80,6 @@ import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.technical.MoneyValue;
-import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
