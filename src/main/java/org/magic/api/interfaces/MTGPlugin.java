@@ -6,19 +6,19 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.management.ObjectName;
-import javax.swing.Icon;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.services.AccountsManager;
 import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observer;
 
 import com.google.gson.JsonObject;
 
-public interface MTGPlugin extends Comparable<MTGPlugin> {
+public interface MTGPlugin extends Comparable<MTGPlugin>, MTGIconable {
 
 
 	Logger loggerMain = MTGLogger.getLogger(MTGPlugin.class);
@@ -67,8 +67,6 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	public void removeObserver(Observer o);
 
 	public List<Observer> listObservers();
-
-	public Icon getIcon() ;
 
 	public ObjectName getObjectName();
 

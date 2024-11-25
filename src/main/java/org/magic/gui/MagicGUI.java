@@ -32,7 +32,6 @@ import org.jdesktop.swingx.JXStatusBar;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;
-import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -261,7 +260,7 @@ public class MagicGUI extends JFrame {
 			{
 				logger.error(e);
 			}
-			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/magiccardmarket.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH))));
+			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", new ImageIcon(new ImageIcon(MagicGUI.class.getResource("/icons/plugins/magiccardmarket.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH))));
 		}
 
 
