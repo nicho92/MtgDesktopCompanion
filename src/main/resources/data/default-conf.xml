@@ -565,10 +565,6 @@
       <enable>true</enable>
     </sniffer>
     <sniffer>
-      <class>org.magic.api.decksniffer.impl.MTGADecksSniffer</class>
-      <enable>true</enable>
-    </sniffer>
-    <sniffer>
       <class>org.magic.api.decksniffer.impl.ArchidektDeckSniffer</class>
       <enable>true</enable>
     </sniffer>
