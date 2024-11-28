@@ -22,7 +22,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 
 	private static final String REGEX = "REGEX";
-	private String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
+	private String columns="Count,Tradelist Count,Name,Edition,Edition Code,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
 
 
 
@@ -50,6 +50,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(name).append(getSeparator());
 			line.append(mc.getProduct().getEdition().getSet()).append(getSeparator());
+			line.append(mc.getProduct().getEdition().getId()).append(getSeparator());
 			line.append(mc.getProduct().getNumber()).append(getSeparator());
 			line.append(aliases.getConditionFor(this,mc.getCondition())).append(getSeparator());
 			line.append(mc.getLanguage()).append(getSeparator());
