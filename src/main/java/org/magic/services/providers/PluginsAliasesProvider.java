@@ -102,7 +102,7 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.warn("can't get {} for {} : jsonData={}",conditionName,plug,jsonData.get(plug.getName()));
+			logger.warn("can't get condition {} for {} : jsonData={}",conditionName,plug,jsonData.get(plug.getName()));
 			return defaultCondition;
 		}
 	}

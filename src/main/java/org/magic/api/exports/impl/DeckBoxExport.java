@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.UITools;
 
 public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
@@ -120,17 +121,17 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				MTGCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
-					   mcs.setCondition(aliases.getReversedConditionFor(this,m.group(6),null));
+					   mcs.setCondition(aliases.getReversedConditionFor(this,m.group(7),null));
 
-					   if(!m.group(7).isEmpty())
-						   mcs.setLanguage(m.group(7));
+					   if(!m.group(8).isEmpty())
+						   mcs.setLanguage(m.group(8));
 
-					   mcs.setFoil(m.group(8)!=null);
-					   mcs.setSigned(m.group(9)!=null);
-					   mcs.setAltered(m.group(11)!=null);
+					   mcs.setFoil(m.group(9)!=null);
+					   mcs.setSigned(m.group(10)!=null);
+					   mcs.setAltered(m.group(12)!=null);
 
-					   if(!m.group(15).isEmpty())
-						   mcs.setPrice(Double.parseDouble(m.group(17)));
+					   if(!m.group(16).isEmpty())
+						   mcs.setPrice(UITools.parseDouble(m.group(18)));
 
 			   list.add(mcs);
 			}
