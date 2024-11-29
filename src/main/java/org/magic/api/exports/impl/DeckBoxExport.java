@@ -90,7 +90,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 			String number=null;
 			try {
-				number = m.group(5);
+				number = m.group(6);
 			}
 			catch(IndexOutOfBoundsException e)
 			{
