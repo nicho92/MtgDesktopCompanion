@@ -130,7 +130,7 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.error("Error getting condition {} for plug {} : {}",condition,plug,e.getMessage());
+			logger.error("Error getting condition {} for plug {}",condition,plug);
 			return condition.name();
 		}
 	}
