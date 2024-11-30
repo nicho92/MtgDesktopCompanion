@@ -92,48 +92,54 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		List<RetrievableDeck> ret = new ArrayList<>();
 
-
-		var arr = RequestBuilder.build()
-						.setClient(URLTools.newClient())
-						.url(BASE_URI+"/decks/cards/")
-						.get()
-						.addContent("orderBy", "-createdAt")
-						.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), filter)+1))
-						.addContent("pageSize", getString("PAGE_SIZE"))
-						.addContent("page","1")
-						.addHeader("accept", URLTools.HEADER_JSON)
-						.toJson().getAsJsonObject().get("results").getAsJsonArray();
-
-
-
-		for(JsonElement el : arr)
+		
+		for(var i = 1; i<=getInt("MAX_PAGE");i++)
 		{
-			try {
-				var d = new RetrievableDeck();
-							d.setAuthor(el.getAsJsonObject().get("owner").getAsJsonObject().get("username").getAsString());
-							d.setName(el.getAsJsonObject().get("name").getAsString());
-					
-							var build = new StringBuilder();
-								build.append(BASE_URI).append("/decks/").append(el.getAsJsonObject().get("id").getAsInt()).append("/");
 
-							d.setUrl(new URI(build.toString()));
-							var tmp = new StringBuilder("");
+			
+			var arr = RequestBuilder.build()
+							.setClient(URLTools.newClient())
+							.url(BASE_URI+"/decks/cards/")
+							.get()
+							.addContent("orderBy", "-createdAt")
+							.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), filter)+1))
+							.addContent("pageSize", "50")
+							.addContent("page",String.valueOf(i))
+							.addHeader("accept", URLTools.HEADER_JSON)
+							.toJson().getAsJsonObject().get("results").getAsJsonArray();
 
-							for(var s : el.getAsJsonObject().get("colors").getAsJsonObject().entrySet())
-								{
-									if(s.getValue().getAsInt()>0)
-										tmp.append("{").append(s.getKey()).append("}");
-								}
 
-							d.setColor(tmp.toString());
 
-				ret.add(d);
-
-			}
-			catch(Exception ex)
+			for(JsonElement el : arr)
 			{
-				logger.error("error parsing {}",el, ex);
-			}
+				try {
+					var d = new RetrievableDeck();
+								d.setAuthor(el.getAsJsonObject().get("owner").getAsJsonObject().get("username").getAsString());
+								d.setName(el.getAsJsonObject().get("name").getAsString());
+						
+								var build = new StringBuilder();
+									build.append(BASE_URI).append("/decks/").append(el.getAsJsonObject().get("id").getAsInt()).append("/");
+
+								d.setUrl(new URI(build.toString()));
+								var tmp = new StringBuilder("");
+
+								for(var s : el.getAsJsonObject().get("colors").getAsJsonObject().entrySet())
+									{
+										if(s.getValue().getAsInt()>0)
+											tmp.append("{").append(s.getKey()).append("}");
+									}
+
+								d.setColor(tmp.toString());
+
+					ret.add(d);
+
+				}
+				catch(Exception ex)
+				{
+					logger.error("error parsing {}",el, ex);
+				}
+		}
+		
 		}
 
 		return ret;
@@ -148,8 +154,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		
 		var m = super.getDefaultAttributes();
-		
-		m.put("PAGE_SIZE", MTGProperty.newIntegerProperty("50", "number of items per page to query", 50, 100));
+		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
 		
 		return m;
 	}

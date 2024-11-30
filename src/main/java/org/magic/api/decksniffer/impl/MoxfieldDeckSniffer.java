@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -79,39 +80,53 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 			}
 
 		});
-
-
 	}
+	
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
+		return m;
+	}
+	
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
-		var json = RequestBuilder.build()
+		
+		var ret = new ArrayList<RetrievableDeck>();
+		
+		for(var i = 1; i<=getInt("MAX_PAGE");i++)
+		{
+			var json = RequestBuilder.build()
 					  .setClient(client)
 					  .get()
-					  .url(BASE_URI+"/decks/search?pageNumber=1&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+filter+"&filter=")
+					  .url(BASE_URI+"/decks/search?pageNumber="+i+"&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+filter+"&filter=")
 					  .toJson();
 
 
-		var ret = new ArrayList<RetrievableDeck>();
-		for(var je : json.getAsJsonObject().get("data").getAsJsonArray())
-		{
-			var jo = je.getAsJsonObject();
-
-			var dekElement = new RetrievableDeck();
-				dekElement.setName(jo.get("name").getAsString());
-				dekElement.setAuthor(jo.get("authors").getAsJsonArray().get(0).getAsJsonObject().get("userName").getAsString());
-				dekElement.setUrl(URI.create(BASE_URI+"/decks/all/"+jo.get("publicId").getAsString()));
-				dekElement.setDescription(UITools.formatDateTime(UITools.parseGMTDate(jo.get("createdAtUtc").getAsString())));
-			
-				var c = new StringBuilder();
-				jo.get("colors").getAsJsonArray().asList().stream().map(j->j.getAsString()).forEach(s->c.append("{").append(s).append("}"));
-						
-				dekElement.setColor(c.toString());
+		
+			for(var je : json.getAsJsonObject().get("data").getAsJsonArray())
+			{
+				var jo = je.getAsJsonObject();
+	
+				var dekElement = new RetrievableDeck();
+					dekElement.setName(jo.get("name").getAsString());
+					dekElement.setAuthor(jo.get("authors").getAsJsonArray().get(0).getAsJsonObject().get("userName").getAsString());
+					dekElement.setUrl(URI.create(BASE_URI+"/decks/all/"+jo.get("publicId").getAsString()));
+					dekElement.setDescription(UITools.formatDateTime(UITools.parseGMTDate(jo.get("createdAtUtc").getAsString())));
 				
-			ret.add(dekElement);
+					var c = new StringBuilder();
+					jo.get("colors").getAsJsonArray().asList().stream().map(j->j.getAsString()).forEach(s->c.append("{").append(s).append("}"));
+							
+					dekElement.setColor(c.toString());
+					
+				ret.add(dekElement);
+			}
+
+
 		}
-
-
+		
+		
 
 
 

@@ -206,7 +206,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 		if (props.getProperty(k) == null) {
 			logger.error("{} is not found in {}",k,getName());
-			props.put(k, getDefaultAttributes().get(k));
+			props.put(k, getDefaultAttributes().get(k).getDefaultValue());
 			save();
 			load();
 		}
