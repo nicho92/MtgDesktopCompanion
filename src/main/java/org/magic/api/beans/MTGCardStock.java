@@ -9,7 +9,10 @@ import org.magic.api.beans.enums.EnumItems;
 public class MTGCardStock extends AbstractStockItem<MTGCard> {
 
 	private static final long serialVersionUID = 1L;
-
+	private boolean digital;
+	
+	
+	
 	public MTGCardStock(MTGCard c) {
 		super();
 		id = -1L;
@@ -18,6 +21,15 @@ public class MTGCardStock extends AbstractStockItem<MTGCard> {
 		}
 	}
 
+	public void setDigital(boolean digitalcard) {
+		this.digital = digitalcard;
+	}
+	
+	public boolean isDigital() {
+		return digital;
+	}
+	
+	
 	public MTGCardStock() {
 		id=-1L;
 		tiersAppIds= new HashMap<>();
@@ -31,6 +43,10 @@ public class MTGCardStock extends AbstractStockItem<MTGCard> {
 		edition= c.getEdition();
 		product.setTypeProduct(EnumItems.CARD);
 		product.setEdition(c.getEdition());
+		
+		setDigital(c.isOnlineOnly());
+		
+		
 		if(c.getFinishes().size()==1 && c.getFinishes().contains(EnumFinishes.FOIL))
 			setFoil(true);
 		

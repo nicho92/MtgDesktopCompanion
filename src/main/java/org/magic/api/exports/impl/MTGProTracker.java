@@ -35,7 +35,8 @@ public class MTGProTracker extends AbstractFormattedFileCardExport {
 			{
 				var mcs = MTGControler.getInstance().getDefaultStock();
 				mcs.setProduct(mc);
-				mcs.setCondition(EnumCondition.ONLINE);
+				mcs.setCondition(EnumCondition.MINT);
+				mcs.setDigital(true);
 				mcs.setQte(Integer.parseInt(m.group(4)));
 				mcs.setLanguage(MTGControler.getInstance().getLocale().getLanguage());
 				ret.add(mcs);

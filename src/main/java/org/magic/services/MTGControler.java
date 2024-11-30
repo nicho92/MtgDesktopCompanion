@@ -210,6 +210,7 @@ public class MTGControler {
 		setProperty("collections/defaultStock/condition",st.getCondition().name());
 		setProperty("collections/defaultStock/qty",st.getQte());
 		setProperty("collections/defaultStock/etched",st.isEtched());
+		setProperty("collections/defaultStock/digital",st.isDigital());
 	}
 
 	
@@ -220,6 +221,7 @@ public class MTGControler {
 					   st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered",FALSE)));
 					   st.setFoil(Boolean.parseBoolean(get("collections/defaultStock/foil",FALSE)));
 					   st.setEtched(Boolean.parseBoolean(get("collections/defaultStock/etched",FALSE)));
+					   st.setDigital(Boolean.parseBoolean(get("collections/defaultStock/digital",FALSE)));
 					   st.setLanguage(get("collections/defaultStock/language","English"));
 					   st.setCondition(EnumCondition.valueOf(get("collections/defaultStock/condition","NEAR_MINT")));
 					   st.setQte(Integer.parseInt(get("collections/defaultStock/qty","1")));

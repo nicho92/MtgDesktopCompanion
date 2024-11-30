@@ -33,6 +33,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 				"ETCHED",
 				"SIGNED",
 				"ALTERED",
+				"DIGITAL",
 				"PRICE",
 				"GRADED",
 				"COMMENTS",
@@ -44,7 +45,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 
 	@Override
 	public int[] defaultHiddenColumns() {
-		return new int[] {0,4,10,11,12,14,17};
+		return new int[] {0,4,10,11,12,15,18};
 	}
 
 
@@ -91,14 +92,17 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 		case 12:
 			return Boolean.class;
 		case 13:
-			return Double.class;
+			return Boolean.class;
+				
 		case 14:
-			return MTGGrading.class;
+			return Double.class;
 		case 15:
-			return String.class;
+			return MTGGrading.class;
 		case 16:
-			return Map.class;
+			return String.class;
 		case 17:
+			return Map.class;
+		case 18:
 			return Date.class;
 
 
@@ -111,7 +115,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 	public boolean isCellEditable(int row, int column) {
 
 		if(writable)
-			return !(column ==1 || column==2|| column==3 || column==4 || column==14 || column==17 );
+			return !(column ==1 || column==2|| column==3 || column==4 || column==15 || column==17 );
 		else
 			return false;
 	}
@@ -147,14 +151,16 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 		case 12:
 			return items.get(row).isAltered();
 		case 13:
-			return UITools.roundDouble(items.get(row).getPrice());
+			return items.get(row).isDigital();
 		case 14:
-			return items.get(row).getGrade();
+			return UITools.roundDouble(items.get(row).getPrice());
 		case 15:
-			return items.get(row).getComment();
+			return items.get(row).getGrade();
 		case 16:
-			return items.get(row).getTiersAppIds();
+			return items.get(row).getComment();
 		case 17:
+			return items.get(row).getTiersAppIds();
+		case 18:
 			return items.get(row).getDateUpdate();
 		default:
 			return "";
@@ -190,12 +196,15 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 13:
-			items.get(row).setPrice(UITools.parseDouble(String.valueOf(aValue)));
+			items.get(row).setDigital(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 14:
-			items.get(row).setGrade((MTGGrading)aValue);
+			items.get(row).setPrice(UITools.parseDouble(String.valueOf(aValue)));
 			break;
 		case 15:
+			items.get(row).setGrade((MTGGrading)aValue);
+			break;
+		case 16:
 			items.get(row).setComment(String.valueOf(aValue));
 			break;
 

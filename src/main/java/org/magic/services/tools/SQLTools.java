@@ -140,6 +140,7 @@ public class SQLTools {
 				.column("signedcard",SQLDataType.BOOLEAN)
 				.column("altered",SQLDataType.BOOLEAN)
 				.column("etched",SQLDataType.BOOLEAN)
+				.column("digital",SQLDataType.BOOLEAN)
 				.column("langage",SQLDataType.VARCHAR(20))
 				.column("qte",SQLDataType.INTEGER)
 				.column("price",SQLDataType.DECIMAL(10,2))

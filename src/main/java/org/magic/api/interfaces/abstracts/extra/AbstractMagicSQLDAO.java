@@ -1596,7 +1596,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if (state.getId() < 0) {
 			logger.debug("save stock {}",state);
-			try (var c = pool.getConnection(); var pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate,name) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); var pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate,name,digital) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, state.getCondition().name());
 				pst.setBoolean(2, state.isFoil());
 				pst.setBoolean(3, state.isSigned());
@@ -1614,6 +1614,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(15, state.getProduct().getEdition().getId());
 				pst.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));
 				pst.setString(17, state.getProduct().getName());
+				pst.setBoolean(18, state.isDigital());
 				executeUpdate(pst,false);
 				state.setId(getGeneratedKey(pst));
 				state.setDateUpdate(new java.util.Date());
@@ -1623,7 +1624,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		} else {
 			logger.debug("update Stock {}",state);
 			try (var c = pool.getConnection(); var pst = c.prepareStatement(
-					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=?, dateUpdate=?, name=? where idstock=?")) {
+					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=?, dateUpdate=?, name=?, digital=? where idstock=?")) {
 				pst.setString(1, state.getComment());
 				pst.setString(2, state.getCondition().name());
 				pst.setBoolean(3, state.isFoil());
@@ -1641,7 +1642,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(15, state.getProduct().getEdition().getId());
 				pst.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));
 				pst.setString(17, state.getProduct().getName());
-				pst.setLong(18, state.getId());
+				pst.setBoolean(18, state.isDigital());
+				pst.setLong(19, state.getId());
 				executeUpdate(pst,false);
 				state.setDateUpdate(new java.util.Date());
 			} catch (Exception e) {
@@ -2001,7 +2003,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			state.setGrade(readGrading(rs));
 			state.setTiersAppIds(readTiersApps(rs));
 			state.setEtched(rs.getBoolean("etched"));
-
+			state.setDigital(rs.getBoolean("digital"));
 			if(state.getTiersAppIds()==null)
 				state.setTiersAppIds(new HashMap<>());
 			

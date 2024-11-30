@@ -25,8 +25,7 @@ public enum EnumCondition implements MTGIconable{
 	PROXY("PX",new Color(255,102,255)), 
 	DAMAGED ("DM",new Color(153,76,0)),
 	SEALED ("SD",new Color(0,153,153)),
-	OPENED ("OP",new Color(0,102,102)),
-	ONLINE("ONL",new Color(255,0,127));
+	OPENED ("OP",new Color(0,102,102));
 
 	
 	private String codename;
