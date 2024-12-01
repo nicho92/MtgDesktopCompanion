@@ -53,7 +53,7 @@ public class DeckSnifferDialog extends JDialog {
 	public DeckSnifferDialog() {
 
 		importedDeck = new MTGDeck();
-		setSize(new Dimension(500, 300));
+		setSize(new Dimension(600, 500));
 		setTitle(capitalize("DECKS_IMPORTER"));
 		setLocationRelativeTo(null);
 		setIconImage(MTGConstants.ICON_DECK.getImage());
@@ -67,14 +67,14 @@ public class DeckSnifferDialog extends JDialog {
 		selectedSniffer = listEnabledPlugins(MTGDeckSniffer.class).get(0);
 		var panelButton = new JPanel();
 		cboSniffers =UITools.createComboboxPlugins(MTGDeckSniffer.class,false);
-		btnConnect = new JButton(capitalize("CONNECT"));
+		btnConnect = new JButton(capitalize("OPEN"));
 		cboFormats = new JComboBox<>();
 		var labCardFilter = new JLabel("With this card : ");
 		var btnCardImport = UITools.createBindableJButton("", MTGConstants.ICON_TAB_IMPORT, KeyEvent.VK_I, "WithCard");
 		var lblCard = new JLabel();
 		var btnRemoveCard = new JButton(MTGConstants.ICON_SMALL_DELETE);
 		cardFilterPanel = UITools.createFlowPanel(labCardFilter,btnCardImport,lblCard,btnRemoveCard);
-		var panelNorth = UITools.createFlowPanel(cboSniffers,cardFilterPanel,cboFormats,btnConnect,lblLoad);
+		var panelNorth = UITools.createFlowPanel(cboSniffers,cboFormats,cardFilterPanel,btnConnect,lblLoad);
 		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		
@@ -97,6 +97,9 @@ public class DeckSnifferDialog extends JDialog {
 
 		panelButton.add(btnImport);
 
+		
+		pack();
+		
 		
 		
 		btnClose.addActionListener(e -> dispose());
@@ -123,13 +126,15 @@ public class DeckSnifferDialog extends JDialog {
 
 		cboSniffers.addActionListener(e -> {
 			cboFormats.removeAllItems();
+			model.clear();
 			selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem();
+			
 			
 			for (String s : selectedSniffer.listFilter())
 				cboFormats.addItem(s);
 			
 			cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
-			pack();
+			
 		});
 		
 				
@@ -139,7 +144,7 @@ public class DeckSnifferDialog extends JDialog {
 
 					@Override
 					protected List <RetrievableDeck> doInBackground() throws Exception {
-						if(plug.hasCardFilter())
+						if(plug.hasCardFilter() && filteredCard!=null)
 							return plug.getDeckList(cboFormats.getSelectedItem().toString(),filteredCard);
 						else
 							return plug.getDeckList(cboFormats.getSelectedItem().toString(),null);
@@ -187,11 +192,6 @@ public class DeckSnifferDialog extends JDialog {
 			};
 
 		ThreadManager.getInstance().runInEdt(sw, "Import deck");
-
-		
-		pack();
-		
-		
 		});
 
 

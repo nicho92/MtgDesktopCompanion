@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.io.IOException;
 import java.util.AbstractMap;
 
 import org.magic.api.interfaces.MTGDeckSniffer;
