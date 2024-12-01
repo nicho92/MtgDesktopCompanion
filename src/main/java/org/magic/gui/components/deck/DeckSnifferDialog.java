@@ -43,11 +43,18 @@ public class DeckSnifferDialog extends JDialog {
 	private MTGDeck importedDeck;
 	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 	private JButton btnImport;
-	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
 	private JPanel cardFilterPanel;
 	
 	private MTGCard filteredCard=null;
+
+	
+	
+	private MTGDeckSniffer getSelectedSniffer()
+	{
+		return (MTGDeckSniffer) cboSniffers.getSelectedItem();
+	}
+	
 	
 
 	public DeckSnifferDialog() {
@@ -64,11 +71,13 @@ public class DeckSnifferDialog extends JDialog {
 		
 		model = new DeckSnifferTableModel();
 		table=UITools.createNewTable(model,true);
-		selectedSniffer = listEnabledPlugins(MTGDeckSniffer.class).get(0);
 		var panelButton = new JPanel();
 		cboSniffers =UITools.createComboboxPlugins(MTGDeckSniffer.class,false);
+		
+		
+		
 		btnConnect = new JButton(capitalize("OPEN"));
-		cboFormats = new JComboBox<>();
+		cboFormats = UITools.createCombobox(getSelectedSniffer().listFilter());
 		var labCardFilter = new JLabel("With this card : ");
 		var btnCardImport = UITools.createBindableJButton("", MTGConstants.ICON_TAB_IMPORT, KeyEvent.VK_I, "WithCard");
 		var lblCard = new JLabel();
@@ -79,7 +88,7 @@ public class DeckSnifferDialog extends JDialog {
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		
 		
-		cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
+		cardFilterPanel.setVisible(getSelectedSniffer().hasCardFilter());
 		btnClose.setToolTipText(capitalize("CANCEL"));
 		btnImport.setToolTipText(capitalize("IMPORT"));
 		
@@ -127,20 +136,19 @@ public class DeckSnifferDialog extends JDialog {
 		cboSniffers.addActionListener(e -> {
 			cboFormats.removeAllItems();
 			model.clear();
-			selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem();
+		
 			
-			
-			for (String s : selectedSniffer.listFilter())
+			for (String s : getSelectedSniffer().listFilter())
 				cboFormats.addItem(s);
 			
-			cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
+			cardFilterPanel.setVisible(getSelectedSniffer().hasCardFilter());
 			
 		});
 		
 				
 		btnConnect.addActionListener(e -> {
 				lblLoad.start();
-				ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<List <RetrievableDeck>, MTGCard, MTGDeckSniffer>(lblLoad,selectedSniffer){
+				ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<List <RetrievableDeck>, MTGCard, MTGDeckSniffer>(lblLoad,getSelectedSniffer()){
 
 					@Override
 					protected List <RetrievableDeck> doInBackground() throws Exception {
@@ -161,7 +169,7 @@ public class DeckSnifferDialog extends JDialog {
 
 		btnImport.addActionListener(e ->{
 
-				var sw = new AbstractObservableWorker<MTGDeck, MTGCard, MTGDeckSniffer>(lblLoad,selectedSniffer) {
+				var sw = new AbstractObservableWorker<MTGDeck, MTGCard, MTGDeckSniffer>(lblLoad,getSelectedSniffer()) {
 
 				@Override
 				protected void process(List<MTGCard> chunks) {
