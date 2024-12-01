@@ -110,7 +110,7 @@ public class DeckSnifferDialog extends JDialog {
 				cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
 				
 				
-				panelNorth.add(UITools.createFlowPanel(cboSniffers,btnConnect,cboFormats,cardFilterPanel), BorderLayout.WEST);
+				panelNorth.add(UITools.createFlowPanel(cboSniffers,cardFilterPanel,btnConnect,cboFormats), BorderLayout.WEST);
 						
 						
 						cboFormats.addActionListener(e -> {
@@ -160,6 +160,7 @@ public class DeckSnifferDialog extends JDialog {
 		cboSniffers.addActionListener(e -> {
 			selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem();
 			cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
+			pack();
 		});
 
 		var panelButton = new JPanel();

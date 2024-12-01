@@ -90,18 +90,59 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	
+	@Override
+	public boolean hasCardFilter() {
+		return true;
+	}
+	
+	
+	
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
+	public List<RetrievableDeck> getDeckList(String fmc, MTGCard mc) throws IOException {
 		
 		var ret = new ArrayList<RetrievableDeck>();
+		
+		var cardId="";
+		
+		if(mc!=null)
+		{
+			try { 
+			var json = RequestBuilder.build()
+					  .setClient(client)
+					  .get()
+					  .url(BASE_URI+"/cards/search?page=1&q="+URLTools.encode(mc.getName()))
+					  .toJson().getAsJsonObject().get("data").getAsJsonArray();
+			
+			if(!json.isEmpty())
+			{
+				
+				for(var jo : json)
+				{
+					if(jo.getAsJsonObject().get("name").getAsString().equalsIgnoreCase(mc.getName()))
+							{
+								cardId = jo.getAsJsonObject().get("id").getAsString();
+									break;
+							}
+				}
+			}
+			
+			}
+			catch(Exception e)
+			{
+				logger.error("Cant get card id for {}",mc);
+				cardId="";
+			}
+			
+		}
+		
 		
 		for(var i = 1; i<=getInt("MAX_PAGE");i++)
 		{
 			var json = RequestBuilder.build()
 					  .setClient(client)
 					  .get()
-					  .url(BASE_URI+"/decks/search?pageNumber="+i+"&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+filter+"&filter=")
+					  .url(BASE_URI+"/decks/search?pageNumber="+i+"&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+fmc + (cardId.equals("")?"":"&cardId="+cardId))
 					  .toJson();
 
 
