@@ -9,8 +9,8 @@ if(dao.isSQL()) {
 	}
 
 	
-	dao.executeQuery("UPDATE stocks SET digital = true where condition ='ONLINE'");
-	dao.executeQuery("UPDATE stocks SET condition = 'MINT' where condition ='ONLINE'");
+	dao.executeQuery("UPDATE stocks SET digital = true where conditions ='ONLINE'");
+	dao.executeQuery("UPDATE stocks SET conditions = 'MINT' where conditions ='ONLINE'");
 	
 	
 	printf("filling stocks columns--done");
