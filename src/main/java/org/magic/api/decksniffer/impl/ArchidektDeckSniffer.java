@@ -38,13 +38,6 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 	
 	@Override
-	public boolean hasCardFilter() {
-		// TODO Auto-generated method stub
-		return super.hasCardFilter();
-	}
-	
-	
-	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
 		logger.debug("sniff deck at {}",info.getUrl());

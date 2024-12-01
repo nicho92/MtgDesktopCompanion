@@ -50,7 +50,7 @@ import org.magic.gui.StockPanelGUI;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.deck.ConstructPanel;
 import org.magic.gui.components.deck.JDeckChooserDialog;
-import org.magic.gui.components.dialog.importer.CardChooseDialog;
+import org.magic.gui.components.dialog.importer.CardImporterDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.MessageRenderer;
@@ -339,7 +339,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnSearch.addActionListener(al->{
 			try 
 			{
-				var diag = new CardChooseDialog();
+				var diag = new CardImporterDialog();
 				diag.setVisible(true);
 				
 				if(diag.hasSelected())

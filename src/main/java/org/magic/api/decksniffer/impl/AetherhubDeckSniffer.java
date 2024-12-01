@@ -59,10 +59,6 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	}
 	
-	@Override
-	public boolean hasCardFilter() {
-		return true;
-	}
 
 	@Override
 	public boolean equals(Object obj) {

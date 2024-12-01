@@ -70,11 +70,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	
 	@Override
-	public boolean hasCardFilter() {
-		return true;
-	}
-	
-	@Override
 	public String[] listFilter() {
 		return new String[] { "casual", "standard", "modern", "legacy", "edh-commander", "highlander", "frontier","pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
 	}

@@ -5,11 +5,13 @@ import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -21,6 +23,7 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.components.dialog.importer.CardImporterDialog;
 import org.magic.gui.models.DeckSnifferTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -46,6 +49,10 @@ public class DeckSnifferDialog extends JDialog {
 	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private JPanel cardFilterPanel;
+	
+	private MTGCard filteredCard=null;
+	
 
 	public DeckSnifferDialog() {
 
@@ -60,26 +67,61 @@ public class DeckSnifferDialog extends JDialog {
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 
-		var panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.NORTH);
+		var panelNorth = new JPanel();
+		getContentPane().add(panelNorth, BorderLayout.NORTH);
 
 		selectedSniffer = listEnabledPlugins(MTGDeckSniffer.class).get(0);
-		panel.setLayout(new BorderLayout(0, 0));
+		panelNorth.setLayout(new BorderLayout(0, 0));
 
 
-		panel.add(lblLoad, BorderLayout.CENTER);
+		panelNorth.add(lblLoad, BorderLayout.CENTER);
 
 				cboSniffers =UITools.createComboboxPlugins(MTGDeckSniffer.class,false);
 				btnConnect = new JButton(capitalize("CONNECT"));
 				cboFormats = new JComboBox<>();
-				panel.add(UITools.createFlowPanel(cboSniffers,btnConnect,cboFormats), BorderLayout.WEST);
-						
+				
+				
+				var labCardFilter = new JLabel("With this card : ");
+				var btnCardImport = UITools.createBindableJButton("", MTGConstants.ICON_TAB_IMPORT, KeyEvent.VK_I, "WithCard");
+				var lblCard = new JLabel();
+				var btnRemoveCard = new JButton(MTGConstants.ICON_SMALL_DELETE);
+				
+				btnCardImport.addActionListener(al->{
+					var importer = new CardImporterDialog();
+					importer.setVisible(true);
+					
+					if(importer.hasSelected())
+					{
+						filteredCard = importer.getSelectedItem();
+						lblCard.setText(filteredCard.getName());
+					}
+				});
+				
+				btnRemoveCard.addActionListener(al->{
+					filteredCard = null;
+					lblCard.setText("");
+					
+				});
+				
+				
+				
+				cardFilterPanel = UITools.createFlowPanel(labCardFilter,btnCardImport,lblCard,btnRemoveCard);
+				
+				cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
+				
+				
+				panelNorth.add(UITools.createFlowPanel(cboSniffers,btnConnect,cboFormats,cardFilterPanel), BorderLayout.WEST);
 						
 						
 						cboFormats.addActionListener(e -> {
 							try {
 								lblLoad.start();
-								model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString(),null));
+								
+								if(selectedSniffer.hasCardFilter())
+									model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString(),filteredCard));
+								else
+									model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString(),null));
+								
 								model.fireTableDataChanged();
 								lblLoad.end();
 							}catch (NullPointerException e1) {
@@ -115,7 +157,10 @@ public class DeckSnifferDialog extends JDialog {
 					}
 				}, "Connection to " + selectedSniffer));
 
-		cboSniffers.addActionListener(e -> selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem());
+		cboSniffers.addActionListener(e -> {
+			selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem();
+			cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
+		});
 
 		var panelButton = new JPanel();
 		getContentPane().add(panelButton, BorderLayout.SOUTH);

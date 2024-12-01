@@ -10,7 +10,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.card.CardSearchPanel;
 
-public class CardChooseDialog extends AbstractDelegatedImporterDialog<MTGCard> {
+public class CardImporterDialog extends AbstractDelegatedImporterDialog<MTGCard> {
 
 	private static final long serialVersionUID = 1L;
 	JButton selectCard;
