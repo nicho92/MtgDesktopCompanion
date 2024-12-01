@@ -13,13 +13,11 @@ public interface MTGDeckSniffer extends MTGPlugin {
 
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException;
 
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException;
+	public List<RetrievableDeck> getDeckList(String filter,MTGCard mc) throws IOException;
 
 	public void connect() throws IOException;
 	
 	public boolean hasCardFilter();
 		
-	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException;
-	
 	
 }

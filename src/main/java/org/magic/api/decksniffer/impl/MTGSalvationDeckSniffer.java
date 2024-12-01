@@ -93,7 +93,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
 		var baseUrl="https://www.mtgsalvation.com/";
 		

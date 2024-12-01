@@ -45,14 +45,6 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	
 	
 	@Override
-	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
-	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
 		logger.debug("sniff deck at {}",info.getUrl());
@@ -106,7 +98,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		List<RetrievableDeck> ret = new ArrayList<>();
 
 		

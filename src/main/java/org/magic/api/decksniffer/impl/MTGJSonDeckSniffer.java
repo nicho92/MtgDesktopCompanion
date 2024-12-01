@@ -7,6 +7,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -83,7 +84,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		var d = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
 		var arr = d.getAsJsonObject().get("data").getAsJsonArray();
 

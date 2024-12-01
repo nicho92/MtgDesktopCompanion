@@ -682,7 +682,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 	
 		get("/deck/search/:provider/:filter", URLTools.HEADER_JSON,(request, response) ->
-			getPlugin(request.params(PROVIDER),MTGDeckSniffer.class).getDeckList(request.params(":filter"))
+			getPlugin(request.params(PROVIDER),MTGDeckSniffer.class).getDeckList(request.params(":filter"),null)
 		,transformer);
 	
 	

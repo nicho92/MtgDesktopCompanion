@@ -75,13 +75,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	@Override
-	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	@Override
 	public String[] listFilter() {
 		return new String[] { "casual", "standard", "modern", "legacy", "edh-commander", "highlander", "frontier","pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
 	}
@@ -174,7 +167,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
 		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();

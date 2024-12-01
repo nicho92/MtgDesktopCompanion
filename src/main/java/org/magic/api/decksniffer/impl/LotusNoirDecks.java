@@ -72,7 +72,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
 		var baseUrl="http://www.lotusnoir.info/magic/decks/";
 		

@@ -233,7 +233,7 @@ public class MTGDeckManager extends Observable {
 			var deckServices = listEnabledPlugins(MTGDeckSniffer.class).stream().filter(p->p.getStatut()==STATUT.STABLE).toList();
 			var sniffer = deckServices.get(random.nextInt(deckServices.size()));
 			var formats = sniffer.listFilter();
-			var availableDecks = sniffer.getDeckList(formats[random.nextInt(formats.length)]);
+			var availableDecks = sniffer.getDeckList(formats[random.nextInt(formats.length)],null);
 			var d = availableDecks.get(random.nextInt(availableDecks.size()));
 			
 			logger.info("Generating random deck from {} : {} ", sniffer,d.getName());

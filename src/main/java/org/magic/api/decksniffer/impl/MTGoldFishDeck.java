@@ -101,7 +101,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		var url = "";
 		metagames = getBoolean("METAGAME");
 

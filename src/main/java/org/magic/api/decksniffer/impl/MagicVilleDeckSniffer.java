@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
@@ -81,7 +82,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
 		List<RetrievableDeck> ret = new ArrayList<>();
 		int maxPage=getInt("MAX_PAGE");

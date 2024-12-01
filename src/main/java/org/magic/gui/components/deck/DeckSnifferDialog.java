@@ -46,7 +46,6 @@ public class DeckSnifferDialog extends JDialog {
 	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private JPanel panelChoose;
 
 	public DeckSnifferDialog() {
 
@@ -70,20 +69,17 @@ public class DeckSnifferDialog extends JDialog {
 
 		panel.add(lblLoad, BorderLayout.CENTER);
 
-		panelChoose = new JPanel();
-		panel.add(panelChoose, BorderLayout.WEST);
 				cboSniffers =UITools.createComboboxPlugins(MTGDeckSniffer.class,false);
-				panelChoose.add(cboSniffers);
-
 				btnConnect = new JButton(capitalize("CONNECT"));
-				panelChoose.add(btnConnect);
-
-						cboFormats = new JComboBox<>();
-						panelChoose.add(cboFormats);
+				cboFormats = new JComboBox<>();
+				panel.add(UITools.createFlowPanel(cboSniffers,btnConnect,cboFormats), BorderLayout.WEST);
+						
+						
+						
 						cboFormats.addActionListener(e -> {
 							try {
 								lblLoad.start();
-								model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString()));
+								model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString(),null));
 								model.fireTableDataChanged();
 								lblLoad.end();
 							}catch (NullPointerException e1) {

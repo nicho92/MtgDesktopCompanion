@@ -63,13 +63,6 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	public boolean hasCardFilter() {
 		return true;
 	}
-	
-	@Override
-	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -132,7 +125,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		Map<String,String> headers = new HashMap<>();

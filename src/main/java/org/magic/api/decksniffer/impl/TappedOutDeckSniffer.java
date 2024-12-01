@@ -128,7 +128,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		var root = URLTools.extractAsJson(URI_BASE+"/api/deck/latest/"+ filter+"/");
 		List<RetrievableDeck> list = new ArrayList<>();
 
