@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.MTGProperty;
@@ -35,6 +36,22 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		return STATUT.DEV;
 	}
 
+	
+	@Override
+	public boolean hasCardFilter() {
+		// TODO Auto-generated method stub
+		return super.hasCardFilter();
+	}
+	
+	
+	@Override
+	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 

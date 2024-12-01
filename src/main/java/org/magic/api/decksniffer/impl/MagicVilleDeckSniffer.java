@@ -43,6 +43,14 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
+	public boolean hasCardFilter() {
+		return true;
+	}
+	
+	
+	
+	
+	@Override
 	public String[] listFilter() {
 		return mapCodes.keySet().stream().toArray(String[]::new);
 	}

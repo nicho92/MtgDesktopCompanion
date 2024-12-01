@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -57,6 +58,18 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		httpclient = URLTools.newClient();
 
 	}
+	
+	@Override
+	public boolean hasCardFilter() {
+		return true;
+	}
+	
+	@Override
+	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 	@Override
 	public boolean equals(Object obj) {

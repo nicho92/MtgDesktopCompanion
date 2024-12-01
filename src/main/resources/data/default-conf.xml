@@ -574,10 +574,6 @@
       <enable>true</enable>
     </sniffer>
     <sniffer>
-      <class>org.magic.api.decksniffer.impl.MTGArenaDeckSniffer</class>
-      <enable>true</enable>
-    </sniffer>
-    <sniffer>
       <class>org.magic.api.decksniffer.impl.MoxfieldDeckSniffer</class>
       <enable>true</enable>
     </sniffer>

@@ -68,6 +68,19 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		cacheColor.put(31, "{W}{U}{B}{R}{G}");
 	}
 
+	
+	@Override
+	public boolean hasCardFilter() {
+		return true;
+	}
+	
+	@Override
+	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 	@Override
 	public String[] listFilter() {
 		return new String[] { "casual", "standard", "modern", "legacy", "edh-commander", "highlander", "frontier","pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };

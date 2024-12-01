@@ -2,7 +2,11 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
 
 public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements MTGDeckSniffer {
@@ -26,4 +30,19 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 		return new AbstractMap.SimpleEntry<>(cardName, qte);
 	}
 
+
+	@Override
+	public boolean hasCardFilter() {
+		return false;
+	}
+	
+	@Override
+	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException {
+		return new ArrayList<RetrievableDeck>();
+	}
+	
+	
+	
+	
+	
 }

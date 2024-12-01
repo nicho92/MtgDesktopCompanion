@@ -89,6 +89,19 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 		return m;
 	}
 	
+	
+	@Override
+	public boolean hasCardFilter() {
+		return true;
+	}
+		
+	@Override
+	public List<RetrievableDeck> getDeckList(MTGCard filter) throws IOException {
+		return super.getDeckList(filter);
+	}
+	
+	
+	
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
