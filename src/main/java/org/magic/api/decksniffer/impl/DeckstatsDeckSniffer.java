@@ -19,6 +19,7 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 
@@ -26,11 +27,13 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private Map<Integer, String> cacheColor;
+	private HashMap<String,Integer>formats;
 
 
 	public DeckstatsDeckSniffer() {
 		super();
 		cacheColor = new HashMap<>();
+		formats = new HashMap<>();
 		initcache();
 	}
 
@@ -66,12 +69,38 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		cacheColor.put(29, "{W}{B}{R}{G}");
 		cacheColor.put(30, "{U}{B}{R}{G}");
 		cacheColor.put(31, "{W}{U}{B}{R}{G}");
+		
+		
+		
+		formats.put("casual", 1);
+		formats.put("standard", 6);
+		formats.put("modern", 4);
+		formats.put("EDH-Commander", 10);
+		formats.put("Oathbreaker", 17);
+		formats.put("Pioneer", 18);
+		formats.put("Explorer", 22);
+		formats.put("Historic", 19);
+		formats.put("Brawl", 16);
+		formats.put("Legacy", 3);
+		formats.put("vintage", 2);
+		formats.put("pauper", 9);
+		formats.put("highlander", 7);
+		formats.put("tiny-leaders", 12);
+		formats.put("frontier", 13);
+		formats.put("peasant", 11);
+		formats.put("extended", 5);
+		formats.put("cube",8);
+		formats.put("limited",14);
+		formats.put("other",9999);
+		
 	}
 
 	
 	@Override
 	public String[] listFilter() {
-		return new String[] { "casual", "standard", "modern", "legacy", "edh-commander", "highlander", "frontier","pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
+		return formats.keySet().toArray(new String[formats.keySet().size()]);
+		
+		
 	}
 	
 	@Override
@@ -160,15 +189,33 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		
 		
 	}
+	
+	@Override
+	public boolean hasCardFilter() {
+		return true;
+	}
+	
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
-		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
-
-		for (var i = 1; i <= nbPage; i++) {
-			Document d = URLTools.extractAsHtml("https://deckstats.net/decks/f/" + filter + "/?lng=fr&page=" + i);
+		
+		for (var i = 1; i <= getInt(MAX_PAGE); i++) {
+			
+			var q = RequestBuilder.build().get().setClient(URLTools.newClient())
+									.url("https://deckstats.net/decks/search")
+									.addContent("search_format",""+formats.get(filter))
+									.addContent("lng","fr")
+									.addContent("search_order",getString("TYPES_ORDER")+",desc")
+									.addContent("page",""+i);
+			
+				if(mc!=null)
+					q.addContent("search_cards[]",mc.getName());
+			
+			
+			var d = q.toHtml();
+			
 			Elements e = d.select("tr.deck_row");
 
 			for (Element cont : e) {
@@ -205,6 +252,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
+		m.put("TYPES_ORDER", new MTGProperty("updated", "How to sort search results","updated","likes","views","price","name"));
 		return m;
 	}
 
