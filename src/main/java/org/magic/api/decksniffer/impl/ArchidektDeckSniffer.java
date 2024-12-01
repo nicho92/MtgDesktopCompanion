@@ -89,6 +89,13 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 		return deck;
 	}
+	
+	
+	@Override
+	public boolean hasCardFilter() {
+		return true;
+	}
+	
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
@@ -99,7 +106,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		{
 
 			
-			var arr = RequestBuilder.build()
+			var q = RequestBuilder.build()
 							.setClient(URLTools.newClient())
 							.url(BASE_URI+"/decks/cards/")
 							.get()
@@ -107,8 +114,15 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 							.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), filter)+1))
 							.addContent("pageSize", "50")
 							.addContent("page",String.valueOf(i))
-							.addHeader("accept", URLTools.HEADER_JSON)
-							.toJson().getAsJsonObject().get("results").getAsJsonArray();
+							.addHeader("accept", URLTools.HEADER_JSON);
+			
+			
+				if(mc!=null)
+					q.addContent("cards",mc.getName());
+			
+			
+			
+			var arr = q.toJson().getAsJsonObject().get("results").getAsJsonArray();
 
 
 
