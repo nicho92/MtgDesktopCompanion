@@ -12,11 +12,6 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 		return PLUGINS.DECKSNIFFER;
 	}
 
-	@Override
-	public void connect() throws IOException {
-		// do nothing by default
-
-	}
 
 	protected AbstractMap.SimpleEntry<String,Integer> parseString(String s)
 	{

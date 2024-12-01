@@ -15,8 +15,7 @@ public interface MTGDeckSniffer extends MTGPlugin {
 
 	public List<RetrievableDeck> getDeckList(String filter,MTGCard mc) throws IOException;
 
-	public void connect() throws IOException;
-	
+
 	public boolean hasCardFilter();
 		
 	

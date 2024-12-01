@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -28,8 +27,6 @@ import org.magic.gui.models.DeckSnifferTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
-import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
@@ -48,7 +45,6 @@ public class DeckSnifferDialog extends JDialog {
 	private JButton btnImport;
 	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel cardFilterPanel;
 	
 	private MTGCard filteredCard=null;
@@ -59,133 +55,108 @@ public class DeckSnifferDialog extends JDialog {
 		importedDeck = new MTGDeck();
 		setSize(new Dimension(500, 300));
 		setTitle(capitalize("DECKS_IMPORTER"));
+		setLocationRelativeTo(null);
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		setModal(true);
+		
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		
 		model = new DeckSnifferTableModel();
-		table = UITools.createNewTable(model,true);
-		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-
-
-		var panelNorth = new JPanel();
-		getContentPane().add(panelNorth, BorderLayout.NORTH);
-
+		table=UITools.createNewTable(model,true);
 		selectedSniffer = listEnabledPlugins(MTGDeckSniffer.class).get(0);
-		panelNorth.setLayout(new BorderLayout(0, 0));
-
-
-		panelNorth.add(lblLoad, BorderLayout.CENTER);
-
-				cboSniffers =UITools.createComboboxPlugins(MTGDeckSniffer.class,false);
-				btnConnect = new JButton(capitalize("CONNECT"));
-				cboFormats = new JComboBox<>();
-				
-				
-				var labCardFilter = new JLabel("With this card : ");
-				var btnCardImport = UITools.createBindableJButton("", MTGConstants.ICON_TAB_IMPORT, KeyEvent.VK_I, "WithCard");
-				var lblCard = new JLabel();
-				var btnRemoveCard = new JButton(MTGConstants.ICON_SMALL_DELETE);
-				
-				btnCardImport.addActionListener(al->{
-					var importer = new CardImporterDialog();
-					importer.setVisible(true);
-					
-					if(importer.hasSelected())
-					{
-						filteredCard = importer.getSelectedItem();
-						lblCard.setText(filteredCard.getName());
-					}
-				});
-				
-				btnRemoveCard.addActionListener(al->{
-					filteredCard = null;
-					lblCard.setText("");
-					
-				});
-				
-				
-				
-				cardFilterPanel = UITools.createFlowPanel(labCardFilter,btnCardImport,lblCard,btnRemoveCard);
-				
-				cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
-				
-				
-				panelNorth.add(UITools.createFlowPanel(cboSniffers,cardFilterPanel,btnConnect,cboFormats), BorderLayout.WEST);
-						
-						
-						cboFormats.addActionListener(e -> {
-							try {
-								lblLoad.start();
-								
-								if(selectedSniffer.hasCardFilter())
-									model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString(),filteredCard));
-								else
-									model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString(),null));
-								
-								model.fireTableDataChanged();
-								lblLoad.end();
-							}catch (NullPointerException e1) {
-								//	do nothing
-							} 
-							catch (Exception e1) {
-								lblLoad.end();
-								logger.error("error change cboFormat", e1);
-								MTGControler.getInstance().notify(e1);
-							}
-						});
-
-				btnConnect.addActionListener(e -> ThreadManager.getInstance().executeThread(new MTGRunnable() {
-
-					@Override
-					protected void auditedRun() {
-						try {
-							lblLoad.start();
-							selectedSniffer.connect();
-							cboFormats.removeAllItems();
-
-							for (String s : selectedSniffer.listFilter())
-								cboFormats.addItem(s);
-
-
-							lblLoad.end();
-
-						} catch (Exception e1) {
-							lblLoad.end();
-							MTGControler.getInstance().notify(e1);
-						}
-
-					}
-				}, "Connection to " + selectedSniffer));
-
-		cboSniffers.addActionListener(e -> {
-			selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem();
-			cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
-			pack();
-		});
-
 		var panelButton = new JPanel();
-		getContentPane().add(panelButton, BorderLayout.SOUTH);
-
+		cboSniffers =UITools.createComboboxPlugins(MTGDeckSniffer.class,false);
+		btnConnect = new JButton(capitalize("CONNECT"));
+		cboFormats = new JComboBox<>();
+		var labCardFilter = new JLabel("With this card : ");
+		var btnCardImport = UITools.createBindableJButton("", MTGConstants.ICON_TAB_IMPORT, KeyEvent.VK_I, "WithCard");
+		var lblCard = new JLabel();
+		var btnRemoveCard = new JButton(MTGConstants.ICON_SMALL_DELETE);
+		cardFilterPanel = UITools.createFlowPanel(labCardFilter,btnCardImport,lblCard,btnRemoveCard);
+		var panelNorth = UITools.createFlowPanel(cboSniffers,cardFilterPanel,cboFormats,btnConnect,lblLoad);
 		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
+		btnImport = new JButton(MTGConstants.ICON_CHECK);
+		
+		
+		cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
 		btnClose.setToolTipText(capitalize("CANCEL"));
-
-		btnClose.addActionListener(e -> dispose());
+		btnImport.setToolTipText(capitalize("IMPORT"));
+		
+		
+		
+		getContentPane().add(panelNorth, BorderLayout.NORTH);
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+		getContentPane().add(panelButton, BorderLayout.SOUTH);
 		panelButton.add(btnClose);
-
-		setLocationRelativeTo(null);
 
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		btnImport = new JButton(MTGConstants.ICON_CHECK);
-		btnImport.setToolTipText(capitalize("IMPORT"));
+
+		
 
 		panelButton.add(btnImport);
 
+		
+		
+		btnClose.addActionListener(e -> dispose());
+		
+		btnCardImport.addActionListener(al->{
+			var importer = new CardImporterDialog();
+			importer.setVisible(true);
+			
+			if(importer.hasSelected())
+			{
+				filteredCard = importer.getSelectedItem();
+				lblCard.setText(filteredCard.getName());
+			}
+		});
+		
+		btnRemoveCard.addActionListener(al->{
+			filteredCard = null;
+			lblCard.setText("");
+			
+		});
+		
+		
+		
+
+		cboSniffers.addActionListener(e -> {
+			cboFormats.removeAllItems();
+			selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem();
+			
+			for (String s : selectedSniffer.listFilter())
+				cboFormats.addItem(s);
+			
+			cardFilterPanel.setVisible(selectedSniffer.hasCardFilter());
+			pack();
+		});
+		
+				
+		btnConnect.addActionListener(e -> {
+				lblLoad.start();
+				ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<List <RetrievableDeck>, MTGCard, MTGDeckSniffer>(lblLoad,selectedSniffer){
+
+					@Override
+					protected List <RetrievableDeck> doInBackground() throws Exception {
+						if(plug.hasCardFilter())
+							return plug.getDeckList(cboFormats.getSelectedItem().toString(),filteredCard);
+						else
+							return plug.getDeckList(cboFormats.getSelectedItem().toString(),null);
+					}
+
+					@Override
+					protected void notifyEnd() {
+						model.init(getResult());
+						model.fireTableDataChanged();
+					}
+				}, "snif deck");
+		});
 
 
 		btnImport.addActionListener(e ->{
 
-			AbstractObservableWorker<MTGDeck, MTGCard, MTGDeckSniffer> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
+				var sw = new AbstractObservableWorker<MTGDeck, MTGCard, MTGDeckSniffer>(lblLoad,selectedSniffer) {
 
 				@Override
 				protected void process(List<MTGCard> chunks) {
@@ -217,6 +188,10 @@ public class DeckSnifferDialog extends JDialog {
 
 		ThreadManager.getInstance().runInEdt(sw, "Import deck");
 
+		
+		pack();
+		
+		
 		});
 
 

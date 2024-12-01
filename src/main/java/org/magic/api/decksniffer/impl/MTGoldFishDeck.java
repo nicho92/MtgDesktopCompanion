@@ -154,7 +154,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 
 					deck.setName(desc.get(0).text());
-					deck.setUrl(new URI(getString("URL") + desc.get(0).attr("href")));
+					deck.setUrl(new URI(baseUrl + desc.get(0).attr("href")));
 
 					if (metagames)
 						deck.setAuthor("MtgGoldFish");
