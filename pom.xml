@@ -7,7 +7,7 @@
 	<url>https://www.mtgcompanion.org</url>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>2.52</version>
+	<version>2.53</version>
 	<packaging>jar</packaging>
 	<issueManagement>
 		<system>GitHub</system>
@@ -100,7 +100,7 @@
 		<dependency>
 			<groupId>io.lettuce</groupId>
 			<artifactId>lettuce-core</artifactId>
-			<version>6.5.0.RELEASE</version>
+			<version>6.5.1.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>

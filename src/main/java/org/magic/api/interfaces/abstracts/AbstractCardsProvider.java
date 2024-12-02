@@ -57,6 +57,12 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return b;
 	}
 	
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public List<String> getLanguages() {
