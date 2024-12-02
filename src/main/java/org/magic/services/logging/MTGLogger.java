@@ -46,7 +46,6 @@ public class MTGLogger {
 		{
 			getContext().getLogger(MTGLogger.class).error("Error setting logger level to {}",l);
 		}
-	
 	}
 
 	public static void changeLevel(Level l) {
@@ -55,7 +54,7 @@ public class MTGLogger {
 	
 	public static LoggerContext getContext()
 	{
-		return (LoggerContext) LogManager.getContext(true);
+		return (LoggerContext) LogManager.getContext(false);
 	}
 	
 

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
@@ -28,7 +27,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "Historic", "Pauper", "Pioneer",	"Highlander","Old-school" };
+		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "Historic", "Timeless","Explorer","Pauper", "Pioneer",	"Highlander","Old-school" };
 	}
 
 	
@@ -85,18 +84,17 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		List<RetrievableDeck> list = new ArrayList<>();
-		var nbPage = 1;
-		var maxPage = getInt(MAX_PAGE);
 
-		for (var i = 1; i <= maxPage; i++) {
-			var url = URL + "/" + filter + "/decklists/page:" + nbPage;
+		for (var i = 1; i <= getInt(MAX_PAGE); i++) 
+		{
+			var url = URL + "/" + filter + "/decklists/page:" + i;
 			logger.debug("read deck list at {}", url);
-			Document d = URLTools.extractAsHtml(url);
+			var d = URLTools.extractAsHtml(url);
+			var trs = d.select("table.hidden-xs tr ");
 
-			Elements trs = d.select("table.hidden-xs tr ");
-
-			for (var j = 1; j < trs.size(); j++) {
-				Element tr = trs.get(j);
+			for (var j = 1; j < trs.size(); j++) 
+			{
+				var tr = trs.get(j);
 				var deck = new RetrievableDeck();
 
 				deck.setName(tr.select("td a").first().text());
@@ -107,7 +105,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				}
 				deck.setAuthor(tr.select("td").get(2).select("strong").text());
 
-				String manas = tr.select("td").get(3).html();
+				var manas = tr.select("td").get(3).html();
 
 				var build = new StringBuilder();
 
@@ -125,12 +123,10 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				deck.setColor(build.toString());
 				list.add(deck);
 			}
-			nbPage++;
 		}
 
 		return list;
 	}
-
 
 	@Override
 	public String getName() {
