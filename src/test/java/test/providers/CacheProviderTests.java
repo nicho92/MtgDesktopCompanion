@@ -29,9 +29,7 @@ public class CacheProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGPictureCache.class).forEach(p->{
-			testPlugin(p);	
-		});
+		PluginRegistry.inst().listPlugins(MTGPictureCache.class).forEach(this::testPlugin);
 	}
 	
 	
