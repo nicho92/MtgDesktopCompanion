@@ -15,7 +15,7 @@ import org.apache.logging.log4j.core.config.plugins.PluginFactory;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-@Plugin(name = "MTGAppender", category = Core.CATEGORY_NAME,elementType = Appender.ELEMENT_TYPE)
+@Plugin(name = "MTGAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
 public class MTGAppender extends AbstractAppender  {
 
 	private List<LogEvent> events;
