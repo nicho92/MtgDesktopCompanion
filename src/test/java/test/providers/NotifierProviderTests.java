@@ -26,9 +26,7 @@ public class NotifierProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGNotifier.class).forEach(p->{
-			testPlugin(p);	
-		});
+		PluginRegistry.inst().listPlugins(MTGNotifier.class).forEach(this::testPlugin);
 	}
 	
 	

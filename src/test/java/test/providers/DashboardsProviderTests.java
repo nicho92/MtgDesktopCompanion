@@ -29,9 +29,7 @@ public class DashboardsProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGDashBoard.class).forEach(p->{
-			testPlugin(p);	
-		});
+		PluginRegistry.inst().listPlugins(MTGDashBoard.class).forEach(this::testPlugin);
 	}
 	
 	

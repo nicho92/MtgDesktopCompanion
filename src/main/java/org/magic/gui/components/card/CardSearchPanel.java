@@ -644,7 +644,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		txtFilter.addActionListener(ae -> {
 			String text = txtFilter.getText();
-			if (text.length() == 0) {
+			if (text.isEmpty()) {
 				sorterCards.setRowFilter(null);
 			} else {
 				sorterCards.setRowFilter(RowFilter.regexFilter(text));

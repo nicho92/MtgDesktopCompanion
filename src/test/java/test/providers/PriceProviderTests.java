@@ -26,9 +26,7 @@ public class PriceProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGPricesProvider.class).forEach(p->{
-			testPlugin(p);	
-		});
+		PluginRegistry.inst().listPlugins(MTGPricesProvider.class).forEach(this::testPlugin);
 	}
 	
 	public void testPlugin(MTGPricesProvider p)

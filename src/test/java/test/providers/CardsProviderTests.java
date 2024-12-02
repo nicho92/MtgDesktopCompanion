@@ -25,9 +25,7 @@ public class CardsProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGCardsProvider.class).forEach(p->{
-			testPlugin(p);	
-		});
+		PluginRegistry.inst().listPlugins(MTGCardsProvider.class).forEach(this::testPlugin);
 	}
 	
 	

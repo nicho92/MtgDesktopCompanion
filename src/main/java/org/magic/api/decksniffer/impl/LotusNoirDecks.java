@@ -44,7 +44,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 			if (cont.text().startsWith("R\u00E9serve"))
 				sideboard = true;
 
-			if (cont2.text().length() > 0) {
+			if (!cont2.text().isEmpty()) {
 
 				Integer qte = parseString(cont2.text()).getValue();
 				String cardName = parseString(cont2.text()).getKey();

@@ -24,9 +24,7 @@ public class DeckSnifferProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGDeckSniffer.class).forEach(p->{
-			testPlugin(p);	
-		});
+		PluginRegistry.inst().listPlugins(MTGDeckSniffer.class).forEach(this::testPlugin);
 	}
 	
 	public void testPlugin(MTGDeckSniffer p)

@@ -38,9 +38,7 @@ public class DAOProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
-			testPlugin(p);	
-		});
+		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(this::testPlugin);
 	}
 	
 	

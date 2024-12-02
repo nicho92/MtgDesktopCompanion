@@ -34,9 +34,7 @@ public class ExportsProviderTests {
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGCardsExport.class).forEach(p->{
-			testPlugin(p);	
-		});
+		PluginRegistry.inst().listPlugins(MTGCardsExport.class).forEach(this::testPlugin);
 	}
 	
 	
