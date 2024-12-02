@@ -154,19 +154,19 @@ public class DefaultStockEditorDialog extends JDialog {
 						panel1.add(lblQtyValue);
 						
 						digitalLabel = new JLabel("Digital :");
-						GridBagConstraints gbc_digitalLabel = new GridBagConstraints();
-						gbc_digitalLabel.insets = new Insets(0, 0, 5, 5);
-						gbc_digitalLabel.gridx = 0;
-						gbc_digitalLabel.gridy = 3;
-						mcontentPane.add(digitalLabel, gbc_digitalLabel);
+						GridBagConstraints gbcdigitalLabel = new GridBagConstraints();
+						gbcdigitalLabel.insets = new Insets(0, 0, 5, 5);
+						gbcdigitalLabel.gridx = 0;
+						gbcdigitalLabel.gridy = 3;
+						mcontentPane.add(digitalLabel, gbcdigitalLabel);
 						
 						chkkdigital = new JCheckBox("");
-						GridBagConstraints gbc_chkkdigital = new GridBagConstraints();
-						gbc_chkkdigital.anchor = GridBagConstraints.WEST;
-						gbc_chkkdigital.insets = new Insets(0, 0, 5, 5);
-						gbc_chkkdigital.gridx = 1;
-						gbc_chkkdigital.gridy = 3;
-						mcontentPane.add(chkkdigital, gbc_chkkdigital);
+						GridBagConstraints gbcchkkdigital = new GridBagConstraints();
+						gbcchkkdigital.anchor = GridBagConstraints.WEST;
+						gbcchkkdigital.insets = new Insets(0, 0, 5, 5);
+						gbcchkkdigital.gridx = 1;
+						gbcchkkdigital.gridy = 3;
+						mcontentPane.add(chkkdigital, gbcchkkdigital);
 
 						var languageLabel = new JLabel("Language:");
 						var labelGbc2 = new GridBagConstraints();
