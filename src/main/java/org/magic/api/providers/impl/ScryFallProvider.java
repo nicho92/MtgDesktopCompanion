@@ -284,7 +284,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.BUGGED;
 	}
 
 	@Override
