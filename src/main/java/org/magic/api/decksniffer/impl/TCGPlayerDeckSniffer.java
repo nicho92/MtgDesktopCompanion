@@ -21,20 +21,13 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
-	private static final String PAUPER = "pauper";
-	private static final String PIONEER = "pioneer";
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private static final String SUBDECK_GROUP_CARD_QTY = "subdeck-group__card-qty";
-	private static final String COMMANDER = "commander";
-	private static final String VINTAGE = "vintage";
-	private static final String LEGACY = "legacy";
-	private static final String MODERN = "modern";
-	private static final String STANDARD = "standard";
-
+		
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { STANDARD, MODERN, LEGACY, VINTAGE, COMMANDER,PIONEER,PAUPER};
+		return new String[] { "standard", "modern", "legacy", "vintage", "commander","pioneer","pauper","historic","brawl"};
 	}
 
 	@Override
