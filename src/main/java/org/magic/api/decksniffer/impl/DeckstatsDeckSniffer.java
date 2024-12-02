@@ -107,10 +107,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		//
 
-		MTGDeck deck = info.toBaseDeck();
+		var deck = info.toBaseDeck();
 
 		logger.debug("get deck {}",info.getUrl());
-		Document d = URLTools.extractAsHtml(info.getUrl().toString());
+		var d = URLTools.extractAsHtml(info.getUrl().toString());
 
 		if (d.select("div#deck_overview_info") != null)
 			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
@@ -120,10 +120,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		for (Element a : d.select("a.deck_tags_list_tag"))
 			deck.getTags().add(a.text());
 
-		Elements e = d.select("textarea#deck_code");
-		String content= e.html();
+		var e = d.select("textarea#deck_code");
+		var content= e.html();
 
-		String[] arr  = content.split("\n");
+		var arr  = content.split("\n");
 
 		arr = ArrayUtils.remove(arr, 0); //remove deck name
 		arr = ArrayUtils.remove(arr, 0); //remove //main

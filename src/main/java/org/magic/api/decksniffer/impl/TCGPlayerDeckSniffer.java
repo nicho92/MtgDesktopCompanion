@@ -94,10 +94,9 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		
 		String url = baseUrl + "/magic/deck/search?format=" + filter;
 		logger.debug("get List deck at {}",url);
-		List<RetrievableDeck> list = new ArrayList<>();
-		int maxPage = getInt(MAX_PAGE);
+		var list = new ArrayList<RetrievableDeck>();
 
-		for (var i = 1; i <= maxPage; i++) {
+		for (var i = 1; i <= getInt(MAX_PAGE); i++) {
 			url = baseUrl + "/magic/deck/search?format=" + filter + "&page=" + i;
 			Document d = URLTools.extractAsHtml(url);
 
