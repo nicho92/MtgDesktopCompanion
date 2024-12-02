@@ -5,6 +5,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.api.interfaces.extra.MTGSerializable;
 
@@ -15,10 +16,15 @@ public interface MTGStockItem extends MTGSerializable, Comparable<MTGStockItem> 
 
 	public MTGGrading getGrade();
 
+	@Deprecated 
 	public Double getPrice();
 
+	@Deprecated 
 	public void setPrice(Double price);
 
+	
+	public MoneyValue getValue();
+	
 	public Long getId();
 
 	public void setId(Integer id);

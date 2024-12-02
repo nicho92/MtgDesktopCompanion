@@ -11,6 +11,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
 
@@ -95,7 +96,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			return Boolean.class;
 				
 		case 14:
-			return Double.class;
+			return MoneyValue.class;
 		case 15:
 			return MTGGrading.class;
 		case 16:
@@ -153,7 +154,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 		case 13:
 			return items.get(row).isDigital();
 		case 14:
-			return UITools.roundDouble(items.get(row).getPrice());
+			return items.get(row).getValue();
 		case 15:
 			return items.get(row).getGrade();
 		case 16:

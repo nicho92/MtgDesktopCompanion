@@ -7,6 +7,7 @@ import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
 
@@ -30,7 +31,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 		case 5: return EnumCondition.class;
 		case 6: return Integer.class;
 		case 7: return MTGCollection.class;
-		case 8: return Double.class;
+		case 8: return MoneyValue.class;
 		default: return super.getColumnClass(columnIndex);
 		}
 	}
@@ -52,7 +53,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 			case 5: return it.getCondition();
 			case 6 : return it.getQte();
 			case 7 : return it.getMagicCollection();
-			case 8 : return it.getPrice();
+			case 8 : return it.getValue();
 			case 9 : return it.getTiersAppIds();
 			default : return super.getValueAt(row, column);
 		}

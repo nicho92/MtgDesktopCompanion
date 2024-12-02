@@ -8,8 +8,10 @@ import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.extra.MTGProduct;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStockItem {
 
@@ -20,7 +22,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected String comment="";
 	protected String language="English";
 	protected boolean updated=false;
-	protected Double price=0.0;
+	@Deprecated protected Double price=0.0;
 	protected MTGGrading grade;
 	protected MTGEdition edition;
 	protected T product;
@@ -141,6 +143,12 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		this.grade = grade;
 	}
 
+	
+	@Override
+	public MoneyValue getValue() {
+		return new MoneyValue(getPrice(), MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+	}
+	
 
 	@Override
 	public MTGGrading getGrade() {
