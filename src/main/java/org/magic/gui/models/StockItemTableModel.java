@@ -6,10 +6,10 @@ import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.tools.UITools;
 
 public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 
@@ -80,7 +80,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 9:
 			return Integer.class;
 		case 10:
-			return Double.class;
+			return MoneyValue.class;
 		case 11:
 			return String.class;
 		case 12:
@@ -127,7 +127,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 9:
 			return items.get(row).getQte();
 		case 10:
-			return UITools.roundDouble(items.get(row).getPrice());
+			return items.get(row).getValue();
 		case 11:
 			return items.get(row).getComment();
 		case 12:

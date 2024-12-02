@@ -1,7 +1,6 @@
 package org.magic.gui.components.deck;
 
 import static org.magic.services.tools.MTG.capitalize;
-import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

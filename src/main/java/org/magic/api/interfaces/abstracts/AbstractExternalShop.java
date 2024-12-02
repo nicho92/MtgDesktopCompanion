@@ -47,7 +47,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	public List<MTGStockItem> listStock(String search) throws IOException {
 		var list= loadStock(search);
 		itemsBkcp.clear();
-		list.forEach(item->itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) ));
+		list.forEach(item->itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getValue().doubleValue()) ));
 		return list;
 	}
 

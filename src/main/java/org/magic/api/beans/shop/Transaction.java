@@ -183,7 +183,7 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 
 	public double totalItems()
 	{
-		return getItems().stream().mapToDouble(e->e.getQte()*e.getPrice()).sum();
+		return getItems().stream().mapToDouble(e->e.getQte()*e.getValue().doubleValue()).sum();
 	}
 
 	public double total()

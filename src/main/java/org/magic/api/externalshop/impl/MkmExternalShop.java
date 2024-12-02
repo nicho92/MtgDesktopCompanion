@@ -401,7 +401,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			var art = new Article();
 			art.setIdArticle(it.getId().intValue());
 			art.setIdProduct(it.getProduct().getProductId().intValue());
-			art.setPrice(it.getPrice());
+			art.setPrice(it.getValue().doubleValue());
 			art.setCondition(aliases.getConditionFor(this,it.getCondition()));
 			art.setFoil(it.isFoil());
 			art.setSigned(it.isSigned());

@@ -385,7 +385,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				var objVariant = new JsonObject();
 				obj.add(VARIANT, objVariant);
 
-				objVariant.addProperty(PRICE, c.getPrice());
+				objVariant.addProperty(PRICE, c.getValue().doubleValue());
 				objVariant.addProperty(OPTION+getString(FOIL_OPTION_NUMBER), c.isFoil());
 
 				try {

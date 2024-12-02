@@ -22,7 +22,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected String comment="";
 	protected String language="English";
 	protected boolean updated=false;
-	@Deprecated protected Double price=0.0;
+	protected Double price=0.0;
 	protected MTGGrading grade;
 	protected MTGEdition edition;
 	protected T product;
@@ -146,7 +146,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	
 	@Override
 	public MoneyValue getValue() {
-		return new MoneyValue(getPrice(), MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+		return new MoneyValue(price, MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 	}
 	
 

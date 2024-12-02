@@ -228,8 +228,8 @@ public class WooCommerceExport extends AbstractCardExport {
 			productInfo.put("name", st.getProduct().getName());
 		
         productInfo.put("type", "simple");
-        productInfo.put("regular_price", String.valueOf(st.getPrice()));
-        productInfo.put("price", String.valueOf(st.getPrice()));
+        productInfo.put("regular_price", String.valueOf(st.getValue().doubleValue()));
+        productInfo.put("price", String.valueOf(st.getValue().doubleValue()));
            		
         if(getBoolean(CATEGORY_EDITION_MAPPING))
         {
