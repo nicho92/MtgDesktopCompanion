@@ -1,7 +1,6 @@
 package org.magic.api.providers.impl;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,15 +9,17 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumFinishes;
+import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -121,13 +122,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		throw new IOException("Not Yet Implemented");
 	}
 
-	
-	public static void main(String[] args) throws IOException {
-		MTGLogger.changeLevel(Level.DEBUG);
-		new ScryFallProvider().searchCardByEdition(new MTGEdition("EMN"));
-	}
-	
-	
 	@Override
 	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact) throws IOException {
 		List<MTGCard> list = new ArrayList<>();
@@ -144,6 +138,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				.addContent("include_variations","true")
 				.addContent("order","name")
 				.addContent("format","json")
+				.addContent("pretty","false")
 				.addContent("q",att+":"+value + (me!=null?" set:"+me.getId():""))
 				.toJson().getAsJsonObject();
 		
@@ -258,10 +253,51 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			logger.error("error loading cards", e);
 			return null;
 		}
-
-
 	}
 
+
+	
+	public static void main(String[] args) throws IOException {
+		MTGLogger.changeLevel(Level.DEBUG);
+		new ScryFallProvider().searchCardByEdition(new MTGEdition("LTR"));
+	}
+	
+	
+	private String readAsString(JsonObject obj , String k)
+	{
+		try {
+			return obj.get(k).getAsString();
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+	
+	private Integer readAsInt(JsonObject obj , String k)
+	{
+		try {
+			return obj.get(k).getAsInt();
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+	
+	private Boolean readAsBoolean(JsonObject obj , String k)
+	{
+		try {
+			return obj.get(k).getAsBoolean();
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+	
+	
+	
 	private MTGCard generateCard(JsonObject obj) {
 		var mc = new MTGCard();
 		
@@ -272,6 +308,48 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setLayout(EnumLayout.parseByLabel(obj.get("layout").getAsString()));
 		mc.setEdition(getSetById(obj.get("set").getAsString()));
 		mc.setCmc(obj.get("cmc").getAsInt());
+		mc.setRarity(EnumRarity.rarityByName(obj.get("rarity").getAsString()));
+		mc.setReserved(obj.get("reserved").getAsBoolean());
+		mc.setOversized(obj.get("oversized").getAsBoolean());
+		mc.setBorder(EnumBorders.parseByLabel(obj.get("border_color").getAsString()));
+		mc.setFullArt(obj.get("full_art").getAsBoolean());
+		mc.setPromoCard(obj.get("promo").getAsBoolean());
+		mc.setFrameVersion(obj.get("frame").getAsString());
+		mc.setReprintedCard(obj.get("reprint").getAsBoolean());
+		mc.setFlavor(readAsString(obj,"flavor_text"));
+		mc.setWatermarks(readAsString(obj,"watermark"));
+		mc.setText(readAsString(obj,"oracle_text"));
+		mc.setCost(readAsString(obj,"mana_cost"));
+		mc.setDefense(readAsInt(obj, "defense"));
+		mc.setMkmId(readAsInt(obj,"cardmarket_id"));
+		mc.setTcgPlayerId(readAsInt(obj,"tcgplayer_id"));
+		mc.setPower(readAsString(obj,"power"));
+		mc.setToughness(readAsString(obj,"toughness"));
+		mc.setNumber(readAsString(obj,"collector_number"));
+		mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
+		mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
+		mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
+		
+		generateTypes(mc, obj.get("type_line").getAsString());
+		
+			
+	
+		
+		if(obj.get("frame_effects")!=null)
+			obj.get("frame_effects").getAsJsonArray().forEach(je->mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(je.getAsString())));
+
+		if(obj.get("colors")!=null)
+			obj.get("colors").getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
+
+		
+		if(obj.get("promo_types")!=null)
+			obj.get("promo_types").getAsJsonArray().forEach(je->mc.getPromotypes().add(EnumPromoType.parseByLabel(je.getAsString())));
+		
+		
+		obj.get("color_identity").getAsJsonArray().forEach(je->mc.getColorIdentity().add(EnumColors.colorByCode(je.getAsString())));
+		
+	
+		obj.get("finishes").getAsJsonArray().forEach(je->mc.getFinishes().add(EnumFinishes.parseByLabel(je.getAsString())));
 		
 		
 		//System.out.println(mc + " "+ mc.getEdition() + " "+ mc.getLayout());
@@ -285,13 +363,19 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private MTGEdition generateEdition(JsonObject obj) {
 		var ed = new MTGEdition();
-		ed.setId(obj.get("code").getAsString());
+		ed.setId(obj.get("code").getAsString().toUpperCase());
 		ed.setSet(obj.get("name").getAsString());
 		ed.setType(obj.get("set_type").getAsString());
-
+		ed.setBlock(readAsString(obj,"block"));
+		ed.setCardCount(obj.get("card_count").getAsInt());
+		ed.setCardCountOfficial(ed.getCardCount());
+		ed.setCardCountPhysical(ed.getCardCount());
+		ed.setKeyRuneCode(ed.getId());
+		
+		
 		
 		if(obj.get("parent_set_code")!=null)
-			ed.setParentCode(obj.get("parent_set_code").getAsString());
+			ed.setParentCode(obj.get("parent_set_code").getAsString().toUpperCase());
 
 		if (obj.get("digital") != null)
 			ed.setOnlineOnly(obj.get("digital").getAsBoolean());
@@ -299,14 +383,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if(obj.get("foil_only") !=null)
 			ed.setFoilOnly(obj.get("foil_only").getAsBoolean());
 
-		ed.setCardCount(obj.get("card_count").getAsInt());
-		ed.setCardCountOfficial(ed.getCardCount());
-		ed.setCardCountPhysical(ed.getCardCount());
-		ed.setKeyRuneCode(ed.getId());
-		
-		
-		if (obj.get("block") != null)
-			ed.setBlock(obj.get("block").getAsString());
+			
 
 		if (obj.get("released_at") != null)
 		{
@@ -322,5 +399,32 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return ed;
 	}
 
+	
+	private void generateTypes(MTGCard mc, String line) {
+
+		line = line.replace("\"", "");
+
+		for (String k : new String[] { "Legendary", "Basic", "Ongoing", "Snow", "World" }) {
+			if (line.contains(k)) {
+				mc.getSupertypes().add(k);
+				line = line.replaceAll(k, "").trim();
+			}
+		}
+
+		var sep = "\u2014";
+
+		if (line.contains(sep)) {
+
+			for (String s : line.substring(0, line.indexOf(sep)).trim().split(" "))
+				mc.getTypes().add(s.replace("\"", ""));
+
+			for (String s : line.substring(line.indexOf(sep) + 1).trim().split(" "))
+				mc.getSubtypes().add(s);
+		} else {
+			for (String s : line.split(" "))
+				mc.getTypes().add(s.replace("\"", ""));
+		}
+
+	}
 
 }
