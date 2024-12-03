@@ -1,17 +1,25 @@
 package org.magic.api.providers.impl;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGFormat.AUTHORIZATION;
+import org.magic.api.beans.MTGKeyWord;
+import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
@@ -29,9 +37,14 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.BeanTools;
+import org.magic.services.tools.UITools;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
@@ -259,7 +272,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	public static void main(String[] args) throws IOException {
 		MTGLogger.changeLevel(Level.DEBUG);
-		new ScryFallProvider().searchCardByEdition(new MTGEdition("LTR"));
+		new ScryFallProvider().searchCardByEdition(new MTGEdition("LCI"));
 	}
 	
 	
@@ -292,7 +305,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 		catch(Exception e)
 		{
-			return null;
+			return false;
 		}
 	}
 	
@@ -325,15 +338,27 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setTcgPlayerId(readAsInt(obj,"tcgplayer_id"));
 		mc.setPower(readAsString(obj,"power"));
 		mc.setToughness(readAsString(obj,"toughness"));
+		mc.setLoyalty(readAsInt(obj, "loyalty"));
+		
 		mc.setNumber(readAsString(obj,"collector_number"));
 		mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
 		mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
 		mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
+		mc.getEditions().add(mc.getEdition());
+		mc.setFlavorName(readAsString(obj,"flavor_name"));
 		
+	
 		generateTypes(mc, obj.get("type_line").getAsString());
 		
+		
+		if (obj.get("games") != null) {
+					mc.setArenaCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("arena")));
+					mc.setMtgoCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("mtgo")));
+		}
+		
 			
-	
+		if(obj.get("multiverse_ids")!=null && !obj.get("multiverse_ids").getAsJsonArray().isEmpty())
+			mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsString());
 		
 		if(obj.get("frame_effects")!=null)
 			obj.get("frame_effects").getAsJsonArray().forEach(je->mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(je.getAsString())));
@@ -346,19 +371,69 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			obj.get("promo_types").getAsJsonArray().forEach(je->mc.getPromotypes().add(EnumPromoType.parseByLabel(je.getAsString())));
 		
 		
-		obj.get("color_identity").getAsJsonArray().forEach(je->mc.getColorIdentity().add(EnumColors.colorByCode(je.getAsString())));
+		obj.get("keywords").getAsJsonArray().forEach(je->mc.getKeywords().add(new MTGKeyWord(je.getAsString(), TYPE.ABILITIES)));
 		
+		obj.get("color_identity").getAsJsonArray().forEach(je->mc.getColorIdentity().add(EnumColors.colorByCode(je.getAsString())));
 	
 		obj.get("finishes").getAsJsonArray().forEach(je->mc.getFinishes().add(EnumFinishes.parseByLabel(je.getAsString())));
 		
 		
-		//System.out.println(mc + " "+ mc.getEdition() + " "+ mc.getLayout());
+		if (obj.get("legalities") != null) {
+			var legs = obj.get("legalities").getAsJsonObject();
+			for (Entry<String, JsonElement> ent : legs.entrySet()) {
+				var format = new MTGFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase()));
+				mc.getLegalities().add(format);
+			}
+		}
+		
+		
+		
+		if(obj.get("card_faces")!=null)
+			initSubCard(mc,obj.get("card_faces").getAsJsonArray());
+		else
+			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("png").getAsString());
 		
 		
 		postTreatmentCard(mc);
 		
 		notify(mc);
 		return mc;
+	}
+	
+	
+	private void setFaceCardData(MTGCard mc, JsonObject obj,String side)
+	{
+		mc.setName(obj.get("name").getAsString());
+		generateTypes(mc, obj.get("type_line").getAsString());
+		mc.setText(readAsString(obj,"oracle_text"));
+		mc.setCost(readAsString(obj,"mana_cost"));
+		mc.setPower(readAsString(obj,"power"));
+		mc.setToughness(readAsString(obj,"toughness"));
+		mc.setLoyalty(readAsInt(obj, "loyalty"));
+		mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
+		mc.setSide(side);
+		if(obj.get("colors")!=null)
+			obj.get("colors").getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
+
+	}
+	
+	
+
+	private void initSubCard(MTGCard mc, JsonArray arr) {
+		
+		try {
+			var mc2 = BeanTools.cloneBean(mc);
+			
+			setFaceCardData(mc, arr.get(0).getAsJsonObject(),"a");
+			setFaceCardData(mc2, arr.get(1).getAsJsonObject(),"b");
+			mc.setRotatedCard(mc2);
+		} catch (Exception e) {
+			logger.error("Error getting subcard for {}",mc,e);
+		}
+		
+		
+		
+		
 	}
 
 	private MTGEdition generateEdition(JsonObject obj) {
@@ -401,7 +476,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	
 	private void generateTypes(MTGCard mc, String line) {
-
+		
+		mc.getTypes().clear();
+		mc.getSupertypes().clear();
+		mc.getSubtypes().clear();
+		
+		
 		line = line.replace("\"", "");
 
 		for (String k : new String[] { "Legendary", "Basic", "Ongoing", "Snow", "World" }) {
