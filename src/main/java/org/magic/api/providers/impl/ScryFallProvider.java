@@ -1,7 +1,6 @@
 package org.magic.api.providers.impl;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,10 +10,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
@@ -38,7 +35,6 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.BeanTools;
-import org.magic.services.tools.UITools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
@@ -272,7 +268,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	public static void main(String[] args) throws IOException {
 		MTGLogger.changeLevel(Level.DEBUG);
-		new ScryFallProvider().searchCardByEdition(new MTGEdition("LCI"));
+		new ScryFallProvider().searchCardByName("Throne of the Grim Captain",new MTGEdition("LCI"),true);
 	}
 	
 	
@@ -344,7 +340,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
 		mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
 		mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
-		mc.getEditions().add(mc.getEdition());
+		
 		mc.setFlavorName(readAsString(obj,"flavor_name"));
 		
 	
@@ -391,7 +387,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if(obj.get("card_faces")!=null)
 			initSubCard(mc,obj.get("card_faces").getAsJsonArray());
 		else
-			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("png").getAsString());
+			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
 		
 		
 		postTreatmentCard(mc);
@@ -401,10 +397,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 	
 	
-	private void setFaceCardData(MTGCard mc, JsonObject obj,String side)
+	private void overrideCardFaceData(MTGCard mc, JsonObject obj,String side)
 	{
 		mc.setName(obj.get("name").getAsString());
 		generateTypes(mc, obj.get("type_line").getAsString());
+		
+	
 		mc.setText(readAsString(obj,"oracle_text"));
 		mc.setCost(readAsString(obj,"mana_cost"));
 		mc.setPower(readAsString(obj,"power"));
@@ -412,9 +410,20 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setLoyalty(readAsInt(obj, "loyalty"));
 		mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
 		mc.setSide(side);
+		
 		if(obj.get("colors")!=null)
+		{
+			mc.getColors().clear();
 			obj.get("colors").getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
-
+		}
+		
+		
+		if(obj.get("image_uris")!=null)
+			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
+		
+		mc.setId(mc.getId()+"_"+side);
+		System.out.println("generate types " + mc.getFullType() + " for " + mc.getSide() + " " + mc.getName() + " "+ mc.getPower()+"/"+mc.getToughness());
+		
 	}
 	
 	
@@ -424,8 +433,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		try {
 			var mc2 = BeanTools.cloneBean(mc);
 			
-			setFaceCardData(mc, arr.get(0).getAsJsonObject(),"a");
-			setFaceCardData(mc2, arr.get(1).getAsJsonObject(),"b");
+			overrideCardFaceData(mc, arr.get(0).getAsJsonObject(),"a");
+			overrideCardFaceData(mc2, arr.get(1).getAsJsonObject(),"b");
 			mc.setRotatedCard(mc2);
 		} catch (Exception e) {
 			logger.error("Error getting subcard for {}",mc,e);
@@ -477,9 +486,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	private void generateTypes(MTGCard mc, String line) {
 		
-		mc.getTypes().clear();
-		mc.getSupertypes().clear();
-		mc.getSubtypes().clear();
+		mc.setTypes(new ArrayList<String>());
+		mc.setSupertypes(new ArrayList<String>());
+		mc.setSubtypes(new ArrayList<String>());
 		
 		
 		line = line.replace("\"", "");
