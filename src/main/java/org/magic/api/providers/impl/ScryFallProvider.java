@@ -106,7 +106,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public MTGCard getCardById(String id) throws IOException {
 		try {
-			return searchCardByCriteria("id", id, null, true).get(0);
+			return searchCardByCriteria("id", id, null, false).get(0);
 		}catch(IndexOutOfBoundsException e)
 		{
 			return null;
@@ -268,7 +268,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	public static void main(String[] args) throws IOException {
 		MTGLogger.changeLevel(Level.DEBUG);
-		new ScryFallProvider().searchCardByName("Throne of the Grim Captain",new MTGEdition("LCI"),true);
+		new ScryFallProvider().searchCardByEdition(new MTGEdition("EMN")).forEach(mc->{
+			
+			
+			if(mc.getLayout()==EnumLayout.MELD)
+				System.out.println(mc  + " " + mc.getScryfallId());
+			
+		});
 	}
 	
 	
@@ -384,11 +390,27 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		
 		
-		if(obj.get("card_faces")!=null)
+		if(obj.get("card_faces")!=null && mc.getLayout()!=EnumLayout.MELD)
 			initSubCard(mc,obj.get("card_faces").getAsJsonArray());
 		else
 			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
 		
+		
+		if(mc.getLayout()==EnumLayout.MELD)
+			{
+					for(var e : obj.get("all_parts").getAsJsonArray())
+					{
+						if(e.getAsJsonObject().get("component").getAsString().equals("meld_result"))
+						{
+							try {
+								mc.setRotatedCard(getCardById(e.getAsJsonObject().get("id").getAsString()));
+								Thread.sleep(500);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+			}
 		
 		postTreatmentCard(mc);
 		
@@ -410,6 +432,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setLoyalty(readAsInt(obj, "loyalty"));
 		mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
 		mc.setSide(side);
+		mc.setFlavor(readAsString(obj,"flavor_text"));
+		
 		
 		if(obj.get("colors")!=null)
 		{
