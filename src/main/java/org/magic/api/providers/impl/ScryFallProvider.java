@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
@@ -29,7 +28,6 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.ScryfallCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.BeanTools;
@@ -185,11 +183,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		String url = BASE_URI + "/sets";
 		var root = URLTools.extractAsJson(url).getAsJsonObject();
 		var eds = new ArrayList<MTGEdition>();
-		for (var i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
-			var e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
-			eds.add(generateEdition(e.getAsJsonObject()));
-		}
-
+		root.get("data").getAsJsonArray().forEach(je->	eds.add(generateEdition(je.getAsJsonObject())));
 		return eds;
 	}
 
@@ -197,7 +191,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	protected List<QueryAttribute> loadQueryableAttributs() {
 			List<QueryAttribute> arr = new ArrayList<>();
 		
-			for(String s :Lists.newArrayList("name", "id", "type", "oracle", "mana","rarity", "cube", "artist", "flavor", "watermark", "border", "frame"))
+			for(String s :Lists.newArrayList("name", "id", "type", "oracle", "mana", "cube", "artist", "flavor", "watermark", "border", "frame"))
 			{
 				arr.add(new QueryAttribute(s,String.class));
 			}
@@ -215,7 +209,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			arr.add(new QueryAttribute("set",MTGEdition.class));
 			arr.add(new QueryAttribute("color", EnumColors.class));
 			arr.add(new QueryAttribute("color_identity", EnumColors.class));
+			arr.add(new QueryAttribute("color_identity", EnumFrameEffects.class));
 			arr.add(new QueryAttribute("layout",EnumLayout.class));
+			arr.add(new QueryAttribute("rarity",EnumRarity.class));
 			arr.add(new QueryAttribute("finishes",EnumFinishes.class));
 			arr.add(new QueryAttribute("promo_types",EnumPromoType.class));
 			return arr;
@@ -242,15 +238,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		MTGLogger.changeLevel(Level.DEBUG);
-		new ScryFallProvider().searchCardByEdition(new MTGEdition("EMN")).forEach(mc->{
-			if(mc.getLayout()==EnumLayout.MELD)
-				System.out.println(mc  + " " + mc.getScryfallId());
-		});
-	}
-	
+
 	private String readAsString(JsonObject obj , String k)
 	{
 		try {
@@ -292,7 +280,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			mc.setArtist(obj.get("artist").getAsString());
 			mc.setLayout(EnumLayout.parseByLabel(obj.get("layout").getAsString()));
 			mc.setEdition(getSetById(obj.get("set").getAsString().toUpperCase()));
-			mc.setCmc(obj.get("cmc").getAsInt());
+			mc.setCmc(readAsInt(obj, "cmc"));
 			mc.setRarity(EnumRarity.rarityByName(obj.get("rarity").getAsString()));
 			mc.setReserved(obj.get("reserved").getAsBoolean());
 			mc.setOversized(obj.get("oversized").getAsBoolean());
@@ -367,8 +355,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					try {
 						
 						var retJson = URLTools.extractAsJson(BASE_URI+"/cards/"+e.getAsJsonObject().get("id").getAsString()).getAsJsonObject();
-						
 						mc.setRotatedCard(generateCard(retJson,false));
+						mc.getRotatedCard().setSide("b");
 						Thread.sleep(500);
 					} catch (Exception e1) {
 						logger.error(e1);
