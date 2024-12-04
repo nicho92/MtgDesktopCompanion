@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MTGCard;
@@ -77,8 +75,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 	}
 
-
-
 	public JsonObject getJsonFor(MTGCard mc)
 	{
 			String url = BASE_URI + "/cards/" + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
@@ -90,23 +86,20 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		throw new IOException("Not Implemented");
 	}
 
-
 	@Override
 	public MTGCard getCardByArenaId(String id) throws IOException {
 		return searchCardByCriteria("arenaId",id, null, true).get(0);
 	}
-	
 
 	@Override
 	public MTGCard getCardByScryfallId(String crit) throws IOException {
 		return getCardById(crit);
 	}
-
 	
 	@Override
 	public MTGCard getCardById(String id) throws IOException {
 		try {
-			return searchCardByCriteria("id", id, null, false).get(0);
+			return searchCardByCriteria("id", id, null, true).get(0);
 		}catch(IndexOutOfBoundsException e)
 		{
 			return null;
@@ -123,9 +116,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 
-	
-
-
 	@Override
 	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
 		throw new IOException("Not Yet Implemented");
@@ -140,16 +130,28 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if(exact)
 			value="\""+value+"\"";
 		
+		
 		var obj= RequestBuilder.build().setClient(URLTools.newClient()).url(BASE_URI+"/cards/search").get()
 				.addContent("unique","prints")						
 				.addContent("include_extras","true")
 				.addContent("include_multilingual","false")
 				.addContent("include_variations","true")
-				.addContent("order","name")
+				.addContent("order","set")
 				.addContent("format","json")
 				.addContent("pretty","false")
 				.addContent("q",att+":"+value + (me!=null?" set:"+me.getId():""))
 				.toJson().getAsJsonObject();
+		
+		
+		if(att.equals("id"))
+		{
+			var e = RequestBuilder.build().setClient(URLTools.newClient()).url(BASE_URI+"/cards/"+crit).get().toJson().getAsJsonObject();
+			list.add(generateCard(e.getAsJsonObject(),true));
+			
+			return list;
+			
+		}
+		
 		
 		
 		if(obj.get("error")!=null)
@@ -165,7 +167,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			
 			for(var e : arr)
 			{
-				list.add(loadCard(e.getAsJsonObject()));
+				list.add(generateCard(e.getAsJsonObject(),true));
 			}
 			
 			hasMore = obj.get("has_more").getAsBoolean();
@@ -177,8 +179,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		return list;
 	}
-
-	
 
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
@@ -192,13 +192,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		return eds;
 	}
-	
 
 	@Override
 	protected List<QueryAttribute> loadQueryableAttributs() {
 			List<QueryAttribute> arr = new ArrayList<>();
 		
-			for(String s :Lists.newArrayList("name", "custom", "type", "oracle", "mana","rarity", "cube", "artist", "flavor", "watermark", "border", "frame"))
+			for(String s :Lists.newArrayList("name", "id", "type", "oracle", "mana","rarity", "cube", "artist", "flavor", "watermark", "border", "frame"))
 			{
 				arr.add(new QueryAttribute(s,String.class));
 			}
@@ -224,19 +223,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
-		MTGQueryBuilder<String> b= new ScryfallCriteriaBuilder();
-	
+		var b= new ScryfallCriteriaBuilder();
 		initBuilder(b);
-	
 		return b;
 	}
-	
 	
 	@Override
 	public List<String> loadCardsLangs() throws IOException {
 		return Lists.newArrayList("en","es","fr","de","it","pt","ja","ru","zhs","he","ar");
 	}
-
 
 	@Override
 	public String getName() {
@@ -248,35 +243,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return STATUT.DEV;
 	}
 	
-	private MTGCard loadCard(JsonObject obj){
-
-		try {
-			return cacheCards.get(obj.get("id").getAsString(), new Callable<MTGCard>() {
-
-				@Override
-				public MTGCard call() throws Exception {
-					return generateCard(obj);
-				}
-			});
-		} catch (ExecutionException e) {
-			logger.error("error loading cards", e);
-			return null;
-		}
-	}
-
-
-	
 	public static void main(String[] args) throws IOException {
 		MTGLogger.changeLevel(Level.DEBUG);
 		new ScryFallProvider().searchCardByEdition(new MTGEdition("EMN")).forEach(mc->{
-			
-			
 			if(mc.getLayout()==EnumLayout.MELD)
 				System.out.println(mc  + " " + mc.getScryfallId());
-			
 		});
 	}
-	
 	
 	private String readAsString(JsonObject obj , String k)
 	{
@@ -311,53 +284,45 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 	
-	
-	
-	private MTGCard generateCard(JsonObject obj) {
+	private MTGCard generateCard(JsonObject obj, boolean loadMeld) {
 		var mc = new MTGCard();
-		
-		mc.setId(obj.get("id").getAsString());
-		mc.setScryfallId(mc.getId());
-		mc.setName(obj.get("name").getAsString());
-		mc.setArtist(obj.get("artist").getAsString());
-		mc.setLayout(EnumLayout.parseByLabel(obj.get("layout").getAsString()));
-		mc.setEdition(getSetById(obj.get("set").getAsString()));
-		mc.setCmc(obj.get("cmc").getAsInt());
-		mc.setRarity(EnumRarity.rarityByName(obj.get("rarity").getAsString()));
-		mc.setReserved(obj.get("reserved").getAsBoolean());
-		mc.setOversized(obj.get("oversized").getAsBoolean());
-		mc.setBorder(EnumBorders.parseByLabel(obj.get("border_color").getAsString()));
-		mc.setFullArt(obj.get("full_art").getAsBoolean());
-		mc.setPromoCard(obj.get("promo").getAsBoolean());
-		mc.setFrameVersion(obj.get("frame").getAsString());
-		mc.setReprintedCard(obj.get("reprint").getAsBoolean());
-		mc.setFlavor(readAsString(obj,"flavor_text"));
-		mc.setWatermarks(readAsString(obj,"watermark"));
-		mc.setText(readAsString(obj,"oracle_text"));
-		mc.setCost(readAsString(obj,"mana_cost"));
-		mc.setDefense(readAsInt(obj, "defense"));
-		mc.setMkmId(readAsInt(obj,"cardmarket_id"));
-		mc.setTcgPlayerId(readAsInt(obj,"tcgplayer_id"));
-		mc.setPower(readAsString(obj,"power"));
-		mc.setToughness(readAsString(obj,"toughness"));
-		mc.setLoyalty(readAsInt(obj, "loyalty"));
-		
-		mc.setNumber(readAsString(obj,"collector_number"));
-		mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
-		mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
-		mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
-		
-		mc.setFlavorName(readAsString(obj,"flavor_name"));
-		
-	
-		generateTypes(mc, obj.get("type_line").getAsString());
-		
+			mc.setId(obj.get("id").getAsString());
+			mc.setScryfallId(mc.getId());
+			mc.setName(obj.get("name").getAsString());
+			mc.setArtist(obj.get("artist").getAsString());
+			mc.setLayout(EnumLayout.parseByLabel(obj.get("layout").getAsString()));
+			mc.setEdition(getSetById(obj.get("set").getAsString().toUpperCase()));
+			mc.setCmc(obj.get("cmc").getAsInt());
+			mc.setRarity(EnumRarity.rarityByName(obj.get("rarity").getAsString()));
+			mc.setReserved(obj.get("reserved").getAsBoolean());
+			mc.setOversized(obj.get("oversized").getAsBoolean());
+			mc.setBorder(EnumBorders.parseByLabel(obj.get("border_color").getAsString()));
+			mc.setFullArt(obj.get("full_art").getAsBoolean());
+			mc.setPromoCard(obj.get("promo").getAsBoolean());
+			mc.setFrameVersion(obj.get("frame").getAsString());
+			mc.setReprintedCard(obj.get("reprint").getAsBoolean());
+			mc.setFlavor(readAsString(obj,"flavor_text"));
+			mc.setWatermarks(readAsString(obj,"watermark"));
+			mc.setText(readAsString(obj,"oracle_text"));
+			mc.setCost(readAsString(obj,"mana_cost"));
+			mc.setDefense(readAsInt(obj, "defense"));
+			mc.setMkmId(readAsInt(obj,"cardmarket_id"));
+			mc.setTcgPlayerId(readAsInt(obj,"tcgplayer_id"));
+			mc.setPower(readAsString(obj,"power"));
+			mc.setToughness(readAsString(obj,"toughness"));
+			mc.setLoyalty(readAsInt(obj, "loyalty"));
+			mc.setEdhrecRank(readAsInt(obj,"edhrec_rank"));;
+			mc.setNumber(readAsString(obj,"collector_number"));
+			mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
+			mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
+			mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
+			mc.setFlavorName(readAsString(obj,"flavor_name"));
+			generateTypes(mc, obj.get("type_line").getAsString());
 		
 		if (obj.get("games") != null) {
 					mc.setArenaCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("arena")));
 					mc.setMtgoCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("mtgo")));
 		}
-		
 			
 		if(obj.get("multiverse_ids")!=null && !obj.get("multiverse_ids").getAsJsonArray().isEmpty())
 			mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsString());
@@ -378,8 +343,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		obj.get("color_identity").getAsJsonArray().forEach(je->mc.getColorIdentity().add(EnumColors.colorByCode(je.getAsString())));
 	
 		obj.get("finishes").getAsJsonArray().forEach(je->mc.getFinishes().add(EnumFinishes.parseByLabel(je.getAsString())));
-		
-		
+			
 		if (obj.get("legalities") != null) {
 			var legs = obj.get("legalities").getAsJsonObject();
 			for (Entry<String, JsonElement> ent : legs.entrySet()) {
@@ -388,36 +352,38 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 		
-		
-		
-		if(obj.get("card_faces")!=null && mc.getLayout()!=EnumLayout.MELD)
+		if(obj.get("card_faces")!=null)
 			initSubCard(mc,obj.get("card_faces").getAsJsonArray());
 		else
 			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
 		
 		
-		if(mc.getLayout()==EnumLayout.MELD)
+		if(obj.get("all_parts")!=null && loadMeld)
+		{
+			for(var e : obj.get("all_parts").getAsJsonArray())
 			{
-					for(var e : obj.get("all_parts").getAsJsonArray())
-					{
-						if(e.getAsJsonObject().get("component").getAsString().equals("meld_result"))
-						{
-							try {
-								mc.setRotatedCard(getCardById(e.getAsJsonObject().get("id").getAsString()));
-								Thread.sleep(500);
-							} catch (Exception e1) {
-								e1.printStackTrace();
-							}
-						}
+				if(e.getAsJsonObject().get("component").getAsString().equals("meld_result"))
+				{
+					try {
+						
+						var retJson = URLTools.extractAsJson(BASE_URI+"/cards/"+e.getAsJsonObject().get("id").getAsString()).getAsJsonObject();
+						
+						mc.setRotatedCard(generateCard(retJson,false));
+						Thread.sleep(500);
+					} catch (Exception e1) {
+						logger.error(e1);
 					}
+				}
 			}
+		}
+		
+		
 		
 		postTreatmentCard(mc);
 		
 		notify(mc);
 		return mc;
 	}
-	
 	
 	private void overrideCardFaceData(MTGCard mc, JsonObject obj,String side)
 	{
@@ -446,11 +412,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
 		
 		mc.setId(mc.getId()+"_"+side);
-		System.out.println("generate types " + mc.getFullType() + " for " + mc.getSide() + " " + mc.getName() + " "+ mc.getPower()+"/"+mc.getToughness());
 		
 	}
-	
-	
 
 	private void initSubCard(MTGCard mc, JsonArray arr) {
 		
@@ -506,7 +469,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		return ed;
 	}
-
 	
 	private void generateTypes(MTGCard mc, String line) {
 		
