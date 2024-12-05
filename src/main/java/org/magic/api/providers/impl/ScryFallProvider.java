@@ -380,8 +380,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 		
-		
-		
 		postTreatmentCard(mc);
 		
 		notify(mc);
@@ -392,8 +390,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	{
 		mc.setName(obj.get(NAME).getAsString());
 		generateTypes(mc, obj.get("type_line").getAsString());
-		
-	
 		mc.setText(readAsString(obj,"oracle_text"));
 		mc.setCost(readAsString(obj,MANA_COST));
 		mc.setPower(readAsString(obj,POWER));
@@ -429,10 +425,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		} catch (Exception e) {
 			logger.error("Error getting subcard for {}",mc,e);
 		}
-		
-		
-		
-		
 	}
 
 	private MTGEdition generateEdition(JsonObject obj) {
@@ -446,8 +438,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		ed.setCardCountPhysical(ed.getCardCount());
 		ed.setKeyRuneCode(ed.getId());
 		
-		
-		
 		if(obj.get("parent_set_code")!=null)
 			ed.setParentCode(obj.get("parent_set_code").getAsString().toUpperCase());
 
@@ -456,8 +446,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		if(obj.get("foil_only") !=null)
 			ed.setFoilOnly(obj.get("foil_only").getAsBoolean());
-
-			
 
 		if (obj.get("released_at") != null)
 		{
