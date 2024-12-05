@@ -8,6 +8,8 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 
+import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
+
 public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 
 	private static final long serialVersionUID = 1L;
@@ -32,6 +34,8 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 				"RETRO",
 				"SIDE"};
 
+		
+		
 		setDefaultHiddenComlumns(1,8,9,10,11,12,13,14,15,16);
 
 	}
@@ -119,6 +123,5 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 		}
 		return "";
 	}
-
 
 }

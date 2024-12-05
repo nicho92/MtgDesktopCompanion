@@ -40,6 +40,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 
+import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
+
 public class CardsEditionTablePanel extends JPanel {
 	/**
 	 *
@@ -61,7 +63,9 @@ public class CardsEditionTablePanel extends JPanel {
 
 		var panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
-
+		
+		model.addHiddenColumns(7);
+		
 		table = UITools.createNewTable(model,true);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
 
@@ -254,6 +258,7 @@ public class CardsEditionTablePanel extends JPanel {
 				try {
 					super.done();
 					model.init(get());
+					table.packAll();
 				} catch(InterruptedException ex)
 				{
 					Thread.currentThread().interrupt();

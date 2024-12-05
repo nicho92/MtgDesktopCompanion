@@ -13,6 +13,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
+
+import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
 public class GenericTableModel<T> extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
@@ -40,6 +42,12 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	{
 		this.hiddenColumns =nums;
 	}
+
+	public void addHiddenColumns(int i) {
+		hiddenColumns= ArrayUtils.add(hiddenColumns,7);
+	}
+
+
 
 
 	public int[] defaultHiddenColumns()

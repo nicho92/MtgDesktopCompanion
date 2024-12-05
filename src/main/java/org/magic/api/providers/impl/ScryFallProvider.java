@@ -323,19 +323,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					
 			
 		if (obj.get("games") != null) {
-					mc.setArenaCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("arena")));
-					mc.setMtgoCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("mtgo")));
+			mc.setArenaCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("arena")));
+			mc.setMtgoCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("mtgo")));
 		}
 			
-		if(obj.get("multiverse_ids")!=null && !obj.get("multiverse_ids").getAsJsonArray().isEmpty())
-			mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsString());
+		
 		
 		if(obj.get("frame_effects")!=null)
 			obj.get("frame_effects").getAsJsonArray().forEach(je->mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(je.getAsString())));
 
 		if(obj.get("colors")!=null)
 			obj.get("colors").getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
-
 		
 		if(obj.get("promo_types")!=null)
 			obj.get("promo_types").getAsJsonArray().forEach(je->mc.getPromotypes().add(EnumPromoType.parseByLabel(je.getAsString())));
@@ -349,16 +347,30 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			
 		if (obj.get("legalities") != null) {
 			var legs = obj.get("legalities").getAsJsonObject();
-			for (Entry<String, JsonElement> ent : legs.entrySet()) {
-				var format = new MTGFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase()));
-				mc.getLegalities().add(format);
+			for (var ent : legs.entrySet()) {
+				mc.getLegalities().add(new MTGFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase())));
 			}
 		}
+
+
+		if(obj.get("multiverse_ids")!=null && !obj.get("multiverse_ids").getAsJsonArray().isEmpty())
+			mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsString());
+
 		
 		if(obj.get("card_faces")!=null)
+		{
 			initSubCard(mc,obj.get("card_faces").getAsJsonArray());
+			
+			if(obj.get("multiverse_ids")!=null && obj.get("multiverse_ids").getAsJsonArray().size()>1)
+			{
+				mc.getRotatedCard().setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(1).getAsString());
+			}
+			
+		}
 		else
+		{
 			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
+		}
 		
 		
 		if(obj.get("all_parts")!=null && loadMeld)
