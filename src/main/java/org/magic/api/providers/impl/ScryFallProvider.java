@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -159,7 +161,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if(att.equals(ID))
 		{
 			q.url(BASE_URI+BASE_SUBURI+crit);
-			list.add(generateCard(q.toJson().getAsJsonObject(),true));
+			try {
+				list.add(generateCard(q.toJson().getAsJsonObject(),true));
+			} catch (ExecutionException e) {
+				logger.error(e);
+			}
 		}
 		
 		
@@ -179,7 +185,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			
 			for(var e : arr)
 			{
-				list.add(generateCard(e.getAsJsonObject(),true));
+				try {
+					list.add(generateCard(e.getAsJsonObject(),true));
+				} catch (ExecutionException e1) {
+					logger.error(e1);
+				}
 			}
 			
 			hasMore = obj.get("has_more").getAsBoolean();
@@ -285,114 +295,131 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 	
-	private MTGCard generateCard(JsonObject obj, boolean loadMeld) {
-		var mc = new MTGCard();
-			mc.setId(obj.get(ID).getAsString());
-			mc.setScryfallId(mc.getId());
-			mc.setName(obj.get(NAME).getAsString());
-			mc.setArtist(obj.get("artist").getAsString());
-			mc.setLayout(EnumLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
-			mc.setEdition(getSetById(obj.get(SET).getAsString().toUpperCase()));
-			mc.setCmc(readAsInt(obj, CMC));
-			mc.setRarity(EnumRarity.rarityByName(obj.get(RARITY).getAsString()));
-			mc.setReserved(obj.get("reserved").getAsBoolean());
-			mc.setOversized(obj.get("oversized").getAsBoolean());
-			mc.setBorder(EnumBorders.parseByLabel(obj.get("border_color").getAsString()));
-			mc.setFullArt(obj.get("full_art").getAsBoolean());
-			mc.setPromoCard(obj.get("promo").getAsBoolean());
-			mc.setFrameVersion(obj.get("frame").getAsString());
-			mc.setReprintedCard(obj.get("reprint").getAsBoolean());
-			mc.setFlavor(readAsString(obj,"flavor_text"));
-			mc.setWatermarks(readAsString(obj,"watermark"));
-			mc.setText(readAsString(obj,"oracle_text"));
-			mc.setCost(readAsString(obj,MANA_COST));
-			mc.setDefense(readAsInt(obj, "defense"));
-			mc.setMkmId(readAsInt(obj,"cardmarket_id"));
-			mc.setTcgPlayerId(readAsInt(obj,"tcgplayer_id"));
-			mc.setPower(readAsString(obj,POWER));
-			mc.setToughness(readAsString(obj,TOUGHNESS));
-			mc.setLoyalty(readAsInt(obj, LOYALTY));
-			mc.setEdhrecRank(readAsInt(obj,"edhrec_rank"));;
-			mc.setNumber(readAsString(obj,"collector_number"));
-			mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
-			mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
-			mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
-			mc.setFlavorName(readAsString(obj,"flavor_name"));
-			generateTypes(mc, obj.get("type_line").getAsString());
-					
-			
-		if (obj.get("games") != null) {
-			mc.setArenaCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("arena")));
-			mc.setMtgoCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("mtgo")));
-		}
-			
+	private MTGCard generateCard(JsonObject obj, boolean loadMeld) throws ExecutionException {
 		
 		
-		if(obj.get("frame_effects")!=null)
-			obj.get("frame_effects").getAsJsonArray().forEach(je->mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(je.getAsString())));
+		
+		var mc= cacheCards.get(obj.get(ID).getAsString(), new Callable<MTGCard>(){
 
-		if(obj.get("colors")!=null)
-			obj.get("colors").getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
-		
-		if(obj.get("promo_types")!=null)
-			obj.get("promo_types").getAsJsonArray().forEach(je->mc.getPromotypes().add(EnumPromoType.parseByLabel(je.getAsString())));
-		
-		
-		obj.get("keywords").getAsJsonArray().forEach(je->mc.getKeywords().add(new MTGKeyWord(je.getAsString(), TYPE.ABILITIES)));
-		
-		obj.get(COLOR_IDENTITY).getAsJsonArray().forEach(je->mc.getColorIdentity().add(EnumColors.colorByCode(je.getAsString())));
-	
-		obj.get("finishes").getAsJsonArray().forEach(je->mc.getFinishes().add(EnumFinishes.parseByLabel(je.getAsString())));
-			
-		if (obj.get("legalities") != null) {
-			var legs = obj.get("legalities").getAsJsonObject();
-			for (var ent : legs.entrySet()) {
-				mc.getLegalities().add(new MTGFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase())));
-			}
-		}
-
-
-		if(obj.get(MULTIVERSE_IDS)!=null && !obj.get(MULTIVERSE_IDS).getAsJsonArray().isEmpty())
-			mc.setMultiverseid(obj.get(MULTIVERSE_IDS).getAsJsonArray().get(0).getAsString());
-
-		
-		if(obj.get("card_faces")!=null)
-		{
-			initSubCard(mc,obj.get("card_faces").getAsJsonArray());
-			
-			if(obj.get(MULTIVERSE_IDS)!=null && obj.get(MULTIVERSE_IDS).getAsJsonArray().size()>1)
-				mc.getRotatedCard().setMultiverseid(obj.get(MULTIVERSE_IDS).getAsJsonArray().get(1).getAsString());
-			
-		}
-		else
-		{
-			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
-		}
-		
-		
-		if(obj.get("all_parts")!=null && loadMeld)
-		{
-			for(var e : obj.get("all_parts").getAsJsonArray())
-			{
-				if(e.getAsJsonObject().get("component").getAsString().equals("meld_result"))
-				{
-					try {
+			@Override
+			public MTGCard call() throws Exception {
+				var mc = new MTGCard();
+				mc.setId(obj.get(ID).getAsString());
+				mc.setScryfallId(mc.getId());
+				mc.setName(obj.get(NAME).getAsString());
+				mc.setArtist(obj.get("artist").getAsString());
+				mc.setLayout(EnumLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
+				mc.setEdition(getSetById(obj.get(SET).getAsString().toUpperCase()));
+				mc.setCmc(readAsInt(obj, CMC));
+				mc.setRarity(EnumRarity.rarityByName(obj.get(RARITY).getAsString()));
+				mc.setReserved(obj.get("reserved").getAsBoolean());
+				mc.setOversized(obj.get("oversized").getAsBoolean());
+				mc.setBorder(EnumBorders.parseByLabel(obj.get("border_color").getAsString()));
+				mc.setFullArt(obj.get("full_art").getAsBoolean());
+				mc.setPromoCard(obj.get("promo").getAsBoolean());
+				mc.setFrameVersion(obj.get("frame").getAsString());
+				mc.setReprintedCard(obj.get("reprint").getAsBoolean());
+				mc.setFlavor(readAsString(obj,"flavor_text"));
+				mc.setWatermarks(readAsString(obj,"watermark"));
+				mc.setText(readAsString(obj,"oracle_text"));
+				mc.setCost(readAsString(obj,MANA_COST));
+				mc.setDefense(readAsInt(obj, "defense"));
+				mc.setMkmId(readAsInt(obj,"cardmarket_id"));
+				mc.setTcgPlayerId(readAsInt(obj,"tcgplayer_id"));
+				mc.setPower(readAsString(obj,POWER));
+				mc.setToughness(readAsString(obj,TOUGHNESS));
+				mc.setLoyalty(readAsInt(obj, LOYALTY));
+				mc.setEdhrecRank(readAsInt(obj,"edhrec_rank"));;
+				mc.setNumber(readAsString(obj,"collector_number"));
+				mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
+				mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
+				mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
+				mc.setFlavorName(readAsString(obj,"flavor_name"));
+				generateTypes(mc, obj.get("type_line").getAsString());
 						
-						var retJson = URLTools.extractAsJson(BASE_URI+BASE_SUBURI+e.getAsJsonObject().get(ID).getAsString()).getAsJsonObject();
-						mc.setRotatedCard(generateCard(retJson,false));
-						mc.getRotatedCard().setSide("b");
-						Thread.sleep(50);
-					} catch (Exception e1) {
-						logger.error(e1);
+				
+			if (obj.get("games") != null) {
+				mc.setArenaCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("arena")));
+				mc.setMtgoCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("mtgo")));
+			}
+				
+			
+			
+			if(obj.get("frame_effects")!=null)
+				obj.get("frame_effects").getAsJsonArray().forEach(je->mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(je.getAsString())));
+
+			if(obj.get("colors")!=null)
+				obj.get("colors").getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
+			
+			if(obj.get("promo_types")!=null)
+				obj.get("promo_types").getAsJsonArray().forEach(je->mc.getPromotypes().add(EnumPromoType.parseByLabel(je.getAsString())));
+			
+			
+			obj.get("keywords").getAsJsonArray().forEach(je->mc.getKeywords().add(new MTGKeyWord(je.getAsString(), TYPE.ABILITIES)));
+			
+			obj.get(COLOR_IDENTITY).getAsJsonArray().forEach(je->mc.getColorIdentity().add(EnumColors.colorByCode(je.getAsString())));
+		
+			obj.get("finishes").getAsJsonArray().forEach(je->mc.getFinishes().add(EnumFinishes.parseByLabel(je.getAsString())));
+				
+			if (obj.get("legalities") != null) {
+				var legs = obj.get("legalities").getAsJsonObject();
+				for (var ent : legs.entrySet()) {
+					mc.getLegalities().add(new MTGFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase())));
+				}
+			}
+
+
+			if(obj.get(MULTIVERSE_IDS)!=null && !obj.get(MULTIVERSE_IDS).getAsJsonArray().isEmpty())
+				mc.setMultiverseid(obj.get(MULTIVERSE_IDS).getAsJsonArray().get(0).getAsString());
+
+			
+			if(obj.get("card_faces")!=null)
+			{
+				initSubCard(mc,obj.get("card_faces").getAsJsonArray());
+				
+				if(obj.get(MULTIVERSE_IDS)!=null && obj.get(MULTIVERSE_IDS).getAsJsonArray().size()>1)
+					mc.getRotatedCard().setMultiverseid(obj.get(MULTIVERSE_IDS).getAsJsonArray().get(1).getAsString());
+				
+			}
+			else
+			{
+				mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
+			}
+			
+			
+			if(obj.get("all_parts")!=null && loadMeld)
+			{
+				for(var e : obj.get("all_parts").getAsJsonArray())
+				{
+					if(e.getAsJsonObject().get("component").getAsString().equals("meld_result"))
+					{
+						try {
+							
+							var retJson = URLTools.extractAsJson(BASE_URI+BASE_SUBURI+e.getAsJsonObject().get(ID).getAsString()).getAsJsonObject();
+							mc.setRotatedCard(generateCard(retJson,false));
+							mc.getRotatedCard().setSide("b");
+							Thread.sleep(50);
+						} catch (Exception e1) {
+							logger.error(e1);
+						}
 					}
 				}
 			}
-		}
+			
+			postTreatmentCard(mc);
+			
+			
+			return mc;
+			}
+			
+		});
 		
-		postTreatmentCard(mc);
 		
 		notify(mc);
 		return mc;
+		
+		
+		
 	}
 	
 	private void overrideCardFaceData(MTGCard mc, JsonObject obj,String side)
@@ -439,8 +466,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private MTGEdition generateEdition(JsonObject obj) {
 		var ed = new MTGEdition();
 		ed.setId(obj.get("code").getAsString().toUpperCase());
-		ed.setSet(obj.get(NAME).getAsString());
-		ed.setType(obj.get("set_type").getAsString());
+		ed.setSet(readAsString(obj,NAME));
+		ed.setType(readAsString(obj,"set_type"));
 		ed.setBlock(readAsString(obj,"block"));
 		ed.setCardCount(obj.get("card_count").getAsInt());
 		ed.setCardCountOfficial(ed.getCardCount());
