@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -34,12 +33,12 @@ import org.magic.services.tools.BeanTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String MULTIVERSE_IDS = "multiverse_ids";
 	private static final String BASE_SUBURI = "/cards/";
 	private static final String MANA_COST = "mana_cost";
 	private static final String COLOR = "color";
@@ -353,18 +352,16 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 
-		if(obj.get("multiverse_ids")!=null && !obj.get("multiverse_ids").getAsJsonArray().isEmpty())
-			mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsString());
+		if(obj.get(MULTIVERSE_IDS)!=null && !obj.get(MULTIVERSE_IDS).getAsJsonArray().isEmpty())
+			mc.setMultiverseid(obj.get(MULTIVERSE_IDS).getAsJsonArray().get(0).getAsString());
 
 		
 		if(obj.get("card_faces")!=null)
 		{
 			initSubCard(mc,obj.get("card_faces").getAsJsonArray());
 			
-			if(obj.get("multiverse_ids")!=null && obj.get("multiverse_ids").getAsJsonArray().size()>1)
-			{
-				mc.getRotatedCard().setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(1).getAsString());
-			}
+			if(obj.get(MULTIVERSE_IDS)!=null && obj.get(MULTIVERSE_IDS).getAsJsonArray().size()>1)
+				mc.getRotatedCard().setMultiverseid(obj.get(MULTIVERSE_IDS).getAsJsonArray().get(1).getAsString());
 			
 		}
 		else
