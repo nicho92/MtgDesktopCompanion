@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -23,6 +25,7 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -183,6 +186,18 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
 		throw new IOException("Not Yet Implemented");
 	}
+	
+	
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var map = new HashMap<String, MTGProperty>();
+		
+			map.put("EXTRA", MTGProperty.newBooleanProperty("false", "If true, extra cards (tokens, planes, etc) will be included."));
+			map.put("MULTILINGUAL", MTGProperty.newBooleanProperty("false", "If true, cards in every language supported by Scryfall will be included."));
+			map.put("VARIATIONS",MTGProperty.newBooleanProperty("true", "If true, rare care variants will be included, like the <a href='https://scryfall.com/card/drk/107%E2%80%A0/runesword'>Hairy Runesword</a>"));
+		return map;
+	}
+	
 
 	@Override
 	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact) throws IOException {
@@ -196,9 +211,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		var q= RequestBuilder.build().setClient(URLTools.newClient()).url(BASE_URI+"/cards/search").get()
 				.addContent("unique","prints")						
-				.addContent("include_extras","true")
-				.addContent("include_multilingual","false")
-				.addContent("include_variations","true")
+				.addContent("include_extras",getString("EXTRA"))
+				.addContent("include_multilingual",getString("MULTILINGUAL"))
+				.addContent("include_variations",getString("VARIATIONS"))
 				.addContent("order",SET)
 				.addContent("format","json")
 				.addContent("pretty","false")
@@ -356,6 +371,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return false;
 		}
 	}
+	
 	
 	private MTGCard generateCard(JsonObject obj, boolean loadMeld) throws ExecutionException {
 		
