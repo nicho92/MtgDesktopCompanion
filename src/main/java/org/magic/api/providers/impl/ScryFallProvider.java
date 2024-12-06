@@ -1,5 +1,6 @@
 package org.magic.api.providers.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +30,7 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.ScryfallCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
@@ -62,6 +64,28 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("LOAD_RULING",MTGProperty.newBooleanProperty(FALSE, "Set to true if you want to load rulings data. take longer time to load"));
 	}
+	
+	public void bulkData() throws IOException
+	{
+		var k = "Default Cards";
+		
+		var arr = URLTools.extractAsJson(BASE_URI + "/bulk-data").getAsJsonObject().get("data").getAsJsonArray();
+		
+		for(var obj : arr)
+		{
+			var jo = obj.getAsJsonObject();
+			
+			if(jo.get("name").getAsString().equals(k))
+			{
+				URLTools.download(jo.get("download_uri").getAsString(), new File(MTGConstants.DATA_DIR,"scryfall.json"));
+				return;
+			}
+		}
+		throw new IOException("No bulk data found for "+k);
+		
+		
+	}
+	
 	
 	public String getLanguage(String code) 
 	{
