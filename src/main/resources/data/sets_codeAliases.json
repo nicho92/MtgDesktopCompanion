@@ -1,19 +1,24 @@
 {
-	
+	"INR" : [
+		"TINR"
+	],
 	"YBLB": [
 		"YDSK"
 	
 	],
 	"DSK": [
-		"ADSK"
+		"ADSK",
+		"TDSK"
 	],
 	"FDN":[
 		"FFDN",
 		"FJ25",
-		"AFDN"
+		"AFDN",
+		"TFDN"
 	],
 	"BLB":[
-		"ABLB"
+		"ABLB",
+		"TBLB"
 	],
 	"ACR": [
 		"AACR",
@@ -21,7 +26,8 @@
 	],
 	"MH3" : [
 		"SMH3",
-		"AMH3"
+		"AMH3",
+		"TMH3"
 	],
 	"OTJ": [
 		"AOTJ",
