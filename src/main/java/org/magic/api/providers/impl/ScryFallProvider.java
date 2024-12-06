@@ -35,9 +35,11 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.BeanTools;
+import org.magic.services.tools.FileTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -65,7 +67,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return Map.of("LOAD_RULING",MTGProperty.newBooleanProperty(FALSE, "Set to true if you want to load rulings data. take longer time to load"));
 	}
 	
-	public void bulkData() throws IOException
+	public File bulkData() throws IOException
 	{
 		var k = "Default Cards";
 		
@@ -77,8 +79,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			
 			if(jo.get("name").getAsString().equals(k))
 			{
-				URLTools.download(jo.get("download_uri").getAsString(), new File(MTGConstants.DATA_DIR,"scryfall.json"));
-				return;
+				
+				var f = new File(MTGConstants.DATA_DIR,"scryfall.json");
+				URLTools.download(jo.get("download_uri").getAsString(), f);
+				return f;
 			}
 		}
 		throw new IOException("No bulk data found for "+k);
@@ -111,6 +115,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}	
 		
 	}
+	
+	public static void main(String[] args) throws IOException {
+		new ScryFallProvider().listAllCards();
+	}
+	
 
 	public JsonObject getJsonFor(MTGCard mc)
 	{
@@ -120,7 +129,22 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
-		throw new IOException("Not Implemented");
+		
+		var f = bulkData();
+		
+		var ret = new ArrayList<MTGCard>();
+		
+		for(var obj : URLTools.toJson(FileTools.readFile(f)).getAsJsonArray())
+		{
+			try {
+				ret.add(generateCard(obj.getAsJsonObject(),false));
+			} catch (ExecutionException e) {
+				logger.error("error generating",e);
+			}
+		}
+		
+		return ret;
+		
 	}
 
 	@Override
@@ -365,7 +389,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setFlavorName(readAsString(obj,"flavor_name"));
 				mc.setOriginalReleaseDate(readAsString(obj,"released_at"));
 			
-				generateTypes(mc, obj.get("type_line").getAsString());
+				generateTypes(mc, obj.get("type_line"));
 						
 				
 			if (obj.get("games") != null) {
@@ -450,7 +474,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private void overrideCardFaceData(MTGCard mc, JsonObject obj,String side)
 	{
 		mc.setName(obj.get(NAME).getAsString());
-		generateTypes(mc, obj.get("type_line").getAsString());
+		generateTypes(mc, obj.get("type_line"));
 		mc.setText(readAsString(obj,"oracle_text"));
 		mc.setCost(readAsString(obj,MANA_COST));
 		mc.setPower(readAsString(obj,POWER));
@@ -522,7 +546,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return ed;
 	}
 	
-	private void generateTypes(MTGCard mc, String line) {
+	private void generateTypes(MTGCard mc, JsonElement obj) {
+		
+		if(obj ==null)
+			return ;
+		
+		
+		var line = obj.getAsString();
 		
 		mc.setTypes(new ArrayList<String>());
 		mc.setSupertypes(new ArrayList<String>());
