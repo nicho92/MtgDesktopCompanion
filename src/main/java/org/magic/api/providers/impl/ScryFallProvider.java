@@ -335,6 +335,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
 				mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
 				mc.setFlavorName(readAsString(obj,"flavor_name"));
+				mc.setOriginalReleaseDate(readAsString(obj,"released_at"));
+				
 				generateTypes(mc, obj.get("type_line").getAsString());
 						
 				
@@ -417,9 +419,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		notify(mc);
 		return mc;
-		
-		
-		
+
 	}
 	
 	private void overrideCardFaceData(MTGCard mc, JsonObject obj,String side)

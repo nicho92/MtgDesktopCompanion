@@ -279,8 +279,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 						entry.setName(rs.getString("fileName"));
 						arr.add(entry);
 					}
-				logger.debug("return {}",arr);
-				return arr;
+			return arr;
 		} catch (ClassNotFoundException e) {
 			logger.error(e);
 			throw new SQLException(e);
