@@ -33,8 +33,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	private String uriPost = "https://aetherhub.com/Meta/FetchMetaListAdv";
 
 	public AetherhubDeckSniffer() {
-		super();
-
+		
 		formats = new HashMap<>();
 		formats.put("All", "");
 		formats.put("Standard", "?formatId=1");
