@@ -121,9 +121,9 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
-		List<RetrievableDeck> list = new ArrayList<>();
+		var list = new ArrayList<RetrievableDeck>();
 
-		Map<String,String> headers = new HashMap<>();
+		var headers = new HashMap<String,String>();
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		headers.put(URLTools.USER_AGENT,MTGConstants.USER_AGENT);
 		var resp = httpclient.doPost(uriPost+formats.get(filter), new StringEntity(postReqData), headers);

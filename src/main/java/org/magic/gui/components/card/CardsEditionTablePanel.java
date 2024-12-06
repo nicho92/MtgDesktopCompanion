@@ -40,8 +40,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 
-import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
-
 public class CardsEditionTablePanel extends JPanel {
 	/**
 	 *
