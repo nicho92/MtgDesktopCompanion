@@ -163,6 +163,15 @@ public class ThreadManager {
 
 	}
 
+	public void sleep(int i) {
+		try {
+			Thread.sleep(i);
+		} catch (InterruptedException e) {
+			logger.error(e);
+		}
+		
+	}
+
 
 
 

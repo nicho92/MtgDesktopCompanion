@@ -31,6 +31,7 @@ import org.magic.api.criterias.builders.ScryfallCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.BeanTools;
 
 import com.google.common.collect.Lists;
@@ -160,12 +161,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		if(att.equals(ID))
 		{
+			q.clearContents();
 			q.url(BASE_URI+BASE_SUBURI+crit);
 			try {
 				list.add(generateCard(q.toJson().getAsJsonObject(),true));
 			} catch (ExecutionException e) {
 				logger.error(e);
 			}
+			
+			return list;
 		}
 		
 		
@@ -197,6 +201,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			if (hasMore)
 				obj=URLTools.extractAsJson(obj.get("next_page").getAsString()).getAsJsonObject();
 			
+			
+			ThreadManager.getInstance().sleep(50);
 		}
 		
 		return list;
@@ -297,10 +303,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	private MTGCard generateCard(JsonObject obj, boolean loadMeld) throws ExecutionException {
 		
-		
-		
 		var mc= cacheCards.get(obj.get(ID).getAsString(), new Callable<MTGCard>(){
-
 			@Override
 			public MTGCard call() throws Exception {
 				var mc = new MTGCard();
@@ -310,6 +313,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setArtist(obj.get("artist").getAsString());
 				mc.setLayout(EnumLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
 				mc.setEdition(getSetById(obj.get(SET).getAsString().toUpperCase()));
+				mc.getEditions().add(getSetById(obj.get(SET).getAsString().toUpperCase()));
 				mc.setCmc(readAsInt(obj, CMC));
 				mc.setRarity(EnumRarity.rarityByName(obj.get(RARITY).getAsString()));
 				mc.setReserved(obj.get("reserved").getAsBoolean());
@@ -336,7 +340,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
 				mc.setFlavorName(readAsString(obj,"flavor_name"));
 				mc.setOriginalReleaseDate(readAsString(obj,"released_at"));
-				
+			
 				generateTypes(mc, obj.get("type_line").getAsString());
 						
 				
@@ -400,7 +404,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 							var retJson = URLTools.extractAsJson(BASE_URI+BASE_SUBURI+e.getAsJsonObject().get(ID).getAsString()).getAsJsonObject();
 							mc.setRotatedCard(generateCard(retJson,false));
 							mc.getRotatedCard().setSide("b");
-							Thread.sleep(50);
+							
 						} catch (Exception e1) {
 							logger.error(e1);
 						}
@@ -413,10 +417,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			
 			return mc;
 			}
-			
 		});
-		
-		
 		notify(mc);
 		return mc;
 

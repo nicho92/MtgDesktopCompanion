@@ -23,6 +23,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.ThreadManager;
 
 public class AlertTrendServer extends AbstractMTGServer {
 
@@ -74,7 +75,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 										ret.add(cs);
 	
 									if(getInt(THREAD_PAUSE)!=null)
-										Thread.sleep(getInt(THREAD_PAUSE));
+										ThreadManager.getInstance().sleep(getInt(THREAD_PAUSE));
 	
 									}
 							}
@@ -83,10 +84,6 @@ public class AlertTrendServer extends AbstractMTGServer {
 						{
 							logger.error(e1);
 							alert.setShake(new CardShake());
-						}
-						catch(InterruptedException ex)
-						{
-							Thread.currentThread().interrupt();
 						}
 						catch(Exception e)
 						{
