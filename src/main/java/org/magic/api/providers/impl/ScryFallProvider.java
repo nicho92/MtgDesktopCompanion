@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -24,7 +23,6 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -45,8 +43,13 @@ import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String FINISHES = "finishes";
+	private static final String CARD_FACES = "card_faces";
+	private static final String PROMO_TYPES = "promo_types";
+	private static final String COLORS = "colors";
+	private static final String FRAME_EFFECTS = "frame_effects";
 	private static final String MULTIVERSE_IDS = "multiverse_ids";
-	private static final String BASE_SUBURI = "/cards/";
+	
 	private static final String MANA_COST = "mana_cost";
 	private static final String COLOR = "color";
 	private static final String SET = "set";
@@ -60,32 +63,30 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String LOYALTY = "loyalty";
 	private static final String POWER = "power";
 	private static final String BASE_URI = "https://api.scryfall.com";
-
-
-	@Override
-	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("LOAD_RULING",MTGProperty.newBooleanProperty(FALSE, "Set to true if you want to load rulings data. take longer time to load"));
-	}
+	private static final String BASE_SUBURI = "/cards/";
 	
-	public File bulkData() throws IOException
+	
+	public static enum BULKTYPE {oracle_cards,unique_artwork,default_cards, all_cards,rulings}
+	
+	
+	
+	public File bulkData(BULKTYPE t) throws IOException
 	{
-		var k = "Default Cards";
-		
 		var arr = URLTools.extractAsJson(BASE_URI + "/bulk-data").getAsJsonObject().get("data").getAsJsonArray();
 		
 		for(var obj : arr)
 		{
 			var jo = obj.getAsJsonObject();
 			
-			if(jo.get("name").getAsString().equals(k))
+			if(jo.get("type").getAsString().equals(t.name()))
 			{
 				
-				var f = new File(MTGConstants.DATA_DIR,"scryfall.json");
+				var f = new File(MTGConstants.DATA_DIR,t.name()+".json");
 				URLTools.download(jo.get("download_uri").getAsString(), f);
 				return f;
 			}
 		}
-		throw new IOException("No bulk data found for "+k);
+		throw new IOException("No bulk data found for "+t);
 		
 		
 	}
@@ -116,28 +117,29 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 	}
 	
-	public static void main(String[] args) throws IOException {
-		new ScryFallProvider().listAllCards();
-	}
-	
-
 	public JsonObject getJsonFor(MTGCard mc)
 	{
 			String url = BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
 			return URLTools.extractAsJson(url).getAsJsonObject();
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		new ScryFallProvider().listAllCards();
+	}
+	
+	
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
 		
-		var f = bulkData();
+		var f = bulkData( BULKTYPE.default_cards);
 		
 		var ret = new ArrayList<MTGCard>();
 		
 		for(var obj : URLTools.toJson(FileTools.readFile(f)).getAsJsonArray())
 		{
 			try {
-				ret.add(generateCard(obj.getAsJsonObject(),false));
+				ret.add(generateCard(obj.getAsJsonObject(),true));
 			} catch (ExecutionException e) {
 				logger.error("error generating",e);
 			}
@@ -289,8 +291,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			arr.add(new QueryAttribute(COLOR_IDENTITY, EnumColors.class));
 			arr.add(new QueryAttribute(LAYOUT,EnumLayout.class));
 			arr.add(new QueryAttribute(RARITY,EnumRarity.class));
-			arr.add(new QueryAttribute("finishes",EnumFinishes.class));
-			arr.add(new QueryAttribute("promo_types",EnumPromoType.class));
+			arr.add(new QueryAttribute(FINISHES,EnumFinishes.class));
+			arr.add(new QueryAttribute(PROMO_TYPES,EnumPromoType.class));
 			return arr;
 }
 
@@ -313,9 +315,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
+	
+	
 	private String readAsString(JsonObject obj , String k)
 	{
 		try {
@@ -399,21 +407,21 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				
 			
 			
-			if(obj.get("frame_effects")!=null)
-				obj.get("frame_effects").getAsJsonArray().forEach(je->mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(je.getAsString())));
+			if(obj.get(FRAME_EFFECTS)!=null)
+				obj.get(FRAME_EFFECTS).getAsJsonArray().forEach(je->mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(je.getAsString())));
 
-			if(obj.get("colors")!=null)
-				obj.get("colors").getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
+			if(obj.get(COLORS)!=null)
+				obj.get(COLORS).getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
 			
-			if(obj.get("promo_types")!=null)
-				obj.get("promo_types").getAsJsonArray().forEach(je->mc.getPromotypes().add(EnumPromoType.parseByLabel(je.getAsString())));
+			if(obj.get(PROMO_TYPES)!=null)
+				obj.get(PROMO_TYPES).getAsJsonArray().forEach(je->mc.getPromotypes().add(EnumPromoType.parseByLabel(je.getAsString())));
 			
 			
 			obj.get("keywords").getAsJsonArray().forEach(je->mc.getKeywords().add(new MTGKeyWord(je.getAsString(), TYPE.ABILITIES)));
 			
 			obj.get(COLOR_IDENTITY).getAsJsonArray().forEach(je->mc.getColorIdentity().add(EnumColors.colorByCode(je.getAsString())));
 		
-			obj.get("finishes").getAsJsonArray().forEach(je->mc.getFinishes().add(EnumFinishes.parseByLabel(je.getAsString())));
+			obj.get(FINISHES).getAsJsonArray().forEach(je->mc.getFinishes().add(EnumFinishes.parseByLabel(je.getAsString())));
 				
 			if (obj.get("legalities") != null) {
 				var legs = obj.get("legalities").getAsJsonObject();
@@ -427,9 +435,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setMultiverseid(obj.get(MULTIVERSE_IDS).getAsJsonArray().get(0).getAsString());
 
 			
-			if(obj.get("card_faces")!=null)
+			if(obj.get(CARD_FACES)!=null)
 			{
-				initSubCard(mc,obj.get("card_faces").getAsJsonArray());
+				initSubCard(mc,obj.get(CARD_FACES).getAsJsonArray());
 				
 				if(obj.get(MULTIVERSE_IDS)!=null && obj.get(MULTIVERSE_IDS).getAsJsonArray().size()>1)
 					mc.getRotatedCard().setMultiverseid(obj.get(MULTIVERSE_IDS).getAsJsonArray().get(1).getAsString());
@@ -485,10 +493,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setFlavor(readAsString(obj,"flavor_text"));
 		
 		
-		if(obj.get("colors")!=null)
+		if(obj.get(COLORS)!=null)
 		{
 			mc.getColors().clear();
-			obj.get("colors").getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
+			obj.get(COLORS).getAsJsonArray().forEach(je->mc.getColors().add(EnumColors.colorByCode(je.getAsString())));
 		}
 		
 		
