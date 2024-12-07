@@ -46,6 +46,9 @@ import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String IMAGE_URIS = "image_uris";
+	private static final String TYPE_LINE = "type_line";
+	private static final String LEGALITIES = "legalities";
 	private static final String FINISHES = "finishes";
 	private static final String CARD_FACES = "card_faces";
 	private static final String PROMO_TYPES = "promo_types";
@@ -67,10 +70,32 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String POWER = "power";
 	private static final String BASE_URI = "https://api.scryfall.com";
 	private static final String BASE_SUBURI = "/cards/";
+	private Map<String, String> languages;
 	
 	
 	public static enum BULKTYPE {oracle_cards,unique_artwork,default_cards, all_cards,rulings}
+
+
 	
+	public ScryFallProvider() {
+		 languages = new HashMap<String,String>();
+			languages.put("es","Spanish");
+			languages.put("fr","French"); 
+			languages.put("de","German"); 
+			languages.put("it","Italian");
+			languages.put("pt","Portuguese"); 
+			languages.put("ja","Japanese");
+			languages.put("ko","Korean");
+			languages.put("ru","Russian"); 
+			languages.put("zhs","Simplified Chinese"); 
+			languages.put("zht","Traditional Chinese"); 
+			languages.put("he","Hebrew");
+			languages.put("la","Latin"); 
+			languages.put("grc","Ancient Greek"); 
+			languages.put("ar","Arabic");
+			languages.put("sa","Sanskrit"); 
+			languages.put("ph" ,"Phyrexian");
+	}
 	
 	
 	public File bulkData(BULKTYPE t) throws IOException
@@ -94,43 +119,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 	}
 	
-	
-	public String getLanguage(String code) 
-	{
-		switch (code) 
-		{
-			case "es": return "Spanish";
-			case "fr": return "French"; 
-			case "de": return "German"; 
-			case "it": return "Italian";
-			case "pt": return "Portuguese"; 
-			case "ja": return "Japanese";
-			case "ko": return "Korean";
-			case "ru": return "Russian"; 
-			case "zhs": return "Simplified Chinese"; 
-			case "zht": return "Traditional Chinese"; 
-			case "he": return "Hebrew";
-			case "la": return "Latin"; 
-			case "grc": return "Ancient Greek"; 
-			case "ar": return "Arabic";
-			case "sa": return "Sanskrit"; 
-			case "ph" : return "Phyrexian";
-			default : return "English";
-		}	
-		
-	}
-	
 	public JsonObject getJsonFor(MTGCard mc)
 	{
 			String url = BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
 			return URLTools.extractAsJson(url).getAsJsonObject();
 	}
 
-	
-	public static void main(String[] args) throws IOException {
-		new ScryFallProvider().listAllCards();
-	}
-	
 	
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
@@ -320,7 +314,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	@Override
 	public List<String> loadCardsLangs() throws IOException {
-		return Lists.newArrayList("en","es","fr","de","it","pt","ja","ru","zhs","he","ar");
+		return languages.values().stream().toList();
 	}
 
 	@Override
@@ -413,14 +407,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setFlavorName(readAsString(obj,"flavor_name"));
 				mc.setOriginalReleaseDate(readAsString(obj,"released_at"));
 			
-				generateTypes(mc, obj.get("type_line"));
+				generateTypes(mc, obj.get(TYPE_LINE));
 						
 				
 			if (obj.get("games") != null) {
 				mc.setArenaCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("arena")));
 				mc.setMtgoCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("mtgo")));
 			}
-				
 			
 			
 			if(obj.get(FRAME_EFFECTS)!=null)
@@ -439,8 +432,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 			obj.get(FINISHES).getAsJsonArray().forEach(je->mc.getFinishes().add(EnumFinishes.parseByLabel(je.getAsString())));
 				
-			if (obj.get("legalities") != null) {
-				var legs = obj.get("legalities").getAsJsonObject();
+			if (obj.get(LEGALITIES) != null) {
+				var legs = obj.get(LEGALITIES).getAsJsonObject();
 				for (var ent : legs.entrySet()) {
 					mc.getLegalities().add(new MTGFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase())));
 				}
@@ -461,7 +454,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 			else
 			{
-				mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
+				mc.setUrl(obj.get(IMAGE_URIS).getAsJsonObject().get("large").getAsString());
 			}
 			
 			
@@ -498,7 +491,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private void overrideCardFaceData(MTGCard mc, JsonObject obj,String side)
 	{
 		mc.setName(obj.get(NAME).getAsString());
-		generateTypes(mc, obj.get("type_line"));
+		generateTypes(mc, obj.get(TYPE_LINE));
 		mc.setText(readAsString(obj,"oracle_text"));
 		mc.setCost(readAsString(obj,MANA_COST));
 		mc.setPower(readAsString(obj,POWER));
@@ -516,8 +509,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 		
 		
-		if(obj.get("image_uris")!=null)
-			mc.setUrl(obj.get("image_uris").getAsJsonObject().get("large").getAsString());
+		if(obj.get(IMAGE_URIS)!=null)
+			mc.setUrl(obj.get(IMAGE_URIS).getAsJsonObject().get("large").getAsString());
 		
 		mc.setId(mc.getId()+"_"+side);
 		

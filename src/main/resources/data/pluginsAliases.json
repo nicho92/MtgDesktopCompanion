@@ -513,7 +513,8 @@
 				"UZ":"USG",
 				"VI":"VIS",
 				"WL":"WTH",
-				"PLIST":"PLST"
+				"PLIST":"PLST",
+				"MB1":"PLST"
 		},
 		"nameSet": {
 			"Neon Dynasty Commander": "Kamigawa Neon Dynasty Commander",
