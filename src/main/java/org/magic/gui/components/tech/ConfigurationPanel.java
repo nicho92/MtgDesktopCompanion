@@ -500,7 +500,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 /////////////GUI BOX
 
 		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
-		JComboBox<Locale> cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
+		var cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
 		
 		cboLocales.setRenderer((JList<? extends Locale> list, Locale value, int index, boolean isSelected, boolean cellHasFocus)->
 			new JLabel(StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale())))
@@ -508,9 +508,9 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 
 		var lblCardsLanguage = new JLangLabel("CARD_LANGUAGE",true);
-		JComboBox<String> cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
+		var cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		var lblLook = new JLangLabel("LOOK",true);
-		JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
+		var cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
 		var lblPicsSize = new JLangLabel("THUMBNAIL_SIZE",true);
 		var btnSavePicSize = new JButton(capitalize("SAVE"));
 		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension().getDimension());
@@ -519,7 +519,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var lblShowTooltip = new JLangLabel("SHOW_TOOLTIP",true);
 		chkToolTip = new JCheckBox("");
 		var lblToolPosition = new JLangLabel("TAB_POSITION",true);
-		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
+		var cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
 		
 		var lblFont = new JLangLabel("FONT",true);
 		
@@ -553,15 +553,23 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelGUI.add(cboToolPosition, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 6));
 		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 7));
 		panelGUI.add(UITools.createFlowPanel(btnFontChoose), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
-		panelGUI.add(new JLabel(capitalize("ENABLE_AUTOCOMPLETION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
+		panelGUI.add(new JLangLabel("ENABLE_AUTOCOMPLETION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
 		panelGUI.add(chkEnabledAutocomplete, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 8));
-		panelGUI.add(new JLabel(capitalize("DISABLE_CHROME_RENDERING") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
+		panelGUI.add(new JLangLabel("DISABLE_CHROME_RENDERING",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
 		panelGUI.add(chkEnabledChrome, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 9));
 
-		panelGUI.add(new JLabel(capitalize("SHORTKEYS_CONFIGURATION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
+		panelGUI.add(new JLangLabel("SHORTKEYS_CONFIGURATION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
 		panelGUI.add(UITools.createFlowPanel(btnShortKeys), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 10));
 
 
+		for(int i =0;i<cboLook.getItemCount();i++)
+		{
+			if(cboLook.getItemAt(i).getClassName().equals(MTGControler.getInstance().get("lookAndFeel")))
+			{
+				cboLook.setSelectedIndex(i);
+				break;
+			}
+		}
 
 
 /////////////EVENTS
