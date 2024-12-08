@@ -42,7 +42,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected TCache<MTGCollection> listCollections;
 	protected TCache<MTGAlert> alerts;
 	
-	protected abstract List<MTGAlert> loadAlerts();
+	protected abstract void loadAlerts();
 	
 	@Override
 	public boolean isSQL() {

@@ -1384,7 +1384,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	
 	@Override
-	public List<MTGAlert> loadAlerts() {
+	public void loadAlerts() {
 		
 		try (var c = pool.getConnection(); var pst = c.prepareStatement(hlper.selectAll("alerts"))) {
 			try (var rs = executeQuery(pst)) {
@@ -1401,9 +1401,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		} catch (Exception e) {
 			logger.error("error get alert",e);
 		}
-		return alerts.values();
-		
-		
 	}
 
 	@Override
