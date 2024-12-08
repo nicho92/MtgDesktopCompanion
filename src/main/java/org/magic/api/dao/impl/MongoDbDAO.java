@@ -155,7 +155,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void init() throws SQLException {
 
-		var pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+		var prov = PojoCodecProvider.builder().automatic(true).build();
+		var pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),fromProviders(prov));
 
 		setts = JsonWriterSettings.builder().outputMode(JsonMode.RELAXED).build();
 
