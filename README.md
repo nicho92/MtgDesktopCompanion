@@ -42,6 +42,10 @@ Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=Pa
 ```
 
 # Setup from source
+
+ Need to have Maven installed : https://maven.apache.org/download.cgi
+
+
 ```
 git clone https://github.com/nicho92/MtgDesktopCompanion.git
 
