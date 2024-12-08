@@ -211,23 +211,19 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		if(att.equals(ID))
 		{
-			q.clearContents();
-			q.url(BASE_URI+BASE_SUBURI+crit);
 			try {
 				
 				return List.of(cacheCards.get(crit, new Callable<MTGCard>() {
 					@Override
 					public MTGCard call() throws Exception {
-						return generateCard(q.toJson().getAsJsonObject(),true);
+						return generateCard(URLTools.extractAsJson(BASE_URI+BASE_SUBURI+crit).getAsJsonObject(),true);
 					}
 				}));
 				
 			} catch (ExecutionException e) {
 				logger.error(e);
 			}
-			
 		}
-		
 		
 		return execute(q);
 		
