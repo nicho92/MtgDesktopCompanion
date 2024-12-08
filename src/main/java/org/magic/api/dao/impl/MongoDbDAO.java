@@ -71,6 +71,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	private static final String EMAIL = "email";
 	private static final String PASSWORD = "password";
+	
 	private MongoDatabase db;
 	private String colCollects = "collects";
 	private String colStocks = "stocks";
@@ -156,8 +157,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public void init() throws SQLException {
 
 		var prov = PojoCodecProvider.builder().automatic(true).build();
+		
 		var pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),fromProviders(prov));
 
+		
+		
+		
+		
 		setts = JsonWriterSettings.builder().outputMode(JsonMode.RELAXED).build();
 
 
@@ -205,7 +211,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 								}
 							})
 			                .build();
-
+					  
+					  
+					  
+					  
+					  
 			client = MongoClients.create(settings);
 
 			db = client.getDatabase(getString(DB_NAME)).withCodecRegistry(pojoCodecRegistry);

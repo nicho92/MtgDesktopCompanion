@@ -167,6 +167,7 @@ public class ThreadManager {
 		try {
 			Thread.sleep(i);
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			logger.error(e);
 		}
 		
