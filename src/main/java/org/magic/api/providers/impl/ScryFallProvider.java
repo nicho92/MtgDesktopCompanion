@@ -214,7 +214,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			q.clearContents();
 			q.url(BASE_URI+BASE_SUBURI+crit);
 			try {
-				return List.of(generateCard(q.toJson().getAsJsonObject(),true));
+				
+				return List.of(cacheCards.get(crit, new Callable<MTGCard>() {
+					@Override
+					public MTGCard call() throws Exception {
+						return generateCard(q.toJson().getAsJsonObject(),true);
+					}
+				}));
+				
 			} catch (ExecutionException e) {
 				logger.error(e);
 			}
