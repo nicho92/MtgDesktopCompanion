@@ -173,10 +173,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 					  if(!getString(PARAMETERS).isEmpty())
 						  temp.append("?").append(getString(PARAMETERS));
 
-
-			logger.info("Loading {} to : {}",getName(),temp);
-
-			var settings = MongoClientSettings.builder()
+					  var settings = MongoClientSettings.builder()
 			                .applyConnectionString(new ConnectionString(temp.toString()))
 			                .addCommandListener(new CommandListener() {
 
