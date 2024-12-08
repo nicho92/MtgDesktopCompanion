@@ -15,23 +15,20 @@ public class ScryfallCriteriaBuilder extends AbstractQueryBuilder<String> {
 
 		for(MTGCrit<?> c : crits)
 		{
-
-
 			if(c.getType()==Boolean.class)
 			{
-				temp.append("is:").append(c.getAtt());
+				if(c.getFirst().toString().equals("true"))
+					temp.append("is:").append(c.getAtt());
+				else
+					temp.append("not:").append(c.getAtt());
 			}
-			else if(c.getType()==String.class)
+			else
 			{
-				temp.append("eq:").append(c.getAtt());
+				temp.append(c.getAtt()).append(":").append(c.getFirst());
 			}
-
-
+			temp.append(" ");
 		}
-
-		temp.append(" ");
-
-
+		
 		return temp.toString().trim();
 	}
 

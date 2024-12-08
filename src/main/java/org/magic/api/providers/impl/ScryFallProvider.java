@@ -178,7 +178,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
-		throw new IOException("Not Yet Implemented");
+		var query=createQuery(getMTGQueryManager().build(crits).toString());
+		return execute(query);
 	}
 	
 	
@@ -192,48 +193,42 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return map;
 	}
 	
+	
+	
+	
+	
 
 	@Override
 	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact) throws IOException {
-		List<MTGCard> list = new ArrayList<>();
+		
 
 		var value = crit;
 		
 		if(exact && att.equals(NAME))
 			value="!\""+value+"\"";
 		
-		
-		var q= RequestBuilder.build().setClient(URLTools.newClient()).url(BASE_URI+"/cards/search").get()
-				.addContent("unique","prints")						
-				.addContent("include_extras",getString("EXTRA"))
-				.addContent("include_multilingual",getString("MULTILINGUAL"))
-				.addContent("include_variations",getString("VARIATIONS"))
-				.addContent("order",SET)
-				.addContent("format","json")
-				.addContent("pretty","false")
-				.addContent("q",att+":"+value + (me!=null?" set:"+me.getId():""));
-		
-		
-		
-		
-		
+		var q = createQuery(att+":"+value + (me!=null?" set:"+me.getId():""));
 		
 		if(att.equals(ID))
 		{
 			q.clearContents();
 			q.url(BASE_URI+BASE_SUBURI+crit);
 			try {
-				list.add(generateCard(q.toJson().getAsJsonObject(),true));
+				return List.of(generateCard(q.toJson().getAsJsonObject(),true));
 			} catch (ExecutionException e) {
 				logger.error(e);
 			}
 			
-			return list;
 		}
 		
 		
-		var obj = q.toJson().getAsJsonObject();
+		return execute(q);
 		
+	}
+
+	private List<MTGCard> execute(RequestBuilder q) throws IOException {
+		var obj = q.toJson().getAsJsonObject();
+		List<MTGCard> list = new ArrayList<>();
 		
 		if(obj.get("error")!=null)
 			throw new IOException(obj.get("error").getAsString());
@@ -266,6 +261,21 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		return list;
 	}
+
+
+	private RequestBuilder createQuery(String q) {
+		
+		return RequestBuilder.build().setClient(URLTools.newClient()).url(BASE_URI+"/cards/search").get()
+				.addContent("unique","prints")						
+				.addContent("include_extras",getString("EXTRA"))
+				.addContent("include_multilingual",getString("MULTILINGUAL"))
+				.addContent("include_variations",getString("VARIATIONS"))
+				.addContent("order",SET)
+				.addContent("format","json")
+				.addContent("pretty","false")
+				.addContent("q",q);
+	}
+
 
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
