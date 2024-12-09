@@ -46,6 +46,8 @@ import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String GAMES = "games";
+	private static final String RELEASED_AT = "released_at";
 	private static final String IMAGE_URIS = "image_uris";
 	private static final String TYPE_LINE = "type_line";
 	private static final String LEGALITIES = "legalities";
@@ -73,12 +75,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private Map<String, String> languages;
 	
 	
-	public static enum BULKTYPE {oracle_cards,unique_artwork,default_cards, all_cards,rulings}
+	public enum BULKTYPE {ORACLE_CARDS,UNIQUE_ARTWORK,DEFAULT_CARDS, ALL_CARDS,RULINGS}
 
 
 	
 	public ScryFallProvider() {
-		 languages = new HashMap<String,String>();
+		 languages = new HashMap<>();
 			languages.put("es","Spanish");
 			languages.put("fr","French"); 
 			languages.put("de","German"); 
@@ -106,10 +108,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		{
 			var jo = obj.getAsJsonObject();
 			
-			if(jo.get("type").getAsString().equals(t.name()))
+			if(jo.get("type").getAsString().equalsIgnoreCase(t.name()))
 			{
 				
-				var f = new File(MTGConstants.DATA_DIR,t.name()+".json");
+				var f = new File(MTGConstants.DATA_DIR,t.name().toLowerCase()+".json");
 				URLTools.download(jo.get("download_uri").getAsString(), f);
 				return f;
 			}
@@ -129,7 +131,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
 		
-		var f = bulkData( BULKTYPE.default_cards);
+		var f = bulkData( BULKTYPE.DEFAULT_CARDS);
 		
 		var ret = new ArrayList<MTGCard>();
 		
@@ -418,14 +420,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
 				mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
 				mc.setFlavorName(readAsString(obj,"flavor_name"));
-				mc.setOriginalReleaseDate(readAsString(obj,"released_at"));
+				mc.setOriginalReleaseDate(readAsString(obj,RELEASED_AT));
 			
 				generateTypes(mc, obj.get(TYPE_LINE));
 						
 				
-			if (obj.get("games") != null) {
-				mc.setArenaCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("arena")));
-				mc.setMtgoCard(obj.get("games").getAsJsonArray().contains(new JsonPrimitive("mtgo")));
+			if (obj.get(GAMES) != null) {
+				mc.setArenaCard(obj.get(GAMES).getAsJsonArray().contains(new JsonPrimitive("arena")));
+				mc.setMtgoCard(obj.get(GAMES).getAsJsonArray().contains(new JsonPrimitive("mtgo")));
 			}
 			
 			
@@ -562,10 +564,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if(obj.get("foil_only") !=null)
 			ed.setFoilOnly(obj.get("foil_only").getAsBoolean());
 
-		if (obj.get("released_at") != null)
+		if (obj.get(RELEASED_AT) != null)
 		{
-			ed.setReleaseDate(obj.get("released_at").getAsString());
-			ed.setPreview(LocalDate.parse(obj.get("released_at").getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
+			ed.setReleaseDate(obj.get(RELEASED_AT).getAsString());
+			ed.setPreview(LocalDate.parse(obj.get(RELEASED_AT).getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
 		}
 
 		ed.getBooster().add(EnumExtra.DRAFT);
@@ -584,9 +586,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		var line = obj.getAsString();
 		
-		mc.setTypes(new ArrayList<String>());
-		mc.setSupertypes(new ArrayList<String>());
-		mc.setSubtypes(new ArrayList<String>());
+		mc.setTypes(new ArrayList<>());
+		mc.setSupertypes(new ArrayList<>());
+		mc.setSubtypes(new ArrayList<>());
 		
 		
 		line = line.replace("\"", "");
