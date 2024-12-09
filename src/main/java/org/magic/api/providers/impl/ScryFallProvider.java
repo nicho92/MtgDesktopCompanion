@@ -233,10 +233,20 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private List<MTGCard> execute(RequestBuilder q) throws IOException {
 		var obj = q.toJson().getAsJsonObject();
+		
+		logger.debug("execute q={}, results ={}",q,obj);
+		
 		List<MTGCard> list = new ArrayList<>();
 		
 		if(obj.get("error")!=null)
 			throw new IOException(obj.get("error").getAsString());
+		
+		if(obj.get("object").getAsString().equals("error"))
+		{
+			logger.error(obj.get("details").getAsString());
+			return list;
+		}
+		
 		
 			
 		var hasMore = true;
@@ -310,7 +320,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				arr.add(new QueryAttribute(s,Boolean.class));
 			}
 		
-			arr.add(new QueryAttribute(SET,MTGEdition.class));
+			
 			arr.add(new QueryAttribute(COLOR, EnumColors.class));
 			arr.add(new QueryAttribute(COLOR_IDENTITY, EnumColors.class));
 			arr.add(new QueryAttribute(LAYOUT,EnumLayout.class));

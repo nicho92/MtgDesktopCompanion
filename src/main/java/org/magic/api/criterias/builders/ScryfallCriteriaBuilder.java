@@ -22,6 +22,21 @@ public class ScryfallCriteriaBuilder extends AbstractQueryBuilder<String> {
 				else
 					temp.append("not:").append(c.getAtt());
 			}
+			else if(c.getType()==Integer.class)
+			{
+				var separator =";";
+				
+				switch(c.getOperator())
+				{
+				case GREATER: separator=">";break;
+				case GREATER_EQ: separator=">=";break;
+				case LOWER:  separator="<";break;
+				case LOWER_EQ: separator="<=";break;
+				default : separator=":";break;
+				}
+				temp.append(c.getAtt()).append(separator).append(c.getFirst());
+				
+			}
 			else
 			{
 				temp.append(c.getAtt()).append(":").append(c.getFirst());

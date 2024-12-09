@@ -16,6 +16,7 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -89,6 +90,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.addConvertor(EnumCardVariation.class,(EnumCardVariation source)->source.name().toLowerCase());
 		b.addConvertor(EnumPromoType.class,(EnumPromoType source)->source.name().toLowerCase());
 		b.addConvertor(EnumFinishes.class,(EnumFinishes source)->source.name().toLowerCase());
+		b.addConvertor(EnumSecurityStamp.class, (EnumSecurityStamp source)->source.name().toLowerCase());
 	}
 
 

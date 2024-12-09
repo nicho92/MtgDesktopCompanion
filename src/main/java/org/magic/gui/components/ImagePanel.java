@@ -133,33 +133,23 @@ public class ImagePanel extends JXPanel {
 		if(mc == null)
 			return;
 
-		if (!mc.isDoubleFaced())
-		{
-			imgBack = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
-		}
-		else
-		{
-			try {
-				MTGCard rcard =mc.getRotatedCard();
-				imgBack = getEnabledPlugin(MTGPictureProvider.class).getPicture(rcard);
-			} catch (Exception e) {
-				logger.error("error loading rotated card : {}",mc.getRotatedCard(),e);
-
-			}
-		}
+		
 
 		ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
 			@Override
 			protected void auditedRun() {
 				try {
+					
 					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 					
-					
+					if (mc.isDoubleFaced())
+						imgBack = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc.getRotatedCard());
+					else
+						imgBack = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
 					
 					if(mc.isFlippable())
 						imgBack = ImageTools.rotate(printed, 180);
-
 
 					if(mc.getLayout()==EnumLayout.SPLIT)
 						imgFront= ImageTools.rotate(printed, 90);
@@ -185,7 +175,7 @@ public class ImagePanel extends JXPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		Graphics2D g2 = (Graphics2D) g;
+		var g2 = (Graphics2D) g;
 		ImageTools.initGraphics(g2);
 
 		if (printed == null)
