@@ -69,6 +69,7 @@ import com.mongodb.event.CommandSucceededEvent;
 public class MongoDbDAO extends AbstractMagicDAO {
 
 	
+	private static final String INIT_DEFAULT_COLS = "INIT_DEFAULT_COLS";
 	private static final String EMAIL = "email";
 	private static final String PASSWORD = "password";
 	
@@ -110,6 +111,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				m.put(PASS, new MTGProperty("","password of the connected user"));
 				m.put(PARAMETERS, new MTGProperty("","MongoDB parameters append to the url"));
 				m.put(DRIVER, new MTGProperty("mongodb://","Mongo server protocol. Use mongodb:// for standard network. Use mongodb+srv:// for atlas","mongodb://","mongodb+srv://"));
+				m.put(INIT_DEFAULT_COLS,MTGProperty.newBooleanProperty("true", "create defaults collection at startup. Will be set to false after first startup"));
 				return m;
 	}
 
@@ -227,8 +229,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	public boolean createDB() {
-
-			var populateCollections=true;
+			var populateCollections=getBoolean(INIT_DEFAULT_COLS);
 			for(String s : collectionsNames)
 			{
 				try {
@@ -243,12 +244,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				for(String s:  MTGConstants.getDefaultCollectionsNames())
 					try {
 						saveCollection(new MTGCollection(s));
+						setProperty(INIT_DEFAULT_COLS,"false");
 					} catch (SQLException e) {
 						logger.error(e);
 					}
 
 
-		return populateCollections;
+		return true;
 	}
 
 
