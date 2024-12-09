@@ -228,7 +228,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	}
 
-	public boolean createDB() {
+	public void createDB() {
 			var populateCollections=getBoolean(INIT_DEFAULT_COLS);
 			for(String s : collectionsNames)
 			{
@@ -248,9 +248,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 					} catch (SQLException e) {
 						logger.error(e);
 					}
-
-
-		return true;
 	}
 
 
