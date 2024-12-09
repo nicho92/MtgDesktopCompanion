@@ -44,7 +44,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	}
 
 	public void addHiddenColumns(int i) {
-		hiddenColumns= ArrayUtils.add(hiddenColumns,7);
+		hiddenColumns= ArrayUtils.add(hiddenColumns,i);
 	}
 
 
