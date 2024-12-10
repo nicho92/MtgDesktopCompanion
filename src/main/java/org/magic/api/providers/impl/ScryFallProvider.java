@@ -394,9 +394,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	private MTGCard generateCard(JsonObject obj, boolean loadMeld) throws ExecutionException {
 		
-		var mc= cacheCards.get(obj.get(ID).getAsString(), new Callable<MTGCard>(){
-			@Override
-			public MTGCard call() throws Exception {
 				var mc = new MTGCard();
 				mc.setId(obj.get(ID).getAsString());
 				mc.setScryfallId(mc.getId());
@@ -503,11 +500,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 			
 			postTreatmentCard(mc);
-			
-			
-			return mc;
-			}
-		});
+	
 		notify(mc);
 		return mc;
 
