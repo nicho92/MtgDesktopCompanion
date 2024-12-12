@@ -61,7 +61,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		case 0:return items.get(row).getMc();
 		case 1:return items.get(row).getMc().getEdition();
 		case 2:return items.get(row).getNeeded();
-		case 3:return items.get(row).getStocks().size();
+		case 3:return items.get(row).getStocks().stream().mapToInt(mcs->mcs.getQte()).sum();
 		case 4:return items.get(row).getResult();
 
 		default:return "";
