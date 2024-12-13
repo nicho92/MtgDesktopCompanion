@@ -27,6 +27,14 @@ public class DrawActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
+			
+			
+			if(GamePanelGUI.getInstance().getPlayer()==null)
+			{
+				MTG.notifyError("Game is not started");
+				return;
+			}
+			
 			GamePanelGUI.getInstance().getPlayer().drawCard(1);
 			GamePanelGUI.getInstance().getLblHandCount().setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getHand().size()));
 			GamePanelGUI.getInstance().getLblLibraryCount().setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getLibrary().size()));

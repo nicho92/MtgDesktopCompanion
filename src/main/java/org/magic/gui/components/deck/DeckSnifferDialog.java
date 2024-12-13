@@ -59,7 +59,7 @@ public class DeckSnifferDialog extends JDialog {
 	public DeckSnifferDialog() {
 
 		importedDeck = new MTGDeck();
-		setSize(new Dimension(600, 500));
+		setSize(new Dimension(577, 445));
 		setTitle(capitalize("DECKS_IMPORTER"));
 		setLocationRelativeTo(null);
 		setIconImage(MTGConstants.ICON_DECK.getImage());
@@ -75,7 +75,7 @@ public class DeckSnifferDialog extends JDialog {
 		
 		
 		
-		btnConnect = new JButton(capitalize("OPEN"));
+		btnConnect = new JButton(MTGConstants.ICON_SEARCH);
 		cboFormats = UITools.createCombobox(getSelectedSniffer().listFilter());
 		var labCardFilter = new JLabel("With this card : ");
 		var btnCardImport = UITools.createBindableJButton("", MTGConstants.ICON_TAB_IMPORT, KeyEvent.VK_I, "WithCard");

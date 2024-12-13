@@ -121,6 +121,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED"),MTGControler.getInstance().getLangService().get("ALL") };
 	private File fileImport;
 	private JButton btnDuplicate;
+	private JComboBox<Boolean> cboDigital;
 	
 	@Override
 	public ImageIcon getIcon() {
@@ -500,7 +501,8 @@ public class StockPanelGUI extends MTGUIComponent {
 						s.setCondition((EnumCondition) cboQuality.getSelectedItem());
 					if (cboCollection.getSelectedItem() != null)
 						s.setMagicCollection((MTGCollection) cboCollection.getSelectedItem());
-
+					if(cboDigital.getSelectedItem()!=null)
+						s.setDigital((Boolean) cboDigital.getSelectedItem());
 				}
 				model.fireTableDataChanged();
 			}
@@ -752,12 +754,28 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccboAltered.gridx = 1;
 		gbccboAltered.gridy = 6;
 		rightPanel.add(cboAltered, gbccboAltered);
+		
+		var gbclblDigital = new GridBagConstraints();
+		gbclblDigital.anchor = GridBagConstraints.EAST;
+		gbclblDigital.insets = new Insets(0, 0, 5, 5);
+		gbclblDigital.gridx = 0;
+		gbclblDigital.gridy = 7;
+		rightPanel.add(new JLangLabel("DIGITAL",true), gbclblDigital);
 
+		cboDigital = UITools.createCombobox(values);
+		var gbccboDigital = new GridBagConstraints();
+		gbccboDigital.insets = new Insets(0, 0, 5, 0);
+		gbccboDigital.fill = GridBagConstraints.HORIZONTAL;
+		gbccboDigital.gridx = 1;
+		gbccboDigital.gridy = 7;
+		rightPanel.add(cboDigital, gbccboDigital);
+		
+		
 		var gbclblQuality = new GridBagConstraints();
 		gbclblQuality.anchor = GridBagConstraints.EAST;
 		gbclblQuality.insets = new Insets(0, 0, 5, 5);
 		gbclblQuality.gridx = 0;
-		gbclblQuality.gridy = 7;
+		gbclblQuality.gridy = 8;
 		rightPanel.add(new JLangLabel("QUALITY",true), gbclblQuality);
 
 		cboQuality = UITools.createCombobox(Lists.asList(null,EnumCondition.values()));
@@ -765,14 +783,14 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccboQuality.insets = new Insets(0, 0, 5, 0);
 		gbccboQuality.fill = GridBagConstraints.HORIZONTAL;
 		gbccboQuality.gridx = 1;
-		gbccboQuality.gridy = 7;
+		gbccboQuality.gridy = 8;
 		rightPanel.add(cboQuality, gbccboQuality);
 
 		var gbclblCollection = new GridBagConstraints();
 		gbclblCollection.anchor = GridBagConstraints.EAST;
 		gbclblCollection.insets = new Insets(0, 0, 5, 5);
 		gbclblCollection.gridx = 0;
-		gbclblCollection.gridy = 8;
+		gbclblCollection.gridy = 9;
 		rightPanel.add(new JLangLabel("COLLECTION",true), gbclblCollection);
 
 		cboCollection = UITools.createComboboxCollection();
@@ -780,13 +798,13 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbccboCollection.insets = new Insets(0, 0, 5, 0);
 		gbccboCollection.fill = GridBagConstraints.HORIZONTAL;
 		gbccboCollection.gridx = 1;
-		gbccboCollection.gridy = 8;
+		gbccboCollection.gridy = 9;
 		rightPanel.add(cboCollection, gbccboCollection);
 
 		var gbclblComment = new GridBagConstraints();
 		gbclblComment.insets = new Insets(0, 0, 5, 5);
 		gbclblComment.gridx = 0;
-		gbclblComment.gridy = 9;
+		gbclblComment.gridy = 10;
 		rightPanel.add(new JLangLabel("COMMENT",true), gbclblComment);
 
 		textPane = new JTextPane();
@@ -796,7 +814,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbctextPane.gridheight = 3;
 		gbctextPane.fill = GridBagConstraints.BOTH;
 		gbctextPane.gridx = 0;
-		gbctextPane.gridy = 10;
+		gbctextPane.gridy = 11;
 		rightPanel.add(textPane, gbctextPane);
 
 
@@ -805,19 +823,19 @@ public class StockPanelGUI extends MTGUIComponent {
 		var gbcbtnApplyModification = new GridBagConstraints();
 		gbcbtnApplyModification.gridwidth = 2;
 		gbcbtnApplyModification.gridx = 0;
-		gbcbtnApplyModification.gridy = 13;
+		gbcbtnApplyModification.gridy = 14;
 		rightPanel.add(btnApplyModification, gbcbtnApplyModification);
 
 		var gbcSep = new GridBagConstraints();
 		gbcSep.gridwidth = 2;
 		gbcSep.gridx = 0;
-		gbcSep.gridy = 14;
+		gbcSep.gridy = 15;
 		rightPanel.add(new JSeparator(), gbcSep);
 		
 		var gbcSepFoil = new GridBagConstraints();
 		gbcSepFoil.gridwidth = 2;
 		gbcSepFoil.gridx = 0;
-		gbcSepFoil.gridy = 15;
+		gbcSepFoil.gridy = 16;
 		rightPanel.add(chkboxForceFoil, gbcSepFoil);
 		
 		
