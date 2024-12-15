@@ -200,7 +200,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		var obj = new JsonObject();
 			obj.addProperty("method", req.requestMethod());
-			obj.addProperty("uri", req.pathInfo());
+			obj.addProperty("uri", req.servletPath());
 			obj.addProperty("code", code);
 			obj.addProperty("msg", msg.getMessage());
 			obj.add("stack", converter.toJsonElement(msg.getStackTrace()));
@@ -214,7 +214,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		var obj = new JsonObject();
 			obj.addProperty("method", req.requestMethod());
-			obj.addProperty("uri", req.pathInfo());
+			obj.addProperty("uri", req.servletPath());
 			obj.addProperty("code", 200);
 			obj.addProperty("msg", converter.toJson(msg));
 
@@ -481,7 +481,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 		get("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public JsonArray call() throws Exception {
 					var arr = new JsonArray();
@@ -515,7 +515,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 		get("/dash/variations/card/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 
@@ -600,7 +600,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private void initDecks()
 	{
 		get("/decks/list", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 					var arr = new JsonArray();
@@ -745,7 +745,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/metadata/git", URLTools.HEADER_JSON, (request, response) -> GithubUtils.inst().getReleases(), transformer);
 		
 		get("/metadata/version", "text", (request, response) ->
-			 getCached(request.pathInfo(), new Callable<Object>() {
+			 getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public String call() throws Exception {
 					return new VersionChecker().getVersion();
@@ -762,7 +762,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/prices/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 
 				@Override
 				public List<MTGPrice> call() throws Exception {
@@ -784,7 +784,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			, transformer);
 
 		get("/prices/details/:provider/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
-				getCached(request.pathInfo(), new Callable<Object>() {
+				getCached(request.servletPath(), new Callable<Object>() {
 
 					@Override
 					public List<MTGPrice> call() throws Exception {
@@ -795,7 +795,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 
 		get("/partner/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public List<MTGPrice> call() throws Exception {
 					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
@@ -923,7 +923,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private void initSets()
 	{
 		get("/editions/list", URLTools.HEADER_JSON,(request, response) ->
-		getCached(request.pathInfo(), new Callable<Object>() {
+		getCached(request.servletPath(), new Callable<Object>() {
 
 			@Override
 			public List<MTGEdition> call() throws Exception {
@@ -938,7 +938,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 	
 		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 	
 				@Override
 				public List<MTGEdition> call() throws Exception{
@@ -1003,7 +1003,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private void initSealed()
 	{
 		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->{
-			var data=(List<MTGSealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
+			var data=(List<MTGSealedStock>)getCached(request.servletPath(), new Callable<Object>() {
 
 					@Override
 					public List<MTGSealedStock> call() throws Exception {
@@ -1021,7 +1021,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 		get("/sealed/list/:collection", URLTools.HEADER_JSON,(request, response) -> {
-			var data = (List<MTGSealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
+			var data = (List<MTGSealedStock>)getCached(request.servletPath(), new Callable<Object>() {
 
 				@Override
 				public List<MTGSealedStock> call() throws Exception {
@@ -1041,7 +1041,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 		get("/sealed/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public List<MTGSealedStock> call() throws Exception {
 					return getEnabledPlugin(MTGDao.class).listSealedStocks(new MTGCollection(request.params(COLLECTION)),new MTGEdition(request.params(ID_SET)));
@@ -1155,7 +1155,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 		get("/cards/list/:col", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public List<MTGCard> call() throws Exception {
 						var col = new MTGCollection(request.params(":col"));
@@ -1165,7 +1165,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 
 		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public List<MTGCard> call() throws Exception {
 					var col = new MTGCollection(request.params(":col"));
@@ -1176,7 +1176,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 
 		get("/cards/:idSet/cards", URLTools.HEADER_JSON, (request, response) ->
-			 getCached(request.pathInfo(), new Callable<Object>() {
+			 getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public List<MTGCard> call() throws Exception {
 					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
@@ -1243,7 +1243,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		get("/stock/list", URLTools.HEADER_JSON,(request, response) ->{
-			var data = (List<MTGCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
+			var data = (List<MTGCardStock>) getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 				return getEnabledPlugin(MTGDao.class).listStocks();
@@ -1261,7 +1261,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
 		
-			var data = (List<MTGCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
+			var data = (List<MTGCardStock>) getCached(request.servletPath(), new Callable<Object>() {
 								@Override
 								public Object call() throws Exception {
 								return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION))));
@@ -1291,7 +1291,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public List<MTGCardStock> call() throws Exception {
 					return getEnabledPlugin(MTGDao.class).listStocks(request.params(COLLECTION), request.params(ID_SET));
@@ -1346,7 +1346,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 	get("/extShop/list/stock/:provider", URLTools.HEADER_JSON, (request, response) ->
-		 getCached(request.pathInfo(), new Callable<Object>() {
+		 getCached(request.servletPath(), new Callable<Object>() {
 			@Override
 			public Object call() throws Exception {
 				return getPlugin(request.params(PROVIDER),MTGExternalShop.class).listStock("");
@@ -1435,7 +1435,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	{
 
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) ->
-		 getCached(request.pathInfo(), new Callable<Object>() {
+		 getCached(request.servletPath(), new Callable<Object>() {
 
 				@Override
 				public Object call() throws Exception {

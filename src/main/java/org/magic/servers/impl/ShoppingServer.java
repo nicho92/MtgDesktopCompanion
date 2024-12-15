@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 
 import javax.swing.Icon;
 
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.DefaultServlet;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

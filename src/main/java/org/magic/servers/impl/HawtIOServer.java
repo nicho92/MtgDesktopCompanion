@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import org.eclipse.jetty.ee10.webapp.WebAppContext;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.HandlerCollection;
-import org.eclipse.jetty.webapp.WebAppContext;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
@@ -34,7 +34,7 @@ public class HawtIOServer extends AbstractMTGServer{
 			
 			
 			server = new Server(getInt("PORT"));
-			 var handlers = new HandlerCollection();
+			 var handlers = new Handler.Sequence();
 		     handlers.setServer(server);
 		     server.setHandler(handlers);
 		     try {

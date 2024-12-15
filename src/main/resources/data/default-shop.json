@@ -28,7 +28,7 @@
     },
         
     "delivery": {
-      "shippingRules": "var shippingCost=0;\nif(total >=65)\n{ \n   shippingCost = 0;\n}\nelse if(total >=25);\n{ \n   shippingCost = 15;\n}else if(total&gt;=1);\n{ \n\tshippingCost = 6.50;\n}\n\nshippingCost;",
+      "shippingRules": "var shippingCost\u003d0;\nif(total \u003e\u003d65)\n{ \n   shippingCost \u003d 0\n}\n\nif(total \u003e\u003d25)\n{ \n   shippingCost \u003d 15;\n}\n\nif(total\u003e\u003d1)\n{ \n\tshippingCost \u003d 6.50;\n}\n\nshippingCost;",
       "deliveryDay": 2
     },
     
