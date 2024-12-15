@@ -283,7 +283,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.19.15</version>
+			<version>3.19.16</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -537,7 +537,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.12.0</version>
+			<version>1.13.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
