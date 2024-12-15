@@ -112,9 +112,8 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		if (metagames)
 			maxPage = 1;
 
+		var baseUrl="https://www.mtggoldfish.com/";
 		for (var i = 1; i <= maxPage; i++) {
-			
-			var baseUrl="https://www.mtggoldfish.com/";
 			
 			if (!metagames)
 				url = baseUrl + "/deck/custom/" + filter + "?page=" + nbPage + "#"+ getString(SUPPORT);
@@ -157,7 +156,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					deck.setUrl(new URI(baseUrl + desc.get(0).attr("href")));
 
 					if (metagames)
-						deck.setAuthor("MtgGoldFish");
+						deck.setAuthor(getName());
 					else
 						deck.setAuthor(cont.select("div.deck-tile-author").text());
 

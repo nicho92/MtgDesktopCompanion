@@ -94,7 +94,6 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			return Boolean.class;
 		case 13:
 			return Boolean.class;
-				
 		case 14:
 			return MoneyValue.class;
 		case 15:
@@ -197,7 +196,10 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 13:
-			items.get(row).setDigital(Boolean.parseBoolean(aValue.toString()));
+			if(items.get(row).getProduct().isOnlineOnly())
+				items.get(row).setDigital(true);
+			else
+				items.get(row).setDigital(Boolean.parseBoolean(aValue.toString()));
 			break;
 		case 14:
 			items.get(row).setPrice(UITools.parseDouble(String.valueOf(aValue)));

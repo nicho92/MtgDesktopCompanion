@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.logging.log4j.core.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MTGCard;
@@ -23,6 +24,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
@@ -38,7 +40,7 @@ public class CollectionEvaluator extends Observable
 	private JsonExport serialiser;
 	private Map<MTGEdition,Map<MTGCard,CardShake>> cache;
 	private int minPrice=0;
-
+	private static Logger logger = MTGLogger.getLogger(CollectionEvaluator.class);
 	public File getDirectory() {
 		return directory;
 	}
