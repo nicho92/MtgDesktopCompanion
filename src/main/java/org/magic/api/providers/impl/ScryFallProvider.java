@@ -46,6 +46,7 @@ import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String DEFENSE = "defense";
 	private static final String GAMES = "games";
 	private static final String RELEASED_AT = "released_at";
 	private static final String IMAGE_URIS = "image_uris";
@@ -280,6 +281,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private RequestBuilder createQuery(String q) {
 		
+		
+		logger.info("executing query {}", q);
+		
 		return RequestBuilder.build().setClient(URLTools.newClient()).url(BASE_URI+"/cards/search").get()
 				.addContent("unique","prints")						
 				.addContent("include_extras",getString("EXTRA"))
@@ -319,7 +323,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			{
 				arr.add(new QueryAttribute(s,Boolean.class));
 			}
-		
 			
 			arr.add(new QueryAttribute(COLOR, EnumColors.class));
 			arr.add(new QueryAttribute(COLOR_IDENTITY, EnumColors.class));
@@ -415,7 +418,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setWatermarks(readAsString(obj,"watermark"));
 				mc.setText(readAsString(obj,"oracle_text"));
 				mc.setCost(readAsString(obj,MANA_COST));
-				mc.setDefense(readAsInt(obj, "defense"));
+				mc.setDefense(readAsInt(obj, DEFENSE));
 				mc.setMkmId(readAsInt(obj,"cardmarket_id"));
 				mc.setTcgPlayerId(readAsInt(obj,"tcgplayer_id"));
 				mc.setPower(readAsString(obj,POWER));
@@ -520,6 +523,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setFlavor(readAsString(obj,"flavor_text"));
 		
 		
+		if(obj.get(DEFENSE)!=null)
+			mc.setDefense(obj.get(DEFENSE).getAsInt());
+			
+			
 		if(obj.get(COLORS)!=null)
 		{
 			mc.getColors().clear();
