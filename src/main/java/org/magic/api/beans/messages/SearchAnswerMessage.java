@@ -26,5 +26,4 @@ public class SearchAnswerMessage extends AbstractMessage {
 		this.resultItems = ret;
 		setMessage("I have \""+msg.getItem()+ "\" for you "+ msg.getAuthor().getName());
 	}
-
 }
