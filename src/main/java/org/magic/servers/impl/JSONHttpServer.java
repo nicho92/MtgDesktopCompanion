@@ -1614,7 +1614,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@Override
 	public String getVersion() {
-		return POMReader.readVersionFromPom(Spark.class, "/META-INF/maven/com.sparkjava/spark-core/pom.properties");
+		return POMReader.readVersionFromPom(Spark.class, "/META-INF/maven/org.zoomba-lang/spark-core/pom.properties");
 	}
 
 }
