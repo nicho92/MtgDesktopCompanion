@@ -17,6 +17,7 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.TYPE;
+import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
@@ -43,6 +44,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.jayway.jsonpath.Criteria;
+import com.jayway.jsonpath.Filter;
+import com.jayway.jsonpath.JsonPath;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
@@ -75,10 +79,34 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BASE_SUBURI = "/cards/";
 	private Map<String, String> languages;
 	
-	
 	public enum BULKTYPE {ORACLE_CARDS,UNIQUE_ARTWORK,DEFAULT_CARDS, ALL_CARDS,RULINGS}
-
-
+	
+	
+	private List<MTGRuling> generatesRulings(String oracleId)
+	{
+		File f;
+		try {
+			f = bulkData(BULKTYPE.RULINGS);
+			
+			var filter = Filter.filter(Criteria.where("oracle_id").eq(oracleId));
+			var res = JsonPath.parse(f).read("$[?]",filter).toString();
+			
+			
+			return URLTools.toJson(res).getAsJsonArray().asList().stream().map(e->{
+				
+				var r = new MTGRuling();
+				r.setDate(readAsString(e.getAsJsonObject(),"published_at"));
+				r.setText(readAsString(e.getAsJsonObject(),"comment"));
+				return r;
+				
+			}).toList();
+		} catch (IOException e) {
+			logger.error(e);
+			return new ArrayList<>();
+		}
+		
+	}
+	
 	
 	public ScryFallProvider() {
 		 languages = new HashMap<>();
@@ -103,6 +131,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	public File bulkData(BULKTYPE t) throws IOException
 	{
+		var f = new File(MTGConstants.DATA_DIR,t.name().toLowerCase()+".json");
+		
+		if(f.exists()|| FileTools.daysBetween(f)<=1)
+			return f;
+		
+		
 		var arr = URLTools.extractAsJson(BASE_URI + "/bulk-data").getAsJsonObject().get("data").getAsJsonArray();
 		
 		for(var obj : arr)
@@ -112,15 +146,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			if(jo.get("type").getAsString().equalsIgnoreCase(t.name()))
 			{
 				
-				var f = new File(MTGConstants.DATA_DIR,t.name().toLowerCase()+".json");
+				
 				URLTools.download(jo.get("download_uri").getAsString(), f);
 				return f;
 			}
 		}
 		throw new IOException("No bulk data found for "+t);
-		
-		
 	}
+	
+	
+	
+	
 	
 	public JsonObject getJsonFor(MTGCard mc)
 	{
@@ -427,7 +463,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
 				mc.setFlavorName(readAsString(obj,"flavor_name"));
 				mc.setOriginalReleaseDate(readAsString(obj,RELEASED_AT));
-			
+				
+				mc.setRulings(generatesRulings(readAsString(obj,"oracle_id")));
+				
+				
 				generateTypes(mc, obj.get(TYPE_LINE));
 						
 				
