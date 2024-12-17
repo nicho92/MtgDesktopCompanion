@@ -111,7 +111,7 @@ public class MTGControler {
 			logger.info("Java {}. Vendor: {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
 			logger.info("OS {}, Version: {}",SystemUtils.OS_NAME,SystemUtils.OS_VERSION);
 			logger.info("Local directory : {}",MTGConstants.CONF_DIR);
-			logger.info("Logger File : {}",MTGLogger.getContext().getConfiguration());
+			logger.debug("Logger File : {}",MTGLogger.getContext().getConfiguration());
 			logger.info(bottom);
 
 			

@@ -35,6 +35,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.FileTools;
@@ -78,9 +79,47 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BASE_URI = "https://api.scryfall.com";
 	private static final String BASE_SUBURI = "/cards/";
 	private Map<String, String> languages;
+	private HashMap<String, List<String>> mapOtherSet;
+	
+	
 	
 	public enum BULKTYPE {ORACLE_CARDS,UNIQUE_ARTWORK,DEFAULT_CARDS, ALL_CARDS,RULINGS}
 	
+	
+	@Override
+	public void init() {
+	
+		
+			ThreadManager.getInstance().executeThread(new MTGRunnable() {
+				
+				@Override
+				protected void auditedRun() {
+					
+					try {
+						initMapOtherSet();
+					} catch (IOException e) {
+						logger.error("error init other sets {}",e);
+					}
+					
+				}
+			}, "init scryfall Sets");
+			
+			
+		
+	}
+
+	private void initMapOtherSet() throws IOException
+	{
+		
+		var f = bulkData(BULKTYPE.DEFAULT_CARDS);
+		var arr = URLTools.toJson(FileTools.readFile(f)).getAsJsonArray();
+			
+		for(var e : arr)
+		{
+			if(e.getAsJsonObject().get("oracle_id")!=null)
+				mapOtherSet.computeIfAbsent(e.getAsJsonObject().get("oracle_id").getAsString(),v->new ArrayList<>()).add(e.getAsJsonObject().get("set").getAsString());
+		}
+	}
 	
 	private List<MTGRuling> generatesRulings(String oracleId)
 	{
@@ -110,6 +149,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	public ScryFallProvider() {
 		 languages = new HashMap<>();
+		 mapOtherSet = new HashMap<String, List<String>>();
+		 
+		 
+		 
 			languages.put("es","Spanish");
 			languages.put("fr","French"); 
 			languages.put("de","German"); 
@@ -133,10 +176,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	{
 		var f = new File(MTGConstants.DATA_DIR,t.name().toLowerCase()+".json");
 		
-		if(f.exists()|| FileTools.daysBetween(f)<=1)
+		if(f.exists() && FileTools.daysBetween(f)<=1)
 			return f;
 		
-		
+		logger.info("{} will be update",f);
 		var arr = URLTools.extractAsJson(BASE_URI + "/bulk-data").getAsJsonObject().get("data").getAsJsonArray();
 		
 		for(var obj : arr)
@@ -145,8 +188,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			
 			if(jo.get("type").getAsString().equalsIgnoreCase(t.name()))
 			{
-				
-				
 				URLTools.download(jo.get("download_uri").getAsString(), f);
 				return f;
 			}
@@ -426,6 +467,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 	
+
 	
 	private MTGCard generateCard(JsonObject obj, boolean loadMeld) throws ExecutionException {
 		
@@ -463,12 +505,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
 				mc.setFlavorName(readAsString(obj,"flavor_name"));
 				mc.setOriginalReleaseDate(readAsString(obj,RELEASED_AT));
-				
-				mc.setRulings(generatesRulings(readAsString(obj,"oracle_id")));
-				
+				//mc.setRulings(generatesRulings(readAsString(obj,"oracle_id")))
 				
 				generateTypes(mc, obj.get(TYPE_LINE));
-						
+				
+				
+				mapOtherSet.get(readAsString(obj,"oracle_id")).forEach(s->mc.getEditions().add(getSetById(s.toUpperCase())));
+	
+				
+				
 				
 			if (obj.get(GAMES) != null) {
 				mc.setArenaCard(obj.get(GAMES).getAsJsonArray().contains(new JsonPrimitive("arena")));
@@ -537,9 +582,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				}
 			}
 			
+			
+			
+			
+			
+			
 			postTreatmentCard(mc);
-	
-		notify(mc);
+			notify(mc);
+			
+			
 		return mc;
 
 	}
