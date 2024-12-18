@@ -121,30 +121,30 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 	
-	private List<MTGRuling> generatesRulings(String oracleId)
-	{
-		File f;
-		try {
-			f = bulkData(BULKTYPE.RULINGS);
-			
-			var filter = Filter.filter(Criteria.where("oracle_id").eq(oracleId));
-			var res = JsonPath.parse(f).read("$[?]",filter).toString();
-			
-			
-			return URLTools.toJson(res).getAsJsonArray().asList().stream().map(e->{
-				
-				var r = new MTGRuling();
-				r.setDate(readAsString(e.getAsJsonObject(),"published_at"));
-				r.setText(readAsString(e.getAsJsonObject(),"comment"));
-				return r;
-				
-			}).toList();
-		} catch (IOException e) {
-			logger.error(e);
-			return new ArrayList<>();
-		}
-		
-	}
+//	private List<MTGRuling> generatesRulings(String oracleId)
+//	{
+//		File f;
+//		try {
+//			f = bulkData(BULKTYPE.RULINGS);
+//			
+//			var filter = Filter.filter(Criteria.where("oracle_id").eq(oracleId));
+//			var res = JsonPath.parse(f).read("$[?]",filter).toString();
+//			
+//			
+//			return URLTools.toJson(res).getAsJsonArray().asList().stream().map(e->{
+//				
+//				var r = new MTGRuling();
+//				r.setDate(readAsString(e.getAsJsonObject(),"published_at"));
+//				r.setText(readAsString(e.getAsJsonObject(),"comment"));
+//				return r;
+//				
+//			}).toList();
+//		} catch (IOException e) {
+//			logger.error(e);
+//			return new ArrayList<>();
+//		}
+//		
+//	}
 	
 	
 	public ScryFallProvider() {
