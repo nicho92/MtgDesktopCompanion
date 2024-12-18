@@ -60,10 +60,10 @@ public class AetherhubExport extends AbstractFormattedFileCardExport{
 				 builder.append(mcs.isAltered()?"1":"0").append(getSeparator());
 				 builder.append("0").append(System.lineSeparator());
 				 
-				 
+				 notify(mcs.getProduct());
 			 }
 			 
-			 FileTools.saveLargeFile(f, builder.toString(), charset);
+			 FileTools.saveFile(f, builder.toString(),charset);
 			 
 			 
 			 
