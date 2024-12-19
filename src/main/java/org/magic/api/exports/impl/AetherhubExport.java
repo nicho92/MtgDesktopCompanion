@@ -83,6 +83,8 @@ public class AetherhubExport extends AbstractFormattedFileCardExport{
 						mcs.setQte(Integer.parseInt(m.group(1)));
 						mcs.setLanguage(m.group(14));
 						mcs.setFoil(m.group(15).equals("1"));
+						mcs.setSigned(m.group(16).equals("1"));
+						mcs.setAltered(m.group(18).equals("1"));
 						mcs.setCondition(aliases.getReversedConditionFor(this, m.group(13), EnumCondition.NEAR_MINT));
 						l.add(mcs);
 					} catch (IOException e) {
