@@ -478,7 +478,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setArtist(obj.get("artist").getAsString());
 				mc.setLayout(EnumLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
 				mc.setEdition(getSetById(obj.get(SET).getAsString().toUpperCase()));
-				mc.getEditions().add(getSetById(obj.get(SET).getAsString().toUpperCase()));
 				mc.setCmc(readAsInt(obj, CMC));
 				mc.setRarity(EnumRarity.rarityByName(obj.get(RARITY).getAsString()));
 				mc.setReserved(obj.get("reserved").getAsBoolean());
