@@ -53,8 +53,8 @@ public class AetherhubExport extends AbstractFormattedFileCardExport{
 				 builder.append(mcs.getProduct().getMultiverseid()).append(getSeparator());
 				 builder.append("").append(getSeparator());
 				 builder.append(mcs.getProduct().getScryfallId()).append(getSeparator());
-				 builder.append(mcs.getProduct().getTcgPlayerId()).append(getSeparator());
-				 builder.append(mcs.getProduct().getMkmId()).append(getSeparator());
+				 builder.append(mcs.getProduct().getTcgPlayerId()!=null?mcs.getProduct().getTcgPlayerId():"").append(getSeparator());
+				 builder.append(mcs.getProduct().getMkmId()!=null?mcs.getProduct().getMkmId():"").append(getSeparator());
 				 builder.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
 				 builder.append(mcs.getLanguage()).append(getSeparator());
 				 builder.append(mcs.isFoil()?"1":"0").append(getSeparator());
