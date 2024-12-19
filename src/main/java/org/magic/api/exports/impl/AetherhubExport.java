@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JFileChooser;
-
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -52,7 +50,7 @@ public class AetherhubExport extends AbstractFormattedFileCardExport{
 				 builder.append(mcs.getProduct().getScryfallId()).append(getSeparator());
 				 builder.append(mcs.getProduct().getTcgPlayerId()).append(getSeparator());
 				 builder.append(mcs.getProduct().getMkmId()).append(getSeparator());
-				 builder.append("Mint").append(getSeparator());
+				 builder.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
 				 builder.append(mcs.getLanguage()).append(getSeparator());
 				 builder.append(mcs.isFoil()?"1":"0").append(getSeparator());
 				 builder.append(mcs.isSigned()?"1":"0").append(getSeparator());
@@ -85,6 +83,7 @@ public class AetherhubExport extends AbstractFormattedFileCardExport{
 						mcs.setQte(Integer.parseInt(m.group(1)));
 						mcs.setLanguage(m.group(14));
 						mcs.setFoil(m.group(15).equals("1"));
+						mcs.setCondition(aliases.getReversedConditionFor(this, m.group(13), EnumCondition.NEAR_MINT));
 						l.add(mcs);
 					} catch (IOException e) {
 						logger.error("no card found by scryfallId {}",m.group(10));
