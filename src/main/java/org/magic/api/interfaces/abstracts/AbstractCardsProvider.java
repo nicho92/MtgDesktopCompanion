@@ -20,7 +20,6 @@ import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
-import org.magic.api.criterias.builders.NoneCriteriaBuilder;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.tools.TCache;
 
@@ -51,12 +50,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return (getType()+getName()).hashCode();
 	}
 
-	@Override
-	public MTGQueryBuilder<?> getMTGQueryManager() {
-		var b= new NoneCriteriaBuilder();
-		initBuilder(b);
-		return b;
-	}
 	
 
 	@Override

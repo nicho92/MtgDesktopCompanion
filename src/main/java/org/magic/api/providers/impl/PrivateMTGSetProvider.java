@@ -15,7 +15,9 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
+import org.magic.api.criterias.builders.JsonCriteriaBuilder;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
@@ -63,6 +65,14 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		}
 		return false;
 	}
+	
+	@Override
+	public MTGQueryBuilder<?> getMTGQueryManager() {
+		var b= new JsonCriteriaBuilder();
+		initBuilder(b);
+		return b;
+	}
+	
 
 	
 	
