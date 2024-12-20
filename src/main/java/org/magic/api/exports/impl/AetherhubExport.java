@@ -37,16 +37,10 @@ public class AetherhubExport extends AbstractFormattedFileCardExport{
 			 builder.append(columns).append(System.lineSeparator());
 			 for(var mcs : stock)
 			 {
-				 var name = mcs.getProduct().getName();
-				 
-				 if(mcs.getProduct().getName().contains(","))
-					 name="\""+ mcs.getProduct().getName() + "\"";
-					 
-				 
 				 builder.append(mcs.getQte()).append(getSeparator());
 				 builder.append(0).append(getSeparator());
 				 builder.append(0).append(getSeparator());
-				 builder.append(name).append(getSeparator());
+				 builder.append(commated(mcs.getProduct().getName())).append(getSeparator());
 				 builder.append("").append(getSeparator());
 				 builder.append(mcs.getProduct().getEdition().getId()).append(getSeparator());
 				 builder.append(mcs.getProduct().getNumber()).append(getSeparator());
