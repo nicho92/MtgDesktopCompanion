@@ -54,7 +54,7 @@
 
 		<jwt.version>0.12.6</jwt.version>
 		<lucene.version>10.0.0</lucene.version>
-		<artemis.version>2.38.0</artemis.version>
+		<artemis.version>2.39.0</artemis.version>
 		<flatlaf.version>3.5.4</flatlaf.version>
 		<qwartz.version>2.5.0</qwartz.version>
 		<rome.version>2.1.0</rome.version>
@@ -85,7 +85,7 @@
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
-		    <version>467</version>
+		    <version>468</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.firebirdsql.jdbc</groupId>
@@ -435,7 +435,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.3.1-jre</version>
+			<version>33.4.0-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

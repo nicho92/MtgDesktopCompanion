@@ -17,7 +17,6 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.TYPE;
-import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
@@ -45,9 +44,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.jayway.jsonpath.Criteria;
-import com.jayway.jsonpath.Filter;
-import com.jayway.jsonpath.JsonPath;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
@@ -209,7 +205,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
 		
-		var f = bulkData( BULKTYPE.DEFAULT_CARDS);
+		var f = bulkData(BULKTYPE.DEFAULT_CARDS);
 		
 		var ret = new ArrayList<MTGCard>();
 		
