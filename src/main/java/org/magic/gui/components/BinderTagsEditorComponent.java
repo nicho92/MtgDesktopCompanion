@@ -38,6 +38,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.sealedprovider.impl.MTGCompanionSealedProvider.LOGO;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.decorators.JListFilterDecorator;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.BinderTagsManager;
 import org.magic.services.MTGConstants;
@@ -193,11 +194,11 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		listEditions = new JList<>(model);
 		listEditions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		var deco = JListFilterDecorator.decorate(listEditions,(MTGEdition t, String u)->t.getSet().toLowerCase().contains(u.toLowerCase()));
 
 
 		listEditions.setCellRenderer(new MagicEditionIconListRenderer());
-		panel.add(new JScrollPane(listEditions));
+		panel.add(new JScrollPane(deco.getContentPanel()));
 
 		panel.add(new JLabel("\u2193"));
 

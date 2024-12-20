@@ -6,8 +6,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
@@ -75,7 +77,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BASE_URI = "https://api.scryfall.com";
 	private static final String BASE_SUBURI = "/cards/";
 	private Map<String, String> languages;
-	private HashMap<String, List<String>> mapOtherSet;
+	private HashMap<String, Set<String>> mapOtherSet;
 	
 	
 	
@@ -113,7 +115,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		for(var e : arr)
 		{
 			if(e.getAsJsonObject().get("oracle_id")!=null)
-				mapOtherSet.computeIfAbsent(e.getAsJsonObject().get("oracle_id").getAsString(),v->new ArrayList<>()).add(e.getAsJsonObject().get("set").getAsString());
+				mapOtherSet.computeIfAbsent(e.getAsJsonObject().get("oracle_id").getAsString(),v->new HashSet<>()).add(e.getAsJsonObject().get("set").getAsString());
 		}
 	}
 	
@@ -145,7 +147,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	public ScryFallProvider() {
 		 languages = new HashMap<>();
-		 mapOtherSet = new HashMap<String, List<String>>();
+		 mapOtherSet = new HashMap<String, Set<String>>();
 		 
 		 
 		 

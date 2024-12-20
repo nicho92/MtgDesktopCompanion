@@ -21,8 +21,8 @@ public class JListFilterDecorator {
       if (!(jList.getModel() instanceof DefaultListModel)) {
           throw new IllegalArgumentException("List model must be an instance of DefaultListModel");
       }
-      DefaultListModel<T> model = (DefaultListModel<T>) jList.getModel();
-      List<T> items = getItems(model);
+      var model = (DefaultListModel<T>) jList.getModel();
+      var items = getItems(model);
       var textField = new JTextField();
       textField.getDocument().addDocumentListener(new DocumentListener() {
           @Override
@@ -42,9 +42,8 @@ public class JListFilterDecorator {
 
           private void filter() {
               model.clear();
-              String s = textField.getText();
               for (T item : items) {
-                  if(userFilter.test(item, s)){
+                  if(userFilter.test(item,  textField.getText())){
                       model.addElement(item);
                   }
               }
