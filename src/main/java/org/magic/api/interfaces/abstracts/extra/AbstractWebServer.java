@@ -239,7 +239,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		m.put(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
 		m.put(ALLOW_LIST_DIR, MTGProperty.newBooleanProperty(FALSE, "alow root directory listing"));
 		m.put(SSL_ENABLED, MTGProperty.newBooleanProperty(FALSE, "Run server with ssl"));
-		m.put(KEYSTORE_URI, MTGProperty.newFileProperty(new File(MTGConstants.DATA_DIR,"jetty.jks"),"location of certificate keystore"));
+		m.put(KEYSTORE_URI, MTGProperty.newFileProperty(new File(MTGConstants.DATA_DIR,"jetty.jks"),"location of certificates keystore file"));
 		m.put(KEYSTORE_PASS, new MTGProperty("changeit", "password for the keystore"));
 		m.put(REST_BACKEND_URI, new MTGProperty("http://localhost:8080", "frontal endpoint of Json Http Server"));
 		m.put(JSON_SERVER_START, MTGProperty.newBooleanProperty(TRUE, "Run Json Http server on startup."));

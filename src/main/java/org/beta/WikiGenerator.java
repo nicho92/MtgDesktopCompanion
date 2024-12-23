@@ -48,8 +48,8 @@ public class WikiGenerator {
 		builder.append("### SUMMARY\n");
 		
 		
-		for(var k : PluginRegistry.inst().entrySet())
-			builder.append("* [").append(k.getValue().getType()).append("](#").append(k.getValue().getType()).append(")\n");
+		for(var k : PluginRegistry.inst().entrySet().stream().map(e->e.getValue().getType().name()).sorted().toList())
+			builder.append("* [").append(k).append("](#").append(k).append(")\n");
 		
 		
 		PluginRegistry.inst().entrySet().stream().filter(e->e.getValue().getType()!=PLUGINS.DASHLET).forEach(e->{
