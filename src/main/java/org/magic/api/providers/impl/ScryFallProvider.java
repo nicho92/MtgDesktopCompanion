@@ -19,6 +19,7 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.TYPE;
+import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
@@ -49,6 +50,7 @@ import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String ORACLE_ID = "oracle_id";
 	private static final String DEFENSE = "defense";
 	private static final String GAMES = "games";
 	private static final String RELEASED_AT = "released_at";
@@ -77,8 +79,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BASE_URI = "https://api.scryfall.com";
 	private static final String BASE_SUBURI = "/cards/";
 	private Map<String, String> languages;
-	private HashMap<String, Set<String>> mapOtherSet;
-	
+	private Map<String, Set<String>> mapOtherSet;
+	private Map<String, Set<MTGRuling>> mapRules;
 	
 	
 	public enum BULKTYPE {ORACLE_CARDS,UNIQUE_ARTWORK,DEFAULT_CARDS, ALL_CARDS,RULINGS}
@@ -102,53 +104,53 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				}
 			}, "init scryfall Sets");
 			
+			ThreadManager.getInstance().executeThread(new MTGRunnable() {
+				
+				@Override
+				protected void auditedRun() {
+					
+					try {
+						initMapRules();
+					} catch (IOException e) {
+						logger.error("error init rules {}",e);
+					}
+					
+				}
+			}, "init scryfall rules");
 			
-		
 	}
 
 	private void initMapOtherSet() throws IOException
 	{
 		
 		var f = bulkData(BULKTYPE.DEFAULT_CARDS);
-		var arr = URLTools.toJson(FileTools.readFile(f)).getAsJsonArray();
-			
-		for(var e : arr)
+		
+		for(var e :  URLTools.toJson(FileTools.readFile(f)).getAsJsonArray())
 		{
-			if(e.getAsJsonObject().get("oracle_id")!=null)
-				mapOtherSet.computeIfAbsent(e.getAsJsonObject().get("oracle_id").getAsString(),v->new HashSet<>()).add(e.getAsJsonObject().get("set").getAsString());
+			if(e.getAsJsonObject().get(ORACLE_ID)!=null)
+				mapOtherSet.computeIfAbsent(e.getAsJsonObject().get(ORACLE_ID).getAsString(),v->new HashSet<>()).add(e.getAsJsonObject().get("set").getAsString());
 		}
 	}
 	
-//	private List<MTGRuling> generatesRulings(String oracleId)
-//	{
-//		File f;
-//		try {
-//			f = bulkData(BULKTYPE.RULINGS);
-//			
-//			var filter = Filter.filter(Criteria.where("oracle_id").eq(oracleId));
-//			var res = JsonPath.parse(f).read("$[?]",filter).toString();
-//			
-//			
-//			return URLTools.toJson(res).getAsJsonArray().asList().stream().map(e->{
-//				
-//				var r = new MTGRuling();
-//				r.setDate(readAsString(e.getAsJsonObject(),"published_at"));
-//				r.setText(readAsString(e.getAsJsonObject(),"comment"));
-//				return r;
-//				
-//			}).toList();
-//		} catch (IOException e) {
-//			logger.error(e);
-//			return new ArrayList<>();
-//		}
-//		
-//	}
+	private void initMapRules()throws IOException
+	{
+	
+			var f = bulkData(BULKTYPE.RULINGS);
+			URLTools.toJson(FileTools.readFile(f)).getAsJsonArray().forEach(e->{
+				
+				var r = new MTGRuling();
+				r.setDate(readAsString(e.getAsJsonObject(),"published_at"));
+				r.setText(readAsString(e.getAsJsonObject(),"comment"));
+				if(e.getAsJsonObject().get(ORACLE_ID)!=null)
+					mapRules.computeIfAbsent(e.getAsJsonObject().get(ORACLE_ID).getAsString(),v->new HashSet<>()).add(r);
+			});
+	}
 	
 	
 	public ScryFallProvider() {
 		 languages = new HashMap<>();
-		 mapOtherSet = new HashMap<String, Set<String>>();
-		 
+		 mapOtherSet = new HashMap<>();
+		 mapRules = new HashMap<>();
 		 
 		 
 			languages.put("es","Spanish");
@@ -507,8 +509,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				generateTypes(mc, obj.get(TYPE_LINE));
 				
 				
-				mapOtherSet.get(readAsString(obj,"oracle_id")).forEach(s->mc.getEditions().add(getSetById(s.toUpperCase())));
-	
+				mapOtherSet.get(readAsString(obj,ORACLE_ID)).forEach(s->mc.getEditions().add(getSetById(s.toUpperCase())));
+				
+				if(mapRules.get(readAsString(obj,ORACLE_ID))!=null)
+					mapRules.get(readAsString(obj,ORACLE_ID)).forEach(r->mc.getRulings().add(r));
 				
 				
 				
