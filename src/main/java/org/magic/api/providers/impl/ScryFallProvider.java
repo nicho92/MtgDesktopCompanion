@@ -50,6 +50,7 @@ import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String KEYWORDS = "keywords";
 	private static final String ORACLE_ID = "oracle_id";
 	private static final String DEFENSE = "defense";
 	private static final String GAMES = "games";
@@ -424,11 +425,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
-	}
-
-	@Override
 	public String getVersion() {
 		return "2.0";
 	}
@@ -532,7 +528,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				obj.get(PROMO_TYPES).getAsJsonArray().forEach(je->mc.getPromotypes().add(EnumPromoType.parseByLabel(je.getAsString())));
 			
 			
-			obj.get("keywords").getAsJsonArray().forEach(je->mc.getKeywords().add(new MTGKeyWord(je.getAsString(), TYPE.ABILITIES)));
+			obj.get(KEYWORDS).getAsJsonArray().forEach(je->mc.getKeywords().add(new MTGKeyWord(je.getAsString(), TYPE.ABILITIES)));
 			
 			obj.get(COLOR_IDENTITY).getAsJsonArray().forEach(je->mc.getColorIdentity().add(EnumColors.colorByCode(je.getAsString())));
 		
@@ -690,7 +686,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		line = line.replace("\"", "");
 
-		for (String k : new String[] { "Legendary", "Basic", "Ongoing", "Snow", "World" }) {
+		for (String k : new String[] { "Legendary", "Basic", "Host", "Ongoing", "Snow", "World" }) {
 			if (line.contains(k)) {
 				mc.getSupertypes().add(k);
 				line = line.replaceAll(k, "").trim();
