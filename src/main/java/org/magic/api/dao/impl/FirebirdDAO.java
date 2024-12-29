@@ -15,7 +15,7 @@ public class FirebirdDAO extends AbstractMagicSQLDAO {
 
 	@Override
 	protected String getjdbcnamedb() {
-		return "firebird";
+		return "firebirdsql";
 	}
 
 	@Override
