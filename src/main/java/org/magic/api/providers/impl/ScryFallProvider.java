@@ -169,7 +169,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			languages.put("ph" ,"Phyrexian");
 	}
 	
-	public File bulkData(BULKTYPE t) throws IOException
+	private File bulkData(BULKTYPE t) throws IOException
 	{
 		var f = new File(MTGConstants.DATA_DIR,t.name().toLowerCase()+".json");
 		
@@ -261,8 +261,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			 map.put("MULTILINGUAL", MTGProperty.newBooleanProperty("false", "If true, cards in every language supported by Scryfall will be included."));
 			 map.put("VARIATIONS",MTGProperty.newBooleanProperty("true", "If true, rare care variants will be included, like the <a href='https://scryfall.com/card/drk/107%E2%80%A0/runesword'>Hairy Runesword</a>"));
 			 map.put("DAY_RETENTION", MTGProperty.newIntegerProperty("1", "number of days of retention for rules and cards bulk's data files", 1, -1));
-			 
-			 
 		return map;
 	}
 
