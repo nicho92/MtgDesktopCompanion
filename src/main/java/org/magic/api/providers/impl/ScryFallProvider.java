@@ -64,7 +64,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String COLORS = "colors";
 	private static final String FRAME_EFFECTS = "frame_effects";
 	private static final String MULTIVERSE_IDS = "multiverse_ids";
-	
 	private static final String MANA_COST = "mana_cost";
 	private static final String COLOR = "color";
 	private static final String SET = "set";
@@ -89,7 +88,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	@Override
 	public void init() {
-	
 		
 			ThreadManager.getInstance().executeThread(new MTGRunnable() {
 				
@@ -147,7 +145,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			});
 	}
 	
-	
 	public ScryFallProvider() {
 		 languages = new HashMap<>();
 		 mapOtherSet = new HashMap<>();
@@ -172,12 +169,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			languages.put("ph" ,"Phyrexian");
 	}
 	
-	
 	public File bulkData(BULKTYPE t) throws IOException
 	{
 		var f = new File(MTGConstants.DATA_DIR,t.name().toLowerCase()+".json");
 		
-		if(f.exists() && FileTools.daysBetween(f)<=1)
+		if(f.exists() && FileTools.daysBetween(f)<=getInt("DAY_RETENTION"))
 			return f;
 		
 		logger.info("{} will be update",f);
@@ -196,16 +192,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		throw new IOException("No bulk data found for "+t);
 	}
 	
-	
-	
-	
-	
 	public JsonObject getJsonFor(MTGCard mc)
 	{
-			String url = BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
-			return URLTools.extractAsJson(url).getAsJsonObject();
+			return URLTools.extractAsJson(BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber()).getAsJsonObject();
 	}
-
 	
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
@@ -267,21 +257,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = new HashMap<String, MTGProperty>();
-		
-			map.put("EXTRA", MTGProperty.newBooleanProperty("false", "If true, extra cards (tokens, planes, etc) will be included."));
-			map.put("MULTILINGUAL", MTGProperty.newBooleanProperty("false", "If true, cards in every language supported by Scryfall will be included."));
-			map.put("VARIATIONS",MTGProperty.newBooleanProperty("true", "If true, rare care variants will be included, like the <a href='https://scryfall.com/card/drk/107%E2%80%A0/runesword'>Hairy Runesword</a>"));
+			 map.put("EXTRA", MTGProperty.newBooleanProperty("false", "If true, extra cards (tokens, planes, etc) will be included."));
+			 map.put("MULTILINGUAL", MTGProperty.newBooleanProperty("false", "If true, cards in every language supported by Scryfall will be included."));
+			 map.put("VARIATIONS",MTGProperty.newBooleanProperty("true", "If true, rare care variants will be included, like the <a href='https://scryfall.com/card/drk/107%E2%80%A0/runesword'>Hairy Runesword</a>"));
+			 map.put("DAY_RETENTION", MTGProperty.newIntegerProperty("1", "number of days of retention for rules and cards bulk's data files", 1, -1));
+			 
+			 
 		return map;
 	}
-	
-	
-	
-	
-	
 
 	@Override
 	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact) throws IOException {
-		
 
 		var value = crit;
 		
@@ -315,7 +301,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		logger.debug("execute q={}, results ={}",q,obj);
 		
-		List<MTGCard> list = new ArrayList<>();
+		var list = new ArrayList<MTGCard>();
 		
 		if(obj.get("error")!=null)
 			throw new IOException(obj.get("error").getAsString());
@@ -325,11 +311,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			logger.error(obj.get("details").getAsString());
 			return list;
 		}
-		
-		
-			
+				
 		var hasMore = true;
-		
+
 		while(hasMore)
 		{
 			
@@ -368,7 +352,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				.addContent("pretty","false")
 				.addContent("q",q);
 	}
-
 
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
@@ -429,7 +412,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return "2.0";
 	}
 	
-	
 	private String readAsString(JsonObject obj , String k)
 	{
 		try {
@@ -462,8 +444,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return false;
 		}
 	}
-	
-
 	
 	private MTGCard generateCard(JsonObject obj, boolean loadMeld) throws ExecutionException {
 		
