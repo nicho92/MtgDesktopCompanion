@@ -28,7 +28,6 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 	private MTGCollection collection;
 
 	public MagicEditionsTableModel() {
-		collection = new MTGCollection(MTGControler.getInstance().get("default-library"));
 		initColumns();
 	}
 
@@ -65,6 +64,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 	public void calculate() {
 
 		try {
+			collection = new MTGCollection(MTGControler.getInstance().get("default-library"));
 			mapCount = CollectionEvaluator.analyse(collection);
 		} catch (IOException e) {
 			logger.error("can't evaluate for {} : {}",collection,e.getMessage());
