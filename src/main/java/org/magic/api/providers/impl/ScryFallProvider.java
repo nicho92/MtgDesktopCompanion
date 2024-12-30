@@ -483,7 +483,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				generateTypes(mc, obj.get(TYPE_LINE));
 				
 				
-				mapOtherSet.get(readAsString(obj,ORACLE_ID)).forEach(s->mc.getEditions().add(getSetById(s.toUpperCase())));
+				if(mapOtherSet.get(readAsString(obj,ORACLE_ID))!=null)
+					mapOtherSet.get(readAsString(obj,ORACLE_ID)).forEach(s->mc.getEditions().add(getSetById(s.toUpperCase())));
 				
 				if(mapRules.get(readAsString(obj,ORACLE_ID))!=null)
 					mapRules.get(readAsString(obj,ORACLE_ID)).forEach(r->mc.getRulings().add(r));
