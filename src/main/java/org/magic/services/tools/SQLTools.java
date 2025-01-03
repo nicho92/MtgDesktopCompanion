@@ -20,6 +20,9 @@ public class SQLTools {
 	
 	
 	public SQLTools(SQLDialect dialect) {
+		
+		logger.debug("Init sql tools with dialect {}",dialect);
+		
 		System.setProperty("org.jooq.no-tips", "true");
 		System.setProperty("org.jooq.no-logo", "true");
 		

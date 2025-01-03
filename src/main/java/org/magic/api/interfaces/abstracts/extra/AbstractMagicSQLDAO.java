@@ -223,7 +223,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 		catch (Exception e) {
-			logger.trace("Error in createDB : {}", e.getMessage(),e);
+			logger.trace("Error in createDB : {}", e.getMessage());
 			return false;
 		}
 	}
@@ -593,12 +593,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public void init(MTGPool p) throws SQLException {
 		pool = p;
-		if(pool==null)
+		if(pool==null || !enablePooling())
 		{
 			pool=new NoPool();
-			logger.error("error loading selected pool. Use default : {}",pool.getName());
+			logger.error("Use default pool : {}",pool);
 		}
-		logger.debug("Loading SQL connection to : {}",getjdbcUrl());
+		logger.info("Loading SQL connection to : {} with pool : {}",getjdbcUrl(),pool);
 		pool.init(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();
 	}
@@ -614,7 +614,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MTGDeck> listDecks() throws SQLException {
-		List<MTGDeck> colls = new ArrayList<>();
+		var colls = new ArrayList<MTGDeck>();
 
 		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from decks order by ID DESC"))
 		{

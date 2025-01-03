@@ -114,15 +114,18 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(capitalize("CARDS"), MTGConstants.ICON_TAB_CARD, PluginRegistry.inst().getEntry(MTGCardsProvider.class));
 		createTab(capitalize("SEALED"), MTGConstants.ICON_TAB_PACKAGE, PluginRegistry.inst().getEntry(MTGSealedProvider.class));
 		createTab(capitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, PluginRegistry.inst().getEntry(MTGPictureProvider.class));
+		createTab(capitalize("CACHES"), MTGConstants.ICON_TAB_CACHE,PluginRegistry.inst().getEntry(MTGPictureCache.class));
 		createTab(capitalize("PRICERS"), MTGConstants.ICON_TAB_PRICES, PluginRegistry.inst().getEntry(MTGPricesProvider.class));
 		createTab(capitalize("DATABASES"), MTGConstants.ICON_TAB_DAO, PluginRegistry.inst().getEntry(MTGDao.class));
+		createTab(capitalize("POOL"), MTGConstants.ICON_TAB_POOL, PluginRegistry.inst().getEntry(MTGPool.class));
+
 		createTab(capitalize("SHOPPERS"), MTGConstants.ICON_TAB_SHOP, PluginRegistry.inst().getEntry(MTGShopper.class));
 		createTab(capitalize("CARDS_IMPORT_EXPORT"), MTGConstants.ICON_TAB_IMPORT_EXPORT, PluginRegistry.inst().getEntry(MTGCardsExport.class));
 		createTab(capitalize("DECKS_IMPORTER"), MTGConstants.ICON_TAB_DECK, PluginRegistry.inst().getEntry(MTGDeckSniffer.class));
 		createTab(capitalize("DASHBOARD_MODULE"), MTGConstants.ICON_TAB_VARIATIONS,PluginRegistry.inst().getEntry(MTGDashBoard.class));
 		createTab(capitalize("SERVERS"), MTGConstants.ICON_TAB_SERVER, PluginRegistry.inst().getEntry(MTGServer.class));
 		createTab(capitalize("NOTIFICATION"), MTGConstants.ICON_TAB_NOTIFICATION, PluginRegistry.inst().getEntry(MTGNotifier.class));
-		createTab(capitalize("CACHES"), MTGConstants.ICON_TAB_CACHE,PluginRegistry.inst().getEntry(MTGPictureCache.class));
+		
 		createTab(capitalize("RSS_MODULE"), MTGConstants.ICON_TAB_NEWS, PluginRegistry.inst().getEntry(MTGNewsProvider.class));
 		createTab(capitalize("WALLPAPER"), MTGConstants.ICON_TAB_WALLPAPER,PluginRegistry.inst().getEntry(MTGWallpaperProvider.class));
 		createTab(capitalize("BUILDER_MODULE"), MTGConstants.ICON_TAB_CONSTRUCT, PluginRegistry.inst().getEntry(MTGPictureEditor.class));
@@ -130,7 +133,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(capitalize("INDEXER"), MTGConstants.ICON_TAB_SIMILARITY, PluginRegistry.inst().getEntry(MTGCardsIndexer.class));
 		createTab(capitalize("SUGGESTION"), MTGConstants.ICON_TAB_SUGGESTION, PluginRegistry.inst().getEntry(MTGTextGenerator.class));
 		createTab(capitalize("SCRIPT"), MTGConstants.ICON_TAB_RULES, PluginRegistry.inst().getEntry(MTGScript.class));
-		createTab(capitalize("POOL"), MTGConstants.ICON_TAB_POOL, PluginRegistry.inst().getEntry(MTGPool.class));
+		
 		createTab(capitalize("COMBO"), MTGConstants.ICON_TAB_COMBO, PluginRegistry.inst().getEntry(MTGComboProvider.class));
 		createTab(capitalize("GED"), MTGConstants.ICON_TAB_GED, PluginRegistry.inst().getEntry(MTGGedStorage.class));
 		createTab(capitalize("GRADING"), MTGConstants.ICON_TAB_GRADING, PluginRegistry.inst().getEntry(MTGGraders.class));

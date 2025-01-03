@@ -45,7 +45,7 @@ public class C3P0Pool extends AbstractPoolProvider {
 
 	@Override
 	public String getVersion() {
-		return ComboPooledDataSource.class.getPackage().getImplementationVersion();
+		return "0.10.1";
 	}
 
 

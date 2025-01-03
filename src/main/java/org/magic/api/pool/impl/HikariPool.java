@@ -34,7 +34,7 @@ public class HikariPool extends AbstractPoolProvider {
 		}
 
 	}
-
+	
 
 	@Override
 	public void init(String url, String user, String pass, boolean enable) {

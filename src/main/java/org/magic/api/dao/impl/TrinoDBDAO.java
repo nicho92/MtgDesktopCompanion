@@ -1,28 +1,17 @@
 package org.magic.api.dao.impl;
 
-import java.sql.SQLException;
 import java.util.Map;
 
-import org.apache.logging.log4j.Level;
 import org.jooq.SQLDialect;
 import org.magic.api.beans.technical.MTGProperty;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
-import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
-import org.magic.services.tools.MTG;
 
 public class TrinoDBDAO extends AbstractMagicSQLDAO {
-
-
-	public static void main(String[] args) throws SQLException {
-		MTGLogger.changeLevel(Level.DEBUG);
-		
-		MTGControler.getInstance();
-		
-		MTG.getEnabledPlugin(MTGDao.class).init();
-	}
 	
+	@Override
+	protected boolean enablePooling() {
+		return false;
+	}
 	
 	@Override
 	protected String getdbSizeQuery() {
@@ -37,6 +26,9 @@ public class TrinoDBDAO extends AbstractMagicSQLDAO {
 	
 	@Override
 	public STATUT getStatut() {
+		
+		//TODO : fix longvarchar type not usable with jooq on SQLTools
+		
 		return STATUT.DEV;
 	}
 	
