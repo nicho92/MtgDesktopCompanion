@@ -111,4 +111,6 @@ public interface MTGPlugin extends Comparable<MTGPlugin>, MTGIconable {
 		return obj;
 
 	}
+
+	public boolean needAuthenticator();
 }

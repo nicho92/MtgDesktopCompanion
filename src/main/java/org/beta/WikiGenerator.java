@@ -99,7 +99,7 @@ public class WikiGenerator {
 					temp.append("* Category : ").append(p.getType()).append("\n");
 					temp.append("* Version : ").append(p.getVersion()).append("\n");
 					temp.append("* Status : ").append(p.getStatut()).append("\n");
-					temp.append("* Need Authenticator : ").append(p.listAuthenticationAttributes().isEmpty()?"No":"Yes").append("\n");
+					temp.append("* Need Authenticator : ").append(p.needAuthenticator()?"Yes":"No").append("\n");
 					
 					temp.append("\n\n");
 					temp.append("# Configure the plugin").append("\n\n");

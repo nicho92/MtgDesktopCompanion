@@ -47,6 +47,12 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		}
 	}
 
+	@Override
+	public boolean needAuthenticator() {
+		return !listAuthenticationAttributes().isEmpty();
+	}
+	
+	
 
 	@Override
 	public List<String> listAuthenticationAttributes() {

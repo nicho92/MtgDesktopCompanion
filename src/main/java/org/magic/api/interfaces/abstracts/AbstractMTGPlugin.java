@@ -44,6 +44,11 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	
 	
 	@Override
+	public boolean needAuthenticator() {
+		return !listAuthenticationAttributes().isEmpty();
+	}
+	
+	@Override
 	public boolean isPartner()
 	{
 		return false;

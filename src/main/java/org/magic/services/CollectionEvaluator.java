@@ -50,7 +50,7 @@ public class CollectionEvaluator extends Observable
 		var ret = new TreeMap<MTGEdition, Integer>();
 
 		try {
-			logger.info("Evaluate collection for {}",collection);
+			logger.debug("Evaluate collection {}",collection);
 			var temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
 			for (var me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
 				ret.put(me, (temp.get(me.getId()) == null) ? 0 : temp.get(me.getId()));
