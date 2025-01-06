@@ -2784,10 +2784,16 @@
 		<booster lang="en" num="1" extra="play" url="https://magicomens.com/cdn/shop/files/dftpbp_400x.webp"/>
 		<booster lang="en" num="2" extra="collector" url="https://magicomens.com/cdn/shop/files/dftcbp_500x.png"/>
 		<bundle lang="en" num="1" url="https://www.mondes-fantastiques.com/32946-large_default/bundle-aetherdrift.jpg"/>
-		<bundle lang="en" num="2" extra="collector" url="https://media.wizards.com/2024/images/daily/en_47fGM2PXNQ.png"/>
+		<bundle lang="en" num="2" url="https://media.wizards.com/2024/images/daily/en_47fGM2PXNQ.png" desc="Finish Line Bundle"/>
 		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_zAm0sWwH3L.png"/>
-		
 	</edition>
+	
+	<edition id="DRC">
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/1s8ocS6wdQICyC0raPWdO4/3fec32f79f88853904a44cfc4d5ddc4c/dSeihHhY6478009Lk_EN.png"/>
+			<constructpack lang="en" num="1" url="https://magicians-circle.com/wp-content/uploads/2025/01/MTG_AET_EternalMight.png" desc="Eternal Might"/>
+			<constructpack lang="en" num="2" url="https://magicians-circle.com/wp-content/uploads/2024/12/magic-dtf-living-energy-1.png" desc="Living Energy"/>
+	</edition>
+	
 	
 	<edition id="INR">
 		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/7358s8yvDA4PVKlRPhDzVz/6ec17ac8b7952687fb257a90145f5ae7/Lduih34879dgkj-600x380_EN.png"/>
