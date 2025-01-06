@@ -18,6 +18,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 
+import javax.annotation.Nonnull;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -54,6 +56,9 @@ import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -67,6 +72,8 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.event.TableColumnModelExtListener;
+import org.jdesktop.swingx.table.TableColumnExt;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
@@ -106,6 +113,7 @@ import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ShortKeyManager;
+import org.magic.services.adapters.TableColumnModelExtListenerAdapter;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.panda_lang.pandomium.Pandomium;
@@ -302,6 +310,17 @@ public class UITools {
 				if(enableFilter)
 					initTableFilter(table);
 				
+				//TODO dev for columns state records
+				table.getColumnModel().addColumnModelListener(new TableColumnModelExtListenerAdapter() {
+					@Override
+					public void columnPropertyChange(PropertyChangeEvent event) {
+						if(event.getPropertyName().equals("visible"))
+						{
+							var tce = (TableColumnExt)event.getSource();
+							logger.trace(tce.getModelIndex() + " " + tce.getIdentifier() + " " + Boolean.valueOf(event.getNewValue().toString()));
+						}
+					}
+				});
 				
 		return table;
 	}
