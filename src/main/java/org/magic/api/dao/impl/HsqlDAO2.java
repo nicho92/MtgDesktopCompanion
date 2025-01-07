@@ -16,7 +16,7 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 
 	@Override
 	protected boolean enablePooling() {
-		return !getString(MODE).equals("file");
+		return getString(MODE).equals("file");
 	}
 
 
