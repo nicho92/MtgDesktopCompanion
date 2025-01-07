@@ -35,6 +35,7 @@
 	    <Logger name="org.apache.activemq" level="ERROR"></Logger>
 	    <Logger name="org.apache.commons" level="ERROR"></Logger>
 	    <Logger name="org.apache.commons.jcs" level="ERROR"></Logger>
+	    <Logger name="org.apache.tomcat.jdbc" level="OFF"></Logger>
 	    <Logger name="org.apache.lucene" level="ERROR"></Logger>
 	    <Logger name="com.jayway.jsonpath.internal.path" level="ERROR"></Logger>
 	    <Logger name="org.mariadb.jdbc" level="ERROR"></Logger>

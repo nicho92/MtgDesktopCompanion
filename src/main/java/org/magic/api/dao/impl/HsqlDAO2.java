@@ -14,11 +14,6 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 
 	private static final String MODE = "MODE";
 
-	@Override
-	protected boolean enablePooling() {
-		return getString(MODE).equals("file");
-	}
-
 
 	@Override
 	protected SQLDialect getDialect() {

@@ -120,6 +120,10 @@
       <enable>false</enable>
     </pool>
     <pool>
+      <class>org.magic.api.pool.impl.TomcatPool</class>
+      <enable>false</enable>
+    </pool>
+    <pool>
       <class>org.magic.api.pool.impl.HikariPool</class>
       <enable>true</enable>
     </pool>

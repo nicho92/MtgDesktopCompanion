@@ -297,7 +297,7 @@ private MTGPool pool;
 		
 		download();
 		pool = new HikariPool();
-		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "", true);
+		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "");
 
 		ThreadManager.getInstance().executeThread(new MTGRunnable() {
 

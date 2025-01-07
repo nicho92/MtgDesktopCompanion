@@ -37,18 +37,13 @@ public class HikariPool extends AbstractPoolProvider {
 	
 
 	@Override
-	public void init(String url, String user, String pass, boolean enable) {
+	public void init(String url, String user, String pass) {
 		var c = new HikariConfig(props);
 					 c.setJdbcUrl(url);
 					 c.setUsername(user);
 					 c.setPassword(pass);
 					 c.setThreadFactory(ThreadManager.getInstance().getFactory());
 		datasource = new HikariDataSource(c);
-
-		  if(!enable) {
-			  datasource.setMinimumIdle(1);
-	          datasource.setMaximumPoolSize(1);
-		  }
 
 	}
 

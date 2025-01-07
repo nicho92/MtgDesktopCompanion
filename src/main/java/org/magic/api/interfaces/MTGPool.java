@@ -9,6 +9,6 @@ public interface MTGPool  extends MTGPlugin{
 
 	void close() throws SQLException;
 
-	void init(String url, String user, String pass, boolean enable);
+	void init(String url, String user, String pass);
 
 }

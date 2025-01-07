@@ -63,9 +63,8 @@ public class DBCPPool extends AbstractPoolProvider {
 	}
 
 	@Override
-	public void init(String url, String user, String pass, boolean enable) {
+	public void init(String url, String user, String pass) {
 
-		logger.debug("init connection to {} pool={}",url,enable);
 		dataSource =  new BasicDataSource();
         dataSource.setUrl(url);
         dataSource.setUsername(user);
@@ -79,12 +78,6 @@ public class DBCPPool extends AbstractPoolProvider {
 			}
         });
 
-        if(!enable) {
-			  dataSource.setMinIdle(1);
-	          dataSource.setMaxIdle(1);
-	          dataSource.setInitialSize(0);
-	          dataSource.setMaxTotal(1);
-		  }
   	}
 
 	@Override

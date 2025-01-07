@@ -29,7 +29,7 @@ public class C3P0Pool extends AbstractPoolProvider {
 	}
 
 	@Override
-	public void init(String url, String user, String pass, boolean enable) {
+	public void init(String url, String user, String pass) {
 		datasource = new ComboPooledDataSource();
 		datasource.setProperties(props);
 		datasource.setUser(user);

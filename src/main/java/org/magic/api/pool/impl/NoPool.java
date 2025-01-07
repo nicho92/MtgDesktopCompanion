@@ -24,7 +24,7 @@ public class NoPool extends AbstractPoolProvider {
 	}
 
 	@Override
-	public void init(String url, String user, String pass, boolean enable) {
+	public void init(String url, String user, String pass) {
 		this.url=url;
 		this.user=user;
 		this.pass=pass;

@@ -88,6 +88,11 @@
 		    <version>468</version>
 		</dependency>
 		<dependency>
+    		<groupId>org.apache.tomcat</groupId>
+    		<artifactId>tomcat-jdbc</artifactId>
+    		<version>11.0.2</version>
+		</dependency>
+		<dependency>
 		    <groupId>org.firebirdsql.jdbc</groupId>
 		    <artifactId>jaybird</artifactId>
 		    <version>6.0.0</version>

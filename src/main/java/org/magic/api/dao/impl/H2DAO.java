@@ -100,11 +100,6 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	protected boolean enablePooling() {
-		return !getString(MODE).equals("file");
-	}
-
-	@Override
 	protected String getjdbcUrl() {
 		return "jdbc:"+getjdbcnamedb()+(getString(MODE).equals("file")?"/":":")+getString(DB_NAME)+";CASE_INSENSITIVE_IDENTIFIERS=TRUE"+(getString(MODE).equals("mem")?";DB_CLOSE_DELAY=-1":"");
 	}
