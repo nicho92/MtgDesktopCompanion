@@ -42,8 +42,8 @@ public class TomcatPool extends AbstractPoolProvider {
 		dbProperty.setMaxActive(getInt("maxActive"));
 		dbProperty.setMaxIdle(getInt("maxIdle"));
 		dbProperty.setMinIdle(getInt("minIdle"));
-		
-		
+		dbProperty.setDefaultAutoCommit(getBoolean("defaultAutoCommit"));
+		dbProperty.setMinEvictableIdleTimeMillis(getInt("minEvictableIdleTimeMillis"));
 		pool.setPoolProperties(dbProperty);
 	}
 	
@@ -56,7 +56,7 @@ public class TomcatPool extends AbstractPoolProvider {
 		map.put("maxActive",MTGProperty.newIntegerProperty("10","The maximum number of active connections that can be allocated from this pool at the same time.",1,-1));
 		map.put("maxIdle",MTGProperty.newIntegerProperty("5","The maximum number of connections that should be kept in the pool at all times. Idle connections are checked periodically (if enabled) and connections that been idle for longer than minEvictableIdleTimeMillis will be released.",1,-1));
 		map.put("minIdle",MTGProperty.newIntegerProperty("2","The minimum number of established connections that should be kept in the pool at all times. The connection pool can shrink below this number if validation queries fail.",1,-1));
-		
+		map.put("minEvictableIdleTimeMillis",MTGProperty.newIntegerProperty("6000","The minimum amount of time an object may sit idle in the pool before it is eligible for eviction. The value is in millisecond.",1000,-1));
 
 		return map;
 	}
