@@ -1,6 +1,7 @@
 package org.magic.api.pool.impl;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +37,12 @@ public class TomcatPool extends AbstractPoolProvider {
 		dbProperty.setUsername(user);
 		dbProperty.setPassword(pass);
 		
+		
+		try {
+			dbProperty.setDriverClassName(DriverManager.getDriver(url).getClass().getName());
+		} catch (SQLException e) {
+			//do nothing
+		}
 		
 		
 		dbProperty.setInitialSize(getInt("initialSize"));
