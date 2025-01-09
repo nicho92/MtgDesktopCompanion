@@ -73,10 +73,10 @@
 	</repositories>
 	<dependencies>
 	<dependency>
-    <groupId>org.mindrot</groupId>
-    <artifactId>jbcrypt</artifactId>
-    <version>0.4</version>
-</dependency>
+	    <groupId>org.mindrot</groupId>
+	    <artifactId>jbcrypt</artifactId>
+	    <version>0.4</version>
+	</dependency>
 	<dependency>
 	    <groupId>org.drjekyll</groupId>
 	    <artifactId>fontchooser</artifactId>
@@ -171,7 +171,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
+			<artifactId>log4j-slf4j2-impl</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
@@ -288,7 +288,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.19.16</version>
+			<version>3.19.17</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -470,7 +470,7 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.4</version>
+			<version>1.10.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.reflections</groupId>
@@ -512,7 +512,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.17.1</version>
+			<version>1.17.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

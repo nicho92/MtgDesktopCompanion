@@ -152,10 +152,4 @@ public class H2DAO extends AbstractMagicSQLDAO {
 		return m;
 	}
 
-	@Override
-	public MTGDocumentation getDocumentation() {
-		return new MTGDocumentation("https://h2database.com/html/tutorial.html#connecting_using_jdbc",FORMAT_NOTIFICATION.HTML);
-	}
-
-
 }
