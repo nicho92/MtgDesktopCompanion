@@ -1537,7 +1537,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				var state = readStock(rs);
 				colls.add(state);
 			}
-			logger.debug("loading {} item(s) from stock for {}",colls.size(),cols);
 		}
 		return colls;
 	}

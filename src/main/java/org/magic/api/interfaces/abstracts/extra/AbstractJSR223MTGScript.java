@@ -15,26 +15,6 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 	private Bindings binds;
 	private ScriptEngine engine;
 
-	public static AbstractJSR223MTGScript build(String name, String engineName,String extension ) {
-		return new AbstractJSR223MTGScript() {
-			@Override
-			public String getName() {
-				return name;
-			}
-
-			@Override
-			public String getExtension() {
-				return extension;
-			}
-
-			@Override
-			public String getEngineName() {
-				return engineName;
-			}
-		};
-	}
-
-
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
