@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.magic.api.beans.MTGCardStock;
@@ -17,7 +18,7 @@ import org.magic.services.tools.MTG;
 public class AetherhubExport extends AbstractFormattedFileCardExport{
 
 	private String columns = "Count,Tradelist Count,Wishlist Count,Name,AetherHub Card Id,Set Code,Card Number,Multiverse Id,Mtgo Id,Scryfall Id,TCGplayer Id,Cardmarket Id,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint";
-	private Charset charset = Charset.forName("UTF-16");
+	private Charset charset = StandardCharsets.UTF_16;
 	
 	
 	@Override

@@ -80,7 +80,6 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 
 	@Override
 	public Stream<Path> listDirectory(Path p) throws IOException {
-		logger.debug("listDirectory {}/{}",p.getParent().getFileName(),p.getFileName());
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listEntries(p.getParent().getFileName().toString(),p.getFileName().toString()).stream().map(ge->Path.of(p.getParent().getFileName().toString(),p.getFileName().toString(),ge.getName()));
 		} catch (Exception e) {

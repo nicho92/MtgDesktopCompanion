@@ -97,7 +97,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					try {
 						initMapOtherSet();
 					} catch (IOException e) {
-						logger.error("error init other sets {}",e);
+						logger.error("error init other sets {}",e.getMessage());
 					}
 					
 				}
@@ -111,7 +111,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					try {
 						initMapRules();
 					} catch (IOException e) {
-						logger.error("error init rules {}",e);
+						logger.error("error init rules {}",e.getMessage());
 					}
 					
 				}
@@ -471,7 +471,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setPower(readAsString(obj,POWER));
 				mc.setToughness(readAsString(obj,TOUGHNESS));
 				mc.setLoyalty(readAsInt(obj, LOYALTY));
-				mc.setEdhrecRank(readAsInt(obj,"edhrec_rank"));;
+				mc.setEdhrecRank(readAsInt(obj,"edhrec_rank"));
 				mc.setNumber(readAsString(obj,"collector_number"));
 				mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
 				mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
