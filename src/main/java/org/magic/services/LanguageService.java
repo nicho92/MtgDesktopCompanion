@@ -63,10 +63,10 @@ public class LanguageService {
 
 	public String get(String key) {
 		try {
-		return rbundle.getString(key);
-		}catch(Exception e)
+			return rbundle.getString(key);
+		}
+		catch(Exception e)
 		{
-			logger.trace("no bundle key found for {}",key);
 			return key.toLowerCase();
 		}
 	}
