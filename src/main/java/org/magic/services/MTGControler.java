@@ -165,6 +165,7 @@ public class MTGControler {
 
 
 	private Font f;
+	private boolean loaded = false;
 	public Font getFont()
 	{
 		if(f!=null)
@@ -426,6 +427,9 @@ public class MTGControler {
 	}
 
 	public void cleaning() {
+		
+		setLoaded(true);
+		
 		 if(PluginRegistry.inst().needUpdate())
 		 {
 			 try {
@@ -437,6 +441,15 @@ public class MTGControler {
 		 }
 	}
 
+	public boolean isLoaded() {
+		return loaded;
+	}
+	
+	
+	public void setLoaded(boolean loaded) {
+		this.loaded = loaded;
+	}
+	
 
 	public void init() throws SQLException {
 		MTG.getEnabledPlugin(MTGCardsProvider.class).init();

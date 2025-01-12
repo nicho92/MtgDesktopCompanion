@@ -309,10 +309,10 @@ public class UITools {
 				table.getColumnModel().addColumnModelListener(new TableColumnModelExtListenerAdapter() {
 					@Override
 					public void columnPropertyChange(PropertyChangeEvent event) {
-						if(event.getPropertyName().equals("visible"))
+						if(event.getPropertyName().equals("visible") && MTGControler.getInstance().isLoaded())
 						{
 							var tce = (TableColumnExt)event.getSource();
-							logger.trace("{} {} {}", tce.getModelIndex(),tce.getIdentifier(),Boolean.valueOf(event.getNewValue().toString()));
+							logger.trace("{} {} {}",tce.getModelIndex(),tce.getIdentifier(),Boolean.valueOf(event.getNewValue().toString()));
 						}
 					}
 				});
