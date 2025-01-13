@@ -155,44 +155,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private UserAgentAnalyzer ua ;
 	private JWTServices jwtService;
 	private static final String ROBOTS_VARS_DISALOW="""
-			\tUser-agent: Googlebot
-			\tDisallow: /
-			\tUser-agent: AhrefsBot
-			\tDisallow: /
-			\tUser-agent: googlebot-image
-			\tDisallow: /
-			\tUser-agent: googlebot-mobile
-			\tDisallow: /
-			\tUser-agent: MSNBot
-			\tDisallow: /
-			\tUser-agent: Slurp
-			\tDisallow: /
-			\tUser-agent: Teoma
-			\tDisallow: /
-			\tUser-agent: Gigabot
-			\tDisallow: /
-			\tUser-agent: Robozilla
-			\tDisallow: /
-			\tUser-agent: Nutch
-			\tDisallow: /
-			\tUser-agent: ia_archiver
-			\tDisallow: /
-			\tUser-agent: baiduspider
-			\tDisallow: /
-			\tUser-agent: naverbot
-			\tDisallow: /
-			\tUser-agent: yeti
-			\tDisallow: /
-			\tUser-agent: yahoo-mmcrawler
-			\tDisallow: /
-			\tUser-agent: psbot
-			\tDisallow: /
-			\tUser-agent: yahoo-blogs/v3.9
-			\tDisallow: /
-			\tUser-agent: *
-			\tDisallow: /
-			\tDisallow: /cgi-bin/
-			\t""";
+			User-agent: *
+			Disallow: /
+			""";
 
 
 	private JsonObject error(Request req, Response response, Exception msg, int code) {
