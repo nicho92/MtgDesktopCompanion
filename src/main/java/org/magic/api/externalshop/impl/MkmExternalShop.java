@@ -99,7 +99,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			init();
 			var ret = new ArrayList<MTGStockItem>();
 			for(File f : loadFiles())
-				try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(f))  )
+				try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().get().parse(new FileReader(f))  )
 				{
 					p.iterator().forEachRemaining(art->{
 
