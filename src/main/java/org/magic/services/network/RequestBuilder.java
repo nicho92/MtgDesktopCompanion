@@ -216,7 +216,7 @@ public class RequestBuilder
 		FileTools.copyInputStreamToFile(stream,dest);
 		var csi = c.stop();
 		var size = UITools.humanReadableSize(stream.getCount());
-		MTGLogger.getLogger(this.getClass()).info( "{} in {} s",size,csi);
+		MTGLogger.getLogger(this.getClass()).info("{} : {} in {}s",getUrl(),size,csi);
 		
 	}
 
