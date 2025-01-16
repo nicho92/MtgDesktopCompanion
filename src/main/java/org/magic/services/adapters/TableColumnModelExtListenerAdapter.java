@@ -12,37 +12,37 @@ public class TableColumnModelExtListenerAdapter implements TableColumnModelExtLi
 
 	@Override
 	public void columnAdded(TableColumnModelEvent e) {
-		// TODO Auto-generated method stub
+		// do nothing
 
 	}
 
 	@Override
 	public void columnRemoved(TableColumnModelEvent e) {
-		// TODO Auto-generated method stub
+		// do nothing
 
 	}
 
 	@Override
 	public void columnMoved(TableColumnModelEvent e) {
-		// TODO Auto-generated method stub
+		// do nothing
 
 	}
 
 	@Override
 	public void columnMarginChanged(ChangeEvent e) {
-		// TODO Auto-generated method stub
+		// do nothing
 
 	}
 
 	@Override
 	public void columnSelectionChanged(ListSelectionEvent e) {
-		// TODO Auto-generated method stub
+		// do nothing
 
 	}
 
 	@Override
 	public void columnPropertyChange(PropertyChangeEvent event) {
-		// TODO Auto-generated method stub
+		// do nothing
 
 	}
 

@@ -1205,7 +1205,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setString(7, null);
 
 				pst.setString(8, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());
-				pst.setDouble(9, state.getPrice());
+				pst.setDouble(9, state.getValue().doubleValue());
 				storeTiersApps(pst,10,state.getTiersAppIds());
 				pst.setInt(11, state.getProduct().getNum());
 
@@ -1225,7 +1225,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(5, state.getProduct().getTypeProduct().name());
 				pst.setString(6, state.getCondition().name());
 				pst.setString(7, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());
-				pst.setDouble(8, state.getPrice());
+				pst.setDouble(8, state.getValue().doubleValue());
 				storeTiersApps(pst,9,state.getTiersAppIds());
 				pst.setLong(10, state.getId());
 				executeUpdate(pst,false);
@@ -1602,7 +1602,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(8, String.valueOf(state.getMagicCollection()));
 				storeCard(pst, 9, state.getProduct());
 				pst.setBoolean(10, state.isAltered());
-				pst.setDouble(11, state.getPrice());
+				pst.setDouble(11, state.getValue().doubleValue());
 				storeGrade(pst,12, state.getGrade());
 				storeTiersApps(pst,13, state.getTiersAppIds());
 				pst.setBoolean(14, state.isEtched());
@@ -1627,7 +1627,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(5, state.getLanguage());
 				pst.setInt(6, state.getQte());
 				pst.setBoolean(7, state.isAltered());
-				pst.setDouble(8, state.getPrice());
+				pst.setDouble(8, state.getValue().doubleValue());
 				pst.setString(9, state.getProduct().getScryfallId());
 				pst.setString(10, state.getMagicCollection().getName());
 				storeGrade(pst, 11,state.getGrade());

@@ -93,7 +93,7 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 					   temp.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
 					   temp.append(mcs.isFoil()?"Foil":"Normal").append(getSeparator());
 					   temp.append(mcs.getLanguage()).append(getSeparator());
-					   temp.append(UITools.formatDouble(mcs.getPrice(),"#0.0#",'.')).append(getSeparator());
+					   temp.append(UITools.formatDouble(mcs.getValue().doubleValue(),"#0.0#",'.')).append(getSeparator());
 					   temp.append(UITools.formatDate(new Date(), "MM/dd/yyyy")).append(System.lineSeparator());
 					   notify(mcs.getProduct());
 				});	   

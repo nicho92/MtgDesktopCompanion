@@ -161,10 +161,6 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	}
 
 	@Override
-	public Double getPrice() {
-		return price;
-	}
-	@Override
 	public void setPrice(Double price) {
 		this.price = price;
 	}

@@ -64,8 +64,8 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			temp.append(mcs.getProduct().isLand()?"Land":mcs.getProduct().getRarity().toPrettyString()).append(getSeparator());
 			temp.append(mcs.getProduct().getTcgPlayerId()).append(getSeparator());
 			temp.append("").append(getSeparator());
-			temp.append("$").append(mcs.getQte() * UITools.roundDouble(MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getCurrencyService().getCurrentCurrency(), Currency.getInstance("USD"), mcs.getPrice()))).append(getSeparator());
-			temp.append("$").append(UITools.roundDouble(MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getCurrencyService().getCurrentCurrency(), Currency.getInstance("USD"), mcs.getPrice())));
+			temp.append("$").append(mcs.getQte() * UITools.roundDouble(MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getCurrencyService().getCurrentCurrency(), Currency.getInstance("USD"), mcs.getValue().doubleValue()))).append(getSeparator());
+			temp.append("$").append(UITools.roundDouble(MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getCurrencyService().getCurrentCurrency(), Currency.getInstance("USD"), mcs.getValue().doubleValue())));
 			temp.append(System.lineSeparator());
 				notify(mcs.getProduct());
 			}

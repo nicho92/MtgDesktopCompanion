@@ -60,9 +60,9 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			temp.append(st.getProduct().getMultiverseid()).append(getSeparator());
 
 			if(st.isFoil())
-				temp.append(0.0).append(getSeparator()).append(st.getPrice()).append(getSeparator());
+				temp.append(0.0).append(getSeparator()).append(st.getValue().doubleValue()).append(getSeparator());
 			else
-				temp.append(st.getPrice()).append(getSeparator()).append(0.0).append(getSeparator());
+				temp.append(st.getValue().doubleValue()).append(getSeparator()).append(0.0).append(getSeparator());
 
 
 			temp.append("MtgCompanion").append(getSeparator());

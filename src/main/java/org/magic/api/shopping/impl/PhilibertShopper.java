@@ -113,7 +113,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 				 stock.setQte(Integer.parseInt(tr.select("div.detail-table-row__qty div.detail-table-row__value").text()));
 
 				 
-			if(stock.getPrice()>0)
+			if(stock.getValue().doubleValue()>0)
 				t.getItems().add(stock);
 		}
 		

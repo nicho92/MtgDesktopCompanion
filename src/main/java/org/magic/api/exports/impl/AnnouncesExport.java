@@ -91,7 +91,7 @@ public class AnnouncesExport extends AbstractCardExport {
 				a.setTitle(mcs.getProduct().getName());
 				a.setCondition(mcs.getCondition());
 				a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-				a.setTotalPrice(mcs.getPrice());
+				a.setTotalPrice(mcs.getValue().doubleValue());
 				a.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
 
 				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);

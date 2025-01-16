@@ -41,7 +41,7 @@ public class TCGHomeExport extends AbstractFormattedFileCardExport {
 				builder.append(mcs.getLanguage()).append(getSeparator());
 				builder.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
 				builder.append(mcs.getProduct().getScryfallId()).append(getSeparator());
-				builder.append(UITools.formatDouble(mcs.getPrice()));
+				builder.append(UITools.formatDouble(mcs.getValue().doubleValue()));
 				builder.append(System.lineSeparator());
 				notify(mcs.getProduct());
 			}

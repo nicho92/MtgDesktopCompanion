@@ -71,7 +71,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 		
 		stock.forEach(mcs->{
 					try {
-					var returnId = serv.addProduct(mcs.getProduct().getScryfallId(),Identifier.scryfall_id,mcs.getPrice(),mcs.getQte(),mcs.getComment(),ConditionEnum.parseByLabel(aliases.getConditionFor(this, mcs.getCondition())),String.valueOf(mcs.getId()));
+					var returnId = serv.addProduct(mcs.getProduct().getScryfallId(),Identifier.scryfall_id,mcs.getValue().doubleValue(),mcs.getQte(),mcs.getComment(),ConditionEnum.parseByLabel(aliases.getConditionFor(this, mcs.getCondition())),String.valueOf(mcs.getId()));
 					
 					mcs.getTiersAppIds().put(getName(), String.valueOf(returnId));
 					

@@ -62,7 +62,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(getSeparator());
 			line.append(getSeparator());
 			line.append(getSeparator());
-			line.append(mc.getPrice()).append(System.lineSeparator());
+			line.append(mc.getValue().doubleValue()).append(System.lineSeparator());
 			notify(mc.getProduct());
 		}
 		FileTools.saveFile(dest, line.toString());

@@ -43,7 +43,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		stock.forEach(st->{
 			temp.append(st.getProduct().getName()).append(getSeparator());
 			temp.append(aliases.getSetNameFor(this,st.getProduct().getEdition())).append(getSeparator());
-			temp.append(UITools.formatDouble(st.getPrice())).append(getSeparator());
+			temp.append(UITools.formatDouble(st.getValue().doubleValue())).append(getSeparator());
 			temp.append(st.getLanguage()).append(getSeparator());
 			temp.append(st.getProduct().getNumber()).append(getSeparator());
 			temp.append(aliases.getConditionFor(this,st.getCondition())).append(getSeparator());

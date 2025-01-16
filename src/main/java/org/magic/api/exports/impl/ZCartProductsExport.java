@@ -69,7 +69,7 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 				temp.append("\"").append("Cardmarket").append("\"").append(getSeparator());
 				temp.append("\"").append("").append("\"").append(getSeparator());
 				temp.append("\"").append(st.getProduct().isOnlineOnly()?"FALSE":"TRUE").append("\"").append(getSeparator());
-				temp.append("\"").append(st.getPrice()).append("\"").append(getSeparator());
+				temp.append("\"").append(st.getValue().doubleValue()).append("\"").append(getSeparator());
 				temp.append("\"").append("").append("\"").append(getSeparator());
 				temp.append("\"").append(st.getProduct().getUrl()).append("\"").append(getSeparator());
 				temp.append(System.lineSeparator());

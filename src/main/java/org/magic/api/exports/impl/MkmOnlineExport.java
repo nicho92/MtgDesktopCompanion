@@ -272,7 +272,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 						a.setSigned(mcs.isSigned());
 						a.setCount(mcs.getQte());
 						a.setFoil(mcs.isFoil());
-						a.setPrice(mcs.getPrice());
+						a.setPrice(mcs.getValue().doubleValue());
 						a.setComments(mcs.getComment());
 						a.setCondition(aliases.getConditionFor(this, mcs.getCondition()));
 						a.setLanguage(convertLang(mcs.getLanguage()));

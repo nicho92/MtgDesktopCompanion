@@ -140,7 +140,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 				 
 				 sb.append("\"").append(mcs.isAltered()?"True":"False").append("\"").append(getSeparator());
 				 sb.append("\"").append(mcs.getCondition() == EnumCondition.PROXY?"True":"False").append("\"").append(getSeparator());
-				 sb.append("\"").append(mcs.getPrice()).append("\"");
+				 sb.append("\"").append(mcs.getValue().doubleValue()).append("\"");
 				 sb.append(System.lineSeparator());
 				 
 				 notify(mcs.getProduct());

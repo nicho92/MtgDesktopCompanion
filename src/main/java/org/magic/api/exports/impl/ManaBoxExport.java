@@ -144,7 +144,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 						    	tmp.append(mcs.getQte()).append(getSeparator());
 						    	tmp.append(mcs.getTiersAppIds(getName())!=null?mcs.getTiersAppIds(getName()):"").append(getSeparator());
 						    	tmp.append(mcs.getProduct().getScryfallId()).append(getSeparator());
-						    	tmp.append(UITools.formatDouble(mcs.getPrice(),'.')).append(getSeparator());
+						    	tmp.append(UITools.formatDouble(mcs.getValue().doubleValue(),'.')).append(getSeparator());
 						    	tmp.append(false).append(getSeparator());
 						    	tmp.append(mcs.isAltered()).append(getSeparator());
 						    	tmp.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());

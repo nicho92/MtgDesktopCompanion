@@ -112,7 +112,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error set {}",aValue, e);
+				logger.error("error setting set {}",aValue, e);
 			}
 		}
 
@@ -123,7 +123,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error set {}",aValue, e);
+				logger.error("error setting foil for {}",aValue, e);
 			}
 		}
 
@@ -133,7 +133,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error set {}",aValue, e);
+				logger.error("error setting price for {}",aValue, e);
 			}
 		}
 

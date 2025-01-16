@@ -73,7 +73,7 @@ public class LigaMagicExport extends AbstractCardExport {
 				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProduct().getForeignNames().stream().filter(mcn->mcn.getLanguage().contains("Portuguese")).findFirst().orElse(st.getProduct().getForeignNames().get(0)).getName());
 				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProduct().getName());
 				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProduct().getEdition().getSet());
-				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getPrice());
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getValue().doubleValue());
 				row.createCell(colNum++,CellType.STRING).setCellValue(aliases.getConditionFor(this, st.getCondition()));
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isFoil()?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isEtched()?1:0);

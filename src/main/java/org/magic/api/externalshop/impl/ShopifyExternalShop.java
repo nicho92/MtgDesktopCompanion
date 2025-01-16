@@ -466,7 +466,6 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public boolean enableContact(String token) throws IOException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

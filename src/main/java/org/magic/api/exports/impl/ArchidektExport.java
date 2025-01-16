@@ -71,7 +71,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 			temp.append(aliases.getConditionFor(this,mcs.getCondition())).append(getSeparator());
 			temp.append(UITools.formatDate(new Date(), "yyyy-MM-dd")).append(getSeparator());
 			temp.append(mcs.getLanguage()).append(getSeparator());
-			temp.append(UITools.roundDouble(mcs.getPrice())).append(getSeparator());
+			temp.append(UITools.roundDouble(mcs.getValue().doubleValue())).append(getSeparator());
 			temp.append(getSeparator());
 			temp.append(mcs.getProduct().getEdition().getSet()).append(getSeparator());
 			temp.append(mcs.getProduct().getEdition().getId()).append(getSeparator());

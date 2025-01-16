@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.technical.MoneyValue;
+import org.magic.services.MTGControler;
 import org.magic.services.tools.UITools;
 
 public class MoneyCellRenderer implements TableCellRenderer {
@@ -17,7 +18,7 @@ public class MoneyCellRenderer implements TableCellRenderer {
 		var text="";
 		
 		try {
-				MoneyValue val = (MoneyValue)value;
+				var val = (MoneyValue)value;
 				text = UITools.formatDouble(val.doubleValue()) + " " + val.getCurrency().getSymbol();
 			}
 		catch(Exception e)

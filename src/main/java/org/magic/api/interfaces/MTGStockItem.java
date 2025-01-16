@@ -17,9 +17,6 @@ public interface MTGStockItem extends MTGSerializable, Comparable<MTGStockItem> 
 	public MTGGrading getGrade();
 
 	@Deprecated 
-	public Double getPrice();
-
-	@Deprecated 
 	public void setPrice(Double price);
 	
 	public MoneyValue getValue();
