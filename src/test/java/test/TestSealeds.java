@@ -1,5 +1,6 @@
 package test;
 
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -33,6 +34,7 @@ public class TestSealeds {
 				System.out.println(ed.getId() + ";" + s.getTypeProduct() + ";"+s.getNum()+";" +(plug.getPictureFor(s)!=null));
 			
 		}
+		
 		
 		
 	}

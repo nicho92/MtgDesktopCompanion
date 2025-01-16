@@ -79,7 +79,14 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	
 	private List<MTGCard> loadCardsFromSet(MTGEdition me) throws IOException {
 		
-		var root = FileTools.readJson(new File(setDirectory, me.getId() + ext)).getAsJsonObject().get(CARDS);
+		var f = new File(setDirectory, me.getId() + ext);
+		
+		if (!f.toPath().normalize().startsWith(getString(DIRECTORY))) {
+            throw new IOException("Entry is outside of the target directory");
+        }
+		
+		
+		var root = FileTools.readJson(f).getAsJsonObject().get(CARDS);
 		return serializer.fromJsonList(root.toString(), MTGCard.class);
 
 	}
