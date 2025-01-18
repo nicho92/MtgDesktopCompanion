@@ -8,7 +8,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.technical.MoneyValue;
-import org.magic.services.MTGControler;
 import org.magic.services.tools.UITools;
 
 public class MoneyCellRenderer implements TableCellRenderer {

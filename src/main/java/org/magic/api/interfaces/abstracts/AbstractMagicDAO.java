@@ -17,12 +17,12 @@ import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.TCache;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.MTGControler;
-import org.magic.services.tools.TCache;
 
 
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao{

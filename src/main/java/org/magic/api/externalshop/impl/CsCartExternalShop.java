@@ -16,6 +16,7 @@ import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.beans.technical.TCache;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.extra.MTGProduct;
@@ -25,7 +26,6 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.CryptoUtils;
-import org.magic.services.tools.TCache;
 
 import com.google.gson.JsonObject;
 

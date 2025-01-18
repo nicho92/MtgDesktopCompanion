@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.technical.TCache;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGTokensProvider;
@@ -16,7 +17,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
-import org.magic.services.tools.TCache;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 

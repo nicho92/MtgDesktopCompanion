@@ -8,8 +8,8 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.beans.technical.TCache;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.tools.TCache;
 
 public class ClipBoardExport extends AbstractCardExport {
 
