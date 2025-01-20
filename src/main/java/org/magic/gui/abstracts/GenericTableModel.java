@@ -19,7 +19,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	protected transient List<T> items;
-	protected String[] columns;
+	private String[] columns;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	protected boolean writable=false;
 	protected boolean changed=false;
@@ -196,9 +196,14 @@ public class GenericTableModel<T> extends AbstractTableModel {
 			return 0;
 	}
 
+	public String getColumn(int ind) {
+		return columns[ind];
+	}
+	
+	
 	@Override
 	public String getColumnName(int column) {
-		return capitalize(columns[column]);
+		return capitalize(getColumn(column));
 	}
 
 	@Override

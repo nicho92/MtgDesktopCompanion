@@ -231,8 +231,8 @@ public class ConstructPanel extends MTGUIComponent {
 		var panneauDeck = new JSplitPane();
 		magicCardDetailPanel = new MagicCardDetailPanel(false);
 		cardDrawProbaPanel = new DrawProbabilityPanel();
-		tableDeck = UITools.createNewTable(null,false);
-		tableSide = UITools.createNewTable(null,false);
+		tableDeck = UITools.createNewTable(deckmodel,false);
+		tableSide = UITools.createNewTable(deckSidemodel,false);
 		
 		final var tabbedDeckSide = new JTabbedPane(SwingConstants.RIGHT);
 		var panelInfoDeck = new JPanel();
@@ -774,7 +774,7 @@ public class ConstructPanel extends MTGUIComponent {
 	}
 
 	private void initTables(JXTable table, BOARD f, DeckCardsTableModel model) {
-		table.setModel(model);
+		
 		table.setRowSorter(new TableRowSorter<>(model));
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());

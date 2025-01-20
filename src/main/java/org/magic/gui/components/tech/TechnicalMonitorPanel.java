@@ -86,7 +86,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 
 					@Override
 					public String getColumnName(int column) {
-						return columns[column];
+						return getColumn(column);
 					}
 				};
 

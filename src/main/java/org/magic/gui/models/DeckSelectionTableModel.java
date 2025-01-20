@@ -51,13 +51,13 @@ public class DeckSelectionTableModel extends GenericTableModel<MTGDeck> {
 		case 1:
 			return items.get(row).getColors();
 		case 2:
-			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(getColumnName(column)));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(getColumn(column)));
 		case 3:
-			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(getColumn(column)));
 		case 4:
-			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(getColumn(column)));
 		case 5:
-			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(getColumn(column)));
 		case 6:
 			return MTGDeckManager.isArenaDeck(items.get(row));
 		case 7:
