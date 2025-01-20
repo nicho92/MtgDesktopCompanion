@@ -2,30 +2,23 @@ package org.magic.gui.models;
 
 import static org.magic.services.tools.MTG.capitalize;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.table.DefaultTableModel;
 
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
-public class SealedBoosterTableModel extends DefaultTableModel {
+import org.magic.gui.abstracts.GenericTableModel;
+public class SealedBoosterTableModel extends GenericTableModel<MutableTriple<MTGEdition, EnumExtra, Integer>> {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<MutableTriple<MTGEdition, EnumExtra, Integer>> pack;
-
 	private static final String[] COLUMNS = { "EDITION","TYPE","QTY" };
 
-	public List<MutableTriple<MTGEdition, EnumExtra, Integer>> getSealedPack() {
-		return pack;
-	}
 
 	public void add(MTGEdition ed, EnumExtra extra, Integer qty) {
-		pack.add(MutableTriple.of(ed, extra,qty));
+		items.add(MutableTriple.of(ed, extra,qty));
 		fireTableDataChanged();
 	}
 
@@ -47,11 +40,11 @@ public class SealedBoosterTableModel extends DefaultTableModel {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:
-			return pack.get(row).getLeft();
+			return items.get(row).getLeft();
 		case 1:
-			return pack.get(row).getMiddle();
+			return items.get(row).getMiddle();
 		case 2:
-			return pack.get(row).getRight();
+			return items.get(row).getRight();
 		default:
 			return "";
 		}
@@ -60,23 +53,18 @@ public class SealedBoosterTableModel extends DefaultTableModel {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		if (column == 0)
-			pack.get(row).setLeft((MTGEdition) aValue);
+			items.get(row).setLeft((MTGEdition) aValue);
 		else if (column == 1)
-			pack.get(row).setMiddle(EnumExtra.valueOf(aValue.toString().toUpperCase()));
+			items.get(row).setMiddle(EnumExtra.valueOf(aValue.toString().toUpperCase()));
 		else if (column == 2) {
 			if (Integer.parseInt(aValue.toString()) > 0) {
-				pack.get(row).setRight(Integer.parseInt(aValue.toString()));
+				items.get(row).setRight(Integer.parseInt(aValue.toString()));
 			} else {
-				pack.remove(row);
+				items.remove(row);
 			}
 		}
 		
 		fireTableDataChanged();
-	}
-
-	public void clear() {
-		pack.clear();
-
 	}
 
 	@Override
@@ -84,12 +72,8 @@ public class SealedBoosterTableModel extends DefaultTableModel {
 		return capitalize(COLUMNS[column]);
 	}
 
-	public SealedBoosterTableModel() {
-		pack = new ArrayList<>();
-	}
-
 	public void init(List<MutableTriple<MTGEdition, EnumExtra, Integer>> lines) {
-		this.pack = lines;
+		items = lines;
 		fireTableDataChanged();
 	}
 
@@ -103,12 +87,5 @@ public class SealedBoosterTableModel extends DefaultTableModel {
 		return COLUMNS.length;
 	}
 
-	@Override
-	public int getRowCount() {
-		if (pack == null)
-			return 0;
-		else
-			return pack.size();
-	}
 
 }

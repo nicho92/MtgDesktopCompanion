@@ -338,14 +338,14 @@ public class SealedDeckBuildPanel extends JPanel {
 
 	private void addBooster() {
 		model.add((MTGEdition) cboEditions.getSelectedItem(), EnumExtra.DRAFT, 6);
-		btnOpen.setEnabled(!model.getSealedPack().isEmpty());
+		btnOpen.setEnabled(!model.isEmpty());
 	}
 
 	protected void open() {
 		deck = new MTGDeck();
 
-		deck.setDescription("Sealed from " + model.getSealedPack());
-		deck.setName("sealed from " + model.getSealedPack().size() + " boosters");
+		deck.setDescription("Sealed from " + model.getItems());
+		deck.setName("sealed from " + model.getRowCount() + " boosters");
 
 		panelOpenedBooster.clear();
 		panelDeck.removeAll();
@@ -381,7 +381,7 @@ public class SealedDeckBuildPanel extends JPanel {
 			@Override
 			protected Void doInBackground() throws Exception {
 				column=0;
-				for (var entry : model.getSealedPack()) {
+				for (var entry : model.getItems()) {
 					try {
 							var b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(entry.getLeft(),entry.getMiddle(), entry.getRight());
 							for(var booster : b)

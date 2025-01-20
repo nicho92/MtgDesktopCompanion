@@ -48,8 +48,6 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	}
 
 
-
-
 	public int[] defaultHiddenColumns()
 	{
 		return hiddenColumns;
