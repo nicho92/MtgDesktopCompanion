@@ -26,7 +26,19 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 
 	public StockItemsSynchronizationPanel() {
 		setLayout(new BorderLayout(0, 0));
-		model = new MapTableModel<>();
+		model = new MapTableModel<>() {
+		
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void setValueAt(Object aValue, int row, int column) {
+				if(column==1)
+				{
+					items.get(row).setValue(String.valueOf(aValue));
+					st.setUpdated(true);
+				}
+			}
+		};
 		table = UITools.createNewTable(model,false);
 
 
@@ -61,7 +73,7 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 		});
 
 		model.setWritable(true);
-		model.setColumnNames("Plugin", "id");
+		model.setColumns("Plugin", "id");
 
 
 	}
