@@ -14,7 +14,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 	private static final long serialVersionUID = 1L;
 
 	public ThreadsTableModel() {
-		columns = new String[] {"ID","PROCESS","CPU (s.)","STATE","PRIORITY","LOCK INFO","BLOCKED COUNT","DEADLOCKED","MEMORY (KB.)"};
+		setColumns("ID","PROCESS","CPU (s.)","STATE","PRIORITY","LOCK INFO","BLOCKED COUNT","DEADLOCKED","MEMORY (KB.)");
 	}
 
 

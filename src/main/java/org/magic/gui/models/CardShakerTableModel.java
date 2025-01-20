@@ -11,7 +11,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 	private static final long serialVersionUID = 1L;
 
 	public CardShakerTableModel() {
-		columns = new String[] { "CARD",
+		setColumns( "CARD",
 				"EDITION",
 				"PRICE",
 				"DAILY",
@@ -19,7 +19,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				"WEEKLY",
 				"PC_WEEKLY",
 				"FOIL",
-				"LAYOUT"};
+				"LAYOUT");
 	}
 
 	@Override

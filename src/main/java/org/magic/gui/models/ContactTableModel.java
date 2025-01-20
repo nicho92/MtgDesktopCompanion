@@ -14,7 +14,7 @@ public class ContactTableModel extends GenericTableModel<Contact> {
 
 	public ContactTableModel() {
 		setWritable(false);
-		columns = new String[] { "ID","FORENAME","LASTNAME","ADDRESS","ZIP","CITY","COUNTRY","EMAIL","TELEPHONE","ACTIVE","EMAIL_ACCEPT" };
+		setColumns("ID","FORENAME","LASTNAME","ADDRESS","ZIP","CITY","COUNTRY","EMAIL","TELEPHONE","ACTIVE","EMAIL_ACCEPT" );
 	}
 
 

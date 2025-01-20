@@ -17,7 +17,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 
 	public StockItemTableModel() {
 		setWritable(true);
-		columns = new String[] { "ID",
+		setColumns("ID",
 				"PRODUCT",
 				"EDITION",
 				"LANGUAGE",
@@ -31,7 +31,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 				"COMMENT",
 				"CONDITION",
 				"IDS"
-			};
+			);
 	}
 
 	@Override

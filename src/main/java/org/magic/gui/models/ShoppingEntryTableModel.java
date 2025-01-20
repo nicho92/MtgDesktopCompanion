@@ -12,7 +12,7 @@ public class ShoppingEntryTableModel extends GenericTableModel<RetrievableTransa
 
 
 	public ShoppingEntryTableModel() {
-		columns=new String[]{"ID","DATE","DESCRIPTION","TOTAL" };
+		setColumns("ID","DATE","DESCRIPTION","TOTAL" );
 	}
 
 	@Override

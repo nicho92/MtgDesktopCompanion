@@ -35,7 +35,7 @@ public class BoostersTableModel extends GenericTableModel<MTGBooster> {
 
 
 	public BoostersTableModel() {
-		columns=new String[]{ "CARD_NUMBER","PRICE" };
+		setColumns("CARD_NUMBER","PRICE" );
 	}
 
 

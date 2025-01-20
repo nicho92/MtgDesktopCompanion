@@ -14,7 +14,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 	private static final long serialVersionUID = 1L;
 
 	public CardAlertTableModel() {
-		columns = new String[] { "CARD","EDITION","NEEDED","FOIL","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
+		setColumns("CARD","EDITION","NEEDED","FOIL","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" );
 	}
 
 

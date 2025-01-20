@@ -11,9 +11,9 @@ public class MagicNewsTableModel extends GenericTableModel<MTGNewsContent> {
 
 
 	public MagicNewsTableModel() {
-		columns=new String[]{ "RSS_TITLE",
+		setColumns( "RSS_TITLE",
 				"RSS_DATE",
-				"RSS_AUTHOR" };
+				"RSS_AUTHOR" );
 	}
 	
 	@Override

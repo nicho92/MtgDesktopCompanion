@@ -15,7 +15,7 @@ public class LogTableModel extends GenericTableModel<LogEvent> {
 
 	public LogTableModel() {
 		app = (MTGAppender) MTGLogger.getAppender("APPS");
-		columns=new String[]{ "LEVEL", "THREAD", "TIME", "CLASS", "MESSAGE" };
+		setColumns("LEVEL", "THREAD", "TIME", "CLASS", "MESSAGE" );
 	}
 
 	@Override

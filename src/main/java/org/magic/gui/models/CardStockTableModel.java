@@ -21,7 +21,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 
 	public CardStockTableModel() {
 		setWritable(true);
-		columns = new String[] { "ID",
+		setColumns("ID",
 				"NUMBER",
 				"CARD",
 				"EDITION",
@@ -39,7 +39,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 				"GRADED",
 				"COMMENTS",
 				"SYNC",
-				"Update"};
+				"Update");
 	}
 	
 

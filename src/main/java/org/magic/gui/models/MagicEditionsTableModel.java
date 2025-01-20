@@ -33,7 +33,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 	private void initColumns()
 	{
-		columns=new String[] { "EDITION_CODE",
+		setColumns( "EDITION_CODE",
 				"EDITION",
 				"EDITION_SIZE",
 				"DATE_RELEASE",
@@ -42,7 +42,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 				"EDITION_TYPE",
 				"EDITION_BLOCK",
 				"EDITION_ONLINE",
-				"PREVIEW"};
+				"PREVIEW");
 
 	}
 

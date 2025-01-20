@@ -22,7 +22,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public TransactionsTableModel() {
 
 		setWritable(true);
-		columns = new String[] { "ID","DATE","CONTACT","ITEMS", "SHIPPING","Reduction","TOTAL", "DATE PAYMENT","PAYMENT METHOD","DATE SEND","TRACKING NUMBER","MESSAGE","STATUT","DIRECTION","Source","EXT TRANSACTION ID" };
+		setColumns("ID","DATE","CONTACT","ITEMS", "SHIPPING","Reduction","TOTAL", "DATE PAYMENT","PAYMENT METHOD","DATE SEND","TRACKING NUMBER","MESSAGE","STATUT","DIRECTION","Source","EXT TRANSACTION ID" );
 	}
 
 

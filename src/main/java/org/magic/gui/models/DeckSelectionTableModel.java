@@ -12,7 +12,7 @@ public class DeckSelectionTableModel extends GenericTableModel<MTGDeck> {
 	private static final long serialVersionUID = 1L;
 
 	public DeckSelectionTableModel() {
-		columns=new String[] {"DECK","CARD_COLOR","STANDARD","MODERN","LEGACY","VINTAGE","ARENA","CARDS","DATE"};
+		setColumns("DECK","CARD_COLOR","STANDARD","MODERN","LEGACY","VINTAGE","ARENA","CARDS","DATE");
 	}
 
 
@@ -51,7 +51,7 @@ public class DeckSelectionTableModel extends GenericTableModel<MTGDeck> {
 		case 1:
 			return items.get(row).getColors();
 		case 2:
-			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(getColumnName(column)));
 		case 3:
 			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
 		case 4:

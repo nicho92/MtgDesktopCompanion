@@ -19,13 +19,13 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
 	public DeckStockComparisonModel() {
 
-		columns = new String[] {
+		setColumns(
 				"CARD",
 				"SET",
 				"QTY",
 				"STOCK_MODULE",
 				"NEEDED_QTY"
-				};
+				);
 
 	}
 

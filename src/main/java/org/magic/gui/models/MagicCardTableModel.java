@@ -13,7 +13,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 	private static final long serialVersionUID = 1L;
 
 	public MagicCardTableModel() {
-		columns=new String[] {
+		setColumns(
 				"CARD_NAME",
 				"CARD_LANGUAGE",
 				"CARD_MANA",
@@ -30,7 +30,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 				"BORDERLESS",
 				"TIMESHIFTED",
 				"RETRO",
-				"SIDE"};
+				"SIDE");
 
 		
 		

@@ -41,7 +41,7 @@ public class SimilarityCardsTableModel extends GenericTableModel<MTGCard> {
 
 	public SimilarityCardsTableModel() {
 		map = new HashMap<>();
-		columns = new String[]{ "CARD","CARD_EDITION","%" };
+		setColumns("CARD","CARD_EDITION","%" );
 	}
 
 	public void init(Map<MTGCard,Float> lines) {

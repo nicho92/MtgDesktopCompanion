@@ -59,7 +59,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		changed=false;
 		try {
 			s = BeanUtils.describe(classe).keySet();
-			columns = Arrays.copyOf(s.toArray(), s.size(),String[].class);
+			setColumns(Arrays.copyOf(s.toArray(), s.size(),String[].class));
 		} catch (Exception e) {
 			logger.error("error calculate columns for {} : {}",classe,e);
 		}

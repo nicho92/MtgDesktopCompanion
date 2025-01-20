@@ -7,11 +7,11 @@ public class DeckSnifferTableModel extends GenericTableModel<RetrievableDeck> {
 
 	private static final long serialVersionUID = 1L;
 	public DeckSnifferTableModel() {
-		columns=new String[] { "NAME",
+		setColumns("NAME",
 				"CARD_COLOR",
 				"AUTHOR",
 				"DESCRIPTION"
-		};
+		);
 	}
 
 	@Override

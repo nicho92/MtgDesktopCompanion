@@ -8,10 +8,10 @@ public class CardDominanceTableModel extends GenericTableModel<MTGDominance> {
 	private static final long serialVersionUID = 1L;
 
 	public CardDominanceTableModel() {
-		columns=new String[] { "CARD",
+		setColumns("CARD",
 				"POSITION",
 				"PC_DECKS",
-				"PLAYED" };
+				"PLAYED" );
 	}
 
 	@Override

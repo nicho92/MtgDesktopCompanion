@@ -13,7 +13,7 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 
 
 	public CardsPriceTableModel() {
-		columns=new String[] {
+		setColumns(
 				"CARD",
 				"QTY",
 				"WEBSITE",
@@ -22,7 +22,7 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 				"QUALITY",
 				"FOIL",
 				"CARD_LANGUAGE",
-				"COUNTRY"};
+				"COUNTRY");
 	}
 
 	@Override

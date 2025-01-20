@@ -8,7 +8,7 @@ public class PlayerTableModel extends GenericTableModel<Player> {
 	private static final long serialVersionUID = 1L;
 
 	public PlayerTableModel() {
-		columns = new String[]{"PLAYER"};
+		setColumns("PLAYER");
 		setWritable(false);
 	}
 
