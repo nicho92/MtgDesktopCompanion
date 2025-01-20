@@ -11,10 +11,12 @@ import javax.swing.table.AbstractTableModel;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
 
-import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
+
+
 public class GenericTableModel<T> extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
@@ -37,6 +39,10 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		changed=false;
 	}
 
+	public String getId()
+	{
+		return String.valueOf(Math.abs(ArrayUtils.toString(columns).toString().hashCode()));
+	}
 
 	public void setDefaultHiddenComlumns(int... nums)
 	{
@@ -234,6 +240,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		return writable;
 	}
 
+	
 	
 	
 

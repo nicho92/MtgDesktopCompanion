@@ -245,6 +245,11 @@ public class UITools {
 		var table = new JXTable();
 				if(mod!=null)
 					table.setModel(mod);
+				
+				
+				if(mod instanceof GenericTableModel gtm)
+					table.setName(gtm.getId());
+				
 
 				table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
@@ -312,7 +317,7 @@ public class UITools {
 						if(event.getPropertyName().equals("visible") && MTGControler.getInstance().isLoaded())
 						{
 							var tce = (TableColumnExt)event.getSource();
-							logger.trace("{} {} {}",tce.getModelIndex(),tce.getIdentifier(),Boolean.valueOf(event.getNewValue().toString()));
+							logger.trace("{} {} {} {}",table.getName(),tce.getModelIndex(),tce.getIdentifier(),Boolean.valueOf(event.getNewValue().toString()));
 						}
 					}
 				});
