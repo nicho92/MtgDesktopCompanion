@@ -245,11 +245,7 @@ public class UITools {
 		var table = new JXTable();
 				if(mod!=null)
 					table.setModel(mod);
-				
-				
-				if(mod instanceof GenericTableModel gtm)
-					table.setName(gtm.getId());
-				
+		
 
 				table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
@@ -299,6 +295,8 @@ public class UITools {
 				table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 				table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,600));
 				
+				
+				
 				try {
 					table.packAll();
 				}
@@ -309,6 +307,14 @@ public class UITools {
 
 				if(enableFilter)
 					initTableFilter(table);
+				
+		
+				
+				if(mod instanceof GenericTableModel gtm)
+				{
+					table.setName(gtm.getId());
+				}
+				
 				
 				//TODO dev for columns state records
 				table.getColumnModel().addColumnModelListener(new TableColumnModelExtListenerAdapter() {
