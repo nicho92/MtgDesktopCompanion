@@ -31,6 +31,7 @@ public enum EnumPromoType implements MTGEnumeration{
 	@SerializedName(alternate = "duels", value = "DUELS") 					DUELS,
 	@SerializedName(alternate = "embossed", value = "EMBOSSED") EMBOSSED,
 	@SerializedName(alternate = "event", value = "EVENT") 					EVENT,
+	@SerializedName(alternate = "firstplacefoil", value = "FIRSTPLACEFOIL") 	FIRSTPLACEFOIL,
 	@SerializedName(alternate = "fnm", value = "FNM") 						FNM,
 	@SerializedName(alternate = "fracturefoil", value = "FRACTUREFOIL") 	FRACTUREFOIL,
 	@SerializedName(alternate = "galaxyfoil", value = "GALAXYFOIL") GALAXYFOIL,
