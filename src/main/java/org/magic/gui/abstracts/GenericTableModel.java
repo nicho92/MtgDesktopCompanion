@@ -39,12 +39,6 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		changed=false;
 	}
 
-	public String getId()
-	{
-			return String.valueOf(ArrayUtils.toString(columns).toString().hashCode());
-	
-	}
-
 	public void setDefaultHiddenComlumns(int... nums)
 	{
 		this.hiddenColumns =nums;

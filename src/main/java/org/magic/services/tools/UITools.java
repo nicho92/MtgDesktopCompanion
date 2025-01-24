@@ -8,7 +8,6 @@ import static org.magic.services.tools.MTG.listPlugins;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -145,28 +144,6 @@ public class UITools {
 	    return -1;
 	  }
 	
-	public static List<JComponent> getComponentsFrom(Container root)
-	{
-		var list = new ArrayList<JComponent>();
-		
-		for(var c : root.getComponents())
-		{
-			if(c instanceof JComponent comp)
-			{
-						list.add(comp);
-					list.addAll(getComponentsFrom(comp));
-			}
-		}
-			
-			
-		
-		
-		return list;
-	}
-	
-	
-	
-
 	public static String humanReadableSize(long bytes) {
 	    var absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
 	    if (absB < 1024) {
@@ -308,22 +285,13 @@ public class UITools {
 				if(enableFilter)
 					initTableFilter(table);
 				
-		
-				
-				if(mod instanceof GenericTableModel gtm)
-				{
-					table.setName(gtm.getId());
-				}
-				
-				
 				//TODO dev for columns state records
 				table.getColumnModel().addColumnModelListener(new TableColumnModelExtListenerAdapter() {
 					@Override
 					public void columnPropertyChange(PropertyChangeEvent event) {
-						if(event.getPropertyName().equals("visible") && MTGControler.getInstance().isLoaded())
-						{
+						if(event.getPropertyName().equals("visible") && MTGControler.getInstance().isLoaded()){
 							var tce = (TableColumnExt)event.getSource();
-							logger.trace("{} {} {} {}",table.getName(),tce.getModelIndex(),tce.getIdentifier(),Boolean.valueOf(event.getNewValue().toString()));
+							logger.trace("{} {} {} {}",table.getModel().getClass(),tce.getModelIndex(),tce.getIdentifier(),Boolean.valueOf(event.getNewValue().toString()));
 						}
 					}
 				});

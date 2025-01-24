@@ -20,7 +20,6 @@ import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.models.conf.LogTableModel;
 import org.magic.services.MTGConstants;
@@ -92,12 +91,10 @@ public class ServerStatePanel extends JPanel {
 		if(b)
 		{
 			model = new LogTableModel();
-			JXTable table = UITools.createNewTable(model,false);
+			var table = UITools.createNewTable(model,false);
 
 			for(int i: new int[] {0,1,2,3})
 				table.getColumnExt(model.getColumnName(i)).setVisible(false);
-
-
 
 			table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 3));
 			table.setTableHeader(null);
