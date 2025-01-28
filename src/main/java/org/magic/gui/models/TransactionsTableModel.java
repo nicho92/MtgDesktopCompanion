@@ -76,7 +76,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		if(writable)
+		if(isWritable())
 		{
 			return (column!=0 && column!=2 && column!=3 && column!=6);
 		}
