@@ -1,4 +1,11 @@
 {
+	
+	"DFC" : [
+		"TDFC",
+	],
+	"DFT" : [
+		"TDFT",
+	],
 	"INR" : [
 		"TINR",
 		"AINR"
