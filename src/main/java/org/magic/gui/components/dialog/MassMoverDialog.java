@@ -93,8 +93,7 @@ public class MassMoverDialog extends JDialog {
 		
 		tableCards.packAll();
 		
-		for(int i : model.defaultHiddenColumns())
-			tableCards.getColumnExt(model.getColumnName(i)).setVisible(false);
+		UITools.initTableVisibility(tableCards, model);
 		
 			
 		
