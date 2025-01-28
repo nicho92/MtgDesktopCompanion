@@ -96,7 +96,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 
-		if(writable)
+		if(isWritable())
 			return column>1;
 		else
 			return false;
