@@ -37,17 +37,17 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 			edDir.mkdir();
 
 		
-		ImageTools.saveImage(bi, Paths.get(edDir.getAbsolutePath(), mc.getScryfallId() + "." + getString(FORMAT).toLowerCase()).toFile(), getString(FORMAT));
+		ImageTools.saveImage(bi, Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile(), getString(FORMAT));
 	}
 
 	public void removePicture(MTGEdition ed, MTGCard mc) {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir, ed.getId());
-
+		var f = new File(edDir, mc.getScryfallId() + "." + getString(FORMAT));
 		try {
-			FileTools.deleteFile(new File(edDir, mc.getScryfallId() + "." + getString(FORMAT)));
+			FileTools.deleteFile(f);
 		} catch (IOException e) {
-			logger.error("error removing {}",new File(edDir, mc.getScryfallId() + "." + getString(FORMAT)),e);
+			logger.error("error removing {}",f,e);
 		}
 	}
 

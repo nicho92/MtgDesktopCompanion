@@ -65,7 +65,7 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	public void initGUI()
 	{
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		model=new GenericTableModel<InsightElement>();
+		model=new GenericTableModel<>();
 		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		comboBox = UITools.createCombobox(INSIGHT_SELECTION.values());
