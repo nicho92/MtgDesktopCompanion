@@ -23,7 +23,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	protected transient List<T> items;
 	private String[] columns;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-	protected boolean writable=false;
+	private boolean writable=false;
 	private boolean changed=false;
 	private int[] hiddenColumns = new int[0];
 
