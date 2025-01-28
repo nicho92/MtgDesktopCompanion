@@ -24,7 +24,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	private String[] columns;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	protected boolean writable=false;
-	protected boolean changed=false;
+	private boolean changed=false;
 	private int[] hiddenColumns = new int[0];
 
 
@@ -187,7 +187,11 @@ public class GenericTableModel<T> extends AbstractTableModel {
 				removeRow(i);
 	}
 
-
+	
+	public boolean isWritable() {
+		return writable;
+	}
+	
 
 	@Override
 	public int getRowCount() {
