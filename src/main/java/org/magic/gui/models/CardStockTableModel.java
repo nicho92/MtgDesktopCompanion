@@ -114,7 +114,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 
-		if(writable)
+		if(isWritable())
 			return !(column ==1 || column==2|| column==3 || column==4 || column==15 || column==17 );
 		else
 			return false;
