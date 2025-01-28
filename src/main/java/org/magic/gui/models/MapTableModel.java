@@ -13,7 +13,7 @@ public class MapTableModel<K,V> extends GenericTableModel<Entry<K, V>> {
 
 	public MapTableModel() {
 		setColumns("ID","VALUE");
-		writable=false;
+		setWritable(false);
 	}
 
 	public void init(Set<Entry<K, V>> entrySet) {
