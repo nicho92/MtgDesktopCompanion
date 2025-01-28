@@ -33,6 +33,7 @@
   <debug-json-panel>false</debug-json-panel>
   <lookAndFeel>com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatLightOwlIJTheme</lookAndFeel>
   <locale>en</locale>
+  <notifyPrerelease>true</notifyPrerelease>
   <card-pictures-dimension>
     <width>243</width>
     <height>337</height>
@@ -986,5 +987,5 @@
       <enable>false</enable>
     </strategy>
   </strategies>
-  <notifyPrerelease>true</notifyPrerelease>
+ 
 </conf>
