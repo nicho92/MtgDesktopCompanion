@@ -70,9 +70,7 @@ public class CardsEditionTablePanel extends JPanel {
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.setColumnControlVisible(true);
 
-		for(int i : model.defaultHiddenColumns())
-			table.getColumnExt(model.getColumnName(i)).setVisible(false);
-
+		UITools.initTableVisibility(table, model);
 		
 		UITools.setSorter(table, 6, new NumberSorter());
 		
