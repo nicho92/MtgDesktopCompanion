@@ -280,8 +280,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	
 		tableCards.setRowSorter(sorterCards);
 
-		for(int i : cardsModeltable.defaultHiddenColumns())
-			tableCards.getColumnExt(cardsModeltable.getColumnName(i)).setVisible(false);
+		UITools.initTableVisibility(tableCards, cardsModeltable);
 
 		panneauCentral.setDividerLocation(0.5);
 		panneauCentral.setResizeWeight(0.5);
