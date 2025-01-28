@@ -47,9 +47,7 @@ public class TokensTablePanel extends MTGUIComponent {
 
 		table.setColumnControlVisible(true);
 
-		for(int i : model.defaultHiddenColumns())
-			table.getColumnExt(model.getColumnName(i)).setVisible(false);
-
+		UITools.initTableVisibility(table, model);
 
 		panneauHaut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);
