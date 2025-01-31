@@ -1,10 +1,10 @@
 {
 	
 	"DFC" : [
-		"TDFC",
+		"TDFC"
 	],
 	"DFT" : [
-		"TDFT",
+		"TDFT"
 	],
 	"INR" : [
 		"TINR",
@@ -12,7 +12,6 @@
 	],
 	"YBLB": [
 		"YDSK"
-	
 	],
 	"DSK": [
 		"ADSK",
