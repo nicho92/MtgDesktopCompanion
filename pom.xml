@@ -424,7 +424,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.2.3</version>
+			<version>5.3.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -485,7 +485,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.10.1</version>
+			<version>0.10.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
