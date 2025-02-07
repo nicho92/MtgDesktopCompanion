@@ -111,7 +111,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				m.put(PASS, new MTGProperty("","password of the connected user"));
 				m.put(PARAMETERS, new MTGProperty("","MongoDB parameters append to the url"));
 				m.put(DRIVER, new MTGProperty("mongodb://","Mongo server protocol. Use mongodb:// for standard network. Use mongodb+srv:// for atlas","mongodb://","mongodb+srv://"));
-				m.put(INIT_DEFAULT_COLS,MTGProperty.newBooleanProperty("true", "create defaults collection at startup. Will be set to false after first startup"));
+				m.put(INIT_DEFAULT_COLS,MTGProperty.newBooleanProperty("true", "create defaults collection at startup. Will be set to false after startup"));
 				return m;
 	}
 
