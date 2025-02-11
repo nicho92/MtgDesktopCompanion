@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -23,10 +25,15 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
@@ -43,69 +50,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	boolean isPaperparsing=true;
 
-
-	private void parsing(Document d, HistoryPrice<?> historyPrice)
-	{
-
-		Element js = null;
-
-		for(Element j : d.getElementsByTag("script"))
-		{
-			if(j.toString().contains("var d = "))
-			{
-				js=j;
-				break;
-			}
-		}
-		if(js==null)
-		{
-			return;
-		}
-
-
-
-		AstNode root = new Parser().parse(js.html(), "", 1);
-		isPaperparsing=true;
-		root.visit(visitedNode -> {
-			var stop = false;
-
-			if (!stop && visitedNode.toSource().startsWith("d"))
-			{
-				String val = visitedNode.toSource();
-
-				if(val.startsWith("document.getElementById"))
-					isPaperparsing=false;
-
-				val = RegExUtils.replaceAll(val, "d \\+\\= ", "");
-				val = RegExUtils.replaceAll(val, "\\\\n", "");
-				val = RegExUtils.replaceAll(val, ";", "");
-				val = RegExUtils.replaceAll(val, "\"", "");
-				String[] res = val.split(",");
-
-				try {
-					var date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0] + " 00:00");
-					if (historyPrice.get(date) == null)
-					{
-
-						if(getString(FORMAT).equalsIgnoreCase("paper") && isPaperparsing)
-							historyPrice.put(date, UITools.parseDouble(res[1]));
-
-						if(getString(FORMAT).equalsIgnoreCase("online") && !isPaperparsing)
-							historyPrice.put(date, UITools.parseDouble(res[1]));
-					}
-
-					} catch (Exception e) {
-					// do nothing
-					}
-			}
-
-			if (visitedNode.toSource().startsWith("g =")) {
-				stop = true;
-			}
-			return true;
-		});
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BUGGED;
 	}
-
+	
 
 	private String searchUrlFor(MTGCard mc,boolean foil)
 	{
@@ -244,12 +193,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		}
 
 
-		String url = WEBSITE +"/price/"+convert(packaging.getEdition())+"/"+convert(packaging.getEdition())+selead+ "-sealed#"+ getString(FORMAT);
-
-
-		Document d = URLTools.extractAsHtml(url);
-		parsing(d, history);
-
 		return history;
 	}
 
@@ -257,12 +200,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition me) throws IOException {
 		String url = WEBSITE+"/sets/" + aliases.getSetIdFor(this,me) + "#" + getString(FORMAT);
-		HistoryPrice<MTGEdition> historyPrice = new HistoryPrice<>(me);
+		var historyPrice = new HistoryPrice<MTGEdition>(me);
 		historyPrice.setCurrency(getCurrency());
 
 		try {
-			Document d = URLTools.extractAsHtml(url);
-			parsing(d,historyPrice);
+			parsing(URLTools.toHtml(url),historyPrice);
 			return historyPrice;
 
 		} catch (Exception e) {
@@ -274,34 +216,146 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 
-		var url =searchUrlFor(mc,foil);
 		var historyPrice = new HistoryPrice<MTGCard>(mc);
 		 historyPrice.setCurrency(getCurrency());
 		 historyPrice.setFoil(foil);
-
-
-		if(url==null)
-			return historyPrice;
 		
 		if(mc==null )
 			return historyPrice;
 
 		try {
-			Document d = URLTools.extractAsHtml(url);
-			parsing(d,historyPrice);
-			return historyPrice;
-
+			parsing(historyPrice);
 		} catch (Exception e) {
 			logger.error(e);
-			return historyPrice;
 		}
+		
+		return historyPrice;
 	}
 
-
+	
 	public static void main(String[] args) throws IOException {
 		
+		var mc = new MTGCard();
+		mc.setName("Rootwater Matriarch");
+		mc.setEdition(new MTGEdition("10E", "Tenth Edition"));
 		
-		new MTGoldFishDashBoard().getOnlineShakerFor(null);
+		MTGLogger.changeLevel(Level.DEBUG);
+		new MTGoldFishDashBoard().parsing(new HistoryPrice<MTGCard>(mc));
+	}
+	
+	
+	private void parsing(Document d, HistoryPrice<?> historyPrice)
+	{
+
+		Element js = null;
+
+		for(Element j : d.getElementsByTag("script"))
+		{
+			if(j.toString().contains("var d = "))
+			{
+				js=j;
+				break;
+			}
+		}
+		if(js==null)
+		{
+			return;
+		}
+
+
+
+		AstNode root = new Parser().parse(js.html(), "", 1);
+		isPaperparsing=true;
+		root.visit(visitedNode -> {
+			var stop = false;
+
+			if (!stop && visitedNode.toSource().startsWith("d"))
+			{
+				String val = visitedNode.toSource();
+
+				if(val.startsWith("document.getElementById"))
+					isPaperparsing=false;
+
+				val = RegExUtils.replaceAll(val, "d \\+\\= ", "");
+				val = RegExUtils.replaceAll(val, "\\\\n", "");
+				val = RegExUtils.replaceAll(val, ";", "");
+				val = RegExUtils.replaceAll(val, "\"", "");
+				String[] res = val.split(",");
+
+				try {
+					var date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0] + " 00:00");
+					if (historyPrice.get(date) == null)
+					{
+
+						if(getString(FORMAT).equalsIgnoreCase("paper") && isPaperparsing)
+							historyPrice.put(date, UITools.parseDouble(res[1]));
+
+						if(getString(FORMAT).equalsIgnoreCase("online") && !isPaperparsing)
+							historyPrice.put(date, UITools.parseDouble(res[1]));
+					}
+
+					} catch (Exception e) {
+					// do nothing
+					}
+			}
+
+			if (visitedNode.toSource().startsWith("g =")) {
+				stop = true;
+			}
+			return true;
+		});
+	}
+	
+	//TODO FIX
+	private void parsing(HistoryPrice <? extends MTGProduct> history) throws IOException {
+			var client = URLTools.newClient();
+			var url =WEBSITE+"/price_history_component";
+			var token = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml().getElementsByAttributeValue("name", "csrf-token").first().attr("content");
+			
+			var variant = "";
+			
+			if(!history.getItem().isSealed())
+			{
+				var card = (MTGCard)history.getItem();
+				
+				if(card.isShowCase())
+					variant = "<showcase>";
+				else if(card.isTimeshifted())
+					variant = "<futureshifted>";
+				else if(card.isBorderLess())
+					variant = "<borderless>";
+				else if(card.isExtendedArt())
+					variant = "<extended>";
+			}
+			
+			var p = history.getItem();
+			var q = RequestBuilder.build().url(url).setClient(client).get()
+							.addContent("card_id",p.getName() + variant +" ["+aliases.getReversedSetIdFor(this, p.getEdition())+"] "+(history.isFoil()?"(F)":""))
+							.addContent("selector","#tab-paper")
+							.addContent("type","paper")
+							.addContent("price_type","card")
+							.addHeader("referer", WEBSITE)
+							.addHeader("x-requested-with", "XMLHttpRequest")
+							.addHeader("x-csrf-token", token).toHtml();
+			
+			var res = q.select("a span").html();
+			res = StringEscapeUtils.unescapeJava(res.substring(res.indexOf("d += "),res.indexOf("g = ")));
+			
+			res = RegExUtils.replaceAll(res, "d \\+\\= ", "");
+			res = RegExUtils.replaceAll(res, ";", "");
+			res = RegExUtils.replaceAll(res, "\"", "");
+			
+			for(var l : res.split(System.lineSeparator()))
+			{
+				if(!StringUtils.isEmpty(l))
+				{
+				var content = l.split(",");
+				System.out.println(content[0]+ " " + content[1]);
+				history.put(UITools.parseDate(content[0], "yyyy-MM-dd"), UITools.parseDouble(content[1]));
+				}
+			}
+			
+			
 	}
 	
 	
@@ -474,15 +528,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return ret;
 	}
 
-	private String convert(MTGEdition ed) {
-		String editionName = RegExUtils.replaceAll(aliases.getSetNameFor(this, ed), " ", "+");
-			editionName = RegExUtils.replaceAll(editionName, "'", "");
-			editionName = RegExUtils.replaceAll(editionName, ",", "");
-			editionName = RegExUtils.replaceAll(editionName, ":", "");
-		return editionName;
-
-	}
-
+	
 	@Override
 	public String getName() {
 		return "MTGoldFish";

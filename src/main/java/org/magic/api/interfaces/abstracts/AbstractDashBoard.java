@@ -85,7 +85,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public HistoryPrice<MTGCard> getPriceVariation(MTGCard mc, boolean foil) throws IOException {
-		HistoryPrice<MTGCard> varh = getOnlinePricesVariation(mc, foil);
+		var varh = getOnlinePricesVariation(mc, foil);
 
 		if(MTGControler.getInstance().getCurrencyService().isEnable() && varh.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
@@ -99,7 +99,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public HistoryPrice<MTGEdition> getPriceVariation(MTGEdition ed) throws IOException {
-		HistoryPrice<MTGEdition> varh = getOnlinePricesVariation(ed);
+		var varh = getOnlinePricesVariation(ed);
 
 		if(MTGControler.getInstance().getCurrencyService().isEnable() && varh.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
@@ -113,7 +113,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public HistoryPrice<MTGSealedProduct> getPriceVariation(MTGSealedProduct packaging) throws IOException {
-		HistoryPrice<MTGSealedProduct> varh = getOnlinePricesVariation(packaging);
+		var varh = getOnlinePricesVariation(packaging);
 
 		if(MTGControler.getInstance().getCurrencyService().isEnable() && varh.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{

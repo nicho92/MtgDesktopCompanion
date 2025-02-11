@@ -265,9 +265,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		if(id==null)
 		{
 			logger.debug("id is null. Looking throught api");
-			SearchResult rs = cardService.getBestResult(mc.getName());
-			FullPrint fp = cardService.getCard(rs);
-			CardSet set = cardService.getSetByCode(ed.getId());
+			var rs = cardService.getBestResult(mc.getName());
+			var fp = cardService.getCard(rs);
+			var set = cardService.getSetByCode(ed.getId());
 			var fpSet = fp.getPrintForSetId(set.getId());
 
 			if(fpSet==null)
