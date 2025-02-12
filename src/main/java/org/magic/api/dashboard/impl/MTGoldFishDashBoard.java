@@ -130,18 +130,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return historyPrice;
 	}
 
-	
-	public static void main(String[] args) throws IOException {
-		
-		var ed = new MTGEdition("LTR", "The Lord of the Rings: Tales of Middle-Earth");
-		var h = new HistoryPrice<MTGEdition>(ed);
-		new MTGoldFishDashBoard().parsing(h);
-		
-		h.entrySet().forEach(e->System.out.println(e.getKey() + " " + e.getValue()));
-		
-		
-	}
-
 	private void parsing(HistoryPrice <?> history) throws IOException {
 			var client = URLTools.newClient();
 			var url =WEBSITE+"/price_history_component";
@@ -198,8 +186,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							.toHtml();
 			
 			var res = q.select("a span").html();
-			
-			System.out.println(res);
 			
 			res = res.substring(res.indexOf("d += "),res.indexOf("g = "));
 			
