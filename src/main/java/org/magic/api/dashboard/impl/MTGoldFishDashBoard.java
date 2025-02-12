@@ -141,14 +141,17 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		
 	}
-	
-	
 
-	//TODO FIX
 	private void parsing(HistoryPrice <?> history) throws IOException {
 			var client = URLTools.newClient();
 			var url =WEBSITE+"/price_history_component";
-			var token = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml().getElementsByAttributeValue("name", "csrf-token").first().attr("content");
+			
+			var meta = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml().getElementsByAttributeValue("name", "csrf-token").first();
+			
+			if(meta==null)
+				throw new IOException("No csrf token present");
+			
+			var token = meta.attr("content");
 			var cardid="";
 			var pricetype="";
 			
