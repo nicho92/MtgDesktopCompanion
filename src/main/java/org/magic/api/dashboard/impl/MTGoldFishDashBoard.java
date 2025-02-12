@@ -1,7 +1,6 @@
 package org.magic.api.dashboard.impl;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,24 +20,16 @@ import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
-import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.technical.MTGProperty;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-import org.mozilla.javascript.Parser;
-import org.mozilla.javascript.ast.AstNode;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -204,10 +194,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition me) throws IOException {
 		String url = WEBSITE+"/sets/" + aliases.getSetIdFor(this,me) + "#" + getString(FORMAT);
 		var historyPrice = new HistoryPrice<MTGEdition>(me);
-		historyPrice.setCurrency(getCurrency());
+			historyPrice.setCurrency(getCurrency());
 
 		try {
-			parsing(URLTools.toHtml(url),historyPrice);
+			parsing(historyPrice);
 			return historyPrice;
 
 		} catch (Exception e) {
@@ -247,7 +237,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		MTGLogger.changeLevel(Level.DEBUG);
 		
 		var h = new HistoryPrice<MTGCard>(mc);
-		
+			h.setFoil(true);
+			
+			
 		new MTGoldFishDashBoard().parsing(h);
 		
 		h.entrySet().forEach(e->System.out.println(e.getKey() + " " + e.getValue()));
@@ -256,79 +248,21 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 	
 	
-	private void parsing(Document d, HistoryPrice<?> historyPrice)
-	{
 
-		Element js = null;
-
-		for(Element j : d.getElementsByTag("script"))
-		{
-			if(j.toString().contains("var d = "))
-			{
-				js=j;
-				break;
-			}
-		}
-		if(js==null)
-		{
-			return;
-		}
-
-
-
-		AstNode root = new Parser().parse(js.html(), "", 1);
-		isPaperparsing=true;
-		root.visit(visitedNode -> {
-			var stop = false;
-
-			if (!stop && visitedNode.toSource().startsWith("d"))
-			{
-				String val = visitedNode.toSource();
-
-				if(val.startsWith("document.getElementById"))
-					isPaperparsing=false;
-
-				val = RegExUtils.replaceAll(val, "d \\+\\= ", "");
-				val = RegExUtils.replaceAll(val, "\\\\n", "");
-				val = RegExUtils.replaceAll(val, ";", "");
-				val = RegExUtils.replaceAll(val, "\"", "");
-				String[] res = val.split(",");
-
-				try {
-					var date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0] + " 00:00");
-					if (historyPrice.get(date) == null)
-					{
-
-						if(getString(FORMAT).equalsIgnoreCase("paper") && isPaperparsing)
-							historyPrice.put(date, UITools.parseDouble(res[1]));
-
-						if(getString(FORMAT).equalsIgnoreCase("online") && !isPaperparsing)
-							historyPrice.put(date, UITools.parseDouble(res[1]));
-					}
-
-					} catch (Exception e) {
-					// do nothing
-					}
-			}
-
-			if (visitedNode.toSource().startsWith("g =")) {
-				stop = true;
-			}
-			return true;
-		});
-	}
-	
 	//TODO FIX
-	private void parsing(HistoryPrice <? extends MTGProduct> history) throws IOException {
+	private void parsing(HistoryPrice <?> history) throws IOException {
 			var client = URLTools.newClient();
 			var url =WEBSITE+"/price_history_component";
 			var token = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml().getElementsByAttributeValue("name", "csrf-token").first().attr("content");
 			
 			var variant = "";
+			var name = "";
+			var editionCode = "";
 			
-			if(!history.getItem().isSealed())
+			if(history.getItem() instanceof MTGCard card)
 			{
-				var card = (MTGCard)history.getItem();
+				name= card.getName();
+				editionCode = card.getEdition().getId();
 				
 				if(card.isTimeshifted())
 					variant = "<futureshifted>";
@@ -340,16 +274,22 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					variant = "<extended>";
 				else if(card.isRetro())
 					variant ="<retro>";
-				
 				else if(card.getPromotypes().contains(EnumPromoType.POSTER))
 					variant = "<borderless poster>";
 				else if(card.getPromotypes().contains(EnumPromoType.PRERELEASE))
 					variant = "<prerelease>";
 			}
+			else if(history.getItem() instanceof MTGEdition set)
+			{
+				
+				name= set.getId()+"-main_set";
+				editionCode = set.getId();
+				
+				//card id for edition = IDSET-main_set
+			}
 			
-			var p = history.getItem();
 			var q = RequestBuilder.build().url(url).setClient(client).get()
-							.addContent("card_id",p.getName() + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, p.getEdition())+"] "+(history.isFoil()?"(F)":""))
+							.addContent("card_id",name + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, editionCode)+"] "+(history.isFoil()?"(F)":""))
 							.addContent("selector","#tab-paper")
 							.addContent("type","paper")
 							.addContent("price_type","card")
