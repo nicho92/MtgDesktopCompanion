@@ -165,8 +165,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					variant = "<prerelease>";
 				
 				cardid=card.getName() + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, card.getEdition().getId())+"] "+(history.isFoil()?"(F)":"");
-
-				
 			}
 			else if(history.getItem() instanceof MTGEdition set)
 			{
