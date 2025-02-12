@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -26,13 +25,9 @@ import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String FORMAT = "FORMAT";
@@ -45,100 +40,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BUGGED;
+		return STATUT.DEV;
 	}
 	
 
-	private String searchUrlFor(MTGCard mc,boolean foil)
-	{
-		var arr = RequestBuilder.build().setClient(URLTools.newClient())
-				  .get()
-				  .url(WEBSITE+"/autocomplete?term="+URLTools.encode(mc.getName()))
-				  .addHeader("x-requested-with", "XMLHttpRequest")
-				  .addHeader("accept", "application/json, text/javascript, */*; q=0.01")
-				  .addHeader("referer", WEBSITE)
-				  .toJson().getAsJsonArray();
-
-			JsonObject item=null;
-		
-			if(arr.isEmpty())
-			{
-				logger.debug("No url found for {}",mc);
-				return null;
-			}
-
-			if(arr.size()==1)
-			{
-				item = arr.get(0).getAsJsonObject();
-			}
-			else
-			{
-				var filteredArray = new JsonArray();
-				var set = aliases.getReversedSetIdFor(this,mc.getEdition());
-				for(var el : arr)
-				{
-					if(el.getAsJsonObject().get("id").getAsString().contains("["+set+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
-						filteredArray.add(el);
-					}
-				}
-
-				logger.debug("filtered with set {} and foil = {} and extra={} : {} items",set,foil,mc.getExtra(),filteredArray.size());
-				logger.debug(filteredArray);
-				var variationTag = "variation";
-				if(filteredArray.size()==1) {
-					item = filteredArray.get(0).getAsJsonObject();
-				}
-				else if(filteredArray.size()>1)
-				{
-					for(var el : filteredArray)
-					{
-							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getNumber())){
-								item=el.getAsJsonObject();
-							}
-							else if(!el.getAsJsonObject().get(variationTag).isJsonNull() && mc.getExtra()!=null)
-							{
-								if(mc.getFlavorName()!=null && mc.getFlavorName().equalsIgnoreCase(el.getAsJsonObject().get(variationTag).getAsString())){
-									item=el.getAsJsonObject();
-								}
-								if(mc.isShowCase() && el.getAsJsonObject().get(variationTag).getAsString().equals("Showcase")) {
-									item=el.getAsJsonObject();
-								}
-								if(mc.isBorderLess() && el.getAsJsonObject().get(variationTag).getAsString().equals("Borderless")) {
-									item=el.getAsJsonObject();
-								}
-								if(mc.isExtendedArt() && el.getAsJsonObject().get(variationTag).getAsString().equals("Extended")) {
-									item=el.getAsJsonObject();
-								}
-								if(mc.isJapanese() && el.getAsJsonObject().get(variationTag).getAsString().equals("Japanese")) {
-									item=el.getAsJsonObject();
-								}
-								if(mc.isRetro() && (el.getAsJsonObject().get(variationTag).getAsString().equals("Retro"))) {
-									item=el.getAsJsonObject();
-								}
-								if(mc.isTimeshifted() && el.getAsJsonObject().get(variationTag).getAsString().equals("Timeshifted")) {
-									item=el.getAsJsonObject();
-								}
-								if(mc.isBundleCard() && el.getAsJsonObject().get(variationTag).getAsString().equals("Bundle")) {
-									item=el.getAsJsonObject();
-								}
-							}
-							else if(el.getAsJsonObject().get(variationTag).isJsonNull())
-							{
-								item=el.getAsJsonObject();
-							}
-					}
-				}
-		}
-		if(item==null)
-		{
-			logger.debug("item is null");
-			return null;
-		}
-
-
-		return URLTools.getLocation(WEBSITE+"/q?utf8=%E2%9C%93&query_string="+URLTools.encode(item.get("id").getAsString()))+"#" + getString(FORMAT);
-	}
-	
 	
 	@Override
 	public HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
@@ -228,18 +133,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	
 	public static void main(String[] args) throws IOException {
 		
-		var mc = new MTGCard();
-		mc.setName("Mount Doom");
-		mc.setEdition(new MTGEdition("LTR", "The Lord of the Rings: Tales of Middle-Earth"));
-		mc.getPromotypes().add(EnumPromoType.POSTER);
-		
-		
-		MTGLogger.changeLevel(Level.DEBUG);
-		
-		var h = new HistoryPrice<MTGCard>(mc);
-			h.setFoil(true);
-			
-			
+		var ed = new MTGEdition("LTR", "The Lord of the Rings: Tales of Middle-Earth");
+		var h = new HistoryPrice<MTGEdition>(ed);
 		new MTGoldFishDashBoard().parsing(h);
 		
 		h.entrySet().forEach(e->System.out.println(e.getKey() + " " + e.getValue()));
@@ -254,16 +149,15 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			var client = URLTools.newClient();
 			var url =WEBSITE+"/price_history_component";
 			var token = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml().getElementsByAttributeValue("name", "csrf-token").first().attr("content");
-			
-			var variant = "";
-			var name = "";
-			var editionCode = "";
+			var cardid="";
 			var pricetype="";
+			
 			if(history.getItem() instanceof MTGCard card)
 			{
-				name= card.getName();
-				editionCode = card.getEdition().getId();
+		
 				pricetype="card";
+				var variant = "";
+				
 				if(card.isTimeshifted())
 					variant = "<futureshifted>";
 				else if(card.isShowCase())
@@ -278,18 +172,20 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					variant = "<borderless poster>";
 				else if(card.getPromotypes().contains(EnumPromoType.PRERELEASE))
 					variant = "<prerelease>";
+				
+				cardid=card.getName() + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, card.getEdition().getId())+"] "+(history.isFoil()?"(F)":"");
+
+				
 			}
 			else if(history.getItem() instanceof MTGEdition set)
 			{
 				
-				name= set.getId()+"-main_set";
-				editionCode = set.getId();
+				cardid= set.getId()+"-main_set";
 				pricetype="set";
-				//card id for edition = IDSET-main_set
 			}
 			
 			var q = RequestBuilder.build().url(url).setClient(client).get()
-							.addContent("card_id",name + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, editionCode)+"] "+(history.isFoil()?"(F)":""))
+							.addContent("card_id",cardid)
 							.addContent("selector","#tab-paper")
 							.addContent("type","paper")
 							.addContent("price_type",pricetype)
@@ -300,7 +196,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			var res = q.select("a span").html();
 			
-			
+			System.out.println(res);
 			
 			res = res.substring(res.indexOf("d += "),res.indexOf("g = "));
 			
