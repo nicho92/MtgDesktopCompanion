@@ -22,8 +22,11 @@ import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
+import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
@@ -236,11 +239,18 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public static void main(String[] args) throws IOException {
 		
 		var mc = new MTGCard();
-		mc.setName("Rootwater Matriarch");
-		mc.setEdition(new MTGEdition("10E", "Tenth Edition"));
-		
+		mc.setName("Boosted Sloop");
+		mc.setEdition(new MTGEdition("DFT", "Aetherdrift"));
+				
 		MTGLogger.changeLevel(Level.DEBUG);
-		new MTGoldFishDashBoard().parsing(new HistoryPrice<MTGCard>(mc));
+		
+		var h = new HistoryPrice<MTGCard>(mc);
+		
+		new MTGoldFishDashBoard().parsing(h);
+		
+		h.entrySet().forEach(e->System.out.println(e.getKey() + " " + e.getValue()));
+		
+		
 	}
 	
 	
@@ -318,39 +328,44 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			{
 				var card = (MTGCard)history.getItem();
 				
-				if(card.isShowCase())
-					variant = "<showcase>";
-				else if(card.isTimeshifted())
+				if(card.isTimeshifted())
 					variant = "<futureshifted>";
+				else if(card.isShowCase())
+					variant = "<showcase>";
 				else if(card.isBorderLess())
 					variant = "<borderless>";
 				else if(card.isExtendedArt())
 					variant = "<extended>";
+				else if(card.getPromotypes().contains(EnumPromoType.POSTER))
+					variant = "<poster>";
 			}
 			
 			var p = history.getItem();
 			var q = RequestBuilder.build().url(url).setClient(client).get()
-							.addContent("card_id",p.getName() + variant +" ["+aliases.getReversedSetIdFor(this, p.getEdition())+"] "+(history.isFoil()?"(F)":""))
+							.addContent("card_id",p.getName() + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, p.getEdition())+"] "+(history.isFoil()?"(F)":""))
 							.addContent("selector","#tab-paper")
 							.addContent("type","paper")
 							.addContent("price_type","card")
 							.addHeader("referer", WEBSITE)
 							.addHeader("x-requested-with", "XMLHttpRequest")
-							.addHeader("x-csrf-token", token).toHtml();
+							.addHeader("x-csrf-token", token)
+							.toHtml();
 			
 			var res = q.select("a span").html();
-			res = StringEscapeUtils.unescapeJava(res.substring(res.indexOf("d += "),res.indexOf("g = ")));
+			
+			
+			
+			res = res.substring(res.indexOf("d += "),res.indexOf("g = "));
 			
 			res = RegExUtils.replaceAll(res, "d \\+\\= ", "");
 			res = RegExUtils.replaceAll(res, ";", "");
 			res = RegExUtils.replaceAll(res, "\"", "");
 			
-			for(var l : res.split(System.lineSeparator()))
+			for(var l : res.split("\\\\n"))
 			{
 				if(!StringUtils.isEmpty(l))
 				{
 				var content = l.split(",");
-				System.out.println(content[0]+ " " + content[1]);
 				history.put(UITools.parseDate(content[0], "yyyy-MM-dd"), UITools.parseDouble(content[1]));
 				}
 			}
