@@ -51,7 +51,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		HistoryPrice<MTGSealedProduct> history =  new HistoryPrice<>(packaging);
 							  history.setCurrency(getCurrency());
-
+							  parsing(history);
+							  
+							  
 		logger.debug("loading prices for {}",packaging);
 
 		if(packaging==null || packaging.getEdition()==null)
@@ -60,36 +62,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		var selead="";
 
-		if(packaging.getExtra()!=null) {
-			switch (packaging.getExtra())
-			{
-				case COLLECTOR: selead="+Collector";break;
-				case DRAFT: selead="+Draft";break;
-				case SET: selead="+Set";break;
-				case THEME: selead="+Collector";break;
-				case VIP: selead="+VIP+Edition+Pack";break;
-				default: selead="";break;
-			}
-		}
-
-		if(packaging.getExtra()!=EnumExtra.VIP)
-		{
-
-			switch(packaging.getTypeProduct())
-			{
-				case SET:break;
-				case BOOSTER:selead+="+Booster+Pack";break;
-				case BOX:selead+="+Booster+Box";break;
-				case FATPACK:selead+="+Fat+Pack";break;
-				case BUNDLE:selead+="+Bundle";break;
-				case CONSTRUCTPACK:break;
-				case PRERELEASEPACK:selead+="+Prerelease+Pack";break;
-				case STARTER: break;
-				default:break;
-
-			}
-		}
-
+		
 
 		return history;
 	}
@@ -97,18 +70,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition me) throws IOException {
-		String url = WEBSITE+"/sets/" + aliases.getSetIdFor(this,me) + "#" + getString(FORMAT);
 		var historyPrice = new HistoryPrice<MTGEdition>(me);
 			historyPrice.setCurrency(getCurrency());
-
 		try {
 			parsing(historyPrice);
-			return historyPrice;
-
 		} catch (Exception e) {
 			logger.error(e);
-			return historyPrice;
 		}
+		return historyPrice;
 	}
 
 	@Override
@@ -141,12 +110,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			var token = meta.attr("content");
 			var cardid="";
-			var pricetype="";
+			var pricetype="card";
 			
 			if(history.getItem() instanceof MTGCard card)
 			{
-		
-				pricetype="card";
 				var variant = "";
 				
 				if(card.isTimeshifted())
@@ -164,13 +131,49 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				else if(card.getPromotypes().contains(EnumPromoType.PRERELEASE))
 					variant = "<prerelease>";
 				
-				cardid=card.getName() + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, card.getEdition().getId())+"] "+(history.isFoil()?"(F)":"");
+				cardid=card.getName() + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, card.getEdition())+"] "+(history.isFoil()?"(F)":"");
 			}
 			else if(history.getItem() instanceof MTGEdition set)
 			{
 				
 				cardid= set.getId()+"-main_set";
 				pricetype="set";
+			}
+			else if(history.getItem() instanceof MTGSealedProduct packaging)
+			{
+				
+				var selead ="";
+				if(packaging.getExtra()!=null) {
+					switch (packaging.getExtra())
+					{
+						case COLLECTOR: selead="Collector";break;
+						case DRAFT: selead="Draft";break;
+						case SET: selead="Set";break;
+						case PLAY: selead ="Play";break;
+						case THEME: selead="Collector";break;
+						case VIP: selead="VIP Edition Pack";break;
+						default: selead="";break;
+					}
+				}
+
+				if(packaging.getExtra()!=EnumExtra.VIP)
+				{
+
+					switch(packaging.getTypeProduct())
+					{
+						case SET:break;
+						case BOOSTER:selead+=" Booster Pack";break;
+						case BOX:selead+=" Booster Box";break;
+						case FATPACK:selead+=" Fat Pack";break;
+						case BUNDLE:selead+=" Bundle";break;
+						case PRERELEASEPACK:selead+=" Prerelease Pack";break;
+						case STARTER: break;
+						default:break;
+
+					}
+				}
+
+				cardid= aliases.getSetNameFor(this, packaging.getEdition()) +  " " + selead + " <sealed> "+ "["+aliases.getReversedSetIdFor(this, packaging.getEdition())+"]";
 			}
 			
 			var q = RequestBuilder.build().url(url).setClient(client).get()
