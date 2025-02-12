@@ -239,9 +239,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public static void main(String[] args) throws IOException {
 		
 		var mc = new MTGCard();
-		mc.setName("Boosted Sloop");
-		mc.setEdition(new MTGEdition("DFT", "Aetherdrift"));
-				
+		mc.setName("Mount Doom");
+		mc.setEdition(new MTGEdition("LTR", "The Lord of the Rings: Tales of Middle-Earth"));
+		mc.getPromotypes().add(EnumPromoType.POSTER);
+		
+		
 		MTGLogger.changeLevel(Level.DEBUG);
 		
 		var h = new HistoryPrice<MTGCard>(mc);
@@ -336,8 +338,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					variant = "<borderless>";
 				else if(card.isExtendedArt())
 					variant = "<extended>";
+				else if(card.isRetro())
+					variant ="<retro>";
+				
 				else if(card.getPromotypes().contains(EnumPromoType.POSTER))
-					variant = "<poster>";
+					variant = "<borderless poster>";
+				else if(card.getPromotypes().contains(EnumPromoType.PRERELEASE))
+					variant = "<prerelease>";
 			}
 			
 			var p = history.getItem();
