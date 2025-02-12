@@ -258,12 +258,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			var variant = "";
 			var name = "";
 			var editionCode = "";
-			
+			var pricetype="";
 			if(history.getItem() instanceof MTGCard card)
 			{
 				name= card.getName();
 				editionCode = card.getEdition().getId();
-				
+				pricetype="card";
 				if(card.isTimeshifted())
 					variant = "<futureshifted>";
 				else if(card.isShowCase())
@@ -284,7 +284,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				
 				name= set.getId()+"-main_set";
 				editionCode = set.getId();
-				
+				pricetype="set";
 				//card id for edition = IDSET-main_set
 			}
 			
@@ -292,7 +292,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							.addContent("card_id",name + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, editionCode)+"] "+(history.isFoil()?"(F)":""))
 							.addContent("selector","#tab-paper")
 							.addContent("type","paper")
-							.addContent("price_type","card")
+							.addContent("price_type",pricetype)
 							.addHeader("referer", WEBSITE)
 							.addHeader("x-requested-with", "XMLHttpRequest")
 							.addHeader("x-csrf-token", token)
