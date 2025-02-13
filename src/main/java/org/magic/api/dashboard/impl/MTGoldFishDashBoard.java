@@ -117,7 +117,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				else if(card.isShowCase())
 					variant = "<showcase>";
 				else if(card.isBorderLess())
-					variant = "<borderless>";
+					variant = "<borderless"+(card.getPromotypes().contains(EnumPromoType.STEPANDCOMPLEAT)?" Step and Compleat Foil":"")+">";
 				else if(card.isExtendedArt())
 					variant = "<extended>";
 				else if(card.isRetro())
