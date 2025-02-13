@@ -8,12 +8,10 @@ import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.api.mtgstock.modele.CardSet;
-import org.api.mtgstock.modele.FullPrint;
 import org.api.mtgstock.modele.Interest;
 import org.api.mtgstock.modele.Played;
 import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.modele.SealedProduct;
-import org.api.mtgstock.modele.SearchResult;
 import org.api.mtgstock.modele.URLCallInfo;
 import org.api.mtgstock.services.AnalyticsService;
 import org.api.mtgstock.services.CardsService;

@@ -49,20 +49,16 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
 
 
-		HistoryPrice<MTGSealedProduct> history =  new HistoryPrice<>(packaging);
-							  history.setCurrency(getCurrency());
-							  parsing(history);
-							  
-							  
-		logger.debug("loading prices for {}",packaging);
+		var history =  new HistoryPrice<MTGSealedProduct>(packaging);
+			 history.setCurrency(getCurrency());
 
 		if(packaging==null || packaging.getEdition()==null)
-			return history;
-
-
-		var selead="";
-
+				return history;
 		
+		logger.debug("loading prices for {}",packaging);
+		parsing(history);							  
+		
+
 
 		return history;
 	}
@@ -72,11 +68,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition me) throws IOException {
 		var historyPrice = new HistoryPrice<MTGEdition>(me);
 			historyPrice.setCurrency(getCurrency());
-		try {
+		
+			if(me==null )
+				return historyPrice;
+			
 			parsing(historyPrice);
-		} catch (Exception e) {
-			logger.error(e);
-		}
+		
 		return historyPrice;
 	}
 
@@ -178,8 +175,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			var q = RequestBuilder.build().url(url).setClient(client).get()
 							.addContent("card_id",cardid)
-							.addContent("selector","#tab-paper")
-							.addContent("type","paper")
+							.addContent("selector","#tab-"+getString(FORMAT))
+							.addContent("type",getString(FORMAT))
 							.addContent("price_type",pricetype)
 							.addHeader("referer", WEBSITE)
 							.addHeader("x-requested-with", "XMLHttpRequest")

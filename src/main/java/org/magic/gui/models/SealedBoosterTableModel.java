@@ -71,7 +71,7 @@ public class SealedBoosterTableModel extends GenericTableModel<MutableTriple<MTG
 	public String getColumnName(int column) {
 		return capitalize(COLUMNS[column]);
 	}
-
+	@Override
 	public void init(List<MutableTriple<MTGEdition, EnumExtra, Integer>> lines) {
 		items = lines;
 		fireTableDataChanged();
