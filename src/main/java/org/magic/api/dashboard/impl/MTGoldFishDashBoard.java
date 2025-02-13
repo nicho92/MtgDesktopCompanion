@@ -19,6 +19,7 @@ import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumPromoType;
@@ -86,12 +87,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		if(mc==null )
 			return historyPrice;
-
-		try {
-			parsing(historyPrice);
-		} catch (Exception e) {
-			logger.error(e);
-		}
+		
+		parsing(historyPrice);
 		
 		return historyPrice;
 	}
@@ -115,6 +112,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				
 				if(card.isTimeshifted())
 					variant = "<futureshifted>";
+				else if(card.isBasicLand() && !card.isExtraCard())
+					variant = "<"+card.getNumber()+">";
 				else if(card.isShowCase())
 					variant = "<showcase>";
 				else if(card.isBorderLess())
@@ -123,16 +122,25 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					variant = "<extended>";
 				else if(card.isRetro())
 					variant ="<retro>";
-				else if(card.getPromotypes().contains(EnumPromoType.POSTER))
+				
+				if(card.getPromotypes().contains(EnumPromoType.POSTER))
 					variant = "<borderless poster>";
-				else if(card.getPromotypes().contains(EnumPromoType.PRERELEASE))
+				if(card.getPromotypes().contains(EnumPromoType.PRERELEASE))
 					variant = "<prerelease>";
+				if(card.getPromotypes().contains(EnumPromoType.SERIALIZED))
+					variant = "<serialized>";
+				if(card.isJapanese())
+					variant = "<Japanese>";
+				if(card.getBorder()==EnumBorders.YELLOW )
+					variant = "<first place" + (card.isShowCase()?" showcase>":">");
+				if(card.getPromotypes().contains(EnumPromoType.FRACTUREFOIL))
+					variant = "<"+(card.isShowCase()?"showcase - ":"") + "fracture foil>";
+					
 				
 				cardid=card.getName() + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, card.getEdition())+"] "+(history.isFoil()?"(F)":"");
 			}
 			else if(history.getItem() instanceof MTGEdition set)
 			{
-				
 				cardid= set.getId()+"-main_set";
 				pricetype="set";
 			}
@@ -185,8 +193,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			var res = q.select("a span").html();
 			
-			res = res.substring(res.indexOf("d += "),res.indexOf("g = "));
-			
+			try {
+				res = res.substring(res.indexOf("d += "),res.indexOf("g = "));
+			}
+			catch(StringIndexOutOfBoundsException ex )
+			{
+				logger.error("can't found any data for {}",cardid);
+				return ;
+			}
 			res = RegExUtils.replaceAll(res, "d \\+\\= ", "");
 			res = RegExUtils.replaceAll(res, ";", "");
 			res = RegExUtils.replaceAll(res, "\"", "");
@@ -216,8 +230,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		var urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
 
 		logger.trace("Loading Shake {} and {}",urlW,urlL);
-		Document doc = URLTools.extractAsHtml(urlW);
-		Document doc2 = URLTools.extractAsHtml(urlL);
+		var doc = URLTools.extractAsHtml(urlW);
+		var doc2 = URLTools.extractAsHtml(urlL);
 
 		Element table = null;
 		try {
