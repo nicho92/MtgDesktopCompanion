@@ -146,7 +146,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			}
 			else if(history.getItem() instanceof MTGSealedProduct packaging)
 			{
-				
 				var selead ="";
 				if(packaging.getExtra()!=null) {
 					switch (packaging.getExtra())
@@ -183,8 +182,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			var q = RequestBuilder.build().url(url).setClient(client).get()
 							.addContent("card_id",cardid)
-							.addContent("selector","#tab-"+getString(FORMAT))
-							.addContent("type",getString(FORMAT))
+							.addContent("selector","#tab-"+getString(FORMAT).toLowerCase())
+							.addContent("type",getString(FORMAT).toLowerCase())
 							.addContent("price_type",pricetype)
 							.addHeader("referer", WEBSITE)
 							.addHeader("x-requested-with", "XMLHttpRequest")
@@ -213,14 +212,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				history.put(UITools.parseDate(content[0], "yyyy-MM-dd"), UITools.parseDouble(content[1]));
 				}
 			}
-			
-			
 	}
 	
 	
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
-		List<CardShake> list = new ArrayList<>();
+		var list = new ArrayList<CardShake>();
 
 		var gameFormat="all";
 		if(f!=null)
@@ -237,9 +234,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		try {
 
 			table = doc.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag("tbody").first().appendChild(doc2
-					.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag(MTGConstants.HTML_TAG_TBODY).get(0));// combine
-																														// 2
-																														// results
+							 .select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag(MTGConstants.HTML_TAG_TBODY).get(0));
 
 			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
 				var cs = new CardShake();
@@ -316,7 +311,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						cs.setFoil(nameExtra.contains("Foil"));
 						cs.setEtched(nameExtra.contains("Etched"));
 						cs.setNumber(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-						
+						cs.setEd(edition.getId());
+						cs.setProviderName(getName());
+						cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
+						cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
+						cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(6).text())/100);
+						cs.setPriceWeekChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text()));
+						cs.setPercentWeekChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(8).text())/100);
 						
 						if(nameExtra.toLowerCase().contains("extended"))
 							cs.setCardVariation(EnumCardVariation.EXTENDEDART);
@@ -332,18 +333,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							cs.setCardVariation(EnumCardVariation.JAPANESEALT);
 						else if (nameExtra.toLowerCase().contains("serialized"))
 							cs.setCardVariation(EnumCardVariation.SERIALIZED);
-			
 						
 						
-						
-						
-						cs.setEd(edition.getId());
-						cs.setProviderName(getName());
-						cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-						cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
-						cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(6).text())/100);
-						cs.setPriceWeekChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text()));
-						cs.setPercentWeekChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(8).text())/100);
 			list.addShake(cs);
 			notify(cs);
 		}
