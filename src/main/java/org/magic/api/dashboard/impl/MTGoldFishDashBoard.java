@@ -122,6 +122,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					variant = "<extended>";
 				else if(card.isRetro())
 					variant ="<retro>";
+				else if(card.isJapanese())
+					variant = "<Japanese>";
 				
 				if(card.getPromotypes().contains(EnumPromoType.POSTER))
 					variant = "<borderless poster>";
@@ -129,9 +131,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					variant = "<prerelease>";
 				if(card.getPromotypes().contains(EnumPromoType.SERIALIZED))
 					variant = "<serialized>";
-				if(card.isJapanese())
-					variant = "<Japanese>";
-				if(card.getBorder()==EnumBorders.YELLOW )
+				if(card.getPromotypes().contains(EnumPromoType.FIRSTPLACEFOIL ))
 					variant = "<first place" + (card.isShowCase()?" showcase>":">");
 				if(card.getPromotypes().contains(EnumPromoType.FRACTUREFOIL))
 					variant = "<"+(card.isShowCase()?"showcase - ":"") + "fracture foil>";
