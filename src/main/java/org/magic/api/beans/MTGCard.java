@@ -646,12 +646,12 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isShowCase() {
-		return frameEffects.stream().anyMatch(f->f==EnumFrameEffects.SHOWCASE);
+		return frameEffects.contains(EnumFrameEffects.SHOWCASE);
 	}
 
 	public boolean isSiege()
 	{
-		return getSubtypes().toString().toLowerCase().contains("siege");
+		return getSubtypes().contains("Siege");
 	}
 
 
@@ -689,8 +689,6 @@ public class MTGCard extends AbstractProduct {
 	public void setBorder(EnumBorders border) {
 		this.border = border;
 	}
-
-
 
 	public void setCmc(Integer cmc) {
 		this.cmc = cmc;
