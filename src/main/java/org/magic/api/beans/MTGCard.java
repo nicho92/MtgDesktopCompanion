@@ -254,7 +254,7 @@ public class MTGCard extends AbstractProduct {
 		return editions;
 	}
 
-
+	
 	public List<EnumCardVariation> getExtra()
 	{
 		var ret = new ArrayList<EnumCardVariation>();
