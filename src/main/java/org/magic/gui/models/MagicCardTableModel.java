@@ -106,7 +106,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 
 	private String powerorloyalty(MTGCard mc) {
 
-		if(mc.isCreature())
+		if(mc.isCreature() || mc.isVehicule())
 			return mc.getPower() + "/" + mc.getToughness();
 		else if(mc.isPlaneswalker())
 			return String.valueOf(mc.getLoyalty());

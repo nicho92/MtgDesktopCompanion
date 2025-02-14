@@ -502,6 +502,12 @@ public class MTGCard extends AbstractProduct {
 		return getColors().isEmpty();
 	}
 
+	
+	public boolean isVehicule()
+	{
+		return getSubtypes().contains("Vehicle");
+	}
+	
 	public boolean isCompanion()
 	{
 		return isCreature() && isLegendary() && (getText().startsWith("Companion ") || getFrameEffects().contains(EnumFrameEffects.COMPANION));

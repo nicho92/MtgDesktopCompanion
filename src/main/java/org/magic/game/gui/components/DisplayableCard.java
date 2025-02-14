@@ -350,7 +350,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 					if(!getMagicCard().isPlaneswalker())
 						menu.add(new JMenuItem(new TapActions(this)));
 
-					if (magicCard.isCreature()) {
+					if (magicCard.isCreature() || magicCard.isVehicule()) {
 						var mnuModifier = new JMenu("P/T");
 						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
 						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
