@@ -19,6 +19,10 @@ import com.google.gson.JsonObject;
 public class DeepSeek extends AbstractIA {
 
 	
+	private static final String SYSTEM_MSG = "SYSTEM_MSG";
+	private static final String API_KEY = "API_KEY";
+
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -29,12 +33,12 @@ public class DeepSeek extends AbstractIA {
 	{
 		var	client = URLTools.newClient();
 		
-		if(getAuthenticator().get("API_KEY")==null)
+		if(getAuthenticator().get(API_KEY)==null)
 			throw new IOException("Please fill API_KEY value in Account configuration");
 		
 		
 		var headers = new HashMap<String, String>();
-		headers.put("Authorization", "Bearer " + getAuthenticator().get("API_KEY"));
+		headers.put("Authorization", "Bearer " + getAuthenticator().get(API_KEY));
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		var resp =  client.doPost("https://api.deepseek.com"+endpoint, new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
 		logger.debug(resp);
@@ -53,11 +57,11 @@ public class DeepSeek extends AbstractIA {
 			obj.add("messages", arr);
 			
 			
-			if(!getString("SYSTEM_MSG").isEmpty())
+			if(!getString(SYSTEM_MSG).isEmpty())
 			{
 				var sysObj = new JsonObject();
 				sysObj.addProperty("role","system");
-				sysObj.addProperty("content", getString("SYSTEM_MSG"));
+				sysObj.addProperty("content", getString(SYSTEM_MSG));
 				arr.add(sysObj);
 			}
 			
@@ -72,7 +76,7 @@ public class DeepSeek extends AbstractIA {
 
 		var query = query(obj,"/chat/completions");
 		
-	
+		logger.info(query);
 		
 		return null;
 	}
@@ -90,14 +94,14 @@ public class DeepSeek extends AbstractIA {
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("API_KEY");
+		return List.of(API_KEY);
 	}
 	
 	
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = super.getDefaultAttributes();
-		map.put("SYSTEM_MSG", new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
+		map.put(SYSTEM_MSG, new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
 		return map;
 	}
 	
