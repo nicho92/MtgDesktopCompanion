@@ -1,5 +1,6 @@
 package org.magic.api.dao.impl;
 
+import java.sql.Statement;
 import java.util.Map;
 
 import org.jooq.SQLDialect;
@@ -7,6 +8,10 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class TrinoDBDAO extends AbstractMagicSQLDAO {
+	
+	public TrinoDBDAO() {
+		RETURN_GENERATED_KEYS = Statement.NO_GENERATED_KEYS;
+	}
 	
 	@Override
 	protected boolean enablePooling() {
@@ -26,10 +31,7 @@ public class TrinoDBDAO extends AbstractMagicSQLDAO {
 	
 	@Override
 	public STATUT getStatut() {
-		
-		//TODO : fix longvarchar type not usable with jooq on SQLTools
-		
-		return STATUT.DEV;
+			return STATUT.DEV;
 	}
 	
 	
