@@ -2810,16 +2810,28 @@
 		<booster lang="en" num="1" extra="play" url="https://www.playourgames.nl/60794-thickbox_default/magic-the-gathering-tcg-tarkir-dragonstorm-play-booster-pack.jpg"/>
 		<booster lang="en" num="2" extra="collector" url="https://collecteebles.co.uk/cdn/shop/files/d1f295d0-7192-45ce-a4d3-9185a60dd901.png"/>
 		
-		
-		
 		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_1_Wec1YMKIVs.png" desc="Abzan"/>
 		<prereleasepack lang="en" num="2" url="https://media.wizards.com/2025/images/daily/en_2_Wec1YMKIVs.png" desc="Jeskai"/>
 		<prereleasepack lang="en" num="3" url="https://media.wizards.com/2025/images/daily/en_3_Wec1YMKIVs.png" desc="Sultai"/>
 		<prereleasepack lang="en" num="4" url="https://media.wizards.com/2025/images/daily/en_4_Wec1YMKIVs.png" desc="Mardu"/>
 		<prereleasepack lang="en" num="5" url="https://media.wizards.com/2025/images/daily/en_5_Wec1YMKIVs.png" desc="Temur"/>
+	</edition>
+	
+	<edition id="FIN">
+		<set lang="en" num="1" url="https://static.wikia.nocookie.net/finalfantasy/images/e/e8/Magic_The_Gathering_cross-over_logo.png"/>
+		<box lang="en" num="1" extra="play" url="https://versusgamecenter.pt/cdn/shop/files/MTG-final-fantasy-play-booster-display_550x.png"/>
+		<box lang="en" num="2" extra="collector" url="https://thecardvault.co.uk/cdn/shop/files/MTGFIN_EN_DspBx_Clctr_01_01.png"/>
+		<booster lang="en" num="1" extra="play" url="https://www.playourgames.nl/60794-thickbox_default/magic-the-gathering-tcg-tarkir-dragonstorm-play-booster-pack.jpg"/>
+		<booster lang="en" num="2" extra="collector" url="https://cdn11.bigcommerce.com/s-gwt413yhqi/images/stencil/1280x1280/products/28989/47381/mtgfin_en_bstr_play_01_02__52351.1739926575.png"/>
+		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_cefyFpdM1Z.webp"/>
+		<bundle lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_yeLbpnkqDl.webp"/>
+		<bundle lang="en" num="2" url="https://media.wizards.com/2025/images/daily/en_AYdie3VKRk.webp" extra="gift"/>
+		
+		
 		
 		
 	</edition>
+	
 	
 	
 
