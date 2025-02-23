@@ -2794,15 +2794,33 @@
 			<constructpack lang="en" num="2" url="https://magicians-circle.com/wp-content/uploads/2024/12/magic-dtf-living-energy-1.png" desc="Living Energy"/>
 	</edition>
 	
-	
 	<edition id="INR">
 		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/7358s8yvDA4PVKlRPhDzVz/6ec17ac8b7952687fb257a90145f5ae7/Lduih34879dgkj-600x380_EN.png"/>
-		
 		<box lang="en" num="1" extra="play" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/original/products/254426/336748/D38140000-1__38517.1731439417.png"/>
 		<box lang="en" num="2" extra="collector" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/original/products/254428/336752/D38160000-1__35264.1731440039.png"/>
 		<booster lang="en" num="1" extra="play" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/original/products/254426/336747/D38140000-2__46387.1731439417.png"/>
 		<booster lang="en" num="2" extra="collector" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/original/products/254428/336751/D38160000-2__08563.1731440039.png"/>
 	</edition>
+	
+	<edition id="TDM">
+		<set lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/4b/Tarkir_Dragonstorm_logo.png"/>
+		<box lang="en" num="1" extra="play" url="https://media.wizards.com/2025/images/daily/en_fUtHYDmcSH.png"/>
+		<box lang="en" num="2" extra="collector" url="https://media.wizards.com/2025/images/daily/en_WZ4ZDjOLeP.png"/>
+		<bundle lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_J7Wrd8dN7f.png"/>
+		<booster lang="en" num="1" extra="play" url="https://www.playourgames.nl/60794-thickbox_default/magic-the-gathering-tcg-tarkir-dragonstorm-play-booster-pack.jpg"/>
+		<booster lang="en" num="2" extra="collector" url="https://collecteebles.co.uk/cdn/shop/files/d1f295d0-7192-45ce-a4d3-9185a60dd901.png"/>
+		
+		
+		
+		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_1_Wec1YMKIVs.png" desc="Abzan"/>
+		<prereleasepack lang="en" num="2" url="https://media.wizards.com/2025/images/daily/en_2_Wec1YMKIVs.png" desc="Jeskai"/>
+		<prereleasepack lang="en" num="3" url="https://media.wizards.com/2025/images/daily/en_3_Wec1YMKIVs.png" desc="Sultai"/>
+		<prereleasepack lang="en" num="4" url="https://media.wizards.com/2025/images/daily/en_4_Wec1YMKIVs.png" desc="Mardu"/>
+		<prereleasepack lang="en" num="5" url="https://media.wizards.com/2025/images/daily/en_5_Wec1YMKIVs.png" desc="Temur"/>
+		
+		
+	</edition>
+	
 	
 
 </boosterUrls>
