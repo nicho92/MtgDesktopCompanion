@@ -219,7 +219,7 @@
 	},
 	"CSV": {
 		"regex": {
-			"default": "\"(.*?)\";(.*?);(.*?);(\\d+);(MINT|NEAR_MINT|GOOD|LIGHTLY_PLAYED|PLAYED|POOR|PROXY|OVERSIZED|ONLINE|SEALED|OPENED|DAMAGED)?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;(.*?)?;"
+			"default": "\"(.*?)\";(.*?);(.*?);(\\d+);(.*?);(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;(.*?)?;"
 		}
 	},
 	"CardCastle": {

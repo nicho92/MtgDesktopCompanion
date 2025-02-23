@@ -105,7 +105,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				bw.append(mcs.getProduct().getEdition()).append(getSeparator());
 				bw.append(mcs.getLanguage()).append(getSeparator());
 				bw.append(mcs.getQte()).append(getSeparator());
-				bw.append(mcs.getCondition()).append(getSeparator());
+				bw.append(mcs.getCondition().name()).append(getSeparator());
 
 				bw.append(mcs.isFoil()).append(getSeparator());
 				bw.append(mcs.isAltered()).append(getSeparator());
