@@ -207,7 +207,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			
 			
 			var firstOne = lines.get(0);
-				 firstOne.setQte(lines.size()*firstOne.getQte());
+				 firstOne.setQte(lines.stream().mapToInt(MTGCardStock::getQte).sum());
 			
 			lines.remove(0);
 
