@@ -68,7 +68,7 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
-	protected int RETURN_GENERATED_KEYS = Statement.RETURN_GENERATED_KEYS;
+	protected int generatedKey = Statement.RETURN_GENERATED_KEYS;
 	private static final String UPDATED = "{} updated";
 	private static final String EXTRATYPE = "extra";
 	private static final String COLLECTION = "collection";
@@ -382,7 +382,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public int saveOrUpdateAnnounce(MTGAnnounce n) throws SQLException {
 		if (n.getId() < 0)
 		{
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,statusAnnounce) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",RETURN_GENERATED_KEYS))
+				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,statusAnnounce) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",generatedKey))
 				{
 					pst.setTimestamp(1,new Timestamp(Instant.now().toEpochMilli()));
 					pst.setTimestamp(2,new Timestamp(n.getStartDate().getTime()));
@@ -646,7 +646,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public Integer saveOrUpdateDeck(MTGDeck d) throws SQLException {
 		if (d.getId() < 0)
 		{
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO decks (description, name, dateCreation, dateUpdate, tags, commander, main, sideboard, averagePrice) VALUES (?,?,?,?,?,?,?,?,?)",RETURN_GENERATED_KEYS))
+				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO decks (description, name, dateCreation, dateUpdate, tags, commander, main, sideboard, averagePrice) VALUES (?,?,?,?,?,?,?,?,?)",generatedKey))
 				{
 					pst.setString(1, d.getDescription());
 					pst.setString(2, d.getName());
@@ -948,7 +948,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public int saveOrUpdateContact(Contact ct) throws SQLException {
 		if (ct.getId() < 0)
 		{
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active,temporaryToken ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)",RETURN_GENERATED_KEYS))
+				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active,temporaryToken ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)",generatedKey))
 				{
 					pst.setString(1, ct.getName());
 					pst.setString(2, ct.getLastName());
@@ -973,7 +973,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		{
 			logger.debug("update Contact {}",ct.getId());
 
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=?, temporaryToken=? WHERE contacts.contact_id = ?",RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=?, temporaryToken=? WHERE contacts.contact_id = ?",generatedKey)) {
 				pst.setString(1, ct.getName());
 				pst.setString(2, ct.getLastName());
 				pst.setString(3, ct.getTelephone());
@@ -1017,7 +1017,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 				logger.debug("saving transaction ");
 
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",RETURN_GENERATED_KEYS)) {
+				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",generatedKey)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateCreation().getTime()));
 					pst.setString(2, t.getMessage());
 					storeTransactionItems(pst,3, t.getItems());
@@ -1063,7 +1063,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			logger.debug("update transaction {}",t.getId());
 
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=?, sourceShopId=?, sourceShopName=?, reduction=?, typeTransaction=? ,fk_idcontact=?,dateTransaction=? WHERE id = ?",RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=?, sourceShopId=?, sourceShopName=?, reduction=?, typeTransaction=? ,fk_idcontact=?,dateTransaction=? WHERE id = ?",generatedKey)) {
 				pst.setString(1, t.getStatut().name());
 				pst.setString(2, t.getTransporter());
 				pst.setDouble(3, t.getShippingPrice());
@@ -1188,7 +1188,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			logger.debug("save sealed {}",state);
 			try (var c = pool.getConnection(); var pst = c.prepareStatement(
-					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection,price,tiersAppIds,numversion ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",RETURN_GENERATED_KEYS)) {
+					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection,price,tiersAppIds,numversion ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",generatedKey)) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
@@ -1588,7 +1588,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if (state.getId() < 0) {
 			logger.debug("save stock {}",state);
-			try (var c = pool.getConnection(); var pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate,name,digital) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); var pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate,name,digital) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", generatedKey)) {
 				pst.setString(1, state.getCondition().name());
 				pst.setBoolean(2, state.isFoil());
 				pst.setBoolean(3, state.isSigned());
@@ -1724,7 +1724,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			logger.debug("save {}",n);
 			try (var c = pool.getConnection(); var pst = c.prepareStatement(
 					"insert into news  ( name,categorie,url,typeNews) values (?,?,?,?)",
-					RETURN_GENERATED_KEYS)) {
+					generatedKey)) {
 				pst.setString(1, n.getName());
 				pst.setString(2, n.getCategorie());
 				pst.setString(3, n.getUrl());

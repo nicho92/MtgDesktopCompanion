@@ -10,7 +10,7 @@ import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 public class TrinoDBDAO extends AbstractMagicSQLDAO {
 	
 	public TrinoDBDAO() {
-		RETURN_GENERATED_KEYS = Statement.NO_GENERATED_KEYS;
+		generatedKey = Statement.NO_GENERATED_KEYS;
 	}
 	
 	@Override
