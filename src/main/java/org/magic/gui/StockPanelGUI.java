@@ -13,6 +13,7 @@ import java.awt.SystemColor;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -37,6 +38,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
+import org.apache.commons.collections4.ListUtils;
 import org.apache.logging.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
@@ -115,6 +117,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JComboBox<MTGCollection> cboCollection;
 	private JExportButton btnExport;
 	private JButton btnGeneratePrice;
+	private JButton btnMerge;
 	private JLabel lblCount;
 	
 	private JComboBox<String> cboSelections;
@@ -178,14 +181,54 @@ public class StockPanelGUI extends MTGUIComponent {
 					updatePanels(selectedStock);
 					updateCount(UITools.getTableSelections(table, 0));
 				}
-
+				
+				
+				btnMerge.setEnabled(table.getSelectedRowCount()>1);
 				
 				
 			}
 			
 			
 		});
+		
+		
+		btnMerge.addActionListener(event ->{
+			
+			List<MTGCardStock> lines = UITools.getTableSelections(table, 0);
+			
+			if(lines.stream().map(MTGCardStock::hashCode).distinct().count()>1)
+			{
+				MTGControler.getInstance().notify(new MTGNotification("Error", "Stock items are not equals", MESSAGE_TYPE.ERROR));
+				return;
+			}
+			
+			
+			var firstOne = lines.get(0);
+				 firstOne.setQte(lines.size()*firstOne.getQte());
+			
+			lines.remove(0);
 
+
+				var sw = new AbstractObservableWorker<Void, MTGCardStock,MTGDao>(lblLoading, getEnabledPlugin(MTGDao.class),lines.size())
+						{
+
+							@Override
+							protected Void doInBackground() throws Exception {
+								plug.deleteStock(lines);
+								plug.saveOrUpdateCardStock(firstOne);
+								return null;
+							}
+
+							@Override
+							protected void notifyEnd() {
+								model.removeItem(lines);
+								model.fireTableDataChanged();
+							}
+						};
+			 ThreadManager.getInstance().runInEdt(sw, "Merging " + lines.size() + " items");
+			
+		});
+		
 	
 		
 		btnDelete.addActionListener(event -> {
@@ -573,6 +616,9 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnDuplicate.setToolTipText(capitalize("DUPLICATE"));
 		actionPanel.add(btnDuplicate);
 	
+		btnMerge= UITools.createBindableJButton(null, MTGConstants.ICON_MERGE, KeyEvent.VK_M, "merge items");
+		btnMerge.setEnabled(false);
+		actionPanel.add(btnMerge);
 		
 		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "stock delete");
 		btnDelete.setEnabled(false);

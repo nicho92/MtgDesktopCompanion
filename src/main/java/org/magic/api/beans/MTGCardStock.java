@@ -6,7 +6,7 @@ import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumItems;
 
-public class MTGCardStock extends AbstractStockItem<MTGCard> {
+public class MTGCardStock extends AbstractStockItem<MTGCard>{
 
 	private static final long serialVersionUID = 1L;
 	private boolean digital;
@@ -55,4 +55,10 @@ public class MTGCardStock extends AbstractStockItem<MTGCard> {
 		
 	}
 
+	@Override
+	public int hashCode() {
+		return (getProduct().getScryfallId()+isFoil()+isSigned()+isAltered()+isDigital()+isGrade()+isEtched()+getCondition()+getMagicCollection()+getLanguage()).hashCode();
+	}
+	
+	
 }

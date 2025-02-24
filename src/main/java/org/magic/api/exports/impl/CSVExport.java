@@ -84,6 +84,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					mcs.setId(-1);
 					mcs.setUpdated(true);
 					stock.add(mcs);
+					notify(mcs.getProduct());
 				}
 			}
 			return stock;
