@@ -13,7 +13,6 @@ import java.awt.SystemColor;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -38,7 +37,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.commons.collections4.ListUtils;
 import org.apache.logging.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
@@ -196,7 +194,12 @@ public class StockPanelGUI extends MTGUIComponent {
 			
 			List<MTGCardStock> lines = UITools.getTableSelections(table, 0);
 			
-			if(lines.stream().map(MTGCardStock::hashCode).distinct().count()>1)
+			if(lines.isEmpty())
+				return;
+			
+			
+			
+			if(lines.stream().map(MTGCardStock::hashId).distinct().count()>1)
 			{
 				MTGControler.getInstance().notify(new MTGNotification("Error", "Stock items are not equals", MESSAGE_TYPE.ERROR));
 				return;

@@ -54,9 +54,8 @@ public class MTGCardStock extends AbstractStockItem<MTGCard>{
 			setEtched(true);
 		
 	}
-
-	@Override
-	public int hashCode() {
+	
+	public int hashId() {
 		return (getProduct().getScryfallId()+isFoil()+isSigned()+isAltered()+isDigital()+isGrade()+isEtched()+getCondition()+getMagicCollection()+getLanguage()).hashCode();
 	}
 	
