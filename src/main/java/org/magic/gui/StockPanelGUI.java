@@ -256,7 +256,6 @@ public class StockPanelGUI extends MTGUIComponent {
 								logger.error(e);
 							}
 						}
-
 						return null;
 					}
 
