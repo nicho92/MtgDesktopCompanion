@@ -45,11 +45,19 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		
 		if(data.isEmpty())
 		{
-			logger.error("can't find api endpoint id");
+			logger.error("can't find buildManifest endpoint");
 			return null;
 		}
 		
-		return data.first().attr("src").replace("https://cdn.archidekt.com/_next/static/", "").replace("/_buildManifest.js","");
+		if(data.first()!=null)
+			return data.first().attr("src").replace("https://cdn.archidekt.com/_next/static/", "").replace("/_buildManifest.js","");
+		else
+		{
+			
+			logger.error("can't find api endpoint id");
+			return null;
+			
+		}
 	}
 	
 	
