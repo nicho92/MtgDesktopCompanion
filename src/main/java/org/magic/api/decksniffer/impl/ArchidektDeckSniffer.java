@@ -25,7 +25,6 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 
 	private static final String BASE_URI="https://archidekt.com";
-	private String endpoint="_XCgIDt-I_rfG6NsvNy49";
 
 	@Override
 	public String[] listFilter() {
@@ -36,7 +35,23 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-
+	
+	
+	private String getEndPoint() throws IOException
+	{
+		var d = URLTools.extractAsHtml(BASE_URI+"/search/decks");
+		
+		var data = d.select("script[src$=buildManifest.js]");
+		
+		if(data.isEmpty())
+		{
+			logger.error("can't find api endpoint id");
+			return null;
+		}
+		
+		return data.first().attr("src").replace("https://cdn.archidekt.com/_next/static/", "").replace("/_buildManifest.js","");
+	}
+	
 	
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
@@ -100,7 +115,10 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		List<RetrievableDeck> ret = new ArrayList<>();
-
+		
+		
+		var endpoint = getEndPoint();
+		
 		
 		for(var i = 1; i<=getInt("MAX_PAGE");i++)
 		{

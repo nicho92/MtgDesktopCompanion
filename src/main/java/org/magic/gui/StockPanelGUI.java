@@ -471,7 +471,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					{
 						try {
 
-							Double price = suggester.getSuggestedPrice(s.getProduct(), s.isFoil());
+							var price = suggester.getSuggestedPrice(s.getProduct(), s.isFoil());
 							double old = s.getValue().doubleValue();
 							s.setPrice(price);
 							if (old != s.getValue().doubleValue())
