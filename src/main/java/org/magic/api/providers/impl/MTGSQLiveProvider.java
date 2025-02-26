@@ -387,6 +387,13 @@ private MTGPool pool;
 	private void initRotatedCard(MTGCard mc, String id, String side)
 	{
 		
+		if(id==null)
+		{
+			logger.warn("No rotated ID for {} / {}", mc, mc.getEdition());
+			return;
+		}
+		
+		
 		if(id.contains(","))
 			id=id.split(",")[0];
 		

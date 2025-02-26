@@ -24,7 +24,8 @@ import com.google.gson.JsonElement;
 public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 
-	private static final String BASE_URI="https://archidekt.com/api";
+	private static final String BASE_URI="https://archidekt.com";
+	private String endpoint="_XCgIDt-I_rfG6NsvNy49";
 
 	@Override
 	public String[] listFilter() {
@@ -33,7 +34,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
 	
@@ -51,7 +52,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 				   .toJson().getAsJsonObject();
 
 		
-		deck.setDescription("imported from https://archidekt.com/decks/"+obj.get("id").getAsString());
+		deck.setDescription("imported from "+BASE_URI+"/decks/"+obj.get("id").getAsString());
 		
 		var cards = obj.get("cards").getAsJsonArray();
 
@@ -96,7 +97,6 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		return true;
 	}
 	
-
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		List<RetrievableDeck> ret = new ArrayList<>();
@@ -108,22 +108,21 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 			
 			var q = RequestBuilder.build()
 							.setClient(URLTools.newClient())
-							.url(BASE_URI+"/decks/cards/")
+							.url(BASE_URI+"/_next/data/"+endpoint+"/search/decks.json")
 							.get()
 							.addContent("orderBy", "-createdAt")
-							.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), filter)+1))
+							.addContent("deckFormat", String.valueOf(ArrayUtils.indexOf(listFilter(), filter)+1))
 							.addContent("pageSize", "50")
 							.addContent("page",String.valueOf(i))
 							.addHeader("accept", URLTools.HEADER_JSON);
 			
 			
 				if(mc!=null)
-					q.addContent("cards",mc.getName());
+					q.addContent("cardName",mc.getName());
 			
 			
 			
-			var arr = q.toJson().getAsJsonObject().get("results").getAsJsonArray();
-
+			var arr = q.toJson().getAsJsonObject().get("pageProps").getAsJsonObject().get("deckResults").getAsJsonObject().get("results").getAsJsonArray();
 
 
 			for(JsonElement el : arr)
@@ -134,7 +133,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 								d.setName(el.getAsJsonObject().get("name").getAsString());
 						
 								var build = new StringBuilder();
-									build.append(BASE_URI).append("/decks/").append(el.getAsJsonObject().get("id").getAsInt()).append("/");
+									build.append(BASE_URI).append("/api/decks/").append(el.getAsJsonObject().get("id").getAsInt()).append("/");
 
 								d.setUrl(new URI(build.toString()));
 								var tmp = new StringBuilder("");
