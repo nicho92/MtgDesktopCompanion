@@ -85,7 +85,7 @@
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
-		    <version>470</version>
+		    <version>471</version>
 		</dependency>
 		<dependency>
     		<groupId>org.apache.tomcat</groupId>
@@ -288,7 +288,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.20.0</version>
+			<version>3.20.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -485,7 +485,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.11.0-pre1</version>
+			<version>0.11.0-pre2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
