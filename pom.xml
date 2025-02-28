@@ -278,7 +278,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>cardtrader-api-java</artifactId>
-			<version>0.0.49</version>
+			<version>0.0.50</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
