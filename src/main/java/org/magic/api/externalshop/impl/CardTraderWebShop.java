@@ -208,12 +208,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 							prod.setName(oi.getName());
 							item  = ProductFactory.generateStockItem(prod);
 						}
-						
-						item.setPrice(oi.getPrice().getValue());
-						item.setId(oi.getId());
-						item.getTiersAppIds().put(getName(), ""+oi.getId());
-						item.setQte(oi.getQuantity());
-						
 				}
 				else
 				{
@@ -223,6 +217,10 @@ public class CardTraderWebShop extends AbstractExternalShop {
 					prod.setEdition(toExpansion(oi.getExpansionProduct()));
 					item  = ProductFactory.generateStockItem(prod);
 				}
+				item.getTiersAppIds().put(getName(), ""+oi.getId());
+				item.setQte(oi.getQuantity());
+				item.setId(oi.getId());
+				item.setPrice(oi.getPrice().getValue());
 				item.setFoil(oi.isFoil());
 				item.setAltered(oi.isAltered());
 				item.setSigned(oi.isSigned());
