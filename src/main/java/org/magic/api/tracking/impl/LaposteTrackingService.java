@@ -51,7 +51,14 @@ public class LaposteTrackingService extends AbstractTrackingService{
 		
 		
 		var t = new Tracking(number);
+				try {
 				 t.setFinished(e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("isFinal").getAsBoolean());
+				}
+				catch(NullPointerException ex)
+				{
+					//do nothing
+				}
+				 
 				 t.setProductName(e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("product").getAsString());
 
 				 e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("event").getAsJsonArray().forEach(je->{
