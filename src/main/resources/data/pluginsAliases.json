@@ -105,7 +105,7 @@
 					"LIGHTLY_PLAYED": "LP",
 					"NEAR_MINT": "NM",
 					"PLAYED": "PL",
-					"EXCELLENT": "NM",
+					"EXCELLENT": "EX",
 					"GOOD": "NM",
 					"MINT": "MT",
 					"DAMAGED":"PO"
