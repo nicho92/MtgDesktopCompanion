@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.api.cardtrader.modele.Categorie;
+import org.api.cardtrader.modele.MarketProduct;
+import org.api.cardtrader.modele.Order;
+import org.api.cardtrader.modele.OrderItem;
 import org.api.cardtrader.modele.User;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
@@ -69,33 +72,39 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		}
 	}
 
+
+	private MTGStockItem  toItem(MarketProduct mp) {
+		var prod = ProductFactory.createDefaultProduct(mp.getCategorie().getId()==1?EnumItems.CARD:EnumItems.SEALED);
+		prod.setProductId(mp.getIdBlueprint().longValue());
+		prod.setName(mp.getName());
+		prod.setEdition(toExpansion(mp.getExpansion()));
+		prod.setCategory(toCategory(mp.getCategorie()));
+	
+	
+	var it = ProductFactory.generateStockItem(prod);
+						    it.setId(mp.getId());
+						    it.setAltered(mp.isAltered());
+						    it.setComment("");
+						    it.setFoil(mp.isFoil());
+						    it.setSigned(mp.isSigned());
+						    it.setLanguage(mp.getLanguage());
+						    it.setQte(mp.getQty());
+						    it.setPrice(mp.getPrice().getValue());
+						    
+						    if(mp.getCondition()!=null)
+						    	it.setCondition(aliases.getReversedConditionFor(this, mp.getCondition().name(),EnumCondition.NEAR_MINT));
+					
+		return it;
+	}
+
+	
+	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 		init();
 
 		return service.listStock(search).stream().map(mp->{
-			
-			var prod = ProductFactory.createDefaultProduct(mp.getCategorie().getId()==1?EnumItems.CARD:EnumItems.SEALED);
-				prod.setProductId(mp.getIdBlueprint().longValue());
-				prod.setName(mp.getName());
-				prod.setEdition(toExpansion(mp.getExpansion()));
-				prod.setCategory(toCategory(mp.getCategorie()));
-			
-			
-			var it = ProductFactory.generateStockItem(prod);
-								    it.setId(mp.getId());
-								    it.setAltered(mp.isAltered());
-								    it.setComment("");
-								    it.setFoil(mp.isFoil());
-								    it.setSigned(mp.isSigned());
-								    it.setLanguage(mp.getLanguage());
-								    it.setQte(mp.getQty());
-								    it.setPrice(mp.getPrice().getValue());
-								    
-								    if(mp.getCondition()!=null)
-								    	it.setCondition(aliases.getReversedConditionFor(this, mp.getCondition().name(),EnumCondition.NEAR_MINT));
-							
-								return (MTGStockItem)it;
+			return toItem(mp);
 		}).toList();
 	}
 
@@ -161,94 +170,99 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		return CardTraderConstants.CARDTRADER_NAME;
 	}
 
+
+	private Transaction toTransaction(Order o) {
+		var trans = new Transaction();
+		trans.setSourceShopName(getName());
+		trans.setSourceShopId(String.valueOf(o.getId()));
+		trans.setId(o.getId());
+		trans.setDateSend(o.getDateSend());
+		trans.setDatePayment(o.getDatePaid());
+		trans.setDateCreation(o.getDateCreation());
+
+		if(o.getDatePaid()!=null)
+			trans.setStatut(EnumTransactionStatus.PAID);
+
+		if(o.getDateSend()!=null)
+			trans.setStatut(EnumTransactionStatus.SENT);
+
+		if(o.getDateCancel()!=null)
+			trans.setStatut(EnumTransactionStatus.CANCELED);
+
+		trans.setPaymentProvider(EnumPaymentProvider.SHOP_PLATEFORM);
+		trans.setShippingPrice(o.getShippingMethod().getSellerPrice().getValue());
+		trans.setTransporter(o.getShippingMethod().getName());
+		trans.setTransporterShippingCode(o.getShippingMethod().getTrackedCode());
+		
+		
+		o.getOrderItems().forEach(oi->{
+			trans.getItems().add(toItem(oi));
+		});
+
+		User u = o.getBuyer();
+
+		if(u==null)
+			u=o.getSeller();
+
+
+		Contact c = new Contact();
+				c.setName(u.getUsername());
+				c.setAddress(o.getBillingAddress().getStreet());
+				c.setZipCode(o.getBillingAddress().getZip());
+				c.setCity(o.getBillingAddress().getCity());
+				c.setCountry(o.getBillingAddress().getCountry());
+				c.setEmail(u.getEmail());
+				c.setTelephone(u.getPhone());
+
+		trans.setContact(c);
+		return trans;
+		
+	}
+
+	
+	private AbstractStockItem<? extends AbstractProduct> toItem(OrderItem oi) {
+		AbstractStockItem<? extends AbstractProduct> item;
+		if(oi.getScryfallId()!=null && !oi.getScryfallId().isEmpty()) 
+		{
+				try {
+					var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
+					prod.setEdition(prod.getEdition());
+					item  = ProductFactory.generateStockItem(prod);
+				} 
+				catch (Exception e)
+				{
+					logger.error(e);
+					var prod = ProductFactory.createDefaultProduct(EnumItems.CARD);
+					prod.setName(oi.getName());
+					item  = ProductFactory.generateStockItem(prod);
+				}
+		}
+		else
+		{
+			var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
+			prod.setProductId(Long.valueOf(oi.getBluePrintId()));
+			prod.setName(oi.getName());
+			prod.setEdition(toExpansion(oi.getExpansionProduct()));
+			item  = ProductFactory.generateStockItem(prod);
+		}
+		item.getTiersAppIds().put(getName(), ""+oi.getId());
+		item.setQte(oi.getQuantity());
+		item.setId(oi.getId());
+		item.setPrice(oi.getPrice().getValue());
+		item.setFoil(oi.isFoil());
+		item.setAltered(oi.isAltered());
+		item.setSigned(oi.isSigned());
+		item.setCondition(aliases.getReversedConditionFor(this, oi.getCondition().name(),EnumCondition.NEAR_MINT));
+		item.setLanguage(oi.getLang());
+		
+		return item;
+	}
+
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
 		init();
 		return service.listOrders(1).stream().map(o->{
-			var trans = new Transaction();
-			trans.setSourceShopName(getName());
-			trans.setSourceShopId(String.valueOf(o.getId()));
-			trans.setId(o.getId());
-			trans.setDateSend(o.getDateSend());
-			trans.setDatePayment(o.getDatePaid());
-			trans.setDateCreation(o.getDateCreation());
-
-			if(o.getDatePaid()!=null)
-				trans.setStatut(EnumTransactionStatus.PAID);
-
-			if(o.getDateSend()!=null)
-				trans.setStatut(EnumTransactionStatus.SENT);
-
-			if(o.getDateCancel()!=null)
-				trans.setStatut(EnumTransactionStatus.CANCELED);
-
-			trans.setPaymentProvider(EnumPaymentProvider.SHOP_PLATEFORM);
-			
-			
-			trans.setShippingPrice(o.getShippingMethod().getSellerPrice().getValue());
-			trans.setTransporter(o.getShippingMethod().getName());
-			trans.setTransporterShippingCode(o.getShippingMethod().getTrackedCode());
-			
-			
-			o.getOrderItems().forEach(oi->{
-
-		
-				AbstractStockItem<? extends AbstractProduct> item;
-				if(oi.getScryfallId()!=null && !oi.getScryfallId().isEmpty()) 
-				{
-						try {
-							var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
-							prod.setEdition(prod.getEdition());
-							item  = ProductFactory.generateStockItem(prod);
-						} 
-						catch (Exception e)
-						{
-							logger.error(e);
-							var prod = ProductFactory.createDefaultProduct(EnumItems.CARD);
-							prod.setName(oi.getName());
-							item  = ProductFactory.generateStockItem(prod);
-						}
-				}
-				else
-				{
-					var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
-					prod.setProductId(Long.valueOf(oi.getBluePrintId()));
-					prod.setName(oi.getName());
-					prod.setEdition(toExpansion(oi.getExpansionProduct()));
-					item  = ProductFactory.generateStockItem(prod);
-				}
-				item.getTiersAppIds().put(getName(), ""+oi.getId());
-				item.setQte(oi.getQuantity());
-				item.setId(oi.getId());
-				item.setPrice(oi.getPrice().getValue());
-				item.setFoil(oi.isFoil());
-				item.setAltered(oi.isAltered());
-				item.setSigned(oi.isSigned());
-				item.setCondition(aliases.getReversedConditionFor(this, oi.getCondition().name(),EnumCondition.NEAR_MINT));
-				item.setLanguage(oi.getLang());
-
-
-				trans.getItems().add(item);
-
-			});
-
-			User u = o.getBuyer();
-
-			if(u==null)
-				u=o.getSeller();
-
-
-			Contact c = new Contact();
-					c.setName(u.getUsername());
-					c.setAddress(o.getBillingAddress().getStreet());
-					c.setZipCode(o.getBillingAddress().getZip());
-					c.setCity(o.getBillingAddress().getCity());
-					c.setCountry(o.getBillingAddress().getCountry());
-					c.setEmail(u.getEmail());
-					c.setTelephone(u.getPhone());
-
-			trans.setContact(c);
-			return trans;
+			return toTransaction(o);
 		}).toList();
 	}
 
@@ -275,8 +289,13 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		var opt = service.listStock().stream().filter(item-> item.getId()==id.intValue()).findFirst();
+		
+		if(opt.isPresent())
+			return toItem(opt.get());
+		else
+			return null;
+		
 	}
 
 	@Override
@@ -303,9 +322,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Transaction getTransactionById(Long parseInt) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public Transaction getTransactionById(Long id) throws IOException {
+		return toTransaction(service.getOrderDetails(id.intValue()));
 	}
 
 	@Override
