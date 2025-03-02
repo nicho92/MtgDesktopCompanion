@@ -7,7 +7,6 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.UITools;
 
 public class CCCGrader extends AbstractGradersProvider {
 
@@ -29,12 +28,11 @@ public class CCCGrader extends AbstractGradersProvider {
 		g.setGraderName(getName());
 		
 		
-		g.setGradeNote(d.get("cardNote").getAsDouble());
-		g.setCentering(d.get("centerNote").getAsDouble());
-		g.setSurface(d.get("surfaceNote").getAsDouble());
-		g.setCorners(d.get("cornerNote").getAsDouble());
+		g.setGradeNote(d.get("notation").getAsJsonObject().get("cardNote").getAsDouble());
+		g.setCentering(d.get("notation").getAsJsonObject().get("centerNote").getAsDouble());
+		g.setSurface(d.get("notation").getAsJsonObject().get("surfaceNote").getAsDouble());
+		g.setCorners(d.get("notation").getAsJsonObject().get("cornerNote").getAsDouble());
 		
-		g.setGradeDate(UITools.parseGMTDate(d.get("date").getAsString()));
 		g.setUrlInfo(onlinepage+"?card-input="+identifier);
 		
 		
