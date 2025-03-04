@@ -2835,6 +2835,9 @@
 		<box lang="en" num="2" extra="collector" url="https://media.wizards.com/2025/images/daily/en_lFtxMgGFNV.png"/>
 		<bundle lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_x0BBobGoPz.png"/>
 		<prereleasepack num="1" url="https://media.wizards.com/2025/images/daily/en_wAAPyQkz5o.png"/>
+		<booster lang="en" num="1" extra="collector" url="https://www.bazaargames.nl/images/products/480x427/bp_mtg_spm_collector_1.jpg"/>
+		<booster lang="en" num="2" extra="play" url="https://www.bazaargames.nl/images/products/480x427/bp_mtg_spm_play_1.jpg"/>
+		
 		<bundle extra="welcome" num="1" lang="en" url="https://media.wizards.com/2025/images/daily/en_TYCdWimNrs.png" desc="white"/>
 		<bundle extra="welcome" num="2" lang="en" url="https://media.wizards.com/2025/images/daily/en_bWbCRseGk4.png" desc="blue"/>
 		<bundle extra="welcome" num="3" lang="en" url="https://media.wizards.com/2025/images/daily/en_CFxwogTq1u.png" desc="black"/>
