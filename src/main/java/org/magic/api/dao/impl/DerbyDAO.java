@@ -30,10 +30,6 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 		
 	}
 	
-	
-	
-	
-	
 	@Override
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
 
