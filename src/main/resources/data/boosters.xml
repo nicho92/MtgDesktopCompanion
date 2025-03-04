@@ -2827,9 +2827,21 @@
 		<bundle lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_yeLbpnkqDl.webp"/>
 		<bundle lang="en" num="2" url="https://media.wizards.com/2025/images/daily/en_AYdie3VKRk.webp" extra="gift"/>
 		<constructpack lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_siEQaHFtQx.webp"/>
-		
-		
 	</edition>
+	
+	<edition id="SPM">
+		<set lang="en" num="1" url="https://images1.mtggoldfish.com/mtg_sets/6n0OnjjcTn.png"/>
+		<box lang="en" num="1" extra="play" url="https://media.wizards.com/2025/images/daily/en_EC9qVSPee7.png"/>
+		<box lang="en" num="2" extra="collector" url="https://media.wizards.com/2025/images/daily/en_lFtxMgGFNV.png"/>
+		<bundle lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_x0BBobGoPz.png"/>
+		<prereleasepack num="1" url="https://media.wizards.com/2025/images/daily/en_wAAPyQkz5o.png"/>
+		<bundle extra="welcome" num="1" lang="en" url="https://media.wizards.com/2025/images/daily/en_TYCdWimNrs.png" desc="white"/>
+		<bundle extra="welcome" num="2" lang="en" url="https://media.wizards.com/2025/images/daily/en_bWbCRseGk4.png" desc="blue"/>
+		<bundle extra="welcome" num="3" lang="en" url="https://media.wizards.com/2025/images/daily/en_CFxwogTq1u.png" desc="black"/>
+		<bundle extra="welcome" num="4" lang="en" url="https://media.wizards.com/2025/images/daily/en_dnmArsMOmP.png" desc="red"/>
+		<bundle extra="welcome" num="5" lang="en" url="https://media.wizards.com/2025/images/daily/en_pkd1QhkQv3.png" desc="green"/>
+	</edition>
+	
 	
 	
 
