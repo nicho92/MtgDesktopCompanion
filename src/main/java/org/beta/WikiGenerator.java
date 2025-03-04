@@ -36,10 +36,9 @@ public class WikiGenerator {
 				"""
 				Plugins extend and implement various functions in MTG Companion. There are a number of different categories of plugins, each with their own configuration and purpose. Check the page for the specific plugin for information on how to configure it.
 				
-				
-				 Some plugins are still under development. If a plugin is in a DEV status be aware that there could be issues with it.
+				Some plugins are still under development. If a plugin is in a DEV status be aware that there could be issues with it.
 				 
-				 DEPRECATED one, will be removed in the future
+				DEPRECATED one, will be removed in the future
 				""" ;
 		
 		builder.append(content);
