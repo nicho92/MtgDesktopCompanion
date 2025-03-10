@@ -28,10 +28,11 @@ public class CCCGrader extends AbstractGradersProvider {
 		g.setGraderName(getName());
 		
 		
-		g.setGradeNote(d.get("notation").getAsJsonObject().get("cardNote").getAsDouble());
-		g.setCentering(d.get("notation").getAsJsonObject().get("centerNote").getAsDouble());
-		g.setSurface(d.get("notation").getAsJsonObject().get("surfaceNote").getAsDouble());
-		g.setCorners(d.get("notation").getAsJsonObject().get("cornerNote").getAsDouble());
+		final String notationKey = "notation";
+		g.setGradeNote(d.get(notationKey).getAsJsonObject().get("cardNote").getAsDouble());
+		g.setCentering(d.get(notationKey).getAsJsonObject().get("centerNote").getAsDouble());
+		g.setSurface(d.get(notationKey).getAsJsonObject().get("surfaceNote").getAsDouble());
+		g.setCorners(d.get(notationKey).getAsJsonObject().get("cornerNote").getAsDouble());
 		
 		g.setUrlInfo(onlinepage+"?card-input="+identifier);
 		
