@@ -103,9 +103,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 		init();
 
-		return service.listStock(search).stream().map(mp->{
-			return toItem(mp);
-		}).toList();
+		return service.listStock(search).stream().map(this::toItem).toList();
 	}
 
 
@@ -195,9 +193,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		trans.setTransporterShippingCode(o.getShippingMethod().getTrackedCode());
 		
 		
-		o.getOrderItems().forEach(oi->{
-			trans.getItems().add(toItem(oi));
-		});
+		o.getOrderItems().forEach(oi->trans.getItems().add(toItem(oi)));
 
 		User u = o.getBuyer();
 
@@ -261,9 +257,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
 		init();
-		return service.listOrders(1).stream().map(o->{
-			return toTransaction(o);
-		}).toList();
+		return service.listOrders(1).stream().map(this::toTransaction).toList();
 	}
 
 	@Override
