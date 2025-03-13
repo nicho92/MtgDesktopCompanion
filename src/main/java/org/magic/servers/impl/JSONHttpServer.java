@@ -945,7 +945,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(URLTools.decode(request.params(":search"))), transformer);
 
-		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.valueOf(request.params(TYPE))), transformer);
+		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.parseByLabel(request.params(TYPE))), transformer);
 
 		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var c = new Contact();

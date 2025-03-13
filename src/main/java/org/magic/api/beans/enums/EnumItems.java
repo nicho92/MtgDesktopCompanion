@@ -32,5 +32,23 @@ public enum EnumItems
 		return label;
 	}
 	
+	public String getLabel() {
+		return label;
+	}
+	
+	
+	public static EnumItems parseByLabel(String s)
+	{
+		for(var e : values())
+		{
+			if(e.getLabel().equalsIgnoreCase(s))
+				return e;
+		}
+		
+		return null;
+		
+	}
+	
+	
 	
 }
