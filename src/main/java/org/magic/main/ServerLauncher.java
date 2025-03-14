@@ -56,6 +56,9 @@ public class ServerLauncher {
 		{
 			preparing(arg).start();
 		}
+		
+		MTGControler.getInstance().cleaning();
+		
 
 		if(MTGConstants.IS_GRAPHICAL_UI)
 		{
