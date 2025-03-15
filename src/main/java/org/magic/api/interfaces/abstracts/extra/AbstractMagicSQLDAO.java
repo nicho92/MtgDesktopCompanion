@@ -450,58 +450,33 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 
 	private void createIndex(Statement stat) throws SQLException {
-
-		stat.executeUpdate("CREATE INDEX idx_stk_idmc ON stocks (idmc)");
-		stat.executeUpdate("CREATE INDEX idx_stk_idMe ON stocks (idMe)");
-		stat.executeUpdate("CREATE INDEX idx_stk_col ON stocks (collection)");
-		stat.executeUpdate("CREATE INDEX idx_stk_com ON stocks (comments)");
-		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions)");
-		stat.executeUpdate("CREATE INDEX idx_stk_lang ON stocks (langage)");
-		stat.executeUpdate("CREATE INDEX idx_stk_name ON stocks (name)");
 		
+		for(var c : new String[] {"idmc","idMe","collection","comments","conditions","langage","name"})
+			stat.executeUpdate(hlper.createIndex("stocks",c));
 		
-		stat.executeUpdate("CREATE INDEX idx_news_nam ON news (name)");
-		stat.executeUpdate("CREATE INDEX idx_news_url ON news (url)");
-		stat.executeUpdate("CREATE INDEX idx_news_ctg ON news (categorie)");
-		stat.executeUpdate("CREATE INDEX idx_news_typ ON news (typeNews)");
+		for(var c : new String[] {"name","url","categorie","typeNews"})
+			stat.executeUpdate(hlper.createIndex("news",c));
 
-		stat.executeUpdate("CREATE INDEX idx_sld_edition ON sealed (edition)");
-		stat.executeUpdate("CREATE INDEX idx_sld_comment ON sealed (comment)");
-		stat.executeUpdate("CREATE INDEX idx_sld_lang ON sealed (lang)");
-		stat.executeUpdate("CREATE INDEX idx_sld_type ON sealed (typeProduct)");
-		stat.executeUpdate("CREATE INDEX idx_sld_cdt ON sealed (conditionProduct)");
-		stat.executeUpdate("CREATE INDEX idx_sld_ext ON sealed (extra)");
+		for(var c : new String[] {"edition","comment","lang","typeProduct","conditionProduct","extra"})
+			stat.executeUpdate(hlper.createIndex("sealed",c));
 
-		stat.executeUpdate("CREATE INDEX idx_trx_statut ON transactions (statut)");
-		stat.executeUpdate("CREATE INDEX idx_trx_msg ON transactions (message)");
-		stat.executeUpdate("CREATE INDEX idx_trx_transpter ON transactions (transporter)");
-
-		stat.executeUpdate("CREATE INDEX idx_ctc_name ON contacts (contact_name)");
-		stat.executeUpdate("CREATE INDEX idx_ctc_lname ON contacts (contact_lastname)");
-		stat.executeUpdate("CREATE INDEX idx_ctc_country ON contacts (contact_country)");
-		stat.executeUpdate("CREATE INDEX idx_ctc_address ON contacts (contact_address)");
-		stat.executeUpdate("CREATE INDEX idx_ctc_zip ON contacts (contact_zipcode)");
-		stat.executeUpdate("CREATE INDEX idx_ctc_city ON contacts (contact_city)");
-		stat.executeUpdate("CREATE INDEX idx_ctc_site ON contacts (contact_website)");
-		stat.executeUpdate("CREATE INDEX idx_ctc_mail ON contacts (contact_email)");
-
-		stat.executeUpdate("CREATE INDEX idx_dck_name ON decks (name)");
-		stat.executeUpdate("CREATE INDEX idx_dck_tags ON decks (tags)");
-
-		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id)");
-
-		stat.executeUpdate("CREATE INDEX idx_creationDate ON announces (creationDate)");
-		stat.executeUpdate("CREATE INDEX idx_startDate ON announces (startDate)");
-		stat.executeUpdate("CREATE INDEX idx_endDate ON announces (endDate)");
-		stat.executeUpdate("CREATE INDEX idx_title ON announces (title)");
-		stat.executeUpdate("CREATE INDEX idx_currency ON announces (currency)");
-		stat.executeUpdate("CREATE INDEX idx_typeAnnounce ON announces (typeAnnounce)");
-		stat.executeUpdate("CREATE INDEX idx_category ON announces (category)");
-		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions)");
-		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce)");
-
-		stat.executeUpdate("CREATE INDEX idx_technicalClassName ON technicalauditlog (classname)");
+		for(var c : new String[] {"statut","message","transporter"})
+			stat.executeUpdate(hlper.createIndex("transactions",c));
 		
+		for(var c : new String[] {"contact_name","contact_lastname","contact_country","contact_address","contact_zipcode","contact_city","contact_website","contact_email"})
+			stat.executeUpdate(hlper.createIndex("contacts",c));
+
+		for(var c : new String[] {"name","tags"})
+			stat.executeUpdate(hlper.createIndex("decks",c));
+
+		for(var c : new String[] {"creationDate","startDate","endDate","title","currency","typeAnnounce","category","conditions","statusAnnounce"})
+			stat.executeUpdate(hlper.createIndex("announces",c));
+
+		
+		stat.executeUpdate(hlper.createIndex("alerts","id"));
+		
+		stat.executeUpdate(hlper.createIndex("technicalauditlog","classname"));
+				
 	}
 
 	@Override
@@ -761,7 +736,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<Contact> listContacts() throws SQLException {
 		List<Contact> cts = new ArrayList<>();
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts"))
+		try (var c = pool.getConnection();var pst = c.prepareStatement(hlper.selectAll("contacts")))
 		{
 				var rs = executeQuery(pst);
 
@@ -1171,7 +1146,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<MTGSealedStock> listSealedStocks() throws SQLException {
 		List<MTGSealedStock> colls = new ArrayList<>();
 
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = executeQuery(pst))
+		try (var c = pool.getConnection();var pst = c.prepareStatement(hlper.selectAll("sealed"));ResultSet rs = executeQuery(pst))
 		{
 				while (rs.next()) {
 					var state = readSealed(rs);
@@ -1559,7 +1534,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MTGCardStock> listStocks() throws SQLException {
 		List<MTGCardStock> colls = new ArrayList<>();
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * FROM stocks"); ResultSet rs = executeQuery(pst);) {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement(hlper.selectAll("stocks")); ResultSet rs = executeQuery(pst);) {
 			while (rs.next()) {
 				var state = readStock(rs);
 				colls.add(state);
@@ -1689,7 +1664,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MTGNews> listNews() {
 		List<MTGNews> news = new ArrayList<>();
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * FROM news")) {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement(hlper.selectAll("news"))) {
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {
 					var n = new MTGNews();

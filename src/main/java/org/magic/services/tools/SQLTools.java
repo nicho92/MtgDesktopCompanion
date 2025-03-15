@@ -1,5 +1,10 @@
 package org.magic.services.tools;
 
+import static org.jooq.impl.DSL.asterisk;
+import static org.jooq.impl.DSL.field;
+import static org.jooq.impl.DSL.table;
+import static org.jooq.impl.DSL.using;
+
 import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
@@ -7,10 +12,10 @@ import org.jooq.conf.RenderNameCase;
 import org.jooq.conf.RenderQuotedNames;
 import org.jooq.conf.Settings;
 import org.jooq.conf.StatementType;
-import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
+
 
 
 public class SQLTools {
@@ -31,33 +36,34 @@ public class SQLTools {
 			    .withRenderQuotedNames(RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED) // Defaults to EXPLICIT_DEFAULT_QUOTED
 			    .withRenderNameCase(RenderNameCase.LOWER_IF_UNQUOTED); 
 		
-		ctx = DSL.using(dialect,settings);
+		ctx = using(dialect,settings);
 		
 	}
 		
 	public String selectAll(String tableName)
 	{
-		return ctx.select(DSL.asterisk())
-					  .from(DSL.table(tableName))
+		return ctx.select(asterisk())
+					  .from(table(tableName))
 					  .getSQL();
 	}
 	
 	public String insertDefaultCollections() {
-		var d = ctx.insertInto(DSL.table("collections"),DSL.field("name"));
-		
+		var d = ctx.insertInto(table("collections"),field("name"));
 		for(String s : MTGConstants.getDefaultCollectionsNames())
 			d.values(s);
 		
 		return d.getSQL();
-		
-		
 	}
 	
-	
+	public String createIndex(String table, String column)
+	{
+		return ctx.createIndex("idx_"+table+"_"+column).on(table, column).getSQL();
+	}
 	
 	public String insertMainContact() {
-		return ctx.insertInto(DSL.table("contacts"),DSL.field("contact_id"),DSL.field("contact_name"),DSL.field("contact_lastname"),DSL.field("contact_telephone"),DSL.field("contact_country"),DSL.field("contact_zipcode"),DSL.field("contact_city"),DSL.field("contact_address"),DSL.field("contact_website"),DSL.field("contact_email"),DSL.field("emailAccept"),DSL.field("contact_active"))
-					.values(1,"MTG","Companion","123456789","FR","123456","Somewhere","In the middle of nowhere","https://www.mtgcompanion.org","mtgdesktopcompanion@gmail.com",true,true).getSQL();
+		return ctx.insertInto(table("contacts"),field("contact_id"),field("contact_name"),field("contact_lastname"),field("contact_telephone"),field("contact_country"),field("contact_zipcode"),field("contact_city"),field("contact_address"),field("contact_website"),field("contact_email"),field("emailAccept"),field("contact_active"))
+					.values(1,"MTG","Companion","123456789","FR","123456","Somewhere","In the middle of nowhere","https://www.mtgcompanion.org","mtgdesktopcompanion@gmail.com",true,true)
+					.getSQL();
 	}
 		
 	
@@ -155,7 +161,7 @@ public class SQLTools {
 	}
 	
 	public String createTableCollections() { 
-		return	ctx.createTableIfNotExists("collections")
+		return ctx.createTableIfNotExists("collections")
 				.column("name", SQLDataType.VARCHAR(30))
 				.primaryKey("name")
 				.getSQL();
