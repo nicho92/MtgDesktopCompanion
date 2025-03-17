@@ -17,7 +17,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 
 
-
 public class SQLTools {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	

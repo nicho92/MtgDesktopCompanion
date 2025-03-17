@@ -877,9 +877,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public boolean enableContact(String token) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts where temporaryToken=? and contact_active=false"))
+		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts where temporaryToken=? and contact_active=?"))
 		{
 				pst.setString(1, token);
+				pst.setBoolean(2, false);
 				ResultSet rs = executeQuery(pst);
 				rs.next();
 				var ct= readContact(rs);
