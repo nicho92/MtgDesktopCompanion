@@ -29,13 +29,13 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MTGCardStock> ret = new ArrayList<>();
+		var ret = new ArrayList<MTGCardStock>();
 		matches(content, true).forEach(m->{
 
 			var st = MTGControler.getInstance().getDefaultStock();
-						   st.setQte(Integer.parseInt(m.group(1)));
+				  st.setQte(Integer.parseInt(m.group(1)));
 
-			 MTGCard mc=null;
+			MTGCard mc=null;
 			try {
 				mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(10));
 			} catch (IOException e) {
@@ -63,7 +63,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		var temp = new StringBuilder(COLUMNS);
 		temp.append(System.lineSeparator());
 
-		for(MTGCardStock mcs : stock)
+		for(var mcs : stock)
 		{
 			temp.append(mcs.getQte()).append(getSeparator());
 			temp.append(commated(mcs.getProduct().getName())).append(getSeparator());
