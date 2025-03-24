@@ -15,12 +15,6 @@ public class DHLTrackingService extends AbstractTrackingService {
 
 	private static final String BASEURL="https://api-eu.dhl.com/track/shipments?trackingNumber=";
 
-	
-	public static void main(String[] args) throws IOException {
-		new DHLTrackingService().track("CD747054535DE");
-	}
-	
-	
 	@Override
 	public Tracking track(String number, Contact c) throws IOException {
 		
