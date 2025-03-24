@@ -1,12 +1,11 @@
 package org.magic.api.tracking.impl;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -16,19 +15,31 @@ public class DHLTrackingService extends AbstractTrackingService {
 
 	private static final String BASEURL="https://api-eu.dhl.com/track/shipments?trackingNumber=";
 
+	
+	public static void main(String[] args) throws IOException {
+		new DHLTrackingService().track("CD747054535DE");
+	}
+	
+	
 	@Override
 	public Tracking track(String number, Contact c) throws IOException {
-
+		
+		if(getAuthenticator().get("API_KEY").isEmpty())
+			throw new IOException("Authenticator need  to set API_KEY filled");
+		
+		
 		var t = new Tracking(number);
 
 		var res = RequestBuilder.build().setClient(URLTools.newClient()).url(BASEURL+number).get()
-				.addHeader("DHL-API-Key", getString("API_KEY"))
+				.addHeader("DHL-API-Key",getAuthenticator().get("API_KEY"))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject().get("shipments").getAsJsonArray();
 
 		var e=res.get(0).getAsJsonObject();
 
+		
+		logger.trace("result = {}",e);
 
-		t.setTrackingUri("https://www.dhl.com/fr-fr/home/tracking/tracking-parcel.html?submit=1&tracking-id="+number+"&language=fr");
+		t.setTrackingUri("https://www.dhl.com/fr-fr/home/tracking/tracking-parcel.html?submit=1&tracking-id="+number+"&language=en&service=parcel-de");
 		t.setProductName(e.get("service").getAsString());
 		t.setFinished(e.get("details").getAsJsonObject().get("proofOfDelivery")!=null);
 		e.get("events").getAsJsonArray().forEach(je->t.addStep(new TrackingStep(UITools.parseGMTDate(je.getAsJsonObject().get("timestamp").getAsString()),je.getAsJsonObject().get("description").getAsString(),je.getAsJsonObject().get("statusCode").getAsString())));
@@ -43,7 +54,8 @@ public class DHLTrackingService extends AbstractTrackingService {
 	}
 
 	@Override
-	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("API_KEY", new MTGProperty("demo-key", "API key"));
+	public List<String> listAuthenticationAttributes() {
+		return List.of("API_KEY");
 	}
+	
 }
