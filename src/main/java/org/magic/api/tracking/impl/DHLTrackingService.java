@@ -35,7 +35,7 @@ public class DHLTrackingService extends AbstractTrackingService {
 
 		t.setTrackingUri("https://www.dhl.com/fr-fr/home/tracking/tracking-parcel.html?submit=1&tracking-id="+number+"&language=en&service=parcel-de");
 		t.setProductName(e.get("service").getAsString());
-		t.setFinished(e.get("details").getAsJsonObject().get("proofOfDelivery")!=null);
+		t.setFinished("delivered".equals(e.get("status").getAsJsonObject().get("statusCode").getAsString()));
 		e.get("events").getAsJsonArray().forEach(je->t.addStep(new TrackingStep(UITools.parseGMTDate(je.getAsJsonObject().get("timestamp").getAsString()),je.getAsJsonObject().get("description").getAsString(),je.getAsJsonObject().get("statusCode").getAsString())));
 
 		return t;
