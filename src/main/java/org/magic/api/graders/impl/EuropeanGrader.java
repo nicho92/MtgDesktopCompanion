@@ -13,8 +13,6 @@ import org.magic.services.tools.UITools;
 public class EuropeanGrader extends AbstractGradersProvider {
 
 
-	private static final String HTML_KEY_TAGS = "p.header_etiqueta_notas";
-
 	@Override
 	public String getWebSite() {
 		return "https://www.europeangrading.com";
@@ -42,16 +40,18 @@ public class EuropeanGrader extends AbstractGradersProvider {
 				grad.setNumberID(identifier);
 				grad.setUrlInfo(url+"?certificate="+identifier);
 		
-			grad.setCentering(UITools.parseDouble(trs.select(HTML_KEY_TAGS).first().text().replace("CENTERING ", "")));
 			
-			grad.setCorners(UITools.parseDouble(trs.select(HTML_KEY_TAGS).get(1).text().replace("CORNERS ", "")));
-			
-			grad.setEdges(UITools.parseDouble(trs.select(HTML_KEY_TAGS).get(2).text().replace("EDGES ", "")));
-			
-			grad.setSurface(UITools.parseDouble(trs.select(HTML_KEY_TAGS).get(3).text().replace("SURFACE ", "")));
-			
-			grad.setGradeNote(UITools.parseDouble(trs.select("p.header_etiqueta_grade").first().text()));
-		
+				var item = trs.select("p.header_etiqueta_notas");
+				
+				if(item!=null)
+				{
+					grad.setCentering(UITools.parseDouble(item.get(0).text().replace("CENTERING ", "")));
+					grad.setCorners(UITools.parseDouble(item.get(1).text().replace("CORNERS ", "")));
+					grad.setEdges(UITools.parseDouble(item.get(2).text().replace("EDGES ", "")));
+					grad.setSurface(UITools.parseDouble(item.get(3).text().replace("SURFACE ", "")));
+					grad.setGradeNote(UITools.parseDouble(trs.select("p.header_etiqueta_grade").first().text()));
+				}
+				
 		return grad;
 	}
 
