@@ -52,7 +52,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 											.toHtml();
 			trs = content.select("table[width=100%]:has(form) tr");
 
-			if(trs!=null)
+			if(!trs.isEmpty())
 			{
 				for(Element tr : trs)
 				{

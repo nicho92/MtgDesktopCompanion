@@ -75,7 +75,8 @@ public class FileDropDecorator
                         if (tr.isDataFlavorSupported (DataFlavor.javaFileListFlavor))
                         {
                             evt.acceptDrop ( DnDConstants.ACTION_COPY );
-                            List<File> fileList = (List)tr.getTransferData(DataFlavor.javaFileListFlavor);
+							@SuppressWarnings("unchecked")
+							var fileList = (List<File>)tr.getTransferData(DataFlavor.javaFileListFlavor);
 
                             if( listener != null )
                                 listener.filesDropped( fileList.toArray(new File[fileList.size()]) );

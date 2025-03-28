@@ -111,7 +111,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		logger.debug("get deck {}",info.getUrl());
 		var d = URLTools.extractAsHtml(info.getUrl().toString());
 
-		if (d.select("div#deck_overview_info") != null)
+		if (!d.select("div#deck_overview_info").isEmpty())
 			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
 		else
 			deck.setDescription("From " + getName() +" at " + info.getUrl());
