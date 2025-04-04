@@ -60,7 +60,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.IASuggestionPanel;
 import org.magic.gui.components.ImagePanel;
-import org.magic.gui.components.RulesPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
