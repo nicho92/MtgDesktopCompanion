@@ -77,6 +77,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -236,7 +237,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		detailCardPanel = new MagicCardDetailPanel(true);
 		panelmana = new JPanel();
 		panelFilters = new JPanel();
-		var pan = new ManaPanel();
 		panelJson = new ObjectViewerPanel();
 		tabbedCardsView = new JTabbedPane(SwingConstants.TOP);
 		thumbnailPanel = new HandPanel();
@@ -318,7 +318,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			if (s.equals("1"))
 				btnG.setToolTipText("[0-9]*");
 
-			btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+			btnG.setIcon(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
 			btnG.setForeground(btnG.getBackground());
 			btnG.addActionListener(e -> {
 				txtFilter.setText("\\{" + btnG.getToolTipText() + "}");

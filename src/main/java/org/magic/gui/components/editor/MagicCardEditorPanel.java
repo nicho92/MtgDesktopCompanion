@@ -54,6 +54,7 @@ import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.card.ManaPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -84,7 +85,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JCheckableListBox<String> cboTypes;
 	private JTextField txtSubTypes;
 	private JPanel panelButton;
-	private ManaPanel pan = new ManaPanel();
 	private JCheckableListBox<String> cboSubtypes;
 	private JLabel lblTxtSize;
 	private JSpinner spinner;
@@ -227,25 +227,25 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				});
 
 				g.getContentPane().add(new JLabel(
-						new ImageIcon(pan.getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						new ImageIcon(IconsProvider.getInstance().getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboUn);
 				g.getContentPane().add(new JLabel(
-						new ImageIcon(pan.getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						new ImageIcon(IconsProvider.getInstance().getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboW);
 				g.getContentPane().add(new JLabel(
-						new ImageIcon(pan.getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						new ImageIcon(IconsProvider.getInstance().getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboU);
 				g.getContentPane().add(new JLabel(
-						new ImageIcon(pan.getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						new ImageIcon(IconsProvider.getInstance().getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboB);
 				g.getContentPane().add(new JLabel(
-						new ImageIcon(pan.getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						new ImageIcon(IconsProvider.getInstance().getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboR);
 				g.getContentPane().add(new JLabel(
-						new ImageIcon(pan.getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						new ImageIcon(IconsProvider.getInstance().getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboG);
 				g.getContentPane().add(new JLabel(
-						new ImageIcon(pan.getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						new ImageIcon(IconsProvider.getInstance().getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboC);
 				g.getContentPane().add(btn);
 				g.setLocationRelativeTo(null);
@@ -363,7 +363,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		for (String s : symbolcs) {
 			final var btnG = new JButton();
 			btnG.setToolTipText(s);
-			btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+			btnG.setIcon(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
 			btnG.setForeground(btnG.getBackground());
 
 			btnG.addActionListener(

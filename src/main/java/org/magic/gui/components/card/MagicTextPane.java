@@ -20,6 +20,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 import org.magic.api.beans.enums.EnumCardsPatterns;
+import org.magic.services.providers.IconsProvider;
 
 public class MagicTextPane extends JComponent {
 
@@ -29,7 +30,6 @@ public class MagicTextPane extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private transient KeyAdapter translation;
 
-	private ManaPanel manaPanel;
 	private JTextPane textPane;
 
 	public MagicTextPane() {
@@ -48,7 +48,7 @@ public class MagicTextPane extends JComponent {
 		textPane = new JTextPane();
 		add(textPane,BorderLayout.CENTER);
 
-		manaPanel = new ManaPanel();
+		
 		setPreferredSize(new Dimension(200, 150));
 		textPane.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
 
@@ -89,7 +89,7 @@ public class MagicTextPane extends JComponent {
 		try {
 			document.insertString(0, text, null);
 			while (m.find()) {
-				var ic = manaPanel.getManaSymbol(m.group(1));
+				var ic = IconsProvider.getInstance().getManaSymbol(m.group(1));
 
 				var width = 15;
 				if (m.group().equals("{100}"))

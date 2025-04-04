@@ -16,25 +16,22 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumColors;
-import org.magic.gui.components.card.ManaPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconsProvider;
 
 public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 
-	private ManaPanel pane;
 	private Map<EnumColors, ImageIcon> map;
 
 	public MagicCardsTreeCellRenderer() {
 		try {
-			pane = new ManaPanel();
 			map = new EnumMap<>(EnumColors.class);
-			map.put(EnumColors.WHITE, new ImageIcon(pane.getManaSymbol(EnumColors.WHITE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.BLUE, new ImageIcon(pane.getManaSymbol(EnumColors.BLUE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.BLACK, new ImageIcon(pane.getManaSymbol(EnumColors.BLACK.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.RED, new ImageIcon(pane.getManaSymbol(EnumColors.RED.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.GREEN, new ImageIcon(pane.getManaSymbol(EnumColors.GREEN.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.UNCOLOR, new ImageIcon(pane.getManaSymbol("X").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.WHITE, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.WHITE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.BLUE, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.BLUE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.BLACK, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.BLACK.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.RED, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.RED.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.GREEN, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.GREEN.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.UNCOLOR, new ImageIcon(IconsProvider.getInstance().getManaSymbol("X").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 		} catch (Exception e) {
 			// do nothing
 		}

@@ -352,7 +352,6 @@ public class ImageTools {
 		return resize(icon,(int)d.getHeight(),(int)d.getWidth());
 	}
 	
-
 	public static BufferedImage readBase64(String base) throws IOException
 	{
 		BufferedImage image = null;
