@@ -1,22 +1,19 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class MTGRuling implements Serializable {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
-	String chapter;
-	String date;
+	Date date;
 	String text;
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -26,14 +23,6 @@ public class MTGRuling implements Serializable {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public String getChapter() {
-		return chapter;
-	}
-
-	public void setChapter(String chapter) {
-		this.chapter = chapter;
 	}
 
 	@Override

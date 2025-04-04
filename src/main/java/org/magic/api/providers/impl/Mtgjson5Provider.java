@@ -35,6 +35,7 @@ import org.magic.api.criterias.builders.JsonCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonArray;
 import com.jayway.jsonpath.Configuration;
@@ -417,7 +418,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(RULINGS) != null) {
 					for (Map<String, Object> mapRules : (List<Map<String,Object>>) map.get(RULINGS)) {
 						var mr = new MTGRuling();
-						mr.setDate(String.valueOf(mapRules.get("date")));
+						mr.setDate(UITools.parseDate(String.valueOf(mapRules.get("date")), "yyyy-MM-dd"));
 						mr.setText(String.valueOf(mapRules.get(TEXT)));
 						mc.getRulings().add(mr);
 					}

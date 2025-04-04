@@ -46,6 +46,7 @@ import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.UITools;
 
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
@@ -673,7 +674,7 @@ private MTGPool pool;
 				{
 					var names = new MTGRuling();
 					names.setText(rs.getString("text"));
-					names.setDate(rs.getString("date"));
+					names.setDate(UITools.parseDate(rs.getString("date"), "yyyy-MM-dd"));
 					var id = rs.getString(UUID);
 
 					mapRules.put(id, names);

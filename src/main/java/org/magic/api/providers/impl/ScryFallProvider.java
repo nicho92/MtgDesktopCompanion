@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +42,7 @@ import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.UITools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
@@ -138,7 +140,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			URLTools.toJson(FileTools.readFile(f)).getAsJsonArray().forEach(e->{
 				
 				var r = new MTGRuling();
-				r.setDate(readAsString(e.getAsJsonObject(),"published_at"));
+				r.setDate(readAsDate(e.getAsJsonObject(),"published_at"));
 				r.setText(readAsString(e.getAsJsonObject(),"comment"));
 				if(e.getAsJsonObject().get(ORACLE_ID)!=null)
 					mapRules.computeIfAbsent(e.getAsJsonObject().get(ORACLE_ID).getAsString(),v->new HashSet<>()).add(r);
@@ -420,6 +422,19 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return null;
 		}
 	}
+	
+	private Date readAsDate(JsonObject obj , String k)
+	{
+		try {
+			return UITools.parseDate(obj.get(k).getAsString(), "yyyy-MM-dd");
+		}
+		catch(Exception e)
+		{
+			return null;
+		}
+	}
+	
+	
 	
 	private Integer readAsInt(JsonObject obj , String k)
 	{
