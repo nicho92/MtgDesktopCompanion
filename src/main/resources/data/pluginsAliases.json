@@ -264,7 +264,7 @@
 		"conditions": {
 			"GOOD": "G",
 			"EXCELLENT":"EX",
-			"LP":"VG",
+			"LIGHTLY_PLAYED":"VG",
 			"NEAR_MINT": "NM"
 		}
 	},
