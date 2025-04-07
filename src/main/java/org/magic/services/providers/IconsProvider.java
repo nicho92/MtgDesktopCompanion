@@ -263,7 +263,6 @@ public class IconsProvider {
 	}
 	
 	public Image getManaSymbol(String el) {
-		var rowWidth = 18;
 		var val = 0;
 		try {
 			val = Integer.parseInt(el);
@@ -277,30 +276,13 @@ public class IconsProvider {
 			}
 		}
 
-
-		List<Image> lst = new ArrayList<>();
-
-		BufferedImage[] imgs = ImageTools.splitManaImage();
+		var imgs = ImageTools.splitManaImage();
 		
 		if (val == 100)// mox lotus
-		{
-			lst.add(imgs[65]);
-			lst.add(imgs[66]);
-			rowWidth = rowWidth * lst.size();
-			return ImageTools.joinBufferedImage(lst);
-		}
+			return ImageTools.joinBufferedImage(List.of(imgs[65],imgs[66]));
 
-		if (val == 1000000)// gleemax
-		{
-
-			lst.add(imgs[60]);
-			lst.add(imgs[61]);
-			lst.add(imgs[62]);
-			lst.add(imgs[63]);
-			lst.add(imgs[64]);
-			rowWidth = rowWidth * lst.size();
-			return ImageTools.joinBufferedImage(lst);
-		}
+		if (val == 1_000_000)// gleemax
+			return ImageTools.joinBufferedImage(List.of(imgs[60],imgs[61],imgs[62],imgs[63],imgs[64]));
 
 		return imgs[val];
 	}

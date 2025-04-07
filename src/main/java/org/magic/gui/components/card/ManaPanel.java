@@ -20,17 +20,7 @@ public class ManaPanel extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private int rowHeight = MTGConstants.TABLE_ROW_HEIGHT;
-	private int rowWidth = MTGConstants.TABLE_ROW_WIDTH;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-	
-	public int getRowHeight() {
-		return rowHeight;
-	}
-
-	public int getRowWidth() {
-		return rowWidth;
-	}
 
 	FlowLayout fl = new FlowLayout();
 
@@ -65,9 +55,19 @@ public class ManaPanel extends JPanel {
 		while (m.find()) {
 			var lab = new JLabel();
 			var img = IconsProvider.getInstance().getManaSymbol(m.group(1));
-			lab.setIcon(new ImageIcon(img.getScaledInstance(rowWidth, rowHeight, Image.SCALE_DEFAULT)));
+			
+			var w = 18;
+			
+			if(m.group(1).equals("100"))
+				w=36;
+				else
+					if(m.group(1).equals("1000000"))
+						w=90;
+			
+			lab.setIcon(new ImageIcon(img.getScaledInstance(w, 18, Image.SCALE_DEFAULT)));
 			lab.setHorizontalAlignment(SwingConstants.CENTER);
 			add(lab);
+			
 		}
 	}
 
