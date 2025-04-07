@@ -106,7 +106,7 @@
 					"NEAR_MINT": "NM",
 					"PLAYED": "PL",
 					"EXCELLENT": "EX",
-					"GOOD": "NM",
+					"GOOD": "GD",
 					"MINT": "MT",
 					"DAMAGED":"PO"
 				}
@@ -168,6 +168,10 @@
 	"MTGStand": {
 		"regex": {
 			"default": "\"(.*?)\",(\\d),\"(.*?)\",(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?)$"
+		},
+		"conditions": {
+			"LIGHTLY_PLAYED": "Slightly Played",
+			"NEAR_MINT": "Near Mint",
 		}
 	},
 	"MTGArena": {
@@ -256,6 +260,12 @@
 			"New Capenna Commander": "New Capenna Commander Decks",
 			"Neon Dynasty Commander": "Kamigawa: Neon Dynasty Commander Decks",
 			"The Lost Caverns Of Ixalan Commander": "The Lost Caverns Of Ixalan Commander Decks"
+		},
+		"conditions": {
+			"GOOD": "G",
+			"EXCELLENT":"EX",
+			"LP":"VG",
+			"NEAR_MINT": "NM"
 		}
 	},
 	"PlayIn": {
@@ -280,6 +290,7 @@
 			"NEAR_MINT": "Near Mint",
 			"EXCELLENT": "Excellent",
 			"PLAYED": "Played",
+			"GOOD":"Good",
 			"LIGHTLY_PLAYED": "Lightly Played"
 		}
 	},
@@ -414,6 +425,18 @@
 			"P2": "P02",
 			"EVG": "DD1"
 		}
+	},
+	"StarCityGame":{
+		"conditions": {
+			"NEAR_MINT": "Near Mint"
+		}	
+	},
+	"MagicCorporation":{
+		"conditions": {
+			"PLAYED": "PL",
+			"POOR": "PO",
+			"NEAR_MINT": "NM"
+		}	
 	},
 	"TCGPlayer": {
 		"regex": {
