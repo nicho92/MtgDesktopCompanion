@@ -39,13 +39,13 @@ public class PluginsAliasesProvider {
 			}
 		}
 		else {
-		try {
-			jsonData = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_ALIASES_URL).getAsJsonObject();
-		}
-		catch(Exception e)
-		{
-			logger.error("No Error getting file {} : {}",MTGConstants.MTG_DESKTOP_ALIASES_URL,e.getMessage());
-		}
+			try {
+				jsonData = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_ALIASES_URL).getAsJsonObject();
+			}
+			catch(Exception e)
+			{
+				logger.error("No Error getting file {} : {}",MTGConstants.MTG_DESKTOP_ALIASES_URL,e.getMessage());
+			}
 		}
 	}
 
