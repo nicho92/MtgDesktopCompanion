@@ -137,7 +137,6 @@ public class MTGConstants {
 	public static final int DPI=300;
 	public static final int TREE_ROW_HEIGHT = 32;
 	public static final int TABLE_ROW_HEIGHT = 18;
-	public static final int TABLE_ROW_WIDTH = 18;
 	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
 	public static final Color COLLECTION_100PC = new Color(115, 230, 0);
 	public static final Color COLLECTION_90PC = new Color(188, 245, 169);

@@ -56,7 +56,7 @@ public class ManaPanel extends JPanel {
 			var lab = new JLabel();
 			var img = IconsProvider.getInstance().getManaSymbol(m.group(1));
 			
-			var w = 18;
+			var w = MTGConstants.TABLE_ROW_HEIGHT;
 			
 			if(m.group(1).equals("100"))
 				w=36;
@@ -64,7 +64,7 @@ public class ManaPanel extends JPanel {
 					if(m.group(1).equals("1000000"))
 						w=90;
 			
-			lab.setIcon(new ImageIcon(img.getScaledInstance(w, 18, Image.SCALE_DEFAULT)));
+			lab.setIcon(new ImageIcon(img.getScaledInstance(w, MTGConstants.TABLE_ROW_HEIGHT, Image.SCALE_DEFAULT)));
 			lab.setHorizontalAlignment(SwingConstants.CENTER);
 			add(lab);
 			
