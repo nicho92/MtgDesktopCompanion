@@ -448,6 +448,7 @@
 		"conditions": {
 			"LIGHTLY_PLAYED": "Lightly Played",
 			"MINT": "Mint",
+			"PLAYED":"Moderately Played",
 			"NEAR_MINT": "Near Mint",
 			"PLAYED": "Heavily Played",
 			"DAMAGED": "Damaged",			
