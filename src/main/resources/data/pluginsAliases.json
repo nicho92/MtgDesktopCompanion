@@ -171,7 +171,7 @@
 		},
 		"conditions": {
 			"LIGHTLY_PLAYED": "Slightly Played",
-			"NEAR_MINT": "Near Mint",
+			"NEAR_MINT": "Near Mint"
 		}
 	},
 	"MTGArena": {
