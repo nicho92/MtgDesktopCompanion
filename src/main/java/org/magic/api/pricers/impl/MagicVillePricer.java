@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
@@ -77,7 +78,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 			mp.setSellerUrl(WEBSITE+"/fr/register/cards_to_sell?user="+mp.getSeller());
 			mp.setSite(getName());
 			mp.setUrl(url);
-			mp.setQuality(cols.get(2).text());
+			mp.setQuality(aliases.getReversedConditionFor(this, cols.get(2).text(), EnumCondition.NEAR_MINT));
 			mp.setLanguage(cols.get(1).getElementsByTag("span").text());
 			mp.setCountry("France");
 			mp.setFoil(mp.getLanguage().toLowerCase().contains("foil"));

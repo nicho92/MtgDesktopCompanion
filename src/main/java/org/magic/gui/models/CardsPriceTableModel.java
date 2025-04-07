@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -45,7 +46,7 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 		case 4:
 			return String.class;
 		case 5:
-			return String.class;
+			return EnumCondition.class;
 		case 6:
 			return Boolean.class;
 		case 7:

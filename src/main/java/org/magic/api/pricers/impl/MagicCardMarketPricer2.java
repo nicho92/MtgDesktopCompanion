@@ -22,6 +22,7 @@ import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
@@ -131,7 +132,6 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 					var mp = new MTGPrice();
 					mp.setSeller(String.valueOf(p.getExpansionName()));
 					mp.setValue(p.getPriceGuide().getLOW());
-					mp.setQuality("");
 					mp.setUrl(MkmConstants.MKM_SITE_URL  + p.getWebsite());
 					mp.setSellerUrl(MkmConstants.MKM_SITE_URL+"/fr/Magic/Users/"+mp.getSeller()+"/Offers/Singles");
 					mp.setSite(getName());
@@ -172,7 +172,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 							mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
 							mp.setValue(a.getPrice());
-							mp.setQuality(a.getCondition());
+							mp.setQuality(aliases.getReversedConditionFor(this, a.getCondition(), EnumCondition.NEAR_MINT));
 							mp.setUrl(MkmConstants.MKM_SITE_URL + resultat.getWebsite());
 							mp.setSite(getName());
 							mp.setFoil(a.isFoil());

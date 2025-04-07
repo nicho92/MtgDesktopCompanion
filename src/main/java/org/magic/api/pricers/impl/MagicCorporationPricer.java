@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
@@ -60,7 +61,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 						mp.setCardData(card);
 						mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 						mp.setCurrency("EUR");
-						mp.setQuality(tr.select("td").get(1).text());
+						mp.setQuality(aliases.getReversedConditionFor(this, tr.select("td").get(1).text(), EnumCondition.NEAR_MINT));
 						mp.setValue(UITools.parseDouble(tr.select("td").get(3).text().replace("\u0080", "")));
 						mp.setSeller(tr.select("td").first().text());
 						mp.setSite(getName());

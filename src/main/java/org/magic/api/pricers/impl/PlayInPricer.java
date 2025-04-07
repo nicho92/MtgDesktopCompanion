@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
@@ -59,7 +60,7 @@ public class PlayInPricer extends AbstractPricesProvider {
 
 				mp.setCardData(card);
 				mp.setLanguage(lang);
-				mp.setQuality(e.getElementsByClass("etat").html());
+				mp.setQuality(aliases.getReversedConditionFor(this, e.getElementsByClass("etat").html(), EnumCondition.NEAR_MINT));
 				mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
 				mp.setCurrency("EUR");
 				mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));

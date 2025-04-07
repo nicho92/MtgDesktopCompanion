@@ -7,6 +7,7 @@ import java.util.List;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -95,7 +96,7 @@ public class MTGMintCardsPricer  extends AbstractPricesProvider{
 									  p.setSeller(getName());
 									  p.setUrl(tr.select("td a.opacityit").attr("href"));
 									  p.setSellerUrl(p.getUrl());
-									  p.setQuality(elementsQuality.get(i).text());
+									  p.setQuality(aliases.getReversedConditionFor(this, elementsQuality.get(i).text(), EnumCondition.NEAR_MINT));
 									  p.setValue(UITools.parseDouble(elementsPrice.get(i).text()));
 									  p.setLanguage("English");
 									  p.setFoil(foil);

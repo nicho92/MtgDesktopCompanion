@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
@@ -50,7 +51,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 					mp.setFoil(jo.get("is_foil").getAsInt()==1);
 					mp.setQty(jo.get("stock").getAsInt());
 					mp.setValue(jo.get("price").getAsDouble());
-					mp.setQuality(jo.get("state").getAsString());
+					mp.setQuality(aliases.getReversedConditionFor(this, jo.get("state").getAsString(), EnumCondition.NEAR_MINT));
 					mp.setUrl(URL_BASE+"/en/"+jo.get("id").getAsInt()+"-");
 					mp.setSeller(getName());
 

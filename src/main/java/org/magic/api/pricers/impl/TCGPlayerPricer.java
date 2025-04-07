@@ -11,6 +11,7 @@ import org.apache.groovy.util.Maps;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
@@ -57,7 +58,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 				mp.setCardData(card);
 				mp.setSeller(e.getAsJsonObject().get("sellerName").getAsString());
 				mp.setLanguage(e.getAsJsonObject().get("language").getAsString());
-				mp.setQuality(e.getAsJsonObject().get("condition").getAsString());
+				mp.setQuality(aliases.getReversedConditionFor(this, e.getAsJsonObject().get("condition").getAsString(), EnumCondition.NEAR_MINT));
 				mp.setValue(e.getAsJsonObject().get("price").getAsDouble());
 				mp.setSellerUrl("https://www.tcgplayer.com/search/product/all?seller="+e.getAsJsonObject().get("sellerKey").getAsString()+"&view=grid&partner=MTGCompanion&utm_campaign=affiliate&utm_medium=MTGCompanion&utm_source=MTGCompanion");
 				mp.setFoil(e.getAsJsonObject().get("printing").getAsString().equalsIgnoreCase("Foil"));

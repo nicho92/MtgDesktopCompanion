@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
@@ -57,7 +58,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 			p.setSellerUrl(BASE_URL+"/"+p.getSeller());
 			p.setUrl(BASE_URL+"card-sid-"+card.getScryfallId());
 			p.setLanguage(URLTools.toHtml(obj.get("cardlanguage").getAsString()).text().replace("l:", ""));
-			p.setQuality(URLTools.toHtml(obj.get("cond").getAsString()).select("span").text().replace("c:", ""));
+			p.setQuality(aliases.getReversedConditionFor(this, URLTools.toHtml(obj.get("cond").getAsString()).select("span").text().replace("c:", ""), EnumCondition.NEAR_MINT));
 			p.setValue(UITools.parseDouble(obj.get("price").getAsString().substring(0,obj.get("price").getAsString().indexOf(" "))));
 			p.setQty(obj.get("forsale").getAsInt());
 			p.setFoil(obj.get("foilq").getAsInt()>0);

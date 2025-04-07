@@ -2,6 +2,7 @@ package org.magic.api.beans;
 
 import java.util.Currency;
 
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MoneyValue;
 
 public class MTGPrice implements Comparable<MTGPrice> {
@@ -10,7 +11,7 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	private String site;
 	private boolean foil;
 	private String language;
-	private String quality;
+	private EnumCondition quality;
 	private Object shopItem;
 	private String country;
 	private String scryfallId;
@@ -62,14 +63,11 @@ public class MTGPrice implements Comparable<MTGPrice> {
 		this.shopItem = shopItem;
 	}
 
-	public String getQuality() {
-		if (quality == null)
-			return "";
-
+	public EnumCondition getQuality() {
 		return quality;
 	}
 
-	public void setQuality(String quality) {
+	public void setQuality(EnumCondition quality) {
 		this.quality = quality;
 	}
 

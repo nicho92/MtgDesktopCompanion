@@ -14,6 +14,7 @@ import java.util.Map;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.exports.impl.CardKingdomCardExport;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
@@ -142,7 +143,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		for (var i = 0; i < qualities.size(); i++) {
 			var mp = new MTGPrice();
 
-			String price = prices.get(i).html();
+			var price = prices.get(i).html();
 			mp.setCardData(card);
 			mp.setValue(UITools.parseDouble(price));
 			mp.setCurrency("USD");
@@ -151,7 +152,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			mp.setSite(getName());
 			mp.setUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
 			mp.setSellerUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
-			mp.setQuality(qualities.get(i).html());
+			mp.setQuality(aliases.getReversedConditionFor(this, qualities.get(i).html().trim(), EnumCondition.NEAR_MINT));
 			mp.setLanguage("English");
 			mp.setFoil(foil);
 			if (!qualities.get(i).hasClass("disabled"))

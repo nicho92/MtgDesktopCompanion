@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
@@ -109,7 +110,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 				mp.setSeller(tds.get(0).text());
 				mp.setFoil(tds.get(1).text().toLowerCase().contains("foil"));
 				mp.setSellerUrl(BASE_URL+"/"+mp.getSeller());
-				mp.setQuality(tds.get(2).text());
+				mp.setQuality(aliases.getReversedConditionFor(this, tds.get(2).text(), EnumCondition.NEAR_MINT));
 				mp.setLanguage(tds.get(2).select("span.flag-icon").attr("title"));
 				mp.setValue(UITools.parseDouble(tds.get(4).text().replaceAll("R\\$ ", "")));
 				mp.setUrl(urlC);

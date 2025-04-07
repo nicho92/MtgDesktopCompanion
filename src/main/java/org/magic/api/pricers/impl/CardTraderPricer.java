@@ -13,6 +13,7 @@ import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
@@ -116,7 +117,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 					mp.setCardData(card);
 					mp.setSeller(marketItem.getSeller().getUsername());
 					mp.setSite(getName());
-					mp.setQuality(marketItem.getCondition().getValue());
+					mp.setQuality(aliases.getReversedConditionFor(this, marketItem.getCondition().name(), EnumCondition.NEAR_MINT));
 					mp.setSellerUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/users/"+marketItem.getSeller().getUsername());
 					mp.setUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/cards/"+bp.getSlug()+"?share_code="+CardTraderConstants.SHARE_CODE);
 					mp.setShopItem(marketItem);

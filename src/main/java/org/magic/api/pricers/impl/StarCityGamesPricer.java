@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
@@ -76,7 +77,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 					mp.setUrl(BASE_URL+jinfo.get("url").getAsString());
 					mp.setValue(jinfo.get("price").getAsDouble());
 					mp.setFoil(jinfo.get("p_cat_url").getAsString().endsWith("finish=Foil"));
-					mp.setQuality(jinfo.get("condition").getAsString());
+					mp.setQuality(aliases.getReversedConditionFor(this, jinfo.get("condition").getAsString(), EnumCondition.NEAR_MINT));
 					
 					ret.add(mp);
 				}

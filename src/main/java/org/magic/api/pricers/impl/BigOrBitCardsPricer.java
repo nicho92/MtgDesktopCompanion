@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
@@ -64,7 +65,7 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 					mp.setFoil(title.text().contains("(Foil)"));
 					mp.setUrl(title.attr("href"));
 					mp.setSellerUrl(mp.getUrl());
-					mp.setQuality(rowDetail.select("span.product-name").text());
+					mp.setQuality(aliases.getReversedConditionFor(this, rowDetail.select("span.product-name").text(), EnumCondition.NEAR_MINT));
 					mp.setValue(UITools.parseDouble(rowDetail.select("span.product-price").text()));
 					notify(mp);
 					ret.add(mp);
