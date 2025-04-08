@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.pricers.impl.CardTraderPricer;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
@@ -86,11 +87,14 @@ public class PluginsAliasesProvider {
 		}
 	}
 	
+	public static void main(String[] args) {
+		PluginsAliasesProvider.inst().getReversedConditionFor(new CardTraderPricer(), "MODERATELY_PLAYED", null);
+	}
+	
 	
 
 	public EnumCondition getReversedConditionFor(MTGPlugin plug, String conditionName, EnumCondition defaultCondition)
 	{
-
 		if(conditionName==null)
 			return defaultCondition;
 		
