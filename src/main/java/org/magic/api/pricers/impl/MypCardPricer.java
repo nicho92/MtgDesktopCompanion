@@ -110,7 +110,11 @@ public class MypCardPricer extends AbstractPricesProvider {
 				mp.setSeller(tds.get(0).text());
 				mp.setFoil(tds.get(1).text().toLowerCase().contains("foil"));
 				mp.setSellerUrl(BASE_URL+"/"+mp.getSeller());
-				mp.setQuality(aliases.getReversedConditionFor(this, tds.get(2).text(), EnumCondition.NEAR_MINT));
+				
+				var q = tds.get(2).text();
+				var sub = q.indexOf(' ');
+				
+				mp.setQuality(aliases.getReversedConditionFor(this, sub>0? q.substring(0, sub).trim():q, EnumCondition.NEAR_MINT));
 				mp.setLanguage(tds.get(2).select("span.flag-icon").attr("title"));
 				mp.setValue(UITools.parseDouble(tds.get(4).text().replaceAll("R\\$ ", "")));
 				mp.setUrl(urlC);

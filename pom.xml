@@ -52,7 +52,7 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
 		<jwt.version>0.12.6</jwt.version>
-		<lucene.version>10.1.0</lucene.version>
+		<lucene.version>10.2.0</lucene.version>
 		<artemis.version>2.40.0</artemis.version>
 		<flatlaf.version>3.5.4</flatlaf.version>
 		<qwartz.version>2.5.0</qwartz.version>
@@ -89,7 +89,7 @@
 		<dependency>
     		<groupId>org.apache.tomcat</groupId>
     		<artifactId>tomcat-jdbc</artifactId>
-    		<version>11.0.5</version>
+    		<version>11.0.6</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.firebirdsql.jdbc</groupId>
@@ -439,7 +439,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.4.6-jre</version>
+			<version>33.4.7-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -541,7 +541,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.13.0</version>
+			<version>1.13.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

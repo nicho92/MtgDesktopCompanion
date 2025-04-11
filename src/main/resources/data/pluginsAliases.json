@@ -19,6 +19,9 @@
 		}
 	},
 
+	
+
+
 	"MTGMintCard" : {
 				"conditions": {
 				"NEAR_MINT" :"NM",
@@ -51,6 +54,17 @@
 			}
 	
 	},
+	
+	
+
+
+	"Mypcards" : {
+				"conditions": {
+					"NEAR_MINT" :"NM"
+			}
+	},
+	
+	
 	"CardTrader" : {
 		"conditions": {
 				"DAMAGED":"HEAVILY_PLAYED",
