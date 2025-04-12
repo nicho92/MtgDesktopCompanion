@@ -56,14 +56,6 @@
 	},
 	
 	
-
-
-	"Mypcards" : {
-				"conditions": {
-					"NEAR_MINT" :"NM"
-			}
-	},
-	
 	
 	"CardTrader" : {
 		"conditions": {
@@ -76,6 +68,14 @@
 				"LIGHTLY_PLAYED":"SLIGHTLY_PLAYED"
 			}
 	},
+
+
+	"Mypcards" : {
+				"conditions": {
+					"NEAR_MINT" :"NM"
+			}
+	},
+	
 
 	"DragonShield":{
 		"regex":{
