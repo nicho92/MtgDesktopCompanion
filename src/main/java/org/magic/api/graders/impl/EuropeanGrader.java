@@ -43,7 +43,7 @@ public class EuropeanGrader extends AbstractGradersProvider {
 			
 				var item = trs.select("p.header_etiqueta_notas");
 				
-				if(item!=null)
+				if(!item.isEmpty())
 				{
 					grad.setCentering(UITools.parseDouble(item.get(0).text().replace("CENTERING ", "")));
 					grad.setCorners(UITools.parseDouble(item.get(1).text().replace("CORNERS ", "")));
