@@ -53,25 +53,29 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 			for (Element tr : table.select("tr.cardItem")) {
 				var td = tr.select("td.number").first();
-				var qte = td.text().substring(0, td.text().indexOf(' '));
-				var name = td.select("a").text();
-				if (name.contains("/"))
-					name = name.substring(0, name.indexOf('/')).trim();
-
-				try {
-				var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
-
-				notify(mc);
-
-				if (!isSideboard)
-					deck.getMain().put(mc, Integer.parseInt(qte));
-				else
-					deck.getSideBoard().put(mc, Integer.parseInt(qte));
-
-				}
-				catch(Exception e)
+				
+				if(td!=null)
 				{
-					logger.error("No card found for {}",name);
+					var qte = td.text().substring(0, td.text().indexOf(' '));
+					var name = td.select("a").text();
+					if (name.contains("/"))
+						name = name.substring(0, name.indexOf('/')).trim();
+	
+					try {
+					var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
+	
+					notify(mc);
+	
+					if (!isSideboard)
+						deck.getMain().put(mc, Integer.parseInt(qte));
+					else
+						deck.getSideBoard().put(mc, Integer.parseInt(qte));
+	
+					}
+					catch(Exception e)
+					{
+						logger.error("No card found for {}",name);
+					}
 				}
 
 			}
@@ -100,7 +104,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				deck.setName(tr.select("td a").first().text());
 				try {
 					deck.setUrl(new URI(URL + '/' + tr.select("td a").first().attr("href")));
-				} catch (URISyntaxException e) {
+				} catch (Exception e) {
 					deck.setUrl(null);
 				}
 				deck.setAuthor(tr.select("td").get(2).select("strong").text());

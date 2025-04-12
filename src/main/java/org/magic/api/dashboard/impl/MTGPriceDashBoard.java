@@ -60,35 +60,36 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		var table2 = doc.getElementById("bottom50" + gameFormat);
 
 		try {
+			
+			if(table!=null)
+				for (Element e : table.select(MTGConstants.HTML_TAG_TR)) {
+					var cs = new CardShake();
+					cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+					cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
+					cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
+					cs.setProviderName(getName());
+					var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+					cs.setFoil(set.contains("(Foil)"));
+					set = set.replace("_\\(Foil\\)", "");
+					cs.setEd(getCodeForExt(set));
+					list.add(cs);
+					notify(cs);
+				}
 
-			for (Element e : table.select(MTGConstants.HTML_TAG_TR)) {
-				var cs = new CardShake();
-				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
-				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
-				cs.setProviderName(getName());
-				var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-				cs.setFoil(set.contains("(Foil)"));
-				set = set.replace("_\\(Foil\\)", "");
-				cs.setEd(getCodeForExt(set));
-				list.add(cs);
-				notify(cs);
-
-			}
-
-			for (Element e : table2.select(MTGConstants.HTML_TAG_TR)) {
-				var cs = new CardShake();
-				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
-				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
-				cs.setProviderName(getName());
-				var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-				cs.setFoil(set.contains("(Foil)"));
-				set = set.replace("_\\(Foil\\)", "");
-				cs.setEd(getCodeForExt(set));
-				list.add(cs);
-				notify(cs);
-			}
+			if(table2!=null)
+				for (Element e : table2.select(MTGConstants.HTML_TAG_TR)) {
+					var cs = new CardShake();
+					cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+					cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
+					cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
+					cs.setProviderName(getName());
+					var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+					cs.setFoil(set.contains("(Foil)"));
+					set = set.replace("_\\(Foil\\)", "");
+					cs.setEd(getCodeForExt(set));
+					list.add(cs);
+					notify(cs);
+				}
 		} catch (Exception e) {
 			logger.error("error retrieve cardshake for {}",gameFormat, e);
 		}
