@@ -782,7 +782,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		bottomPanel.add(lblCount);
 
 
-		gradePanel.getBtnSave().addActionListener(_->{
+		gradePanel.getBtnSave().addActionListener(a->{
 			try{
 				MTGCardStock st = UITools.getTableSelection(table, 0);
 				gradePanel.saveTo(st);
