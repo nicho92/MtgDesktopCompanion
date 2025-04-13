@@ -201,7 +201,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			}
 		};
 
-		ThreadManager.getInstance().runInEdt(sw,"search Products");
+		ThreadManager.getInstance().runInEdt(sw,"send Products");
 	}
 
 
@@ -226,7 +226,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 				}
 				
 			};
-			ThreadManager.getInstance().runInEdt(sw,"search Products");
+			ThreadManager.getInstance().runInEdt(sw,"load Products");
 		}
 
 		if(chkSearchOutput.isSelected()) {

@@ -31,6 +31,8 @@ import org.magic.services.tools.UITools;
 public class PlayInShopper extends AbstractMagicShopper {
 
 
+	private static final String FRENCH = "French";
+
 	String urlBase= "https://en.play-in.com";
 
 	String urlListOrders = urlBase + "/user/list_order.php";
@@ -149,8 +151,8 @@ public class PlayInShopper extends AbstractMagicShopper {
 						  st.setComment(name);
 						  st.setPrice(value);
 						  st.setQte(qty);
-							if(name.contains("VF") || name.contains("French") || name.contains("FR"))
-								st.setLanguage("French");
+							if(name.contains("VF") || name.contains(FRENCH) || name.contains("FR"))
+								st.setLanguage(FRENCH);
 							else
 								st.setLanguage("English");
 							
@@ -184,7 +186,7 @@ public class PlayInShopper extends AbstractMagicShopper {
 			
 			var st = new MTGCardStock(card);
 				 st.setPrice(UITools.parseDouble(e.attr("attribute_price")));
-				 st.setLanguage(langEtat[0].equalsIgnoreCase("Fr")?"French":"English");
+				 st.setLanguage(langEtat[0].equalsIgnoreCase("Fr")?FRENCH:"English");
 				 st.setCondition(aliases.getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));
 				 st.setQte(Integer.parseInt(e.select("div.qty").first().text()));
 				 st.getTiersAppIds().put(getName(), productUrl);

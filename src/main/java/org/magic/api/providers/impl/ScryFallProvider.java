@@ -52,6 +52,7 @@ import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String ERROR_KEY = "error";
 	private static final String KEYWORDS = "keywords";
 	private static final String ORACLE_ID = "oracle_id";
 	private static final String DEFENSE = "defense";
@@ -303,10 +304,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		var list = new ArrayList<MTGCard>();
 		
-		if(obj.get("error")!=null)
-			throw new IOException(obj.get("error").getAsString());
+		if(obj.get(ERROR_KEY)!=null)
+			throw new IOException(obj.get(ERROR_KEY).getAsString());
 		
-		if(obj.get("object").getAsString().equals("error"))
+		if(obj.get("object").getAsString().equals(ERROR_KEY))
 		{
 			logger.error(obj.get("details").getAsString());
 			return list;

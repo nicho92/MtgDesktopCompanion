@@ -361,7 +361,7 @@ public class TransactionsPanel extends MTGUIComponent {
 				{
 					Transaction t = UITools.getTableSelection(tableTransactions, 0);
 					var c =  diag.getSelectedItem() ;
-					int res = JOptionPane.showConfirmDialog(this, "Confirm " +c+ " to transaction #"+t.getId(),"Sure ?",JOptionPane.YES_NO_OPTION);
+					int res = JOptionPane.showConfirmDialog(this, "Confirm " +c+ " to transaction #"+t.getId(),"Confirm",JOptionPane.YES_NO_OPTION);
 
 					if(res==JOptionPane.YES_OPTION)
 					{	
@@ -378,7 +378,7 @@ public class TransactionsPanel extends MTGUIComponent {
 
 		btnDelete.addActionListener(al->{
 			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
-			int res = JOptionPane.showConfirmDialog(this, "Delete "+t.size()+ " transaction(s) will NOT update stock","Sure ?",JOptionPane.YES_NO_OPTION);
+			int res = JOptionPane.showConfirmDialog(this, "Delete "+t.size()+ " transaction(s) will NOT update stock","Delete ?",JOptionPane.YES_NO_OPTION);
 			if(res == JOptionPane.YES_OPTION) {
 				try {
 					TransactionService.deleteTransaction(t);
@@ -404,7 +404,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnValidateTransaction.addActionListener(al->{
 			Transaction t = UITools.getTableSelection(tableTransactions, 0);
 			
-			int res = JOptionPane.showConfirmDialog(this, "Validate #"+t.getId()+ " transaction willupdate stock ("+ t.getItems().size()+" items)","Sure ?",JOptionPane.YES_NO_OPTION);
+			int res = JOptionPane.showConfirmDialog(this, "Validate #"+t.getId()+ " transaction willupdate stock ("+ t.getItems().size()+" items)","Validate ?",JOptionPane.YES_NO_OPTION);
 			if(res == JOptionPane.YES_OPTION) {
 			try {
 				TransactionService.validateTransaction(t);

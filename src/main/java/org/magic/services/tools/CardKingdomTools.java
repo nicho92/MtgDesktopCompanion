@@ -18,6 +18,9 @@ import org.magic.services.providers.PluginsAliasesProvider;
 */
 public class CardKingdomTools {
 
+	private static final String PROMOTIONAL = "Promotional";
+
+
 	private CardKingdomTools()
 	{
 		
@@ -136,16 +139,16 @@ public class CardKingdomTools {
 		
 		if(card.getPromotypes().contains(EnumPromoType.FNM)||card.getPromotypes().contains(EnumPromoType.RELEASE)||card.getPromotypes().contains(EnumPromoType.PRERELEASE)||card.getPromotypes().contains(EnumPromoType.BUYABOX))
 		{
-			set = "Promotional";
+			set = PROMOTIONAL;
 		}
 
 		if(card.getPromotypes().contains(EnumPromoType.STARTERDECK) && !set.contains("Eighth Edition") && !set.contains("Ninth Edition")&& !set.contains("Magic Origins") && !set.contains("2015 Core Set") )
 		{
-			set = "Promotional";
+			set = PROMOTIONAL;
 		}		
 			
 		if(set.contains("Friday Night Magic"))
-			set = "Promotional";
+			set = PROMOTIONAL;
 		
 		
 		return set;
