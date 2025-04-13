@@ -706,167 +706,56 @@ public class StockPanelGUI extends MTGUIComponent {
 		gblrightPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0,Double.MIN_VALUE };
 		rightPanel.setLayout(gblrightPanel);
 
-		var gbclblSelect = new GridBagConstraints();
-		gbclblSelect.anchor = GridBagConstraints.NORTHEAST;
-		gbclblSelect.insets = new Insets(0, 0, 5, 5);
-		gbclblSelect.gridx = 0;
-		gbclblSelect.gridy = 1;
-		rightPanel.add(new JLangLabel("Select",true), gbclblSelect);
-
+		rightPanel.add(new JLangLabel("SELECT",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST ,0, 1));
+		rightPanel.add(new JLangLabel("QTY",true), UITools.createGridBagConstraints(null,GridBagConstraints.EAST, 0, 2));
+		rightPanel.add(new JLangLabel("CARD_LANGUAGE",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST, 0, 3));
+		rightPanel.add(new JLangLabel("FOIL",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST, 0, 4));
+		rightPanel.add(new JLangLabel("SIGNED",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST, 0, 5));
+		rightPanel.add(new JLangLabel("ALTERED",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST, 0, 6));
+		rightPanel.add(new JLangLabel("DIGITAL",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST, 0, 7));
+		rightPanel.add(new JLangLabel("QUALITY",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST, 0, 8));
+		rightPanel.add(new JLangLabel("COLLECTION",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST, 0, 9));
+		rightPanel.add(new JLangLabel("COMMENT",true), UITools.createGridBagConstraints(null, GridBagConstraints.EAST, 0, 10));
+		
+		
+		
+		
 		cboSelections = UITools.createCombobox(selections);
-		var gbccomboBox = new GridBagConstraints();
-		gbccomboBox.anchor = GridBagConstraints.NORTH;
-		gbccomboBox.insets = new Insets(0, 0, 5, 0);
-		gbccomboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbccomboBox.gridx = 1;
-		gbccomboBox.gridy = 1;
-		rightPanel.add(cboSelections, gbccomboBox);
+		rightPanel.add(cboSelections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 
-		var gbclblQte = new GridBagConstraints();
-		gbclblQte.anchor = GridBagConstraints.EAST;
-		gbclblQte.insets = new Insets(0, 0, 5, 5);
-		gbclblQte.gridx = 0;
-		gbclblQte.gridy = 2;
-		rightPanel.add(new JLangLabel("QTY",true), gbclblQte);
+		spinner = new JSpinner(new SpinnerNumberModel(-1, -1, null, 1));
+		rightPanel.add(spinner, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 
-		spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(-1, -1, null, 1));
-		var gbcspinner = new GridBagConstraints();
-		gbcspinner.fill = GridBagConstraints.HORIZONTAL;
-		gbcspinner.insets = new Insets(0, 0, 5, 0);
-		gbcspinner.gridx = 1;
-		gbcspinner.gridy = 2;
-		rightPanel.add(spinner, gbcspinner);
 
-		var gbclblLanguage = new GridBagConstraints();
-		gbclblLanguage.anchor = GridBagConstraints.EAST;
-		gbclblLanguage.insets = new Insets(0, 0, 5, 5);
-		gbclblLanguage.gridx = 0;
-		gbclblLanguage.gridy = 3;
-		rightPanel.add(new JLangLabel("CARD_LANGUAGE",true), gbclblLanguage);
-
-		DefaultComboBoxModel<String> lModel = new DefaultComboBoxModel<>();
+		var lModel = new DefaultComboBoxModel<String>();
 		lModel.addElement(null);
-		for (String l : MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages())
-			lModel.addElement(l);
+		
+		MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages().forEach(lModel::addElement);
 
 		cboLanguages = new JComboBox<>(lModel);
-		var gbccboLanguages = new GridBagConstraints();
-		gbccboLanguages.insets = new Insets(0, 0, 5, 0);
-		gbccboLanguages.fill = GridBagConstraints.HORIZONTAL;
-		gbccboLanguages.gridx = 1;
-		gbccboLanguages.gridy = 3;
-		rightPanel.add(cboLanguages, gbccboLanguages);
-
-		var gbclblFoil = new GridBagConstraints();
-		gbclblFoil.anchor = GridBagConstraints.EAST;
-		gbclblFoil.insets = new Insets(0, 0, 5, 5);
-		gbclblFoil.gridx = 0;
-		gbclblFoil.gridy = 4;
-		rightPanel.add(new JLangLabel("FOIL",true), gbclblFoil);
+		rightPanel.add(cboLanguages, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 
 		cboFoil = UITools.createCombobox(values);
-		var gbccboFoil = new GridBagConstraints();
-		gbccboFoil.insets = new Insets(0, 0, 5, 0);
-		gbccboFoil.fill = GridBagConstraints.HORIZONTAL;
-		gbccboFoil.gridx = 1;
-		gbccboFoil.gridy = 4;
-		rightPanel.add(cboFoil, gbccboFoil);
-
-		var gbclblSigned = new GridBagConstraints();
-		gbclblSigned.anchor = GridBagConstraints.EAST;
-		gbclblSigned.insets = new Insets(0, 0, 5, 5);
-		gbclblSigned.gridx = 0;
-		gbclblSigned.gridy = 5;
-		rightPanel.add(new JLangLabel("SIGNED",true), gbclblSigned);
+		rightPanel.add(cboFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
 
 		cboSigned = UITools.createCombobox(values);
-		var gbccboSigned = new GridBagConstraints();
-		gbccboSigned.insets = new Insets(0, 0, 5, 0);
-		gbccboSigned.fill = GridBagConstraints.HORIZONTAL;
-		gbccboSigned.gridx = 1;
-		gbccboSigned.gridy = 5;
-		rightPanel.add(cboSigned, gbccboSigned);
-
-		var gbclblAltered = new GridBagConstraints();
-		gbclblAltered.anchor = GridBagConstraints.EAST;
-		gbclblAltered.insets = new Insets(0, 0, 5, 5);
-		gbclblAltered.gridx = 0;
-		gbclblAltered.gridy = 6;
-		rightPanel.add(new JLangLabel("ALTERED",true), gbclblAltered);
+		rightPanel.add(cboSigned, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
 
 		cboAltered = UITools.createCombobox(values);
-		var gbccboAltered = new GridBagConstraints();
-		gbccboAltered.insets = new Insets(0, 0, 5, 0);
-		gbccboAltered.fill = GridBagConstraints.HORIZONTAL;
-		gbccboAltered.gridx = 1;
-		gbccboAltered.gridy = 6;
-		rightPanel.add(cboAltered, gbccboAltered);
-		
-		var gbclblDigital = new GridBagConstraints();
-		gbclblDigital.anchor = GridBagConstraints.EAST;
-		gbclblDigital.insets = new Insets(0, 0, 5, 5);
-		gbclblDigital.gridx = 0;
-		gbclblDigital.gridy = 7;
-		rightPanel.add(new JLangLabel("DIGITAL",true), gbclblDigital);
+		rightPanel.add(cboAltered, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
 		cboDigital = UITools.createCombobox(values);
-		var gbccboDigital = new GridBagConstraints();
-		gbccboDigital.insets = new Insets(0, 0, 5, 0);
-		gbccboDigital.fill = GridBagConstraints.HORIZONTAL;
-		gbccboDigital.gridx = 1;
-		gbccboDigital.gridy = 7;
-		rightPanel.add(cboDigital, gbccboDigital);
-		
-		
-		var gbclblQuality = new GridBagConstraints();
-		gbclblQuality.anchor = GridBagConstraints.EAST;
-		gbclblQuality.insets = new Insets(0, 0, 5, 5);
-		gbclblQuality.gridx = 0;
-		gbclblQuality.gridy = 8;
-		rightPanel.add(new JLangLabel("QUALITY",true), gbclblQuality);
+		rightPanel.add(cboDigital, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
 
 		cboQuality = UITools.createCombobox(Lists.asList(null,EnumCondition.values()));
-		var gbccboQuality = new GridBagConstraints();
-		gbccboQuality.insets = new Insets(0, 0, 5, 0);
-		gbccboQuality.fill = GridBagConstraints.HORIZONTAL;
-		gbccboQuality.gridx = 1;
-		gbccboQuality.gridy = 8;
-		rightPanel.add(cboQuality, gbccboQuality);
-
-		var gbclblCollection = new GridBagConstraints();
-		gbclblCollection.anchor = GridBagConstraints.EAST;
-		gbclblCollection.insets = new Insets(0, 0, 5, 5);
-		gbclblCollection.gridx = 0;
-		gbclblCollection.gridy = 9;
-		rightPanel.add(new JLangLabel("COLLECTION",true), gbclblCollection);
+		rightPanel.add(cboQuality, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 
 		cboCollection = UITools.createComboboxCollection();
-		var gbccboCollection = new GridBagConstraints();
-		gbccboCollection.insets = new Insets(0, 0, 5, 0);
-		gbccboCollection.fill = GridBagConstraints.HORIZONTAL;
-		gbccboCollection.gridx = 1;
-		gbccboCollection.gridy = 9;
-		rightPanel.add(cboCollection, gbccboCollection);
+		rightPanel.add(cboCollection, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 
-		var gbclblComment = new GridBagConstraints();
-		gbclblComment.insets = new Insets(0, 0, 5, 5);
-		gbclblComment.gridx = 0;
-		gbclblComment.gridy = 10;
-		rightPanel.add(new JLangLabel("COMMENT",true), gbclblComment);
 
 		textPane = new JTextPane();
-		var gbctextPane = new GridBagConstraints();
-		gbctextPane.insets = new Insets(0, 0, 5, 0);
-		gbctextPane.gridwidth = 2;
-		gbctextPane.gridheight = 3;
-		gbctextPane.fill = GridBagConstraints.BOTH;
-		gbctextPane.gridx = 0;
-		gbctextPane.gridy = 11;
-		rightPanel.add(textPane, gbctextPane);
-
-
-
+		rightPanel.add(textPane, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 11,2,3));
 
 		var gbcbtnApplyModification = new GridBagConstraints();
 		gbcbtnApplyModification.gridwidth = 2;
@@ -893,7 +782,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		bottomPanel.add(lblCount);
 
 
-		gradePanel.getBtnSave().addActionListener(al->{
+		gradePanel.getBtnSave().addActionListener(_->{
 			try{
 				MTGCardStock st = UITools.getTableSelection(table, 0);
 				gradePanel.saveTo(st);
