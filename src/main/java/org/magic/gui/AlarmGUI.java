@@ -273,16 +273,16 @@ public class AlarmGUI extends MTGUIComponent {
 			}
 		});
 
-		btnRefresh.addActionListener(al->loaddata());
+		btnRefresh.addActionListener(_->loaddata());
 
-		btnSuggestPrice.addActionListener(ae->{
+		btnSuggestPrice.addActionListener(_->{
 
 			if(table.getSelectedRows().length<=0)
 				return;
 
 			var comp = new PriceSuggesterComponent();
 			var jd = MTGUIComponent.createJDialog(comp, false, true);
-			comp.getBtnValidate().addActionListener(l->jd.dispose());
+			comp.getBtnValidate().addActionListener(_->jd.dispose());
 
 			jd.setVisible(true);
 
@@ -333,7 +333,7 @@ public class AlarmGUI extends MTGUIComponent {
 		});
 
 
-		btnDelete.addActionListener(event -> {
+		btnDelete.addActionListener(_ -> {
 			int res = JOptionPane.showConfirmDialog(null,capitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
 					capitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
 
@@ -392,7 +392,7 @@ public class AlarmGUI extends MTGUIComponent {
 			var mnuImportSearch = new JMenuItem(capitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
-			mnuImportSearch.addActionListener(importAE -> {
+			mnuImportSearch.addActionListener(_ -> {
 				var cdSearch = new CardImporterDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.hasSelected()) {
@@ -408,7 +408,7 @@ public class AlarmGUI extends MTGUIComponent {
 					var it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
-					it.addActionListener(itEvent -> {
+					it.addActionListener(_ -> {
 						var jf = new JFileChooser(".");
 						jf.setFileFilter(new FileFilter() {
 							@Override

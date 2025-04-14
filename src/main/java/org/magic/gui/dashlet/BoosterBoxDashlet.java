@@ -132,7 +132,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		
 		
 		
-		btnCalculate.addActionListener(e -> {
+		btnCalculate.addActionListener(_ -> {
 			
 			boostersModel.clear();
 			cardsModel.clear();

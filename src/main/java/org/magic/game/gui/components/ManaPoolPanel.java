@@ -42,7 +42,7 @@ public class ManaPoolPanel extends JPanel implements Observer {
 	public ManaPoolPanel() {
 
 		spinW = new JSpinner();
-		spinW.addChangeListener(ce -> player.setMana("{W}", (int) spinW.getValue()));
+		spinW.addChangeListener(_ -> player.setMana("{W}", (int) spinW.getValue()));
 		setLayout(new GridLayout(0, 2, 0, 0));
 
 		var panelW = new ManaPanel();
@@ -60,7 +60,7 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		add(panelU);
 
 		spinU = new JSpinner();
-		spinU.addChangeListener(ce -> player.setMana("{U}", (int) spinU.getValue()));
+		spinU.addChangeListener(_ -> player.setMana("{U}", (int) spinU.getValue()));
 
 		spinU.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinU);
@@ -72,7 +72,7 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		add(panelB);
 
 		spinB = new JSpinner();
-		spinB.addChangeListener(ce -> player.setMana("{B}", (int) spinB.getValue()));
+		spinB.addChangeListener(_ -> player.setMana("{B}", (int) spinB.getValue()));
 
 		spinB.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinB);
@@ -84,7 +84,7 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		add(panelR);
 
 		spinR = new JSpinner();
-		spinR.addChangeListener(ce -> player.setMana("{R}", (int) spinR.getValue()));
+		spinR.addChangeListener(_ -> player.setMana("{R}", (int) spinR.getValue()));
 
 		spinR.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinR);
@@ -96,7 +96,7 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		add(panelG);
 
 		spinG = new JSpinner();
-		spinG.addChangeListener(ce -> player.setMana("{G}", (int) spinG.getValue()));
+		spinG.addChangeListener(_ -> player.setMana("{G}", (int) spinG.getValue()));
 
 		spinG.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinG);
@@ -108,7 +108,7 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		add(panelC);
 
 		spinC = new JSpinner();
-		spinC.addChangeListener(ce -> player.setMana("{C}", (int) spinC.getValue()));
+		spinC.addChangeListener(_ -> player.setMana("{C}", (int) spinC.getValue()));
 		spinC.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(spinC);
 
@@ -120,7 +120,7 @@ public class ManaPoolPanel extends JPanel implements Observer {
 		spinE = new JSpinner();
 		panelE.setManaCost("{E}");
 
-		spinE.addChangeListener(ce -> player.setMana("{E}", (int) spinE.getValue())
+		spinE.addChangeListener(_ -> player.setMana("{E}", (int) spinE.getValue())
 
 		);
 		spinE.setModel(new SpinnerNumberModel(0, 0, null, 1));

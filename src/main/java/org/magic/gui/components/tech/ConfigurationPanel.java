@@ -436,21 +436,21 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxScript.setSelected(MTG.readPropertyAsBoolean("modules/scripts"));
 		
 		
-		chckbxDashboard.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/dashboard", chckbxDashboard.isSelected()));
-		chckbxStock.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
-		chckbxAlert.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/alarm", chckbxAlert.isSelected()));
-		chckbxGame.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/game", chckbxGame.isSelected()));
-		chckbxDeckBuilder.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/deckbuilder", chckbxDeckBuilder.isSelected()));
-		chckbxRss.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/rss", chckbxRss.isSelected()));
-		chckbxWallpaper.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/wallpaper", chckbxWallpaper.isSelected()));
-		chckbxCardBuilder.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/cardbuilder", chckbxCardBuilder.isSelected()));
-		chckbxCollection.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/collection", chckbxCollection.isSelected()));
-		chckbxSearch.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
-		chckbxSealed.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/sealed",chckbxSealed.isSelected()));
-		chckbxShopping.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/webshop",chckbxShopping.isSelected()));
-		chckbxAnnounce.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/announce",chckbxAnnounce.isSelected()));
-		chckbxNetwork.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/network",chckbxNetwork.isSelected()));
-		chckbxScript.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/scripts",chckbxScript.isSelected()));
+		chckbxDashboard.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/dashboard", chckbxDashboard.isSelected()));
+		chckbxStock.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
+		chckbxAlert.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/alarm", chckbxAlert.isSelected()));
+		chckbxGame.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/game", chckbxGame.isSelected()));
+		chckbxDeckBuilder.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/deckbuilder", chckbxDeckBuilder.isSelected()));
+		chckbxRss.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/rss", chckbxRss.isSelected()));
+		chckbxWallpaper.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/wallpaper", chckbxWallpaper.isSelected()));
+		chckbxCardBuilder.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/cardbuilder", chckbxCardBuilder.isSelected()));
+		chckbxCollection.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/collection", chckbxCollection.isSelected()));
+		chckbxSearch.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
+		chckbxSealed.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/sealed",chckbxSealed.isSelected()));
+		chckbxShopping.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/webshop",chckbxShopping.isSelected()));
+		chckbxAnnounce.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/announce",chckbxAnnounce.isSelected()));
+		chckbxNetwork.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/network",chckbxNetwork.isSelected()));
+		chckbxScript.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/scripts",chckbxScript.isSelected()));
 
 		panelModule.add(chckbxSearch, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 0));
 		panelModule.add(chckbxCollection, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 0));
@@ -502,7 +502,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		var cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
 		
-		cboLocales.setRenderer((JList<? extends Locale> list, Locale value, int index, boolean isSelected, boolean cellHasFocus)->
+		cboLocales.setRenderer((JList<? extends Locale> _, Locale value, int _, boolean _, boolean _)->
 			new JLabel(StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale())))
 		);
 
@@ -573,7 +573,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 
 /////////////EVENTS
-		btnShortKeys.addActionListener(l->MTGUIComponent.createJDialog(new ShortKeyManagerUI(),true,false).setVisible(true));
+		btnShortKeys.addActionListener(_->MTGUIComponent.createJDialog(new ShortKeyManagerUI(),true,false).setVisible(true));
 
 
 		cboToolPosition.addItemListener(ie -> {
@@ -610,10 +610,10 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 
-		cbojsonView.addItemListener(ae -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
+		cbojsonView.addItemListener(_ -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
 
 
-		btnExportConfig.addActionListener(ae->{
+		btnExportConfig.addActionListener(_->{
 			try {
 				var f =  new File(MTGConstants.DATA_DIR,"config.backup.zip");
 
@@ -625,7 +625,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 
-		btnImportConfig.addActionListener(ae->{
+		btnImportConfig.addActionListener(_->{
 
 			var chooser = new JFileChooser(MTGConstants.DATA_DIR);
 				int res = chooser.showOpenDialog(null);
@@ -659,9 +659,9 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		});
 
 
-		btnSavePrice.addActionListener(ae -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
+		btnSavePrice.addActionListener(_ -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
 
-		btnSavePicSize.addActionListener(ae -> {
+		btnSavePicSize.addActionListener(_ -> {
 			MTGControler.getInstance().setProperty("/card-pictures-dimension/width",(int) resizerPanel.getDimension().getWidth());
 			MTGControler.getInstance().setProperty("/card-pictures-dimension/height",(int) resizerPanel.getDimension().getHeight());
 			resizerPanel.setValue(0);
@@ -669,18 +669,18 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		});
 
 
-		chkEnablePriceConversion.addItemListener(ie -> MTGControler.getInstance().setProperty("currencylayer-converter-enable", chkEnablePriceConversion.isSelected()));
+		chkEnablePriceConversion.addItemListener(_ -> MTGControler.getInstance().setProperty("currencylayer-converter-enable", chkEnablePriceConversion.isSelected()));
 
-		chkToolTip.addItemListener(ie -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
-		chkEnabledAutocomplete.addItemListener(ie -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
-		chkEnabledChrome.addItemListener(ie -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
-		chkboxPrerelease.addItemListener(ie -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
-		chkTechnicalLog.addItemListener(ie -> MTGControler.getInstance().setProperty("technical-log", chkTechnicalLog.isSelected()));
-		chkOnlineValidation.addItemListener(ie -> MTGControler.getInstance().setProperty("network-config/online-query", chkOnlineValidation.isSelected()));
-		chkOnlineAutoConnect.addItemListener(ie -> MTGControler.getInstance().setProperty("network-config/online-autoconnect", chkOnlineAutoConnect.isSelected()));
+		chkToolTip.addItemListener(_ -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
+		chkEnabledAutocomplete.addItemListener(_ -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
+		chkEnabledChrome.addItemListener(_ -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
+		chkboxPrerelease.addItemListener(_ -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
+		chkTechnicalLog.addItemListener(_ -> MTGControler.getInstance().setProperty("technical-log", chkTechnicalLog.isSelected()));
+		chkOnlineValidation.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-query", chkOnlineValidation.isSelected()));
+		chkOnlineAutoConnect.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-autoconnect", chkOnlineAutoConnect.isSelected()));
 
-		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
-		btnUpdateCurrency.addActionListener(ae -> {
+		btnSaveCode.addActionListener(_ -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
+		btnUpdateCurrency.addActionListener(_ -> {
 			try {
 				MTGControler.getInstance().getCurrencyService().clean();
 				MTGControler.getInstance().getCurrencyService().init();
@@ -691,7 +691,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		});
 
-		btnSaveProfilGame.addActionListener(ae -> {
+		btnSaveProfilGame.addActionListener(_ -> {
 			MTGControler.getInstance().setProperty("/game/player-profil/name", txtName.getText());
 			MTGControler.getInstance().setProperty("/game/cards/card-width",
 					(int) gamePicsResizerPanel.getDimension().getWidth());
@@ -702,7 +702,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		});
 
 
-		btnFontChoose.addActionListener(ae -> {
+		btnFontChoose.addActionListener(_ -> {
 			var dialog = new FontDialog((Frame) null, "Font Change", true);
 			dialog.setSelectedFont(MTGControler.getInstance().getFont());
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -718,7 +718,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 
 
-		btnClean.addActionListener(ae -> {
+		btnClean.addActionListener(_ -> {
 
 			try {
 				loading(true, capitalize("CLEAN"));
@@ -736,7 +736,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 
-		btnIndexation.addActionListener(ae ->{
+		btnIndexation.addActionListener(_ ->{
 
 				loading(true, "Indexation");
 				btnIndexation.setEnabled(false);
@@ -775,7 +775,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		});
 
-		btnDuplicate.addActionListener(ae ->{
+		btnDuplicate.addActionListener(_ ->{
 			btnDuplicate.setEnabled(false);
 			MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
 			loading(true, capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)) + " " + dao);
@@ -809,7 +809,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		);
 
-		btnDefaultStock.addActionListener(ae -> {
+		btnDefaultStock.addActionListener(_ -> {
 			var diag = new DefaultStockEditorDialog();
 			diag.setMagicCardStock(MTGControler.getInstance().getDefaultStock());
 			diag.setVisible(true);
@@ -831,7 +831,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		});
 
 
-		btnWebServerExport.addActionListener(ae->{
+		btnWebServerExport.addActionListener(_->{
 			try {
 				((AbstractWebServer)cboServers.getSelectedItem()).exportWeb(txtdirWebsserver.getFile());
 				MTGControler.getInstance().notify(new MTGNotification(EXPORT, "Export ok : " + txtdirWebsserver.getFile(), MESSAGE_TYPE.INFO));

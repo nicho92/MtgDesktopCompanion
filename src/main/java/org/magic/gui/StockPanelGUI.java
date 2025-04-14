@@ -139,7 +139,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		initGUI();
 
-		btnSave.addActionListener(e ->{
+		btnSave.addActionListener(_ ->{
 			List<MTGCardStock> updates = model.getItems().stream().filter(MTGCardStock::isUpdated).toList();
 			var sw = new AbstractObservableWorker<Void, MTGCardStock,MTGDao>(lblLoading, getEnabledPlugin(MTGDao.class),updates.size())
 			{
@@ -189,7 +189,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		});
 		
 		
-		btnMerge.addActionListener(event ->{
+		btnMerge.addActionListener(_ ->{
 			
 			List<MTGCardStock> lines = UITools.getTableSelections(table, 0);
 			
@@ -233,7 +233,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		
 	
 		
-		btnDelete.addActionListener(event -> {
+		btnDelete.addActionListener(_ -> {
 			int res = JOptionPane.showConfirmDialog(null,
 					capitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
 					capitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
@@ -275,13 +275,13 @@ public class StockPanelGUI extends MTGUIComponent {
 			}
 		});
 
-		btnReload.addActionListener(event -> {
+		btnReload.addActionListener(_ -> {
 			int res = JOptionPane.showConfirmDialog(null, capitalize("CANCEL_CHANGES"),capitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION)
 				ThreadManager.getInstance().runInEdt(newLoadWorker() , "reload stock");
 		});
 
-		btnshowMassPanel.addActionListener(event -> rightPanel.setVisible(!rightPanel.isVisible()));
+		btnshowMassPanel.addActionListener(_ -> rightPanel.setVisible(!rightPanel.isVisible()));
 
 		btnImport.addActionListener(ae -> {
 			var menu = new JPopupMenu();
@@ -290,7 +290,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					.getCapitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
-			mnuImportSearch.addActionListener(importAE -> {
+			mnuImportSearch.addActionListener(_ -> {
 				var cdSearch = new CardImporterDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.hasSelected()) {
@@ -306,7 +306,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					var it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
-					it.addActionListener(itemEvent -> {
+					it.addActionListener(_ -> {
 						var jf = new JFileChooser(".");
 						jf.setFileHidingEnabled(false);
 						jf.setFileFilter(new FileFilter() {
@@ -411,7 +411,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		}, lblLoading);
 
 		
-		btnDuplicate.addActionListener(al->{
+		btnDuplicate.addActionListener(_->{
 			try {
 				List<MTGCardStock> list = UITools.getTableSelections(table, 0);
 				
@@ -438,12 +438,12 @@ public class StockPanelGUI extends MTGUIComponent {
 		
 
 
-		btnGeneratePrice.addActionListener(ae -> {
+		btnGeneratePrice.addActionListener(_ -> {
 			lblLoading.start(table.getSelectedRows().length);
 
 			var comp = new PriceSuggesterComponent();
 			var jd = MTGUIComponent.createJDialog(comp, false, true);
-			comp.getBtnValidate().addActionListener(l->jd.dispose());
+			comp.getBtnValidate().addActionListener(_->jd.dispose());
 
 			jd.setVisible(true);
 
@@ -491,7 +491,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			ThreadManager.getInstance().runInEdt(sw, "generate prices for stock");
 		});
 
-		cboSelections.addItemListener(ie -> {
+		cboSelections.addItemListener(_ -> {
 			multiselection = true;
 			if (String.valueOf(cboSelections.getSelectedItem()).equals(selections[1])) {
 				table.clearSelection();
@@ -517,7 +517,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			multiselection = false;
 		});
 
-		btnApplyModification.addActionListener(event -> {
+		btnApplyModification.addActionListener(_ -> {
 			int res = JOptionPane.showConfirmDialog(null,
 					capitalize("CHANGE_X_ITEMS",
 							table.getSelectedRowCount()),
@@ -781,7 +781,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		bottomPanel.add(lblCount);
 
 
-		gradePanel.getBtnSave().addActionListener(al->{
+		gradePanel.getBtnSave().addActionListener(_->{
 			try{
 				MTGCardStock st = UITools.getTableSelection(table, 0);
 				gradePanel.saveTo(st);

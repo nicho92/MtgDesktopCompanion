@@ -121,9 +121,9 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		panel.add(btnSend);
 
 
-		btnSearch.addActionListener(e->loadProducts());
-		txtSearchProduct.addActionListener(e->loadProducts());
-		btnSend.addActionListener(e->sendProducts());
+		btnSearch.addActionListener(_->loadProducts());
+		txtSearchProduct.addActionListener(_->loadProducts());
+		btnSend.addActionListener(_->sendProducts());
 		btnSend.setEnabled(false);
 
 
@@ -133,7 +133,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		       }
 		});
 
-		listInput.addListSelectionListener(lll->{
+		listInput.addListSelectionListener(_->{
 			btnSend.setEnabled(listInput.getSelectedIndex()>=0);
 			btnSend.setText("Insert "+ listInput.getSelectedValuesList().size() + " items");
 		});

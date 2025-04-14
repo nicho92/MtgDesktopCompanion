@@ -165,7 +165,7 @@ public class MTGDeckManager extends Observable {
 
 	public Map<String, Integer> analyseTypes(List<MTGCard> cards) {
 		var types = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
-		cards.forEach(card->types.compute(card.getTypes().get(0), (k,v)->(v==null)?1:v+1));
+		cards.forEach(card->types.compute(card.getTypes().get(0), (_,v)->(v==null)?1:v+1));
 		return types;
 	}
 
@@ -176,7 +176,7 @@ public class MTGDeckManager extends Observable {
 		if(cards==null)
 			return colors;
 
-		cards.forEach(card->colors.compute(EnumColors.determine(card.getColors()), (k,v)->(v==null)?1:v+1));
+		cards.forEach(card->colors.compute(EnumColors.determine(card.getColors()), (_,v)->(v==null)?1:v+1));
 
 		return colors;
 	}
@@ -197,7 +197,7 @@ public class MTGDeckManager extends Observable {
 
 	public Map<EnumRarity, Integer> analyseRarities(List<MTGCard> cards) {
 		var rarity = new TreeMap<EnumRarity, Integer>();
-		cards.forEach(card->rarity.compute(card.getRarity(), (k,v)->(v==null)?1:v+1));
+		cards.forEach(card->rarity.compute(card.getRarity(), (_,v)->(v==null)?1:v+1));
 		
 		return rarity;
 

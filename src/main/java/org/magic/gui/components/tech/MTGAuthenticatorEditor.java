@@ -82,7 +82,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 		table.packAll();
 
 
-		btnSave.addActionListener(al->{
+		btnSave.addActionListener(_->{
 
 			try {
 				AccountsManager.inst().getKey();
@@ -93,7 +93,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 		});
 
 
-		btnKeyGenerator.addActionListener(al->{
+		btnKeyGenerator.addActionListener(_->{
 
 			String key = JOptionPane.showInputDialog("Define a Key Pass :");
 			String key2 = JOptionPane.showInputDialog("Confirm Key Pass :");
@@ -113,7 +113,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 
 		});
 
-		btnExportConfig.addActionListener(al->{
+		btnExportConfig.addActionListener(_->{
 
 			try {
 				AccountsManager.inst().getKey();
@@ -136,7 +136,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 			}
 		});
 
-		btnImportConfig.addActionListener(al->{
+		btnImportConfig.addActionListener(_->{
 			try {
 				AccountsManager.inst().getKey();
 			} catch (IOException e1) {
@@ -170,7 +170,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 		});
 
 
-		btnDeleteConfig.addActionListener(al->{
+		btnDeleteConfig.addActionListener(_->{
 
 			AccountsManager.inst().removeEntry(list.getSelectedValue());
 			listModel.removeElementAt(list.getSelectedIndex());
@@ -178,7 +178,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 		});
 
 
-		btnNewButton.addActionListener(al->{
+		btnNewButton.addActionListener(_->{
 
 
 			var auth = new AccountAuthenticator();

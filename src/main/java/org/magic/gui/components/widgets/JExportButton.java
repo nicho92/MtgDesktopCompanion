@@ -41,13 +41,13 @@ public class JExportButton extends JButton {
 
 	public void initAlertsExport(Callable<List<MTGAlert>> callable, AbstractBuzyIndicatorComponent lblLoading ) {
 
-		addActionListener(ae -> {
+		addActionListener(_ -> {
 			var menu = new JPopupMenu();
 
 			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
 					var it = new JMenuItem(exp.getName(), exp.getIcon());
-					it.addActionListener(exportEvent -> {
+					it.addActionListener(_ -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
 						List<MTGAlert> export  = null;
@@ -92,13 +92,13 @@ public class JExportButton extends JButton {
 
 	public void initCardsExport(Callable<MTGDeck> callable, AbstractBuzyIndicatorComponent lblLoading ) {
 
-		addActionListener(ae -> {
+		addActionListener(_ -> {
 			var menu = new JPopupMenu();
 
 			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
 					var it = new JMenuItem(exp.getName(), exp.getIcon());
-					it.addActionListener(exportEvent -> {
+					it.addActionListener(_ -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
 						MTGDeck export  = null;
@@ -143,13 +143,13 @@ public class JExportButton extends JButton {
 
 	public void initStockExport(Callable<List<MTGCardStock>> callable,AbstractBuzyIndicatorComponent lblLoading) {
 
-		addActionListener(ae -> {
+		addActionListener(_ -> {
 			var menu = new JPopupMenu();
 
 			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
 					var it = new JMenuItem(exp.getName(), exp.getIcon());
-					it.addActionListener(exportEvent -> {
+					it.addActionListener(_ -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
 						List<MTGCardStock> export  = null;

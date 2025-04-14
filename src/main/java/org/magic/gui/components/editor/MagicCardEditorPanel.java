@@ -169,7 +169,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				cboUn.addItem("X");
 
 				var btn = new JButton(capitalize("SET_COST") + ":");
-				btn.addActionListener(ev -> {
+				btn.addActionListener(_ -> {
 					var cost = new StringBuilder();
 					var cmc = 0;
 					Set<EnumColors> colors = new LinkedHashSet<>();
@@ -798,11 +798,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		numberJTextField.setText(magicCard.getNumber());
 		
 		
-		spinner.addChangeListener(ce->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
-		chkFoil.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
-		cboColorAccent.addItemListener(ie-> magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
-		chkColorIndicator.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
-		numberJTextField.addPropertyChangeListener("text", (PropertyChangeEvent evt)->magicCard.setNumber(numberJTextField.getText()));
+		spinner.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
+		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
+		cboColorAccent.addItemListener(_-> magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
+		chkColorIndicator.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
+		numberJTextField.addPropertyChangeListener("text", _->magicCard.setNumber(numberJTextField.getText()));
 		
 		
 		

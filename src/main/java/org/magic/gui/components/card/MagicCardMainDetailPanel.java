@@ -443,7 +443,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		add(new JScrollPane(lstFormats), gbclstFormats);
 		
 		lstCollections = new JList<>(new DefaultListModel<>());
-		lstCollections.setCellRenderer((JList<? extends MTGCollection> list, MTGCollection obj, int arg2,boolean arg3, boolean arg4)->new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT));
+		lstCollections.setCellRenderer((JList<? extends MTGCollection> _, MTGCollection obj, int _,boolean _, boolean _)->new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT));
 
 		var gbclstCollections = new GridBagConstraints();
 		gbclstCollections.insets = new Insets(0, 0, 5, 5);
@@ -464,7 +464,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		add(lblAuthor, gbclblAuthor);
 		
 		
-		btnAlert.addActionListener(ae -> {
+		btnAlert.addActionListener(_ -> {
 			var alert = new MTGAlert();
 			alert.setCard(magicCard);
 			String price = JOptionPane.showInputDialog(null,
@@ -482,7 +482,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 			}
 		});
 		
-		btnCopy.addActionListener(ae -> {
+		btnCopy.addActionListener(_ -> {
 			try {
 				MTG.getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).exportDeck(MTGDeck.toDeck(Arrays.asList(magicCard)),null);
 				
@@ -492,7 +492,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 			}
 		});
 		
-		btnStock.addActionListener(ae -> {
+		btnStock.addActionListener(_ -> {
 			if(magicCard==null)
 				return ;
 			

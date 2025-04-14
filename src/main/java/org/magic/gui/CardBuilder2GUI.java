@@ -244,7 +244,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 		
 
-			btnRefreshSet.addActionListener(e->{
+			btnRefreshSet.addActionListener(_->{
 				MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
 				
 				if(ed!=null)
@@ -279,7 +279,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					}, "calculate Set " +ed);
 			});
 
-			btnRemoveCard.addActionListener(e -> {
+			btnRemoveCard.addActionListener(_ -> {
 				try {
 					int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", magicCardEditorPanel.getMagicCard()));
 					if (res == JOptionPane.YES_OPTION) {
@@ -294,7 +294,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 			});
 
-			btnSaveEdition.addActionListener(e -> {
+			btnSaveEdition.addActionListener(_ -> {
 				try {
 					var ed = magicEditionDetailPanel.getMagicEdition();
 					provider.saveEdition(ed);
@@ -307,7 +307,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 			});
 
-			btnImport.addActionListener(e -> {
+			btnImport.addActionListener(_ -> {
 				var l = new CardImporterDialog();
 				l.setVisible(true);
 				if (l.hasSelected())
@@ -315,7 +315,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			});
 			
-			btnNewCard.addActionListener(e -> {
+			btnNewCard.addActionListener(_ -> {
 				var mc = new MTGCard();
 				var ed = (MTGEdition)cboSets.getSelectedItem();
 				
@@ -330,7 +330,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 
 
-			btnNewSet.addActionListener(e -> {
+			btnNewSet.addActionListener(_ -> {
 				var id = JOptionPane.showInputDialog("ID");
 				
 				try {
@@ -350,7 +350,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				
 			});
 
-			btnRemoveEdition.addActionListener(e -> {
+			btnRemoveEdition.addActionListener(_ -> {
 
 				MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
 				int res = JOptionPane.showConfirmDialog(null,
@@ -399,7 +399,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 			});
 			
-			btnGenerateCard.addActionListener(al->{
+			btnGenerateCard.addActionListener(_->{
 				buzyCard.start();
 				buzyCard.setText("generating card from IA");
 				var text = JOptionPane.showInputDialog("Little description ?");
@@ -431,7 +431,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					}, "generating card from IA");
 			});
 
-			btnSaveCard.addActionListener(e -> {
+			btnSaveCard.addActionListener(_ -> {
 				var me = (MTGEdition) cboSets.getSelectedItem();
 				var mc = magicCardEditorPanel.getMagicCard();
 					 
@@ -451,7 +451,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 			});
 
-			btnRefresh.addActionListener(e -> renderingCard());
+			btnRefresh.addActionListener(_ -> renderingCard());
 
 	
 	}

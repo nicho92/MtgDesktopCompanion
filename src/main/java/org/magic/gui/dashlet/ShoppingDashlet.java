@@ -53,11 +53,11 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		getContentPane().add(new JScrollPane(list), BorderLayout.CENTER);
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		btnClear.addActionListener(ae->model.removeAllElements());
+		btnClear.addActionListener(_->model.removeAllElements());
 
 
 
-		btnPast.addActionListener(al->{
+		btnPast.addActionListener(_->{
 
 			try {
 				MTGDeck d = getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).importDeck(null,null);

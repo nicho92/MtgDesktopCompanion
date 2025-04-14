@@ -113,7 +113,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		{
 			var s= new JSpinner(new SpinnerNumberModel(0,0,1000000,1));
 			s.setValue(0);
-			s.addChangeListener(l->val = s.getValue());
+			s.addChangeListener(_->val = s.getValue());
 			val=0;
 			return s;
 		}
@@ -123,7 +123,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 			var ch = new JCheckBox();
 			val=false;
 			ch.setSelected(false);
-			ch.addItemListener(l->val=ch.isSelected());
+			ch.addItemListener(_->val=ch.isSelected());
 			return ch;
 		}
 		else

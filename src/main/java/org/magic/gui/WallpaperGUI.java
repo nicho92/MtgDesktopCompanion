@@ -95,7 +95,7 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		selectedProvider = cboWallpapersProv.getItemAt(0);
 		cboWallpapersProv
-				.addActionListener(e -> selectedProvider = (MTGWallpaperProvider) cboWallpapersProv.getSelectedItem());
+				.addActionListener(_ -> selectedProvider = (MTGWallpaperProvider) cboWallpapersProv.getSelectedItem());
 
 		panel.add(cboWallpapersProv);
 
@@ -105,7 +105,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		txtSearch.setColumns(20);
 
 
-		txtSearch.addActionListener(e ->{
+		txtSearch.addActionListener(_ ->{
 
 			panelThumnail.removeAll();
 			panelThumnail.revalidate();
@@ -169,7 +169,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		btnImport.setToolTipText(capitalize("IMPORT"));
 		panel1.add(btnImport);
 
-		btnImport.addActionListener(ae -> {
+		btnImport.addActionListener(_ -> {
 
 			var error = false;
 			for (Component comp : panelThumnail.getComponents()) {

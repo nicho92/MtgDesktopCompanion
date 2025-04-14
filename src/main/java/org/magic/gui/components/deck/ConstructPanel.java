@@ -382,15 +382,15 @@ public class ConstructPanel extends MTGUIComponent {
 		deckDetailsPanel.init(deck);
 
 //////////////////////////////////////////////////////////////////ACTIONS
-		btnNewDeck.addActionListener(newDeckEvent -> {
+		btnNewDeck.addActionListener(_ -> {
 			var newDeck = new MTGDeck();
 			setDeck(newDeck);
 		});
 		
-		tabbedDeckSide.addChangeListener(e -> selectedIndex = tabbedDeckSide.getSelectedIndex());
+		tabbedDeckSide.addChangeListener(_ -> selectedIndex = tabbedDeckSide.getSelectedIndex());
 		
 		
-		btnPin.addActionListener(al->{
+		btnPin.addActionListener(_->{
 			
 			var tree = new DeckTree();
 			tree.enableThumbnail();
@@ -402,7 +402,7 @@ public class ConstructPanel extends MTGUIComponent {
 		
 		
 		
-		btnRandom.addActionListener(al->{
+		btnRandom.addActionListener(_->{
 				buzyLabel.start();
 				SwingWorker<MTGDeck, Void> sw = new SwingWorker<>()
 				{
@@ -438,7 +438,7 @@ public class ConstructPanel extends MTGUIComponent {
 		});
 
 
-		btnOpen.addActionListener(openEvent -> {
+		btnOpen.addActionListener(_ -> {
 			try {
 				var choose = new JDeckChooserDialog();
 				choose.setVisible(true);
@@ -454,7 +454,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 		});
 
-		btnUpdate.addActionListener(updateEvent ->  {
+		btnUpdate.addActionListener(_ ->  {
 			if(deck==null)
 				return;
 			
@@ -526,7 +526,7 @@ public class ConstructPanel extends MTGUIComponent {
 			ThreadManager.getInstance().runInEdt(sw,"updating "+deck);
 		});
 
-		btnSave.addActionListener(e -> {
+		btnSave.addActionListener(_ -> {
 			if(deck==null)
 			{
 				MTGControler.getInstance().notify(new NullPointerException("Deck is Null"));
@@ -586,7 +586,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 
 
-	btnDrawAHand.addActionListener(ae -> {
+	btnDrawAHand.addActionListener(_ -> {
 		
 			if(deck==null || deck.isEmpty())
 				return;
@@ -650,7 +650,7 @@ public class ConstructPanel extends MTGUIComponent {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
 					var it = new JMenuItem(exp.getName(),exp.getIcon());
-					it.addActionListener(itEvent -> {
+					it.addActionListener(_ -> {
 
 						var jf = new JFileChooser(MTGConstants.DATA_DIR);
 						jf.setFileHidingEnabled(false);
@@ -732,7 +732,7 @@ public class ConstructPanel extends MTGUIComponent {
 			}
 		}, buzyLabel);
 
-		defaultEnterButton.addActionListener(aeSearch -> {
+		defaultEnterButton.addActionListener(_ -> {
 
 			resultListModel.clear();
 
@@ -848,7 +848,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 					var itemDel = new JMenuItem(capitalize("DELETE"));
 					menu.add(itemDel);
-					itemDel.addActionListener(ae->{
+					itemDel.addActionListener(_->{
 
 						deck.delete(mc ,f);
 						model.fireTableDataChanged();
@@ -862,13 +862,13 @@ public class ConstructPanel extends MTGUIComponent {
 							{
 								var itemRemoveCommander = new JMenuItem(capitalize("REMOVE_COMMANDER"));
 								menu.add(itemRemoveCommander);
-								itemRemoveCommander.addActionListener(ae->deck.setCommander(null));
+								itemRemoveCommander.addActionListener(_->deck.setCommander(null));
 							}
 							else
 							{
 								var itemSelCommander = new JMenuItem(capitalize("SELECT_COMMANDER"));
 								menu.add(itemSelCommander);
-								itemSelCommander.addActionListener(ae->deck.setCommander(mc));
+								itemSelCommander.addActionListener(_->deck.setCommander(mc));
 							}
 					}
 
@@ -876,7 +876,7 @@ public class ConstructPanel extends MTGUIComponent {
 					menu.add(itemMove);
 
 
-					itemMove.addActionListener(ae->{
+					itemMove.addActionListener(_->{
 						if(f==BOARD.MAIN)
 						{
 							List<MTGCard> list = UITools.getTableSelections(tableDeck, 0);
@@ -905,7 +905,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 					var item = new JMenuItem(capitalize("MORE_LIKE_THIS"));
 					menu.add(item);
-					item.addActionListener(ae->{
+					item.addActionListener(_->{
 
 						resultListModel.removeAllElements();
 						try {
@@ -958,7 +958,7 @@ public class ConstructPanel extends MTGUIComponent {
 			}
 		});
 
-		table.getModel().addTableModelListener(e -> updatePanels());
+		table.getModel().addTableModelListener(_ -> updatePanels());
 
 		table.getDefaultEditor(String.class).addCellEditorListener(new CellEditorListener() {
 

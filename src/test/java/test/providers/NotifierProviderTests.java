@@ -1,7 +1,6 @@
 package test.providers;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +14,7 @@ import test.TestTools;
 public class NotifierProviderTests {
 
 	@Before
-	public void initTest() throws IOException, URISyntaxException
+	public void initTest()
 	{
 		TestTools.initTest();
 	}

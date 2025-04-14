@@ -57,7 +57,7 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 		
 		
 					
-		btnTrack.addActionListener(al->{
+		btnTrack.addActionListener(_->{
 			textArea.setText("");
 			try {
 				var t = ((MTGTrackingService)comboBox.getSelectedItem()).track(textField.getText(),transaction.getContact());

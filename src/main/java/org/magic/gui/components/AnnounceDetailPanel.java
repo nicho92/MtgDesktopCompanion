@@ -104,7 +104,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 
 
 
-		btnContact.addActionListener(al->{
+		btnContact.addActionListener(_->{
 			ContactChooseDialog diag = new ContactChooseDialog();
 			diag.setVisible(true);
 

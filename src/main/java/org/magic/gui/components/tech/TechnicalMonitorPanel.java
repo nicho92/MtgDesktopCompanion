@@ -124,7 +124,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		var tableDiscordInfo= UITools.createNewTable(discordModel,true);
 		var tableFileAccessIInfo= UITools.createNewTable(modelFileAccess,true);
 
-		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
+		TableCellRenderer durationRenderer = (JTable _, Object value, boolean _,boolean _, int _, int _)->{
 					var lab= new JLabel();
 						 lab.setOpaque(false);
 					try {
@@ -138,7 +138,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 					return lab;
 				};
 
-		TableCellRenderer sizeRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
+		TableCellRenderer sizeRenderer = (JTable _, Object value, boolean _,boolean _, int _, int _)->{
 					var lab= new JLabel(UITools.humanReadableSize((Long)value));
 					lab.setOpaque(false);
 					return lab;
@@ -181,7 +181,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
 
-		t = new Timer(MTGConstants.TECHNICAL_REFRESH, e ->{
+		t = new Timer(MTGConstants.TECHNICAL_REFRESH, _ ->{
 			modelThreads.init(AbstractTechnicalServiceManager.inst().getThreadsInfos());
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();

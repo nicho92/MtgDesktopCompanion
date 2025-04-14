@@ -1,8 +1,5 @@
 package test.providers;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MTGEdition;
@@ -16,7 +13,7 @@ import test.TestTools;
 public class CardsProviderTests {
 
 	@Before
-	public void initTest() throws IOException, URISyntaxException
+	public void initTest() 
 	{
 		TestTools.initTest();
 		MTGControler.getInstance();

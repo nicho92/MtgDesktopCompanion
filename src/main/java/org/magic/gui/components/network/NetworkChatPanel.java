@@ -144,7 +144,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			        		deck.setId(-1);
 			        		
 				            var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
-				            itemImport.addActionListener((ActionEvent ae)->{
+				            itemImport.addActionListener(_->{
 				            		try {
 										new MTGDeckManager().saveDeck(deck);
 									} catch (IOException e1) {
@@ -154,7 +154,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				            menu.add(itemImport);
 				            
 				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
-				            itemOpen.addActionListener((ActionEvent ae)->{
+				            itemOpen.addActionListener(_->{
 				            		ConstructPanel deckV = new ConstructPanel();
 				            			deckV.hideSearchComponent(true);
 				            			deckV.setDeck(deck);
@@ -169,7 +169,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			            	var items = ((SearchAnswerMessage)selected).getResultItems();
 			        		
 				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
-				            itemOpen.addActionListener((ActionEvent ae)->{
+				            itemOpen.addActionListener(_->{
 				            		
 				            	var panel = new StockPanelGUI();
 				            	
@@ -244,7 +244,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setEditable(false);
 		
 	
-		btnConnect.addActionListener(ae -> {
+		btnConnect.addActionListener(_ -> {
 			
 			var swConnect = new SwingWorker<Void, Void>(){
 				
@@ -292,7 +292,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 
 
-		btnLogout.addActionListener(ae -> {
+		btnLogout.addActionListener(_ -> {
 			try {
 				client.logout();
 			} catch (IOException e) {
@@ -300,7 +300,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			}
 		});
 
-		btnColorChoose.addActionListener(ae -> {
+		btnColorChoose.addActionListener(_ -> {
 			var c = JColorChooser.showDialog(null, "Choose Text Color", editorPane.getForeground());
 
 			if(c!=null) {
@@ -336,7 +336,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		});
 		
 		
-		btnSearch.addActionListener(al->{
+		btnSearch.addActionListener(_->{
 			try 
 			{
 				var diag = new CardImporterDialog();
@@ -355,7 +355,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			
 		});
 		
-		btnDeck.addActionListener(al->{
+		btnDeck.addActionListener(_->{
 			try 
 			{
 				var diag = new JDeckChooserDialog();

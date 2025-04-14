@@ -63,8 +63,8 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 		panelChoose.add(btnLoad);
 		panelChoose.add(lblLoad);
 		selectedSniffer = listEnabledPlugins(MTGShopper.class).get(0);
-		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
-		btnLoad.addActionListener(ae->{
+		cboSniffers.addActionListener(_ -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
+		btnLoad.addActionListener(_->{
 			AbstractObservableWorker<List<RetrievableTransaction>, RetrievableTransaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
 				@Override
 				protected List<RetrievableTransaction> doInBackground() throws Exception {
@@ -94,7 +94,7 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 		transactionPanel.disableCommands();
 
 		
-		table.getSelectionModel().addListSelectionListener(lsl->{
+		table.getSelectionModel().addListSelectionListener(_->{
 					
 					List<RetrievableTransaction> rts = UITools.getTableSelections(table, 0);
 					AbstractObservableWorker<List<Transaction>, Transaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {

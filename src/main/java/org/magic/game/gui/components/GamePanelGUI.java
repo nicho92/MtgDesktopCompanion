@@ -313,12 +313,12 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panel.add(spinPoison);
 		spinPoison.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 15));
 
-		spinPoison.addChangeListener(e -> {
+		spinPoison.addChangeListener(_ -> {
 			if (player != null)
 				player.setPoisonCounter((int) spinPoison.getValue());
 
 		});
-		spinLife.addChangeListener(e -> {
+		spinLife.addChangeListener(_ -> {
 			if (player != null)
 				player.setLife((int) spinLife.getValue());
 		});

@@ -1,7 +1,6 @@
 package test.providers;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import test.TestTools;
 public class GradingTester {
 
 	@Before
-	public void initTest() throws IOException, URISyntaxException
+	public void initTest() 
 	{
 		MTGControler.getInstance().loadAccountsConfiguration();
 	}
@@ -27,9 +26,6 @@ public class GradingTester {
 	{
 		var grads = TestTools.loadGraderData().get("GRADING").getAsJsonObject();
 		grads.entrySet().forEach(e->{
-			
-			System.out.println(e.getKey());
-			
 			var p = MTG.getPlugin(e.getKey(),MTGGraders.class);
 			testPlugin(p,e.getValue().getAsString());
 		});

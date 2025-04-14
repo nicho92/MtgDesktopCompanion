@@ -66,7 +66,7 @@ public class JDeckChooserDialog extends JDialog {
 		
 		manager = new MTGDeckManager();
 		var decksModel = new DeckSelectionTableModel();
-		manager.addObserver((o,d)->decksModel.addItem((MTGDeck)d));
+		manager.addObserver((_,d)->decksModel.addItem((MTGDeck)d));
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 
 		addWindowListener(new WindowAdapter() {
@@ -138,7 +138,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		var btnSelect = new JButton(MTGConstants.ICON_OPEN);
 		btnSelect.setToolTipText(capitalize("OPEN"));
-		btnSelect.addActionListener(e -> {
+		btnSelect.addActionListener(_ -> {
 			if (selectedDeck == null)
 				MTGControler.getInstance().notify(new NullPointerException(capitalize("CHOOSE_DECK")));
 			else
@@ -148,7 +148,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.setToolTipText(capitalize("CANCEL"));
-		btnCancel.addActionListener(e -> {
+		btnCancel.addActionListener(_ -> {
 			selectedDeck = null;
 			dispose();
 		});
@@ -157,7 +157,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		var btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnDelete.setToolTipText(capitalize("DELETE"));
-		btnDelete.addActionListener(e -> {
+		btnDelete.addActionListener(_ -> {
 
 			if(selectedDeck==null)
 				return;

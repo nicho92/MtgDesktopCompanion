@@ -18,7 +18,7 @@ public class ManaCost implements Cost {
 
 	public void add(String mana, int qty)
 	{
-		mcost.computeIfAbsent(mana, k -> 0);
+		mcost.computeIfAbsent(mana, _ -> 0);
 		mcost.put(mana, mcost.get(mana)+qty);
 	}
 

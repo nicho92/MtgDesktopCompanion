@@ -147,7 +147,7 @@ public class DefaultStockEditorDialog extends JDialog {
 
 						qteJSlider = new JSlider();
 						panel1.add(qteJSlider);
-						qteJSlider.addChangeListener(event->lblQtyValue.setText("" + qteJSlider.getValue()));
+						qteJSlider.addChangeListener(_->lblQtyValue.setText("" + qteJSlider.getValue()));
 						qteJSlider.setPaintLabels(true);
 
 
@@ -221,14 +221,14 @@ public class DefaultStockEditorDialog extends JDialog {
 						mcontentPane.add(panel, gbcpanel);
 
 						btnSave = new JButton(MTGConstants.ICON_SAVE);
-						btnSave.addActionListener(e->{
+						btnSave.addActionListener(_->{
 							MTGControler.getInstance().setDefaultStock(getMagicCardStock());
 							dispose();
 						});
 						panel.add(btnSave);
 
 						btnCancel = new JButton(MTGConstants.ICON_DELETE);
-						btnCancel.addActionListener(e->dispose());
+						btnCancel.addActionListener(_->dispose());
 						panel.add(btnCancel);
 
 		if (magicCardStock != null) {

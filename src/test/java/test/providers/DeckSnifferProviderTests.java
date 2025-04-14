@@ -1,7 +1,5 @@
 package test.providers;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import org.junit.Before;
@@ -16,7 +14,7 @@ import test.TestTools;
 public class DeckSnifferProviderTests {
 	
 	@Before
-	public void initTest() throws IOException, URISyntaxException
+	public void initTest() 
 	{
 		TestTools.initTest();
 	}

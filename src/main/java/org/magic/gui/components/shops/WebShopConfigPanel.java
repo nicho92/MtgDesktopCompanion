@@ -154,7 +154,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			listModel.addElement(s);
 
 		txtURLSlides = new JTextField();
-		txtURLSlides.addActionListener((ActionEvent e)->{
+		txtURLSlides.addActionListener(_->{
 				listModel.addElement(txtURLSlides.getText());
 				txtURLSlides.setText("");
 		});
@@ -191,7 +191,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		var serverStatPanel = new ServerStatePanel(false,getPlugin(new ShoppingServer().getName(), MTGServer.class));
 		panelServer.add(serverStatPanel,BorderLayout.CENTER);
 		var btnClearCache = new JButton("Clear Cache",MTGConstants.ICON_TAB_CACHE);
-		btnClearCache.addActionListener(il->((JSONHttpServer)getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache());
+		btnClearCache.addActionListener(_->((JSONHttpServer)getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache());
 		
 		
 		
@@ -245,11 +245,11 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 		maxLastProductSlide = new JSlider(0, 16, conf.getMaxLastProduct());
 		var lblMaxProductValue = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
-		maxLastProductSlide.addChangeListener(cl->lblMaxProductValue.setText(String.valueOf(maxLastProductSlide.getValue())));
+		maxLastProductSlide.addChangeListener(_->lblMaxProductValue.setText(String.valueOf(maxLastProductSlide.getValue())));
 
 		productPagination = new JSlider(0, 50, conf.getProductPagination());
 		var lblProductPaginationValue = new JLabel(String.valueOf(productPagination.getValue()));
-		productPagination.addChangeListener(cl->lblProductPaginationValue.setText(String.valueOf(productPagination.getValue())));
+		productPagination.addChangeListener(_->lblProductPaginationValue.setText(String.valueOf(productPagination.getValue())));
 
 
 
@@ -269,7 +269,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 
-		b.addActionListener(il->{
+		b.addActionListener(_->{
 							   var diag = new CardStockChooseDialog();
 								   diag.setVisible(true);
 								   if(diag.hasSelected())
@@ -304,7 +304,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			}
 		};
 
-		chkAutoProduct.addItemListener(il->{
+		chkAutoProduct.addItemListener(_->{
 				if(chkAutoProduct.isSelected())
 				{
 					ThreadManager.getInstance().runInEdt(sw, "Loading best product");
@@ -387,9 +387,9 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		container.add(panelServer);
 
 
-		listSlides.addListSelectionListener((ListSelectionEvent e)->btnDeleteLink.setEnabled(listSlides.getSelectedIndex()>-1));
-		btnDeleteLink.addActionListener((ActionEvent e)->listModel.removeElement(listSlides.getSelectedValue()));
-		btnSave.addActionListener(al->{
+		listSlides.addListSelectionListener(_->btnDeleteLink.setEnabled(listSlides.getSelectedIndex()>-1));
+		btnDeleteLink.addActionListener(_->listModel.removeElement(listSlides.getSelectedValue()));
+		btnSave.addActionListener(_->{
 
 			WebShopConfig newBean = MTGControler.getInstance().getWebshopService().getWebConfig();
 

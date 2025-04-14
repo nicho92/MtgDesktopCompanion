@@ -81,14 +81,14 @@ public class ShortKeyManagerUI extends MTGUIComponent
 			}
 		});
 
-		btnDelete.addActionListener(l->{
+		btnDelete.addActionListener(_->{
 			JButton c = UITools.getTableSelection(tableKeys,model.getMainObjectIndex());
 			ShortKeyManager.inst().removeMnemonic(c);
 			model.fireTableDataChanged();
 		});
 
 
-		btnSaveBinding.addActionListener(l->{
+		btnSaveBinding.addActionListener(_->{
 			JButton b = UITools.getTableSelection(tableKeys, model.getMainObjectIndex());
 			if(b!=null)
 				ShortKeyManager.inst().setShortCutTo(currentKeyCode, b);

@@ -65,9 +65,9 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		
 		
 		if(chkSumOrTotal.isSelected())
-			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (k,v)->(v==null)?mcs.getQte():v+mcs.getQte()));
+			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (_,v)->(v==null)?mcs.getQte():v+mcs.getQte()));
 		else
-			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (k,v)->UITools.roundDouble((v==null)?mcs.getValue().doubleValue():v+mcs.getValue().doubleValue())));
+			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (_,v)->UITools.roundDouble((v==null)?mcs.getValue().doubleValue():v+mcs.getValue().doubleValue())));
 		
 		return res;
 	}
@@ -140,7 +140,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		getContentPane().add(pane,BorderLayout.CENTER);
 		
 		
-		btnReload.addActionListener(al->{
+		btnReload.addActionListener(_->{
 				cache.clean();
 				init();
 		});
@@ -150,7 +150,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 				init();
 		});
 		
-		chkSumOrTotal.addItemListener(ie -> init());
+		chkSumOrTotal.addItemListener(_ -> init());
 		
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),

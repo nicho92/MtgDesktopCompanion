@@ -117,18 +117,18 @@ public class ScriptPanel extends MTGUIComponent {
 
 
 
-		btnClear.addActionListener(al->resultPane.setText(""));
+		btnClear.addActionListener(_->resultPane.setText(""));
 
-		btnNewButton.addActionListener(al->{
+		btnNewButton.addActionListener(_->{
 			currentFile=null;
 			editorPane.setText("");
 			resultPane.setText("");
 		});
 
-		cboScript.addItemListener(il->editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType()));
+		cboScript.addItemListener(_->editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType()));
 
 
-		btnStop.addActionListener(e->{
+		btnStop.addActionListener(_->{
 			if(f!=null)
 			{
 				f.cancel(true);
@@ -138,7 +138,7 @@ public class ScriptPanel extends MTGUIComponent {
 
 
 
-		btnRun.addActionListener(al->{
+		btnRun.addActionListener(_->{
 
 			var c = new Chrono();
 			c.start();
@@ -192,7 +192,7 @@ public class ScriptPanel extends MTGUIComponent {
 		});
 
 
-		btnSaveButton.addActionListener(al->{
+		btnSaveButton.addActionListener(_->{
 
 			int ret=JFileChooser.CANCEL_OPTION;
 			if(currentFile !=null)
@@ -233,7 +233,7 @@ public class ScriptPanel extends MTGUIComponent {
 			}
 		});
 
-		btnOpen.addActionListener(al-> {
+		btnOpen.addActionListener(_-> {
 			var choose = new JFileChooser();
 
 			choose.setFileFilter(new ExtensionFileFilter(cboScript.getSelectedItem().toString(), ((MTGScript)cboScript.getSelectedItem()).getExtension()));

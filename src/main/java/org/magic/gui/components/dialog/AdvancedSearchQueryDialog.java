@@ -64,13 +64,13 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 		chkSearchInCollection.addItemListener(il->cboCollection.setEnabled(chkSearchInCollection.isSelected()));
 
-		btnNewButton.addActionListener(al->
+		btnNewButton.addActionListener(_->
 			SwingUtilities.invokeLater(()->{
 
 				var cc = new CriteriaComponent();
 
 				var delete = new JButton(MTGConstants.ICON_DELETE);
-				delete.addActionListener(el->{
+				delete.addActionListener(_->{
 					pContent.remove(cc);
 					pContent.revalidate();
 					pContent.repaint();
@@ -86,7 +86,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		);
 
 
-		btnSearch.addActionListener(al->{
+		btnSearch.addActionListener(_->{
 
 			crits.clear();
 			for(var i = 0 ; i<pContent.getComponentCount();i++)

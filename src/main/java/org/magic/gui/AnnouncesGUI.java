@@ -114,9 +114,9 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 
 
-		btnUpdate.addActionListener(al->load());
+		btnUpdate.addActionListener(_->load());
 
-		btnNew.addActionListener(al->{
+		btnNew.addActionListener(_->{
 			var a = new MTGAnnounce();
 				a.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
 				detailsPanel.setAnnounce(a);
@@ -125,7 +125,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 		});
 
 
-		btnOverDate.addActionListener(al->{
+		btnOverDate.addActionListener(_->{
 
 			List<MTGAnnounce> list = UITools.getTableSelections(tableAnnounces, 0);
 
@@ -139,7 +139,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 			}
 		});
 
-		btnSave.addActionListener(al->{
+		btnSave.addActionListener(_->{
 
 
 			if(!UITools.getSelectedRows(tableAnnounces).isEmpty()) {
@@ -172,7 +172,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 
 
-		btnDelete.addActionListener(al->{
+		btnDelete.addActionListener(_->{
 
 			MTGAnnounce a = UITools.getTableSelection(tableAnnounces,0);
 

@@ -129,7 +129,7 @@ public class SealedStockGUI extends MTGUIComponent {
 
 
 
-		packagePanel.getTree().addTreeSelectionListener(e-> {
+		packagePanel.getTree().addTreeSelectionListener(_-> {
 
 			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)packagePanel.getTree().getLastSelectedPathComponent();
 
@@ -169,7 +169,7 @@ public class SealedStockGUI extends MTGUIComponent {
 			}
 		});
 
-		buttonDelete.addActionListener(el->{
+		buttonDelete.addActionListener(_->{
 			List<MTGSealedStock> list = UITools.getTableSelections(table, 0);
 
 			int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", list.size()), MTGControler.getInstance().getLangService().get("DELETE"),JOptionPane.YES_NO_OPTION);
@@ -204,7 +204,7 @@ public class SealedStockGUI extends MTGUIComponent {
 
 		});
 
-		buttonUpdate.addActionListener(el->{
+		buttonUpdate.addActionListener(_->{
 			try {
 				model.init(getEnabledPlugin(MTGDao.class).listSealedStocks());
 			} catch (SQLException e1) {
@@ -214,7 +214,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		});
 
 
-		buttonNew.addActionListener(el->{
+		buttonNew.addActionListener(_->{
 				AbstractObservableWorker<MTGSealedStock, MTGSealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),1) {
 
 					@Override
@@ -241,7 +241,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		});
 
 
-		buttonSave.addActionListener(el->{
+		buttonSave.addActionListener(_->{
 				var list = model.getItems().stream().filter(MTGSealedStock::isUpdated).toList();
 
 				AbstractObservableWorker<Void, MTGSealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),list.size()) {

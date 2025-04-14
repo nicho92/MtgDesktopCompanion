@@ -83,7 +83,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		panel.add(btnAdd);
 
 		var btnRemove = new JButton("<<<");
-		btnRemove.addActionListener(e -> {
+		btnRemove.addActionListener(_ -> {
 			for (MTGCard mc : listSide.getSelectedValuesList()) {
 				modMain.addElement(mc);
 				modSide.removeElement(mc);
@@ -104,7 +104,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		var btnRestore = new JButton("Restore");
 		btnRestore.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnRestore);
-		btnRestore.addActionListener(ae -> {
+		btnRestore.addActionListener(_ -> {
 			savedDeck = bckDeck;
 			init();
 		});
@@ -117,12 +117,12 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		getContentPane().add(panel1, BorderLayout.SOUTH);
 
 		var btnOk = new JButton(MTGConstants.ICON_CHECK);
-		btnOk.addActionListener(e -> dispose());
+		btnOk.addActionListener(_ -> dispose());
 
 		panel1.add(btnOk);
 
 		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
-		btnCancel.addActionListener(e -> {
+		btnCancel.addActionListener(_ -> {
 			savedDeck = bckDeck;
 			dispose();
 		});
@@ -138,7 +138,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 
 	private void initDescribe(JList<MTGCard> list)
 	{
-		list.addListSelectionListener(ls->lightDescribeCardPanel.setCard(list.getSelectedValue()));
+		list.addListSelectionListener(_->lightDescribeCardPanel.setCard(list.getSelectedValue()));
 	}
 
 

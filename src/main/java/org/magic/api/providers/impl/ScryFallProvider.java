@@ -130,7 +130,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		for(var e :  URLTools.toJson(FileTools.readFile(f)).getAsJsonArray())
 		{
 			if(e.getAsJsonObject().get(ORACLE_ID)!=null)
-				mapOtherSet.computeIfAbsent(e.getAsJsonObject().get(ORACLE_ID).getAsString(),v->new HashSet<>()).add(e.getAsJsonObject().get("set").getAsString());
+				mapOtherSet.computeIfAbsent(e.getAsJsonObject().get(ORACLE_ID).getAsString(),_->new HashSet<>()).add(e.getAsJsonObject().get("set").getAsString());
 		}
 	}
 	
@@ -144,7 +144,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				r.setDate(readAsDate(e.getAsJsonObject(),"published_at"));
 				r.setText(readAsString(e.getAsJsonObject(),"comment"));
 				if(e.getAsJsonObject().get(ORACLE_ID)!=null)
-					mapRules.computeIfAbsent(e.getAsJsonObject().get(ORACLE_ID).getAsString(),v->new HashSet<>()).add(r);
+					mapRules.computeIfAbsent(e.getAsJsonObject().get(ORACLE_ID).getAsString(),_->new HashSet<>()).add(r);
 			});
 	}
 	

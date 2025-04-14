@@ -56,7 +56,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 
 		btnRefresh = new JButton("");
-		btnRefresh.addActionListener(ae -> init());
+		btnRefresh.addActionListener(_ -> init());
 
 		cboFormats.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)

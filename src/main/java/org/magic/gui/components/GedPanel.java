@@ -75,7 +75,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 		panneauHaut.add(btnLoadFromWebcam);
 		panneauHaut.add(buzy);
 
-		btnLoadFromWebcam.addActionListener(al->{
+		btnLoadFromWebcam.addActionListener(_->{
 
 			var g = new WebcamSnapShotComponent();
 			var diag = MTGUIComponent.createJDialog(g, true, true);
@@ -90,7 +90,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 			});
 
 
-			g.getBtnClose().addActionListener(l->{
+			g.getBtnClose().addActionListener(_->{
 				g.onDestroy();
 				diag.dispose();
 			});
@@ -156,7 +156,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 			}
 		});
 
-		btnLoadFromUrl.addActionListener(al->{
+		btnLoadFromUrl.addActionListener(_->{
 			var url = JOptionPane.showInputDialog("URL");
 			buzy.start();
 			SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {

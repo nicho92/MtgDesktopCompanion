@@ -49,7 +49,7 @@ public class MkmWantListChooserDialog extends JDialog {
 
 
 
-			btnNewWantList.addActionListener(l->{
+			btnNewWantList.addActionListener(_->{
 				String name = JOptionPane.showInputDialog("Want List Name ? ");
 				try {
 					Wantslist created = serv.createWantList(name);
@@ -60,8 +60,8 @@ public class MkmWantListChooserDialog extends JDialog {
 				}
 			});
 
-			btnOK.addActionListener(l->dispose());
-			btnCancel.addActionListener(l->{
+			btnOK.addActionListener(_->dispose());
+			btnCancel.addActionListener(_->{
 				cboWants.setSelectedItem(null);
 				dispose();
 			});

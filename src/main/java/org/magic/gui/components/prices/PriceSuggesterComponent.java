@@ -58,13 +58,13 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 
 
 
-		rdoPricer.addItemListener(i->{
+		rdoPricer.addItemListener(_->{
 			cboDashBoard.setEnabled(!rdoPricer.isEnabled());
 			cboPricer.setEnabled(rdoPricer.isEnabled());
 
 		});
 
-		rdoDashBoard.addItemListener(i->{
+		rdoDashBoard.addItemListener(_->{
 			cboPricer.setEnabled(!rdoDashBoard.isEnabled());
 			cboDashBoard.setEnabled(rdoDashBoard.isEnabled());
 		});

@@ -95,13 +95,13 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 
 		add(webcamCanvas, BorderLayout.CENTER);
 
-		btnReloadCams.addActionListener(al->{
+		btnReloadCams.addActionListener(_->{
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).removeAllElements();
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).addAll(WebcamUtils.inst().listWebcam());
 			cboWebcams.setSelectedItem(webcamCanvas.getWebcam());
 		});
 
-		btnAddCam.addActionListener(al->{
+		btnAddCam.addActionListener(_->{
 			var diag = new IPCamAddDialog();
 						   diag.setModal(true);
 						   diag.setVisible(true);
@@ -109,14 +109,14 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 				btnReloadCams.doClick();
 		});
 
-		btnSnap.addActionListener(al->{
+		btnSnap.addActionListener(_->{
 			snapshotImages.add(webcamCanvas.lastDrawn());
 			btnSnap.setText(String.valueOf(snapshotImages.size()));
 
 		});
 
 
-		btnStarting.addActionListener(al->{
+		btnStarting.addActionListener(_->{
 			webcamCanvas.setWebcam((Webcam)cboWebcams.getSelectedItem());
 			webcamCanvas.revalidate();
 			ThreadManager.getInstance().runInEdt(swWebcamReader, "Webcam");

@@ -136,12 +136,12 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnNew.setEnabled(false);
 		btnGenerateBill.setEnabled(false);
 		btnValidateTransaction.setEnabled(false);
-		chkEditingMode.addActionListener(al->enableEditing(chkEditingMode.isSelected()));
+		chkEditingMode.addActionListener(_->enableEditing(chkEditingMode.isSelected()));
 		
 		
 		
 		
-		btnNew.addActionListener(al->{
+		btnNew.addActionListener(_->{
 			
 			var t = new Transaction();
 				 t.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
@@ -149,7 +149,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 		
 		
-		btnSearch.addActionListener(al->{
+		btnSearch.addActionListener(_->{
 		var text = JOptionPane.showInputDialog("List Transaction with product : ");
 			
 			@SuppressWarnings("unchecked")
@@ -173,7 +173,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 		
 		
-		btnImportTransaction.addActionListener(ae->{
+		btnImportTransaction.addActionListener(_->{
 			var diag = new TransactionsImporterDialog();
 			diag.setVisible(true);
 
@@ -308,11 +308,11 @@ public class TransactionsPanel extends MTGUIComponent {
 			
 		});
 		
-		btnRefresh.addActionListener(al->reload());
+		btnRefresh.addActionListener(_->reload());
 		
 		
 		
-		btnGenerateBill.addActionListener(al->{
+		btnGenerateBill.addActionListener(_->{
 			Transaction t = UITools.getTableSelection(tableTransactions, 0);
 			
 			
@@ -353,7 +353,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 		
 		
-		btnContact.addActionListener(al->{
+		btnContact.addActionListener(_->{
 			var diag = new ContactChooseDialog();
 				  diag.setVisible(true);
 											   
@@ -376,7 +376,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 		
 
-		btnDelete.addActionListener(al->{
+		btnDelete.addActionListener(_->{
 			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
 			int res = JOptionPane.showConfirmDialog(this, "Delete "+t.size()+ " transaction(s) will NOT update stock","Delete ?",JOptionPane.YES_NO_OPTION);
 			if(res == JOptionPane.YES_OPTION) {
@@ -389,7 +389,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			}
 		});
 
-		btnMerge.addActionListener(al->{
+		btnMerge.addActionListener(_->{
 			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
 			try {
 				TransactionService.mergeTransactions(t);
@@ -401,7 +401,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 		
 		
-		btnValidateTransaction.addActionListener(al->{
+		btnValidateTransaction.addActionListener(_->{
 			Transaction t = UITools.getTableSelection(tableTransactions, 0);
 			
 			int res = JOptionPane.showConfirmDialog(this, "Validate #"+t.getId()+ " transaction willupdate stock ("+ t.getItems().size()+" items)","Validate ?",JOptionPane.YES_NO_OPTION);

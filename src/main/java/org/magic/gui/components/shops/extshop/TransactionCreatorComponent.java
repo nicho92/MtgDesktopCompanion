@@ -76,8 +76,8 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 
 		add(panelTransactions, BorderLayout.CENTER);
 
-		btnSearch.addActionListener(e->loadTransactions());
-		btnSend.addActionListener(e->sendTransaction());
+		btnSearch.addActionListener(_->loadTransactions());
+		btnSend.addActionListener(_->sendTransaction());
 		btnSend.setEnabled(false);
 
 

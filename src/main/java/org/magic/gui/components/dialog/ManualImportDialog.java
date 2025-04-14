@@ -65,7 +65,7 @@ public class ManualImportDialog extends JDialog {
 
 		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.setToolTipText(capitalize("CANCEL"));
-		btnCancel.addActionListener(e -> {
+		btnCancel.addActionListener(_ -> {
 			editorPane.setText("");
 			dispose();
 		});
@@ -146,7 +146,7 @@ public class ManualImportDialog extends JDialog {
 			}
 		});
 
-		btnImport.addActionListener(e ->{
+		btnImport.addActionListener(_ ->{
 
 			DeckImportWorker sw = new DeckImportWorker(getPlugin(MTGConstants.DEFAULT_MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading,null)
 										{

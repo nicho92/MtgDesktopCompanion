@@ -78,7 +78,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 
 
 		
-		table.getSelectionModel().addListSelectionListener(lsl->{
+		table.getSelectionModel().addListSelectionListener(_->{
 
 			Contact t = UITools.getTableSelection(table, 0);
 
@@ -89,10 +89,10 @@ public class ContactsManagementPanel extends MTGUIComponent {
 			viewerPanel.init(t);
 		});
 
-		btnRefresh.addActionListener(al->reload());
+		btnRefresh.addActionListener(_->reload());
 
 
-		btnDeleteContact.addActionListener(al->{
+		btnDeleteContact.addActionListener(_->{
 			try {
 					TransactionService.deleteContact(contactPanel.getContact());
 					reload();
@@ -105,7 +105,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 		});
 
 
-		btnNewContact.addActionListener(al->{
+		btnNewContact.addActionListener(_->{
 			var c = new Contact();
 			c.setName("New");
 			c.setLastName("Contact");

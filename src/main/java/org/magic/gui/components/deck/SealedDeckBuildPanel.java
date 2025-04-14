@@ -174,9 +174,9 @@ public class SealedDeckBuildPanel extends JPanel {
 		gbclblLoading.gridx = 3;
 		gbclblLoading.gridy = 1;
 		panel.add(lblLoading, gbclblLoading);
-		btnSaveDeck.addActionListener(e -> save());
-		btnOpen.addActionListener(ae -> open());
-		btnAddBoosters.addActionListener(ae -> addBooster());
+		btnSaveDeck.addActionListener(_ -> save());
+		btnOpen.addActionListener(_ -> open());
+		btnAddBoosters.addActionListener(_ -> addBooster());
 
 		scrollTablePack = new JScrollPane(table);
 		scrollTablePack.setPreferredSize(new Dimension(2, 100));
@@ -191,21 +191,21 @@ public class SealedDeckBuildPanel extends JPanel {
 		panelSorters.setLayout(new GridLayout(0, 1, 0, 0));
 
 		rdioCmcSortButton = new JRadioButton(capitalize(SORT_BY, "cmc"));
-		rdioCmcSortButton.addActionListener(ae -> sort(new CmcSorter()));
+		rdioCmcSortButton.addActionListener(_ -> sort(new CmcSorter()));
 
 		panelSorters.add(rdioCmcSortButton);
 
 		rdiocolorSort = new JRadioButton(capitalize(SORT_BY, "color"));
-		rdiocolorSort.addActionListener(ae -> sort(new ColorSorter()));
+		rdiocolorSort.addActionListener(_ -> sort(new ColorSorter()));
 
 		panelSorters.add(rdiocolorSort);
 
 		rdiotypeSort = new JRadioButton(capitalize(SORT_BY, "type"));
-		rdiotypeSort.addActionListener(ae -> sort(new TypesSorter()));
+		rdiotypeSort.addActionListener(_ -> sort(new TypesSorter()));
 		panelSorters.add(rdiotypeSort);
 
 		rdioraritySort = new JRadioButton(capitalize(SORT_BY, "rarity"));
-		rdioraritySort.addActionListener(ae -> sort(new RaritySorter()));
+		rdioraritySort.addActionListener(_ -> sort(new RaritySorter()));
 		panelSorters.add(rdioraritySort);
 		
 	
@@ -222,11 +222,11 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		rdioBoosterAnalyse = new JRadioButton("Booster");
 		rdioBoosterAnalyse.setSelected(true);
-		rdioBoosterAnalyse.addActionListener(e -> analyseDeck(false));
+		rdioBoosterAnalyse.addActionListener(_ -> analyseDeck(false));
 		panelAnalyseChooser.add(rdioBoosterAnalyse);
 
 		rdioDeckAnalyse = new JRadioButton("Deck");
-		rdioDeckAnalyse.addActionListener(e -> analyseDeck(true));
+		rdioDeckAnalyse.addActionListener(_ -> analyseDeck(true));
 
 		panelAnalyseChooser.add(rdioDeckAnalyse);
 
@@ -306,7 +306,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		panelLands.add(cboLands);
 
 		var btnAddLands = new JButton("+");
-		btnAddLands.addActionListener(ae -> addLands());
+		btnAddLands.addActionListener(_ -> addLands());
 		panelLands.add(btnAddLands);
 
 	}

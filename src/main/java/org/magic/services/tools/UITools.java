@@ -436,7 +436,7 @@ public class UITools {
 
 		items.stream().forEach(model::addElement);
 
-			combo.setRenderer((list,value, index,isSelected,cellHasFocus)->{
+			combo.setRenderer((list,value, _,isSelected,_)->{
 					JLabel l ;
 					if(value==null)
 					{

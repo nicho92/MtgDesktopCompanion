@@ -65,7 +65,7 @@ public class StockItemPanel extends MTGUIComponent {
 			}
 		});
 		
-		btnAddSealed.addActionListener(al->{
+		btnAddSealed.addActionListener(_->{
 			
 			var diag = new SealedStockChooseDialog();
 			diag.setVisible(true);
@@ -83,7 +83,7 @@ public class StockItemPanel extends MTGUIComponent {
 		
 		
 		
-		btnAddCard.addActionListener(al->{
+		btnAddCard.addActionListener(_->{
 			var cdSearch = new CardStockChooseDialog();
 				 cdSearch.setVisible(true);
 			if (cdSearch.hasSelected()) {
@@ -95,7 +95,7 @@ public class StockItemPanel extends MTGUIComponent {
 			}
 		});
 		
-		btnRemoveProduct.addActionListener(al->{
+		btnRemoveProduct.addActionListener(_->{
 			var selection = UITools.getSelectedRows(table);
 			model.removeRows(selection);
 			model.fireTableDataChanged();

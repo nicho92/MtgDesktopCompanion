@@ -45,7 +45,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 		var panneauHaut = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		cboGed.setSelectedItem(MTG.getEnabledPlugin(MTGGedStorage.class));
-		cboGed.addItemListener(il->reload());
+		cboGed.addItemListener(_->reload());
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnDelete.setEnabled(false);
 		table = UITools.createNewTable(model,true);
@@ -63,9 +63,9 @@ public class GedBrowserPanel extends MTGUIComponent {
 		add(new JScrollPane(table),BorderLayout.CENTER);
 
 
-		table.getSelectionModel().addListSelectionListener(lsl->btnDelete.setEnabled(UITools.getTableSelection(table, 0)!=null));
+		table.getSelectionModel().addListSelectionListener(_->btnDelete.setEnabled(UITools.getTableSelection(table, 0)!=null));
 
-		btnDelete.addActionListener(al->{
+		btnDelete.addActionListener(_->{
 			GedEntry<MTGSerializable> select = UITools.getTableSelection(table, 0);
 			var confirm = JOptionPane.showConfirmDialog(this, MTG.capitalize("CONFIRM_DELETE",select));
 			if(confirm==JOptionPane.YES_OPTION)

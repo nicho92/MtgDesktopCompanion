@@ -86,21 +86,21 @@ public class StockShopperComponent extends MTGUIComponent {
 		panelCenter.add(new JScrollPane(tableInput), BorderLayout.CENTER);
 
 
-		btnLoad.addActionListener(il->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
-		btnReload.addActionListener(il->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
+		btnLoad.addActionListener(_->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
+		btnReload.addActionListener(_->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
 
-		txtSearch.addActionListener(al->btnLoad.doClick());
-
-
-		tableInput.getSelectionModel().addListSelectionListener(il->btnBind.setEnabled(tableInput.getSelectedRow()>-1));
+		txtSearch.addActionListener(_->btnLoad.doClick());
 
 
-		btnBind.addActionListener(al->{
+		tableInput.getSelectionModel().addListSelectionListener(_->btnBind.setEnabled(tableInput.getSelectedRow()>-1));
+
+
+		btnBind.addActionListener(_->{
 			var menu = new JPopupMenu();
 			for (MTGExternalShop exp : MTG.listPlugins(MTGExternalShop.class)) {
 				var it = new JMenuItem(exp.getName(), exp.getIcon());
 				menu.add(it);
-				it.addActionListener(itl->{
+				it.addActionListener(_->{
 
 					MTGStockItem sourceItem = UITools.getTableSelection(tableInput,0);
 
@@ -128,7 +128,7 @@ public class StockShopperComponent extends MTGUIComponent {
 		});
 
 
-		btnSave.addActionListener(al->{
+		btnSave.addActionListener(_->{
 			var ret = modelInput.getItems().stream().filter(MTGStockItem::isUpdated).toList();
 
 			var shop = (MTGExternalShop)cboInput.getSelectedItem();

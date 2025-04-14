@@ -90,7 +90,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 		panneauCenter.add(panneauHaut, BorderLayout.NORTH);
 		panneauCenter.add(panneauBas, BorderLayout.SOUTH);
 
-		list.addListSelectionListener(le->{
+		list.addListSelectionListener(_->{
 			var cb = list.getSelectedValue();
 			if(cb!=null)
 			{
@@ -100,7 +100,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 		});
 
 
-		list.setCellRenderer((JList<? extends MTGCombo> listCbo, MTGCombo cbo, int index, boolean isSelected,boolean cellHasFocus)->{
+		list.setCellRenderer((JList<? extends MTGCombo> _, MTGCombo cbo, int _, boolean isSelected,boolean _)->{
 			var l= new JLabel(cbo.getName(),cbo.getPlugin().getIcon(),SwingConstants.LEFT);
 				l.setOpaque(true);
 

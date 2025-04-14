@@ -77,7 +77,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 			panelActions.setLayout(gblpanel);
 			chckbxShowEditions = new JCheckBox("Show Editions");
 			chckbxShowEditions.setSelected(showEdition);
-			chckbxShowEditions.addActionListener(ae -> {
+			chckbxShowEditions.addActionListener(_ -> {
 				showEdition = chckbxShowEditions.isSelected();
 				refresh();
 			});

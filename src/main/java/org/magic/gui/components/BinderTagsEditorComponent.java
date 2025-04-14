@@ -224,19 +224,19 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 	private void initActions() {
 
-		btnRefresh.addActionListener(ae-> {
+		btnRefresh.addActionListener(_-> {
 			tagMaker.setEditions(Collections.list(modelSelect.elements()));
 			updateInfo();
 		});
 
 
-		btnBackgroundColor.addActionListener(ae->{
+		btnBackgroundColor.addActionListener(_->{
 			var selected = JColorChooser.showDialog(null, "Color Selection", Color.WHITE);
 			tagMaker.setBackColor(selected);
 			updateInfo();
 		});
 
-		chckbxAddHeader.addActionListener(ae->{
+		chckbxAddHeader.addActionListener(_->{
 			if(!chckbxAddHeader.isSelected())
 			{
 				tagMaker.setLogo(null);
@@ -248,29 +248,29 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 		});
 
-		cboLogo.addItemListener(e-> {
+		cboLogo.addItemListener(_-> {
 				if(chckbxAddHeader.isSelected())
 					tagMaker.setLogo((LOGO)cboLogo.getSelectedItem());
 
 				updateInfo();
 		});
 
-		chckbxBorder.addActionListener(e->{
+		chckbxBorder.addActionListener(_->{
 			tagMaker.setBorder(chckbxBorder.isSelected());
 			updateInfo();
 		});
 
-		btnNew.addActionListener(e->{
+		btnNew.addActionListener(_->{
 			tagMaker.clear();
 			updateInfo();
 		});
 
-		spinSpace.addChangeListener(ce ->{
+		spinSpace.addChangeListener(_ ->{
 			tagMaker.setSpace((int)spinSpace.getValue());
 			updateInfo();
 		});
 
-		btnSave.addActionListener(e->{
+		btnSave.addActionListener(_->{
 			var choose = new JFileChooser(MTGConstants.DATA_DIR);
 
 			choose.setFileFilter(new FileFilter() {

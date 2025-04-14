@@ -122,11 +122,11 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	public void add(MTGCard mc) {
-		getMain().compute(mc, (k,v)->(v==null)?1:v+1);
+		getMain().compute(mc, (_,v)->(v==null)?1:v+1);
 	}
 
 	public void addSide(MTGCard mc) {
-		getSideBoard().compute(mc, (k,v)->(v==null)?1:v+1);
+		getSideBoard().compute(mc, (_,v)->(v==null)?1:v+1);
 	}
 
 	public boolean hasCard(MTGCard mc,boolean strict) {

@@ -144,12 +144,12 @@ public class MagicGUI extends JFrame {
 		mnuAbout.add(mntmReportBug);
 
 
-		mntmFileChromePlugin.addActionListener(ae->{
+		mntmFileChromePlugin.addActionListener(_->{
 			var dow = new ChromeDownloader();
 			dow.setVisible(true);
 		});
 
-		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+		mntmFileTagEditor.addActionListener(_ -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 
 			@Override
 			protected void auditedRun() {
@@ -158,7 +158,7 @@ public class MagicGUI extends JFrame {
 			}
 		}, "loading Tags dialog"));
 
-		mntmThreadItem.addActionListener(e ->ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+		mntmThreadItem.addActionListener(_ ->ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 
 			@Override
 			protected void auditedRun() {
@@ -167,22 +167,22 @@ public class MagicGUI extends JFrame {
 			}
 		}, "loading Thread dialog"));
 
-		mntmExit.addActionListener(e -> MTGControler.getInstance().closeApp());
+		mntmExit.addActionListener(_ -> MTGControler.getInstance().closeApp());
 
-		mntmHelp.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_WIKI_URL));
+		mntmHelp.addActionListener(_ -> UITools.browse(MTGConstants.MTG_DESKTOP_WIKI_URL));
 
-		mntmDonate.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL_PAYPAL));
+		mntmDonate.addActionListener(_ -> UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL_PAYPAL));
 
-		mntmAboutMagicDesktop.addActionListener(ae -> MTGUIComponent.createJDialog(new AboutDialog(), false,true).setVisible(true));
+		mntmAboutMagicDesktop.addActionListener(_ -> MTGUIComponent.createJDialog(new AboutDialog(), false,true).setVisible(true));
 
-		mntmReportBug.addActionListener(ae -> UITools.browse(MTGConstants.MTG_DESKTOP_ISSUES_URL));
+		mntmReportBug.addActionListener(_ -> UITools.browse(MTGConstants.MTG_DESKTOP_ISSUES_URL));
 
 		boolean update=MTGControler.getInstance().getVersionChecker().hasNewVersion();
 
 		if (update)
 		{
 			var newversion = new JMenuItem(capitalize("DOWNLOAD_LAST_VERSION") + " : "+ MTGControler.getInstance().getVersionChecker().getOnlineVersion());
-			newversion.addActionListener(e -> UITools.browse(GithubUtils.inst().getReleaseURL()));
+			newversion.addActionListener(_ -> UITools.browse(GithubUtils.inst().getReleaseURL()));
 			mnuAbout.add(newversion);
 		}
 
@@ -294,13 +294,13 @@ public class MagicGUI extends JFrame {
 
 			if(osNotifier!=null)
 			{
-				osNotifier.getTrayNotifier().addActionListener(e -> setVisible(!isVisible()));
+				osNotifier.getTrayNotifier().addActionListener(_ -> setVisible(!isVisible()));
 
 				var menuTray = new PopupMenu();
 				for (var index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
 					final int index = index_tab;
 					var it = new MenuItem(tabbedPane.getTitleAt(index_tab));
-					it.addActionListener(e -> {
+					it.addActionListener(_ -> {
 						setVisible(true);
 						setSelectedTab(index);
 					});

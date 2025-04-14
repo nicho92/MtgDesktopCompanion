@@ -136,7 +136,7 @@ public class FileDropDecorator
         	 logger.error("Do you have another listener attached ?",e);
         }
 
-        c.addHierarchyListener( ( HierarchyEvent evt )->{
+        c.addHierarchyListener(_->{
 						                Component parent = c.getParent();
 						                if( parent == null )
 						                	c.setDropTarget( null );

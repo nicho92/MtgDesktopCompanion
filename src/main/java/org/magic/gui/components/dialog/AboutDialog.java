@@ -107,7 +107,7 @@ public class AboutDialog extends MTGUIComponent {
 
 		panneauHaut.add(icon,BorderLayout.NORTH);
 		var button = new JButton("UPDATE");
-		button.addActionListener(e->{
+		button.addActionListener(_->{
 
 				if(check.hasNewVersion())
 				{

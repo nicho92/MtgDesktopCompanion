@@ -230,16 +230,16 @@ public class WebcamCardImportDialog extends JDialog {
 
 
 
-		sldThreshold.addChangeListener(cl->lblThreshHoldValue.setText(String.valueOf(sldThreshold.getValue())));
-		cboAreaDetector.addActionListener(il->webcamCanvas.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
-		btnClose.addActionListener(il->dispose());
-		btnReloadCams.addActionListener(al->{
+		sldThreshold.addChangeListener(_->lblThreshHoldValue.setText(String.valueOf(sldThreshold.getValue())));
+		cboAreaDetector.addActionListener(_->webcamCanvas.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
+		btnClose.addActionListener(_->dispose());
+		btnReloadCams.addActionListener(_->{
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).removeAllElements();
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).addAll(WebcamUtils.inst().listWebcam());
 			cboWebcams.setSelectedItem(webcamCanvas.getWebcam());
 		});
 
-		btnAddCam.addActionListener(al->{
+		btnAddCam.addActionListener(_->{
 			var diag = new IPCamAddDialog();
 						   diag.setModal(true);
 						   diag.setVisible(true);
@@ -250,9 +250,9 @@ public class WebcamCardImportDialog extends JDialog {
 
 
 
-		chkpause.addChangeListener(l->pause=chkpause.isSelected());
+		chkpause.addChangeListener(_->pause=chkpause.isSelected());
 
-		btnRemove.addActionListener(l->{
+		btnRemove.addActionListener(_->{
 			List<MTGCard> cards = UITools.getTableSelections(tableResults,0);
 
 			if(!cards.isEmpty())
@@ -296,7 +296,7 @@ public class WebcamCardImportDialog extends JDialog {
 		});
 
 
-		btnStarting.addActionListener(al->{
+		btnStarting.addActionListener(_->{
 			webcamCanvas.setWebcam((Webcam)cboWebcams.getSelectedItem());
 			webcamCanvas.revalidate();
 			ThreadManager.getInstance().runInEdt(swWebcamReader, "Webcam");

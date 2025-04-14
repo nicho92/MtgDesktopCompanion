@@ -126,7 +126,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 				for (AbstractJDashlet dash : dashs.stream().filter(d->d.getCategory().equalsIgnoreCase(n)).toList())
 				{
 					var mntmNewMenuItem = new JMenuItem(dash.getName(),dash.getIcon());
-						mntmNewMenuItem.addActionListener(e -> {
+						mntmNewMenuItem.addActionListener(_ -> {
 							try {
 								addDash(desktop,PluginRegistry.inst().newInstance(dash.getClass()));
 							} catch (Exception ex) {
@@ -156,7 +156,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		var popup = new JPopupMenu();
 		var mnuAdd = new JMenuItem("New dashboard",MTGConstants.ICON_NEW);
 
-		mnuAdd.addActionListener(al->{
+		mnuAdd.addActionListener(_->{
 			var defaultName="DashBoard-" + (tabbedPane.getTabCount()+1);
 			var dir = new File(AbstractJDashlet.confdir,defaultName);
 
@@ -237,7 +237,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	}
 
 	private void initSaveDisplayAction(JMenuItem mntmSaveDisplay, JDesktopPane desktop,String name) {
-		mntmSaveDisplay.addActionListener(ae -> {
+		mntmSaveDisplay.addActionListener(_ -> {
 			var i = 0;
 
 			var dir = new File(AbstractJDashlet.confdir,name);

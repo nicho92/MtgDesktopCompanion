@@ -114,7 +114,7 @@ private MTGPool pool;
 			try (var rs = pst.executeQuery())
 			{
 				while(rs.next())
-					cardsSheets.compute(rs.getString(BOOSTER_SHEET_NAME), (k, v) ->v != null ? v : new ArrayList<>()).add(new Pair<>(generateCardsFromRs(rs,true), rs.getDouble(BOOSTER_CARD_WEIGHT)));
+					cardsSheets.compute(rs.getString(BOOSTER_SHEET_NAME), (_, v) ->v != null ? v : new ArrayList<>()).add(new Pair<>(generateCardsFromRs(rs,true), rs.getDouble(BOOSTER_CARD_WEIGHT)));
 			}
 		}
 		catch (SQLException e) {

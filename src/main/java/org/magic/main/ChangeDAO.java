@@ -33,7 +33,7 @@ public class ChangeDAO {
 		diag.setVisible(true);
 		
 		
-		btnValid.addActionListener(al->{
+		btnValid.addActionListener(_->{
 			
 			var selectedDao = (MTGDao)cboDao.getSelectedItem();
 			selectedDao.enable(true);

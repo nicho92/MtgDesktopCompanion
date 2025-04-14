@@ -55,7 +55,7 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 		panel.add(cboPlugins);
 		panel.add(btnAdd);
 
-		btnDelete.addActionListener(al->{
+		btnDelete.addActionListener(_->{
 
 			String name = UITools.getTableSelection(table,0);
 
@@ -66,7 +66,7 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 			}
 		});
 
-		btnAdd.addActionListener(al->{
+		btnAdd.addActionListener(_->{
 			st.getTiersAppIds().put(cboPlugins.getSelectedItem().toString(), "-1");
 			st.setUpdated(true);
 			init();

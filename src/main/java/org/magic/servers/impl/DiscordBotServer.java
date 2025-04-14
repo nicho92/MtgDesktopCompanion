@@ -372,12 +372,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 				var rl = new ReactionListener(jda, navEb.getMessage(), false, 30L * 1000L);
 				rl.addController(event.getAuthor());
-				rl.addResponse(EmbedButton.PREVIOUS.getIcon(), ev -> {
+				rl.addResponse(EmbedButton.PREVIOUS.getIcon(), _ -> {
 					navEb.setY(0);
 					if (navEb.getX() > 0) navEb.left();
 					applyControl(EmbedButton.PREVIOUS.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
 				});
-				rl.addResponse(EmbedButton.NEXT.getIcon(), ev -> {
+				rl.addResponse(EmbedButton.NEXT.getIcon(), _ -> {
 					navEb.setY(0);
 					if (navEb.getX() < navEb.getWidth() - 1) navEb.right();
 					applyControl(EmbedButton.NEXT.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);

@@ -34,8 +34,7 @@ public class TriggerManager extends Observable {
 
 	public void register(TRIGGERS t, AbstractSpell as)
 	{
-		triggers.computeIfAbsent(t, k->new ArrayList<>());
-		triggers.get(t).add(as);
+		triggers.computeIfAbsent(t, _->new ArrayList<>()).add(as);
 		setChanged();
 		notifyObservers(as);
 	}
@@ -43,7 +42,7 @@ public class TriggerManager extends Observable {
 
 	public void register(TRIGGERS t,List<AbstractSpell> a)
 	{
-		a.forEach(as->register(t, a));
+		a.forEach(_->register(t, a));
 	}
 
 	public void trigger(TRIGGERS t,MTGCard mc)

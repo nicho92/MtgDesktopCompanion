@@ -107,9 +107,9 @@ public class DeckSnifferDialog extends JDialog {
 		
 		
 		
-		btnClose.addActionListener(e -> dispose());
+		btnClose.addActionListener(_ -> dispose());
 		
-		btnCardImport.addActionListener(al->{
+		btnCardImport.addActionListener(_->{
 			var importer = new CardImporterDialog();
 			importer.setVisible(true);
 			
@@ -120,7 +120,7 @@ public class DeckSnifferDialog extends JDialog {
 			}
 		});
 		
-		btnRemoveCard.addActionListener(al->{
+		btnRemoveCard.addActionListener(_->{
 			filteredCard = null;
 			lblCard.setText("");
 			
@@ -129,7 +129,7 @@ public class DeckSnifferDialog extends JDialog {
 		
 		
 
-		cboSniffers.addActionListener(e -> {
+		cboSniffers.addActionListener(_ -> {
 			cboFormats.removeAllItems();
 			model.clear();
 		
@@ -142,7 +142,7 @@ public class DeckSnifferDialog extends JDialog {
 		});
 		
 				
-		btnLoad.addActionListener(e -> {
+		btnLoad.addActionListener(_ -> {
 				lblLoad.start();
 				ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<List <RetrievableDeck>, MTGCard, MTGDeckSniffer>(lblLoad,getSelectedSniffer()){
 
@@ -163,7 +163,7 @@ public class DeckSnifferDialog extends JDialog {
 		});
 
 
-		btnImport.addActionListener(e ->{
+		btnImport.addActionListener(_ ->{
 
 				var sw = new AbstractObservableWorker<MTGDeck, MTGCard, MTGDeckSniffer>(lblLoad,getSelectedSniffer()) {
 

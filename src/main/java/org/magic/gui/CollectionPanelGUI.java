@@ -320,7 +320,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private void initActions()
 	{
 
-		btnRefresh.addActionListener(e -> {
+		btnRefresh.addActionListener(_ -> {
 
 		buzy.start();
 
@@ -496,7 +496,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 						p.add(it);
 
-						it.addActionListener(ae -> {
+						it.addActionListener(_ -> {
 							var d = new MassMoverDialog(col, null);
 							d.setVisible(true);
 							if(d.hasChange())
@@ -512,7 +512,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 		});
 
-		btnMassCollection.addActionListener(ae -> {
+		btnMassCollection.addActionListener(_ -> {
 			var diag = new MassCollectionImporterDialog();
 
 			if(magicEditionDetailPanel.getMagicEdition()!=null)
@@ -602,7 +602,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		
 		
-		btnAdd.addActionListener(e -> {
+		btnAdd.addActionListener(_ -> {
 			String name = JOptionPane.showInputDialog(capitalize("NAME") + " ?");
 
 			if(name==null||name.isEmpty())
@@ -621,7 +621,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 
 
-		btnRemove.addActionListener(evt -> {
+		btnRemove.addActionListener(_ -> {
 			MTGCollection col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			var res = 0;
 
@@ -679,7 +679,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	public void initAddAllSet(JMenuItem it)
 	{
 
-		it.addActionListener(evt -> {
+		it.addActionListener(_ -> {
 			List<MTGEdition> eds = UITools.getTableSelections(tableEditions, 1);
 
 			int res = JOptionPane.showConfirmDialog(null, capitalize(
@@ -951,7 +951,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		}
 
 		var menuItemOpen = new JMenuItem(capitalize("OPEN"),MTGConstants.ICON_OPEN);
-		menuItemOpen.addActionListener(e -> {
+		menuItemOpen.addActionListener(_ -> {
 			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			try {
@@ -965,7 +965,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		popupMenuEdition.add(menuItemOpen);
 	
 		var it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
-		it.addActionListener(e -> {
+		it.addActionListener(_ -> {
 			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			var d = new MassMoverDialog(col, edition);
@@ -978,7 +978,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		});
 
-		menuItemAlerts.addActionListener(e ->{
+		menuItemAlerts.addActionListener(_ ->{
 			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 

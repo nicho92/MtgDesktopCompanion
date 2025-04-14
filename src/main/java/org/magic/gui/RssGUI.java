@@ -129,14 +129,14 @@ public class RssGUI extends MTGUIComponent {
 	
 
 	private void initActions() {
-		btnNewButton.addActionListener(ae -> {
+		btnNewButton.addActionListener(_ -> {
 			newsPanel.setMagicNews(new MTGNews());
 			newsPanel.setVisible(true);
 		});
 
 
 
-		btnSave.addActionListener(ae -> {
+		btnSave.addActionListener(_ -> {
 			try {
 				getEnabledPlugin(MTGDao.class).saveOrUpdateNews(newsPanel.getMagicNews());
 				initTree();
@@ -147,7 +147,7 @@ public class RssGUI extends MTGUIComponent {
 		});
 
 
-		btnDelete.addActionListener(ae -> {
+		btnDelete.addActionListener(_ -> {
 			try {
 				getEnabledPlugin(MTGDao.class).deleteNews(newsPanel.getMagicNews());
 				initTree();
