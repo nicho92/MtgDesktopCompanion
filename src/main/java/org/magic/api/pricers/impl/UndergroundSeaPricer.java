@@ -79,7 +79,7 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 				mp.setUrl(url);
 				mp.setQuality(EnumCondition.PROXY);
 				mp.setCurrency(Currency.getInstance("USD"));
-				mp.setLanguage("EN");
+				mp.setLanguage("English");
 				mp.setCountry("China");
 				mp.setCountry(Locale.CHINA.getDisplayCountry(MTGControler.getInstance().getLocale()));
 			}
