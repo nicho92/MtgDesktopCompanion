@@ -474,12 +474,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 	private void initDashboards()
 	{
-		get("/dash/collection", URLTools.HEADER_JSON, (request, response) ->CollectionEvaluator.analyseToJson(new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY))), transformer);
+		get("/dash/collection", URLTools.HEADER_JSON, (_, _) ->CollectionEvaluator.analyseToJson(new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY))), transformer);
 
-		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MTGCollection(request.params(COLLECTION))), transformer);
+		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, _) -> CollectionEvaluator.analyseToJson(new MTGCollection(request.params(COLLECTION))), transformer);
 
 
-		get("/dash/variations/card/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
+		get("/dash/variations/card/:scryfallId", URLTools.HEADER_JSON, (request, _) ->
 			getCached(request.servletPath(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
@@ -502,7 +502,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/dash/edition/:idEd", URLTools.HEADER_JSON, (request, response) -> {
 			var ed = new MTGEdition();
-			ed.setId(request.params(ID_ED));
+				 ed.setId(request.params(ID_ED));
 			return getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
 		}, transformer);
 
@@ -537,7 +537,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			if(alert==null)
 				throw new NullPointerException("No alert with scryfallId="+request.params(SCRYFALL_ID));
 
-			JsonObject postItems= readJsonObject(request);
+			var postItems= readJsonObject(request);
 
 			alert.setPrice(postItems.get("bid").getAsDouble());
 			alert.setQty(postItems.get("qty").getAsInt());
