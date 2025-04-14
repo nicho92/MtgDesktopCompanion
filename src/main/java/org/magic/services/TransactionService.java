@@ -189,7 +189,7 @@ public class TransactionService
 				mtgshop.saveOrUpdateStock(stock,true);
 			}
 			sendMail(t,"TransactionValid"," Your order is validate !");
-			((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
+			((JSONHttpServer)MTG.getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache();
 		}
 		else
 		{
@@ -216,7 +216,7 @@ public class TransactionService
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 		}
 		saveTransaction(t,false);
-		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
+		((JSONHttpServer)MTG.getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache();
 	}
 
 	public static void payingTransaction(Transaction t, String providerName) throws IOException {
