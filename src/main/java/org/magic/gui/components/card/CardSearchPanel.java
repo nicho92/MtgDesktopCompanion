@@ -59,7 +59,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.IASuggestionPanel;
-import org.magic.gui.components.ImagePanel;
+import org.magic.gui.components.ImagePanel2;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -105,7 +105,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private SimilarityCardPanel similarityPanel;
 	private CmcChartPanel cmcChart;
-	private ImagePanel cardsPicPanel;
+	private ImagePanel2 cardsPicPanel;
 	private HistoryPricesPanel historyChartPanel;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel detailCardPanel;
@@ -231,7 +231,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		typeRepartitionPanel = new TypeRepartitionPanel(false);
 		stockPanel = new CardStockPanel();
 		historyChartPanel = new HistoryPricesPanel(true);
-		cardsPicPanel = new ImagePanel();
+		cardsPicPanel = new ImagePanel2();
 		priceTablePanel = new PricesTablePanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel(false);
 		detailCardPanel = new MagicCardDetailPanel(true);
