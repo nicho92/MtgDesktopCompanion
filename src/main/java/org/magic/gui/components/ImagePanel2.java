@@ -72,8 +72,6 @@ public class ImagePanel2 extends JXPanel {
 			
 			public void mouseReleased(MouseEvent e) {
 				dragging = false;
-				MTGControler.getInstance().setProperty("/card-pictures-dimension/x",e.getPoint().getX());
-				MTGControler.getInstance().setProperty("/card-pictures-dimension/y",e.getPoint().getY());
 			}
 			
 			public void mouseClicked(MouseEvent e) {
@@ -204,7 +202,7 @@ public class ImagePanel2 extends JXPanel {
 		rotating = true;
 		Timer timer = new Timer(MTGConstants.ROTATED_TIMEOUT, null);
 		final int[] frame = { 0 };
-		final double totalFrames = 75;
+		final double totalFrames = MTGConstants.ROTATED_FRAMES;
 		timer.addActionListener(_ -> {
 			frame[0]++;
 			double progress = frame[0] / totalFrames;
@@ -227,9 +225,11 @@ public class ImagePanel2 extends JXPanel {
 	}
 	
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g) 
+	{
 		
-		super.paintComponent(g);
+	
+	 super.paintComponent(g);
 		
 		if (print == null)
 			return;
@@ -246,6 +246,7 @@ public class ImagePanel2 extends JXPanel {
 			transform.translate(-print.getWidth() / 2.0, -print.getHeight() / 2.0);
 		
 			g2.drawImage(print, transform,null);
-			
+	 
+	
 	}
 }

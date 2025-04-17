@@ -121,6 +121,7 @@ public class MTGConstants {
 	public static final int ROTATED_TIMEOUT = 15;
 	public static final int DISCORD_MAX_CHARACTER = 2000;
 	public static final int DAY_ANNOUNCES_UPDATE = 10;
+	public static final double ROTATED_FRAMES=75;
 	
 // UI CONSTANTS
 	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
@@ -165,6 +166,7 @@ public class MTGConstants {
 	
 //ICONS CONSTANTS 	
 	private static String iconPack="flat";
+	
 
 	public static final ImageIcon ICON_GAME_HAND = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/hand.png"));
 	public static final ImageIcon ICON_GAME_LIBRARY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/librarysize.png"));

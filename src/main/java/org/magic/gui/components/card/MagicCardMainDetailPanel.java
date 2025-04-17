@@ -413,7 +413,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		lstFormats = new JList<>(new DefaultListModel<>());
 		lstFormats.setVisibleRowCount(4);
-		lstFormats.setCellRenderer((JList<? extends MTGFormat> list, MTGFormat obj, int arg2,boolean arg3, boolean arg4)->{
+		lstFormats.setCellRenderer((JList<? extends MTGFormat> _, MTGFormat obj, int _,boolean _, boolean _)->{
 		var l = new JLabel(obj.getFormat());
 					if(obj.getFormatLegality()!=null)
 					{
