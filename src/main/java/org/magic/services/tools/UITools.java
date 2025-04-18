@@ -567,7 +567,6 @@ public class UITools {
 	public static <T> void initTableVisibility(JXTable table, GenericTableModel<T> model) {
 		for(int i : model.defaultHiddenColumns())
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);
-		
 	}
 
 	public static <V> void initCardToolTipTable(final JTable table, final Integer cardNamePos, final Integer edPos, final Integer extraPos, Callable<V> dblClick) {
