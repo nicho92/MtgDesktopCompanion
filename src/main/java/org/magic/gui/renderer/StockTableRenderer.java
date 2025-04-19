@@ -79,9 +79,9 @@ public class StockTableRenderer implements TableCellRenderer{
 		{
 			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.LEADING );
 		}
-		else if(value instanceof EnumRarity cond)
+		else if(value instanceof EnumRarity ra)
 		{
-			pane = new JLabel(cond.toPrettyString(),cond.getIcon(),SwingConstants.LEADING );
+			pane = new JLabel(ra.toPrettyString(),ra.getIcon(),SwingConstants.LEADING );
 		}
 		else if(value instanceof MTGCollection c)
 		{
