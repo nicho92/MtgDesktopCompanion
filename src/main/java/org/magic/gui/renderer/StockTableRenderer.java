@@ -15,6 +15,7 @@ import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
@@ -77,6 +78,10 @@ public class StockTableRenderer implements TableCellRenderer{
 		else if(value instanceof EnumCondition cond)
 		{
 			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.LEADING );
+		}
+		else if(value instanceof EnumRarity cond)
+		{
+			pane = new JLabel(cond.toPrettyString(),cond.getIcon(),SwingConstants.LEADING );
 		}
 		else if(value instanceof MTGCollection c)
 		{

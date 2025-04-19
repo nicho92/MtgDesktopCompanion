@@ -299,7 +299,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 
 		/////// DIMENSION
-		thumbnailPanel.setThumbnailSize(new Dimension(179, 240));
 		cardsPicPanel.setPreferredSize(new Dimension(500, 10));
 
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);

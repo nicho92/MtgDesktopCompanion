@@ -31,7 +31,7 @@ public class RarityRepartitionPanel extends Abstract3DPieChart<MTGCard,String> {
 		var source = new StandardColorSource<String>();
 
 		for(EnumRarity r : EnumRarity.values())
-			source.setColor(r.toPrettyString(),r.toColor());
+			source.setColor(r.toPrettyString(),r.getColor());
 
 		plot.setSectionColorSource(source);
 

@@ -256,7 +256,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		var d = MTGControler.getInstance().getPictureProviderDimension().getDimension();
 		
 		
-		SwingWorker<ImageIcon, Void> sw = new SwingWorker<>()
+		var sw = new SwingWorker<ImageIcon, Void>()
 		{
 			@Override
 			protected ImageIcon doInBackground() throws Exception {
