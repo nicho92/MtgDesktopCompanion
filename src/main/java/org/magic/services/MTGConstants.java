@@ -35,7 +35,7 @@ public class MTGConstants {
 //DEFAULT APPS CONSTANTS
 	public static final String MTG_APP_NAME = "MTG Companion";
 	public static final String COPYRIGHT_STRING="Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+ Calendar.getInstance().get(Calendar.YEAR)+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
-	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
 	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_32;
 
 
@@ -80,9 +80,9 @@ public class MTGConstants {
 	public static final String CURRENCY_API = "https://currencylayer.com/";
 	
 //DEFAULT CONSTANTS
+	public static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
 	public static final Contact DEFAULT_CONTACT;
-	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
-
+	
 	static {
 		DEFAULT_CONTACT = new Contact();
 		DEFAULT_CONTACT.setId(1);
@@ -97,13 +97,6 @@ public class MTGConstants {
 		DEFAULT_CONTACT.setEmailAccept(true);
 	}
 
-	public static String[] getDefaultCollectionsNames() {
-		return DEFAULT_COLLECTIONS_NAMES;
-	}
-	
-	
-	
-	
 	
 //PLUGINS CONSTANTS
 	public static final String DEFAULT_NOTIFIER_NAME="Tray";

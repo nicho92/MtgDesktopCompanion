@@ -50,7 +50,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	{
 		
 		if(listCollections().isEmpty()) {
-			for(String s : MTGConstants.getDefaultCollectionsNames())	
+			for(String s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)	
 				saveCollection(s);
 		}
 		
