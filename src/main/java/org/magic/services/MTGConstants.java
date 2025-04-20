@@ -71,9 +71,10 @@ public class MTGConstants {
 	
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
 	public static final String MTG_DESKTOP_WIKI_RAW_URL = "https://raw.githubusercontent.com/wiki/nicho92/MtgDesktopCompanion";
-	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
-	public static final String MTG_SUPPORTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/supporters.json";
-	public static final String MTG_DESKTOP_ALIASES_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/pluginsAliases.json";
+	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/refs/heads/master/src/main/resources/data/boosters.xml";
+	public static final String MTG_SUPPORTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/refs/heads/master/src/main/resources/data/supporters.json";
+	public static final String MTG_DESKTOP_ALIASES_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/refs/heads/master/src/main/resources/data/pluginsAliases.json";
+	public static final String MTG_DESKTOP_SET_ALIASES_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/refs/heads/master/src/main/resources/data/sets_codeAliases.json";
 	public static final String MTG_DESKTOP_WEBSITE = "https://www.mtgcompanion.org/";
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases";
 	public static final String CURRENCY_API = "https://currencylayer.com/";

@@ -207,7 +207,7 @@ public class IconsProvider {
 	{
 		equiv = new HashMap<>();
 
-		var obj = URLTools.toJson(MTGConstants.MTG_DESKTOP_SETS_FILE.openStream()).getAsJsonObject();
+		var obj = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_SET_ALIASES_URL).getAsJsonObject();
 		obj.entrySet().forEach(e->
 			e.getValue().getAsJsonArray().forEach(je->equiv.put(je.getAsString(),e.getKey()))
 		);

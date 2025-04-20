@@ -159,7 +159,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	public void initPopupCollection() throws SQLException {
 		var menuItemAdd = new JMenu(capitalize("ADD"));
 		menuItemAdd.setIcon(MTGConstants.ICON_NEW);
-		for (MTGCollection mc : getEnabledPlugin(MTGDao.class).listCollections()) {
+		for (var mc : getEnabledPlugin(MTGDao.class).listCollections()) {
 
 			var adds = new JMenuItem(mc.getName());
 			adds.setIcon(MTGConstants.ICON_COLLECTION);
@@ -319,7 +319,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 			btnG.setIcon(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
 			btnG.setForeground(btnG.getBackground());
-			btnG.addActionListener(e -> {
+			btnG.addActionListener(_ -> {
 				txtFilter.setText("\\{" + btnG.getToolTipText() + "}");
 				sorterCards.setRowFilter(RowFilter.regexFilter(txtFilter.getText()));
 			});
@@ -410,7 +410,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		});
 
 
-		advancedSearch.addActionListener(il->{
+		advancedSearch.addActionListener(_->{
 			var diag = new AdvancedSearchQueryDialog();
 									  diag.setVisible(true);
 
@@ -467,16 +467,16 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		});
 
-		btnClear.addActionListener(ae -> {
+		btnClear.addActionListener(_ -> {
 			txtFilter.setText("");
 			sorterCards.setRowFilter(null);
 		});
 
-		btnFilter.addActionListener(ae -> panelFilters.setVisible(!panelFilters.isVisible()));
+		btnFilter.addActionListener(_ -> panelFilters.setVisible(!panelFilters.isVisible()));
 
 		searchComponent.addButton(defaultEnterButton,true);
 
-		defaultEnterButton.addActionListener(el->{
+		defaultEnterButton.addActionListener(_->{
 					selectedEdition = null;
 					lblLoading.start();
 					lblLoading.setText(capitalize("SEARCHING"));
@@ -639,7 +639,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			}
 		}, lblLoading);
 
-		txtFilter.addActionListener(ae -> {
+		txtFilter.addActionListener(_ -> {
 			String text = txtFilter.getText();
 			if (text.isEmpty()) {
 				sorterCards.setRowFilter(null);
