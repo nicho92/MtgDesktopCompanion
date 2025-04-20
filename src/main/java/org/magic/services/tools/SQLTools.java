@@ -60,8 +60,11 @@ public class SQLTools {
 	}
 	
 	public String insertMainContact() {
+		
+		var c = MTGConstants.DEFAULT_CONTACT;
+		
 		return ctx.insertInto(table("contacts"),field("contact_id"),field("contact_name"),field("contact_lastname"),field("contact_telephone"),field("contact_country"),field("contact_zipcode"),field("contact_city"),field("contact_address"),field("contact_website"),field("contact_email"),field("emailAccept"),field("contact_active"))
-					.values(1,"MTG","Companion","123456789","FR","123456","Somewhere","In the middle of nowhere","https://www.mtgcompanion.org","mtgdesktopcompanion@gmail.com",true,true)
+					.values(c.getId(),c.getName(),c.getLastName(),c.getTelephone(),c.getCountry(),c.getZipCode(),c.getCity(),c.getAddress(),c.getWebsite(),c.getEmail(),true,true)
 					.getSQL();
 	}
 		

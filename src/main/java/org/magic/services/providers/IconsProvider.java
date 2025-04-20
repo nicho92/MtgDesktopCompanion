@@ -23,6 +23,7 @@ import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 
+import com.google.gson.JsonObject;
 import com.kitfox.svg.app.beans.SVGIcon;
 
 public class IconsProvider {
@@ -206,8 +207,17 @@ public class IconsProvider {
 	private void initEquiv() throws IOException
 	{
 		equiv = new HashMap<>();
-
-		var obj = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_SET_ALIASES_URL).getAsJsonObject();
+		JsonObject obj=null;
+		
+		try {
+		obj = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_SET_ALIASES_URL).getAsJsonObject();
+		}
+		catch(Exception e)
+		{
+			logger.error("error getting {}", MTGConstants.MTG_DESKTOP_SET_ALIASES_URL, e);
+			obj = URLTools.toJson(MTGConstants.MTG_DESKTOP_SETS_FILE.openStream()).getAsJsonObject();
+		}
+		
 		obj.entrySet().forEach(e->
 			e.getValue().getAsJsonArray().forEach(je->equiv.put(je.getAsString(),e.getKey()))
 		);
