@@ -42,11 +42,11 @@ public class ImagePanel2 extends JXPanel {
 	private boolean dragging = false;
 	private boolean rotating = false;
 	private double rotationX = 1.0;
-	private BufferedImage print;
-	private BufferedImage front;
-	private BufferedImage back;
+	private transient BufferedImage print;
+	private transient BufferedImage front;
+	private transient BufferedImage back;
 	private boolean reflexion;
-	private ReflectionRenderer renderer;
+	private transient ReflectionRenderer renderer;
 
 	
 	public ImagePanel2() {
