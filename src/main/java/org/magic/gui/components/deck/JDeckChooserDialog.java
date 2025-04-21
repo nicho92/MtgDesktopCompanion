@@ -49,6 +49,7 @@ public class JDeckChooserDialog extends JDialog {
 	private DeckTree tree;
 
 	private transient MTGDeckManager manager;
+	private JButton btnSelect;
 
 
 	public MTGDeck getSelectedDeck() {
@@ -82,7 +83,7 @@ public class JDeckChooserDialog extends JDialog {
 		});
 
 
-		AbstractObservableWorker<List<MTGDeck>, MTGDeck, MTGDao> sw2 = new AbstractObservableWorker<>(buzy,MTG.getEnabledPlugin(MTGDao.class))
+		var sw2 = new AbstractObservableWorker<List<MTGDeck>, MTGDeck, MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class))
 				{
 
 					@Override
@@ -122,6 +123,7 @@ public class JDeckChooserDialog extends JDialog {
 				cmcChartPanel.init(selectedDeck.getMainAsList());
 				cmcChartPanel.revalidate();
 				cmcChartPanel.repaint();
+				btnSelect.setEnabled(selectedDeck!=null);
 
 				if (event.getClickCount() == 2) {
 					dispose();
@@ -136,7 +138,8 @@ public class JDeckChooserDialog extends JDialog {
 		var panelBas = new JPanel();
 		getContentPane().add(panelBas, BorderLayout.SOUTH);
 
-		var btnSelect = new JButton(MTGConstants.ICON_OPEN);
+		btnSelect = new JButton(MTGConstants.ICON_OPEN);
+		btnSelect.setEnabled(selectedDeck!=null);
 		btnSelect.setToolTipText(capitalize("OPEN"));
 		btnSelect.addActionListener(_ -> {
 			if (selectedDeck == null)
