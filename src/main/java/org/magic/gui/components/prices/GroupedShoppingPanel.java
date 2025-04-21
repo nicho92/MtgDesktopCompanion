@@ -125,7 +125,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 
 		});
 
-		btnCheckPrice.addActionListener(ae -> {
+		btnCheckPrice.addActionListener(_ -> {
 
 			AbstractObservableWorker<Map<String, List<MTGPrice>>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(buzy,(MTGPricesProvider)cboPricers.getSelectedItem(),cards.size()) {
 

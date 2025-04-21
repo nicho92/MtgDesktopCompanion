@@ -134,7 +134,7 @@ public class AlarmGUI extends MTGUIComponent {
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		magicCardDetailPanel.enableThumbnail(true);
-		list.setCellRenderer((JList<? extends MTGPrice> obj, MTGPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
+		list.setCellRenderer((JList<? extends MTGPrice> _, MTGPrice value, int _, boolean _,boolean _) -> new MagicPricePanel(value));
 		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(7).setCellRenderer(new DoubleCellEditorRenderer(true));
@@ -217,7 +217,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 	private void initActions() {
 
-		groupShopPanel.getBtnCheckPrice().addActionListener(al->{
+		groupShopPanel.getBtnCheckPrice().addActionListener(_->{
 		List<MTGAlert> selectList = UITools.getTableSelections(table, 0);
 
 			if(!selectList.isEmpty())
@@ -228,7 +228,7 @@ public class AlarmGUI extends MTGUIComponent {
 		});
 
 
-		globalSearchPanel.getBtnCheckPrice().addActionListener(al->{
+		globalSearchPanel.getBtnCheckPrice().addActionListener(_->{
 			var tdek = new MTGDeck();
 			model.getItems().forEach(e->tdek.getMain().put(e.getCard(),e.getQty()));
 			globalSearchPanel.init(tdek);

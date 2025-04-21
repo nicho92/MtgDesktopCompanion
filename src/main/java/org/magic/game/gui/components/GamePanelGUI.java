@@ -165,7 +165,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 
 				var btnSideboard = new JButton(MTGConstants.ICON_IMPORT);
 								btnSideboard.setToolTipText(capitalize("SIDEBOARD"));
-								btnSideboard.addActionListener(e -> {
+								btnSideboard.addActionListener(_ -> {
 									var gui = new DeckSideBoardSwitcherDialog(player.getDeck());
 									gui.setVisible(true);
 									player.setDeck(gui.getDeck());
@@ -231,7 +231,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 			}
 		});
 
-		txtChat.addActionListener(ae -> {
+		txtChat.addActionListener(_ -> {
 			player.say(txtChat.getText());
 			txtChat.setText("");
 		});

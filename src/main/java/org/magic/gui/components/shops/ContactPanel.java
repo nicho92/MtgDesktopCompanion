@@ -105,7 +105,7 @@ public class ContactPanel extends MTGUIComponent {
 		if(enableSaveButton) {
 			var btnUpdate = new JButton(MTGConstants.ICON_SAVE);
 			add(btnUpdate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 12));
-			btnUpdate.addActionListener(al->{
+			btnUpdate.addActionListener(_->{
 
 				try {
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateContact(getContact());
@@ -122,7 +122,7 @@ public class ContactPanel extends MTGUIComponent {
 
 
 
-		passwordJPasswordBtn.addActionListener(el->{
+		passwordJPasswordBtn.addActionListener(_->{
 			String content = JOptionPane.showInputDialog("Type new password");
 			try {
 				MTG.getEnabledPlugin(MTGDao.class).changePassword(getContact(),content);

@@ -26,7 +26,7 @@ public class JSuggestedPanel extends JComponent {
 
 		var btn = new JButton(MTGConstants.ICON_TAB_SUGGESTION);
 		btn.setToolTipText("text generator");
-		btn.addActionListener(al->jTextPane.setText(gen.generateText()));
+		btn.addActionListener(_->jTextPane.setText(gen.generateText()));
 
 		add(btn);
 		add(suggestions);

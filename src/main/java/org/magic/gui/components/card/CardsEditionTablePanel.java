@@ -99,7 +99,7 @@ public class CardsEditionTablePanel extends JPanel {
 
 		});
 
-		chkNeededCards.addActionListener(il->{
+		chkNeededCards.addActionListener(_->{
 
 
 			if(chkNeededCards.isSelected()) {
@@ -137,7 +137,7 @@ public class CardsEditionTablePanel extends JPanel {
 		});
 
 
-		btnImport.addActionListener(ae->{
+		btnImport.addActionListener(_->{
 			var list = getSelectedCards();
 
 			int res = JOptionPane.showConfirmDialog(null,capitalize("COLLECTION_IMPORT") + " :" + list.size() + " cards in " + cboCollection.getSelectedItem());

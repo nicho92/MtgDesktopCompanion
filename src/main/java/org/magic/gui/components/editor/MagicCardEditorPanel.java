@@ -338,7 +338,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		panelType.add(cboSubtypes);
 
 		txtSubTypes = new JTextField();
-		txtSubTypes.addActionListener(ae -> {
+		txtSubTypes.addActionListener(_ -> {
 			cboSubtypes.addElement(txtSubTypes.getText(), true);
 			txtSubTypes.setText("");
 		});
@@ -572,7 +572,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		panelImageButtons.setLayout(gblpanelImageButtons);
 
 		btnImage = new JButton("Image");
-		btnImage.addActionListener(e -> {
+		btnImage.addActionListener(_ -> {
 
 			var choose = new JFileChooser();
 			choose.showOpenDialog(null);
@@ -597,7 +597,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gbcbtnUrl.gridx = 0;
 		gbcbtnUrl.gridy = 1;
 		panelImageButtons.add(btnUrl, gbcbtnUrl);
-		btnUrl.addActionListener(ae->{
+		btnUrl.addActionListener(_->{
 					String urlImage = JOptionPane.showInputDialog("URL");
 					magicCard.setUrl(urlImage);
 					showCrop();

@@ -45,12 +45,12 @@ public abstract class Abstract3DPieChart<B,C extends Comparable<C>> extends MTGU
 
 
 		if(!showLegend())
-			chart.setLegendBuilder((Plot3D plotA, Anchor2D anchor, Orientation orientation, ChartStyle style)->new TextElement(""));
+			chart.setLegendBuilder((Plot3D _, Anchor2D _, Orientation _, ChartStyle _)->new TextElement(""));
 
 		if(showLabel())
-			plot.setSectionLabelGenerator((  PieDataset3D dataset, Comparable<?> key)->key.toString());
+			plot.setSectionLabelGenerator((  PieDataset3D _, Comparable<?> key)->key.toString());
 		else
-			plot.setSectionLabelGenerator(( PieDataset3D dataset, Comparable<?> key)->"");
+			plot.setSectionLabelGenerator(( PieDataset3D _, Comparable<?> _)->"");
 
 
 		plot.setToolTipGenerator(( PieDataset3D dataset, Comparable<?> key)->key.toString() + " : " + dataset.getValue(key));

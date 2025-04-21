@@ -184,7 +184,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 
 		spinner = new JSpinner();
-		spinner.addChangeListener(ce -> init());
+		spinner.addChangeListener(_ -> init());
 		cboSorter.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
 				init();

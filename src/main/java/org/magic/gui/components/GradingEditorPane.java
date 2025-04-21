@@ -113,7 +113,7 @@ public class GradingEditorPane extends MTGUIComponent {
 
 		chbGradded.setSelected(false);
 
-		btnLoad.addActionListener(al->{
+		btnLoad.addActionListener(_->{
 			MTGGraders grader = (MTGGraders) cboGraders.getSelectedItem();
 
 			if(grader==null)

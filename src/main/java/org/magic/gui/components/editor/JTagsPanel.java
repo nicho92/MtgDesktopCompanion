@@ -74,7 +74,7 @@ public class JTagsPanel extends JComponent {
 				field.requestFocus();
 				panelTags.revalidate();
 				btnAdd.setEnabled(false);
-				field.addActionListener(e -> {
+				field.addActionListener(_ -> {
 					String s = field.getText();
 					panelTags.remove(field);
 					if (!s.equals(""))

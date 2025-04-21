@@ -43,12 +43,12 @@ public class CardChooseDialog extends JDialog {
 
 		pack();
 
-		btnOK.addActionListener(e -> {
+		btnOK.addActionListener(_ -> {
 			selected = (DisplayableCard) comboBox.getSelectedItem();
 			dispose();
 		});
 
-		btnCancel.addActionListener(e -> {
+		btnCancel.addActionListener(_ -> {
 			selected = null;
 			dispose();
 		});

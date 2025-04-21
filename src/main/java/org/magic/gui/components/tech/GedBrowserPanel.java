@@ -50,7 +50,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 		btnDelete.setEnabled(false);
 		table = UITools.createNewTable(model,true);
 
-		table.setDefaultRenderer(Long.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
+		table.setDefaultRenderer(Long.class, (JTable _, Object value, boolean _, boolean _,int _, int _)->{
 				var lab = new DefaultTableCellRenderer();
 				lab.setText(UITools.humanReadableSize((Long)value));
 				return lab;

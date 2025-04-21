@@ -54,7 +54,7 @@ public class JIFrameDashlet extends AbstractJDashlet {
 			comp.loadURL(getString("URL"));
 
 
-		comp.addObserver((Observable o, Object arg)->{
+		comp.addObserver((Observable _, Object arg)->{
 
 			logger.debug(arg);
 			setProperty("URL", txtUrl.getText());
@@ -62,7 +62,7 @@ public class JIFrameDashlet extends AbstractJDashlet {
 		});
 
 
-		txtUrl.addActionListener(al->init());
+		txtUrl.addActionListener(_->init());
 
 	}
 

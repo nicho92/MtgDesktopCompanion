@@ -62,7 +62,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		panel.add(chkSearchInCollection);
 		panel.add(cboCollection);
 
-		chkSearchInCollection.addItemListener(il->cboCollection.setEnabled(chkSearchInCollection.isSelected()));
+		chkSearchInCollection.addItemListener(_->cboCollection.setEnabled(chkSearchInCollection.isSelected()));
 
 		btnNewButton.addActionListener(_->
 			SwingUtilities.invokeLater(()->{

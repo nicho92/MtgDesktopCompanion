@@ -46,7 +46,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
-		t = new Timer(1000, e -> model.fireTableDataChanged());
+		t = new Timer(1000, _-> model.fireTableDataChanged());
 		chckbxAutorefresh = new JCheckBox("Auto-refresh");
 
 		setLayout(new BorderLayout(0, 0));
@@ -63,9 +63,9 @@ public class LoggerViewPanel extends MTGUIComponent {
 		model.setDefaultHiddenComlumns(2,3,4);
 
 
-		btnRefresh.addActionListener(ae -> model.fireTableDataChanged());
+		btnRefresh.addActionListener(_ -> model.fireTableDataChanged());
 
-		chckbxAutorefresh.addItemListener(ie -> {
+		chckbxAutorefresh.addItemListener(_ -> {
 
 			if (chckbxAutorefresh.isSelected()) {
 				t.start();
@@ -76,7 +76,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 			}
 		});
 
-		cboChooseLevel.addActionListener(ae->{
+		cboChooseLevel.addActionListener(_->{
 
 			if(cboChooseLevel.getSelectedItem()!=null)
 			{

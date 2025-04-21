@@ -134,7 +134,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		pack();
 
-		btnInverse.addActionListener(e -> {
+		btnInverse.addActionListener(_ -> {
 			List<String> elements = Arrays.asList(txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" "));
 			var temp = new StringBuilder();
 			for (MTGCard s : ids(elements))
@@ -146,7 +146,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 
 
-		btnImport.addActionListener(e -> {
+		btnImport.addActionListener(_ -> {
 			final MTGEdition ed = (MTGEdition) cboEditions.getSelectedItem();
 			final MTGCollection col = (MTGCollection) cboCollections.getSelectedItem();
 

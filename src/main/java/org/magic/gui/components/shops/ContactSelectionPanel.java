@@ -41,7 +41,7 @@ public class ContactSelectionPanel extends MTGUIComponent {
 
 	public ContactSelectionPanel() {
 		cbo = new JComboBox<>();
-		cbo.setRenderer((JList<? extends Contact> list, Contact value, int index,boolean isSelected, boolean cellHasFocus)->{
+		cbo.setRenderer((JList<? extends Contact> _, Contact value, int _,boolean _, boolean _)->{
 				var l= new JLabel(MTGConstants.ICON_TAB_USER);
 					l.setText(value.getName() + " "+ value.getLastName());
 					l.setHorizontalAlignment(SwingConstants.LEFT);

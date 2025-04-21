@@ -34,7 +34,7 @@ public class PersonnalExport extends AbstractCardExport {
 
 		var d = MTGUIComponent.createJDialog(panel,true,true);
 
-		panel.getBtnExport().addActionListener(al->{
+		panel.getBtnExport().addActionListener(_->{
 			regx = panel.getResult();
 			setProperty(REGEX,regx);
 			d.dispose();
@@ -62,7 +62,7 @@ public class PersonnalExport extends AbstractCardExport {
 		panel.setRegex(getString(REGEX));
 		var d = MTGUIComponent.createJDialog(panel,true,true);
 
-		panel.getBtnExport().addActionListener(al->{
+		panel.getBtnExport().addActionListener(_->{
 			regx = panel.getResult();
 			setProperty(REGEX,regx);
 			d.dispose();

@@ -40,7 +40,7 @@ public class JResizerPanel extends JComponent {
 		add(lblDimension);
 
 		update();
-		spinner.addChangeListener(ce-> {
+		spinner.addChangeListener(_-> {
 			Number val = (Number)spinner.getValue();
 			int w = (int) (dimension.getWidth()+val.intValue());
 			int h = (int) (w*MTGConstants.CARD_PICS_RATIO);

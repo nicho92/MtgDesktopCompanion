@@ -95,9 +95,9 @@ public class CardStockPanel extends MTGUIComponent {
 		btnSave.setEnabled(false);
 		btnDelete.setEnabled(false);
 
-		btnAdd.addActionListener(ae -> addLine());
-		btnSave.addActionListener(ae -> save());
-		btnDelete.addActionListener(ae -> delete());
+		btnAdd.addActionListener(_ -> addLine());
+		btnSave.addActionListener(_ -> save());
+		btnDelete.addActionListener(_ -> delete());
 
 
 

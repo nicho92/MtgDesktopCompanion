@@ -37,12 +37,12 @@ public class ChromeDownloader extends JDialog {
 		getContentPane().add(panelButtons, BorderLayout.SOUTH);
 
 		var btnCancel = new JButton(MTGConstants.ICON_DELETE);
-		btnCancel.addActionListener(ae->dispose());
+		btnCancel.addActionListener(_->dispose());
 
 		panelButtons.add(btnCancel);
 
 		var btnExport = new JButton(MTGConstants.ICON_EXPORT);
-		btnExport.addActionListener(e-> {
+		btnExport.addActionListener(_-> {
 			try {
 				FileTools.copyDirJarToDirectory(MTGConstants.MTG_CHROME_PLUGIN_DIR, txtDirectory.getFile());
 				MTGControler.getInstance().notify(new MTGNotification("Export", "Plugin copied in " + txtDirectory.getFile(), MESSAGE_TYPE.INFO));

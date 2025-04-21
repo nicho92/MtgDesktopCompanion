@@ -60,7 +60,7 @@ public class IPCamAddDialog extends JDialog
 		pack();
 
 
-		btnAdd.addActionListener(al->{
+		btnAdd.addActionListener(_->{
 
 			if(!txtName.getText().isEmpty() && !txtUrl.getText().isEmpty())
 			{
@@ -71,7 +71,7 @@ public class IPCamAddDialog extends JDialog
 
 		});
 
-		btnCancel.addActionListener(al->dispose());
+		btnCancel.addActionListener(_->dispose());
 
 	}
 

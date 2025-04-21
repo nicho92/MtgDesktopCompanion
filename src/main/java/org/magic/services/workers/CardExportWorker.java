@@ -51,7 +51,7 @@ public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 		this.f=f;
 		this.export=export;
 		err=null;
-		o=(Observable obs, Object c)->publish((MTGCard)c);
+		o=(Observable _, Object c)->publish((MTGCard)c);
 		exp.addObserver(o);
 	}
 
