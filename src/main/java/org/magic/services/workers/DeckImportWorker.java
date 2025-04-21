@@ -32,7 +32,7 @@ public class DeckImportWorker extends SwingWorker<MTGDeck, MTGCard> {
 		this.buzy=buzy;
 		this.f=f;
 		err=null;
-		o=(Observable obs, Object c)->publish((MTGCard)c);
+		o=(Observable _, Object c)->publish((MTGCard)c);
 		exp.addObserver(o);
 	}
 

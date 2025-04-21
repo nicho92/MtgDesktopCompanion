@@ -77,7 +77,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	}
 
 	protected void add(DescContainer dc) {
-		dataList.computeIfAbsent(dc.getSetCode(), v->new ArrayList<>()).add(dc);
+		dataList.computeIfAbsent(dc.getSetCode(), _->new ArrayList<>()).add(dc);
 
 	}
 

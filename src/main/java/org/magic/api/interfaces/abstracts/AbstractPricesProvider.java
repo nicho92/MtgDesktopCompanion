@@ -33,7 +33,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 			List<MTGPrice> prices = getPrice(mc);
 
 			for(MTGPrice mp : prices)
-				map.computeIfAbsent(mp.getSeller(),v->new ArrayList<>()).add(mp);
+				map.computeIfAbsent(mp.getSeller(),_->new ArrayList<>()).add(mp);
 		}
 		return map;
 	}

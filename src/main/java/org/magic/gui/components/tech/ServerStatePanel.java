@@ -132,7 +132,7 @@ public class ServerStatePanel extends JPanel {
 
 		timer.scheduleAtFixedRate(tache, 0, 1000);
 
-		btnStartStop.addActionListener(e -> {
+		btnStartStop.addActionListener(_ -> {
 			try {
 				if (server.isAlive())
 					server.stop();

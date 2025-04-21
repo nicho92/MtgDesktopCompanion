@@ -57,7 +57,7 @@ public class MTGDeck implements MTGSerializable {
 
     getMainAsList().forEach(mc -> {
       if (! cardNames.contains(mc.getName())) {
-        getMainAsList().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).forEach(k->mergeCardList.add(mc));
+        getMainAsList().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).forEach(_->mergeCardList.add(mc));
         cardNames.add(mc.getName());
       }
     });

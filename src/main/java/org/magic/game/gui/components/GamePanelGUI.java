@@ -173,7 +173,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 
 								var btnNewGame = new JButton(MTGConstants.ICON_OPEN);
 										btnNewGame.setToolTipText(capitalize("CHOOSE_DECK"));
-										btnNewGame.addActionListener(ae -> {
+										btnNewGame.addActionListener(_ -> {
 											var choose = new JDeckChooserDialog();
 											choose.setVisible(true);
 											try {

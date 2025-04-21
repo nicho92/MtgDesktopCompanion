@@ -604,7 +604,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String id) throws SQLException {
 		var arr = new ArrayList<GedEntry<T>>();
 		
-		redisCommand.smembers(KEY_GED+SEPARATOR+classename+SEPARATOR+id).forEach(s->{
+		redisCommand.smembers(KEY_GED+SEPARATOR+classename+SEPARATOR+id).forEach(_->{
 			try {
 				arr.add(readEntry(classename,id,null));
 			} catch (SQLException e) {

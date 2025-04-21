@@ -350,7 +350,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			var builder = new NavigableEmbed.Builder(event.getChannel());
 			for (var x = 0; x < liste.size(); x++) {
 				MTGCard result = liste.get(x);
-				BiFunction<MTGCard, Integer, MessageEmbed> getEmbed = (c, resultIndex) -> {
+				BiFunction<MTGCard, Integer, MessageEmbed> getEmbed = (_, resultIndex) -> {
 					var embed=parseCard(result,priceask,info);
 					var eb = new EmbedBuilder(embed);
 					if (liste.size() > 1)

@@ -94,7 +94,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 		
 		var btnSelect = new JButton(MTGConstants.ICON_OPEN);
 		btnSelect.setToolTipText(capitalize("OPEN"));
-		btnSelect.addActionListener(e -> {
+		btnSelect.addActionListener(_ -> {
 			if (getSelectedItem()==null && getSelectedItems().isEmpty())
 			{
 				selected=false;
@@ -110,7 +110,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 
 		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.setToolTipText(capitalize("CANCEL"));
-		btnCancel.addActionListener(e -> {
+		btnCancel.addActionListener(_ -> {
 			selectedItem.clear();
 			selected=false;
 			dispose();

@@ -48,7 +48,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 
 	private Observer createObserver() {
 		//fix error when 2 Worker observing in same time from the same plugin
-		return (Observable ob, Object c)->publish((V)c);
+		return (Observable _, Object c)->publish((V)c);
 	}
 
 	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,Integer size) {

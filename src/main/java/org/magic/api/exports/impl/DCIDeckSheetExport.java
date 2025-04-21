@@ -93,7 +93,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 		try (
 				var pdfSrc = new PdfDocument(new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet.pdf").openStream()));
-				var docSrc = new Document(pdfSrc);
 				var pdfDest = new PdfDocument(new PdfWriter(dest));
 				var docDest = new Document(pdfDest)
 			)

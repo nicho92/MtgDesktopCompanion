@@ -132,7 +132,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 
 		add(pan,BorderLayout.CENTER);
 
-		table.setDefaultRenderer(Integer.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
+		table.setDefaultRenderer(Integer.class, (JTable _, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
 			var val = (Integer)value;
 				if(column==4)
 				{
@@ -162,7 +162,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 
 	private void initActions() {
 
-		btnCompare.addActionListener(ae-> {
+		btnCompare.addActionListener(_-> {
 			model.clear();
 			if(currentDeck!=null)
 			{

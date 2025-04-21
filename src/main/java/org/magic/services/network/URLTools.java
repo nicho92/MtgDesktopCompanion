@@ -117,7 +117,7 @@ public class URLTools {
 	{
 		try(var reader = new InputStreamReader(content))
 		{
-			return JsonParser.parseReader(new InputStreamReader(content));
+			return JsonParser.parseReader(reader);
 		} catch (IOException e) {
 			return null;
 		}

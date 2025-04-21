@@ -41,7 +41,7 @@ public class StackPanel extends MTGUIComponent implements Observer {
 
 		if(enableChrono)
 		{
-			timer = new Timer(1000,e->{
+			timer = new Timer(1000,_->{
 				startTime=startTime-1;
 				lblCounter.setText(String.valueOf(startTime));
 
@@ -69,7 +69,7 @@ public class StackPanel extends MTGUIComponent implements Observer {
 
 			btnPause = new JButton(PAUSE);
 
-			btnPause.addActionListener(ae->{
+			btnPause.addActionListener(_->{
 
 					if(timer.isRunning())
 					{

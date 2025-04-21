@@ -1,10 +1,8 @@
 package org.magic.api.exports.impl;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringReader;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -57,7 +55,6 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 
 	@Override
 	public MTGDeck importDeck(String f,String name) throws IOException {
-		try (var read = new BufferedReader(new StringReader(f))) {
 			var deck = new MTGDeck();
 			deck.setName(name);
 			matches(f,true).forEach(m->{
@@ -80,7 +77,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			});
 
 			return deck;
-		}
+	
 	}
 
 

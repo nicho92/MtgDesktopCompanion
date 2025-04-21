@@ -58,7 +58,7 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 			setBounds(r);
 		}
 		
-		btnRefresh.addActionListener(al->init());
+		btnRefresh.addActionListener(_->init());
 
 	}
 

@@ -365,7 +365,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			btnG.setForeground(btnG.getBackground());
 
 			btnG.addActionListener(
-					e -> {
+					_ -> {
 						try {
 							textJEditorPane.getDocument().insertString(textJEditorPane.getCaretPosition(), " {" + btnG.getToolTipText() + "}", null);
 						} catch (BadLocationException e1) {

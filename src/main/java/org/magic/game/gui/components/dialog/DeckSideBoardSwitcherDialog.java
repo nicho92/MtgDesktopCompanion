@@ -64,7 +64,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
 		var btnAdd = new JButton(">>>");
-		btnAdd.addActionListener(ae -> {
+		btnAdd.addActionListener(_ -> {
 			for (MTGCard mc : listMain.getSelectedValuesList()) {
 				modSide.addElement(mc);
 				modMain.removeElement(mc);
