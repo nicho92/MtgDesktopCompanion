@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.MTGProperty;
@@ -41,16 +39,16 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 		var d = URLTools.extractAsHtml(info.getUrl().toString());
 
-		for (Element e : d.select("table.subtitle a"))
+		for (var e : d.select("table.subtitle a"))
 			deck.getTags().add(e.text());
 
-		Elements tables = d.select("div.wholeDeck table");
+		var tables = d.select("div.wholeDeck table");
 		var isSideboard = false;
 
-		for (Element table : tables) {
+		for (var table : tables) {
 			isSideboard = table.select("th").first().hasClass("Sideboard");
 
-			for (Element tr : table.select("tr.cardItem")) {
+			for (var tr : table.select("tr.cardItem")) {
 				var td = tr.select("td.number").first();
 				
 				if(td!=null)
@@ -86,7 +84,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
-		List<RetrievableDeck> list = new ArrayList<>();
+		var list = new ArrayList<RetrievableDeck>();
 
 		for (var i = 1; i <= getInt(MAX_PAGE); i++) 
 		{
