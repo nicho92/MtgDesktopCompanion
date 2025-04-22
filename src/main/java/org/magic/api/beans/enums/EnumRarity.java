@@ -51,6 +51,12 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIco
 		}
 	}
 	
+	@Override
+	public String getName() {
+		return toPrettyString();
+	}
+	
+	
 	@Override	
 	public Icon getIcon()
 	{

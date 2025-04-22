@@ -43,13 +43,13 @@ public enum EnumCondition implements MTGIconable{
 		return codename;
 	}
 	
-	public String getLabel() {
+	public String getName() {
 		return label;
 	}
 	
 	@Override
 	public String toString() {
-		return getLabel();
+		return getName();
 	}
 	
 	public Color getColor() {

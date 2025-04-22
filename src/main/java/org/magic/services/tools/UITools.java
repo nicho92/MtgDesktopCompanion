@@ -52,6 +52,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
@@ -239,7 +240,14 @@ public class UITools {
 				table.setDefaultRenderer(Player.class, new PlayerRenderer());
 				table.setDefaultRenderer(Contact.class, new ContactRenderer());
 				table.setDefaultRenderer(MoneyValue.class, new MoneyCellRenderer());
-				
+				table.setDefaultRenderer(MTGIconable.class, new TableCellRenderer() {
+					
+					@Override
+					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+						return new JLabel(((MTGIconable)value).getName(),((MTGIconable)value).getIcon(),SwingConstants.LEADING );
+					}
+				});
+
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Integer.class, new NumberCellEditorRenderer());
 				table.setDefaultEditor(Long.class, new NumberCellEditorRenderer());

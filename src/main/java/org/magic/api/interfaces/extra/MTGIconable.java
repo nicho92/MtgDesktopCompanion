@@ -6,5 +6,6 @@ public interface MTGIconable {
 
 	
 	public Icon getIcon();
+	public String getName();
 	
 }

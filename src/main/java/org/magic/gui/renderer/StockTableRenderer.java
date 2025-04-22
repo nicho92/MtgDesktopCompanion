@@ -14,10 +14,9 @@ import javax.swing.table.TableCellRenderer;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
-import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
@@ -26,6 +25,8 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 
+
+@Deprecated
 public class StockTableRenderer implements TableCellRenderer{
 
 	Component pane;
@@ -75,13 +76,9 @@ public class StockTableRenderer implements TableCellRenderer{
 		{
 			pane = new MagicEditionJLabelRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
-		else if(value instanceof EnumCondition cond)
+		else if(value instanceof MTGIconable cond)
 		{
-			pane = new JLabel(cond.getLabel(),cond.getIcon(),SwingConstants.LEADING );
-		}
-		else if(value instanceof EnumRarity ra)
-		{
-			pane = new JLabel(ra.toPrettyString(),ra.getIcon(),SwingConstants.LEADING );
+			pane = new JLabel(cond.getName(),cond.getIcon(),SwingConstants.LEADING );
 		}
 		else if(value instanceof MTGCollection c)
 		{
