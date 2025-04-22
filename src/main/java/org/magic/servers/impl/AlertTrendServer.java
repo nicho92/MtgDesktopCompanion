@@ -12,9 +12,7 @@ import java.util.TimerTask;
 import javax.swing.Icon;
 
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.HistoryPrice;
-import org.magic.api.beans.MTGAlert;
-import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGAlert; 
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.technical.MTGProperty;
@@ -58,12 +56,11 @@ public class AlertTrendServer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			@Override
 			public void run() {
-				var ret=new ArrayList<CardShake>();
-				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
+					var ret=new ArrayList<CardShake>();
 					for (MTGAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) 
 					{
 						try {
-							HistoryPrice<MTGCard> cpv= getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(),alert.isFoil());
+							var cpv= getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(),alert.isFoil());
 							if(cpv!=null)
 							{
 								var cs = cpv.toCardShake();

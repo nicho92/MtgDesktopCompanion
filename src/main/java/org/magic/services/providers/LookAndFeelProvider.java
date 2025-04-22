@@ -116,7 +116,6 @@ public class LookAndFeelProvider {
 				logger.trace("Loading {}:{}",c,e);
 			}
 		}
-
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
 

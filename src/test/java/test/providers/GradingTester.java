@@ -18,9 +18,6 @@ public class GradingTester {
 		MTGControler.getInstance().loadAccountsConfiguration();
 	}
 	
-	
-	
-
 	@Test
 	public void launch() throws IOException
 	{

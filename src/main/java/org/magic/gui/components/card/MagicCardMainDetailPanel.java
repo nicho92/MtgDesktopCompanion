@@ -230,6 +230,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		chkShowcase.setSelected(mc.isShowCase());
 		chkRetro.setSelected(mc.isRetro());
 		
+		
 		if(mc.isCreature() || mc.isVehicule())
 			txtPower.setText(mc.getPower()+"/"+mc.getToughness());
 		else if (mc.isPlaneswalker())
@@ -517,6 +518,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 
 	public void enableCollectionLookup(boolean b) {
 		enableCollectionLookup = b;
+		lstCollections.setVisible(b);
+		
+		
 	}
 	
 	public void addObserver(Observer o) {
