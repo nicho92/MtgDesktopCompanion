@@ -949,6 +949,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			
 			
 		}
+		
+		if(MTG.readPropertyAsBoolean("modules/search")) {
 
 		var menuItemOpen = new JMenuItem(capitalize("OPEN"),MTGConstants.ICON_OPEN);
 		menuItemOpen.addActionListener(_ -> {
@@ -956,14 +958,16 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			try {
 				((MagicGUI)SwingUtilities.getRoot(this)).setSelectedTab(0);
-				CardSearchPanel.getInstance().open(getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition));
-			} catch (SQLException e1) {
+				((MagicGUI)SwingUtilities.getRoot(this)).getSearchPanel().open(getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition));
+			} catch (Exception e1) {
 				logger.error(e1);
 			}
 
 		});
 		popupMenuEdition.add(menuItemOpen);
-	
+		}
+		
+		
 		var it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
 		it.addActionListener(_ -> {
 			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();

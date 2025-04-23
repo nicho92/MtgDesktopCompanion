@@ -109,6 +109,8 @@ public class MTGCard extends AbstractProduct {
 	private boolean timeshifted;
 	private boolean retro;
 	private String subsets;
+	private boolean isJapanese=false;
+	
 	
 	public MTGCard() {
 		editions = new ArrayList<>();
@@ -582,9 +584,13 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isJapanese() {
-		return getForeignNames().size()==1 && getForeignNames().stream().filter(mcf->mcf.getLanguage().equalsIgnoreCase("Japanese")).count()==1;
+		return isJapanese;
 	}
 
+	public void setJapanese(boolean isJapanese) {
+		this.isJapanese = isJapanese;
+	}
+	
 	public boolean isLand() {
 		return getTypes().toString().toLowerCase().contains("land");
 	}

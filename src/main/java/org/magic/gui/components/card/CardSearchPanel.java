@@ -98,7 +98,6 @@ public class CardSearchPanel extends MTGUIComponent {
 	private MTGEdition selectedEdition;
 	private MagicCardTableModel cardsModeltable;
 	private JTabbedPane tabbedCardsView;
-	private static CardSearchPanel inst;
 	private HandPanel thumbnailPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private TypeRepartitionPanel typeRepartitionPanel;
@@ -139,13 +138,6 @@ public class CardSearchPanel extends MTGUIComponent {
 	@Override
 	public String getTitle() {
 		return capitalize(SEARCH_MODULE);
-	}
-
-	public static CardSearchPanel getInstance() {
-		if (inst == null)
-			inst = new CardSearchPanel();
-
-		return inst;
 	}
 
 	public List<MTGCard> getMultiSelection() {

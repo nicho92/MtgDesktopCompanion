@@ -333,7 +333,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 				if (map.get(IS_PROMO) != null)
 					mc.setPromoCard(Boolean.valueOf(map.get(IS_PROMO).toString()));
-
+				
+				if (map.get(LANGUAGE) != null)
+					mc.setJapanese(map.get(LANGUAGE).toString().equalsIgnoreCase("Japanese"));
+				
 				if (map.get(IS_REPRINT) != null)
 					mc.setReprintedCard(Boolean.valueOf(map.get(IS_REPRINT).toString()));
 

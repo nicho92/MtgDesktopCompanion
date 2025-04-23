@@ -453,6 +453,8 @@ private MTGPool pool;
 				mc.setWatermarks(rs.getString(WATERMARK));
 				mc.setAsciiName(rs.getString(ASCII_NAME));
 				
+				mc.setJapanese(rs.getString(LANGUAGE).equals("Japanese"));
+				
 				if(rs.getString(TEXT)!=null)
 					mc.setText(StringEscapeUtils.unescapeJava(rs.getString(TEXT)));
 				else

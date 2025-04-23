@@ -64,6 +64,7 @@ public class MagicGUI extends JFrame {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
 	private transient OSTrayNotifier osNotifier;
+	private CardSearchPanel searchPanel;
 	
 	
 	public MagicGUI() {
@@ -94,6 +95,14 @@ public class MagicGUI extends JFrame {
 		tabbedPane.setSelectedIndex(id);
 	}
 
+
+	public CardSearchPanel getSearchPanel() {
+		return searchPanel;
+	}
+
+
+	
+	
 	private void initGUI() throws ClassNotFoundException, IOException, SQLException {
 		JMenuBar mtgMnuBar;
 		JMenu mnFile;
@@ -122,7 +131,9 @@ public class MagicGUI extends JFrame {
 		mnFile = new JMenu(capitalize("FILE"));
 		mnuAbout = new JMenu("?");
 		mntmExit = new JMenuItem(capitalize("EXIT"),MTGConstants.ICON_EXIT);
-
+		
+		searchPanel = new CardSearchPanel();
+		
 		var mntmHelp = new JMenuItem(capitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
 		var mntmDonate = new JMenuItem(capitalize("DONATE"),MTGConstants.ICON_EURO);
 		var mntmThreadItem = new JMenuItem(capitalize("TECHNICAL"),MTGConstants.ICON_CONFIG);
@@ -205,7 +216,7 @@ public class MagicGUI extends JFrame {
 
 
 		if (MTG.readPropertyAsBoolean("modules/search"))
-			addTab(CardSearchPanel.getInstance());
+			addTab(searchPanel);
 
 		if (MTG.readPropertyAsBoolean("modules/collection"))
 			addTab(new CollectionPanelGUI());
@@ -341,6 +352,5 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab(instance.getTitle(),ImageTools.resize(instance.getIcon(), 24,24), instance, null);
 
 	}
-
 
 }
