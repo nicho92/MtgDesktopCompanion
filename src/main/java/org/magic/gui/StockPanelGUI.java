@@ -67,7 +67,6 @@ import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.CardStockTableModel;
-import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -661,7 +660,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		table.getColumn(8).setCellEditor(new LanguageComboBoxCellEditor());
 	
 		UITools.initTableVisibility(table, model);
-		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		UITools.sort(table,0,SortOrder.DESCENDING);
 		UITools.setSorter(table,1,new NumberSorter());
 	

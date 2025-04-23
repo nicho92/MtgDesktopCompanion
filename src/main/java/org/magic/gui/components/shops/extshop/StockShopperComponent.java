@@ -26,7 +26,6 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.StockItemTableModel;
-import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
@@ -65,7 +64,6 @@ public class StockShopperComponent extends MTGUIComponent {
 		modelInput = new StockItemTableModel();
 		tableInput = UITools.createNewTable(modelInput,true);
 		tableInput.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		UITools.setDefaultRenderer(tableInput, new StockTableRenderer());
 
 
 		for(var i : new int[] {4,5,8})

@@ -17,7 +17,7 @@ import org.magic.services.providers.IconsProvider;
 public class MagicEditionJLabelRenderer implements TableCellRenderer {
 
 	private Font f = MTGControler.getInstance().getFont().deriveFont(Font.PLAIN);
-
+	JPanel pane = new JPanel();
 
 	public MagicEditionJLabelRenderer() {
 		var flowLayout = new FlowLayout();
@@ -25,8 +25,6 @@ public class MagicEditionJLabelRenderer implements TableCellRenderer {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		pane.setLayout(flowLayout);
 	}
-
-	JPanel pane = new JPanel();
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {

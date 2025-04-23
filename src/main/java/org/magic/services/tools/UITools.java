@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -35,6 +36,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import javax.swing.DefaultComboBoxModel;
@@ -70,13 +72,17 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.table.TableColumnExt;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.game.Player;
@@ -87,12 +93,14 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicCardMainDetailPanel;
 import org.magic.gui.renderer.ContactRenderer;
+import org.magic.gui.renderer.GradingCellRenderer;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
@@ -107,6 +115,7 @@ import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 import org.magic.services.ShortKeyManager;
 import org.magic.services.adapters.TableColumnModelExtListenerAdapter;
 import org.magic.services.logging.MTGLogger;
@@ -145,6 +154,14 @@ public class UITools {
 	    return -1;
 	  }
 	
+	public static void setDefaultRenderer(JTable table, TableCellRenderer render) {
+
+		for (var i = 0; i < table.getColumnCount(); i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(render);
+		}
+	}
+	
+	
 	public static String humanReadableSize(long bytes) {
 	    var absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
 	    if (absB < 1024) {
@@ -159,14 +176,6 @@ public class UITools {
 	    value *= Long.signum(bytes);
 	    return String.format("%.1f %ciB", value / 1024.0, ci.current());
 	}
-
-	public static void setDefaultRenderer(JTable table, TableCellRenderer render) {
-
-		for (var i = 0; i < table.getColumnCount(); i++) {
-			table.getColumnModel().getColumn(i).setCellRenderer(render);
-		}
-	}
-
 
 	public static Pandomium getPandomiumInstance()
 	{
@@ -240,14 +249,69 @@ public class UITools {
 				table.setDefaultRenderer(Player.class, new PlayerRenderer());
 				table.setDefaultRenderer(Contact.class, new ContactRenderer());
 				table.setDefaultRenderer(MoneyValue.class, new MoneyCellRenderer());
-				table.setDefaultRenderer(MTGIconable.class, new TableCellRenderer() {
+				table.setDefaultRenderer(MTGGrading.class,new GradingCellRenderer());
+				
+				
+				
+				for(var c : List.of(MTGCardStock.class,MTGSealedStock.class))
+					table.setDefaultRenderer(c, new TableCellRenderer() {
+						@Override
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+							MTGStockItem obj = (MTGStockItem)value; 
+							
+							var lab = new JLabel(obj.getId() + " " + (obj.isUpdated()?"*":""));
+							lab.setOpaque(true);
+							lab.setBackground(table.getBackground());
+							
+							if (isSelected) {
+								lab.setBackground(table.getSelectionBackground());
+								lab.setForeground(table.getSelectionForeground());
+							}
+							
+							return lab;
+						}
+					});
+				
+				
+				table.setDefaultRenderer(Map.class, new TableCellRenderer() {
 					
 					@Override
-					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-						return new JLabel(((MTGIconable)value).getName(),((MTGIconable)value).getIcon(),SwingConstants.LEADING );
+					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+						var pane = new JPanel();
+						((Map<String,Object>)value).entrySet().forEach(e->{
+							var plug = PluginRegistry.inst().listPlugins().stream().filter(p->p.getName().equalsIgnoreCase(e.getKey())).findFirst().orElse(null);
+							if(plug!=null)
+								pane.add(new JLabel(ImageTools.resize(plug.getIcon(), new Dimension(MTGConstants.TABLE_ROW_HEIGHT,MTGConstants.TABLE_ROW_HEIGHT))));
+							else
+								pane.add(new JLabel(e.getKey()));
+						});
+						pane.setBackground(table.getBackground());
+
+						if(isSelected)
+							pane.setBackground(table.getSelectionBackground());
+						
+						return pane;
 					}
 				});
-
+				
+				for(var c : List.of(MTGCollection.class,EnumCondition.class,EnumRarity.class))
+				{
+					table.setDefaultRenderer(c, new TableCellRenderer() {
+						@Override
+						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+							var lab= new JLabel(((MTGIconable)value).getName(),((MTGIconable)value).getIcon(),SwingConstants.LEADING );
+							lab.setOpaque(true);
+							lab.setBackground(table.getBackground());
+							
+							if (isSelected) {
+								lab.setBackground(table.getSelectionBackground());
+								lab.setForeground(table.getSelectionForeground());
+							}
+							return lab;
+						}
+					});
+				}
+				
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Integer.class, new NumberCellEditorRenderer());
 				table.setDefaultEditor(Long.class, new NumberCellEditorRenderer());
@@ -263,6 +327,7 @@ public class UITools {
 				table.setDefaultEditor(EnumTransactionDirection.class, new ComboBoxEditor<>(EnumTransactionDirection.values()));
 				table.setDefaultEditor(EnumExtra.class, new ComboBoxEditor<>(EnumExtra.values()));
 				table.setDefaultEditor(Level.class,  new ComboBoxEditor<>(MTGLogger.getLevels()) );
+				
 				try {
 					table.setDefaultEditor(MTGEdition.class, new ComboBoxEditor<>(getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().toList() ));
 				} catch (IOException e2) {

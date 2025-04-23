@@ -15,7 +15,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.importer.CardStockChooseDialog;
 import org.magic.gui.components.dialog.importer.SealedStockChooseDialog;
 import org.magic.gui.models.StockItemTableModel;
-import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.UITools;
@@ -38,8 +37,6 @@ public class StockItemPanel extends MTGUIComponent {
 		table = UITools.createNewTable(model,false);
 		panneauHaut = new JPanel();
 		
-		UITools.setDefaultRenderer(table, new StockTableRenderer());
-
 
 		var btnAddSealed = UITools.createBindableJButton("", MTGConstants.ICON_PACKAGE,KeyEvent.VK_S,"sealed");
 		var btnAddCard = UITools.createBindableJButton("", MTGConstants.ICON_NEW,KeyEvent.VK_C,"card");

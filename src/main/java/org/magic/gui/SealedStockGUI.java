@@ -32,7 +32,6 @@ import org.magic.gui.components.editor.LanguageComboBoxCellEditor;
 import org.magic.gui.components.shops.StockItemsSynchronizationPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.models.SealedStockTableModel;
-import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -59,7 +58,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		model = new SealedStockTableModel();
 		var objectpanel = new ObjectViewerPanel();
 		table = UITools.createNewTable(model,true);
-		UITools.setDefaultRenderer(table, new StockTableRenderer());
+
 		table.getColumn(4).setCellEditor(new LanguageComboBoxCellEditor());
 		
 		

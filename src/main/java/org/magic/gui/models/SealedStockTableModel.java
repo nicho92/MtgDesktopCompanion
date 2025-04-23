@@ -23,7 +23,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-		case 0:return MTGSealedProduct.class;
+		case 0: return MTGSealedProduct.class;
 		case 1: return EnumItems.class;
 		case 2: return EnumExtra.class;
 		case 3: return MTGEdition.class;

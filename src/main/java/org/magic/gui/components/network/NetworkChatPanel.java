@@ -54,7 +54,6 @@ import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.MessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
-import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -226,7 +225,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 		stockResultModel = new CardStockTableModel();
 		stockResultModel.setWritable(false);
 		var tableResult = UITools.createNewTable(stockResultModel, true );
-		UITools.setDefaultRenderer(tableResult, new StockTableRenderer());
 		panelSearch.setViewportView(tableResult);
 	
 		
