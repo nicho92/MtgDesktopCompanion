@@ -812,6 +812,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			@Override
 			protected void notifyEnd() {
 				model.init(getResult());
+				table.packAll();
 				updateCount(null);
 			}
 		};

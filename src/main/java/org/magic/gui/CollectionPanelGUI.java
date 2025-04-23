@@ -46,7 +46,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.JLazyLoadingTree;
 import org.magic.gui.components.PackagesBrowserPanel;
-import org.magic.gui.components.card.CardSearchPanel;
 import org.magic.gui.components.card.CardStockPanel;
 import org.magic.gui.components.card.CardsEditionTablePanel;
 import org.magic.gui.components.card.MagicCardDetailPanel;

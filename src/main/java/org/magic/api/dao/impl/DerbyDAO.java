@@ -2,7 +2,6 @@ package org.magic.api.dao.impl;
 
 import java.io.File;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 			pst.setString(1, collection.getName());
 			if (me != null)
 				pst.setString(2, me.getId());
-			try (ResultSet rs = executeQuery(pst)) {
+			try (var rs = executeQuery(pst)) {
 					while (rs.next()) 
 					{
 						try (var c2 = pool.getConnection(); var pst2 = c2.prepareStatement("SELECT mcard FROM stocks WHERE idmc = ? AND collection= ?")) {

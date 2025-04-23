@@ -210,7 +210,7 @@ public class MagicGUI extends JFrame {
 		}
 
 		tabbedPane = new JTabbedPane(position);
-
+		
 
 
 
@@ -350,7 +350,6 @@ public class MagicGUI extends JFrame {
 
 	private void addTab(MTGUIComponent instance) {
 		tabbedPane.addTab(instance.getTitle(),ImageTools.resize(instance.getIcon(), 24,24), instance, null);
-
 	}
 
 }
