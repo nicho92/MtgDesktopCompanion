@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import java.util.Map;
+
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
@@ -32,6 +34,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 		case 6: return Integer.class;
 		case 7: return MTGCollection.class;
 		case 8: return MoneyValue.class;
+		case 9: return Map.class;
 		default: return super.getColumnClass(columnIndex);
 		}
 	}
