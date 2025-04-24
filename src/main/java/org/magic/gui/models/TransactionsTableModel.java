@@ -7,6 +7,7 @@ import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
 
@@ -58,9 +59,9 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			case 1 : return it.getDateCreation();
 			case 2 : return it.getContact();
 			case 3 : return it.getItems().stream().mapToInt(msi->msi.getQte()).sum();
-			case 4 : return it.getShippingPrice();
-			case 5 : return it.getReduction();
-			case 6 : return it.total();
+			case 4 : return new MoneyValue(it.getShippingPrice(),it.getCurrency());
+			case 5 : return new MoneyValue(it.getReduction(),it.getCurrency());
+			case 6 : return new MoneyValue(it.total(),it.getCurrency());
 			case 7 : return it.getDatePayment();
 			case 8 : return it.getPaymentProvider();
 			case 9 : return it.getDateSend();
@@ -102,7 +103,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			return Contact.class;
 		
 		if(columnIndex==4 || columnIndex==5 || columnIndex==6)
-			return Double.class;
+			return MoneyValue.class;
 
 		if(columnIndex==12)
 			return EnumTransactionStatus.class;

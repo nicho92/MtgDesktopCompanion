@@ -15,8 +15,10 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.Logger;
+import org.magic.gui.MagicGUI;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.UITools;
@@ -192,7 +194,7 @@ public abstract class MTGUIComponent extends JComponent {
 		j.getContentPane().setLayout(new BorderLayout());
 		j.getContentPane().add(c, BorderLayout.CENTER);
 		j.setTitle(c.getTitle());
-		j.setLocationRelativeTo(null);
+		j.setLocationRelativeTo(SwingUtilities.getRoot(c));
 		if(c.getIcon()!=null)
 			j.setIconImage(c.getIcon().getImage());
 

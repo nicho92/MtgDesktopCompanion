@@ -11,6 +11,8 @@ import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.SystemColor;
@@ -18,6 +20,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -41,6 +44,7 @@ import java.util.concurrent.Callable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -880,6 +884,34 @@ public class UITools {
 		return tempPanel;
 		
 		
+	}
+
+
+	public static Icon generateColoredIcon(Color color) {
+		return new ImageIcon() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
+				var g2 = (Graphics2D) g;
+		        var circle = new Ellipse2D.Double(0, 0, getIconWidth(), getIconHeight() );
+		        g2.setColor(color);
+		        g2.fill(circle);
+		        
+		        g2.setColor(Color.black);
+		        g2.draw(circle);
+		    }
+			
+			@Override
+			public int getIconHeight() {
+				return MTGConstants.TABLE_ROW_HEIGHT-2;
+			}
+			
+			@Override
+			public int getIconWidth() {
+				return MTGConstants.TABLE_ROW_HEIGHT-2;
+			}
+		};
 	}
 	
 

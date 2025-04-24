@@ -59,6 +59,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
@@ -705,6 +706,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		btnFontChoose.addActionListener(_ -> {
 			var dialog = new FontDialog((Frame) null, "Font Change", true);
 			dialog.setSelectedFont(MTGControler.getInstance().getFont());
+			dialog.setLocationRelativeTo(SwingUtilities.getRoot(this));
 			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			if (!dialog.isCancelSelected()) {

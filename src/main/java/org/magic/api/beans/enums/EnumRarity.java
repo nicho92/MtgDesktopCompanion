@@ -1,18 +1,13 @@
 package org.magic.api.beans.enums;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
 import java.util.Comparator;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.magic.api.interfaces.extra.MTGEnumeration;
 import org.magic.api.interfaces.extra.MTGIconable;
-import org.magic.services.MTGConstants;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -60,33 +55,7 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIco
 	@Override	
 	public Icon getIcon()
 	{
-			return new ImageIcon() {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
-					var g2 = (Graphics2D) g;
-			        var circle = new Ellipse2D.Double(0, 0, getIconWidth(), getIconHeight() );
-			        g2.setColor(getColor());
-			        g2.fill(circle);
-			        
-			        g2.setColor(Color.black);
-			        g2.draw(circle);
-			    }
-				
-				@Override
-				public int getIconHeight() {
-					return MTGConstants.TABLE_ROW_HEIGHT-2;
-				}
-				
-				@Override
-				public int getIconWidth() {
-					return MTGConstants.TABLE_ROW_HEIGHT-2;
-				}
-				
-				
-				
-			};
+		return UITools.generateColoredIcon(getColor());
 	}
 
 	@Override
