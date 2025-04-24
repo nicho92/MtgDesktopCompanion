@@ -30,11 +30,7 @@ public class ContactSelectionPanel extends MTGUIComponent {
 
 	@Override
 	public void onVisible() {
-
 		cbo.removeAllItems();
-		logger.info("List contactz");
-
-
 	}
 
 

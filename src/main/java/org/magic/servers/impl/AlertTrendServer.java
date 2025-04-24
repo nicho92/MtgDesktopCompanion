@@ -12,7 +12,7 @@ import java.util.TimerTask;
 import javax.swing.Icon;
 
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGAlert; 
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.technical.MTGProperty;

@@ -37,12 +37,11 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	private static final String USER_TYPE = "user_type";
 	private static final String API_VENDORS = "api/vendors/";
 	private static final String COMPANY_ID = "COMPANY_ID";
-
+	private static final String CONTACT_TYPE="C";
 	private static final String API_USERS = "api/users";
 	private static final String API_PRODUCTS = "api/products";
 	private static final String API_ORDERS = "api/orders";
 	
-	private static final String CONTACT_TYPE="C";
 	
 	private static final String ID_CATEG = "ID_CATEG_";
 	private static final String ID_PAY = "ID_PAYMENT_";

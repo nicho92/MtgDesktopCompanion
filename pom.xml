@@ -84,7 +84,7 @@
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
-		    <version>474</version>
+		    <version>475</version>
 		</dependency>
 		<dependency>
     		<groupId>org.apache.tomcat</groupId>
@@ -556,7 +556,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.13.0</version>
+			<version>2.13.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
