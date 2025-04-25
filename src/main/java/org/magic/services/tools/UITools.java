@@ -282,13 +282,17 @@ public class UITools {
 					@Override
 					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 						var pane = new JPanel();
-						((Map<String,Object>)value).entrySet().forEach(e->{
-							var plug = PluginRegistry.inst().listPlugins().stream().filter(p->p.getName().equalsIgnoreCase(e.getKey())).findFirst().orElse(null);
-							if(plug!=null)
-								pane.add(new JLabel(ImageTools.resize(plug.getIcon(), new Dimension(MTGConstants.TABLE_ROW_HEIGHT,MTGConstants.TABLE_ROW_HEIGHT))));
-							else
-								pane.add(new JLabel(e.getKey()));
-						});
+						
+						if(value!=null)
+							((Map<String,Object>)value).entrySet().forEach(e->{
+								var plug = PluginRegistry.inst().listPlugins().stream().filter(p->p.getName().equalsIgnoreCase(e.getKey())).findFirst().orElse(null);
+								if(plug!=null)
+									pane.add(new JLabel(ImageTools.resize(plug.getIcon(), new Dimension(MTGConstants.TABLE_ROW_HEIGHT,MTGConstants.TABLE_ROW_HEIGHT))));
+								else
+									pane.add(new JLabel(e.getKey()));
+							});
+						
+						
 						pane.setBackground(table.getBackground());
 
 						if(isSelected)
@@ -303,7 +307,12 @@ public class UITools {
 					table.setDefaultRenderer(c, new TableCellRenderer() {
 						@Override
 						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-							var lab= new JLabel(((MTGIconable)value).getName(),((MTGIconable)value).getIcon(),SwingConstants.LEADING );
+							var lab = new JLabel();
+							
+							if(value!=null) {
+								lab= new JLabel(((MTGIconable)value).getName(),((MTGIconable)value).getIcon(),SwingConstants.LEADING );
+							}
+							
 							lab.setOpaque(true);
 							lab.setBackground(table.getBackground());
 							
@@ -312,7 +321,9 @@ public class UITools {
 								lab.setForeground(table.getSelectionForeground());
 							}
 							return lab;
+							
 						}
+						
 					});
 				}
 				

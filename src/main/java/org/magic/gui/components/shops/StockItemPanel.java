@@ -125,7 +125,9 @@ public class StockItemPanel extends MTGUIComponent {
 	public void initItems(List<MTGStockItem> st) {
 
 		try {
-			model.init(st);
+			if(st!=null && !st.isEmpty())
+				model.init(st);
+			
 			table.packAll();
 		} catch (Exception e) {
 			logger.error(e);
@@ -136,8 +138,10 @@ public class StockItemPanel extends MTGUIComponent {
 
 	public void bind(List<MTGStockItem> items) {
 		try {
-			model.bind(items);
-		
+			
+			if(items!=null && !items.isEmpty())
+				model.bind(items);
+			
 			table.packAll();
 		} catch (Exception e) {
 			logger.error(e);
