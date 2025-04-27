@@ -2,12 +2,24 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class TopDeckedExport extends AbstractFormattedFileCardExport {
 
@@ -41,11 +53,53 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 		}
 			 
 		FileTools.saveFile(f, builder.toString());
-		
-		
-		
 	}
 	
+	@Override
+	public List<MTGCardStock> importStock(String content) throws IOException {
+		
+		var ret = new ArrayList<MTGCardStock>();
+		
+		
+		matches(content, true).forEach(m->{
+
+			var mcs = new MTGCardStock();
+			
+			try {
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(9));
+				mcs.setProduct(mc);
+				mcs.setQte(Integer.parseInt(m.group(1)));				
+				mcs.setFoil("foil".equals(m.group(6)));
+				mcs.setPrice(UITools.parseDouble(m.group(7)));
+				
+				if(!getString("DEFAULT_COLLECTION").isEmpty())
+					mcs.setMagicCollection(new MTGCollection(getString("DEFAULT_COLLECTION")));
+					
+				
+				
+				notify(mc);
+				
+			ret.add(mcs);
+			
+			} catch (IOException e) {
+				logger.error("can't find card with scryfallID = {}",m.group(9));
+			}
+		});
+		return ret;
+	}
+	
+	@Override
+	protected String getStringPattern() {
+		return aliases.getRegexFor(this, "collection");
+	}
+	
+	
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("DEFAULT_COLLECTION", new MTGProperty(MTGConstants.DEFAULT_COLLECTIONS_NAMES[0], "Default Collection to bind imported stock item", new String[0]),
+							"DEFAULT_CONDITION",new MTGProperty(EnumCondition.values()[0].name(), "Default condition to apply to imported stock item", Arrays.stream(EnumCondition.values()).map(Enum::name).collect(Collectors.toList()).toArray(new String[0]))
+				);
+	}
 
 	@Override
 	public String getFileExtension() {
@@ -64,8 +118,7 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String[] skipLinesStartWith() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[0];
 	}
 
 	@Override
