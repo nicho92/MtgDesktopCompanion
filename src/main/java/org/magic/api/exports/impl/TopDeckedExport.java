@@ -75,6 +75,8 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 				if(!getString("DEFAULT_COLLECTION").isEmpty())
 					mcs.setMagicCollection(new MTGCollection(getString("DEFAULT_COLLECTION")));
 					
+				if(!getString("DEFAULT_CONDITION").isEmpty())
+					mcs.setCondition(EnumCondition.valueOf(getString("DEFAULT_CONDITION")));
 				
 				
 				notify(mc);
