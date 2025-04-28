@@ -75,7 +75,8 @@
 
 	"Mypcards" : {
 				"conditions": {
-					"NEAR_MINT" :"NM"
+					"NEAR_MINT" :"NM",
+					"LIGHTLY_PLAYED":"MP"
 			}
 	},
 	

@@ -276,7 +276,6 @@ public class UITools {
 						}
 					});
 				
-				
 				table.setDefaultRenderer(Map.class, new TableCellRenderer() {
 					
 					@Override
@@ -308,13 +307,15 @@ public class UITools {
 						@Override
 						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 							var lab = new JLabel();
-							
-							if(value!=null) {
-								lab= new JLabel(((MTGIconable)value).getName(),((MTGIconable)value).getIcon(),SwingConstants.LEADING );
-							}
-							
+							lab.setHorizontalAlignment(SwingConstants.LEADING);
 							lab.setOpaque(true);
 							lab.setBackground(table.getBackground());
+
+							if(value!=null) 
+							{
+								lab.setText(((MTGIconable)value).getName());
+								lab.setIcon(((MTGIconable)value).getIcon());
+							}
 							
 							if (isSelected) {
 								lab.setBackground(table.getSelectionBackground());

@@ -229,9 +229,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 			responseSearch(event,name,info);
 			info.setEnd(Instant.now());
 			AbstractTechnicalServiceManager.inst().store(info);
-
-
-
 		}
 	}
 
@@ -325,8 +322,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 		MTGEdition ed = null;
 		if(name.contains("|"))
 		{
-			ed = new MTGEdition();
-			ed.setId(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
+			try {
+				ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
+			} catch (IOException e) {
+				ed = new MTGEdition(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
+			}
 			name=name.substring(0, name.indexOf('|')).trim();
 		}
 
