@@ -18,7 +18,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.gui.MagicGUI;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.UITools;

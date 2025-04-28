@@ -16,7 +16,6 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;

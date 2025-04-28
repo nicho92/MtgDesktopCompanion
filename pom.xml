@@ -423,7 +423,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.4.0</version>
+			<version>5.5.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
