@@ -34,7 +34,7 @@ Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=Pa
 
 # Launch
 ```
- Need to have Java >=21 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
+ Need to have Java >=23 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
  Download and unzip latest release at https://github.com/nicho92/MtgDesktopCompanion/releases
 
