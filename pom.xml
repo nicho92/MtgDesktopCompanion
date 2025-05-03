@@ -212,7 +212,7 @@
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>
 			<artifactId>yauaa</artifactId>
-			<version>7.30.0</version>
+			<version>7.31.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
@@ -287,7 +287,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.20.3</version>
+			<version>3.20.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -423,7 +423,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.5.0</version>
+			<version>5.5.1</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
