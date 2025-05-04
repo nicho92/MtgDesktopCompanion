@@ -161,6 +161,13 @@ public class MTGPrice implements Comparable<MTGPrice> {
 		return false;
 	}
 	
+	@Override
+	public int hashCode() {
+		return getValue().hashCode();
+	}
+	
+	
+	
 	
 	public void setCountry(String c) {
 		country = c;
