@@ -152,6 +152,16 @@ public class MTGPrice implements Comparable<MTGPrice> {
 		return (int) (getValue() - o.getValue());
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof MTGPrice p)
+		{
+			return p.getValue()==this.getValue();
+		}
+		return false;
+	}
+	
+	
 	public void setCountry(String c) {
 		country = c;
 

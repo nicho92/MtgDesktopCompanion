@@ -76,7 +76,10 @@
 	"Mypcards" : {
 				"conditions": {
 					"NEAR_MINT" :"NM",
-					"LIGHTLY_PLAYED":"MP"
+					"LIGHTLY_PLAYED":"SP",
+					"PLAYED":"MP",
+					"DAMAGED":"DM",
+					"POOR":"HP"
 			}
 	},
 	
@@ -453,7 +456,9 @@
 		"conditions": {
 			"PLAYED": "PL",
 			"POOR": "PO",
-			"NEAR_MINT": "NM"
+			"NEAR_MINT": "NM",
+			"EXCELENT":"EX",
+			"MINT": "NM/MT"
 		}	
 	},
 	"TCGPlayer": {

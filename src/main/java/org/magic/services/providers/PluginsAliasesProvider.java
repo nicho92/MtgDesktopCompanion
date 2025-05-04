@@ -95,7 +95,7 @@ public class PluginsAliasesProvider {
 
 	public EnumCondition getReversedConditionFor(MTGPlugin plug, String conditionName, EnumCondition defaultCondition)
 	{
-		if(conditionName==null)
+		if(conditionName==null || conditionName.isEmpty())
 			return defaultCondition;
 		
 		try{
