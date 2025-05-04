@@ -105,7 +105,7 @@ public class MagicTextPane extends JComponent {
 			}
 
 			textPane.setDocument(document);
-		} catch (BadLocationException e) {
+		} catch (BadLocationException _) {
 			textPane.setText(text);
 		}
 	}

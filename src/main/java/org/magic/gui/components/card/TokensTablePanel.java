@@ -127,7 +127,7 @@ public class TokensTablePanel extends MTGUIComponent {
 					super.done();
 					model.init(get());
 				}
-				catch(InterruptedException|CancellationException ex)
+				catch(InterruptedException|CancellationException _)
 				{
 					Thread.currentThread().interrupt();
 				}

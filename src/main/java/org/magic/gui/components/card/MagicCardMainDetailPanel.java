@@ -269,7 +269,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 				try {
 						lblThumbnail.setIcon(ImageTools.resize(get(),d));
 				}
-				catch(InterruptedException ex)
+				catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				} catch (Exception e) {

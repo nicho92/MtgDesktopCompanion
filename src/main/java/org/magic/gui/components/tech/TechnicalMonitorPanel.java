@@ -130,7 +130,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 					try {
 						lab.setText(DurationFormatUtils.formatDurationHMS((Long)value));
 					}
-					catch(Exception e )
+					catch(Exception _ )
 					{
 						lab.setText(String.valueOf(value));
 					}

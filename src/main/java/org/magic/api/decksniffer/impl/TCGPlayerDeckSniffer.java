@@ -129,7 +129,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 				try {
 					deck.setUrl(new URI(link));
-				} catch (URISyntaxException e) {
+				} catch (URISyntaxException _) {
 					deck.setUrl(null);
 				}
 

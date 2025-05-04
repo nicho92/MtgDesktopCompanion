@@ -334,7 +334,7 @@ public class TransactionsPanel extends MTGUIComponent {
 								try {
 									get();
 								}
-								catch(InterruptedException ex)
+								catch(InterruptedException _)
 								{
 									Thread.currentThread().interrupt();
 								}
@@ -470,7 +470,7 @@ public class TransactionsPanel extends MTGUIComponent {
 					transactionModel.clear();
 					transactionModel.addItems(get());
 					panneauBas.calulate(get(), transactionModel);
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (Exception e) {
 					logger.error(e);

@@ -99,7 +99,7 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 			
 			
 		}
-		catch(IndexOutOfBoundsException ioobe)
+		catch(IndexOutOfBoundsException _)
 		{
 			logger.error("no card found {}",obj.getAttributes().getNamedItem("Name"));
 		}

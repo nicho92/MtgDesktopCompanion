@@ -563,7 +563,7 @@ public class ConstructPanel extends MTGUIComponent {
 					try {
 						get();
 					}
-					catch(InterruptedException ex)
+					catch(InterruptedException _)
 					{
 						Thread.currentThread().interrupt();
 					}catch(Exception ex) {

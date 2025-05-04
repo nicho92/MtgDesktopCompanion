@@ -120,7 +120,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 			protected void done() {
 				try {
 					chart.init(get(),cboProperty.getSelectedItem().toString(), chkSumOrTotal.isSelected());
-				}catch(InterruptedException inter)
+				}catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}

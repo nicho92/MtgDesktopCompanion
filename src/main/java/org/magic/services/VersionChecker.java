@@ -25,7 +25,7 @@ public class VersionChecker {
 				return "0.0";
 			else
 				return version;
-		} catch (IOException e) {
+		} catch (IOException _) {
 			return "";
 		}
 	}

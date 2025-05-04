@@ -234,7 +234,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public MTGCard getCardById(String id) throws IOException {
 		try {
 			return searchCardByCriteria(ID, id, null, true).get(0);
-		}catch(IndexOutOfBoundsException e)
+		}catch(IndexOutOfBoundsException _)
 		{
 			return null;
 		}
@@ -244,7 +244,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public MTGCard getCardByNumber(String num, MTGEdition me) throws IOException {
 		try {
 			return searchCardByCriteria("number", num, me, true).get(0);
-		}catch(IndexOutOfBoundsException e)
+		}catch(IndexOutOfBoundsException _)
 		{
 			return null;
 		}
@@ -418,7 +418,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		try {
 			return obj.get(k).getAsString();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return null;
 		}
@@ -429,7 +429,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		try {
 			return UITools.parseDate(obj.get(k).getAsString(), "yyyy-MM-dd");
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return null;
 		}
@@ -442,7 +442,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		try {
 			return obj.get(k).getAsInt();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return null;
 		}
@@ -453,7 +453,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		try {
 			return obj.get(k).getAsBoolean();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return false;
 		}

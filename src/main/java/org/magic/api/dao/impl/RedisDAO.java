@@ -138,7 +138,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 			connection.close();
 			redisClient.shutdown();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			//do nothing
 		}

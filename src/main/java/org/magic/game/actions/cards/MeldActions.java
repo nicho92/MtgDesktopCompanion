@@ -44,7 +44,7 @@ public class MeldActions extends AbstractCardAction {
 		DisplayableCard card2;
 		try {
 			card2 = GamePanelGUI.getInstance().getPanelBattleField().lookupCardBy("name", meldWith).get(0);
-		} catch (Exception ex) {
+		} catch (Exception _) {
 			MTG.notifyError("Could not meld the card, " + meldWith + " is not on the battlefield");
 			return;
 		}

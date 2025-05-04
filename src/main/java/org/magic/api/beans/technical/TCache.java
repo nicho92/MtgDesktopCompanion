@@ -84,7 +84,7 @@ public class TCache<T>{
 	public ObjectName getObjectName() {
 		try {
 			return new ObjectName("org.magic.api:type=cache,name="+name);
-		} catch (MalformedObjectNameException e) {
+		} catch (MalformedObjectNameException _) {
 			return null;
 		}
 	}

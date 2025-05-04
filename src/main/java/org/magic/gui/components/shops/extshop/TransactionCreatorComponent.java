@@ -146,7 +146,7 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 				super.done();
 				try {
 					panelTransactions.init(get());
-				} catch (InterruptedException | ExecutionException e) {
+				} catch (InterruptedException | ExecutionException _) {
 					Thread.currentThread().interrupt();
 				}
 			}

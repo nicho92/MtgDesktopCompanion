@@ -218,7 +218,7 @@ public class MTGDeckManager extends Observable {
 		var deckSize = deck.getNbCards();
 		try {
 			return new HypergeometricDistribution(deckSize, cardCount, drawedCards).upperCumulativeProbability(1);
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return 0;
 		}
 

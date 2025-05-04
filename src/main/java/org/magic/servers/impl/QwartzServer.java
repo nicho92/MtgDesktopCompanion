@@ -78,7 +78,7 @@ public class QwartzServer extends AbstractMTGServer {
 		try {
 
 			return scheduler.isStarted() && !scheduler.isInStandbyMode();
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return false;
 		}
 	}
@@ -142,7 +142,7 @@ public class QwartzServer extends AbstractMTGServer {
 	public MTGDocumentation getDocumentation() {
 		try {
 			return new MTGDocumentation(URI.create("http://www.quartz-scheduler.org/documentation/quartz-2.3.0/configuration/ConfigMain.html").toURL(),FORMAT_NOTIFICATION.HTML);
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException _) {
 			return super.getDocumentation();
 		}
 	}
@@ -179,7 +179,7 @@ public class QwartzServer extends AbstractMTGServer {
 		    	  					 	try {
 		    	  					 		jobObj.addProperty("lastFireTime", trigger.getPreviousFireTime().getTime());
 		    	  					 	}
-		    	  					 	catch(Exception e)
+		    	  					 	catch(Exception _)
 		    	  					 	{
 		    	  					 		jobObj.addProperty("lastFireTime", 0);
 		    	  					 	}

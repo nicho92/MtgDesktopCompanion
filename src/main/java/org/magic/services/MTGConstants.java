@@ -311,7 +311,7 @@ public class MTGConstants {
 				return IconsProvider.getInstance().get16("PMEI");
 			}
 			return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/classtype/"+c.getSimpleName().toLowerCase()+".png"));
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return ICON_TAB_CARD;
 		}
 	}

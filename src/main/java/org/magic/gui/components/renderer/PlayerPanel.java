@@ -49,7 +49,7 @@ public class PlayerPanel extends JPanel {
 	{
 		try {
 			lblIcon.setIcon(new ImageIcon(ImageTools.resize(p.getAvatar(), ICONSIZE, ICONSIZE)));
-		}catch(Exception e)
+		}catch(Exception _)
 		{
 			//no avatar. do nothing
 		}
@@ -58,7 +58,7 @@ public class PlayerPanel extends JPanel {
 		
 		try{
 			lblStatus.setText(p.getState().name() + " (" + new PrettyTime(MTGControler.getInstance().getLocale()).format(p.getOnlineConnectionDate())+")");
-		}catch(Exception e)
+		}catch(Exception _)
 		{
 			lblStatus.setText("");
 		}

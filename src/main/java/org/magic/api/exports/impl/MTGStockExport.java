@@ -72,7 +72,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				logger.error("Edition not found for {}",m.group(2));
 			}
@@ -80,7 +80,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			MTGCard card=null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
-			} catch (IOException e) {
+			} catch (IOException _) {
 				logger.error("no card found for {}/{}",cname,ed);
 			}
 
@@ -118,7 +118,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				logger.error("Edition not found for {}",m.group(2));
 			}
@@ -126,7 +126,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			MTGCard card=null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
-			} catch (IOException e) {
+			} catch (IOException _) {
 				logger.error("no card found for {}/{}",cname,ed);
 			}
 

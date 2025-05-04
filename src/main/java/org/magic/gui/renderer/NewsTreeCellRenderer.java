@@ -20,7 +20,7 @@ public class NewsTreeCellRenderer implements TreeCellRenderer {
 			try {
 				c.setIcon(news.getProvider().getIcon());
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				c.setIcon(null);
 			}

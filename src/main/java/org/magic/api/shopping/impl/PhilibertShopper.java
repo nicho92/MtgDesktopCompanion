@@ -97,7 +97,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 			t.setTransporter(trackingTable.select("td").get(1).text());
 			t.setShippingPrice(UITools.parseDouble(trackingTable.select("td").get(2).attr("data-value")));
 			
-		}catch(Exception e)
+		}catch(Exception _)
 		{
 			//do nothing
 		}

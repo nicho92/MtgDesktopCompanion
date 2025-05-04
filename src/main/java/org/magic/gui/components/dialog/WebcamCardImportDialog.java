@@ -356,11 +356,11 @@ public class WebcamCardImportDialog extends JDialog {
 					running=false;
 					get();
 				}
-				catch(InterruptedException ex)
+				catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}
-				catch(CancellationException ex)
+				catch(CancellationException _)
 				{
 					logger.error("Cancelling");
 				}
@@ -387,7 +387,7 @@ public class WebcamCardImportDialog extends JDialog {
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}
 
-		} catch (IOException e) {
+		} catch (IOException _) {
 			logger.error("Error loading card for result {}", r);
 		}
 

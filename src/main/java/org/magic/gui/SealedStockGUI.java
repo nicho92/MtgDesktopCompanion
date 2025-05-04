@@ -229,7 +229,7 @@ public class SealedStockGUI extends MTGUIComponent {
 					{
 						try {
 							model.addItem(get());
-						} catch (InterruptedException | ExecutionException e) {
+						} catch (InterruptedException | ExecutionException _) {
 							Thread.currentThread().interrupt();
 						}
 					}
@@ -283,7 +283,7 @@ public class SealedStockGUI extends MTGUIComponent {
 				super.done();
 				try {
 					model.init(get());
-				} catch (InterruptedException| ExecutionException e) {
+				} catch (InterruptedException| ExecutionException _) {
 					Thread.currentThread().interrupt();
 				}
 				table.packAll();

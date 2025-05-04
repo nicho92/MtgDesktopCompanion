@@ -177,7 +177,7 @@ public class RssGUI extends MTGUIComponent {
 							model.init(get());
 							model.fireTableDataChanged();
 
-						}catch(InterruptedException ex)
+						}catch(InterruptedException _)
 						{
 							Thread.currentThread().interrupt();
 						}

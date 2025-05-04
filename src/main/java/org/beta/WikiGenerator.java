@@ -165,7 +165,7 @@ public class WikiGenerator {
 			Integer.parseInt(s);
 			return "Number";
 		}
-		catch(Exception ex)
+		catch(Exception _)
 		{
 			//do nothing
 		}

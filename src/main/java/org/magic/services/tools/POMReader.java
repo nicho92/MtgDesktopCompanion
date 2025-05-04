@@ -23,7 +23,7 @@ public class POMReader {
 					version = p.getProperty("version", null);
 				}
 			}
-		} catch (IOException e) {
+		} catch (IOException _) {
 			version = null;
 			logger.warn("Could not read version for {} from file {}",clazz.getName(),pomProperties);
 		}

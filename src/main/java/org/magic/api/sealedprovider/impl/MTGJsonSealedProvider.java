@@ -45,7 +45,7 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 								MTGEdition ed;
 								try {
 									ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(e.getKey());
-								} catch (Exception e1) {
+								} catch (Exception _) {
 									logger.error("error getting id {}",e);
 									return;
 								}
@@ -61,7 +61,7 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 										 try {
 											 prod.setUrl("https://product-images.tcgplayer.com/fit-in/437x437/"+sube.getValue().getAsJsonObject().get("identifiers").getAsJsonObject().get("tcgplayerProductId").getAsString()+".jpg");
 										 }
-										 catch(Exception ex)
+										 catch(Exception _)
 										 {
 											//do nothing
 										 }

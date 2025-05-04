@@ -138,7 +138,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 					modStandard.init(get());
 					table.setModel(modStandard);
 				}
-				catch(InterruptedException ex)
+				catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}
@@ -153,7 +153,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 					UITools.sort(table,3,SortOrder.DESCENDING);
 					modStandard.fireTableDataChanged();
 					table.packAll();
-				} catch (Exception e) {
+				} catch (Exception _) {
 					// do nothing
 				}
 			}

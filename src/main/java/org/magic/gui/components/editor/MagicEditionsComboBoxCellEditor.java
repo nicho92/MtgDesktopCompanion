@@ -39,11 +39,11 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 		try {
 			selectedItem = (List<MTGEdition>) table.getValueAt(row, column);	
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{	
 			try {
 				selectedItem = MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions();
-			} catch (IOException e1) {
+			} catch (IOException _) {
 				selectedItem = new ArrayList<>();
 			}
 		}

@@ -32,7 +32,7 @@ public class DrawHandActions extends AbstractAction {
 					.setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getHand().size()));
 			GamePanelGUI.getInstance().getLblHandCount()
 					.setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getLibrary().size()));
-		} catch (IndexOutOfBoundsException ex) {
+		} catch (IndexOutOfBoundsException _) {
 			MTG.notifyError("Not enougth cards in library");
 		}
 		GamePanelGUI.getInstance().getHandPanel().initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand().getCards(), true,true);

@@ -194,7 +194,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			try {
 				res = res.substring(res.indexOf("d += "),res.indexOf("g = "));
 			}
-			catch(StringIndexOutOfBoundsException ex )
+			catch(StringIndexOutOfBoundsException _ )
 			{
 				logger.error("can't found any data for {}",cardid);
 				return ;

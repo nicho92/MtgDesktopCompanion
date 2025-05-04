@@ -159,7 +159,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			protected void done() {
 				try {
 					((DefaultComboBoxModel<Category>)cboCategory.getModel()).addAll(get().stream().sorted(Comparator.comparing(Category::getCategoryName)).toList());
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (Exception e) {
 					logger.error(e);
@@ -243,7 +243,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 					try {
 						super.done();
 						modelOutput.addAll(get());
-					} catch (InterruptedException e) {
+					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
 						logger.error(e);

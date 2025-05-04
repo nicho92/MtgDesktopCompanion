@@ -40,7 +40,7 @@ public class TomcatPool extends AbstractPoolProvider {
 		
 		try {
 			dbProperty.setDriverClassName(DriverManager.getDriver(url).getClass().getName());
-		} catch (SQLException e) {
+		} catch (SQLException _) {
 			//do nothing
 		}
 		

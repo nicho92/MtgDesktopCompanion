@@ -73,7 +73,7 @@ public class JSuggestedPanel extends JComponent {
 							public void mouseClicked(MouseEvent e) {
 								try {
 									jTextPane.getDocument().insertString(jTextPane.getCaretPosition(), t.getText()+" ", null);
-								} catch (BadLocationException e1) {
+								} catch (BadLocationException _) {
 									jTextPane.setText(jTextPane.getText() +" " + t.getText()+ " " );
 								}
 							}

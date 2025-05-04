@@ -74,7 +74,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				try {
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(3));
 				}
-				catch(Exception e)
+				catch(Exception _)
 				{
 					logger.error("Edition not found for {}",m.group(3));
 				}
@@ -83,7 +83,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				try {
 					number = m.group(4);
 				}
-				catch(IndexOutOfBoundsException e)
+				catch(IndexOutOfBoundsException _)
 				{
 					//do nothing
 				}
@@ -93,7 +93,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				{
 					try {
 						mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
-					} catch (Exception e) {
+					} catch (Exception _) {
 						logger.error("no card found with number {}/{}",number,ed);
 					}
 				}
@@ -102,7 +102,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				{
 					try {
 						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
-					} catch (Exception e) {
+					} catch (Exception _) {
 						logger.error("no card found for {}/{}",cname,ed);
 					}
 

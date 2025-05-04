@@ -69,7 +69,7 @@ public class URLTools {
 	{
 		try {
 			return extractAsString("http://checkip.amazonaws.com");
-		} catch (IOException e) {
+		} catch (IOException _) {
 			return "0.0.0.0";
 		}
 	}
@@ -118,7 +118,7 @@ public class URLTools {
 		try(var reader = new InputStreamReader(content))
 		{
 			return JsonParser.parseReader(reader);
-		} catch (IOException e) {
+		} catch (IOException _) {
 			return null;
 		}
 	}
@@ -212,7 +212,7 @@ public class URLTools {
 			RequestBuilder.build().setClient(c).url(url).get().execute();
 			return c.getHttpContext().getRedirectLocations().get(0).toASCIIString();
 
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return url;
 		}
 	}
@@ -229,7 +229,7 @@ public class URLTools {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return "127.0.0.1";
 		}

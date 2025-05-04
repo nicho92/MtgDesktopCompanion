@@ -123,7 +123,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				deck.setName(name);
 				try {
 					deck.setUrl(new URI(url));
-				} catch (URISyntaxException e1) {
+				} catch (URISyntaxException _) {
 					deck.setUrl(null);
 				}
 				deck.setAuthor(auteur);

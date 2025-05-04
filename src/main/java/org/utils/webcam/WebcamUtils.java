@@ -57,7 +57,7 @@ public class WebcamUtils
 		try {
 				IpCamDeviceRegistry.register(new IpCamDevice(name,address,mode));
 				return true;
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException _) {
 			return false;
 		}
 	}

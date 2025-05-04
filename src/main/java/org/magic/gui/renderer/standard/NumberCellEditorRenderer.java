@@ -55,7 +55,7 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 		{
 			try {
 				text = formater.format(value);
-			}catch(Exception e)
+			}catch(Exception _)
 			{
 				//do nothing
 			}

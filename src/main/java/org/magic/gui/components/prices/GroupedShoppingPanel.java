@@ -140,7 +140,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 					try {
 						treetModel.init(get());
 						}
-					catch(InterruptedException ex)
+					catch(InterruptedException _)
 					{
 						Thread.currentThread().interrupt();
 					}

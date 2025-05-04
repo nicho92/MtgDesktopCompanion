@@ -54,7 +54,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 				try {
 				 t.setFinished(e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("isFinal").getAsBoolean());
 				}
-				catch(NullPointerException ex)
+				catch(NullPointerException _)
 				{
 					//do nothing
 				}

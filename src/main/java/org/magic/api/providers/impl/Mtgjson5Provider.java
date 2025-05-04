@@ -371,7 +371,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(LOYALTY) != null) {
 					try {
 						mc.setLoyalty((int) Double.parseDouble(map.get(LOYALTY).toString()));
-					} catch (Exception e) {
+					} catch (Exception _) {
 						mc.setLoyalty(0);
 					}
 				}
@@ -585,7 +585,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try{
 			ed.setParentCode(ctx.read(base + "."+PARENT_CODE, String.class));
 			}
-			catch(PathNotFoundException pnfe)
+			catch(PathNotFoundException _)
 			{
 				ed.setParentCode(null);
 			}
@@ -597,7 +597,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try{
 			ed.setOnlineOnly(ctx.read(base + "."+IS_ONLINE_ONLY, Boolean.class));
 		}
-		catch(PathNotFoundException pnfe)
+		catch(PathNotFoundException _)
 		{
 			//do nothing
 		}
@@ -605,28 +605,28 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try{
 			ed.setFoilOnly(ctx.read(base + "."+IS_FOIL_ONLY, Boolean.class));
 		}
-		catch(PathNotFoundException pnfe)
+		catch(PathNotFoundException _)
 		{
 			//do nothing
 		}
 		try{
 		ed.setReleaseDate(ctx.read(base + ".releaseDate", String.class));
 		}
-		catch(PathNotFoundException pnfe)
+		catch(PathNotFoundException _)
 		{
 			//do nothing
 		}
 
 		try{
 		ed.setType(ctx.read(base + ".type", String.class));
-		}catch(PathNotFoundException pnfe)
+		}catch(PathNotFoundException _)
 		{
 			//do nothing
 		}
 
 		try{
 			ed.setBlock(ctx.read(base + ".block", String.class));
-		}catch(PathNotFoundException pnfe)
+		}catch(PathNotFoundException _)
 		{
 			//do nothing
 		}
@@ -634,34 +634,34 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 		try {
 			ed.setMkmName(ctx.read(base + ".mcmName", String.class));
-		} catch (PathNotFoundException pnfe) {
+		} catch (PathNotFoundException _) {
 			// do nothing
 		}
 
 		try {
 			ed.setMkmid(ctx.read(base + ".mcmId", Integer.class));
-		} catch (PathNotFoundException pnfe) {
+		} catch (PathNotFoundException _) {
 			// do nothing
 		}
 
 
 		try {
 			ed.setCardCountOfficial(ctx.read(base + ".baseSetSize", Integer.class));
-		} catch (PathNotFoundException pnfe) {
+		} catch (PathNotFoundException _) {
 			logger.warn("baseSetSize not found in {}",ed.getId());
 
 		}
 
 		try {
 			ed.setTcgplayerGroupId(ctx.read(base + "."+TCGPLAYER_GROUP_ID, Integer.class));
-		} catch (PathNotFoundException pnfe) {
+		} catch (PathNotFoundException _) {
 			// do nothing
 		}
 
 
 		try {
 			ed.setKeyRuneCode(ctx.read(base+"."+KEYRUNE_CODE,String.class));
-		}catch(PathNotFoundException pnfe)
+		}catch(PathNotFoundException _)
 		{
 			//do nothing
 		}
@@ -669,7 +669,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 		try {
 			ed.setPreview(ctx.read(base+"."+ISPREVIEW,Boolean.class));
-		}catch(Exception pnfe)
+		}catch(Exception _)
 		{
 			if(ed.getReleaseDate()==null)
 				ed.setPreview(false);
@@ -682,12 +682,12 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try {
 			ed.setCardCount(ctx.read(base + ".totalSetSize", Integer.class));
 			ed.setCardCountPhysical(ed.getCardCount());
-		} catch (PathNotFoundException pnfe) {
+		} catch (PathNotFoundException _) {
 			logger.warn("totalSetSize not found in {}. Manual calculation",ed.getId());
 			if (ed.getCardCount() == 0)
 				try {
 					ed.setCardCount(ctx.read(base + ".cards.length()"));
-				} catch (Exception e) {
+				} catch (Exception _) {
 					ed.setCardCount(0);
 				}
 		}
@@ -696,7 +696,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			try {
 				arr = ctx.read(base +".sealedProduct",JsonArray.class);
 			}
-			catch(PathNotFoundException pnfe)
+			catch(PathNotFoundException _)
 			{
 				return ed;
 			}
@@ -733,7 +733,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					
 				sealeds.add(sp);
 				
-				}catch(Exception e)
+				}catch(Exception _)
 				{
 					//do nothing
 				}

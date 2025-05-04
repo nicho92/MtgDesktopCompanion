@@ -70,7 +70,7 @@ public class HelpCompononent extends MTGUIComponent {
 
 						d.select("img").attr("width", String.valueOf(width));
 						pane.setText(d.html().replace("$USER_HOME", SystemUtils.USER_HOME));
-					} catch(InterruptedException ex)
+					} catch(InterruptedException _)
 					{
 						Thread.currentThread().interrupt();
 					}catch (Exception e) {

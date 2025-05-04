@@ -72,7 +72,7 @@ public class BinderTagsManager {
 			try {
 				BufferedImage im = prov.getPictureFor(prov.get(new MTGEdition(id),EnumItems.SET).get(0));
 				ims.add(im);
-			}catch(IndexOutOfBoundsException ioobe)
+			}catch(IndexOutOfBoundsException _)
 			{
 				logger.error("No {} found for {}",EnumItems.SET,id);
 			}

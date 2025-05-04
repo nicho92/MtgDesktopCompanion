@@ -108,7 +108,7 @@ public class ProductRendererComponent extends JPanel {
         	                loadedImages.put(p, image);
         	                 return image;
         	            }
-        	            catch (Exception e)
+        	            catch (Exception _)
         	            {
         	               
         	                return null;

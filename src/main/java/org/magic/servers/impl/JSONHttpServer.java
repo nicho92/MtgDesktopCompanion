@@ -125,6 +125,7 @@ import spark.routematch.RouteMatch;
 @SuppressWarnings("unchecked")
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String BEANS_PACKAGE = "org.magic.api.beans.";
 	public static final String JSON_HTTP_SERVER = "Json Http Server";
 	private static final String ID_DECK = ":idDeck";
 	private static final String DEFAULT_LIBRARY = "default-library";
@@ -403,7 +404,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			var id = request.params(":id");
 
-			var entry = new GedEntry<>(ImageTools.toByteArray(buffImg),PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)),id,"webupload_"+Instant.now().toEpochMilli()+".png");
+			var entry = new GedEntry<>(ImageTools.toByteArray(buffImg),PluginRegistry.inst().loadClass(BEANS_PACKAGE+request.params(CLASS)),id,"webupload_"+Instant.now().toEpochMilli()+".png");
 			MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 			return ok(request,response,"Picture uploaded");
 		});
@@ -427,7 +428,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				try {
 					logger.debug(request);
 					logger.debug("Uploading {}",fi);
-					var entry = new GedEntry<>(fi.get(),PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)),request.params(":id"),fi.getName());
+					var entry = new GedEntry<>(fi.get(),PluginRegistry.inst().loadClass(BEANS_PACKAGE+request.params(CLASS)),request.params(":id"),fi.getName());
 					MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 					fileObj.addProperty("url", (getBoolean(ENABLE_SSL)?"https://":"http://")+request.headers("Host")+"/ged/"+request.params(CLASS)+"/"+request.params(":id"));
 				}
@@ -453,7 +454,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 					var classename = request.params(CLASS);
 					if(!classename.startsWith("org.magic.api.beans"))
-						classename = "org.magic.api.beans."+ request.params(CLASS);
+						classename = BEANS_PACKAGE+ request.params(CLASS);
 
 					MTG.getEnabledPlugin(MTGGedStorage.class).listDirectory(Path.of(classename,request.params(":id"))).forEach(p->{
 						try {

@@ -87,7 +87,7 @@ public class WebShopService {
 
 			try {
 				conf.setPaypalSendMoneyUri(new URI(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get("paypalSendMoneyUri").getAsString()));
-			} catch (URISyntaxException e1) {
+			} catch (URISyntaxException _) {
 				conf.setPaypalSendMoneyUri(null);
 			}
 	
@@ -102,7 +102,7 @@ public class WebShopService {
 				else
 					conf.setTopProduct( MTG.getEnabledPlugin(MTGDao.class).getStockById(jsonData.get(CONFIG_KEY).getAsJsonObject().get(PRODUCTS_KEY).getAsJsonObject().get("top").getAsLong()));
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				logger.warn("No top product selected for webshop");
 			}
@@ -114,7 +114,7 @@ public class WebShopService {
 			Contact contact = new Contact();
 			try {
 				contact = MTG.getEnabledPlugin(MTGDao.class).getContactById(id);
-			} catch (NumberFormatException | SQLException e) {
+			} catch (NumberFormatException | SQLException _) {
 				logger.error("No contact found with id = {}",id);
 			}
 			conf.setContact(contact);

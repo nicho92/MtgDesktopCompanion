@@ -63,7 +63,7 @@ public class NetworkInfo extends AbstractAuditableItem{
 			};
 			request.setURI(URI.create(o.get("url").getAsString()));
 
-		} catch (Exception e) {
+		} catch (Exception _) {
 			//do nothing
 		}
 

@@ -221,7 +221,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 				var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 							p.setUrl(img.get("src").getAsString());
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				//do nothing.. no image found
 			}
@@ -237,7 +237,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 						
 						stockItem.getProduct().setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet));
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						//do nothing
 					}
@@ -247,7 +247,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					try {
 						stockItem.setPrice(obj.get(PRICE).getAsDouble());
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						stockItem.setPrice(0.0);
 					}
@@ -255,14 +255,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					try {
 						stockItem.setSku(obj.get("sku").getAsString());
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 							//do nothing
 					}
 
 					try {
 						stockItem.setQte(obj.get(STOCK_QUANTITY).getAsInt());
-					}catch(Exception e)
+					}catch(Exception _)
 					{
 						stockItem.setQte(0);
 					}
@@ -270,7 +270,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					try {
 						stockItem.getProduct().setUrl(obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject().get("src").getAsString());
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						logger.error("no image found for {}",p.getProductId());
 					}
@@ -554,7 +554,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 				var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 				p.setUrl(img.get("src").getAsString());
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				logger.error("error getting image for {}",obj);
 			}

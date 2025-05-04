@@ -100,7 +100,7 @@ public class WebcamCanvas extends JPanel
 				webcam.open();
 				logger.debug("webcam open = {}", webcam.isOpen());
 
-			}catch(WebcamLockException e)
+			}catch(WebcamLockException _)
 			{
 				logger.error("{} is locked",webcam);
 			}

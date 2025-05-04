@@ -75,7 +75,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(scryId);
 				main.put(mc, qty);
 				notify(mc);
-			} catch (IOException e) {
+			} catch (IOException _) {
 				logger.error("{} is not found",entry.getKey());
 			}
 
@@ -128,7 +128,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 			}
 			
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				logger.error("Cant get card id for {}",mc);
 				cardId="";

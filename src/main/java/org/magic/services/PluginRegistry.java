@@ -203,7 +203,7 @@ public class PluginRegistry {
 			try{
 				prov = newInstance(s);
 			}
-			catch (ClassNotFoundException e) {
+			catch (ClassNotFoundException _) {
 				logger.error("\t{} is not found",s);
 				listRemoved.add(entry.getXpath()+"[class='"+s+"']");
 				needUpdate=true;

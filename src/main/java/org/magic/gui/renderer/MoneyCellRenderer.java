@@ -20,7 +20,7 @@ public class MoneyCellRenderer implements TableCellRenderer {
 				var val = (MoneyValue)value;
 				text = UITools.formatDouble(val.doubleValue()) + " " + val.getCurrency().getSymbol();
 			}
-		catch(Exception e)
+		catch(Exception _)
 			{
 				//do nothing
 			}

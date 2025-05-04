@@ -42,7 +42,7 @@ public class DrawActions extends AbstractAction {
 			c.enableDrag(true);
 			GamePanelGUI.getInstance().getHandPanel().addComponent(c);
 
-		} catch (IndexOutOfBoundsException ex) {
+		} catch (IndexOutOfBoundsException _) {
 			MTG.notifyError("Not enougth cards in library");
 		}
 	}

@@ -145,7 +145,7 @@ public class GradingEditorPane extends MTGUIComponent {
 							setGrading(grad);
 						}
 					}
-					catch(InterruptedException ex)
+					catch(InterruptedException _)
 					{
 							Thread.currentThread().interrupt();
 					}

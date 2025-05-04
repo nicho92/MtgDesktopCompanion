@@ -145,7 +145,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				            itemImport.addActionListener(_->{
 				            		try {
 										new MTGDeckManager().saveDeck(deck);
-									} catch (IOException e1) {
+									} catch (IOException _) {
 										logger.error(e);
 									}
 				            });
@@ -193,7 +193,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK,KeyEvent.VK_F,"deckquery");
 		try {
 			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
-		} catch (Exception e) {
+		} catch (Exception _) {
 			editorPane.setForeground(Color.BLACK);
 		}
 

@@ -302,7 +302,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 							var conf = Paths.get(AbstractJDashlet.confdir.getAbsolutePath(),tab, dash.getProperties().get("id") + ".conf").toFile();
 							try {
 								FileTools.deleteFile(conf);
-							} catch (IOException e1) {
+							} catch (IOException _) {
 								logger.error("error removing {}",conf);
 							}
 						}

@@ -69,7 +69,7 @@ public class BattleFieldPanel extends DraggablePanel {
 			try {
 				BufferedImage im = ImageTools.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
 				setBackgroundPicture(im);
-			} catch (IOException e1) {
+			} catch (IOException _) {
 				//do nothing
 			}
 

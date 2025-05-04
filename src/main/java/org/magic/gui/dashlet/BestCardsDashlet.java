@@ -121,7 +121,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 					setProperty("FILTER", cboFilter.getSelectedItem().toString());
 
 				}
-				catch(InterruptedException ex)
+				catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}

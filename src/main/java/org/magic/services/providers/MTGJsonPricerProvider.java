@@ -250,7 +250,7 @@ public class MTGJsonPricerProvider {
 				ret.add(mp);
 				logger.debug("Found {} Price={} Foil={}",card,mp.getValue(),mp.isFoil());
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				logger.error("No price found for {} with foil={}",card,b);
 			}

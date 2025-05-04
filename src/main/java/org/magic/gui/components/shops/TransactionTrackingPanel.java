@@ -109,7 +109,7 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 			if(transaction.getTransporter()!=null)
 				comboBox.setSelectedItem(MTG.getPlugin(transaction.getTransporter(), MTGTrackingService.class));
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.error("No tracking service found for {}",transaction.getTransporter());
 		}

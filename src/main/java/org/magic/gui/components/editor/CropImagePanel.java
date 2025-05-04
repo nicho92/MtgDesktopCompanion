@@ -75,7 +75,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 			h = h * -1;
 			var img = toBufferedImage(selectedImage);
 			return img.getSubimage(c1, c2, w, h);
-		} catch (Exception nue) {
+		} catch (Exception _) {
 			return null;
 		}
 

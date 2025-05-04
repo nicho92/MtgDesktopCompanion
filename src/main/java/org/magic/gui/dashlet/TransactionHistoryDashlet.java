@@ -74,7 +74,7 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 			protected void done() {
 				try {
 					chart.init(get());
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
 					logger.error(e);

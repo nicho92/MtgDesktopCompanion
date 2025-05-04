@@ -36,7 +36,7 @@ public class ScryActions extends AbstractCardAction {
 					.substring(c.getMagicCard().getText().toLowerCase().indexOf(k) + k.length(),
 							c.getMagicCard().getText().toLowerCase().indexOf(k) + k.length() + 2)
 					.trim();
-		} catch (Exception e) {
+		} catch (Exception _) {
 			value = "X";
 		}
 		return value;

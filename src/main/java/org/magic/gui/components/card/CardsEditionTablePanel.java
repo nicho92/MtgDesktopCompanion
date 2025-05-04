@@ -119,7 +119,7 @@ public class CardsEditionTablePanel extends JPanel {
 					protected void notifyEnd() {
 						try {
 							model.removeItem(get());
-						} catch(InterruptedException ex)
+						} catch(InterruptedException _)
 						{
 							Thread.currentThread().interrupt();
 						}catch (Exception e) {
@@ -255,7 +255,7 @@ public class CardsEditionTablePanel extends JPanel {
 					super.done();
 					model.init(get());
 					table.packAll();
-				} catch(InterruptedException ex)
+				} catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}

@@ -122,7 +122,7 @@ public class JLazyLoadingTree extends JTree {
 					try {
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
-					}catch(InterruptedException ex)
+					}catch(InterruptedException _)
 					{
 						Thread.currentThread().interrupt();
 					}
@@ -166,7 +166,7 @@ public class JLazyLoadingTree extends JTree {
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
 					}
-					catch(InterruptedException ex)
+					catch(InterruptedException _)
 					{
 						Thread.currentThread().interrupt();
 					}

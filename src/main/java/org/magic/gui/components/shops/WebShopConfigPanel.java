@@ -291,9 +291,9 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				try {
 					topProduct = get();
 					cardPanel.setProduct(topProduct);
-				} catch (InterruptedException|ExecutionException e) {
+				} catch (InterruptedException|ExecutionException _) {
 					Thread.currentThread().interrupt();
-				} catch (NoSuchElementException e1) {
+				} catch (NoSuchElementException _) {
 					logger.warn("No best product found");
 				}
 				catch (Exception e1) {

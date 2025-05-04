@@ -32,7 +32,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 		try {
 			deck.getTags().add(el.getAsJsonObject().get("data").getAsJsonObject().get("type").getAsString());
-		}catch(Exception e)
+		}catch(Exception _)
 		{
 			//do nothing
 		}

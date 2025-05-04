@@ -125,7 +125,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 		
 		try {
 			m.put(PROPERTIES_CARD, new MTGProperty("name,edition,number,types,border,frameEffects","choose cards attributs you want to export. Separated by comma", BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
-		} catch (Exception e) {
+		} catch (Exception _) {
 			
 			m.put(PROPERTIES_CARD, new MTGProperty("name,edition,number,types,border,frameEffects","choose cards attributs you want to export. Separated by comma"));
 		}

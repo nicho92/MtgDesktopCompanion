@@ -62,7 +62,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 						.addContent("tri", "dataPublicationDate")
 						.addContent("login","")
 						.toHtml();
-			} catch (IOException e) {
+			} catch (IOException _) {
 				return cbos;
 			}
 						

@@ -85,7 +85,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		try {
 			return ImageTools.read(new File(generateUrl(mc)));
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.debug("{} is not found",generateUrl(mc));
 			return null;

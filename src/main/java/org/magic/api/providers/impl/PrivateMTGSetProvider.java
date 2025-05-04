@@ -193,7 +193,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public MTGCard getCardById(String id) {
 		try {
 			return searchCardByCriteria("id", id, null, true).get(0);
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return null;
 		}
 	}
@@ -273,7 +273,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public MTGEdition getSetById(String id){
 		try {
 			return loadEditionFromFile(new File(setDirectory, id + ext));
-		} catch (IOException e) {
+		} catch (IOException _) {
 			return new MTGEdition(id,id);
 		}
 	}

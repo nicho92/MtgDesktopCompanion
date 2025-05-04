@@ -49,7 +49,7 @@ public class PDFExport extends AbstractCardExport {
 
 		try {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(card),null);
-		} catch (Exception e) {
+		} catch (Exception _) {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(card),null);
 		}
 

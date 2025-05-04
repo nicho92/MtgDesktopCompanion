@@ -41,7 +41,7 @@ public class MagicPricePanel extends JPanel {
 		try{
 			lblName.setIcon(PluginRegistry.inst().getPlugin(price.getSite(), MTGPricesProvider.class).getIcon());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			//do nothing
 		}

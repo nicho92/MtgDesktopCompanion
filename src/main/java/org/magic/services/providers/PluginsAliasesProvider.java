@@ -62,7 +62,7 @@ public class PluginsAliasesProvider {
 			var ret= jsonData.get(plug.getName()).getAsJsonObject().get("idSet").getAsJsonObject().entrySet().stream().filter(e->e.getValue().getAsString().equals(setId)).findFirst().orElseThrow();
 			return ret.getKey();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return setId;
 		}
@@ -114,7 +114,7 @@ public class PluginsAliasesProvider {
 		try {
 			return  jsonData.get(plug.getName()).getAsJsonObject().get("regex").getAsJsonObject().get(k).getAsString();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.error("error getting regex for {} with key={}. Return default", plug.getName(),k);
 			return jsonData.get(plug.getName()).getAsJsonObject().get("regex").getAsJsonObject().get("default").getAsString();
@@ -130,7 +130,7 @@ public class PluginsAliasesProvider {
 		try{
 			return jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().get(condition.name()).getAsString();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.error("Error getting condition {} for plug {}",condition,plug);
 			return condition.name();
@@ -157,7 +157,7 @@ public class PluginsAliasesProvider {
 		try{
 			return jsonData.get(plug.getName()).getAsJsonObject().get("idSet").getAsJsonObject().get(ed).getAsString();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return ed;
 		}
@@ -168,7 +168,7 @@ public class PluginsAliasesProvider {
 		try{
 		return  jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().get(ed).getAsString();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return ed;
 		}

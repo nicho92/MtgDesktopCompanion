@@ -42,7 +42,7 @@ public class MTGLogger {
 			Configurator.setLevel(logger, Level.toLevel(l));
 			getContext().getLogger(MTGLogger.class).info("change {} to level {}", logger.getName(),l);
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			getContext().getLogger(MTGLogger.class).error("Error setting logger level to {}",l);
 		}

@@ -51,7 +51,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				logger.error("Edition not found for {}",m.group(4));
 			}
@@ -62,7 +62,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 			try {
 				number = m.group(10);
 			}
-			catch(IndexOutOfBoundsException e)
+			catch(IndexOutOfBoundsException _)
 			{
 				//do nothing
 			}
@@ -73,7 +73,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 			{
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
-				} catch (Exception e) {
+				} catch (Exception _) {
 					logger.error("no card found with number {}/{}",number,ed);
 				}
 			}
@@ -82,7 +82,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 			{
 				try {
 					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME);
-				} catch (Exception e) {
+				} catch (Exception _) {
 					logger.error("no card found for {}/{}",cname,ed);
 				}
 			}

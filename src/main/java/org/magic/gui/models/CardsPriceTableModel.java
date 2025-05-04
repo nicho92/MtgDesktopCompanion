@@ -86,7 +86,7 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 			default:
 				return 0;
 			}
-		} catch (IndexOutOfBoundsException ioob) {
+		} catch (IndexOutOfBoundsException _) {
 			return null;
 		}
 	}

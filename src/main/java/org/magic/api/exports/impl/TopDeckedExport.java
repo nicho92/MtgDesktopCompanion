@@ -23,6 +23,8 @@ import org.magic.services.tools.UITools;
 public class TopDeckedExport extends AbstractFormattedFileCardExport {
 
 	
+	private static final String DEFAULT_CONDITION = "DEFAULT_CONDITION";
+	private static final String DEFAULT_COLLECTION = "DEFAULT_COLLECTION";
 	private static final String COLUMNS = "QUANTITY,\"NAME\",SETCODE,\"SETNAME\",FOIL,PURCHASE PRICE,RARITY,ID";
 	
 	@Override
@@ -71,18 +73,18 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 				mcs.setFoil("foil".equals(m.group(6)));
 				mcs.setPrice(UITools.parseDouble(m.group(7)));
 				
-				if(!getString("DEFAULT_COLLECTION").isEmpty())
-					mcs.setMagicCollection(new MTGCollection(getString("DEFAULT_COLLECTION")));
+				if(!getString(DEFAULT_COLLECTION).isEmpty())
+					mcs.setMagicCollection(new MTGCollection(getString(DEFAULT_COLLECTION)));
 					
-				if(!getString("DEFAULT_CONDITION").isEmpty())
-					mcs.setCondition(EnumCondition.valueOf(getString("DEFAULT_CONDITION")));
+				if(!getString(DEFAULT_CONDITION).isEmpty())
+					mcs.setCondition(EnumCondition.valueOf(getString(DEFAULT_CONDITION)));
 				
 				
 				notify(mc);
 				
 			ret.add(mcs);
 			
-			} catch (IOException e) {
+			} catch (IOException _) {
 				logger.error("can't find card with scryfallID = {}",m.group(9));
 			}
 		});
@@ -97,8 +99,8 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("DEFAULT_COLLECTION", new MTGProperty(MTGConstants.DEFAULT_COLLECTIONS_NAMES[0], "Default Collection to bind imported stock item", new String[0]),
-							"DEFAULT_CONDITION",new MTGProperty(EnumCondition.values()[0].name(), "Default condition to apply to imported stock item", Arrays.stream(EnumCondition.values()).map(Enum::name).collect(Collectors.toList()).toArray(new String[0]))
+		return Map.of(DEFAULT_COLLECTION, new MTGProperty(MTGConstants.DEFAULT_COLLECTIONS_NAMES[0], "Default Collection to bind imported stock item", new String[0]),
+							DEFAULT_CONDITION,new MTGProperty(EnumCondition.values()[0].name(), "Default condition to apply to imported stock item", Arrays.stream(EnumCondition.values()).map(Enum::name).collect(Collectors.toList()).toArray(new String[0]))
 				);
 	}
 

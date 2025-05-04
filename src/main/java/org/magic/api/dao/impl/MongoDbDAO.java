@@ -234,7 +234,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			{
 				try {
 					db.createCollection(s);
-				} catch (Exception e1) {
+				} catch (Exception _) {
 					logger.trace("{} already exist",s);
 					populateCollections=false;
 				}

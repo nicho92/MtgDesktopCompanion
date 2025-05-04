@@ -135,7 +135,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					modStandard.init(ret);
 					table.setRowSorter(new TableRowSorter<>(modStandard));
 					table.packAll();
-				} catch(InterruptedException ex)
+				} catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}catch (Exception e) {

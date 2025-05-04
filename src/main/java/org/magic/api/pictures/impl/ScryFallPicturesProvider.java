@@ -25,7 +25,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public String generateUrl(MTGCard mc) {
 		try {
 			return generateLink(mc,false).toString();
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException _) {
 			return "";
 		}
 	}
@@ -61,7 +61,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		var url = generateLink(mc, false);
 		try {
 			return URLTools.extractAsImage(url.toString());
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return null;
 		}
 	}

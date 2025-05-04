@@ -21,7 +21,7 @@ public class MTGDocumentation {
 	public MTGDocumentation(String uri, FORMAT_NOTIFICATION fn) {
 		try {
 			this.url=URI.create(uri).toURL();
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException _) {
 			//do nothing
 		}
 		this.contentType=fn;

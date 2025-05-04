@@ -152,11 +152,11 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 					running=false;
 					get();
 				}
-				catch(InterruptedException ex)
+				catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}
-				catch(CancellationException ex)
+				catch(CancellationException _)
 				{
 					running=false;
 					logger.error("Cancelling");
