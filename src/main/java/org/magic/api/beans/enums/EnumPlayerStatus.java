@@ -8,7 +8,7 @@ public enum EnumPlayerStatus {
 	BUSY("Buzy",Color.RED), 
 	AWAY("Away",Color.ORANGE), 
 	GAMING("Gaming",Color.CYAN),
-	DISCONNECTED("Disconnected",Color.BLACK),
+	DISCONNECTED("Disconnected",Color.GRAY),
 	CONNECTED("Connected",Color.BLACK);
 	
 	private String libelle;
