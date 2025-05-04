@@ -43,7 +43,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				try {
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(part.group(2));
 				}
-				catch(Exception e)
+				catch(Exception _)
 				{
 					logger.error("edition {} is not found",part.group(2));
 				}
@@ -53,7 +53,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber( part.group(12), ed);
 				}
-				catch(Exception e)
+				catch(Exception _)
 				{
 					logger.debug(part.group());
 					logger.error("card with number {} is not found",part.group(12));
@@ -64,7 +64,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					try {
 						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( part.group(1), ed, true).get(0);
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						logger.error("card with name {} is not found",part.group(1));
 					}
@@ -212,7 +212,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					try {
 						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						logger.error("no cards found for {} {} ",name,set);
 					}
@@ -247,7 +247,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		m.get("SEPARATOR").setDefaultValue(";");
 		try {
 			m.put(EXTRA_PROPERTIES, new MTGProperty("id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt","choose cards extra attributs you want to export. Separated by comma", BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
-		} catch (Exception e) {
+		} catch (Exception _) {
 			
 			m.put(EXTRA_PROPERTIES, new MTGProperty("id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt","choose cards extra attributs you want to export. Separated by comma"));
 		}

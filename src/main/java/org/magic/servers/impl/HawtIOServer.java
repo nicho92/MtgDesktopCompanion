@@ -89,7 +89,7 @@ public class HawtIOServer extends AbstractMTGServer{
 		public void stop() throws IOException {
 			try {
 				server.stop();
-			} catch (Exception e) {
+			} catch (Exception _) {
 				throw new IOException();
 			}
 		

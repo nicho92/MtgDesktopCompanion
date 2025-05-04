@@ -64,7 +64,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public ObjectName getObjectName() {
 		try {
 			return new ObjectName("org.magic.api:type="+getType().name().toLowerCase()+",name="+getName());
-		} catch (MalformedObjectNameException e) {
+		} catch (MalformedObjectNameException _) {
 			return null;
 		}
 	}
@@ -74,7 +74,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		try {
 			return new MTGDocumentation(URI.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/plugins/"+getType()+"-"+getName().replace(" ", "_")+".md").toURL(),FORMAT_NOTIFICATION.MARKDOWN);
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return null;
 		}
@@ -172,7 +172,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public Integer getInt(String k) {
 		try {
 			return Integer.parseInt(getString(k));
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException _) {
 			return null;
 		}
 	}
@@ -180,7 +180,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public Long getLong(String k) {
 		try {
 			return Long.parseLong(getString(k));
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException _) {
 			return null;
 		}
 	}
@@ -285,7 +285,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		try {
 			return new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}

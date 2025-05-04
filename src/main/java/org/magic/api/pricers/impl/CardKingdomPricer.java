@@ -92,7 +92,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			}
 			return arr.get(0).get("url").toString();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.error("No product found for {} foil={}",mc,foil) ;
 		}

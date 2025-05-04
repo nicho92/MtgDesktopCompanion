@@ -110,7 +110,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 				MTGPrice k = (MTGPrice) child;
 				return getPosition(k, listElements.get(parent));
 			}
-			catch(ClassCastException e)
+			catch(ClassCastException _)
 			{
 				return 0;
 			}

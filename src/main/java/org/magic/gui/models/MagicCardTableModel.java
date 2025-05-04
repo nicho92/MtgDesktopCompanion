@@ -98,7 +98,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 			default:
 				return mc;
 			}
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return null;
 		}
 

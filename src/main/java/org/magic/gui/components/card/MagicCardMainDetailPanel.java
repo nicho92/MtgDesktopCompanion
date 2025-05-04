@@ -169,7 +169,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 								((DefaultListModel<MTGCollection>)lstCollections.getModel()).removeAllElements();
 								try {
 									get().forEach(((DefaultListModel<MTGCollection>)lstCollections.getModel())::addElement);
-								} catch (InterruptedException e) {
+								} catch (InterruptedException _) {
 									Thread.currentThread().interrupt();
 								} catch (Exception e) {
 									logger.error(e);
@@ -200,7 +200,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 									btnAlert.setToolTipText(capitalize("ADD_ALERT_FOR",mc.getName()));
 									btnAlert.setEnabled(true);
 								}
-							} catch (InterruptedException e) {
+							} catch (InterruptedException _) {
 								Thread.currentThread().interrupt();
 							} catch (Exception e) {
 								logger.error(e);

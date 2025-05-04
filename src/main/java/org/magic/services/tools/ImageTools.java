@@ -75,7 +75,7 @@ public class ImageTools {
 
 			try {
 				return Files.probeContentType(f).startsWith("image");
-			} catch (Exception e) {
+			} catch (Exception _) {
 				return false;
 			}
 	}

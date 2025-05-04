@@ -54,7 +54,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 				list.add(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(id));
 			}
 
-		} catch (Exception e) {
+		} catch (Exception _) {
 			//do nothing
 		}
 		return list;
@@ -111,7 +111,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 			nodeList = XMLTools.parseNodes(document, "//edition[@id='" + me.getId().toUpperCase() + "']");
 			n = nodeList.item(0).getChildNodes();
 
-		} catch (Exception e) {
+		} catch (Exception _) {
 			//do nothing
 		}
 
@@ -130,7 +130,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 						  try {
 							p.setTypeProduct(EnumItems.valueOf(n.item(i).getNodeName().toUpperCase()));
 						  }
-						  catch(Exception e)
+						  catch(Exception _)
 						  {
 							  logger.error("No EnumItems found for {}", n.item(i).getNodeName());
 						  }
@@ -138,7 +138,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 						  try {
 							  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
 						  }
-						  catch(Exception e)
+						  catch(Exception _)
 						  {
 							  logger.error("no lang found for {},{}",p.getEdition(),p.getTypeProduct());
 						  }
@@ -146,21 +146,21 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 						  try {
 							  p.setExtra(EnumExtra.valueOf(n.item(i).getAttributes().getNamedItem("extra").getNodeValue().toUpperCase()));
 						  }
-						  catch (Exception e) {
+						  catch (Exception _) {
 							 //do nothing
 						  }
 						  
 						  try {
 							  p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
 						  }
-						  catch (Exception e) {
+						  catch (Exception _) {
 								//do nothing
 						  }
 
 						 try {
 						  p.setNum(Integer.parseInt(n.item(i).getAttributes().getNamedItem("num").getNodeValue()));
 						 }
-						 catch(Exception e)
+						 catch(Exception _)
 						 {
 							 p.setNum(1);
 						 }
@@ -168,7 +168,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 						 try {
 							  p.setName(me.getSet()+" "+ p.getTypeProduct() + (p.getExtra()!=null?" " + p.getExtra():"") +  " " + n.item(i).getAttributes().getNamedItem("desc").getNodeValue() + " (" +p.getLang()+") ");
 						 }
-						 catch(Exception e)
+						 catch(Exception _)
 						 {
 							 p.setName(me.getSet()+" "+ p.getTypeProduct() + (p.getExtra()!=null?" " + p.getExtra():"") +  " (" +p.getLang()+") ");
 						 }

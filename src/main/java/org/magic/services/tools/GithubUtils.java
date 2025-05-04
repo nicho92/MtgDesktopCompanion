@@ -96,7 +96,7 @@ public class GithubUtils {
 	{
 		try {
 			return URLTools.extractAsImage(selectedRelease.get("author").getAsJsonObject().get("avatar_url").getAsString());
-		} catch (IOException e) {
+		} catch (IOException _) {
 			return null;
 		}
 	}

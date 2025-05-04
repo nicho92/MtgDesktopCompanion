@@ -45,7 +45,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
 		try {
 			return URLTools.extractAsImage(generateUrl(mc));
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return null;
 		}
 	}

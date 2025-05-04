@@ -87,7 +87,7 @@ public class LibraryPanel extends DraggablePanel {
 
 		try {
 			g.drawImage(i, 0, 0, null);
-		} catch (Exception e) {
+		} catch (Exception _) {
 			// do nothing
 		}
 

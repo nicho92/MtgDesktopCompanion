@@ -23,7 +23,7 @@ public enum EnumSecurityStamp implements MTGEnumeration{
 			
 			return EnumSecurityStamp.valueOf(s.toUpperCase());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.warn("SecurityStamp {} is not found", s);
 			return null;

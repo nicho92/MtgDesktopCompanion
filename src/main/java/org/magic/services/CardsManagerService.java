@@ -34,7 +34,7 @@ public class CardsManagerService {
 					return ed;
 			}
 			return null;
-		} catch (IOException e) {
+		} catch (IOException _) {
 			return null;
 		}
 	
@@ -46,7 +46,7 @@ public class CardsManagerService {
 	{
 		try {
 				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, false).get(0);
-		} catch (ArrayIndexOutOfBoundsException | IOException e) {
+		} catch (ArrayIndexOutOfBoundsException | IOException _) {
 			logger.error("{} is not found in {}",mc,ed);
 			return mc;
 		}

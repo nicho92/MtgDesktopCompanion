@@ -55,7 +55,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	private int extractColorless(String manaCost) {
 		try {
 			return Integer.parseInt(manaCost.replaceAll("[\\D]", ""));
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return 0;
 		}
 

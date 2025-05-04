@@ -123,12 +123,12 @@ public class HandPanel extends DraggablePanel {
 				try {
 					get();
 
-				}catch(CancellationException e)
+				}catch(CancellationException _)
 				{
 
 					logger.info("{} is canceled",this);
 				}
-				catch(InterruptedException | ExecutionException ex)
+				catch(InterruptedException | ExecutionException _)
 				{
 					Thread.currentThread().interrupt();
 				}

@@ -153,7 +153,7 @@ public class JLazyLoadingTree extends JTree {
 							var n = new MyNode(card);
 							children.add(n);
 						}
-					} catch (SQLException e) {
+					} catch (SQLException _) {
 						logger.error("unknow edition {}",ed.getId());
 					}
 					return children;
@@ -202,7 +202,7 @@ public class JLazyLoadingTree extends JTree {
 						logger.debug("loading editions from {} done",c);
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
-					}catch(InterruptedException ex)
+					}catch(InterruptedException _)
 					{
 						Thread.currentThread().interrupt();
 					}

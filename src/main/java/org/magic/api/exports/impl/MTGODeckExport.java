@@ -72,7 +72,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 					if(m.group(4)!=null)
 							ed=getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						logger.error("{} isn't a valid set",m.group(4));
 					}

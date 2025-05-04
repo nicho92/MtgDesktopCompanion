@@ -47,7 +47,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		try {
 		cboField = UITools.createCombobox(getEnabledPlugin(MTGCardsIndexer.class).listFields());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			cboField.addItem("NO INDEXER FILE FOUND");
 		}
@@ -80,7 +80,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		try {
 			indexModel.init(getEnabledPlugin(MTGCardsIndexer.class).terms(cboField.getSelectedItem().toString()));
 			indexModel.fireTableDataChanged();
-		}catch(Exception e)
+		}catch(Exception _)
 		{
 			MTGControler.getInstance().notify(new NullPointerException("Indexation is not initied"));
 		}

@@ -258,28 +258,23 @@ public class UITools {
 				
 				
 				for(var c : List.of(MTGCardStock.class,MTGSealedStock.class))
-					table.setDefaultRenderer(c, new TableCellRenderer() {
-						@Override
-						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+					table.setDefaultRenderer(c, (JTable t, Object value, boolean isSelected, boolean _, int _, int _)->{
 							MTGStockItem obj = (MTGStockItem)value; 
 							
 							var lab = new JLabel(obj.getId() + " " + (obj.isUpdated()?"*":""));
 							lab.setOpaque(true);
-							lab.setBackground(table.getBackground());
+							lab.setBackground(t.getBackground());
 							
 							if (isSelected) {
-								lab.setBackground(table.getSelectionBackground());
-								lab.setForeground(table.getSelectionForeground());
+								lab.setBackground(t.getSelectionBackground());
+								lab.setForeground(t.getSelectionForeground());
 							}
 							
 							return lab;
 						}
-					});
+					);
 				
-				table.setDefaultRenderer(Map.class, new TableCellRenderer() {
-					
-					@Override
-					public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+				table.setDefaultRenderer(Map.class, (JTable t, Object value, boolean isSelected, boolean _, int _, int _)->{
 						var pane = new JPanel();
 						
 						if(value!=null)
@@ -292,20 +287,18 @@ public class UITools {
 							});
 						
 						
-						pane.setBackground(table.getBackground());
+						pane.setBackground(t.getBackground());
 
 						if(isSelected)
-							pane.setBackground(table.getSelectionBackground());
+							pane.setBackground(t.getSelectionBackground());
 						
 						return pane;
-					}
+					
 				});
 				
 				for(var c : List.of(MTGCollection.class,EnumCondition.class,EnumRarity.class))
 				{
-					table.setDefaultRenderer(c, new TableCellRenderer() {
-						@Override
-						public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+					table.setDefaultRenderer(c, (JTable t, Object value, boolean isSelected, boolean _,int _, int _)->{
 							var lab = new JLabel();
 							lab.setHorizontalAlignment(SwingConstants.LEADING);
 							lab.setOpaque(true);
@@ -318,13 +311,10 @@ public class UITools {
 							}
 							
 							if (isSelected) {
-								lab.setBackground(table.getSelectionBackground());
-								lab.setForeground(table.getSelectionForeground());
+								lab.setBackground(t.getSelectionBackground());
+								lab.setForeground(t.getSelectionForeground());
 							}
 							return lab;
-							
-						}
-						
 					});
 				}
 				
@@ -366,7 +356,7 @@ public class UITools {
 				try {
 					table.packAll();
 				}
-				catch(Exception e)
+				catch(Exception _)
 				{
 					//do nothing
 				}
@@ -697,7 +687,7 @@ public class UITools {
 								else
 									ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(getModelValueAt(table,row, edPos).toString());
 							}
-						}catch(Exception ex)
+						}catch(Exception _)
 						{
 							logger.error("no edition defined");
 						}
@@ -733,7 +723,7 @@ public class UITools {
 								popUp.show(table, e.getX()+5, e.getY()+5);
 								popUp.setVisible(true);
 
-							} catch (IndexOutOfBoundsException ex) {
+							} catch (IndexOutOfBoundsException _) {
 								logger.error("{} is not found with extra={}",cardName,extraVariations);
 							} catch (IOException e1) {
 								logger.error("error loading {}",cardName,e1);
@@ -757,7 +747,7 @@ public class UITools {
 		try{
 			return (T) getTableSelections(tableCards, columnID).get(0);
 		}
-		catch(IndexOutOfBoundsException e)
+		catch(IndexOutOfBoundsException _)
 		{
 			return null;
 		}
@@ -906,12 +896,40 @@ public class UITools {
 			@Override
 			public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
 				var g2 = (Graphics2D) g;
+				ImageTools.initGraphics(g2);
 		        var circle = new Ellipse2D.Double(0, 0, getIconWidth(), getIconHeight() );
 		        g2.setColor(color);
 		        g2.fill(circle);
 		        
 		        g2.setColor(Color.black);
 		        g2.draw(circle);
+		    }
+			
+			@Override
+			public int getIconHeight() {
+				return MTGConstants.TABLE_ROW_HEIGHT-2;
+			}
+			
+			@Override
+			public int getIconWidth() {
+				return MTGConstants.TABLE_ROW_HEIGHT-2;
+			}
+		};
+	}
+	
+	
+	public static Icon generateTextIcon(Color color, String text) {
+		return new ImageIcon() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
+				var g2 = (Graphics2D) g;
+				ImageTools.initGraphics(g2);
+		        g2.setColor(color);
+		        g2.fillRect(0, 0, getIconWidth(), getIconHeight()); 
+		        g2.setColor(Color.black);
+		        g2.drawString(text, 0, 0);
 		    }
 			
 			@Override

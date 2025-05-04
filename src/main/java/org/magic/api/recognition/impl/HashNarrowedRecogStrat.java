@@ -23,7 +23,7 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	public MTGDocumentation getDocumentation() {
 		try {
 			return new MTGDocumentation(URI.create("https://jenssegers.com/perceptual-image-hashes").toURL(),FORMAT_NOTIFICATION.HTML);
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException _) {
 			return super.getDocumentation();
 		}
 	}

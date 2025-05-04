@@ -81,7 +81,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		try {
 			var it = items.get(0);
 			return PropertyUtils.getNestedProperty(it, columns[columnIndex]).getClass();
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return super.getColumnClass(columnIndex);
 		}
 

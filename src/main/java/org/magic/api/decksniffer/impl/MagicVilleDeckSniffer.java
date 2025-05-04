@@ -57,7 +57,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		try {
 			imp.addObserver(listObservers().get(0));
 		}
-		catch(IndexOutOfBoundsException e)
+		catch(IndexOutOfBoundsException _)
 		{
 			logger.warn("error adding current observer to {}" ,imp);
 		}
@@ -110,7 +110,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 						de.setColor(temp.toString());
 						de.setDescription(tds.get(4).text());
 						ret.add(de);
-					} catch (URISyntaxException e) {
+					} catch (URISyntaxException _) {
 						logger.error("error for url {}",baseUrl+tds.get(0).select("a").attr("href"));
 					}
 				}

@@ -125,7 +125,7 @@ public class IconsProvider {
 
 		try {
 			initEquiv();
-		} catch (IOException e1) {
+		} catch (IOException _) {
 			logger.error("Error init Equiv SetFile");
 		}
 
@@ -161,7 +161,7 @@ public class IconsProvider {
 				try {
 					URLTools.download("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+getEquiv(id).toLowerCase()+".svg", localF);
 				}
-				catch(Exception e)
+				catch(Exception _)
 				{
 					return getSVGIcon("PMTG1");
 				}
@@ -193,7 +193,7 @@ public class IconsProvider {
 				String equivSet = getEquiv(id);
 				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
 				ImageTools.saveImage(im, iconFile, "png");
-			} catch (Exception ex) {
+			} catch (Exception _) {
 				logger.trace("couldnt load icons for {}={}",id,getEquiv(id));
 				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
 			}
@@ -275,7 +275,7 @@ public class IconsProvider {
 		var val = 0;
 		try {
 			val = Integer.parseInt(el);
-		} catch (NumberFormatException ne) {
+		} catch (NumberFormatException _) {
 			if(map.get(el)!=null)
 				val= map.get(el);
 			else

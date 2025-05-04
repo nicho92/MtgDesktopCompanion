@@ -37,7 +37,7 @@ public class MadnessActions extends AbstractCardAction {
 			else
 				cost = text.substring(text.indexOf(k + "\u2014") + k.length(), text.indexOf('('));
 
-		} catch (Exception e) {
+		} catch (Exception _) {
 			cost = "";
 		}
 		return cost;

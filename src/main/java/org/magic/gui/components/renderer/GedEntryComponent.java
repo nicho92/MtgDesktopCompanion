@@ -106,7 +106,7 @@ public class GedEntryComponent extends JPanel {
 		   {
 			   try {
 				   return ImageTools.read(entry.getContent());
-			   } catch (IOException e) {
+			   } catch (IOException _) {
 				   return null;
 			   }
 		   }

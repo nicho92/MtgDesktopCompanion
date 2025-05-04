@@ -142,7 +142,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				   try{
 					   p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
 				   }
-				   catch(Exception ise)
+				   catch(Exception _)
 				   {
 					   logger.error("{} has no url",p);
 				   }
@@ -181,7 +181,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			  	try {
 			  	it.setId(item.get("variant_id").getAsLong());
 			  	}
-			  	catch(Exception e)
+			  	catch(Exception _)
 			  	{
 			  		logger.warn("No variant_id found for {}",it.getProduct());
 			  	}
@@ -307,7 +307,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		try {
 			return parseContact(arr.getAsJsonArray().get(0).getAsJsonObject());
 		}
-		catch(IndexOutOfBoundsException  e)
+		catch(IndexOutOfBoundsException  _)
 		{
 			return null;
 		}
@@ -390,7 +390,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 				try {
 					objVariant.addProperty(OPTION+getString(SET_OPTION_NUMBER), c.getProduct().getEdition().getSet());
-				}catch(Exception e)
+				}catch(Exception _)
 				{
 					logger.error("no set found for {}",c);
 				}

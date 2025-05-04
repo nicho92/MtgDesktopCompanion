@@ -264,7 +264,7 @@ private MTGPool pool;
 				if(rs.getString(SUBSETS)!=null)
 					mc.setSubsets(rs.getString(SUBSETS));
 				}
-				catch(Exception e)
+				catch(Exception _)
 				{
 					//do nothing, subsets is not in tokenn table
 				}
@@ -531,7 +531,7 @@ private MTGPool pool;
 					if(rs.getString(SUBSETS)!=null)
 						mc.setSubsets(rs.getString(SUBSETS));
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						//do nothing, subsets is not in tokenn table
 					}
@@ -540,7 +540,7 @@ private MTGPool pool;
 				
 				try {
 					mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));
-				} catch (NumberFormatException e) {
+				} catch (NumberFormatException _) {
 					mc.setLoyalty(0);
 				}
 				
@@ -651,7 +651,7 @@ private MTGPool pool;
 		 try {
 			ed.setMkmName(rs.getString(MCM_NAME));
 			ed.setMkmid(rs.getInt(MCM_ID));
-		} catch (SQLException e) {
+		} catch (SQLException _) {
 			//do nothing
 		}
 	}

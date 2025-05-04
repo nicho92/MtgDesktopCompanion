@@ -48,7 +48,7 @@ public class IPTranslator {
 				}
 			});
 		}
-		catch(IllegalArgumentException e)
+		catch(IllegalArgumentException _)
 		{
 			return null;
 		} catch (Exception e) {

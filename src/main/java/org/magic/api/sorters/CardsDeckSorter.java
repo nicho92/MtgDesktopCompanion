@@ -23,7 +23,7 @@ public class CardsDeckSorter implements MTGComparator<MTGCard> {
 			if (ret == 0)
 				ret = name(o1, o2);
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			ret = 0;
 		}

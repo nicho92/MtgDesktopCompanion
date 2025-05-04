@@ -105,7 +105,7 @@ public enum EnumPromoType implements MTGEnumeration{
 		try {
 			return EnumPromoType.valueOf(s.trim().toUpperCase());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.warn("EnumPromoType {} is not found", s);
 			return null;

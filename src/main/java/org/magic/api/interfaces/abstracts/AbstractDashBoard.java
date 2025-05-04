@@ -72,7 +72,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 			return getPriceVariation(mc,foil).getLastValue();
 			}
 
-		} catch (NullPointerException e) {
+		} catch (NullPointerException _) {
 			logger.debug("no card found for {} foil={}",mc,foil );
 			return 0.0;
 		} catch (IOException e) {

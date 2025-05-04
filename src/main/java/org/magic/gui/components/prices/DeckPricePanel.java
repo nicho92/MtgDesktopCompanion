@@ -47,7 +47,7 @@ public class DeckPricePanel extends MTGUIComponent {
 		try {
 			lblPrice.setText(UITools.formatDouble(d.getAveragePrice()));
 			enableControle(true);
-		} catch (Exception e) {
+		} catch (Exception _) {
 			lblPrice.setText("");
 		}
 		
@@ -100,7 +100,7 @@ public class DeckPricePanel extends MTGUIComponent {
 
 						try {
 							total = get().stream().mapToDouble(MTGPrice::getValue).sum();
-						} catch (InterruptedException e) {
+						} catch (InterruptedException _) {
 							Thread.currentThread().interrupt();
 							logger.error("Interruption");
 						} catch (ExecutionException e) {

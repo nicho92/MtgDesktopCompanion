@@ -88,7 +88,7 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 						protected void done() {
 							try {
 								model.init(get());
-							} catch (InterruptedException e) {
+							} catch (InterruptedException _) {
 								Thread.currentThread().interrupt();
 							} catch (ExecutionException e) {
 								MTGControler.getInstance().notify(e);

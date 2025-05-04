@@ -70,7 +70,7 @@ public class CryptoUtils {
 	public static int randomInt(int i) {
 		try {
 			return SecureRandom.getInstanceStrong().nextInt(i);
-		} catch (NoSuchAlgorithmException e) {	
+		} catch (NoSuchAlgorithmException _) {	
 			return -1;
 		}
 	}
@@ -78,7 +78,7 @@ public class CryptoUtils {
 	public static Long randomLong() {
 		try {
 			return SecureRandom.getInstanceStrong().nextLong();
-		} catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException _) {
 			return -1L;
 		}
 	}
@@ -86,7 +86,7 @@ public class CryptoUtils {
 	public static Double randomDouble(double bound) {
 		try {
 			return SecureRandom.getInstanceStrong().nextDouble(bound);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException _) {
 			return -1.0;
 		}
 	}
@@ -94,7 +94,7 @@ public class CryptoUtils {
 	public static boolean randomBoolean() {
 		try {
 			return SecureRandom.getInstanceStrong().nextBoolean();
-		} catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException _) {
 			return false;
 		}
 	}

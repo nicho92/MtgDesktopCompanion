@@ -69,7 +69,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 						deck.getSideBoard().put(mc, Integer.parseInt(qte));
 	
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						logger.error("No card found for {}",name);
 					}
@@ -101,7 +101,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				deck.setName(tr.select("td a").first().text());
 				try {
 					deck.setUrl(new URI(URL + '/' + tr.select("td a").first().attr("href")));
-				} catch (Exception e) {
+				} catch (Exception _) {
 					deck.setUrl(null);
 				}
 				deck.setAuthor(tr.select("td").get(2).select("strong").text());

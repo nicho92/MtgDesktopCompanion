@@ -66,7 +66,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			
 			try {
 				m.put(FIELDS, new MTGProperty("cost,text,scryfallId,numbercolor,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted,retro","indexed fields for cards. Separated by comma", BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
-			} catch (Exception e) {
+			} catch (Exception _) {
 				
 				m.put(FIELDS, new MTGProperty("cost,text,scryfallId,numbercolor,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted,retro","indexed fields for cards. Separated by comma"));
 			}
@@ -94,7 +94,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		{
 			var fields = FieldInfos.getIndexedFields(indexReader);
 			return fields.toArray(new String[fields.size()]);
-		} catch (IOException e) {
+		} catch (IOException _) {
 			return new String[0];
 		}
 	}

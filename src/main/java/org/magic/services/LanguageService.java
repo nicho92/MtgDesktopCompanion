@@ -65,7 +65,7 @@ public class LanguageService {
 		try {
 			return rbundle.getString(key);
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return key.toLowerCase();
 		}

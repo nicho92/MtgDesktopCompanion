@@ -180,7 +180,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	public MTGCard getCardById(String id) throws IOException {
 		try {
 			return searchCardByCriteria(UUID, id, null, true).get(0);
-		}catch(IndexOutOfBoundsException e)
+		}catch(IndexOutOfBoundsException _)
 		{
 			return null;
 		}
@@ -292,7 +292,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 			{
 				temp = FileTools.readFile(fversion);
 			}
-			catch(FileNotFoundException ex)
+			catch(FileNotFoundException _)
 			{
 				logger.error("{} doesn't exist",fversion);
 			} catch (IOException e) {

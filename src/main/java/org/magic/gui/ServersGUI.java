@@ -48,7 +48,7 @@ public class ServersGUI extends MTGUIComponent {
 					}
 					
 					
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
 					logger.error(e);

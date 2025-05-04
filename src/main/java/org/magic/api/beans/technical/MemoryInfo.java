@@ -26,7 +26,7 @@ public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
 		try {
 			return (double)size/count;
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return 0;
 		}

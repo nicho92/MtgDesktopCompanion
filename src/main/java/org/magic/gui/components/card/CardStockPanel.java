@@ -221,7 +221,7 @@ public class CardStockPanel extends MTGUIComponent {
 				try {
 					model.init(get());
 					table.packAll();
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
 					logger.error(e);

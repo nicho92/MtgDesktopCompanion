@@ -144,7 +144,7 @@ public class LigaMagicExport extends AbstractCardExport {
 					}
 
 				}
-				catch(Exception e)
+				catch(Exception _)
 				{
 					logger.error("Error importing {}",enName);
 				}

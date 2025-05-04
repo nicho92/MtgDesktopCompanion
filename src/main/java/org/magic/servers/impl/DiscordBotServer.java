@@ -324,7 +324,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		{
 			try {
 				ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
-			} catch (IOException e) {
+			} catch (IOException _) {
 				ed = new MTGEdition(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
 			}
 			name=name.substring(0, name.indexOf('|')).trim();
@@ -406,7 +406,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 									   	try {
 											r.retrieveUsers().submit().get().parallelStream().forEach(u -> r.removeReaction(u).queue());
 										}
-									   	catch(InterruptedException ex){
+									   	catch(InterruptedException _){
 									   		Thread.currentThread().interrupt();
 									   	}
 									   	catch (Exception e) {
@@ -649,7 +649,7 @@ class NavigableEmbed extends ListenerAdapter {
 			else {
 				message = message.editMessageEmbeds(embed).submit().get();
 			}
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (InterruptedException | ExecutionException _) {
 			Thread.currentThread().interrupt();
 		}
 	}

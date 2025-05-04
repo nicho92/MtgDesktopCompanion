@@ -32,7 +32,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 			map.put(EnumColors.RED, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.RED.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 			map.put(EnumColors.GREEN, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.GREEN.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 			map.put(EnumColors.UNCOLOR, new ImageIcon(IconsProvider.getInstance().getManaSymbol("X").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-		} catch (Exception e) {
+		} catch (Exception _) {
 			// do nothing
 		}
 
@@ -66,7 +66,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 				c.setIcon(MTGConstants.ICON_TAB_BACK);
 			}
 			return c;
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return c;
 		}
 	}

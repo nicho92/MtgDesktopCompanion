@@ -39,7 +39,7 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIco
 		try {
 			return EnumRarity.valueOf(s.toUpperCase());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.warn("Rarity {} is not found",s);
 			return null;

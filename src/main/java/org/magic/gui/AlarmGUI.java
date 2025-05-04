@@ -200,7 +200,7 @@ public class AlarmGUI extends MTGUIComponent {
 					try {
 						model.bind(get());
 
-					} catch (InterruptedException e) {
+					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
 						MTGControler.getInstance().notify(e);
@@ -362,7 +362,7 @@ public class AlarmGUI extends MTGUIComponent {
 						try {
 							model.removeItem(get());
 						}
-						catch(InterruptedException ex)
+						catch(InterruptedException _)
 						{
 							Thread.currentThread().interrupt();
 						}

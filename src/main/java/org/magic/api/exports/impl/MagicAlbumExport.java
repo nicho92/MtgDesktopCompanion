@@ -104,7 +104,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 						var cardNumber=m.group(12).split("/")[0].replaceFirst("^0+(?!$)", "");
 						mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cardNumber, setCode);
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						mc=null;
 					}

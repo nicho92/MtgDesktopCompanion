@@ -56,7 +56,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 			{
 				try {
 					mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
-				}catch(Exception e)
+				}catch(Exception _)
 				{
 					logger.error("Card is not found with this provider : {}",m.group());
 				}

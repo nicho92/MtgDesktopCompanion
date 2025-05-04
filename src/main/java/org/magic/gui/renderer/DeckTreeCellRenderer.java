@@ -29,7 +29,7 @@ public class DeckTreeCellRenderer implements TreeCellRenderer{
 				var ic = MTGConstants.getManaSymbol(s);
 				lab.setIcon(ImageTools.resize(ic, 18, 18));	
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				//do nothing
 			}

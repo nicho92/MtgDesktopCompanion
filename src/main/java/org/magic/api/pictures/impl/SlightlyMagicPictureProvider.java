@@ -43,7 +43,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 		if(!getFile(PICS_DIR).exists())
 			try {
 				FileTools.forceMkdir(getFile(PICS_DIR));
-			} catch (IOException e) {
+			} catch (IOException _) {
 				logger.error("Couldn't create {} directory",getString(PICS_DIR));
 			}
 
@@ -89,7 +89,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 		try {
 			return ImageTools.read(new File(generateUrl(mc)));
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.debug("{} is not found",generateUrl(mc));
 			return null;

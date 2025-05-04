@@ -112,7 +112,7 @@ public class AbilitiesFactory implements Serializable{
 					try{
 						abilities.setCost(new LoyaltyCost(Integer.parseInt(c.substring(1))));
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						abilities.setCost(new LoyaltyCost("+"));
 					}
@@ -126,7 +126,7 @@ public class AbilitiesFactory implements Serializable{
 					try{
 						abilities.setCost(new LoyaltyCost(-Integer.parseInt(c.substring(1))));
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						abilities.setCost(new LoyaltyCost("-"));
 					}

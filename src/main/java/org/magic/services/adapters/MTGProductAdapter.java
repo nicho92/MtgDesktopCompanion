@@ -20,7 +20,7 @@ public final class MTGProductAdapter implements JsonDeserializer<MTGProduct>, Js
 	public MTGProduct deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context) throws JsonParseException {
       try {
     	  return context.deserialize(elem, typeForName(EnumItems.valueOf(elem.getAsJsonObject().get("typeProduct").getAsString())));
-      }catch(Exception e)
+      }catch(Exception _)
       {
     	  return context.deserialize(elem, typeForName(EnumItems.SEALED));
       }

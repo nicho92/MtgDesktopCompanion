@@ -82,7 +82,7 @@ public class IASuggestionPanel extends MTGUIComponent {
 					
 					try {
 						textPane.setText(get());
-					} catch (InterruptedException e) {
+					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
 						logger.error(e);

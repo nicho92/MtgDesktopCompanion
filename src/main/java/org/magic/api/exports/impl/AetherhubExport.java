@@ -88,7 +88,7 @@ public class AetherhubExport extends AbstractFormattedFileCardExport{
 						mcs.setAltered(m.group(18).equals("1"));
 						mcs.setCondition(aliases.getReversedConditionFor(this, m.group(13), EnumCondition.NEAR_MINT));
 						l.add(mcs);
-					} catch (IOException e) {
+					} catch (IOException _) {
 						logger.error("no card found by scryfallId {}",m.group(10));
 					}
 				});

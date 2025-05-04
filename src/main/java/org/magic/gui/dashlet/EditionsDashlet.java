@@ -88,7 +88,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 		try {
 			table.packAll();
-		} catch (Exception e) {
+		} catch (Exception _) {
 			// do nothing
 		}
 

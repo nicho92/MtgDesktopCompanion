@@ -59,7 +59,7 @@ public class ContactSelectionPanel extends MTGUIComponent {
 				
 				try {
 					get().stream().forEach(cbo::addItem);
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
 					logger.error(e);

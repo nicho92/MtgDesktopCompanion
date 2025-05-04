@@ -66,7 +66,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
-		} catch (XPathExpressionException e) {
+		} catch (XPathExpressionException _) {
 			return false;
 		}
 	}
@@ -87,7 +87,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
-		} catch (XPathExpressionException e) {
+		} catch (XPathExpressionException _) {
 			return false;
 		}
 	}

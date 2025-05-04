@@ -205,7 +205,7 @@ public class JTagsPanel extends JComponent {
 		TagLabel t = (TagLabel) panelTags.getComponentAt(point);
 		return t.getText();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return "";
 		}

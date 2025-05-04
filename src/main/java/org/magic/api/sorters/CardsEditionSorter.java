@@ -36,7 +36,7 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 		return ret;
 
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return 0;
 		}

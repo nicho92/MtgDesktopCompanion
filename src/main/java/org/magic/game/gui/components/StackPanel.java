@@ -134,7 +134,7 @@ public class StackPanel extends MTGUIComponent implements Observer {
 		try {
 		model.removeElementAt(0);
 		}
-		catch(ArrayIndexOutOfBoundsException e) {
+		catch(ArrayIndexOutOfBoundsException _) {
 			//do nothing
 			}
 	}

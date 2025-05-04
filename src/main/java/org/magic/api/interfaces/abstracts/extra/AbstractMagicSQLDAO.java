@@ -155,7 +155,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try{
 			return serialiser.fromJson( rs.getString(field), MTGCard.class);
 		}
-		catch(NullPointerException e)
+		catch(NullPointerException _)
 		{
 			return null;
 		}
@@ -215,7 +215,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 
 			return true;
-		} catch (SQLIntegrityConstraintViolationException e) {
+		} catch (SQLIntegrityConstraintViolationException _) {
 			logger.debug("database already created");
 			return false;
 		}
@@ -514,7 +514,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try {
 			var d = DriverManager.getDriver(getjdbcUrl());
 			return d.getMajorVersion()+"."+d.getMinorVersion();
-		} catch (SQLException e) {
+		} catch (SQLException _) {
 			return "1.0";
 		}
 	}
@@ -702,7 +702,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 				return readContact(rs);
 		}
-		catch(SQLException sqlde)
+		catch(SQLException _)
 		{
 			return null;
 		}
@@ -1959,7 +1959,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			state.setMagicCollection(new MTGCollection(rs.getString(COLLECTION)));
 			try {
 				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
-			} catch (Exception e) {
+			} catch (Exception _) {
 				state.setCondition(null);
 			}
 			state.setFoil(rs.getBoolean("foil"));
@@ -1977,7 +1977,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			
 			try {
 				state.setDateUpdate(rs.getDate("dateUpdate"));
-			} catch (Exception e) {
+			} catch (Exception _) {
 				//do nothing
 			}
 

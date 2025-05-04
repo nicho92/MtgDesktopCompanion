@@ -112,7 +112,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 						mcs.setQte(mp.getQty());
 						mcs.setUpdated(true);
 						notify(mcs.getProduct());
-					} catch (IOException e) {
+					} catch (IOException _) {
 						logger.error("Error for getting card {}",bluePrint.getProductUrl());
 					}
 

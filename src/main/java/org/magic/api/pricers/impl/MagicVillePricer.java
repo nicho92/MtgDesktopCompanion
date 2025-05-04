@@ -57,7 +57,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		Element table = null;
 		try {
 			table = doc.select("table[width=98%]").get(2); // select the first table.
-		} catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException _) {
 			logger.info("{} no sellers",getName());
 			return list;
 		}

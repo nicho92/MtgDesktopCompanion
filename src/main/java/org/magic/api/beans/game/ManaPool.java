@@ -44,7 +44,7 @@ public class ManaPool extends Observable implements Serializable {
 		try {
 			pool.put(mana, pool.get(mana) + number);
 			setChanged();
-		} catch (NullPointerException e) {
+		} catch (NullPointerException _) {
 			setMana(mana, number);
 		}
 	}
@@ -58,7 +58,7 @@ public class ManaPool extends Observable implements Serializable {
 	public void useMana(String color, Integer number) {
 		try {
 			setMana(color, pool.get(color) - number);
-		} catch (Exception e) {
+		} catch (Exception _) {
 			logger.error("error using {} {}. Pool={}",number,color,pool);
 		}
 	}

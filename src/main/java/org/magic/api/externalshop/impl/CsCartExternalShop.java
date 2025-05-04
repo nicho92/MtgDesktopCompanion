@@ -150,7 +150,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
 			try {
 				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsLong()));
-			} catch (IOException e) {
+			} catch (IOException _) {
 				logger.error("Error getting transaction {}",je.getAsJsonObject().get(ORDER_ID));
 			}
 		});
@@ -164,7 +164,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
 			try {
 				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsLong()));
-			} catch (IOException e) {
+			} catch (IOException _) {
 				logger.error("Error getting transaction {}",je.getAsJsonObject().get(ORDER_ID));
 			}
 		});
@@ -201,14 +201,14 @@ public class CsCartExternalShop extends AbstractExternalShop {
 			  try {
 				  product.setUrl(jo.get("main_pair").getAsJsonObject().get("detailed").getAsJsonObject().get("image_path").getAsString());
 			  }
-			  catch(Exception e)
+			  catch(Exception _)
 			  {
 				  logger.error("error getting image url for {}",product.getName());
 			  }
 			  
 			  try {
 				product.setCategory(getCategoryById(jo.get("main_category").getAsInt()));
-			} catch (IOException e) {
+			} catch (IOException _) {
 				  logger.error("error getting category for {}",product.getName());
 			}
 			 
@@ -226,7 +226,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 			  try {
 				  item.setLanguage(req.get("lang_code").getAsString());
 			  }
-			  catch(Exception e)
+			  catch(Exception _)
 			  {
 				 //do nothing
 			  }

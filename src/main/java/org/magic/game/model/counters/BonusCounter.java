@@ -21,13 +21,13 @@ public class BonusCounter extends AbstractCounter {
 
 		try {
 			power = Integer.parseInt(displayableCard.getMagicCard().getPower());
-		} catch (Exception e) {
+		} catch (Exception _) {
 			power = 0;
 		}
 
 		try {
 			toughness = Integer.parseInt(displayableCard.getMagicCard().getToughness());
-		} catch (Exception e) {
+		} catch (Exception _) {
 			toughness = 0;
 		}
 

@@ -418,7 +418,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 							try {
 								initCard(get());
 								
-							} catch (InterruptedException e) {
+							} catch (InterruptedException _) {
 								Thread.currentThread().interrupt();
 							} catch (ExecutionException e) {
 								logger.error(e);
@@ -480,7 +480,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					panelPictures.repaint();
 					jsonPanel.init(magicCardEditorPanel.getMagicCard());
 					
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
 					MTGControler.getInstance().notify(e);

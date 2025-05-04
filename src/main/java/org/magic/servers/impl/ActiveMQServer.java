@@ -210,7 +210,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 				var msg = new UsersTechnicalMessage(getOnlines().values().stream().toList());
 				msg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
 				client.sendMessage(msg);
-			} catch (IOException e) {
+			} catch (IOException _) {
 				//	do nothing
 			}
 	}

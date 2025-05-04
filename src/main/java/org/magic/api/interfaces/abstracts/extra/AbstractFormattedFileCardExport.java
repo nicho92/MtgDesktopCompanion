@@ -82,7 +82,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 				else
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(aliases.getSetNameFor(this,m.group(gEdition)));
 			
-			} catch (Exception e) {
+			} catch (Exception _) {
 				ed = null;
 			}
 		}

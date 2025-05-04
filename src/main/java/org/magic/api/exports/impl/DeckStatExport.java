@@ -126,7 +126,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 				mcs.setSigned(m.group(4).contains("!Signed"));
 				mcs.setLanguage(parseAttributs("LNG",m.group(4)));
 				mcs.setCondition(aliases.getReversedConditionFor(this, parseAttributs("COND",m.group(4)), EnumCondition.NEAR_MINT));
-		} catch (IOException e) {
+		} catch (IOException _) {
 			logger.error("can't find card with {} for the set {}",setNumber,setId);
 		}
 		

@@ -64,16 +64,17 @@ public class ImagePanel2 extends JXPanel {
 		
 		
 		addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent e) {
 				lastMouseX = e.getX();
 				lastMouseY = e.getY();
 				dragging = true;
 			}
-			
+			@Override
 			public void mouseReleased(MouseEvent e) {
 				dragging = false;
 			}
-			
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON1 && !rotating && rotable) {
 					animateRotation();
@@ -92,6 +93,7 @@ public class ImagePanel2 extends JXPanel {
 		
 		if (moveable)
 			addMouseMotionListener(new MouseMotionAdapter() {
+				@Override
 				public void mouseDragged(MouseEvent e) {
 					if (dragging) {
 						double dx = e.getX() - lastMouseX;
@@ -162,7 +164,7 @@ public class ImagePanel2 extends JXPanel {
 
 			 
 					print = front;
-				} catch (Exception e) {
+				} catch (Exception _) {
 					front = back;
 				}
 
@@ -175,7 +177,7 @@ public class ImagePanel2 extends JXPanel {
 	}
 	
 	
-	public void loadImage(String url) throws IOException {
+	public void loadImage(String url) {
 
 		ThreadManager.getInstance().runInEdt(new SwingWorker<BufferedImage, Void>() {
 			@Override
@@ -187,7 +189,7 @@ public class ImagePanel2 extends JXPanel {
 			protected void done() {
 				try {
 					setImg(get());
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
 					logger.error(e);

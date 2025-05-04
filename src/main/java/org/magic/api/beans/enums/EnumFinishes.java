@@ -25,7 +25,7 @@ public enum EnumFinishes implements MTGEnumeration{
 		try {
 			return EnumFinishes.valueOf(s.trim().toUpperCase());
 		}
-		catch(IllegalArgumentException e)
+		catch(IllegalArgumentException _)
 		{
 			logger.warn("Finishe {} is not found",s);
 			return null;

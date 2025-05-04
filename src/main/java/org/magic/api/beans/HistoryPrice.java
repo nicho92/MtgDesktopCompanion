@@ -132,7 +132,7 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		try {
 		return variations.get(d);
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return 0.0;
 		}

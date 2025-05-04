@@ -492,7 +492,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 						temp = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 					}
 					publish(temp);
-				} catch (Exception e) {
+				} catch (Exception _) {
 					temp = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
 				}
 
@@ -508,7 +508,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 					image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 					revalidate();
 					repaint();
-				}catch(InterruptedException ew)
+				}catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}

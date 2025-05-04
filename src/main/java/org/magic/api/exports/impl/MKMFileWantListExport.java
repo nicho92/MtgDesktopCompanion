@@ -58,7 +58,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 						if(mc.isExtraCard())
 							temp.append(": Extras");
 					}
-				}catch (Exception e) {
+				}catch (Exception _) {
 					//do nothing
 				}
 

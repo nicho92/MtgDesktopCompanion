@@ -73,7 +73,7 @@ public enum EnumColors implements Comparator<EnumColors>{
 		try {
 			return EnumColors.valueOf(s.toUpperCase());
 		}
-		catch(IllegalArgumentException e)
+		catch(IllegalArgumentException _)
 		{
 			return null;
 		}

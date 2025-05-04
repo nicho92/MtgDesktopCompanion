@@ -27,12 +27,12 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 		try {
 			return get();
 		}
-		catch(InterruptedException ex)
+		catch(InterruptedException _)
 		{
 			Thread.currentThread().interrupt();
 			return null;
 		}
-		catch (Exception e) {
+		catch (Exception _) {
 			return null;
 		}
 	}
@@ -85,7 +85,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 			get();
 
 		}
-		catch(InterruptedException | CancellationException ex)
+		catch(InterruptedException | CancellationException _)
 		{
 			Thread.currentThread().interrupt();
 		}

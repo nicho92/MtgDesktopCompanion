@@ -785,7 +785,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				gradePanel.saveTo(st);
 				model.fireTableDataChanged();
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				MTG.notifyError("Choose a stock");
 			}

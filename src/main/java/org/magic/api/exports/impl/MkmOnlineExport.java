@@ -128,7 +128,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				notify(mc);
 				d.getMain().put(mc, w.getCount());
 
-			} catch (Exception e) {
+			} catch (Exception _) {
 				logger.error("could not import {}",w);
 			}
 		}
@@ -352,7 +352,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			try{
 				mcs.setLanguage(a.getLanguage().getLanguageName());
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				logger.error("Error getting langage for {}", a);
 			}

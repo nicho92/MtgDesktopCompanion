@@ -29,7 +29,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 			String text = d.select("div.jump_page").text();
 			maxpage = Integer.parseInt(text.substring(text.indexOf('/')+1,text.indexOf('-')).trim());
-		} catch (Exception e) {
+		} catch (Exception _) {
 			maxpage = 1;
 		}
 

@@ -110,7 +110,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 						else
 							deck.getMain().put(mc, entry.getValue());
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						logger.error("couldn't not find {}",entry.getKey());
 					}

@@ -157,7 +157,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				protected void done() {
 					try {
 						model.init(get());
-					} catch (InterruptedException e) {
+					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (Exception e) {
 						logger.error(e);
@@ -305,7 +305,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			stockPanel.init(mc,col);
 			stockPanel.enabledAdd(true);
 		}
-		catch(NullPointerException e)
+		catch(NullPointerException _)
 		{
 			//do nothing
 		}

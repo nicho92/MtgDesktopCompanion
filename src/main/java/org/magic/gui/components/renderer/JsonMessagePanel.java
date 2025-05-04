@@ -71,7 +71,7 @@ public class JsonMessagePanel extends JPanel {
 			var item = ((SearchMessage)value).getItem();
 			try {
 				separator.add(read(item));
-			} catch (IOException e) {
+			} catch (IOException _) {
 				//do nothing
 			}
 		}
@@ -82,7 +82,7 @@ public class JsonMessagePanel extends JPanel {
 			if(item!=null)
 				try {
 					separator.add(read(item));
-				} catch (IOException e) {
+				} catch (IOException _) {
 					//do nothing
 				}
 		}

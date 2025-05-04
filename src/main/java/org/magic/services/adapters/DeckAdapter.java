@@ -56,7 +56,7 @@ public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSeriali
 			try {
 				deck.setCreationDate(new Date(root.get(CREATION_DATE).getAsLong()));
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				//do nothing
 			}
@@ -66,7 +66,7 @@ public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSeriali
 		{
 			try {
 				deck.setDateUpdate(new Date(root.get(UPDATE_DATE).getAsLong()));
-			}catch(Exception e)
+			}catch(Exception _)
 			{
 				//do nothing
 			}

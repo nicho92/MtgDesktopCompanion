@@ -122,7 +122,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 									  item.setAltered(!art.get("Altered?").isEmpty());
 									  item.setCondition(aliases.getReversedConditionFor(this,art.get("Condition"),EnumCondition.NEAR_MINT));
 								   }
-									catch(IllegalArgumentException e)
+									catch(IllegalArgumentException _)
 									{
 										item.setCondition(EnumCondition.SEALED);
 										product.setRarity(null);
@@ -136,7 +136,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 									  var loc = Tools.listLanguages().get(Integer.parseInt(art.get("Language"))-1);
 									  item.setLanguage(loc.getLanguageName());
 								  }
-								  catch(Exception e)
+								  catch(Exception _)
 								  {
 									  logger.error("No language for code ={}",art.get("Language"));
 								  }
@@ -349,7 +349,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		try {
 		p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			p.setEdition(new MTGEdition("set",product.getExpansion()));
 		}

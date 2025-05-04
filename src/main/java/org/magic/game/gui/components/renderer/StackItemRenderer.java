@@ -25,7 +25,7 @@ public class StackItemRenderer extends JLabel implements ListCellRenderer<Abstra
 				return render;
 
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return new JLabel(value.toString());
 		}

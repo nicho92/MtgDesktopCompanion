@@ -54,7 +54,7 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 		try {
 			return new ChromiumBrowserComponent();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return new JEditorPaneBrowser();
 		}

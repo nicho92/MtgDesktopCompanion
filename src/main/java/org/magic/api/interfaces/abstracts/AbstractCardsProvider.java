@@ -113,7 +113,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			
 			
 			
-		}catch(Exception e)
+		}catch(Exception _)
 		{
 			//do nothing
 		}

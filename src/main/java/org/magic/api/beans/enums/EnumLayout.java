@@ -40,7 +40,7 @@ public enum EnumLayout implements MTGEnumeration{
 		try {
 			return EnumLayout.valueOf(s.toUpperCase());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.warn("Layout {} is not found",s);
 			return null;

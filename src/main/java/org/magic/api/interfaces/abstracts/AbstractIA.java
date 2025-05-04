@@ -39,7 +39,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 try {
 				 mc.setName(read(obj,"name").getAsString());
 			 }
-			 catch(Exception e)
+			 catch(Exception _)
 			 {
 				 //do nothing
 			 }
@@ -48,7 +48,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 try {
 				 mc.setText(read(obj,"text","oracleText").getAsString());
 			 }
-			 catch(Exception e)
+			 catch(Exception _)
 			 {
 				 //do nothing				 
 			 }
@@ -67,7 +67,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 					 mc.setRarity(EnumRarity.COMMON);
 				 
 			 }
-			 catch(Exception e)
+			 catch(Exception _)
 			 {
 				 //do nothing
 			 }
@@ -75,7 +75,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 try {
 				 mc.setFlavor(read(obj,"flavor","flavorText").getAsString());
 			 }
-			 catch(Exception e)
+			 catch(Exception _)
 			 {
 				 //do nothing
 			 }
@@ -91,7 +91,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			
 				 try {
 					 read(obj,"types").getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
-				 }catch(Exception e)
+				 }catch(Exception _)
 				 {
 					 //do nothing
 				 }
@@ -99,14 +99,14 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 try {
 				 read(obj,"supertypes").getAsJsonArray().forEach(je->mc.getSupertypes().add(je.getAsString()));
 			 }
-			 catch(Exception e)
+			 catch(Exception _)
 			 {
 				 //do nothing
 			 }
 			 try {
 				 read(obj,"subtypes").getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
 			 }
-			 catch(Exception e)
+			 catch(Exception _)
 			 {
 				 //do nothing
 			 }
@@ -115,7 +115,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 	 mc.setPower(read(obj,"power").getAsString());
 				 mc.setToughness(read(obj,"toughness").getAsString());
 			 }	
-			 catch(Exception e)
+			 catch(Exception _)
 			 {
 				 //do nothing
 			 }
@@ -123,7 +123,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 try {
 			 	 mc.setLoyalty(read(obj,"loyalty").getAsInt());
 			}	
-			 catch(Exception e)
+			 catch(Exception _)
 			 {
 				 //do nothing
 			 }

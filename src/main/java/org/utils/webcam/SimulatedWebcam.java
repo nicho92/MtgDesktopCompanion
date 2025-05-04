@@ -93,7 +93,7 @@ class DummyWebcamDevice implements WebcamDevice
     {
     	 try {
              bounce = ImageTools.read(f);
-         } catch (IOException e) {
+         } catch (IOException _) {
              bounce = null;
          }
     }
@@ -102,7 +102,7 @@ class DummyWebcamDevice implements WebcamDevice
     {
     	 try {
              bounce = URLTools.extractAsImage(f.toString());
-         } catch (IOException e) {
+         } catch (IOException _) {
              bounce = null;
          }
     }

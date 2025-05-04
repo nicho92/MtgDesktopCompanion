@@ -296,7 +296,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 						protected void done() {
 							try {
 								lblSizeValue.setText(get());
-							} catch (InterruptedException e) {
+							} catch (InterruptedException _) {
 								Thread.currentThread().interrupt();
 							} catch (ExecutionException e) {
 								logger.error(e);
@@ -757,7 +757,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 							get();
 							lblIndexSize.setText(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
 						}
-						catch(InterruptedException ex) {
+						catch(InterruptedException _) {
 							Thread.currentThread().interrupt();
 						}
 						catch (Exception e) {
@@ -793,7 +793,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 							{
 								try {
 									get();
-								}catch (InterruptedException e) {
+								}catch (InterruptedException _) {
 									Thread.currentThread().interrupt();
 								} catch (Exception e) {
 									logger.error(e);
@@ -883,7 +883,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		try {
 			lblIconAvatar.setIcon(new ImageIcon(MTGControler.getInstance().getProfilPlayer().getAvatar()));
 
-		} catch (Exception e) {
+		} catch (Exception _) {
 			lblIconAvatar.setIcon(null);
 		}
 

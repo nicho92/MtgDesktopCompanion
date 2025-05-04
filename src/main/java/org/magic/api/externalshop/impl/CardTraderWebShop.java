@@ -157,7 +157,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		try {
 		return service.listCategories().stream().map(this::toCategory).toList();
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return new ArrayList<>();
 		}

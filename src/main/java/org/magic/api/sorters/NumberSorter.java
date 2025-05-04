@@ -30,7 +30,7 @@ public class NumberSorter implements Comparator<String>{
 				if (Integer.parseInt(m1.group()) < Integer.parseInt(m2.group()))
 					return -1;
 				
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException _) {
 				return -1;
 			}
 

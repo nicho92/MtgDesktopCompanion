@@ -65,7 +65,7 @@ public class MTGWallpaper {
 	public Dimension getDimension() {
 		try {
 			return new Dimension(getPicture().getWidth(), getPicture().getHeight());
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return new Dimension(0, 0);
 		}
 	}

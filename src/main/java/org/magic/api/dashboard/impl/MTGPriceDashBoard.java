@@ -139,12 +139,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			shake.setPrice(card.get("fair_price").getAsDouble());
 			try {
 				shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
-			} catch (Exception e) {
+			} catch (Exception _) {
 				// do nothing
 			}
 			try {
 				shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
-			} catch (Exception e) {
+			} catch (Exception _) {
 				// do nothing
 			}
 			shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());

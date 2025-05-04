@@ -71,7 +71,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 			return ret;
 
-		} catch (IOException e) {
+		} catch (IOException _) {
 			return ret;
 		}
 	}

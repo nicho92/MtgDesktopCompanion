@@ -53,7 +53,7 @@ public class MTGAppender extends AbstractAppender  {
 		obs.setChanged();
 		try {
 			obs.notifyObservers(event.getMessage());
-		} catch (Exception e) {
+		} catch (Exception _) {
 			// do nothing
 		}
 	}

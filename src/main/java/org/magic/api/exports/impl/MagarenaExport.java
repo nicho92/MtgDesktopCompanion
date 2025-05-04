@@ -46,7 +46,7 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 				var qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(mc, qty);
 
-			} catch (Exception e) {
+			} catch (Exception _) {
 				logger.error("error getting {}",m.group(4));
 			}
 

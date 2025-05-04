@@ -498,7 +498,7 @@ public class CardSearchPanel extends MTGUIComponent {
 							try {
 								Collections.sort(cards, new CardsEditionSorter());
 							}
-							catch(Exception e)
+							catch(Exception _)
 							{
 								//do nothing
 							}
@@ -601,7 +601,7 @@ public class CardSearchPanel extends MTGUIComponent {
 									cardsPicPanel.init(selectedCard); // backcard
 									historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 									priceTablePanel.init(selectedCard);
-								}catch(InterruptedException ex)
+								}catch(InterruptedException _)
 								{
 									Thread.currentThread().interrupt();
 								}

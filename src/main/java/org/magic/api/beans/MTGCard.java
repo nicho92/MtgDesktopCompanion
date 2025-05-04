@@ -551,7 +551,7 @@ public class MTGCard extends AbstractProduct {
 
 			return n>getEdition().getCardCountOfficial();
 			}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			return false;
 		}
@@ -954,7 +954,7 @@ public class MTGCard extends AbstractProduct {
 			mc2.setText(fn.getText());
 			return mc2;
 
-		} catch (Exception e) {
+		} catch (Exception _) {
 			return null;
 		}
 	}

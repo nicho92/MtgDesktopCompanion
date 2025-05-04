@@ -95,7 +95,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		try {	
 			st.setPrice(UITools.parseDouble(e.select("td").get(4).html()));
 		}
-		catch(NumberFormatException ex)
+		catch(NumberFormatException _)
 		{
 			logger.error("error parsing Price {}", e.select("td").get(4).html());
 		}
@@ -103,7 +103,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		try {	
 			st.setQte(Integer.parseInt(e.select("td").get(5).html()));
 		}
-		catch(NumberFormatException ex)
+		catch(NumberFormatException _)
 		{
 			logger.error("error parsing qty {}", e.select("td").get(5).html());
 		}
@@ -120,7 +120,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 				try {
 					var setId =  st.getTiersAppIds().get(getName()).substring(0,3).toUpperCase();
 					edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(  aliases.getSetIdFor(this, setId)  );
-				}catch(Exception ex)
+				}catch(Exception _)
 				{
 					logger.error("No set found for {}",st.getTiersAppIds().get(getName()));
 				}
@@ -130,7 +130,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 					var name=RequestBuilder.build().setClient(client).url(urlDetailOrder+"show_card_sale?gamerid="+st.getTiersAppIds(getName())).get().toHtml().select("td.S14 a").first().html().split("<br>")[0].trim();
 					card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition,true).get(0);
 					st.setProduct(card);
-				} catch (Exception e1) {
+				} catch (Exception _) {
 					logger.error("No card found for {} {}",st.getTiersAppIds().get(getName()).substring(3),edition);
 					st.setProduct(new MTGCard());
 				}
@@ -154,7 +154,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			tableOrders.remove(tableOrders.size()-1); // remove table foot
 			logger.debug("Found {} orders",tableOrders.size());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.debug("Found no orders");
 			return entries;

@@ -125,7 +125,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 								get();
 								reload();
 							}
-							catch (InterruptedException e)
+							catch (InterruptedException _)
 							{
 								Thread.currentThread().interrupt();
 
@@ -161,7 +161,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 			protected void done() {
 				try {
 					model.addItems(get());
-				} catch (InterruptedException e) {
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (Exception e) {
 					logger.error(e);

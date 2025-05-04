@@ -80,7 +80,7 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 			try {
 				return engine.getFactory().getEngineVersion();
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				return "-1";
 			}

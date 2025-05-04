@@ -143,14 +143,14 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			try {
 				t.setDateCreation(UITools.parseDate(bs.get(3).text(), "EEEE dd MMMM yyyy 'à' hh:mm",Locale.FRANCE));	
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				//do nothing
 			}
 			
 			try {
 				t.setDatePayment(UITools.parseDate(bs.get(4).text(), "EEEE dd MMMM yyyy 'à' hh:mm",Locale.FRANCE));	
-			}catch(Exception e)
+			}catch(Exception _)
 			{
 				t.setDatePayment(null);
 			}
@@ -158,7 +158,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			try {
 			t.setDateSend(UITools.parseDate(bs.get(7).text(), "dd/MM/yyyy 'à' hh:mm"));  //24/11/2015 à 14:48
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				t.setDateSend(null);
 			}
@@ -166,7 +166,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			try {
 			t.setTransporterShippingCode(bs.get(8).text());
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 				t.setTransporterShippingCode(null);
 			}

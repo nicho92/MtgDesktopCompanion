@@ -27,7 +27,7 @@ public class GradingCellRenderer implements TableCellRenderer {
 			pane.setIcon(c);
 			pane.setHorizontalAlignment(SwingConstants.LEADING);
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			pane.setText(null);
 		}

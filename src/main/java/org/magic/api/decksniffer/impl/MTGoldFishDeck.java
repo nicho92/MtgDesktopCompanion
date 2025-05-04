@@ -89,7 +89,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 						notify(mc);
 					}
-					catch(Exception e)
+					catch(Exception _)
 					{
 						logger.error("No card found for {} {}",name,ed);
 					}
@@ -164,7 +164,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 					list.add(deck);
 
-				} catch (URISyntaxException e1) {
+				} catch (URISyntaxException _) {
 					logger.error("Error setting url for {}",deck.getName());
 				}
 

@@ -85,7 +85,7 @@ public class H2DAO extends AbstractMagicSQLDAO {
 		try{
 			mc = serialiser.fromJson(parseJson(rs.getString(field)), MTGCard.class);
 		}
-		catch(NullPointerException e)
+		catch(NullPointerException _)
 		{
 			return null;
 		}

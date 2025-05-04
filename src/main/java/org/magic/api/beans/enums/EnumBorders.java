@@ -18,7 +18,7 @@ public enum EnumBorders implements MTGEnumeration{
 		try {
 			return EnumBorders.valueOf(s.toUpperCase());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.warn("Border {} is not found",s);
 			return null;

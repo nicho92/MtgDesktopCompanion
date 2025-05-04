@@ -178,7 +178,7 @@ public class MTGControler {
 		var size = Integer.parseInt(get("/ui/font/size"));
 		f = new Font(family,style,size);
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			f = MTGConstants.DEFAULT_FONT;
 		}
@@ -361,7 +361,7 @@ public class MTGControler {
 	public Locale getLocale() {
 		try {
 			return LocaleUtils.toLocale(config.getString("locale"));
-		} catch (Exception e) {
+		} catch (Exception _) {
 			logger.error("Could not load {}",config.getString("locale"));
 			return langService.getDefault();
 		}
@@ -421,7 +421,7 @@ public class MTGControler {
 				notifier=getPlugin(MTGConstants.DEFAULT_NOTIFIER_NAME, MTGNotifier.class);
 
 			notifier.send(notif);
-		} catch (Exception e) {
+		} catch (Exception _) {
 			logger.error(notif.getMessage());
 		}
 	}

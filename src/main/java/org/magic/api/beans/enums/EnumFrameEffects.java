@@ -50,7 +50,7 @@ public enum EnumFrameEffects implements MTGEnumeration{
 		try {
 			return EnumFrameEffects.valueOf(s.trim().toUpperCase());
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.warn("FrameEffect {} is not found",s);
 			return null;
