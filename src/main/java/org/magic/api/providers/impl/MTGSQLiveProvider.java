@@ -819,10 +819,10 @@ private MTGPool pool;
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumPromoType.class));
 				else if(rs.getString(NAME).equals(FINISHES))
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumFinishes.class));
-				else if(rs.getString(NAME).equals(FINISHES))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumFinishes.class));
 				else if(rs.getString(NAME).equals(SECURITYSTAMP))
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumSecurityStamp.class));
+				else if(rs.getString(NAME).equals(KEYWORDS))
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGKeyWord.class));
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 			}
