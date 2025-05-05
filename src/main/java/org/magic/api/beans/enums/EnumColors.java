@@ -7,11 +7,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import javax.swing.Icon;
+
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.extra.MTGIconable;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum EnumColors implements Comparator<EnumColors>{
+public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 
 	@SerializedName(alternate = "White", value = "WHITE") 	WHITE ("W",Color.WHITE,1),
 	@SerializedName(alternate = "Blue", value = "BLUE") 	BLUE ("U",new Color(33,129,226),2),
@@ -35,6 +39,19 @@ public enum EnumColors implements Comparator<EnumColors>{
 	}
 
 
+
+	@Override
+	public Icon getIcon() {
+		return UITools.generateColoredIcon(color);
+	}
+
+
+	@Override
+	public String getName() {
+		return toPrettyString();
+	}
+	
+	
 	private EnumColors(String s,Color c,int position) {
 		code=s;
 		color=c;
@@ -127,5 +144,6 @@ public enum EnumColors implements Comparator<EnumColors>{
 	public int compare(EnumColors o1, EnumColors o2) {
 		return o1.getPosition()-o2.getPosition();
 	}
+
 
 }

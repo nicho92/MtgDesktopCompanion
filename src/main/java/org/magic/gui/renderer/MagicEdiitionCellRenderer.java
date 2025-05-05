@@ -14,12 +14,12 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconsProvider;
 
-public class MagicEditionJLabelRenderer implements TableCellRenderer {
+public class MagicEdiitionCellRenderer implements TableCellRenderer {
 
 	private Font f = MTGControler.getInstance().getFont().deriveFont(Font.PLAIN);
 	JPanel pane = new JPanel();
 
-	public MagicEditionJLabelRenderer() {
+	public MagicEdiitionCellRenderer() {
 		var flowLayout = new FlowLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setAlignment(FlowLayout.LEFT);

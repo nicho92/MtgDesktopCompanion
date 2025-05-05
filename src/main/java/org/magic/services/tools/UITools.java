@@ -82,6 +82,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
@@ -108,7 +109,7 @@ import org.magic.gui.renderer.GradingCellRenderer;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
-import org.magic.gui.renderer.MagicEditionJLabelRenderer;
+import org.magic.gui.renderer.MagicEdiitionCellRenderer;
 import org.magic.gui.renderer.MoneyCellRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
@@ -123,6 +124,7 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.ShortKeyManager;
 import org.magic.services.adapters.TableColumnModelExtListenerAdapter;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.panda_lang.pandomium.Pandomium;
 
@@ -248,7 +250,7 @@ public class UITools {
 
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(Instant.class, new DateTableCellEditorRenderer());
-				table.setDefaultRenderer(MTGEdition.class, new MagicEditionJLabelRenderer());
+				table.setDefaultRenderer(MTGEdition.class, new MagicEdiitionCellRenderer());
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
 				table.setDefaultRenderer(Player.class, new PlayerRenderer());
 				table.setDefaultRenderer(Contact.class, new ContactRenderer());
@@ -296,7 +298,7 @@ public class UITools {
 					
 				});
 				
-				for(var c : List.of(MTGCollection.class,EnumCondition.class,EnumRarity.class))
+				for(var c : List.of(MTGCollection.class,EnumCondition.class,EnumRarity.class,EnumColors.class))
 				{
 					table.setDefaultRenderer(c, (JTable t, Object value, boolean isSelected, boolean _,int _, int _)->{
 							var lab = new JLabel();
@@ -487,6 +489,9 @@ public class UITools {
 
 	public static JComboBox<MTGEdition> createComboboxEditions(List<MTGEdition> value,SIZE s) {
 		var  combo = UITools.createCombobox(value);
+		
+		AutoCompleteDecorator.decorate(combo);
+		
 		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
 	}
@@ -537,6 +542,10 @@ public class UITools {
 						{
 							l.setIcon(MTGConstants.ICON_WEBCAM);
 						}
+						else if  (value instanceof MTGEdition ed)
+						{
+							l.setIcon(IconsProvider.getInstance().get16(ed.getId()));
+						}
 						else
 						{
 							l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
@@ -555,10 +564,6 @@ public class UITools {
 
 					return l;
 			});
-
-			//AutoCompleteDecorator.decorate(combo)
-			
-
 		return combo;
 	}
 

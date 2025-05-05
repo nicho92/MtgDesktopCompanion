@@ -67,6 +67,7 @@ import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
@@ -566,6 +567,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					btnAddAllSet.setEnabled(true);
 					
 					panneauTreeTable.setTitleAt(1, ed.getSet());
+					panneauTreeTable.setIconAt(1, IconsProvider.getInstance().get16(ed.getId()));
 					panneauTreeTable.setSelectedIndex(1);
 					tokensPanel.init(ed);
 					gedPanel.init(MTGEdition.class,ed);

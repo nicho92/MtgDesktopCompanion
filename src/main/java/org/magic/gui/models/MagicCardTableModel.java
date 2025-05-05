@@ -5,6 +5,8 @@ import java.util.List;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 
@@ -44,8 +46,9 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 		switch(columnIndex)
 		{
 			case 0: return MTGCard.class;
+			case 5 : return EnumRarity.class;
 			case 7: return MTGEdition.class;
-			case 8: return List.class;
+			case 8: return EnumColors.class;
 			case 9: return Boolean.class;
 			case 11: return Boolean.class;
 			case 12: return Boolean.class;
@@ -72,13 +75,13 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 			case 4:
 				return powerorloyalty(mc);
 			case 5:
-				return (mc.getRarity() != null) ? mc.getRarity().toPrettyString() : "";
+				return mc.getRarity();
 			case 6:
 				return mc.getNumber();
 			case 7:
 				return mc.getEdition();
 			case 8:
-				return mc.getColors();
+				return EnumColors.determine(mc.getColors());
 			case 9:
 				return mc.isReserved();
 			case 10:
