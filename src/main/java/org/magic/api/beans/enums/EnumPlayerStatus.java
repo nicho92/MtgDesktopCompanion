@@ -2,7 +2,12 @@ package org.magic.api.beans.enums;
 
 import java.awt.Color;
 
-public enum EnumPlayerStatus {
+import javax.swing.Icon;
+
+import org.magic.api.interfaces.extra.MTGIconable;
+import org.magic.services.tools.UITools;
+
+public enum EnumPlayerStatus implements MTGIconable {
 
 	ONLINE("Online",new Color(76,181,108)), 
 	BUSY("Buzy",Color.RED), 
@@ -11,7 +16,7 @@ public enum EnumPlayerStatus {
 	DISCONNECTED("Disconnected",Color.GRAY),
 	CONNECTED("Connected",Color.BLACK);
 	
-	private String libelle;
+	private String name;
 	private Color color;
 
 	
@@ -19,18 +24,24 @@ public enum EnumPlayerStatus {
 		return color;
 	}
 	
-	public String getLibelle() {
-		return libelle;
+	@Override
+	public String getName() {
+		return name;
 	}
 	
 	private EnumPlayerStatus(String l, Color c)
 	{
-		this.libelle=l;
+		this.name=l;
 		this.color = c;
 	}
 	
 	@Override
 	public String toString() {
-		return getLibelle();
+		return getName();
+	}
+
+	@Override
+	public Icon getIcon() {
+		return UITools.generateColoredIcon(getColor());
 	}
 }
