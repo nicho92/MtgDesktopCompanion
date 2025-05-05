@@ -582,6 +582,10 @@
       <class>org.magic.api.decksniffer.impl.MoxfieldDeckSniffer</class>
       <enable>true</enable>
     </sniffer>
+    <sniffer>
+      <class>org.magic.api.decksniffer.impl.TopDeckedDeckSniffer</class>
+      <enable>true</enable>
+    </sniffer>
   </decksniffer>
   <deckexports>
     <export>
@@ -795,6 +799,14 @@
     <export>
       <class>org.magic.api.exports.impl.TCGHomeExport</class>
       <enable>false</enable>
+    </export>
+     <export>
+      <class>org.magic.api.exports.impl.TopDeckedExport</class>
+      <enable>true</enable>
+    </export>
+     <export>
+      <class>org.magic.api.exports.impl.TopDeckedExport</class>
+      <enable>true</enable>
     </export>
   </deckexports>
   <newsProvider>

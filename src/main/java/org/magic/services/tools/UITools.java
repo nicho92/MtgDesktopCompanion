@@ -372,6 +372,9 @@ public class UITools {
 					public void columnPropertyChange(PropertyChangeEvent event) {
 						if(event.getPropertyName().equals("visible") && MTGControler.getInstance().isLoaded()){
 							var tce = (TableColumnExt)event.getSource();
+							
+							
+							
 							logger.trace("{} {} {} {}",table.getModel().getClass(),tce.getModelIndex(),tce.getIdentifier(),Boolean.valueOf(event.getNewValue().toString()));
 						}
 					}
@@ -489,9 +492,6 @@ public class UITools {
 
 	public static JComboBox<MTGEdition> createComboboxEditions(List<MTGEdition> value,SIZE s) {
 		var  combo = UITools.createCombobox(value);
-		
-		AutoCompleteDecorator.decorate(combo);
-		
 		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
 	}
@@ -501,7 +501,10 @@ public class UITools {
 		try {
 			List<MTGEdition> list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(list);
-			return createComboboxEditions(list,SIZE.MEDIUM);
+			var cbo = createComboboxEditions(list,SIZE.MEDIUM);
+			AutoCompleteDecorator.decorate(cbo);
+			
+			return cbo;
 		} catch (IOException e) {
 			logger.error(e);
 			return new JComboBox<>();
