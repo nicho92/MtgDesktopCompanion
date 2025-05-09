@@ -42,7 +42,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 
 	@Override
 	public Icon getIcon() {
-		return UITools.generateColoredIcon(color);
+		return UITools.generateRoundedIcon(color);
 	}
 
 

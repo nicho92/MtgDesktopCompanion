@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.nodes.Document;
@@ -23,6 +22,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.CardsManagerService;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
@@ -38,6 +38,12 @@ public class PlayInShopper extends AbstractMagicShopper {
 	String urlListOrders = urlBase + "/user/list_order.php";
 	String urlLogin = urlBase+"/user/signin.php";
 	
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BUGGED;
+	}
+	
 	private void init()
 	{
 		
@@ -46,14 +52,17 @@ public class PlayInShopper extends AbstractMagicShopper {
 		
 			client = URLTools.newClient();
 			
-			Map<String, String> nvps = client.buildMap().put("_email", getAuthenticator().getLogin())
-																 .put("_pwd", getAuthenticator().getPassword())
-																 .put("_submit_login", "Me connecter").build();
 			try {
-				var res = client.doPost(urlLogin, nvps, null);
 				
-				logger.debug("{} connection response : {}",getName(),res.getStatusLine());
-				
+				logger.info("connection with : {}",getAuthenticator().getLogin());
+				var res = RequestBuilder.build().setClient(client).post()
+				  .url(urlLogin)
+				  .addContent("_email", getAuthenticator().getLogin())
+				  .addContent("_pwd", getAuthenticator().getPassword())
+				  .addContent("_submit_login", "Log in")
+				  .addContent("redirect","/user/list_order.php").toHtml();
+
+				logger.info("{} connection response : {}",getName(),res);
 			} catch (IOException e) {
 				logger.error(e);
 			}

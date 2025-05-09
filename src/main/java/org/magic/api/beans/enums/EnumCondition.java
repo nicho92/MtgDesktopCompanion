@@ -54,7 +54,7 @@ public enum EnumCondition implements MTGIconable{
 	@Override	
 	public Icon getIcon()
 	{
-			return UITools.generateColoredIcon(color);
+			return UITools.generateRoundedIcon(color);
 	}
 	
 	

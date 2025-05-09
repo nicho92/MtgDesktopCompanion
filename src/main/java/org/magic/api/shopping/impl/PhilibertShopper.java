@@ -27,7 +27,6 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	private static final String DATE_FORMAT = "MM/dd/yyyy";
 	 
 	 
-	 
 	@Override
 	protected Currency getCurrency() {
 		return Currency.getInstance("EUR");
@@ -141,6 +140,9 @@ public class PhilibertShopper extends AbstractMagicShopper {
 						  .addHeader(":method", METHOD.POST.name())
 						  .addHeader(URLTools.CONTENT_TYPE, "application/x-www-form-urlencoded")
 						  .toHtml();
+				
+				logger.info("return {}", s);
+				
 			} catch (IOException e) {
 				logger.error(e);
 			}
@@ -153,6 +155,11 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		return AccountsManager.generateLoginPasswordsKeys();
 	}
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BUGGED;
+	}
+	
 
 	@Override
 	public String getName() {

@@ -42,6 +42,6 @@ public enum EnumPlayerStatus implements MTGIconable {
 
 	@Override
 	public Icon getIcon() {
-		return UITools.generateColoredIcon(getColor());
+		return UITools.generateRoundedIcon(getColor());
 	}
 }

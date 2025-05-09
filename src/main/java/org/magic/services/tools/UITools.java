@@ -298,7 +298,7 @@ public class UITools {
 					
 				});
 				
-				for(var c : List.of(MTGCollection.class,EnumCondition.class,EnumRarity.class,EnumColors.class))
+				for(var c : List.of(MTGCollection.class,EnumCondition.class,EnumRarity.class,EnumColors.class,EnumTransactionDirection.class,EnumTransactionStatus.class))
 				{
 					table.setDefaultRenderer(c, (JTable t, Object value, boolean isSelected, boolean _,int _, int _)->{
 							var lab = new JLabel();
@@ -897,7 +897,7 @@ public class UITools {
 	}
 
 
-	public static Icon generateColoredIcon(Color color) {
+	public static Icon generateRoundedIcon(Color color) {
 		return new ImageIcon() {
 			private static final long serialVersionUID = 1L;
 
@@ -926,33 +926,5 @@ public class UITools {
 	}
 	
 	
-	public static Icon generateTextIcon(Color color, String text) {
-		return new ImageIcon() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
-				var g2 = (Graphics2D) g;
-				ImageTools.initGraphics(g2);
-		        g2.setColor(color);
-		        g2.fillRect(0, 0, getIconWidth(), getIconHeight()); 
-		        g2.setColor(Color.black);
-		        g2.drawString(text, 0, 0);
-		    }
-			
-			@Override
-			public int getIconHeight() {
-				return MTGConstants.TABLE_ROW_HEIGHT-2;
-			}
-			
-			@Override
-			public int getIconWidth() {
-				return MTGConstants.TABLE_ROW_HEIGHT-2;
-			}
-		};
-	}
-	
-
-
 
 }

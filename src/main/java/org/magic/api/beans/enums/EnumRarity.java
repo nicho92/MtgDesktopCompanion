@@ -55,7 +55,7 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIco
 	@Override	
 	public Icon getIcon()
 	{
-		return UITools.generateColoredIcon(getColor());
+		return UITools.generateRoundedIcon(getColor());
 	}
 
 	@Override
