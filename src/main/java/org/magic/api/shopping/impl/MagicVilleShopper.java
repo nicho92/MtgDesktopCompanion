@@ -20,7 +20,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
-import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
@@ -67,20 +66,6 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	}
 
 	
-
-
-	public static void main(String[] args) throws Exception {
-		MTGControler.getInstance().init();
-		
-		var prov = new MagicVilleShopper();
-		prov.getTransactionById("99129");
-		
-		
-		System.exit(0);
-	}
-	
-	
-		
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		
