@@ -9,6 +9,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
+import org.magic.services.tools.POMReader;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -63,4 +64,10 @@ public class CaffeineCache extends AbstractCacheProvider {
 		return "Caffeine";
 	}
 
+	@Override
+	public String getVersion() {
+		return "3.2.0";
+	}
+	
+	
 }

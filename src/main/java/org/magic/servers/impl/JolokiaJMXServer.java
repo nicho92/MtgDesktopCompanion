@@ -9,6 +9,7 @@ import org.jolokia.jvmagent.JolokiaServer;
 import org.jolokia.jvmagent.JolokiaServerConfig;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.services.tools.POMReader;
 
 public class JolokiaJMXServer extends AbstractMTGServer {
 
@@ -92,4 +93,9 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 		return "Jolokia";
 	}
 
+	@Override
+	public String getVersion() {
+		return POMReader.readVersionFromPom(JolokiaServer.class, "/META-INF/maven/org.jolokia/jolokia-core/pom.properties");
+	}
+	
 }
