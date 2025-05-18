@@ -89,7 +89,7 @@
 		<dependency>
     		<groupId>org.apache.tomcat</groupId>
     		<artifactId>tomcat-jdbc</artifactId>
-    		<version>11.0.6</version>
+    		<version>11.0.7</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.firebirdsql.jdbc</groupId>
@@ -571,7 +571,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext-core</artifactId>
-			<version>9.1.0</version>
+			<version>9.2.0</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>

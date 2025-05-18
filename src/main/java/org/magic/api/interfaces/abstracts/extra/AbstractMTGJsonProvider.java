@@ -118,7 +118,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String ATTRACTION_LIGHTS="attractionLights";
 	protected static final String SUBSETS="subsets";
 	protected static final String DEFENSE="defense";
-	
+	protected static final String IS_GAME_CHANGER ="isGameChanger";
 
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 

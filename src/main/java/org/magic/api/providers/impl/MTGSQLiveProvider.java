@@ -491,7 +491,7 @@ private MTGPool pool;
 				mc.setSignature(rs.getString(SIGNATURE));
 				mc.setDefense(rs.getInt(DEFENSE));
 				mc.setAlternative(rs.getBoolean(IS_ALTERNATIVE));
-				
+				mc.setGameChanger(rs.getBoolean(IS_GAME_CHANGER));
 				
 				if(rs.getString(FINISHES)!=null)
 					mc.getFinishes().addAll(splitArrayValue(rs.getString(FINISHES)).stream().map(EnumFinishes::parseByLabel).toList());

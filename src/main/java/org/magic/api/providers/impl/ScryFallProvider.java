@@ -490,6 +490,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setEdhrecRank(readAsInt(obj,"edhrec_rank"));
 				mc.setNumber(readAsString(obj,"collector_number"));
 				mc.setStorySpotlight(obj.get("story_spotlight").getAsBoolean());
+				mc.setGameChanger(readAsBoolean(obj,"game_changer"));
 				mc.setScryfallIllustrationId(readAsString(obj,"illustration_id"));
 				mc.setHasContentWarning(readAsBoolean(obj,"content_warning"));		
 				mc.setFlavorName(readAsString(obj,"flavor_name"));

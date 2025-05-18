@@ -110,7 +110,7 @@ public class MTGCard extends AbstractProduct {
 	private boolean retro;
 	private String subsets;
 	private boolean isJapanese=false;
-	
+	private boolean gameChanger;
 	
 	public MTGCard() {
 		editions = new ArrayList<>();
@@ -170,6 +170,15 @@ public class MTGCard extends AbstractProduct {
 	public void setAlternative(boolean alternative) {
 		this.alternative = alternative;
 	}
+	
+	public boolean isGameChanger() {
+		return gameChanger;
+	}
+	
+	public void setGameChanger(boolean gameChanger) {
+		this.gameChanger = gameChanger;
+	}
+	
 	
 	public String getSubsets() {
 		return subsets;
