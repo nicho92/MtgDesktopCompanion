@@ -268,7 +268,7 @@ public class WebcamCardImportDialog extends JDialog {
 						MTGEdition ed = listEds.getSelectedValue();
 						buzy.start(ed.getCardCount());
 						pause=true;
-						AbstractObservableWorker<Void, Void, MTGCardRecognition> work = new AbstractObservableWorker<>(buzy,strat,ed.getCardCount()) {
+						var work = new AbstractObservableWorker<Void, Void, MTGCardRecognition>(buzy,strat,ed.getCardCount()) {
 							@Override
 							protected Void doInBackground() throws Exception {
 
