@@ -40,9 +40,8 @@ public class MatchResult {
 		String[] split = result.split("\\|");
 		name = split[0];
 		setCode = split[1].toUpperCase();
-		number = split[3];
-		id = split[2];
-		scryfallId = split[4];
+		number = split[2];
+		scryfallId = split[3];
 	}
 
 	@Override
