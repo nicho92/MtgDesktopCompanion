@@ -26,7 +26,7 @@ public class DescContainer implements Comparable<DescContainer>{
 
 	public String getNumber()
 	{
-		return stringData.split("\\|")[3];
+		return stringData.split("\\|")[2];
 	}
 
 
@@ -41,6 +41,12 @@ public class DescContainer implements Comparable<DescContainer>{
 		return stringData.split("\\|")[0];
 	}
 
+	public String getScryId()
+	{
+		return stringData.split("\\|")[3];
+	}
+	
+	
 	public String getSetCode()
 	{
 		return stringData.split("\\|")[1];
