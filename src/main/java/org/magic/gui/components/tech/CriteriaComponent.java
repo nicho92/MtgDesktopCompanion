@@ -24,6 +24,7 @@ import javax.swing.event.DocumentListener;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGKeyWord;
+import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
@@ -138,6 +139,9 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		else
 		if(c.getType() == EnumLayout.class)
 			return init(UITools.createCombobox(EnumLayout.values()));
+		else
+		if(c.getType() == EnumBorders.class)
+			return init(UITools.createCombobox(EnumBorders.values()));
 		else
 		if(c.getType() == EnumRarity.class)
 			return init(UITools.createCombobox(EnumRarity.values()));

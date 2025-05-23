@@ -823,6 +823,8 @@ private MTGPool pool;
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumSecurityStamp.class));
 				else if(rs.getString(NAME).equals(KEYWORDS))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGKeyWord.class));
+				else if(rs.getString(NAME).equals(BORDER_COLOR))
+					ret.add(new QueryAttribute(rs.getString(NAME), EnumBorders.class));
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 			}
