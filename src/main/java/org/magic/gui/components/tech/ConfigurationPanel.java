@@ -502,7 +502,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		var cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
 		
-		cboLocales.setRenderer((JList<? extends Locale> _, Locale value, int _, boolean _, boolean _)->
+		cboLocales.setRenderer((final JList<? extends Locale> _, Locale value, int _, boolean _, boolean _)->
 			new JLabel(StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale())))
 		);
 

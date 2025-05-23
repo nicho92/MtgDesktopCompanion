@@ -529,7 +529,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 				try {
 					mc.setMultiverseid(identifiers.get(MULTIVERSE_ID));
-				} catch (Exception e) {
+				} catch (Exception _) {
 					//do nothing
 				}
 			}
@@ -581,7 +581,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try{
 		ed.setSet(ctx.read(base + "."+NAME, String.class));
 		}
-		catch(PathNotFoundException pnfe)
+		catch(PathNotFoundException _)
 		{
 			ed.setSet(id);
 		}

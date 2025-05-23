@@ -83,8 +83,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable tableEditions;
-	private transient MTGCardsProvider provider;
-	private transient MTGDao dao;
 	private JLazyLoadingTree tree;
 	private TreePath path;
 	private MTGCollection selectedcol;
@@ -129,8 +127,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 
 	public CollectionPanelGUI() throws IOException, SQLException, ClassNotFoundException {
-		this.provider = getEnabledPlugin(MTGCardsProvider.class);
-		this.dao = getEnabledPlugin(MTGDao.class);
 		initGUI();
 	}
 
@@ -152,7 +148,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		var init = new SwingWorker<List<MTGEdition>, Void>() {
 				@Override
 				protected List<MTGEdition> doInBackground() throws Exception {
-					return provider.listEditions();
+					return MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions();
 				}
 				@Override
 				protected void done() {
@@ -386,7 +382,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					protected void auditedRun() {
 						try {
 
-							var list = dao.listCardsFromCollection(selectedcol);
+							var list = MTG.getEnabledPlugin(MTGDao.class).listCardsFromCollection(selectedcol);
 							rarityRepartitionPanel.init(list);
 							typeRepartitionPanel.init(list);
 							manaRepartitionPanel.init(list);
@@ -423,7 +419,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							
 							
 							var collec = (MTGCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-							var list = dao.listCardsFromCollection(collec,ed);
+							var list = MTG.getEnabledPlugin(MTGDao.class).listCardsFromCollection(collec,ed);
 							rarityRepartitionPanel.init(list);
 							typeRepartitionPanel.init(list);
 							manaRepartitionPanel.init(list);
@@ -611,7 +607,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			var collectionAdd = new MTGCollection(name);
 			try {
-				dao.saveCollection(collectionAdd);
+				MTG.getEnabledPlugin(MTGDao.class).saveCollection(collectionAdd);
 				((JLazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
 				getJTree().refresh();
 				initPopupCollection();
@@ -634,7 +630,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				try {
 					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
 					if (res == JOptionPane.YES_OPTION) {
-						dao.removeCard(card, col);
+						MTG.getEnabledPlugin(MTGDao.class).removeCard(card, col);
 					}
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(e);
@@ -647,7 +643,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService()
 							.getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE", me, col));
 					if (res == JOptionPane.YES_OPTION) {
-						dao.removeEdition(me, col);
+						MTG.getEnabledPlugin(MTGDao.class).removeEdition(me, col);
 					}
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(e);
@@ -655,9 +651,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 			if (curr.getUserObject() instanceof MTGCollection) {
 				try {
-					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_DELETE", col, dao.getCardsCountGlobal(col).entrySet().stream().mapToInt(Map.Entry::getValue).sum()));
+					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_DELETE", col, MTG.getEnabledPlugin(MTGDao.class).getCardsCountGlobal(col).entrySet().stream().mapToInt(Map.Entry::getValue).sum()));
 					if (res == JOptionPane.YES_OPTION) {
-						dao.removeCollection(col);
+						MTG.getEnabledPlugin(MTGDao.class).removeCollection(col);
 					}
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(e);
@@ -697,7 +693,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 					for(MTGEdition e : eds)
 					{
-						provider.searchCardByEdition(e).forEach(list::add);
+						MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(e).forEach(list::add);
 						
 						if(addToken==JOptionPane.YES_OPTION)
 							MTG.getEnabledPlugin(MTGTokensProvider.class).listTokensFor(e).forEach(list::add);
@@ -777,7 +773,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		var menuItemAlerts = new JMenuItem(capitalize("ADD_CARDS_ALERTS"),MTGConstants.ICON_ALERT);
 
-		for (MTGCollection mc : dao.listCollections()) {
+		for (var mc : MTG.getEnabledPlugin(MTGDao.class).listCollections()) {
 			var adds = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 			var movs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 			var rmvs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
@@ -847,10 +843,10 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						var me = (MTGEdition) node.getUserObject();
 
 						var col = new MTGCollection(destinationCollection);
-						var sets = provider.searchCardByEdition(me);
+						var sets = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(me);
 
 						var sourceCol = new MTGCollection(node.getPath()[1].toString());
-						var list = dao.listCardsFromCollection(sourceCol, me);
+						var list = MTG.getEnabledPlugin(MTGDao.class).listCardsFromCollection(sourceCol, me);
 
 						logger.debug("{} items in {}/{}", list.size(), sourceCol,me);
 						sets.removeAll(list);
@@ -904,7 +900,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						var me = (MTGEdition) node.getUserObject();
 						var coldest = new MTGCollection(selectedCols);
 						var colcurrent = new MTGCollection(node.getPath()[1].toString());
-						List<MTGCard> listtoDelete = dao.listCardsFromCollection(colcurrent, me);
+						List<MTGCard> listtoDelete = MTG.getEnabledPlugin(MTGDao.class).listCardsFromCollection(colcurrent, me);
 						logger.trace("{} items to remove from {}/{}",listtoDelete.size(),coldest,me);
 
 				buzy.start(listtoDelete.size());
@@ -926,7 +922,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						protected Void doInBackground() throws Exception {
 							for (MTGCard m : listtoDelete)
 							{
-								dao.removeCard(m, coldest);
+								MTG.getEnabledPlugin(MTGDao.class).removeCard(m, coldest);
 								publish(m);
 							}
 							return null;
