@@ -169,7 +169,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	JsonExport serializer = new JsonExport();
 	Map<String,Player> onlines = new LinkedHashMap<>();
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGNetworkClient client;
 	
 	public MTGActiveMQServerPlugin() {

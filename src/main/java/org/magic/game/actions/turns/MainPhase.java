@@ -16,14 +16,12 @@ public class MainPhase extends AbstractAction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	int step;
 
-	String detail = "<html>Abilities that trigger at the beginning of the main phase go onto the stack.<br/>"
+	private String detail = "<html>Abilities that trigger at the beginning of the main phase go onto the stack.<br/>"
 			+ "The active player gains priority.";
 
 	public MainPhase(int step) {
 		super("Main");
-		this.step = step;
 		putValue(SHORT_DESCRIPTION, detail);
 		setEnabled(false);
 	}

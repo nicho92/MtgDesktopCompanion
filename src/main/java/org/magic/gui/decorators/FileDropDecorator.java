@@ -197,21 +197,6 @@ public class FileDropDecorator
 
     }
 
-    public static class Event extends EventObject
-    {
-		private static final long serialVersionUID = 1L;
-
-		private File[] files;
-
-        public Event(File[] files, Object source ) {
-            super( source );
-            this.files = files;
-        }
-
-        public File[] getFiles() {
-            return files;
-        }
-    }
 
     public static class TransferableObject implements Transferable
     {

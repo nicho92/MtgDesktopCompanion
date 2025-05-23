@@ -10,7 +10,7 @@ public class AccountAuthenticator implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final String PASSWORD = "PASSWORD";
 	public static final String LOGIN = "LOGIN";
-	protected transient Map<String,String> tokens;
+	private transient Map<String,String> tokens;
 
 	public AccountAuthenticator() {
 		tokens = new HashMap<>();

@@ -17,7 +17,7 @@ public class BoosterPanel extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	int lastColumn = -1;
+	private int lastColumn = -1;
 	private List<MTGCard> list;
 
 	public void clear() {

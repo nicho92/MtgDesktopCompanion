@@ -18,7 +18,7 @@ import org.magic.services.logging.MTGLogger;
 
 
 public class SQLTools {
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	private DSLContext ctx;
 	

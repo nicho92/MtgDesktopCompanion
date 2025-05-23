@@ -17,7 +17,7 @@ import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.FileTools;
 
 public class ShortKeyManager {
-	protected static Logger logger = MTGLogger.getLogger(ShortKeyManager.class);
+	private static Logger logger = MTGLogger.getLogger(ShortKeyManager.class);
 	private static ShortKeyManager inst;
 	private Map<String,JButton> mapping;
 	private File configFile = new File(MTGConstants.DATA_DIR,"shortcuts.config");

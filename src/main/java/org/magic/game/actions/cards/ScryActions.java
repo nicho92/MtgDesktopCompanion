@@ -17,7 +17,6 @@ public class ScryActions extends AbstractCardAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	DisplayableCard c;
 	String k = "scry";
 	String value;
 
@@ -32,9 +31,9 @@ public class ScryActions extends AbstractCardAction {
 
 	private String parse() {
 		try {
-			value = c.getMagicCard().getText()
-					.substring(c.getMagicCard().getText().toLowerCase().indexOf(k) + k.length(),
-							c.getMagicCard().getText().toLowerCase().indexOf(k) + k.length() + 2)
+			value = card.getMagicCard().getText()
+					.substring(card.getMagicCard().getText().toLowerCase().indexOf(k) + k.length(),
+							card.getMagicCard().getText().toLowerCase().indexOf(k) + k.length() + 2)
 					.trim();
 		} catch (Exception _) {
 			value = "X";

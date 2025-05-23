@@ -19,7 +19,7 @@ import org.magic.services.MTGControler;
 
 public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTGDashBoard {
 
-	protected CollectionEvaluator evaluator;
+	private CollectionEvaluator evaluator;
 
 	@Override
 	public Currency getCurrency() {

@@ -12,7 +12,7 @@ import org.magic.api.interfaces.MTGComboProvider;
 
 public abstract class AbstractComboProvider extends AbstractMTGPlugin implements MTGComboProvider {
 
-	protected TCache<List<MTGCombo>> cache;
+	private TCache<List<MTGCombo>> cache;
 
 
 	@Override
