@@ -275,9 +275,17 @@ public class StockPanelGUI extends MTGUIComponent {
 		});
 
 		btnReload.addActionListener(_ -> {
+			
+			if(model.getItems().stream().anyMatch(mcs->mcs.isUpdated()))
+			{
 			int res = JOptionPane.showConfirmDialog(null, capitalize("CANCEL_CHANGES"),capitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION)
 				ThreadManager.getInstance().runInEdt(newLoadWorker() , "reload stock");
+			}
+			else
+			{
+				ThreadManager.getInstance().runInEdt(newLoadWorker() , "reload stock");
+			}
 		});
 
 		btnshowMassPanel.addActionListener(_ -> rightPanel.setVisible(!rightPanel.isVisible()));
@@ -285,16 +293,14 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnImport.addActionListener(ae -> {
 			var menu = new JPopupMenu();
 
-			var mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService()
-					.getCapitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+			var mnuImportSearch = new JMenuItem(capitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
 			mnuImportSearch.addActionListener(_ -> {
 				var cdSearch = new CardImporterDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.hasSelected()) {
-					for (MTGCard mc : cdSearch.getSelectedItems())
-						addCard(mc);
+					cdSearch.getSelectedItems().stream().forEach(this::addCard);
 				}
 			});
 			menu.add(mnuImportSearch);

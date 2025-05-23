@@ -75,19 +75,13 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		}
 
 
-		var cheapFictionFilter = filter(filtres);
+		var cardFilter = filter(filtres);
+		logger.debug("Reading file {} with {} ",jsonFile,cardFilter );
+		List<Map<String, Object>> arr = cont.read("$.data[?]",cardFilter);
 
-		var c = new Chrono();
-
-		c.start();
-		logger.debug("Reading file {} with {} ",jsonFile,cheapFictionFilter );
-		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
-		var res = c.stop();
-		logger.debug("Ending reading after {}sec",res);
 		try {
 
-			if(arr.size()>1)
-			{
+			if(arr.size()>1) {
 				logger.warn(" found multiples values for {} : {}", mc,arr);
 			}
 			return arr.get(0).get("url").toString();
@@ -123,8 +117,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		if(productUri==null)
 			return list;
 
-
-		String url = WEB_URI+ "/"+productUri;
+		var url = WEB_URI+ "/"+productUri;
 		Elements prices = null;
 		Elements qualities = null;
 
@@ -139,7 +132,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			return list;
 		}
 
-		List<MTGPrice> lstPrices = new ArrayList<>();
+		var lstPrices = new ArrayList<MTGPrice>();
 		for (var i = 0; i < qualities.size(); i++) {
 			var mp = new MTGPrice();
 
