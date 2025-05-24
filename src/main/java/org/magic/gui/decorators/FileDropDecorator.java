@@ -16,7 +16,6 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.EventObject;
 import java.util.List;
 import java.util.TooManyListenersException;
 

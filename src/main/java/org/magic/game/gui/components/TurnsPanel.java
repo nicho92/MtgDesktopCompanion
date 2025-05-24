@@ -40,13 +40,13 @@ public class TurnsPanel extends JPanel {
 		add(new JButton(new UntapPhase()));
 		add(new JButton(new UpkeepPhase()));
 		add(new JButton(new DrawPhase()));
-		add(new JButton(new MainPhase(1)));
+		add(new JButton(new MainPhase()));
 		add(new JButton(new CombatPhase()));
 		add(new JButton(new AttackPhase()));
 		add(new JButton(new BlockPhase()));
 		add(new JButton(new DamagePhase()));
 		add(new JButton(new EndCombatPhase()));
-		add(new JButton(new MainPhase(2)));
+		add(new JButton(new MainPhase()));
 		add(new JButton(new EndPhase()));
 		add(new JButton(new CleanUpPhase()));
 		add(new JButton(new EndTurnPhase()));
