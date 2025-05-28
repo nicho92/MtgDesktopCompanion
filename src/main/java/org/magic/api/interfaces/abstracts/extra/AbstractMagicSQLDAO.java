@@ -92,7 +92,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	private List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
-		return serialiser.fromJsonList(rs.getString(field), MTGStockItem.class);
+		try{
+			return serialiser.fromJsonList(rs.getString(field), MTGStockItem.class);
+		}
+		catch(Exception e)
+		{
+			return new ArrayList<MTGStockItem>();
+		}
 	}
 
 	protected void storeTransactionItems(PreparedStatement pst, int position, List<MTGStockItem> grd) throws SQLException {
@@ -406,7 +412,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		else
 		{
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions=?, statusAnnounce=? WHERE id = ?;"))
+				try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions=?, statusAnnounce=? WHERE id = ?"))
 				{
 					pst.setTimestamp(1, new Timestamp(n.getStartDate().getTime()));
 					pst.setTimestamp(2,new Timestamp(n.getEndDate().getTime()));
@@ -1919,8 +1925,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			  a.setPercentReduction(rs.getDouble("percentReduction"));
 			  a.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
 			  a.setStatus(STATUS.valueOf(rs.getString("statusAnnounce")));
-			  if(rs.getObject("stocksItem")!=null)
-				  a.setItems(readStockItemFrom(rs,"stocksItem"));
+			  a.setItems(readStockItemFrom(rs,"stocksItem"));
 
 		return a;
 	}
