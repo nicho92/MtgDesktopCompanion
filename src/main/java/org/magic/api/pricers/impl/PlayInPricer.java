@@ -49,7 +49,7 @@ public class PlayInPricer extends AbstractPricesProvider {
 			for (Element e : els) {
 				var mp = new MTGPrice();
 
-				if(!e.select("img.langue_big").first().attr("alt").isEmpty())
+				if(e.select("img.langue_big").first()!=null && !e.select("img.langue_big").first().attr("alt").isEmpty())
 					lang=e.select("img.langue_big").first().attr("alt");
 
 
