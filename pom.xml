@@ -469,7 +469,7 @@
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
-			<version>1.10.1</version>
+			<version>1.11.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.reflections</groupId>
@@ -612,7 +612,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.5</version>
+			<version>42.7.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
@@ -658,7 +658,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>3.0.24</version>
+			<version>3.0.25</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>

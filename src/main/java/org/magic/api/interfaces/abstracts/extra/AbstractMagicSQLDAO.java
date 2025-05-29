@@ -95,9 +95,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try{
 			return serialiser.fromJsonList(rs.getString(field), MTGStockItem.class);
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
-			return new ArrayList<MTGStockItem>();
+			return new ArrayList<>();
 		}
 	}
 
