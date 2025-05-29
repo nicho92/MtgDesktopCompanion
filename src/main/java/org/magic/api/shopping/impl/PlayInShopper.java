@@ -183,20 +183,20 @@ public class PlayInShopper extends AbstractMagicShopper {
 	
 
 	private MTGStockItem buildCard(Element e, Elements elementName) {
-		String name = elementName.first().text();
+		String name = URLTools.extractElementText(elementName.first());
 		String set = e.select("div.td.ext img").attr("title");
 		var productUrl = elementName.get(1).getElementsByTag("a").first().attr("href").replace("/magic/carte/","");
 	
 		try {
 			var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
 			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition, false).get(0);
-			var langEtat = e.select("div.update_variation_sell").first().text().split(" - ");
+			var langEtat = URLTools.extractElementText(e.select("div.update_variation_sell").first()).split(" - ");
 			
 			var st = new MTGCardStock(card);
 				 st.setPrice(UITools.parseDouble(e.attr("attribute_price")));
 				 st.setLanguage(langEtat[0].equalsIgnoreCase("Fr")?FRENCH:"English");
 				 st.setCondition(aliases.getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));
-				 st.setQte(Integer.parseInt(e.select("div.qty").first().text()));
+				 st.setQte(Integer.parseInt(URLTools.extractElementText(e.select("div.qty").first())));
 				 st.getTiersAppIds().put(getName(), productUrl);
 			return st;
 		}

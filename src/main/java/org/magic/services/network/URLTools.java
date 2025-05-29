@@ -24,6 +24,8 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jspecify.annotations.Nullable;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.ImageTools;
@@ -233,6 +235,14 @@ public class URLTools {
 		{
 			return "127.0.0.1";
 		}
+	}
+
+	public static String extractElementText(@Nullable Element element) {
+		
+		if(element==null)
+			return "";
+		
+		return element.text();
 	}
 
 

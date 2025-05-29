@@ -92,7 +92,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		
 		try {
 			var trackingTable = orderPage.select("table[data-sort=false]").get(1);
-			t.setTransporterShippingCode(trackingTable.select("td a").first().text());
+			t.setTransporterShippingCode(URLTools.extractElementText(trackingTable.select("td a").first()));
 			t.setTransporter(trackingTable.select("td").get(1).text());
 			t.setShippingPrice(UITools.parseDouble(trackingTable.select("td").get(2).attr("data-value")));
 			
@@ -108,7 +108,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		
 			var stock = new MTGSealedStock(new MTGSealedProduct());
 				 stock.setComment(tr.select("div.detail-table-row__name").text());
-				 stock.setPrice(UITools.parseDouble(tr.select("div.detail-table-row__price div.detail-table-row__value").first().text()));
+				 stock.setPrice(UITools.parseDouble(URLTools.extractElementText(tr.select("div.detail-table-row__price div.detail-table-row__value").first())));
 				 stock.setQte(Integer.parseInt(tr.select("div.detail-table-row__qty div.detail-table-row__value").text()));
 
 				 
