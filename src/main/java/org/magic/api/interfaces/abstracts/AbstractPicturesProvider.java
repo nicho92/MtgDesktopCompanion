@@ -20,9 +20,9 @@ import org.magic.services.tools.MTG;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
-	protected int newW=MTGConstants.DEFAULT_PIC_WIDTH;
-	protected int newH=MTGConstants.DEFAULT_PIC_HEIGHT;
-	protected TCache<BufferedImage> setCache;
+	private int newW=MTGConstants.DEFAULT_PIC_WIDTH;
+	private int newH=MTGConstants.DEFAULT_PIC_HEIGHT;
+	private TCache<BufferedImage> setCache;
 
 	@Override
 	public PLUGINS getType() {
@@ -120,7 +120,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 	}
 
-	public BufferedImage resizeCard(BufferedImage img, int newW, int newH) {
+	private BufferedImage resizeCard(BufferedImage img, int newW, int newH) {
 		if(img==null)
 			return null;
 		return ImageTools.resize(img, newH, newW);

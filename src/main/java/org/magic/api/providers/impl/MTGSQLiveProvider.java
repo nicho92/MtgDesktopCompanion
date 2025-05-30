@@ -564,7 +564,7 @@ private MTGPool pool;
 						}
 					}
 
-				int split = mc.getName().indexOf("/");
+				int split = mc.getName().indexOf("//");
 				if(split>1 && load)
 				{
 					initRotatedCard(mc, rs.getString("otherFaceIds"),mc.getSide());
