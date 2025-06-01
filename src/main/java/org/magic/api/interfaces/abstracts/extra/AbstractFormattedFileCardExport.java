@@ -2,9 +2,6 @@ package org.magic.api.interfaces.abstracts.extra;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +16,6 @@ import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
 public abstract class AbstractFormattedFileCardExport extends AbstractCardExport {
@@ -105,12 +101,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 			logger.error("Couldn't find card {} [{}] : {}",cname,ed,e);
 			return null;
 		}
-	}
-
-
-	public List<Matcher> matches(File f,boolean removeBlank, Charset charset) throws IOException
-	{
-		return matches(FileTools.readFile(f, charset),removeBlank);
 	}
 
 	public List<Matcher> matches(String content,boolean removeBlank)

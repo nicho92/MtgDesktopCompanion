@@ -11,8 +11,6 @@ import javax.management.ObjectName;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.logging.log4j.Logger;
-import org.magic.services.logging.MTGLogger;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -20,7 +18,6 @@ import com.google.common.cache.CacheBuilder;
 public class TCache<T>{
 
 	private Cache<String, T> loader;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private String name;
 

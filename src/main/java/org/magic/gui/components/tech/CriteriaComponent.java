@@ -261,10 +261,6 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 			add(button,0);
 	}
 
-	public void addComponentListener(ActionListener al) {
-		listenerList.add(ActionListener.class, al);
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		for(ActionListener al : listenerList.getListeners(ActionListener.class))

@@ -24,14 +24,6 @@ public class CountersFactory {
 
 	private CountersFactory() {	}
 
-
-	public List<AbstractCounter> createCounter(String text)
-	{
-		var mc = new MTGCard();
-		mc.setText(text);
-		return createCounter(mc);
-	}
-
 	public List<ItemCounter> createItemCounter(MTGCard mc)
 	{
 		

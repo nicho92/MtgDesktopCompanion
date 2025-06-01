@@ -112,10 +112,4 @@ public class GithubUtils {
 		return count;
 	}
 
-	public String downloadUrl()
-	{
-		return selectedRelease.get(ASSETS).getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
-	}
-
-
 }

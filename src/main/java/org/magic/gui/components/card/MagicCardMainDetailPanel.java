@@ -523,9 +523,5 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 	}
 	
-	public void addObserver(Observer o) {
-		obs.addObserver(o);
-	}
-
 }
 

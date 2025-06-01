@@ -7,17 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MoneyValue;
-import org.magic.services.logging.MTGLogger;
 
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 	private String[] columnsNames = { capitalize("NAME"),capitalize("QTY"),capitalize("VALUE"),capitalize("LANG"),capitalize("QUALITY"),capitalize("FOIL") };
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
-
 	private Map<String, List<MTGPrice>> listElements;
 
 

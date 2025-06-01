@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.magic.api.beans.game.GameManager;
-import org.magic.api.beans.game.Player;
 import org.magic.api.beans.game.Turn;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
@@ -19,8 +18,6 @@ public class UntapPhase extends AbstractAction {
 
 	String detail = "<html>-All permanents with phasing controlled by the active player phase out\n, and all phased-out permanents that were controlled by the active player simultaneously phase in.<br/>"
 			+ "-The active player determines which permanents controlled by that player untap, then untaps all those permanents simultaneously.<br/>(The player will untap all permanents he or she controls unless a card effect prevents this.)<html>";
-
-	Player p;
 
 	public UntapPhase() {
 		super("Untap");

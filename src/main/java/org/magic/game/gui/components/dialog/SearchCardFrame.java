@@ -22,7 +22,6 @@ public class SearchCardFrame extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	HandPanel pane;
-	DisplayableCard selectedCard;
 
 	private void init(Player p, final ZoneEnum source) {
 		setSize(new Dimension(800, 600));

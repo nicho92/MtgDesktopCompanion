@@ -169,23 +169,6 @@ public class FileDropDecorator
         return ok;
     }
 
-    public static boolean remove( Component c, boolean recursive )
-    {
-            c.setDropTarget( null );
-            if( recursive && ( c instanceof Container cont) ){
-            	
-            	Component[] comps = cont.getComponents();
-               		for (Component comp : comps)
-               			remove( comp, recursive );
-               		
-                return true;
-            }
-            else
-        	{
-            	return false;
-        	}
-    }
-
     public static interface Listener {
         public abstract void filesDropped( File[] files );
 

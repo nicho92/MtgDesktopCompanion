@@ -108,10 +108,6 @@ public class JTagsPanel extends JComponent {
 		this.fontBackground = b;
 	}
 
-	public void changeFont(Font f) {
-		this.componentFont = f;
-	}
-
 	public List<String> getValues() {
 		return tags;
 	}

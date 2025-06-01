@@ -669,10 +669,6 @@ class NavigableEmbed extends ListenerAdapter {
 		setX(getX() + mod);
 	}
 
-	public void modY(int mod) {
-		setY(getY() + mod);
-	}
-
 	public void right() {
 		modX(1);
 	}

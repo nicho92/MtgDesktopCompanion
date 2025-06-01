@@ -20,11 +20,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private Map<MTGEdition, Integer> mapCount;
-
-	int countTotal = 0;
-	int countDefaultLibrary = 0;
 	private MTGCollection collection;
 
 	public MagicEditionsTableModel() {

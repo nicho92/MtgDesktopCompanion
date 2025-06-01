@@ -273,14 +273,6 @@ public class CollectionEvaluator extends Observable
 		return prices(ed).values().stream().mapToDouble(cs->cs.getPrice().doubleValue()).sum();
 	}
 
-	public Double total() {
-		double total=0.0;
-		for(MTGEdition ed : getEditions())
-			total=total+total(ed);
-
-		return total;
-	}
-
 	public void setMinPrice(int i) {
 		this.minPrice=i;
 

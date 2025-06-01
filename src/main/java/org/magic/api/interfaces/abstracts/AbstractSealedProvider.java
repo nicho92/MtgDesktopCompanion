@@ -2,7 +2,6 @@ package org.magic.api.interfaces.abstracts;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -67,17 +66,6 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin  implemen
 		}
 	}
 
-
-	public void clear() {
-		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME).toFile();
-		try {
-			FileTools.cleanDirectory(f);
-		} catch (IOException e) {
-			logger.error("error removing data in {}",f,e);
-		}
-	}
-	
-	
 	protected BufferedImage caching(boolean force, MTGSealedProduct p) {
 
 		if(p.getUrl()==null)

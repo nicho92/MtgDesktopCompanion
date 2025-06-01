@@ -3,7 +3,6 @@ package org.magic.gui.abstracts.charts;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGDeckManager;
@@ -48,14 +47,6 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 		onVisible();
 		init(items);
 
-	}
-
-	public void init(Set<T> items)
-	{
-		this.items = new ArrayList<>(items);
-
-		if(isVisible())
-			refresh();
 	}
 
 	public void init(List<T> items)

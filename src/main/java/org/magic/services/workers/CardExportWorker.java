@@ -22,7 +22,6 @@ public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 	protected MTGCardsExport exp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected Observer o;
-	protected List<MTGCard> cards = null;
 	protected AbstractBuzyIndicatorComponent buzy;
 	private File f;
 	private MTGDeck export;

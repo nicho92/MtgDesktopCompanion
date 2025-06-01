@@ -22,8 +22,7 @@ public class StockExportWorker extends SwingWorker<Void, MTGCard> {
 	protected MTGCardsExport exp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected Observer o;
-	protected List<MTGCard> cards = null;
-	protected AbstractBuzyIndicatorComponent buzy;
+	private AbstractBuzyIndicatorComponent buzy;
 	private File f;
 	private List<MTGCardStock> export;
 	private Exception err;

@@ -79,18 +79,6 @@ public abstract class AbstractKeyWordsManager {
 				   .collect(Collectors.toSet());
 	}
 
-	public boolean asKeyword(MTGCard mc,String key) {
-		return getKeywordsFrom(mc).stream().anyMatch(l->l.getKeyword().equalsIgnoreCase(key));
-
-	}
-
-	public Set<MTGKeyWord> getKeywordsFrom(MTGCard mc,TYPE t) {
-		return getKeywordsFrom(mc).stream()
-				   .filter(l->l.getType()==t)
-				   .distinct()
-				   .collect(Collectors.toSet());
-	}
-
 	public JsonObject toJson()
 	{
 		if(ret!=null)

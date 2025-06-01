@@ -1,7 +1,5 @@
 package org.magic.gui.abstracts;
 
-import java.net.URL;
-
 import javax.swing.ImageIcon;
 
 import org.magic.gui.components.browser.ChromiumBrowserComponent;
@@ -28,11 +26,6 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 	public void addObserver(Observer o)
 	{
 		observable.addObserver(o);
-	}
-
-	public void loadURL(URL url)
-	{
-		loadURL(url.toString());
 	}
 
 	@Override

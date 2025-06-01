@@ -27,8 +27,6 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		return STATUT.DEV;
 	}
 
-	BufferedImage back;
-
 	public void savePicture(BufferedImage bi, MTGCard mc, MTGEdition ed) throws IOException {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir, ed.getId());

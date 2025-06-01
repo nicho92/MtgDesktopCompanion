@@ -3,7 +3,6 @@ package org.magic.services.providers;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.SwingUtilities;
@@ -34,16 +33,6 @@ public class LookAndFeelProvider {
 
 	public void setLookAndFeel(Component ui, LookAndFeelInfo lookAndFeel,boolean saving) {
 		setLookAndFeel(ui, lookAndFeel.getClassName(),saving);
-	}
-
-	public void setUIFont() {
-	    Enumeration<?> keys = UIManager.getDefaults().keys();
-	    while (keys.hasMoreElements()) {
-	        Object key = keys.nextElement();
-	        Object value = UIManager.get(key);
-	        if (value instanceof FontUIResource)
-	            saveProperties(key, new FontUIResource(MTGControler.getInstance().getFont()));
-	    }
 	}
 
 	public void setLookAndFeel(Component ui, String lookAndFeel,boolean saving) {

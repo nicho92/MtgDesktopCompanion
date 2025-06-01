@@ -163,10 +163,6 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		return props.getProperty(k, d);
 	}
 
-	public void setProperty(Object k, Object v) {
-		props.put(k, v);
-	}
-
 	public void setProperty(String k,String v) {
 		props.put(k, v);
 	}

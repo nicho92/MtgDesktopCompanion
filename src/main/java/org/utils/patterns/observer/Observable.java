@@ -46,10 +46,6 @@ public class Observable {
 		changed = false;
 	}
 
-	public synchronized boolean hasChanged() {
-		return changed;
-	}
-
 	public synchronized void removeObserver(Observer o) {
 		if (o == null)
 			throw new NullPointerException();

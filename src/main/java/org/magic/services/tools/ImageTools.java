@@ -314,23 +314,6 @@ public class ImageTools {
 	}
 
 
-	public static String toBase64(Image img) {
-		if(img==null)
-			return null;
-
-		try (var os = new ByteArrayOutputStream())
-		{
-		    ImageIO.write((BufferedImage)img, "png", os);
-		    return CryptoUtils.toBase64(os.toByteArray());
-		}
-		catch (IOException ioe)
-		{
-		   logger.error(ioe);
-		   return null;
-		}
-	}
-
-
 
 	public static BufferedImage toImage(byte[] img) throws IOException {
 	    return ImageIO.read(new ByteArrayInputStream(img));

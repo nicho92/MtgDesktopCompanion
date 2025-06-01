@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Path;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 public class MTGProperty implements Serializable {
 
 	
@@ -59,11 +57,6 @@ public class MTGProperty implements Serializable {
 	public void setAllowedProperties(String... allowedProperties) {
 		this.allowedProperties = allowedProperties;
 	}
-	
-	public void addAllowedProperty(String prop) {
-		ArrayUtils.add(this.allowedProperties, prop);
-	}
-	
 	
 	public static MTGProperty newBooleanProperty(String defaultValue,String comment)
 	{

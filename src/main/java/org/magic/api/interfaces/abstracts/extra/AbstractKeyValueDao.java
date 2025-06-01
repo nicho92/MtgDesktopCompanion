@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGAnnounce;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
@@ -105,11 +104,6 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	}
 	
 	public abstract Long incr(Class<?> c);
-	
-	protected String key(MTGCollection c , MTGCard m)
-	{
-		return key(c,m.getEdition());
-	}
 	
 	protected String key(MTGCollection c , MTGEdition ed)
 	{
