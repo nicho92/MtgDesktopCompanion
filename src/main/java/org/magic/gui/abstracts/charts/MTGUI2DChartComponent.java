@@ -11,7 +11,7 @@ public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends Abstrac
 
 	private static final long serialVersionUID = 1L;
 	private ChartPanel chartPanel;
-	private JFreeChart chart;
+	protected JFreeChart chart;
 
 
 	protected MTGUI2DChartComponent() {
