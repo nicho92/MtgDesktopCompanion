@@ -6,11 +6,9 @@ import java.util.regex.Pattern;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
-import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
-import org.magic.game.model.counters.LoyaltyCounter;
 
 public class CountersFactory {
 

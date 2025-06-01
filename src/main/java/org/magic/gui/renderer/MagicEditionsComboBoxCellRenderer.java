@@ -20,10 +20,6 @@ public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 		enable=true;
 	}
 
-	public MagicEditionsComboBoxCellRenderer(boolean enabled) {
-		enable=enabled;
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {

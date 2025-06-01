@@ -60,49 +60,11 @@ public class MapTableModel<K,V> extends GenericTableModel<Entry<K, V>> {
 			return items.get(row).getValue();
 	}
 
-	public boolean removeRow(K ed) {
-
-		Entry<K,V> removed =null;
-		for(Entry<K, V> r : items)
-		{
-			if(r.getKey()==ed)
-			{
-				removed=r;
-				break;
-			}
-		}
-
-		if(removed!=null)
-		{
-			Boolean b = items.remove(removed);
-			fireTableDataChanged();
-			return b;
-		}
-		return false;
-
-	}
-
-
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		if(column==1)
 			items.get(row).setValue((V) aValue);
 	}
-
-
-	public void updateRow(K k, V v) {
-		getItems().forEach(entry->{
-			if(entry.getKey()==k)
-			{
-				entry.setValue(v);
-				fireTableDataChanged();
-				return;
-			}
-		});
-
-	}
-
-
 
 }

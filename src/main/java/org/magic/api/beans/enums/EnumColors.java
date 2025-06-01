@@ -33,13 +33,6 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 	private int position;
 
 
-	public static EnumColors[] getColors()
-	{
-		return new EnumColors[] {WHITE,BLUE,BLACK,RED,GREEN,UNCOLOR};
-	}
-
-
-
 	@Override
 	public Icon getIcon() {
 		return UITools.generateRoundedIcon(color);
@@ -125,13 +118,6 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 			        .map(EnumColors::colorByCode)
 			        .filter(Objects::nonNull)
 			        .toList();
-	}
-
-	
-
-	public static List<EnumColors> parseByLabel(List<String> names)
-	{
-		return names.stream().map(EnumColors::colorByName).filter(Objects::nonNull).toList();
 	}
 
 	public static List<EnumColors> parseByCode(List<String> codes)

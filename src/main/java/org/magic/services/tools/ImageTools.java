@@ -241,12 +241,6 @@ public class ImageTools {
 		return resize(img, h, width);
 	}
 
-	public static BufferedImage resize( Image img, Dimension d) {
-		return resize(img,(int)d.getHeight(),(int)d.getWidth());
-
-	}
-
-
 	public static BufferedImage mirroring(BufferedImage image) {
 		var tx = AffineTransform.getScaleInstance(-1, 1);
 		tx.translate(-image.getWidth(null), 0);
@@ -393,19 +387,6 @@ public class ImageTools {
 		}
 
 	}
-
-
-	public static Dimension toMM(Dimension d)
-	{
-		var bd = BigDecimal.valueOf((d.getWidth() * 25.4) / MTGConstants.DPI);
-				   bd=bd.setScale(2, RoundingMode.HALF_UP);
-
-		var bd2 = BigDecimal.valueOf((d.getHeight() * 25.4) / MTGConstants.DPI);
-	    		   bd2=bd2.setScale(2, RoundingMode.HALF_UP);
-
-		return new Dimension((int)bd.doubleValue(), (int)bd2.doubleValue());
-	}
-
 
 	public static double toMM(double d)
 	{

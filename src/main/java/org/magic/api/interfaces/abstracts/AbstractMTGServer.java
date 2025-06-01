@@ -105,11 +105,6 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 				return guava.stats();
 			}
 
-			@Override
-			public void removeEntry(String params) {
-				guava.invalidate(params);
-			}
-
 		};
 	}
 

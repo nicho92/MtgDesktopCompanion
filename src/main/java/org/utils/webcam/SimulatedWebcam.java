@@ -62,12 +62,7 @@ class DummyWebcamDevice implements WebcamDevice
     private long time;
 
     private Dimension[] dimensions;
-    boolean open;
-
-    public DummyWebcamDevice(File f) {
-    	setFile(f);
-    	init();
-    }
+    private boolean open;
 
 	public DummyWebcamDevice(Image ic) {
 		bounce=ic;

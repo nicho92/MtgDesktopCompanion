@@ -299,20 +299,6 @@ public class PluginRegistry {
 		return null;
 	}
 
-
-	public MTGPlugin getPlugin(String name) {
-		Optional<MTGPlugin> r = listPlugins().stream().filter(p->p.getName().equalsIgnoreCase(name)).findFirst();
-
-		if(r.isPresent())
-			return r.get();
-
-
-		logger.error("{} doesn't exist",name);
-		return null;
-
-	}
-
-
 	public <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
 		return listPlugins(t).stream().filter(MTGPlugin::isEnable).sorted().toList();
 	}

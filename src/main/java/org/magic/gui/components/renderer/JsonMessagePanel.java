@@ -40,7 +40,7 @@ public class JsonMessagePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblTime;
 	private JTextArea textArea;
-	int iconSize=25;
+	private int iconSize=25;
 	
 	
 	public JsonMessagePanel(AbstractMessage value) {

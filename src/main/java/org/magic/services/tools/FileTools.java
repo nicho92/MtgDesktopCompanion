@@ -2,7 +2,6 @@ package org.magic.services.tools;
 
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,23 +12,18 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.jar.JarFile;
-import java.util.stream.Stream;
-import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -67,17 +61,6 @@ public class FileTools {
 			info.setAccesstype(ACCESSTYPE.CREATE);
 		 
 		 AbstractTechnicalServiceManager.inst().store(info);
-	}
-
-	public static void appendLine(File f,String line) throws IOException
-	{
-		var info = new FileAccessInfo(f);
-		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
-		f=new File(f.getParentFile(),correctFilename);
-		FileUtils.write(f, line,MTGConstants.DEFAULT_ENCODING,true);
-	 	info.setEnd(Instant.now());
-		info.setAccesstype(ACCESSTYPE.WRITE);
-		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 	public static int linesCount(File f)
@@ -244,29 +227,6 @@ public class FileTools {
 
 	}
 
-	public static void decompressGzipFile(File fileZip,File dest) {
-
-		if(dest.isDirectory())
-			dest=new File(dest,FilenameUtils.removeExtension(fileZip.getName()));
-
-        try (
-        		var fis = new FileInputStream(fileZip);
-        		var gis = new GZIPInputStream(fis);
-        		var fos = new FileOutputStream(dest);
-        	)
-        	{
-        	var buffer = new byte[512];
-            int len;
-            while((len = gis.read(buffer)) != -1){
-                fos.write(buffer, 0, len);
-            }
-        } catch (IOException e) {
-            logger.error(e);
-        }
-
-    }
-
-
 	public static synchronized void writeSetRecognition(File f,MTGEdition ed,int sizeOfSet, List<DescContainer> desc) throws IOException
 	{
 		var info = new FileAccessInfo(f);
@@ -367,21 +327,6 @@ public class FileTools {
 	}
 
 
-	public static void zip(File dir,File dest) throws IOException {
-		var info = new FileAccessInfo(dest);
-		try (var out = new ZipOutputStream(new FileOutputStream(dest))) {
-			for (File doc : dir.listFiles()) {
-				if (!doc.getName().endsWith(".tmp")) {
-					addFile(doc,out);
-				}
-			}
-		}
-		info.setEnd(Instant.now());
-		info.setAccesstype(ACCESSTYPE.WRITE);
-		AbstractTechnicalServiceManager.inst().store(info);
-	}
-
-
 	public static void unZipIt(File src,File dst) {
 		
 		var infoR = new FileAccessInfo(src);
@@ -462,19 +407,6 @@ public class FileTools {
 		return UITools.daysBetween(java.nio.file.Files.getLastModifiedTime(temp.toPath()).toInstant(), new Date().toInstant());
 	}
 
-
-
-	public static List<File> listFiles(File dir)
-	{
-		
-			try(Stream<Path> s = java.nio.file.Files.list(dir.toPath())){
-				return s.map(Path::toFile).toList();
-			} catch (IOException e) {
-				logger.error(e);
-				return new ArrayList<>();
-			}
-	}
-
 	public static void copyURLToFile(URL resource, File conf) throws IOException {
 		var info = new FileAccessInfo(conf);
 		FileUtils.copyURLToFile(resource,conf);
@@ -518,16 +450,6 @@ public class FileTools {
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
 		AbstractTechnicalServiceManager.inst().store(info);
-		
-	}
-
-	public static void copyFile(File file, File destFile) throws IOException {
-		FileUtils.copyFile(file, destFile);
-		
-	}
-
-	public static void copyDirectory(File file, File file2, FileFilter filter) throws IOException {
-		FileUtils.copyDirectory(file,file2,filter);
 		
 	}
 

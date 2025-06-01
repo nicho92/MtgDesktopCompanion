@@ -15,10 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
@@ -28,11 +26,10 @@ import org.magic.services.tools.UITools;
 public class ProductRendererComponent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	protected JLabel lblProductName;
-	protected JLabel lblProductSet;
-	protected JLabel lblProductType;
-	protected JLabel lblImage;
-	protected transient Logger logger = MTGLogger.getLogger(getClass());
+	private JLabel lblProductName;
+	private JLabel lblProductSet;
+	private JLabel lblProductType;
+	private JLabel lblImage;
 
 	
 	private transient Map<MTGProduct, BufferedImage> loadedImages;
@@ -43,15 +40,6 @@ public class ProductRendererComponent extends JPanel {
 		this.list=list;
 		initGUI();
 	}
-
-	public ProductRendererComponent(MTGProduct mc, JList<MTGProduct> list) {
-		this.list=list;
-		initGUI();
-		
-		if(mc!=null)
-			init(mc);
-	}
-
 
 	private void initGUI() {
 		

@@ -210,11 +210,4 @@ public class MTGAuthenticatorEditor extends JPanel {
 		});
 	}
 
-
-
-	public void init(AccountAuthenticator account)
-	{
-		tableModel.init(account.getTokens());
-	}
-
 }

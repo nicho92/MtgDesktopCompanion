@@ -169,18 +169,6 @@ public class SQLTools {
 				.getSQL();
 	}
 		
-	public String createTableCards() { 
-			return ctx.createTableIfNotExists("cards")
-				.column("scryfallId", SQLDataType.VARCHAR(50))
-				.column("mcard", SQLDataType.JSON)
-				.column("edition", SQLDataType.VARCHAR(5))
-				.column("cardprovider",SQLDataType.VARCHAR(20))
-				.column("collection",SQLDataType.VARCHAR(30))
-				.column("dateUpdate",SQLDataType.TIMESTAMP)
-				.primaryKey("scryfallId","edition","collection")
-				.getSQL();
-	}
-	
 	public String createTableContacts() { 
 			return ctx.createTableIfNotExists("contacts")
 				.column("contact_id", SQLDataType.INTEGER.identity(true))

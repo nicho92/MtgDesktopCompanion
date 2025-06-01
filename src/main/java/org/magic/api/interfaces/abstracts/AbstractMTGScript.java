@@ -33,7 +33,7 @@ import org.magic.services.tools.FileTools;
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{
 
-	protected static final String DIR = "DIR";
+	private static final String DIR = "DIR";
 
 	protected AbstractMTGScript() {
 		if(!getFile(DIR).exists())

@@ -20,22 +20,6 @@ public class MTGBooster implements Serializable
 	public MTGBooster() {
 		cards = new ArrayList<>();
 	}
-
-	public MTGBooster(MTGEdition me, EnumExtra typeBooster) {
-		this();
-		this.edition=me;
-		this.typeBooster=typeBooster;
-	}
-	
-	public int boosterSize()
-	{
-		return cards.size();
-	}
-	
-	public void add(MTGCard mc)
-	{
-		cards.add(mc);
-	}
 	
 	public EnumExtra getTypeBooster() {
 		return typeBooster;

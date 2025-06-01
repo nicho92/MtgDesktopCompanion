@@ -6,9 +6,6 @@ import java.util.List;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 public class PluginEntry <T extends MTGPlugin>
 {
 	private String classpath;
@@ -27,23 +24,6 @@ public class PluginEntry <T extends MTGPlugin>
 
 	public void setPlugins(List<T> plugins) {
 		this.plugins = plugins;
-	}
-
-
-	public JsonObject toJson() {
-		var obj = new JsonObject();
-		obj.addProperty("TYPE", getType().name());
-		obj.addProperty("MULTI", isMultiprovider());
-		obj.addProperty("CLASSPATH", getClasspath());
-
-		var arr = new JsonArray();
-		getPlugins().forEach(p->arr.add(p.toJson()));
-
-
-		obj.add("plugins", arr);
-
-		return obj;
-
 	}
 
 	public String getDesc() {

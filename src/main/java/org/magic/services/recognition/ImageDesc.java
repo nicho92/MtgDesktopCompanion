@@ -138,7 +138,7 @@ public class ImageDesc
         return new ImageDesc(descs, points, hash);
     }
 
-    public static int describeImage(GrayF32 input, FastQueue<BrightFeature> descs, List<Point2D_F64> points)
+    private static int describeImage(GrayF32 input, FastQueue<BrightFeature> descs, List<Point2D_F64> points)
     {
         detDesc.detect(input);
         var size = detDesc.getNumberOfFeatures();
@@ -168,10 +168,6 @@ public class ImageDesc
         return score;
     }
 
-    public double compareHash(ImageDesc i2)
-    {
-        return hash.match(i2.hash);
-    }
 
     public double compareHashWithFlip(ImageDesc i2)
     {

@@ -3,7 +3,6 @@ package org.magic.services.logging;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +14,7 @@ import org.apache.logging.log4j.core.config.LoggerConfig;
 
 public class MTGLogger {
 
-	protected static final Level[] LEVELS = Level.values();
+	private static final Level[] LEVELS = Level.values();
 
 	private MTGLogger() {}
 
@@ -64,10 +63,6 @@ public class MTGLogger {
 
 	public static List<LoggerConfig> getLoggers() {
 		return new ArrayList<>(getContext().getConfiguration().getLoggers().values());
-	}
-
-	public static List<Appender> getAppenders() {
-		return getContext().getRootLogger().getAppenders().entrySet().stream().map(Entry::getValue).toList();
 	}
 
 	public static MTGAppender getMTGAppender() {

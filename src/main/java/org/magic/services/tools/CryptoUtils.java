@@ -6,14 +6,10 @@ import java.util.Base64;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.logging.log4j.Logger;
 import org.jasypt.util.text.AES256TextEncryptor;
-import org.magic.services.logging.MTGLogger;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class CryptoUtils {
-
-	static Logger logger = MTGLogger.getLogger(CryptoUtils.class);
 
 	private CryptoUtils() {
 

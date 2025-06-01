@@ -26,9 +26,7 @@ import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
-import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
-import org.magic.api.criterias.builders.JsonCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
@@ -100,7 +98,6 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String HAS_ALTERNATIVE_DECK_LIMIT = "hasAlternativeDeckLimit";
 	protected static final String TCGPLAYER_PRODUCT_ID = "tcgplayerProductId";
 	protected static final String TCGPLAYER_GROUP_ID ="tcgplayerGroupId";
-	protected static final String CARDKINGDOM_PRODUCT_ID = "cardKingdomId";
 	protected static final String BORDER_COLOR = "borderColor";
 	protected static final String KEYRUNE_CODE = "keyruneCode";
 	protected static final String SCRYFALL_ILLUSTRATION_ID = "scryfallIllustrationId";
@@ -137,16 +134,13 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	private File fversion = new File(MTGConstants.DATA_DIR, "mtgjsonVersion");
 
 
-	protected String version;
+	private String version;
 	protected Chrono chrono = new Chrono();
 
 	protected abstract File getDataFile();
 	protected abstract String getOnlineDataFileZip();
 	public abstract List<MTGCard> listToken(MTGEdition ed) throws IOException;
 	public abstract MTGCard getTokenFor(MTGCard mc, EnumLayout layout) throws IOException;
-
-
-	protected MTGQueryBuilder<?> queryBuilder=  new JsonCriteriaBuilder();
 
 	protected void download() {
 		try {

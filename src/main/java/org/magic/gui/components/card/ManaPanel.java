@@ -9,10 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.services.MTGConstants;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconsProvider;
 
 public class ManaPanel extends JPanel {
@@ -20,13 +18,9 @@ public class ManaPanel extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	FlowLayout fl = new FlowLayout();
-
-	int count = 0;
-
-	String manaCost;
+	private FlowLayout fl = new FlowLayout();
+	private String manaCost;
 
 	public ManaPanel() {
 		fl.setAlignment(FlowLayout.LEFT);

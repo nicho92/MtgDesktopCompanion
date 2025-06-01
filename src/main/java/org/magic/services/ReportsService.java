@@ -34,13 +34,6 @@ public class ReportsService {
 
 	}
 
-	public <T> String generate(FORMAT_NOTIFICATION f, T obj, Class<T> type)
-	{
-		List<T> t = new ArrayList<>();
-		t.add(obj);
-		return generate(f, t, type);
-	}
-
 	public <T> String generate(FORMAT_NOTIFICATION f, T obj, String type)
 	{
 		List<T> t = new ArrayList<>();

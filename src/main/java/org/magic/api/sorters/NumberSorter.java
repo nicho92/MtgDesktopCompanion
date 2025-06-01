@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class NumberSorter implements Comparator<String>{
 
-	Pattern p;
+	private Pattern p;
 	public NumberSorter() {
 		p = Pattern.compile("\\d+");
 	}

@@ -21,12 +21,6 @@ public class AccountAuthenticator implements Serializable {
 		return "Acc:"+tokens.keySet();
 	}
 
-	public AccountAuthenticator(String login,String password) {
-		tokens = new HashMap<>();
-		tokens.put(LOGIN, login);
-		tokens.put(PASSWORD, password);
-	}
-
 	public Map<String, String> getTokens() {
 		return tokens;
 	}
@@ -46,22 +40,10 @@ public class AccountAuthenticator implements Serializable {
 	}
 
 
-	public void addLoginPassword(String login,String password)
-	{
-		tokens.put(LOGIN, login);
-		tokens.put(PASSWORD, password);
-	}
-
 	public String get(String key)
 	{
 		return tokens.getOrDefault(key,"");
 	}
-
-	public String get(String key,String defaultValue)
-	{
-		return tokens.getOrDefault(key,defaultValue);
-	}
-
 
 	public String getLogin()
 	{

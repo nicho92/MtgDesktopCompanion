@@ -22,10 +22,6 @@ public class NewsEditorPanel extends JPanel {
 	private JTextField urlJTextField;
 	private JComboBox<MTGNewsProvider> cboType;
 
-	public NewsEditorPanel(org.magic.api.beans.MTGNews newMagicNews) {
-		this();
-		setMagicNews(newMagicNews);
-	}
 
 	public NewsEditorPanel() {
 		var gridBagLayout = new GridBagLayout();

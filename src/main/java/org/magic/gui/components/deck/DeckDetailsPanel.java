@@ -61,11 +61,6 @@ public class DeckDetailsPanel extends JComponent {
 	private JLabel lblDate;
 	private JLabel lblDateInformation;
 
-	public DeckDetailsPanel(MTGDeck newMagicDeck) {
-		this();
-		init(newMagicDeck);
-	}
-
 	public DeckDetailsPanel() {
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };

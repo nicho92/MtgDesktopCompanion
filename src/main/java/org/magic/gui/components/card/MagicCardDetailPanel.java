@@ -55,13 +55,6 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer{
 	}
 	
 	
-
-	public void addObserver(Observer panelDetail) {
-		paneMain.addObserver(panelDetail);
-	}
-
-	
-	
 	public void enableCollectionLookup(boolean b)
 	{
 		paneMain.enableCollectionLookup(b);

@@ -220,11 +220,4 @@ public class RequestBuilder
 		
 	}
 
-	public RequestBuilder addContent(String s) {
-		content.put("", s);
-		return this;
-	}
-
-
-
 }

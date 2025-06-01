@@ -4,15 +4,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Logger;
-import org.magic.services.logging.MTGLogger;
 
 public class LanguageService {
 
 	private ResourceBundle rbundle;
 	private StringBuilder temp;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
-
 
 	public String get(String k, Object... values) {
 		String t = get(k);

@@ -14,7 +14,7 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.logging.MTGLogger;
 
 public class MTG {
-	protected static Logger logger = MTGLogger.getLogger(MTG.class);
+	private static Logger logger = MTGLogger.getLogger(MTG.class);
 
 	private MTG() {
 		// this class tool is for simple controler classes access

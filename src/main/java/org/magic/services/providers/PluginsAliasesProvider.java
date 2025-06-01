@@ -68,12 +68,6 @@ public class PluginsAliasesProvider {
 		}
 	}
 
-
-	public String getReversedSetNameFor(MTGPlugin plug, MTGEdition set)
-	{
-		return getReversedSetNameFor(plug, set.getId());
-	}
-
 	public String getReversedSetNameFor(MTGPlugin plug, String setName)
 	{
 		try{

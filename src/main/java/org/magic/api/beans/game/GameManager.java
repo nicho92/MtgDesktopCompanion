@@ -55,10 +55,6 @@ public class GameManager{
 		Collections.rotate(players, 1);
 	}
 
-	public void logAction(Player p, String action) {
-		p.logAction(action);
-	}
-
 	public void setPlayer(Player p) {
 		players.clear();
 		players.add(p);

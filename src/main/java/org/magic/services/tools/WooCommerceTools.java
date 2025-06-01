@@ -44,18 +44,10 @@ public class WooCommerceTools {
 		return List.of(WEBSITE,CONSUMER_KEY,CONSUMER_SECRET);
 	}
 
-	public static WooCommerce newClient(AccountAuthenticator p, String website)
-	{
-		return newClient(p.get(CONSUMER_KEY), p.get("SECRET_KEY") , website, WOO_COMMERCE_VERSION);
-	}
-
 	public static WooCommerce newClient(AccountAuthenticator p)
 	{
 		return newClient(p.get(CONSUMER_KEY), p.get(CONSUMER_SECRET), p.get(WEBSITE), WOO_COMMERCE_VERSION);
 	}
-
-	
-	
 	
 	public static WooCommerce newClient(String key, String secret, String website,String version)
 	{

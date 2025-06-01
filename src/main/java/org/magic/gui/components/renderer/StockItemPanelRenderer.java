@@ -25,14 +25,6 @@ public class StockItemPanelRenderer extends JPanel {
 		initGUI();
 	}
 
-	public StockItemPanelRenderer(MTGStockItem mc) {
-		initGUI();
-
-		if(mc!=null)
-			setProduct(mc);
-	}
-
-
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 

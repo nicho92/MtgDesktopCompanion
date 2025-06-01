@@ -6,7 +6,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -54,13 +53,6 @@ public abstract class MTGUIComponent extends JComponent {
 	{
 		UITools.addTab(contextTabbedPane, MTGUIComponent.build(component, name, ic));
 	}
-	
-	protected void initContextTabbedPane(List<MTGUIComponent> components)
-	{
-		for(var c : components)
-			addContextComponent(c);
-	}
-	
 	
 	protected MTGUIComponent()
 	{

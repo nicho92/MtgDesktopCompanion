@@ -18,11 +18,6 @@ public class JTextFieldFileChooser extends JComponent {
 		init();
 	}
 
-	public JTextFieldFileChooser(int size) {
-		init();
-		textField.setColumns(size);
-	}
-
 	public JTextFieldFileChooser(int size,int mode) {
 		init();
 		textField.setColumns(size);
@@ -32,12 +27,6 @@ public class JTextFieldFileChooser extends JComponent {
 	public JTextFieldFileChooser(int size,int mode,String def) {
 		init();
 		textField.setColumns(size);
-		this.mode=mode;
-		textField.setText(def);
-	}
-
-	public JTextFieldFileChooser(String def,int mode) {
-		init();
 		this.mode=mode;
 		textField.setText(def);
 	}

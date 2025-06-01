@@ -31,14 +31,6 @@ public class CardListPanel extends JPanel {
 		initGUI();
 	}
 
-	public CardListPanel(MTGCard mc) {
-		initGUI();
-
-		if(mc!=null)
-			setMagicCard(mc);
-	}
-
-
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 

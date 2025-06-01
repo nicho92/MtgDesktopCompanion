@@ -15,10 +15,6 @@ public class TalkMessage extends AbstractMessage{
 	private static final String REGEX = "\\{(.*?)\\}";
 	private MTGCard mc;
 	
-	public String toChatString() {
-		return getAuthor().getName() + " : " + getMessage();
-	}
-	
 	public TalkMessage(String message, Color color) {
 		setTypeMessage(MSG_TYPE.TALK);
 		setMessage(message);

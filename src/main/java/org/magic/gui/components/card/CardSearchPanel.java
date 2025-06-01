@@ -92,8 +92,6 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	private static final String SEARCH_MODULE = "SEARCH_MODULE";
 
-	private static final int INDEX_THUMB = 1;
-
 	private MTGCard selectedCard;
 	private MTGEdition selectedEdition;
 	private MagicCardTableModel cardsModeltable;
@@ -643,13 +641,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		});
 	}
 
-
-
-	public void thumbnail(List<MTGCard> cards) {
-		tabbedCardsView.setSelectedIndex(INDEX_THUMB);
-		thumbnailPanel.initThumbnails(cards, false, false);
-	}
-
 	public void setSelectedCard(MTGCard mc) {
 		this.selectedCard = mc;
 		updateCards();
@@ -678,7 +669,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		return thumbnailPanel;
 	}
 
-	public void updateCards() {
+	private void updateCards() {
 		try {
 			cardsPicPanel.init(selectedCard);
 			detailCardPanel.init(selectedCard);

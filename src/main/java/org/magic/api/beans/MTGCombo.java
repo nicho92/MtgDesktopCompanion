@@ -62,9 +62,4 @@ public class MTGCombo {
 	public String toString() {
 		return getName();
 	}
-	public void addCard(MTGCard card) {
-		cards.add(card);
-
-	}
-
 }

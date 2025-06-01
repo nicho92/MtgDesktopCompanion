@@ -15,11 +15,6 @@ public class LoyaltyCounter extends AbstractCounter {
 	private LoyaltyCost value;
 	private String label;
 
-	public LoyaltyCounter(int value, String label) {
-		this.value = new LoyaltyCost(value);
-		this.label = label;
-	}
-
 	public LoyaltyCounter(LoyaltyAbilities la) {
 
 		this.label=la.getEffects().get(0).getEffectDescription();

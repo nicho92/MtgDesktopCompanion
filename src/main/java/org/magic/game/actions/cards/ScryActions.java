@@ -17,8 +17,8 @@ public class ScryActions extends AbstractCardAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	String k = "scry";
-	String value;
+	private String k = "scry";
+	private String value;
 
 	public ScryActions(DisplayableCard c) {
 		

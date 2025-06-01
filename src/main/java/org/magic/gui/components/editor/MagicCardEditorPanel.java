@@ -97,12 +97,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JLabel lblPromo;
 	private JCheckBox chkPromo;
 
-
-	public MagicCardEditorPanel(MTGCard newMagicCard) {
-		setMagicCard(newMagicCard);
-	}
-
-
 	@Override
 	public String getTitle() {
 		return "CARD_EDITOR";

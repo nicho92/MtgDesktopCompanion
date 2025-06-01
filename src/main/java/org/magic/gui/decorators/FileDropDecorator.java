@@ -169,11 +169,6 @@ public class FileDropDecorator
         return ok;
     }
 
-    public static boolean remove(Component c)
-    {
-    	return remove( c, true );
-    }
-
     public static boolean remove( Component c, boolean recursive )
     {
             c.setDropTarget( null );

@@ -168,11 +168,4 @@ public class StockItemPanel extends MTGUIComponent {
 		return model.getItems();
 	}
 
-
-	public void refresh() {
-		model.fireTableDataChanged();
-		
-	}
-
-
 }

@@ -35,6 +35,7 @@ public class MTGJsonPricerProvider {
 	public enum SUPPORT {PAPER,MTGO}
 	public enum STOCK {RETAIL, BUYLIST}
 	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET,CARDSPHERE}
+	
 	private List<Data> caches;
 	private static MTGJsonPricerProvider inst;
 
@@ -389,21 +390,6 @@ class Data
 
 	public List<PriceEntry> getPrices() {
 		return prices;
-	}
-
-	public List<PriceEntry> listPricesByVendor(VENDOR v)
-	{
-		return getPrices().stream().filter(p->p.getVendor()==v).toList();
-	}
-
-	public List<PriceEntry> listPricesBySupport(SUPPORT v)
-	{
-		return getPrices().stream().filter(p->p.getSupport()==v).toList();
-	}
-
-	public List<PriceEntry> listPricesByStock(STOCK v)
-	{
-		return getPrices().stream().filter(p->p.getStock()==v).toList();
 	}
 
 	public List<PriceEntry> listPricesByFoil(Boolean v)

@@ -6,17 +6,14 @@ import java.util.List;
 public class Turn {
 
 	public enum PHASES {
-		UNTAP, UPKEEP, DRAW, MAIN, COMBAT, ATTACK, BLOCK, DAMAGE, END_COMBAT, MAIN_2, END, CLEANUP
+		UNTAP, UPKEEP, DRAW, MAIN, COMBAT, ATTACK, BLOCK, DAMAGE, END_COMBAT, END, CLEANUP
 	}
 
-	List<String> actions;
-	int index = 0;
-	PHASES current;
+	private List<String> actions;
+	private PHASES current;
 
 	public Turn() {
 		actions = new ArrayList<>();
-		index = 0;
-
 	}
 
 	public List<String> getActions() {

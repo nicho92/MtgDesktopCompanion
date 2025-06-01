@@ -2,7 +2,6 @@ package org.magic.services.network;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,8 +27,6 @@ import org.jsoup.nodes.Element;
 import org.jspecify.annotations.Nullable;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.tools.ImageTools;
-import org.magic.services.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -125,15 +122,6 @@ public class URLTools {
 		}
 	}
 
-	public static org.w3c.dom.Document toXml(File f) throws IOException {
-		try {
-			return  XMLTools.createSecureXMLDocumentBuilder().parse(new FileInputStream(f));
-		} catch (Exception e) {
-			throw new IOException(e);
-		}
-	}
-	
-
 	private static String toHtmlFromMarkdown(String c)
 	{
 		
@@ -174,10 +162,6 @@ public class URLTools {
 	{
 		var ret = toHtmlFromMarkdown(extractAsString(url));
 		return toHtml(ret);
-	}
-
-	public static BufferedImage extractAsImage(String uri, int w, int h) throws IOException {
-		return ImageTools.resize(extractAsImage(uri), h, w);
 	}
 
 	public static BufferedImage extractAsImage(String url) throws IOException	{

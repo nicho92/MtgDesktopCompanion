@@ -33,12 +33,6 @@ public class JXDateTimePicker extends JXDatePicker {
         setFormats(MTG.lang("DATE_FORMAT")+ " HH:mm");
     }
 
-    public JXDateTimePicker( Date d ) {
-        this();
-        setDate(d);
-        setFormats(MTG.lang("DATE_FORMAT")+ " HH:mm");
-    }
-
     @Override
     public void commitEdit() throws ParseException {
         commitTime();

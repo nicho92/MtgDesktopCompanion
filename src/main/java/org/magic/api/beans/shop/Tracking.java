@@ -15,15 +15,7 @@ public class Tracking implements Serializable{
 	private Date deliveryDate;
 	private String trackingUri;
 
-	public TrackingStep last()
-	{
-		if(getSteps().isEmpty())
-			return null;
-
-		return getSteps().get(getSteps().size()-1);
-	}
-
-	 public String getTrackingUri() {
+	public String getTrackingUri() {
 		return trackingUri;
 	}
 

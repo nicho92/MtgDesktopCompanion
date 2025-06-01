@@ -1,5 +1,4 @@
 package org.utils.webcam;
-import java.awt.Dimension;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,6 @@ public class WebcamUtils
 {
 
 	private static WebcamUtils inst;
-	public static final Dimension defaultDimension=new Dimension(640,480);
-
 
 	public static WebcamUtils inst()
 	{
@@ -45,13 +42,6 @@ public class WebcamUtils
 		return pcams;
 	}
 
-
-	public void changeResolution(Dimension d , Webcam c)
-	{
-			c.setViewSize(d);
-
-	}
-
 	public boolean registerIPCam(String name, String address, IpCamMode mode)
 	{
 		try {
@@ -63,7 +53,7 @@ public class WebcamUtils
 	}
 
 
-	class CompositeDriver extends WebcamCompositeDriver {
+	private class CompositeDriver extends WebcamCompositeDriver {
 		public CompositeDriver() {
 			add(new WebcamDefaultDriver());
 			add(new IpCamDriver());

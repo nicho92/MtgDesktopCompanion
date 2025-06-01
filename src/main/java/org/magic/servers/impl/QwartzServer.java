@@ -16,8 +16,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
-import org.quartz.Job;
-import org.quartz.JobBuilder;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -126,17 +124,6 @@ public class QwartzServer extends AbstractMTGServer {
 
 		return m;
 	}
-
-
-	public void runJob(Job job, String name) throws SchedulerException
-	{
-		var jobKey = JobKey.jobKey(name, "instantJob");
-	    var jobd =JobBuilder.newJob(job.getClass()).withIdentity(jobKey).storeDurably().build();
-	    scheduler.addJob(jobd, true);
-	    scheduler.triggerJob(jobKey);
-	}
-
-
 
 	@Override
 	public MTGDocumentation getDocumentation() {

@@ -50,10 +50,6 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		deck = new MTGDeck();
 	}
 
-	public void initSide(MTGDeck deck) {
-		this.deck = deck;
-	}
-
 	public MTGDeck getDeck() {
 		return deck;
 	}

@@ -32,27 +32,6 @@ public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord>{
 			this.type=type;
 	}
 
-	public MTGKeyWord(String keyword, TYPE type,boolean evergreen) {
-		this.keyword=keyword;
-		this.type=type;
-		this.evergreen=evergreen;
-	}
-
-	public MTGKeyWord(String keyword, EVENT event, TYPE type) {
-		super();
-		this.keyword = keyword;
-		this.event = event;
-		this.type = type;
-	}
-
-	public MTGKeyWord(String keyword, EVENT event, TYPE type, boolean evergreen) {
-		super();
-		this.keyword = keyword;
-		this.event = event;
-		this.type = type;
-		this.evergreen=evergreen;
-	}
-
 
 	@Override
 	public int hashCode() {

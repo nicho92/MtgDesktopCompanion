@@ -41,16 +41,6 @@ public class CardShake implements Serializable {
 		etched = false;
 	}
 
-	public CardShake(boolean foil) {
-		price =new MoneyValue(0.0,Currency.getInstance("USD"));
-		priceDayChange = 0;
-		percentDayChange = 0;
-		priceWeekChange = 0;
-		percentWeekChange = 0;
-		dateUpdate=new Date();
-		this.foil=foil;
-	}
-
 	public void init(double price, double lastDayPrice,double lastWeekPrice) {
 		this.price=new MoneyValue(price,Currency.getInstance("USD"));
 		priceDayChange = price-lastDayPrice;

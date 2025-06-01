@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.swing.AbstractAction;
-
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -135,16 +133,6 @@ public class Player extends Observable implements Serializable {
 
 	public void setManaPool(ManaPool manaPool) {
 		this.manaPool = manaPool;
-	}
-
-	public void addMana(String color, int number) {
-		manaPool.addMana(color, number);
-
-		var mana = new StringBuilder();
-		for (var i = 0; i < number; i++)
-			mana.append(color);
-
-		logAction("Add " + mana + " to manapool");
 	}
 
 	public void setMana(String color, int number) {
@@ -345,13 +333,6 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void mixGraveyardAndLibrary() {
-		library.getCards().addAll(graveyard.getCards());
-		graveyard.clear();
-		logAction("Shuffle graveyard in library");
-
-	}
-
 	public void mixHandAndLibrary() {
 		library.getCards().addAll(hand.getCards());
 		hand.clear();
@@ -436,32 +417,10 @@ public class Player extends Observable implements Serializable {
 		return getName();
 	}
 
-	public String toDetailledString() {
-		var build = new StringBuilder();
-
-		build.append("Turn :").append(GameManager.getInstance().getTurns().size()).append("\n");
-		build.append("Phases:").append(GameManager.getInstance().getActualTurn().currentPhase()).append("\n");
-		build.append("Library :").append(library.size()).append("\n");
-		build.append("Graveyard :").append(graveyard).append("\n");
-		build.append("Hand:").append(hand.size()).append("\n");
-		build.append("BattleField :").append(battlefield.size()).append("\n");
-		build.append("Exil :").append(exil.size()).append("\n");
-		build.append("Pool : [ ").append(manaPool).append("]\n");
-		build.append("Stack : [ ").append(GameManager.getInstance().getStack()).append("]\n ");
-
-		return build.toString();
-	}
-
 	public void logAction(String string) {
 		setChanged();
 		notifyObservers(string);
 		GameManager.getInstance().getActualTurn().getActions().add(string);
-	}
-
-	public void logAction(AbstractAction act) {
-		setChanged();
-		notifyObservers(act);
-		GameManager.getInstance().getActualTurn().getActions().add(act.toString());
 	}
 
 	public void playCardFromLibrary(MTGCard mc) {
@@ -480,10 +439,6 @@ public class Player extends Observable implements Serializable {
 	public void say(String text) {
 		logAction("say:" + text);
 
-	}
-
-	public void moveCard(ZoneEnum from, ZoneEnum to, MTGCard mc) {
-		// do nothing
 	}
 
 	@Override

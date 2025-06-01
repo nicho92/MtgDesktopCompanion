@@ -1,7 +1,6 @@
 package org.magic.api.beans;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.Date;
@@ -76,7 +75,7 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		if(isEmpty())
 			return null;
 
-		List<Entry<Date, Double>> res = asList();
+		List<Entry<Date, Double>> res = new ArrayList<>(entrySet());
 		return res.get(res.size()-val).getKey();
 	}
 
@@ -110,13 +109,6 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		return variations.get(getLastDay());
 	}
 
-
-	public List<Entry<Date, Double>> asList()
-	{
-		return new ArrayList<>(entrySet());
-	}
-
-
 	public void put(Date date,Double p)
 	{
 		variations.put(date, p);
@@ -136,12 +128,6 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 		{
 			return 0.0;
 		}
-	}
-
-
-	public Collection<Double> values()
-	{
-		return variations.values();
 	}
 
 	public Set<Entry<Date, Double>> entrySet()

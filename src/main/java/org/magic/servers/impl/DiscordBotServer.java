@@ -632,16 +632,11 @@ class NavigableEmbed extends ListenerAdapter {
 		return embeds.parallelStream().mapToInt(List::size).max().orElse(0);
 	}
 
-	public int getHeightAt(int x) {
-		if (x < 0 || x >= embeds.size()) throw new IllegalArgumentException("X is out of bounds.");
-		return embeds.get(x).size();
-	}
-
 	public List<List<Supplier<MessageEmbed>>> getEmbeds() {
 		return new ArrayList<>(embeds);
 	}
 
-	public void sendMessage() {
+	private void sendMessage() {
 		MessageEmbed embed = embeds.get(xindex).get(yindex).get();
 		try {
 			if (message == null)
@@ -686,13 +681,6 @@ class NavigableEmbed extends ListenerAdapter {
 		modX(-1);
 	}
 
-	public void up() {
-		modY(-1);
-	}
-
-	public void down() {
-		modY(1);
-	}
 
 	public static class Builder {
 		private List<List<Supplier<MessageEmbed>>> embeds;
@@ -708,14 +696,6 @@ class NavigableEmbed extends ListenerAdapter {
 			ArrayList<Supplier<MessageEmbed>> list = new ArrayList<>();
 			list.add(embedSupplier);
 			embeds.add(list);
-			return this;
-		}
-
-		public Builder addEmbed(Supplier<MessageEmbed> embedSupplier, int xIndex) {
-			if (xIndex >= embeds.size())
-				throw new IllegalArgumentException("xIndex is not within current bounds of the navigatable embed. " + xIndex + " >= " + embeds.size());
-			List<Supplier<MessageEmbed>> xList = embeds.get(xIndex);
-			xList.add(embedSupplier);
 			return this;
 		}
 

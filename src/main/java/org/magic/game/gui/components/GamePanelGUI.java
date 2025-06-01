@@ -91,16 +91,9 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		return panelLibrary;
 	}
 
-	public static GamePanelGUI newInstance() {
-		return new GamePanelGUI();
-	}
 
 	public BattleFieldPanel getPanelBattleField() {
 		return panelBattleField;
-	}
-
-	public void initGame() {
-		player.init();
 	}
 
 	public void setPlayer(Player p1) {
@@ -475,11 +468,6 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		if(mc.getFullResPics()!=null)
 			lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, Image.SCALE_SMOOTH)));
 	}
-
-	public void addPlayer(Player p) {
-		GameManager.getInstance().addPlayer(p);
-	}
-
 
 	public JLabel getLblHandCount() {
 		return lblHandCount;

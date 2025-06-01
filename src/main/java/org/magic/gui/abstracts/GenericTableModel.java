@@ -5,11 +5,9 @@ import static org.magic.services.tools.MTG.capitalize;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
@@ -33,12 +31,6 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		columns = new String[]{"VALUE"};
 	}
 
-	public GenericTableModel(String...columnName) {
-		items = new ArrayList<>();
-		columns = columnName;
-		changed=false;
-	}
-
 	public void setDefaultHiddenComlumns(int... nums)
 	{
 		this.hiddenColumns =nums;
@@ -52,18 +44,6 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	public int[] defaultHiddenColumns()
 	{
 		return hiddenColumns;
-	}
-
-	public GenericTableModel(T classe) {
-		items = new ArrayList<>();
-		Set<String> s;
-		changed=false;
-		try {
-			s = BeanUtils.describe(classe).keySet();
-			setColumns(Arrays.copyOf(s.toArray(), s.size(),String[].class));
-		} catch (Exception e) {
-			logger.error("error calculate columns for {} : {}",classe,e);
-		}
 	}
 
 	public boolean isChanged() {
