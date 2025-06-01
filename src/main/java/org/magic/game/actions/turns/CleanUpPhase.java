@@ -15,7 +15,7 @@ public class CleanUpPhase extends AbstractAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	String detail = "<html>The cleanup step is the second and final step of the ending phase. <br/>"
+	private String detail = "<html>The cleanup step is the second and final step of the ending phase. <br/>"
 			+ "Spells and abilities may be played during this step only if the conditions for any state-based actions exist or if any abilities have triggered.<br/>"
 			+ "In that case, those state-based actions are performed and/or those abilities go on the stack and the active player gets priority and players may cast spells and activate abilities.<br/>"
 			+ " Once all players pass priority when the stack is empty, the step repeats.</html>";

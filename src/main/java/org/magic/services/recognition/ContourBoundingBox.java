@@ -26,7 +26,7 @@ import georegression.struct.point.Point2D_I32;
 public class ContourBoundingBox
 {
     private static Point2D_I32[] farpoints;
-    protected Logger logger = MTGLogger.getLogger(this.getClass());
+    private Logger logger = MTGLogger.getLogger(this.getClass());
 
     static
     {
@@ -146,7 +146,7 @@ public class ContourBoundingBox
         initLongShort();
     }
 
-    public int longEdge()
+    private int longEdge()
     {
         double shortest = Integer.MAX_VALUE;
         var shortestIX = 0;

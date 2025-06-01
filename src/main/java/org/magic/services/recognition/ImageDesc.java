@@ -92,7 +92,7 @@ public class ImageDesc
         this(in, null);
     }
 
-    public ImageDesc(FastQueue<BrightFeature> d, List<Point2D_F64> p, AverageHash h)
+    private ImageDesc(FastQueue<BrightFeature> d, List<Point2D_F64> p, AverageHash h)
     {
         desc = d;
         hash = h;

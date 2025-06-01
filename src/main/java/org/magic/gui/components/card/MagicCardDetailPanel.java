@@ -17,8 +17,8 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	MagicCardMainDetailPanel paneMain;
-	MagicCardSubDetailPanel paneSub;
+	private MagicCardMainDetailPanel paneMain;
+	private MagicCardSubDetailPanel paneSub;
 	private boolean full;
 	
 	@Override

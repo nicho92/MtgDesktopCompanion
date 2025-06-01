@@ -26,8 +26,8 @@ public class BinderTagsManager {
 	private boolean border;
 	private LOGO addlogo;
 	private List<BufferedImage> lst;
-	int height=1;
-	int width=1;
+	private int height=1;
+	private int width=1;
 	private int space;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 

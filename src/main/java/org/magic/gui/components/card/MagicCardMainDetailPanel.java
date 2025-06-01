@@ -74,14 +74,13 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	private JLabel lblNumber;
 	private boolean thumbnail = false;
 	private JList<MTGFormat> lstFormats;
-	private transient Observable obs;
 	private boolean enableCollectionLookup=true;
 	private JList<MTGCollection> lstCollections;
 	private transient Logger logger = MTGLogger.getLogger(MagicCardMainDetailPanel.class);
 	private MTGCard magicCard;
 	private JCheckBox chkRetro;
 	private JLabel lblAuthor;
-	
+	private boolean face=false;
 	public String getTitle() {
 		return "DETAILS";
 	}
@@ -107,7 +106,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	}
 	
 	
-	boolean face=false;
+
 	public void init(MTGCard mc)
 	{
 		lblThumbnail.setCursor(Cursor.getDefaultCursor());
@@ -287,8 +286,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	
 	public MagicCardMainDetailPanel() {
 		
-		obs = new Observable();
-	
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 127, 159, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 40, 90, 0, 0};

@@ -27,7 +27,7 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 	private JXTable table;
 	private transient MTGDeckManager calc;
 	private AbstractTableModel model;
-	int maxTurn = 10;
+	private int maxTurn = 10;
 	private MTGDeck d;
 
 	public DrawProbabilityPanel() {

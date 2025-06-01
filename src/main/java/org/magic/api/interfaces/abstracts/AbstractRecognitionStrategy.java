@@ -32,7 +32,7 @@ import org.magic.services.tools.ImageTools;
 
 public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin implements MTGCardRecognition {
 
-	protected Map<String,List<DescContainer>> dataList;
+	private Map<String,List<DescContainer>> dataList;
 
 	@Override
 	public PLUGINS getType() {

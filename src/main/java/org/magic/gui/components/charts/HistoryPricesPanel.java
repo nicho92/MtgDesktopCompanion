@@ -39,7 +39,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
 
 	private static final long serialVersionUID = 1L;
-	boolean showEdition = false;
+	private boolean showEdition = false;
 	private JCheckBox chckbxShowEditions;
 	private transient HistoryPrice<?> cpVariations;
 	private String title="PRICE_VARIATIONS";

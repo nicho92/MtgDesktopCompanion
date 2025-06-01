@@ -94,7 +94,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		private List<MTGCardStock> stocks;
 		private Integer result;
 
-		public Line(MTGCard mc,Integer needed,List<MTGCardStock> stocks) {
+		private Line(MTGCard mc,Integer needed,List<MTGCardStock> stocks) {
 			this.mc=mc;
 			this.needed=needed;
 			this.stocks=stocks;

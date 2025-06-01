@@ -29,11 +29,10 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 	private MTGDeck bckDeck;
 	private JLabel lblDecksize;
 	private LightDescribeCardPanel lightDescribeCardPanel;
-	JList<MTGCard> listMain;
-	JList<MTGCard> listSide;
-
-	DefaultListModel<MTGCard> modMain;
-	DefaultListModel<MTGCard> modSide;
+	private JList<MTGCard> listMain;
+	private JList<MTGCard> listSide;
+	private DefaultListModel<MTGCard> modMain;
+	private DefaultListModel<MTGCard> modSide;
 
 	public DeckSideBoardSwitcherDialog(MTGDeck deck) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

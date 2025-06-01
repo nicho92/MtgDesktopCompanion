@@ -19,10 +19,10 @@ import org.utils.patterns.observer.Observer;
 
 public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 
-	protected MTGCardsExport exp;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected Observer o;
-	protected AbstractBuzyIndicatorComponent buzy;
+	private MTGCardsExport exp;
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private Observer o;
+	private AbstractBuzyIndicatorComponent buzy;
 	private File f;
 	private MTGDeck export;
 	private Exception err;

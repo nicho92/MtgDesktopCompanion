@@ -6,8 +6,8 @@ import java.util.Date;
 public class MTGRuling implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	Date date;
-	String text;
+	private Date date;
+	private String text;
 
 	public Date getDate() {
 		return date;
