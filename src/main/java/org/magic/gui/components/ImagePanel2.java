@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
 
-import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -21,14 +20,13 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
 
 public class ImagePanel2 extends JXPanel {
 	
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	
 	private static final long serialVersionUID = 1L;
 	private double scale = 1.0;
 	private double translateX = 0;
@@ -185,7 +183,7 @@ public class ImagePanel2 extends JXPanel {
 		final double totalFrames = MTGConstants.ROTATED_FRAMES;
 		timer.addActionListener(_ -> {
 			frame[0]++;
-			double progress = frame[0] / totalFrames;
+			var progress = frame[0] / totalFrames;
 			rotationX = Math.cos(progress * Math.PI); 
 			if (progress >= 0.5) {
 				print = ImageTools.mirroring(back);

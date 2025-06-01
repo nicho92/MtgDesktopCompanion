@@ -92,7 +92,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	private static final String SEARCH_MODULE = "SEARCH_MODULE";
 
-	public static final int INDEX_THUMB = 1;
+	private static final int INDEX_THUMB = 1;
 
 	private MTGCard selectedCard;
 	private MTGEdition selectedEdition;
@@ -547,20 +547,10 @@ public class CardSearchPanel extends MTGUIComponent {
 				if(tableCards.getSelectedRow()==-1)
 					return;
 
-
 				if (SwingUtilities.isRightMouseButton(evt)) {
 					var point = evt.getPoint();
 					popupMenu.show(tableCards, (int) point.getX(), (int) point.getY());
-				} else {
-					try {
-						selectedCard = UITools.getTableSelection(tableCards, 0);
-						selectedEdition = selectedCard.getEdition();
-						updateCards();
-					} catch (Exception e) {
-						logger.error(e);
-					}
-
-				}
+				} 
 			}
 		});
 
