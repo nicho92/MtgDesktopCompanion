@@ -16,7 +16,6 @@ public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends Abstrac
 
 	protected MTGUI2DChartComponent() {
 		super();
-		onlyOneRefresh=false;
 		chartPanel = new ChartPanel(null,true);
 		add(chartPanel, BorderLayout.CENTER);
 

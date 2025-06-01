@@ -31,10 +31,11 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected boolean etched=false;
 	protected boolean signed=false;
 	protected boolean altered=false;
-	protected boolean oversize=false;
 	protected Date dateUpdate;
 	protected String sku;
-
+	protected EnumCondition condition = EnumCondition.NEAR_MINT;
+	
+	
 	public Date getDateUpdate() {
 		return dateUpdate;
 	}
@@ -43,7 +44,9 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		this.dateUpdate = dateUpdate;
 	}
 
-	protected EnumCondition condition = EnumCondition.NEAR_MINT;
+	public MTGEdition getEdition() {
+		return edition;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

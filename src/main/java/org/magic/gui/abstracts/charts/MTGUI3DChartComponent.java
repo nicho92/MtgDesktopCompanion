@@ -28,7 +28,6 @@ public abstract class MTGUI3DChartComponent<T, U extends Dataset3D> extends Abst
 	protected MTGUI3DChartComponent(boolean displayPanel) {
 		super();
 		this.displayPanel=displayPanel;
-		onlyOneRefresh=false;
 		init();
 
 	}

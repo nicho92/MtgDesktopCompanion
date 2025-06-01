@@ -7,8 +7,7 @@ public abstract class NumberCost implements Cost {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected Integer value;
-	protected String modifier;
-	protected String x;
+	private String modifier;
 
 	public Integer getValue() {
 		return value;

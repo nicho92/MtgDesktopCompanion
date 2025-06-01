@@ -25,7 +25,6 @@ public abstract class MTGUIComponent extends JComponent {
 
 	protected static final long serialVersionUID = 1L;
 	protected transient Logger logger = MTGLogger.getLogger(getClass());
-	protected boolean onlyOneRefresh=true;
 	private boolean alreadyShow=false;
 	private transient ComponentListener windowsListener;
 	private JTabbedPane contextTabbedPane;

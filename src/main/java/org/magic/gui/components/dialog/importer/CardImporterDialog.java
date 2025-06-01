@@ -3,7 +3,6 @@ package org.magic.gui.components.dialog.importer;
 import java.awt.Dimension;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 
 import org.magic.api.beans.MTGCard;
@@ -13,8 +12,7 @@ import org.magic.gui.components.card.CardSearchPanel;
 public class CardImporterDialog extends AbstractDelegatedImporterDialog<MTGCard> {
 
 	private static final long serialVersionUID = 1L;
-	JButton selectCard;
-	CardSearchPanel panel;
+	private CardSearchPanel panel;
 
 	@Override
 	public MTGCard getSelectedItem() {

@@ -19,7 +19,6 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected Observer o;
 	protected P plug;
-	protected V classeType;
 	
 	
 	public T getResult()

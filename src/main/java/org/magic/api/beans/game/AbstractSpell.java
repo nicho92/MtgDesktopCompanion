@@ -3,12 +3,9 @@ package org.magic.api.beans.game;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
-import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.costs.Cost;
 import org.magic.game.model.effects.AbstractEffect;
-import org.magic.services.logging.MTGLogger;
 
 public abstract class AbstractSpell implements Spell  {
 
@@ -16,12 +13,10 @@ public abstract class AbstractSpell implements Spell  {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MTGCard card;
 	protected transient List<Cost> costs;
 	protected transient List<AbstractEffect> effects;
 	protected boolean resolved;
-	protected transient List<AbstractAbilities> abilities;
 	protected AbstractSpell target;
 
 
