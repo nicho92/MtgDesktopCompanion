@@ -227,11 +227,6 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void drawHand()
-	{
-		drawCard(7);
-	}
-
 	public void drawCard(int number) {
 		for (var i = 0; i < number; i++) {
 			hand.add(library.getCards().get(i));

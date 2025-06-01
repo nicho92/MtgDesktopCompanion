@@ -8,7 +8,6 @@ import java.io.IOException;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
-import org.magic.api.beans.technical.TCache;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGTokensProvider;
@@ -22,7 +21,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	private int newW=MTGConstants.DEFAULT_PIC_WIDTH;
 	private int newH=MTGConstants.DEFAULT_PIC_HEIGHT;
-	private TCache<BufferedImage> setCache;
 
 	@Override
 	public PLUGINS getType() {
@@ -31,8 +29,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	protected AbstractPicturesProvider() {
 		super();
-		setCache = new TCache<>("setIcons");
-
+		
 		try {
 			setSize(MTGControler.getInstance().getPictureProviderDimension().getDimension());
 		}
@@ -79,10 +76,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			return getBackPicture(mc);
 		}
 	}
-
-
-
-
 
 	@Override
 	public BufferedImage getPicture(MTGCard mc) throws IOException {

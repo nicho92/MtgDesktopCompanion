@@ -72,10 +72,6 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		return dataList.values().stream().flatMap(List::stream).collect(Collectors.toList());
 	}
 
-	public final boolean isCached(MTGEdition ed) {
-		return getSetDirectory(ed.getId()).exists();
-	}
-
 	protected void add(DescContainer dc) {
 		dataList.computeIfAbsent(dc.getSetCode(), _->new ArrayList<>()).add(dc);
 

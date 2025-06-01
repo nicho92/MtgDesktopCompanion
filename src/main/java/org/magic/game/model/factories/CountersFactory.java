@@ -56,12 +56,6 @@ public class CountersFactory {
 		return arr;
 	}
 
-
-	public LoyaltyCounter createCounter(LoyaltyAbilities la)
-	{
-		return new LoyaltyCounter(la);
-	}
-
 	public List<AbstractCounter> createCounter(MTGCard mc)
 	{
 		ArrayList<AbstractCounter> arr = new ArrayList<>();

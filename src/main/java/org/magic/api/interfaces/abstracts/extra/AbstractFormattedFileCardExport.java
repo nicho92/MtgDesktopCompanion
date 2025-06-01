@@ -114,11 +114,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		return matches(FileTools.readFile(f, charset),removeBlank);
 	}
 
-	public List<Matcher> matches(File f,boolean removeBlank) throws IOException
-	{
-		return matches(f, removeBlank,MTGConstants.DEFAULT_ENCODING);
-	}
-
 	public List<Matcher> matches(String content,boolean removeBlank)
 	{
 		return matches(content, removeBlank, getStringPattern());

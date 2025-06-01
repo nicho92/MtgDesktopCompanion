@@ -36,10 +36,6 @@ public class ManaPool extends Observable implements Serializable {
 
 	}
 
-	public void addMana(String mana) {
-		addMana(mana, 1);
-	}
-
 	public void addMana(String mana, Integer number) {
 		try {
 			pool.put(mana, pool.get(mana) + number);

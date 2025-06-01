@@ -94,22 +94,6 @@ public class MTGDeckManager extends Observable {
 		}
 	}
 
-
-	public List<MTGDeck> listDecksWithTag(String tag)
-	{
-		List<MTGDeck> decks = new ArrayList<>();
-		for (MTGDeck deck : listDecks())
-		{
-				if(deck.getTags().contains(tag))
-				{
-					decks.add(deck);
-					setChanged();
-					notifyObservers(deck);
-				}
-		}
-		return decks;
-	}
-
 	public List<MTGDeck> listDecksWith(MTGCard mc,boolean strict)
 	{
 		List<MTGDeck> decks = new ArrayList<>();

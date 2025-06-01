@@ -603,7 +603,7 @@ class NavigableEmbed extends ListenerAdapter {
 	private int yindex;
 	private Message message;
 
-	NavigableEmbed( List<List<Supplier<MessageEmbed>>> embeds,  MessageChannel channel) {
+	private NavigableEmbed( List<List<Supplier<MessageEmbed>>> embeds,  MessageChannel channel) {
 		this.embeds = new ArrayList<>();
 		this.embeds.addAll(embeds);
 		this.channel = channel;

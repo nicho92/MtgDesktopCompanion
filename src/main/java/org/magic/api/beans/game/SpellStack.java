@@ -1,19 +1,14 @@
 package org.magic.api.beans.game;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;
-import java.util.List;
 
-import org.apache.logging.log4j.Logger;
-import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public class SpellStack extends Observable {
 
-	Deque<AbstractSpell> stack;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	private Deque<AbstractSpell> stack;
 
 	public SpellStack() {
 		stack = new ArrayDeque<>();
@@ -36,10 +31,6 @@ public class SpellStack extends Observable {
 
 	public AbstractSpell pop() {
 		return stack.pop();
-	}
-
-	public List<AbstractSpell> toList() {
-		return new ArrayList<>(stack);
 	}
 
 	@Override

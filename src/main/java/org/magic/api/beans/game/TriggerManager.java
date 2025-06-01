@@ -1,6 +1,5 @@
 package org.magic.api.beans.game;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +30,6 @@ public class TriggerManager extends Observable {
 	public TriggerManager() {
 		triggers=new EnumMap<>(TRIGGERS.class);
 	}
-
-	public void register(TRIGGERS t, AbstractSpell as)
-	{
-		triggers.computeIfAbsent(t, _->new ArrayList<>()).add(as);
-		setChanged();
-		notifyObservers(as);
-	}
-
 
 	public void register(TRIGGERS t,List<AbstractSpell> a)
 	{

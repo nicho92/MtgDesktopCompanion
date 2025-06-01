@@ -58,11 +58,6 @@ public class Zone implements Serializable {
 		return set;
 	}
 
-
-	public void putCardAt(MTGCard mc, int position) {
-		cards.set(position, mc);
-	}
-
 	@Override
 	public String toString() {
 		return size() + " (" + getTypesIncludes().size() + " types)";

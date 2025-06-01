@@ -28,7 +28,6 @@ import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGStockItem;
-import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.api.scripts.impl.JavaScript;
 import org.magic.servers.impl.JSONHttpServer;
@@ -201,24 +200,6 @@ public class TransactionService
 		return rejectsT;
 	}
 
-	public static void cancelTransaction(Transaction t) throws SQLException, IOException {
-		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
-
-		for(MTGStockItem transactionItem : t.getItems())
-		{
-			MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getProduct().getTypeProduct(),transactionItem.getId());
-			if(stock==null)
-				throw new SQLException("No item found for " + transactionItem.getProduct().getTypeProduct() + "="+transactionItem.getId());
-
-					   stock.setQte(stock.getQte()+transactionItem.getQte());
-					   stock.setUpdated(true);
-					   t.setStatut(EnumTransactionStatus.CANCELED);
-					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
-		}
-		saveTransaction(t,false);
-		((JSONHttpServer)MTG.getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache();
-	}
-
 	public static void payingTransaction(Transaction t, String providerName) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 
@@ -238,15 +219,6 @@ public class TransactionService
 		}
 		sendMail(t,"TransactionPaid","Payment Accepted !");
 
-	}
-
-
-	public static void sendTransaction(Transaction t) throws  IOException {
-		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
-		t.setStatut(EnumTransactionStatus.SENT);
-		t.setDateSend(new Date());
-		saveTransaction(t,false);
-		sendMail(t,"TransactionSent", "Shipped !");
 	}
 
 	public static void mergeTransactions(List<Transaction> ts) throws SQLException, IOException {
@@ -269,15 +241,6 @@ public class TransactionService
 			}
 		}
 		saveTransaction(t,false);
-	}
-
-	public static boolean isAvailableFor(AbstractExternalShop shop, Transaction t) {
-		for(MTGStockItem mcs : t.getItems())
-		{
-			if(mcs.getTiersAppIds(shop.getName())==null)
-				return false;
-		}
-		return true;
 	}
 
 	public static void deleteContact(Contact contact) throws IOException {

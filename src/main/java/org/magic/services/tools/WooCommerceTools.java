@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ByteArrayEntity;
@@ -31,11 +30,11 @@ public class WooCommerceTools {
 	protected static Logger logger = MTGLogger.getLogger(WooCommerceTools.class);
 
 	public static final String WOO_COMMERCE_NAME = "WooCommerce";
-	public static final String WOO_COMMERCE_VERSION="V3";
+	private static final String WOO_COMMERCE_VERSION="V3";
 
-	public static final String WEBSITE = "WEBSITE";
-	public static final String CONSUMER_KEY = "CONSUMER_KEY";
-	public static final String CONSUMER_SECRET = "CONSUMER_SECRET";
+	private static final String WEBSITE = "WEBSITE";
+	private static final String CONSUMER_KEY = "CONSUMER_KEY";
+	private static final String CONSUMER_SECRET = "CONSUMER_SECRET";
 
 
 	private WooCommerceTools() {}
@@ -48,11 +47,6 @@ public class WooCommerceTools {
 	public static WooCommerce newClient(AccountAuthenticator p, String website)
 	{
 		return newClient(p.get(CONSUMER_KEY), p.get("SECRET_KEY") , website, WOO_COMMERCE_VERSION);
-	}
-
-	public static WooCommerce newClient(Properties p)
-	{
-		return newClient(p.getProperty(CONSUMER_KEY), p.getProperty(CONSUMER_SECRET), p.getProperty(WEBSITE), WOO_COMMERCE_VERSION);
 	}
 
 	public static WooCommerce newClient(AccountAuthenticator p)

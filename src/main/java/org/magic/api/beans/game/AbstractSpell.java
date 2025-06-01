@@ -50,14 +50,6 @@ public abstract class AbstractSpell implements Spell  {
 		resolved=true;
 	}
 
-
-
-
-	public boolean hasCost()
-	{
-		return !costs.isEmpty();
-	}
-
 	protected AbstractSpell()
 	{
 		costs=new ArrayList<>();

@@ -426,17 +426,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		return transactionModel;
 	}
 
-
-	public void init(Contact t) {
-		this.contact = t;
-		reload();
-	}
-
-
 	
-	
-	
-
 	public void init(List<Transaction> list)
 	{
 		try {

@@ -138,11 +138,6 @@ public class CollectionEvaluator extends Observable
 		});
 	}
 
-	public void clearUICache()
-	{
-		cache.clear();
-	}
-
 	public void initCache(MTGEdition edition,EditionsShakers ret) throws IOException
 	{
 		try {

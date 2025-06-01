@@ -9,9 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.ExecutionException;
 
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 import org.apache.logging.log4j.Logger;
@@ -24,7 +22,6 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
@@ -56,6 +53,8 @@ public class ImagePanel2 extends JXPanel {
 	public ImagePanel2(boolean moveable, boolean rotable, boolean zoomable, boolean reflexion) {
 
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
+		
+		scale = Double.parseDouble(MTGControler.getInstance().get("/card-pictures-dimension/zoom"));
 		
 		renderer = new ReflectionRenderer();
 		
@@ -139,12 +138,15 @@ public class ImagePanel2 extends JXPanel {
 			protected void auditedRun() {
 				try {
 					
-					front = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
+					front = getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(mc);
 					
 					if (mc.isDoubleFaced())
-						back = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc.getRotatedCard());
+						back = getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(mc.getRotatedCard());
 					else
 						back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
+					
+					back = ImageTools.resize(back, front.getHeight(),front.getWidth());
+					
 					
 					if(mc.isFlippable())
 						back = ImageTools.rotate(front, 180);
@@ -175,30 +177,7 @@ public class ImagePanel2 extends JXPanel {
 		}, "show img for " + mc);
 	}
 	
-	
-	public void loadImage(String url) {
 
-		ThreadManager.getInstance().runInEdt(new SwingWorker<BufferedImage, Void>() {
-			@Override
-			protected BufferedImage doInBackground() throws Exception {
-				return URLTools.extractAsImage(url);
-			}
-
-			@Override
-			protected void done() {
-				try {
-					setImg(get());
-				} catch (InterruptedException _) {
-					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
-					logger.error(e);
-				}
-			}
-		}, "loading product image");
-	}
-	
-	
-	
 	private void animateRotation() {
 		rotating = true;
 		Timer timer = new Timer(MTGConstants.ROTATED_TIMEOUT, null);
