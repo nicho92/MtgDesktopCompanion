@@ -20,7 +20,7 @@ public abstract class MTGUI3DChartComponent<T, U extends Dataset3D> extends Abst
 	private static final long serialVersionUID = 1L;
 	protected Chart3DPanel chartPanel;
 	protected Chart3D chart;
-	protected boolean displayPanel;
+	private boolean displayPanel;
 
 	public abstract U getDataSet() ;
 
