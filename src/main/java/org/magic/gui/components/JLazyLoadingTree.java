@@ -71,7 +71,7 @@ public class JLazyLoadingTree extends JTree {
 			return leaf;
 		}
 
-		public MyNode(Object c) {
+		private MyNode(Object c) {
 
 			obj = c;
 			setUserObject(c);
@@ -91,7 +91,7 @@ public class JLazyLoadingTree extends JTree {
 			}
 		}
 
-		public void loadChildren() {
+		private void loadChildren() {
 			if (obj instanceof String)
 				loadCollection();
 
