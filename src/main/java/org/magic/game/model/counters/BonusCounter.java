@@ -6,8 +6,8 @@ public class BonusCounter extends AbstractCounter {
 
 
 	private static final long serialVersionUID = 1L;
-	int powerModifier;
-	int toughnessModifier;
+	private int powerModifier;
+	private int toughnessModifier;
 
 	public BonusCounter(int powerModifier, int toughnessModifier) {
 		this.powerModifier = powerModifier;

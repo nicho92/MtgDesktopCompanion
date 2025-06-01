@@ -29,7 +29,7 @@ public class BattleFieldPanel extends DraggablePanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	JPopupMenu battlefieldMenu = new JPopupMenu();
+	private JPopupMenu battlefieldMenu = new JPopupMenu();
 	private transient BufferedImage image;
 
 	public List<DisplayableCard> getCards() {

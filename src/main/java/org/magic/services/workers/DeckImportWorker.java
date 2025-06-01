@@ -21,8 +21,8 @@ public class DeckImportWorker extends SwingWorker<MTGDeck, MTGCard> {
 
 	protected MTGCardsExport exp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected Observer o;
-	protected AbstractBuzyIndicatorComponent buzy;
+	private  Observer o;
+	private AbstractBuzyIndicatorComponent buzy;
 	private File f;
 	protected Exception err;
 

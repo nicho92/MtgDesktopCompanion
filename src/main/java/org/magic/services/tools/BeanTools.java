@@ -15,7 +15,7 @@ import org.magic.services.logging.MTGLogger;
 
 public class BeanTools {
 
-	protected static Logger logger = MTGLogger.getLogger(BeanTools.class);
+	private static Logger logger = MTGLogger.getLogger(BeanTools.class);
 	public static final String TOKEN_START="{";
 	public static final String TOKEN_END="}";
 

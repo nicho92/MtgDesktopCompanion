@@ -117,7 +117,7 @@ public class ConstructPanel extends MTGUIComponent {
 	private JList<MTGCard> listResult;
 	private DrawProbabilityPanel cardDrawProbaPanel;
 	private ObjectViewerPanel objectviewerPanel;
-	protected int selectedIndex = 0;
+	private int selectedIndex = 0;
 	private File f;
 	private JLabel lblCards;
 	private DeckStockComparatorPanel stockPanel;
