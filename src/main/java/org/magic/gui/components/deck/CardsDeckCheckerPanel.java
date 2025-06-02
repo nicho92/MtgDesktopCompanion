@@ -72,7 +72,7 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 		init();
 	}
 
-	public void init() {
+	private void init() {
 		if(isVisible() && selectedCard!=null)
 		{
 			buzyLabel.start();

@@ -81,6 +81,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	private JCheckBox chkRetro;
 	private JLabel lblAuthor;
 	private boolean face=false;
+	
 	public String getTitle() {
 		return "DETAILS";
 	}

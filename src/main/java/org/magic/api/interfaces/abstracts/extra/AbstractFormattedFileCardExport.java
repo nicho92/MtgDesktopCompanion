@@ -115,9 +115,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		
 		logger.info("Reading deck with regex {}", pattern);
 		
-		List<Matcher> ret = new ArrayList<>();
+		var ret = new ArrayList<Matcher>();
 		var p = Pattern.compile(pattern);
-		for(String line : splitLines(content,removeBlank))
+		for(var line : splitLines(content,removeBlank))
 		{
 			line = line.trim();
 			if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
@@ -140,16 +140,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		var m = super.getDefaultAttributes();
 		m.put("SEPARATOR", new MTGProperty(",","Item separator used for export"));
 		return m;
-	}
-
-	@Override
-	public String getVersion() {
-		return "2.0";
-	}
-
-	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
 	}
 
 }
