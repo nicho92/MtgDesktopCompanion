@@ -146,7 +146,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		return selectedCard;
 	}
 
-	public void initPopupCollection() throws SQLException {
+	private void initPopupCollection() throws SQLException {
 		var menuItemAdd = new JMenu(capitalize("ADD"));
 		menuItemAdd.setIcon(MTGConstants.ICON_NEW);
 		for (var mc : getEnabledPlugin(MTGDao.class).listCollections()) {

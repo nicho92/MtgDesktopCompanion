@@ -7,10 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -166,23 +164,6 @@ public class CollectionEvaluator extends Observable
 	{
 		return initCache(edition,getEnabledPlugin(MTGDashBoard.class).getName());
 	}
-
-	private List<MTGEdition> getEditions()
-	{
-		var eds = new ArrayList<MTGEdition>();
-		try {
-			getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(collection).forEach(key->{
-				try {
-					eds.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(key));
-				}catch(Exception e)
-				{
-					logger.error("error get edition {}",key,e);
-				}});
-		} catch (SQLException e) {
-			logger.error("error sql get editions ",e);
-		}
-		return eds;
-		}
 
 	public Date getCacheDate(MTGEdition ed)
 	{

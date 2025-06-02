@@ -44,11 +44,10 @@ import georegression.struct.point.Point2D_I32;
 public class RadiusAreaStrat extends AbstractRecognitionArea
 {
 
-    static final int MAXLINES = 10;
-    static final int COLLATEFRAMES = 10;
+    private static final int COLLATEFRAMES = 10;
 
-    static final int BUCKET_ANGLE = 3;
-    static final int NUM_BUCKETS = 180 / BUCKET_ANGLE;
+    private static final int BUCKET_ANGLE = 3;
+    private static final int NUM_BUCKETS = 180 / BUCKET_ANGLE;
 
     private Point2D_F32 center = new Point2D_F32(320, 240);
     private double radius = 200;

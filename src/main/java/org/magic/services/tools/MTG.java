@@ -1,10 +1,8 @@
 package org.magic.services.tools;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -52,25 +50,6 @@ public class MTG {
 	{
 		return PluginRegistry.inst().listEnabledPlugins(t).stream().sorted(Comparator.comparing(MTGPlugin::getName)).toList();
 	}
-
-	public static <T extends MTGPlugin> List<T> listPlugins(String[] names, Class<T> t)
-	{
-		List<T> list = new ArrayList<>();
-		for(String name : names)
-		{
-			if(!StringUtils.isEmpty(name))
-				try {
-					list.add(PluginRegistry.inst().getPlugin(name,t));
-				}
-				catch(Exception e)
-				{
-					logger.error("Can't add {} {} : {}" ,name,t,e);
-				}
-		}
-		return list;
-	}
-
-
 
 	public static <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
 		return PluginRegistry.inst().getPlugin(name,type);

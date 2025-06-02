@@ -160,7 +160,7 @@ public class CardStockPanel extends MTGUIComponent {
 
 	}
 
-	public void addLine()
+	private void addLine()
 	{
 		try {
 			MTGCardStock st = MTGControler.getInstance().getDefaultStock();

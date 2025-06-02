@@ -6,8 +6,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.SystemColor;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
@@ -15,7 +13,6 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.TooManyListenersException;
 
@@ -35,7 +32,7 @@ public class FileDropDecorator
     private Logger logger = MTGLogger.getLogger(this.getClass());
     private Color defaultColor;
 
-    public void init(final Component c,final Listener listener)
+    public void init(final Component c,final DropListener listener)
     {
             dropListener = new DropTargetListener()
             {
@@ -169,78 +166,9 @@ public class FileDropDecorator
         return ok;
     }
 
-    public static interface Listener {
+    public interface DropListener {
         public abstract void filesDropped( File[] files );
 
     }
 
-
-    public static class TransferableObject implements Transferable
-    {
-        public static final  String MIME_TYPE = "application/x-net.iharder.dnd.TransferableObject";
-
-        public static final  DataFlavor DATA_FLAVOR = new DataFlavor( FileDropDecorator.TransferableObject.class, MIME_TYPE );
-        private Fetcher fetcher;
-        private Object data;
-        private DataFlavor customFlavor;
-
-
-        public TransferableObject( Object data )
-        {
-        	this.data = data;
-            this.customFlavor = new DataFlavor( data.getClass(), MIME_TYPE );
-        }
-
-        public TransferableObject( Fetcher fetcher )
-        {   this.fetcher = fetcher;
-        }
-
-        public TransferableObject( Class dataClass, Fetcher fetcher )
-        {   this.fetcher = fetcher;
-            this.customFlavor = new DataFlavor( dataClass, MIME_TYPE );
-        }
-
-        public DataFlavor getCustomDataFlavor()
-        {
-        	return customFlavor;
-        }
-
-        @Override
-		public DataFlavor[] getTransferDataFlavors()
-        {
-            if( customFlavor != null )
-                return new DataFlavor[]
-                {
-                   customFlavor,
-                   DATA_FLAVOR,
-                   DataFlavor.imageFlavor
-                };
-            else
-                return new DataFlavor[]
-                {
-                	DATA_FLAVOR,
-                    DataFlavor.imageFlavor
-                };
-        }
-
-        @Override
-		public Object getTransferData( DataFlavor flavor ) throws UnsupportedFlavorException, IOException
-        {
-            if( flavor.equals( DATA_FLAVOR ) )
-                return fetcher == null ? data : fetcher.getObject();
-
-                  throw new UnsupportedFlavorException(flavor);
-        }
-
-        @Override
-		public boolean isDataFlavorSupported( DataFlavor flavor )
-        {
-           return ( flavor.equals( DATA_FLAVOR ));
-        }
-
-        public static interface Fetcher
-        {
-            public abstract Object getObject();
-        }
-    }
 }
