@@ -12,7 +12,7 @@ public abstract class AbstractProduct implements MTGProduct{
 	private static final long serialVersionUID = 1L;
 
 	private Long productId;
-	@SerializedName(alternate = "imageName", value = "url") protected String url;
+	@SerializedName(alternate = "imageName", value = "url") private  String url;
 	private String name;
 	protected MTGEdition edition;
 	private EnumItems typeProduct;

@@ -41,7 +41,7 @@ public class TransactionService
 {
 
 	public static final Integer TOKENSIZE = 50;
-	protected static Logger logger = MTGLogger.getLogger(TransactionService.class);
+	private  static Logger logger = MTGLogger.getLogger(TransactionService.class);
 	private static MTGExternalShop mtgshop=MTG.getEnabledPlugin(MTGExternalShop.class);
 	private TransactionService() {	}
 

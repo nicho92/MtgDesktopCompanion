@@ -27,7 +27,7 @@ import com.icoderman.woocommerce.oauth.OAuthSignature;
 
 public class WooCommerceTools {
 
-	protected static Logger logger = MTGLogger.getLogger(WooCommerceTools.class);
+	private static Logger logger = MTGLogger.getLogger(WooCommerceTools.class);
 
 	public static final String WOO_COMMERCE_NAME = "WooCommerce";
 	private static final String WOO_COMMERCE_VERSION="V3";

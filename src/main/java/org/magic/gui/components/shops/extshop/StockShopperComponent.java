@@ -40,8 +40,8 @@ public class StockShopperComponent extends MTGUIComponent {
 	private StockItemTableModel modelInput;
 	private AbstractBuzyIndicatorComponent buzy;
 	private MTGStockItem selectedItem;
-	JButton btnSave;
-	JButton btnBind;
+	private JButton btnSave;
+	private JButton btnBind;
 
 
 	public StockShopperComponent() {

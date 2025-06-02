@@ -8,8 +8,8 @@ public abstract class AbstractEffect extends AbstractSpell {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	protected String effectDescription;
-	protected AbstractEffect childEffect;
+	private String effectDescription;
+	private AbstractEffect childEffect;
 
 
 
@@ -17,12 +17,6 @@ public abstract class AbstractEffect extends AbstractSpell {
 	public boolean isStackable() {
 		return true;
 	}
-
-	public boolean hasChild()
-	{
-		return childEffect!=null;
-	}
-
 
 	public AbstractEffect getChildEffect() {
 		return childEffect;
@@ -45,7 +39,7 @@ public abstract class AbstractEffect extends AbstractSpell {
 	public String toString() {
 		var build = new StringBuilder();
 		build.append(getEffectDescription());
-		if(hasChild())
+		if(childEffect!=null)
 			build.append("\nAND ").append(getChildEffect());
 
 		return build.toString();

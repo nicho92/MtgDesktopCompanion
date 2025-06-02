@@ -15,10 +15,10 @@ import org.utils.patterns.observer.Observer;
 
 public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extends SwingWorker<T, V> {
 
-	protected AbstractBuzyIndicatorComponent buzy;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected Observer o;
-	protected P plug;
+	protected  AbstractBuzyIndicatorComponent buzy;
+	protected  Logger logger = MTGLogger.getLogger(this.getClass());
+	private  Observer o;
+	protected  P plug;
 	
 	
 	public T getResult()

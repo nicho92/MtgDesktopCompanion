@@ -16,7 +16,7 @@ public class UntapPhase extends AbstractAction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	String detail = "<html>-All permanents with phasing controlled by the active player phase out\n, and all phased-out permanents that were controlled by the active player simultaneously phase in.<br/>"
+	private String detail = "<html>-All permanents with phasing controlled by the active player phase out\n, and all phased-out permanents that were controlled by the active player simultaneously phase in.<br/>"
 			+ "-The active player determines which permanents controlled by that player untap, then untaps all those permanents simultaneously.<br/>(The player will untap all permanents he or she controls unless a card effect prevents this.)<html>";
 
 	public UntapPhase() {

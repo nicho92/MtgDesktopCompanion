@@ -27,7 +27,7 @@ public class TurnsPanel extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	JLabel lblTurnNumber;
+	private JLabel lblTurnNumber;
 
 	public TurnsPanel() {
 		var flowLayout = (FlowLayout) getLayout();

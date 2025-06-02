@@ -6,7 +6,7 @@ import org.magic.api.interfaces.extra.MTGComparator;
 
 public class CardsDeckSorter implements MTGComparator<MTGCard> {
 
-	MTGDeck deck;
+	private MTGDeck deck;
 
 
 	@Override

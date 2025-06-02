@@ -29,7 +29,7 @@ public class ThreadManager {
 
 	private static ThreadManager inst;
 	private ThreadPoolExecutor executor;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	private  Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
 
 
