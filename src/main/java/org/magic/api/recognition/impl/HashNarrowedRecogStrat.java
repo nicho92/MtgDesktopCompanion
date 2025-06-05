@@ -1,12 +1,8 @@
 package org.magic.api.recognition.impl;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.technical.MTGDocumentation;
-import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.services.recognition.DescContainer;
@@ -18,15 +14,6 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 
 
 	private List<DescContainer> datas;
-
-	@Override
-	public MTGDocumentation getDocumentation() {
-		try {
-			return new MTGDocumentation(URI.create("https://jenssegers.com/perceptual-image-hashes").toURL(),FORMAT_NOTIFICATION.HTML);
-		} catch (MalformedURLException _) {
-			return super.getDocumentation();
-		}
-	}
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
