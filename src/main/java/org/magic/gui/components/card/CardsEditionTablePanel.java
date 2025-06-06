@@ -84,7 +84,7 @@ public class CardsEditionTablePanel extends JPanel {
 		cboCollection =  UITools.createComboboxCollection();
 		panneauBas.add(cboCollection);
 
-		btnImport = new JButton(MTGConstants.ICON_MASS_IMPORT_SMALL);
+		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		btnImport.setEnabled(false);
 		panneauBas.add(btnImport);
 
