@@ -10,7 +10,6 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
@@ -28,21 +27,6 @@ public class DeepSeek extends AbstractIA {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		
-		MTGControler.getInstance().loadAccountsConfiguration();
-		
-		
-		var ds = new DeepSeek();
-		
-		
-		ds.generateRandomCard(" with theme of Cthulhu and lovecraft universe");
-		
-		
-	}
-	
 	
 	
 	private JsonElement query( JsonObject obj,String endpoint) throws IOException
