@@ -10,6 +10,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
@@ -29,6 +30,21 @@ public class DeepSeek extends AbstractIA {
 	}
 	
 	
+	public static void main(String[] args) throws IOException {
+		
+		MTGControler.getInstance().loadAccountsConfiguration();
+		
+		
+		var ds = new DeepSeek();
+		
+		
+		ds.generateRandomCard(" with theme of Cthulhu and lovecraft universe");
+		
+		
+	}
+	
+	
+	
 	private JsonElement query( JsonObject obj,String endpoint) throws IOException
 	{
 		var	client = URLTools.newClient();
@@ -42,7 +58,14 @@ public class DeepSeek extends AbstractIA {
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		var resp =  client.doPost("https://api.deepseek.com"+endpoint, new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
 		logger.debug(resp);
-		return URLTools.toJson(resp.getEntity().getContent());
+		var ret = URLTools.toJson(resp.getEntity().getContent());
+		
+		if(ret.getAsJsonObject().get("error")!=null)
+			throw new IOException(ret.getAsJsonObject().get("error").getAsJsonObject().get("message").getAsString());
+		
+		
+		
+		return ret;
 		
 	}
 	
@@ -83,7 +106,11 @@ public class DeepSeek extends AbstractIA {
 
 	@Override
 	public MTGCard generateRandomCard(String description) throws IOException {
-		// TODO Auto-generated method stub
+		
+		var ret = ask(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description));
+		
+		System.out.println(ret);
+		
 		return null;
 	}
 
