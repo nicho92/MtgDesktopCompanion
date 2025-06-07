@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import org.magic.services.tools.ImageTools;
+
 public class CropImagePanel extends JPanel implements MouseListener, MouseMotionListener {
 	/**
 	 *
@@ -39,22 +41,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 		addMouseMotionListener(this);
 	}
 
-	private static BufferedImage toBufferedImage(Image img) {
-		if (img instanceof BufferedImage im) {
-			return im;
-		}
-
-		// Create a buffered image with transparency
-		var bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
-		// Draw the image on to the buffered image
-		var bGr = bimage.createGraphics();
-		bGr.drawImage(img, 0, 0, null);
-		bGr.dispose();
-
-		// Return the buffered image
-		return bimage;
-	}
+	
 
 	public Rectangle getCroppedDimension()
 	{
@@ -73,7 +60,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 			int h = c2 - c4;
 			w = w * -1;
 			h = h * -1;
-			var img = toBufferedImage(selectedImage);
+			var img = ImageTools.imageToBufferedImage(selectedImage);
 			return img.getSubimage(c1, c2, w, h);
 		} catch (Exception _) {
 			return null;
