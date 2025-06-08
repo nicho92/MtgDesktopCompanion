@@ -36,6 +36,8 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected EnumCondition condition = EnumCondition.NEAR_MINT;
 	
 	
+	
+	
 	public Date getDateUpdate() {
 		return dateUpdate;
 	}

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -25,6 +26,8 @@ import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.services.logging.MTGLogger;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
@@ -35,7 +38,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String WEBSITE = "https://www.mtggoldfish.com";
 	private static final String SET_EXTRA = "SET_EnumExtra";
 	private static final String MOVERS_DETAILS = WEBSITE+"/movers-details/";
-
+	private MTGHttpClient client;
+	
+	
 	boolean isPaperparsing=true;
 
 	@Override
@@ -43,7 +48,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return STATUT.DEV;
 	}
 	
-
+	public MTGoldFishDashBoard() {
+		client = URLTools.newClient();
+	}
+	
+	
 	
 	@Override
 	public HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
@@ -91,17 +100,81 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		return historyPrice;
 	}
+	
+	
+	private String token="";
+	
+	private String readXcrf() throws IOException
+	{
+		
+		if(!token.isEmpty())
+			return token;
+		
+		var meta = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml().getElementsByAttributeValue("name", "csrf-token").first();
+		
+		if(meta==null)
+			throw new IOException("No csrf token present");
+		
+		token = meta.attr("content");
+		
+		logger.debug("getting {} token",token);
+		
+		return token;
+	}
+
+
+	public static void main(String[] args) throws IOException {
+		
+		MTGLogger.changeLevel(Level.INFO);
+		var mc = new MTGCard();
+			mc.setName("liliana of the veil");
+			
+		var set = new MTGEdition("PUMA");
+		mc.setEdition(set);
+		
+		
+		new MTGoldFishDashBoard().suggestId(mc,true);
+		
+	}
+	
+	
+	private String suggestId(MTGCard c,boolean foil) throws IOException
+	{
+		var arr = RequestBuilder.build().url(WEBSITE+"/autocomplete").setClient(client).get()
+				.addContent("term",c.getName())
+				.addHeader("referer", WEBSITE)
+				.addHeader("x-requested-with", "XMLHttpRequest")
+				.addHeader(URLTools.ACCEPT,"application/json, text/javascript, */*; q=0.01")
+				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
+				.addHeader("priority","u=1, i")
+				.addHeader("x-csrf-token", readXcrf())
+				.toJson().getAsJsonArray();
+	
+				var q = arr.asList().stream().filter(je->je.getAsJsonObject().get("id").getAsString().contains(aliases.getReversedSetIdFor(this, c.getEdition())));
+				
+				if(foil)
+					q = q.filter(je->je.getAsJsonObject().get("finish").getAsString().contains("foil"));
+					
+					
+				var res = q.toList();	
+				
+				logger.info("return {}" , res);
+				
+				
+				if(res.size()==1)
+					return res.get(0).getAsJsonObject().get("id").getAsString();
+		
+		
+				return "";
+	}
+	
+	
 
 	private void parsing(HistoryPrice <?> history) throws IOException {
-			var client = URLTools.newClient();
+		
 			var url =WEBSITE+"/price_history_component";
 			
-			var meta = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml().getElementsByAttributeValue("name", "csrf-token").first();
 			
-			if(meta==null)
-				throw new IOException("No csrf token present");
-			
-			var token = meta.attr("content");
 			var cardid="";
 			var pricetype="card";
 			
@@ -134,7 +207,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					variant = "<first place" + (card.isShowCase()?" showcase>":">");
 				if(card.getPromotypes().contains(EnumPromoType.FRACTUREFOIL))
 					variant = "<"+(card.isShowCase()?"showcase - ":"") + "fracture foil>";
-					
+				if(card.getPromotypes().contains(EnumPromoType.TEXTURED))
+					variant = "<textured>";	
 				
 				cardid=card.getName() + (variant.isEmpty()?"": " " +variant) +" ["+aliases.getReversedSetIdFor(this, card.getEdition())+"] "+(history.isFoil()?"(F)":"");
 			}
@@ -186,7 +260,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							.addContent("price_type",pricetype)
 							.addHeader("referer", WEBSITE)
 							.addHeader("x-requested-with", "XMLHttpRequest")
-							.addHeader("x-csrf-token", token)
+							.addHeader("x-csrf-token", readXcrf())
 							.toHtml();
 			
 			var res = q.select("a span").html();

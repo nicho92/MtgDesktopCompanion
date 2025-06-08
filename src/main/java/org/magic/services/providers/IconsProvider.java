@@ -159,6 +159,9 @@ public class IconsProvider {
 			if(!localF.exists())
 			{
 				try {
+					
+					//https://c2.scryfall.com/file/scryfall-symbols/sets/"+idSet.toLowerCase()+".svg"
+					
 					URLTools.download("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+getEquiv(id).toLowerCase()+".svg", localF);
 				}
 				catch(Exception _)

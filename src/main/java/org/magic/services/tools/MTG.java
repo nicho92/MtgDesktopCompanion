@@ -3,17 +3,14 @@ package org.magic.services.tools;
 import java.util.Comparator;
 import java.util.List;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
-import org.magic.services.logging.MTGLogger;
 
 public class MTG {
-	private static Logger logger = MTGLogger.getLogger(MTG.class);
-
+	
 	private MTG() {
 		// this class tool is for simple controler classes access
 	}
