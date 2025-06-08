@@ -16,26 +16,28 @@ import org.magic.services.MTGControler;
 public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStockItem {
 
 	protected static final long serialVersionUID = 1L;
-	protected Long id=-1L;
-	protected MTGCollection magicCollection;
-	protected Integer qte=1;
-	protected String comment="";
-	protected String language="English";
-	protected boolean updated=false;
-	protected Double price=0.0;
-	protected MTGGrading grade;
-	protected MTGEdition edition;
+	private Long id=-1L;
+	private MTGCollection magicCollection;
+	private Integer qte=1;
+	private String comment="";
+	private String language="English";
+	private boolean updated=false;
+	private Double price=0.0;
+	private MTGGrading grade;
+	private MTGEdition edition;
 	protected T product;
 	protected transient Map<String,String> tiersAppIds;
-	protected boolean foil=false;
-	protected boolean etched=false;
-	protected boolean signed=false;
-	protected boolean altered=false;
-	protected Date dateUpdate;
-	protected String sku;
+	private boolean foil=false;
+	private boolean etched=false;
+	private boolean signed=false;
+	private boolean altered=false;
+	private Date dateUpdate;
+	private String sku;
 	protected EnumCondition condition = EnumCondition.NEAR_MINT;
 	
-	
+	public void setEdition(MTGEdition edition) {
+		this.edition = edition;
+	}
 	
 	
 	public Date getDateUpdate() {

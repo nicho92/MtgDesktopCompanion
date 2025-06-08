@@ -17,7 +17,7 @@ public class MTGSealedStock extends AbstractStockItem<MTGSealedProduct>  {
 	@Override
 	public void setProduct(MTGSealedProduct product) {
 		this.product=product;
-		edition = product.getEdition();
+		setEdition(product.getEdition());
 		setCondition(EnumCondition.SEALED);
 	}
 

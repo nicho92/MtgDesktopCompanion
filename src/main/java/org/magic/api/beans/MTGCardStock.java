@@ -15,7 +15,7 @@ public class MTGCardStock extends AbstractStockItem<MTGCard>{
 	
 	public MTGCardStock(MTGCard c) {
 		super();
-		id = -1L;
+		setId(-1L);
 		if (c != null) {
 			setProduct(c);
 		}
@@ -31,7 +31,7 @@ public class MTGCardStock extends AbstractStockItem<MTGCard>{
 	
 	
 	public MTGCardStock() {
-		id=-1L;
+		setId(-1L);
 		tiersAppIds= new HashMap<>();
 	}
 
@@ -40,7 +40,7 @@ public class MTGCardStock extends AbstractStockItem<MTGCard>{
 	public void setProduct(MTGCard c) {
 		tiersAppIds= new HashMap<>();
 		product=c;
-		edition= c.getEdition();
+		setEdition(c.getEdition());
 		product.setTypeProduct(EnumItems.CARD);
 		product.setEdition(c.getEdition());
 		
