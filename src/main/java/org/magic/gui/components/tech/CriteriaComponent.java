@@ -228,7 +228,7 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 
 	public MTGCrit<?> getMTGCriteria(){
 		if(!showComparator)
-			return new MTGCrit<>(c, OPERATOR.LIKE, val);
+			return new MTGCrit<>(c, OPERATOR.EQ, val);
 
 
 		return new MTGCrit<>(c, OPERATOR.valueOf(cboOperator.getSelectedItem().toString()), val);
