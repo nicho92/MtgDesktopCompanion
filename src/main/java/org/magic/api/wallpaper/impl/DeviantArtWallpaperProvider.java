@@ -109,7 +109,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"),
-								LIMIT,MTGProperty.newIntegerProperty("50", "Max results to return", 5, 150));
+								LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, 50));
 	}
 
 }

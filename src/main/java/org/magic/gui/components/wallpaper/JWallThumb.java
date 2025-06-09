@@ -34,22 +34,11 @@ public class JWallThumb extends JLabel {
 		return wall;
 	}
 
-	public void resizePic(int size) {
+	private void resizePic(int size) {
 		this.size = size;
 		try {
 
-			int w = wall.getPicture().getWidth(null);
-			int h = wall.getPicture().getHeight(null);
-			float scaleW = (float) size / w;
-			float scaleH = (float) size / h;
-			if (scaleW > scaleH) {
-				w = -1;
-				h = (int) (h * scaleH);
-			} else {
-				w = (int) (w * scaleW);
-				h = -1;
-			}
-			Image img = ImageTools.resize(wall.getPicture(),w, h);
+			Image img = ImageTools.scaleResize(wall.getPicture(),size);
 			setIcon(new ImageIcon(img));
 		} catch (Exception e) {
 			logger.error(e);

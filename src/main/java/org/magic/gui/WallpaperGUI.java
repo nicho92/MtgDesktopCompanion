@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -44,7 +45,7 @@ public class WallpaperGUI extends MTGUIComponent {
 	private GridBagConstraints c;
 	private int index = 0;
 	private int val = 4;
-
+	private JCheckBox chkSelectAll;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -80,7 +81,8 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		panelThumnail = new JPanel();
 		add(new JScrollPane(panelThumnail), BorderLayout.CENTER);
-
+		
+		chkSelectAll = new JCheckBox("Select All");
 
 		c = new GridBagConstraints();
 		c.insets = new Insets(2, 2, 2, 2);
@@ -92,21 +94,15 @@ public class WallpaperGUI extends MTGUIComponent {
 		add(panel, BorderLayout.NORTH);
 
 		cboWallpapersProv = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
-
 		selectedProvider = cboWallpapersProv.getItemAt(0);
-		cboWallpapersProv
-				.addActionListener(_ -> selectedProvider = (MTGWallpaperProvider) cboWallpapersProv.getSelectedItem());
+		cboWallpapersProv.addActionListener(_ -> selectedProvider = (MTGWallpaperProvider) cboWallpapersProv.getSelectedItem());
 
 		panel.add(cboWallpapersProv);
-
 		txtSearch = UITools.createSearchField();
 
 		panel.add(txtSearch);
 		txtSearch.setColumns(20);
-
-
 		txtSearch.addActionListener(_ ->{
-
 			panelThumnail.removeAll();
 			panelThumnail.revalidate();
 			index = 0;
@@ -116,13 +112,13 @@ public class WallpaperGUI extends MTGUIComponent {
 			c.gridy = 0;
 			lblLoad.start();
 
-			SwingWorker<List<MTGWallpaper>, MTGWallpaper> sw = new SwingWorker<>() {
+			var sw = new SwingWorker<List<MTGWallpaper>, MTGWallpaper>() {
 
 				@Override
 				protected List<MTGWallpaper> doInBackground() throws Exception {
 					return selectedProvider.search(txtSearch.getText()).stream().map(w -> {
 						try {
-							MTGWallpaper p= w.load();
+							var p= w.load();
 							publish(p);
 							return p;
 						} catch (IOException e) {
@@ -133,19 +129,19 @@ public class WallpaperGUI extends MTGUIComponent {
 				}
 
 				@Override
-				protected void process(List<MTGWallpaper> chunks) {
-					for (MTGWallpaper w : chunks) {
-						var thumb = new JWallThumb(w,true);
-						addComponent(thumb);
-
-						thumb.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent e) {
-								thumb.selected(!thumb.isSelected());
-
-							}
-						});
-				}
+				protected void process(List<MTGWallpaper> chunks) 
+				{
+						for (MTGWallpaper w : chunks) 
+						{
+							var thumb = new JWallThumb(w,true);
+							addComponent(thumb);
+							thumb.addMouseListener(new MouseAdapter() {
+								@Override
+								public void mouseClicked(MouseEvent e) {
+									thumb.selected(!thumb.isSelected());
+								}
+							});
+						}
 				}
 
 				@Override
@@ -153,10 +149,7 @@ public class WallpaperGUI extends MTGUIComponent {
 					lblLoad.end();
 				}
 			};
-
-
 			ThreadManager.getInstance().runInEdt(sw,"searching " + txtSearch.getText());
-
 		});
 
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -168,30 +161,41 @@ public class WallpaperGUI extends MTGUIComponent {
 		btnImport = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"wallpaper import");
 		btnImport.setToolTipText(capitalize("IMPORT"));
 		panel1.add(btnImport);
+		panel1.add(chkSelectAll);
 
-		btnImport.addActionListener(_ -> {
+		btnImport.addActionListener(_ ->{
+			
+			lblLoad.start();
+			var sw =  new SwingWorker<Void, Void>()
+			{
+				@Override
+				protected Void doInBackground() throws Exception {
+					for (var comp : panelThumnail.getComponents()) 
+					{
+						var th = (JWallThumb) comp;
 
-			var error = false;
-			for (Component comp : panelThumnail.getComponents()) {
-				JWallThumb th = (JWallThumb) comp;
-
-				if (th.isSelected()) {
-					try {
-						MTGControler.getInstance().saveWallpaper(th.getWallpaper());
-						th.selected(false);
-					} catch (IOException e1) {
-						error = true;
-						MTGControler.getInstance().notify(e1);
+						if (th.isSelected() || chkSelectAll.isSelected()) 
+						{
+							try {
+								MTGControler.getInstance().saveWallpaper(th.getWallpaper());
+								th.selected(false);
+							} catch (IOException e1) {
+								logger.error(e1);
+							}
+						}
 					}
+					
+					return null;
 				}
-			}
 
-			if (!error)
-				MTGControler.getInstance().notify(new MTGNotification("OK", MTGControler.getInstance().getLangService().get("FINISHED"), MESSAGE_TYPE.INFO));
-
-
+				@Override
+				protected void done() {
+					lblLoad.end();
+				}
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw, "Saving wallpapers");
 		});
-
 	}
 
 }
