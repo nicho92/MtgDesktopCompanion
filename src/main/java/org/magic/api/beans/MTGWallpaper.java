@@ -10,7 +10,7 @@ import org.magic.services.tools.ImageTools;
 
 public class MTGWallpaper {
 
-	private BufferedImage picture;
+	private transient BufferedImage picture;
 	private URI url;
 	private String name;
 	private String format;

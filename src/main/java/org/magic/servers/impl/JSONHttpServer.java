@@ -83,6 +83,7 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
+import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
@@ -1439,6 +1440,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 	}
 	
+	
+	private void initWallpapers()
+	{
+		
+		get("/wallpaper/:plugins/:search", URLTools.HEADER_JSON,(request, _) ->{
+			
+			
+			return MTG.getPlugin(request.params(":plugins"),MTGWallpaperProvider.class).search(request.params(":search"));
+
+		}, transformer);
+		
+	}
+	
 	private void initRoutes() {
 
 		
@@ -1479,6 +1493,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		initContacts();
 	
 		initWebShop();
+		
+		initWallpapers();
+		
 		
 		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, _) ->
 			getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
