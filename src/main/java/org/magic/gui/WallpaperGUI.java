@@ -3,7 +3,6 @@ package org.magic.gui;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -23,8 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MTGWallpaper;
-import org.magic.api.beans.technical.MTGNotification;
-import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -160,8 +157,9 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		btnImport = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"wallpaper import");
 		btnImport.setToolTipText(capitalize("IMPORT"));
-		panel1.add(btnImport);
 		panel1.add(chkSelectAll);
+		panel1.add(btnImport);
+
 
 		btnImport.addActionListener(_ ->{
 			
