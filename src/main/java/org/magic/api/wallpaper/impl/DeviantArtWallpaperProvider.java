@@ -82,7 +82,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			} catch (Exception e) {
 				logger.error("error",e);
 			}
-		 logger.info("return {} items",list.size());
 		return list;
 	}
 

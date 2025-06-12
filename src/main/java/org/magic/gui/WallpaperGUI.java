@@ -3,15 +3,11 @@ package org.magic.gui;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,9 +22,9 @@ import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.wallpaper.ImageGalleryPanel;
 import org.magic.gui.components.wallpaper.JWallThumb;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
@@ -38,12 +34,9 @@ public class WallpaperGUI extends MTGUIComponent {
 	private JComboBox<MTGWallpaperProvider> cboWallpapersProv;
 	private transient MTGWallpaperProvider selectedProvider;
 	private AbstractBuzyIndicatorComponent lblLoad;
-	private JPanel panelThumnail;
+	private ImageGalleryPanel panelThumnail;
 	private JTextField txtSearch;
 	private JButton btnImport;
-	private GridBagConstraints c;
-	private int index = 0;
-	private int val = 4;
 	private JCheckBox chkSelectAll;
 
 	@Override
@@ -56,106 +49,67 @@ public class WallpaperGUI extends MTGUIComponent {
 		return capitalize("WALLPAPER");
 	}
 
-
-
-	public void addComponent(JWallThumb i) {
-		if (index >= val) {
-			c.gridy = c.gridy + 1;
-			c.gridx = 0;
-			index = 0;
-		}
-		c.gridx = c.gridx + 1;
-		panelThumnail.add(i, c);
-		index++;
-
-		revalidate();
-
-	}
-
 	public WallpaperGUI() {
 
 		setLayout(new BorderLayout(0, 0));
-
-
-
-		panelThumnail = new JPanel();
-		add(new JScrollPane(panelThumnail), BorderLayout.CENTER);
 		
-		chkSelectAll = new JCheckBox("Select All");
-
-		c = new GridBagConstraints();
-		c.insets = new Insets(2, 2, 2, 2);
-		c.anchor = GridBagConstraints.NORTHWEST;
-
-		panelThumnail.setLayout(new GridBagLayout());
-
+		
+		panelThumnail = new ImageGalleryPanel();
 		var panel = new JPanel();
-		add(panel, BorderLayout.NORTH);
-
+		chkSelectAll = new JCheckBox("Select All");
 		cboWallpapersProv = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
 		selectedProvider = cboWallpapersProv.getItemAt(0);
 		cboWallpapersProv.addActionListener(_ -> selectedProvider = (MTGWallpaperProvider) cboWallpapersProv.getSelectedItem());
-
-		panel.add(cboWallpapersProv);
 		txtSearch = UITools.createSearchField();
-
+		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
+		var panel1 = new JPanel();
+		
+		var scroll = new JScrollPane(panelThumnail,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		
+		
+		add(scroll, BorderLayout.CENTER);
+		add(panel, BorderLayout.NORTH);
+		add(panel1, BorderLayout.SOUTH);
+		
+		
+		panel.add(cboWallpapersProv);
 		panel.add(txtSearch);
 		txtSearch.setColumns(20);
 		txtSearch.addActionListener(_ ->{
 			panelThumnail.removeAll();
 			panelThumnail.revalidate();
-			index = 0;
-			c.weightx = 1;
-			c.weighty = 1;
-			c.gridx = 0;
-			c.gridy = 0;
 			lblLoad.start();
 
 			var sw = new SwingWorker<List<MTGWallpaper>, MTGWallpaper>() {
 
 				@Override
 				protected List<MTGWallpaper> doInBackground() throws Exception {
-					return selectedProvider.search(txtSearch.getText()).stream().map(w -> {
-						try {
-							var p= w.load();
-							publish(p);
-							return p;
-						} catch (IOException e) {
-							logger.error(e);
-						}
-						return w;
-					}).toList();
-				}
-
-				@Override
-				protected void process(List<MTGWallpaper> chunks) 
-				{
-						for (MTGWallpaper w : chunks) 
-						{
-							var thumb = new JWallThumb(w,true);
-							addComponent(thumb);
-							thumb.addMouseListener(new MouseAdapter() {
-								@Override
-								public void mouseClicked(MouseEvent e) {
-									thumb.selected(!thumb.isSelected());
-								}
-							});
-						}
+					return selectedProvider.search(txtSearch.getText());
 				}
 
 				@Override
 				protected void done() {
 					lblLoad.end();
+					
+					try {
+						panelThumnail.init(get());
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					} catch (ExecutionException e) {
+						logger.error(e);
+					}
+					
 				}
 			};
 			ThreadManager.getInstance().runInEdt(sw,"searching " + txtSearch.getText());
 		});
 
-		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
+		
 		panel.add(lblLoad);
 
-		var panel1 = new JPanel();
-		add(panel1, BorderLayout.SOUTH);
+		
+		
 
 		btnImport = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"wallpaper import");
 		btnImport.setToolTipText(capitalize("IMPORT"));

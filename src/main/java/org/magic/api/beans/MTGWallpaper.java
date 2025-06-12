@@ -2,11 +2,7 @@ package org.magic.api.beans;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URI;
-
-import org.magic.services.network.URLTools;
-import org.magic.services.tools.ImageTools;
 
 public class MTGWallpaper {
 
@@ -18,19 +14,6 @@ public class MTGWallpaper {
 
 	public BufferedImage getPicture() {
 		return picture;
-	}
-
-
-	public MTGWallpaper load() throws IOException
-	{
-		if (getPicture() == null) {
-			if(getUrl().getScheme().startsWith("http"))
-				setPicture(URLTools.extractAsImage(getUrlThumb().toASCIIString()));
-			else
-				setPicture(ImageTools.readLocal(getUrlThumb().toURL()));
-		}
-
-		return this;
 	}
 
 
