@@ -64,9 +64,12 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					    		p.setFormat("png");
 					    		p.setName(el.getAsJsonObject().get("title").getAsString());
 					    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));
-					    		list.add(p);
+					    		p.setUrlThumb(new URI(el.getAsJsonObject().get("preview").getAsJsonObject().get("src").getAsString()));
+					    		  if(list.size()<getInt(LIMIT))
+					    			  list.add(p);
+
 							} catch (Exception e) {
-								logger.error("Error for {} with error : {}",el,e.getMessage());
+								logger.error("Error for {} . error : {}",el,e.getMessage());
 							}
 					    });
 
@@ -75,11 +78,11 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 					    ret = readOffset(ret.get("next_offset").getAsInt(), search);
 				    }
-				    logger.info("return {} items",ret.size());
+				   
 			} catch (Exception e) {
 				logger.error("error",e);
 			}
-
+		 logger.info("return {} items",list.size());
 		return list;
 	}
 

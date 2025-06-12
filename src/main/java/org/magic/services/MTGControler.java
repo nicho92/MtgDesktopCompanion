@@ -35,6 +35,7 @@ import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
@@ -394,16 +395,6 @@ public class MTGControler {
 
 	public boolean updateConfigMods() {
 		return PluginRegistry.inst().updateConfigWithNewModule();
-	}
-
-
-
-	public void saveWallpaper(MTGWallpaper p) throws IOException {
-		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
-			MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
-
-		ImageTools.saveImage(p.getPicture(),new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, p.getName() + "." + p.getFormat()), p.getFormat());
-
 	}
 
 

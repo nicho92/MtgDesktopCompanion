@@ -45,7 +45,9 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
 
 			String s= c.toString(c.doGet("https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW"), h,e));
-
+			
+			logger.debug("return : {}",s);
+			
 			URLTools.toJson(s).getAsJsonObject().get("data").getAsJsonArray().forEach(je->{
 
 				var defaultTitle =je.getAsJsonObject().get(TITLE_TAG).getAsString();
@@ -61,6 +63,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 							w.setName(defaultTitle);
 
 						w.setUrl(URI.create(im.getAsJsonObject().get("link").getAsString()));
+						w.setUrlThumb(URI.create(im.getAsJsonObject().get("link").getAsString()));
 						w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
 						ret.add(w);
 						notify(w);

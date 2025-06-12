@@ -12,6 +12,7 @@ public class MTGWallpaper {
 
 	private transient BufferedImage picture;
 	private URI url;
+	private URI urlThumb;
 	private String name;
 	private String format;
 
@@ -24,9 +25,9 @@ public class MTGWallpaper {
 	{
 		if (getPicture() == null) {
 			if(getUrl().getScheme().startsWith("http"))
-				setPicture(URLTools.extractAsImage(getUrl().toASCIIString()));
+				setPicture(URLTools.extractAsImage(getUrlThumb().toASCIIString()));
 			else
-				setPicture(ImageTools.readLocal(getUrl().toURL()));
+				setPicture(ImageTools.readLocal(getUrlThumb().toURL()));
 		}
 
 		return this;
@@ -37,6 +38,15 @@ public class MTGWallpaper {
 		this.picture = picture;
 	}
 
+	public URI getUrlThumb() {
+		return urlThumb;
+	}
+	
+	public void setUrlThumb(URI urlThumb) {
+		this.urlThumb = urlThumb;
+	}
+	
+	
 	public URI getUrl() {
 		return url;
 	}

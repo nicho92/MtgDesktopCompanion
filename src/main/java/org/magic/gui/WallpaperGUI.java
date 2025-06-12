@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.wallpaper.JWallThumb;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 public class WallpaperGUI extends MTGUIComponent {
@@ -175,7 +177,12 @@ public class WallpaperGUI extends MTGUIComponent {
 						if (th.isSelected() || chkSelectAll.isSelected()) 
 						{
 							try {
-								MTGControler.getInstance().saveWallpaper(th.getWallpaper());
+
+									if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
+										MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
+											
+									URLTools.download(th.getWallpaper().getUrl().toASCIIString(), new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, th.getWallpaper().getName() + "." + th.getWallpaper().getFormat()));
+
 								th.selected(false);
 							} catch (IOException e1) {
 								logger.error(e1);
