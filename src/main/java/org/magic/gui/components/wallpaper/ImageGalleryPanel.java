@@ -33,7 +33,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	        for (var thumbItem : list) 
 	        {
 	        	
-	        	var thumb = new JWallThumb(thumbItem, false);
+	        	var thumb = new JWallThumb(thumbItem);
 	        	thumb.setPreferredSize(new Dimension(THUMBNAIL_SIZE, THUMBNAIL_SIZE + 20));
 	        	thumb.setName("...");
 
@@ -46,7 +46,6 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	                    if (img != null) 
 	                    {
 	                    		thumb.setIcon(new ImageIcon(ImageTools.resize(img,THUMBNAIL_SIZE, THUMBNAIL_SIZE)));
-	                    		thumb.setText("");
 		                        thumb.addMouseListener(new MouseAdapter() {
 		                            @Override
 		                            public void mouseClicked(MouseEvent e) {

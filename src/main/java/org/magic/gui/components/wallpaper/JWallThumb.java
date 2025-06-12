@@ -43,12 +43,10 @@ public class JWallThumb extends JLabel {
 		setOpaque(true);
 	}
 	
-	public JWallThumb(MTGWallpaper w,boolean title) {
+	public JWallThumb(MTGWallpaper w) {
 		super();
 		wall = w;
-		 
-		if(title)
-			setText(w.getName());
+		setText(w.getName());
 	}
 
 	@Override
