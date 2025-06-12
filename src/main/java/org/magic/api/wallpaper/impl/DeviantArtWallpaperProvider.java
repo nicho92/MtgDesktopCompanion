@@ -66,7 +66,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));
 					    		list.add(p);
 							} catch (Exception e) {
-								logger.error("Error for {}",el.getAsJsonObject().get("title"),e);
+								logger.error("Error for {} with error : {}",el,e.getMessage());
 							}
 					    });
 
@@ -75,7 +75,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 					    ret = readOffset(ret.get("next_offset").getAsInt(), search);
 				    }
-
+				    logger.info("return {} items",ret.size());
 			} catch (Exception e) {
 				logger.error("error",e);
 			}
@@ -88,7 +88,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				  .get()
 				  .url(BASE_URL+"/api/v1/oauth2/browse/home")
 				  .addContent("q", search)
-				  .addContent("limit", getString(LIMIT))
+				  .addContent("limit", "50")
 				  .addContent("offset", String.valueOf(offset))
 				  .addContent("mature_content", getString("MATURE"))
 				  .addContent("access_token", bToken)
@@ -109,7 +109,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"),
-								LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, 50));
+								LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1));
 	}
 
 }
