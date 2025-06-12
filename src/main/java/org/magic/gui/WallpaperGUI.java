@@ -181,7 +181,7 @@ public class WallpaperGUI extends MTGUIComponent {
 									if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
 										MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
 											
-									URLTools.download(th.getWallpaper().getUrl().toASCIIString(), new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, th.getWallpaper().getName() + "." + th.getWallpaper().getFormat()));
+								URLTools.download(th.getWallpaper().getUrl().toASCIIString(), new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, th.getWallpaper().getName() + "." + th.getWallpaper().getFormat()));
 
 								th.selected(false);
 							} catch (IOException e1) {
@@ -189,7 +189,6 @@ public class WallpaperGUI extends MTGUIComponent {
 							}
 						}
 					}
-					
 					return null;
 				}
 
