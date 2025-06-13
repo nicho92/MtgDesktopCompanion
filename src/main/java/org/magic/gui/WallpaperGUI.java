@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -27,12 +28,11 @@ import org.magic.gui.components.wallpaper.JWallThumb;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 public class WallpaperGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JComboBox<MTGWallpaperProvider> cboWallpapersProv;
-	private transient MTGWallpaperProvider selectedProvider;
 	private AbstractBuzyIndicatorComponent lblLoad;
 	private ImageGalleryPanel panelThumnail;
 	private JTextField txtSearch;
@@ -57,9 +57,6 @@ public class WallpaperGUI extends MTGUIComponent {
 		panelThumnail = new ImageGalleryPanel();
 		var panelNorthh = new JPanel();
 		chkSelectAll = new JCheckBox("Select All");
-		cboWallpapersProv = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
-		selectedProvider = cboWallpapersProv.getItemAt(0);
-		cboWallpapersProv.addActionListener(_ -> selectedProvider = (MTGWallpaperProvider) cboWallpapersProv.getSelectedItem());
 		txtSearch = UITools.createSearchField();
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var panelSouth = new JPanel();
@@ -71,9 +68,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		add(scroll, BorderLayout.CENTER);
 		add(panelNorthh, BorderLayout.NORTH);
 		add(panelSouth, BorderLayout.SOUTH);
-		
-		
-		panelNorthh.add(cboWallpapersProv);
+
 		panelNorthh.add(txtSearch);
 		txtSearch.setColumns(20);
 		txtSearch.addActionListener(_ ->{
@@ -85,7 +80,17 @@ public class WallpaperGUI extends MTGUIComponent {
 
 				@Override
 				protected List<MTGWallpaper> doInBackground() throws Exception {
-					return selectedProvider.search(txtSearch.getText());
+					
+					var ret = new ArrayList<MTGWallpaper>();
+					for(var prov : MTG.listEnabledPlugins(MTGWallpaperProvider.class))
+					{
+						var result = prov.search(txtSearch.getText());
+						logger.info("{} return {} results",prov,result.size());
+						
+						ret.addAll(result);
+					}
+				
+					return ret;
 				}
 
 				@Override

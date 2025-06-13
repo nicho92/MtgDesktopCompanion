@@ -40,7 +40,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 			String query=search.trim().replace(" ", " AND ");
 
 			e.put("q", query);
-			e.put("mature", "true");
+			e.put("mature", getString("MATURE"));
 			h.put(URLTools.AUTHORIZATION,"Client-ID "+getAuthenticator().get(CLIENTID));
 
 
@@ -107,6 +107,8 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("SORT", new MTGProperty("time", "The default sorter of the results", "time","viral","top"),
-					  "WINDOW", new MTGProperty("all", "Change the date range of the request if the sort is top","day"," week","month","year","all"));
+							 "WINDOW", new MTGProperty("all", "Change the date range of the request if the sort is top","day"," week","month","year","all"),
+							"MATURE", MTGProperty.newBooleanProperty("false", "set to true if you want to return mature content") 
+							);
 	}
 }

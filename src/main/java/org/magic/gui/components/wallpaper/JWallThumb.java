@@ -47,6 +47,7 @@ public class JWallThumb extends JLabel {
 		super();
 		wall = w;
 		setText(w.getName());
+		setToolTipText(w.getName());
 	}
 
 	@Override
