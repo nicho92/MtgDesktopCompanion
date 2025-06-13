@@ -78,4 +78,10 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		return "0.5";
 	}
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BUGGED;
+	}
+	
+	
 }

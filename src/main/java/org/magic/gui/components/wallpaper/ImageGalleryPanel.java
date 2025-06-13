@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.ImagePanel2;
+import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
@@ -41,7 +41,6 @@ public class ImageGalleryPanel extends MTGUIComponent {
 
 	            ThreadManager.getInstance().submitCallable(() -> {
 	                try {
-	                    
 	                	var img = URLTools.extractAsImage(thumbItem.getUrlThumb().toASCIIString());
 	                    if (img != null) 
 	                    {
@@ -68,12 +67,23 @@ public class ImageGalleryPanel extends MTGUIComponent {
 
 	    private void showFullImage(MTGWallpaper wall) {
 	    	try {
-				MTGUIComponent.createJDialog(MTGUIComponent.build(new JScrollPane(new JLabel(new ImageIcon(URLTools.extractAsImage(wall.getUrl().toASCIIString())))), wall.getName(), getIcon()), true, false).setVisible(true);
+	    		ImagePanel2 pane = new ImagePanel2(false, false, true, true);
+	    		var img = URLTools.extractAsImage(wall.getUrl().toASCIIString());
+	    		pane.setImg(img);
+	    		
+	    		pane.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
+	    		
+				MTGUIComponent.createJDialog(MTGUIComponent.build(pane, wall.getName(), getIcon()), true, false).setVisible(true);
 			} catch (IOException e) {
 				logger.error(e);
 			}
 	    }
-
+	    
+	    @Override
+	    public ImageIcon getIcon() {
+		    return MTGConstants.ICON_TAB_PICTURE;
+	    }
+	    
 
 		@Override
 		public String getTitle() {

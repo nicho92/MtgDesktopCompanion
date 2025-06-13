@@ -55,26 +55,26 @@ public class WallpaperGUI extends MTGUIComponent {
 		
 		
 		panelThumnail = new ImageGalleryPanel();
-		var panel = new JPanel();
+		var panelNorthh = new JPanel();
 		chkSelectAll = new JCheckBox("Select All");
 		cboWallpapersProv = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
 		selectedProvider = cboWallpapersProv.getItemAt(0);
 		cboWallpapersProv.addActionListener(_ -> selectedProvider = (MTGWallpaperProvider) cboWallpapersProv.getSelectedItem());
 		txtSearch = UITools.createSearchField();
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
-		var panel1 = new JPanel();
+		var panelSouth = new JPanel();
 		
 		var scroll = new JScrollPane(panelThumnail,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		
 		
 		add(scroll, BorderLayout.CENTER);
-		add(panel, BorderLayout.NORTH);
-		add(panel1, BorderLayout.SOUTH);
+		add(panelNorthh, BorderLayout.NORTH);
+		add(panelSouth, BorderLayout.SOUTH);
 		
 		
-		panel.add(cboWallpapersProv);
-		panel.add(txtSearch);
+		panelNorthh.add(cboWallpapersProv);
+		panelNorthh.add(txtSearch);
 		txtSearch.setColumns(20);
 		txtSearch.addActionListener(_ ->{
 			panelThumnail.removeAll();
@@ -106,15 +106,15 @@ public class WallpaperGUI extends MTGUIComponent {
 		});
 
 		
-		panel.add(lblLoad);
+		panelNorthh.add(lblLoad);
 
 		
 		
 
 		btnImport = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"wallpaper import");
 		btnImport.setToolTipText(capitalize("IMPORT"));
-		panel1.add(chkSelectAll);
-		panel1.add(btnImport);
+		panelSouth.add(chkSelectAll);
+		panelSouth.add(btnImport);
 
 
 		btnImport.addActionListener(_ ->{

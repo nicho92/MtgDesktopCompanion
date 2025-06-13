@@ -15,6 +15,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
 
 public class FilesWallpaperProvider extends AbstractWallpaperProvider {
@@ -30,6 +31,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 				var w = new MTGWallpaper();
 				w.setName(f.getName());
 				w.setUrl(f.toURI());
+				w.setUrlThumb(f.toURI());
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
 				notify(w);
@@ -60,7 +62,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("DIRECTORY", MTGProperty.newDirectoryProperty(new File(".")));
+		return Map.of("DIRECTORY", MTGProperty.newDirectoryProperty(MTGConstants.MTG_WALLPAPER_DIRECTORY));
 	}
 
 	@Override

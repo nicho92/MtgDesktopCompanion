@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import org.jsoup.nodes.Element;
 import org.jspecify.annotations.Nullable;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -165,9 +167,13 @@ public class URLTools {
 	}
 
 	public static BufferedImage extractAsImage(String url) throws IOException	{
+		
+		if(url.startsWith("file:"))
+			return ImageTools.readLocal(URI.create(url).toURL());
+	
 		if(url.startsWith("//"))
 			url="https:"+url;
-
+		
 		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().toImage();
 	}
 
