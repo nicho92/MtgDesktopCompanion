@@ -10,8 +10,17 @@ public class MTGWallpaper {
 	private URI url;
 	private URI urlThumb;
 	private String name;
-	private String format;
-
+	private String format;	
+	private String author;
+	
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	
+	public String getAuthor() {
+		return author;
+	}
+	
 	public BufferedImage getPicture() {
 		return picture;
 	}

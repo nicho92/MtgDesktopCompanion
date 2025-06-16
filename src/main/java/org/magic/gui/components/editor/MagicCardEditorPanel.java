@@ -32,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 
@@ -42,14 +43,17 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.interfaces.MTGTextGenerator;
+import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicTextPane;
+import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
@@ -93,6 +97,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JPanel panelImageButtons;
 	private JButton btnImage;
 	private JButton btnUrl;
+	private JButton btnWallpaper;
 	private CropImagePanel imagePanel;
 	private JLabel lblPromo;
 	private JCheckBox chkPromo;
@@ -595,6 +600,36 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					String urlImage = JOptionPane.showInputDialog("URL");
 					magicCard.setUrl(urlImage);
 					showCrop();
+		});
+		
+		btnWallpaper = new JButton("WallPaper");
+		var gbcbtnWallpaperl = new GridBagConstraints();
+		gbcbtnWallpaperl.fill = GridBagConstraints.HORIZONTAL;
+		gbcbtnWallpaperl.anchor = GridBagConstraints.NORTH;
+		gbcbtnWallpaperl.gridx = 0;
+		gbcbtnWallpaperl.gridy = 2;
+		panelImageButtons.add(btnWallpaper, gbcbtnWallpaperl);
+		btnWallpaper.addActionListener(_->{
+		
+					var text = JOptionPane.showInputDialog("search",magicCard.getName());
+					
+					
+					logger.info("getting wallpapers for {}",text);
+					var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(text).stream()).toList();
+					logger.info("getting {} results",ret.size());
+					
+					
+					var wallChooser = new WallPaperChooseDialog();
+					wallChooser.getGalleryPanel().init(ret);
+					wallChooser.setVisible(true);
+					
+					if(wallChooser.hasSelected())
+					{
+						magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());
+						imagePanel.setImage(wallChooser.getSelectedItem().getPicture());
+					}
+					
+		
 		});
 		
 		

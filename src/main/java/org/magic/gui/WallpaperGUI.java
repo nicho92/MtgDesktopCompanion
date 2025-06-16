@@ -13,7 +13,6 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -54,7 +53,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		
 		
-		panelThumnail = new ImageGalleryPanel();
+		panelThumnail = new ImageGalleryPanel(true);
 		var panelNorthh = new JPanel();
 		chkSelectAll = new JCheckBox("Select All");
 		txtSearch = UITools.createSearchField();
