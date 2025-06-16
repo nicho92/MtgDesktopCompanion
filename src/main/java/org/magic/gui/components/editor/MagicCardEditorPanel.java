@@ -32,7 +32,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 
@@ -43,7 +42,6 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
@@ -54,6 +52,7 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
+import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
@@ -123,7 +122,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
 
-		var nameLabel = new JLabel(capitalize("NAME") + ":");
+		var nameLabel = new JLangLabel("NAME",true);
 		var labelgbc10 = new GridBagConstraints();
 		labelgbc10.insets = new Insets(5, 5, 5, 5);
 		labelgbc10.gridx = 0;
@@ -138,7 +137,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		componentgbc10.gridy = 0;
 		add(nameJTextField, componentgbc10);
 
-		var costLabel = new JLabel(capitalize("CARD_MANA") + ":");
+		var costLabel = new JLangLabel("CARD_MANA",true);
 		var labelgbc2 = new GridBagConstraints();
 		labelgbc2.insets = new Insets(5, 5, 5, 5);
 		labelgbc2.gridx = 2;
@@ -626,6 +625,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					if(wallChooser.hasSelected())
 					{
 						magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());
+						magicCard.setArtist(wallChooser.getSelectedItem().getAuthor());
 						imagePanel.setImage(wallChooser.getSelectedItem().getPicture());
 					}
 					

@@ -26,6 +26,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 		var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(text).stream()).toList();
 		
 		var wallChooser = new WallPaperChooseDialog();
+		
 		wallChooser.getGalleryPanel().init(ret);
 		wallChooser.setVisible(true);
 	}

@@ -85,7 +85,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 
 	    private void showFullImage(MTGWallpaper wall) {
 	  
-	    		ImagePanel2 pane = new ImagePanel2(false, false, true, true);
+	    		var pane = new ImagePanel2(false, false, true, true);
 	    	
 	    		
 				var diag = MTGUIComponent.createJDialog(MTGUIComponent.build(pane, wall.getName() + " By " + wall.getAuthor(), getIcon()), true, false);
