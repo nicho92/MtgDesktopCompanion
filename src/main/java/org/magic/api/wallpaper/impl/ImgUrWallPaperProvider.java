@@ -62,7 +62,9 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 						else
 							w.setName(defaultTitle);
 						
-						w.setAuthor(je.getAsJsonObject().get("account_url").getAsString());
+						if(je.getAsJsonObject().get("account_url")!=null)
+							w.setAuthor(je.getAsJsonObject().get("account_url").getAsString());
+						
 						w.setUrl(URI.create(im.getAsJsonObject().get("link").getAsString()));
 						w.setUrlThumb(URI.create(im.getAsJsonObject().get("link").getAsString()));
 						w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
