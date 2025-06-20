@@ -239,10 +239,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			cardsModel.setDefaultHiddenComlumns(1,6,8,9,10,11,12,13,14,15);
 			
 			UITools.initTableVisibility(cardsTable, cardsModel);
-
+	
 			//////////////////////////////////////////////////// ACTION LISTENER
-
-		
 
 			btnRefreshSet.addActionListener(_->{
 				MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
@@ -283,10 +281,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				try {
 					int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", magicCardEditorPanel.getMagicCard()));
 					if (res == JOptionPane.YES_OPTION) {
-						provider.removeCard((MTGEdition) cboSets.getSelectedItem(),
-								magicCardEditorPanel.getMagicCard());
-						picturesProvider.removePicture((MTGEdition) cboSets.getSelectedItem(),
-								magicCardEditorPanel.getMagicCard());
+						provider.removeCard((MTGEdition) cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
+						picturesProvider.removePicture((MTGEdition) cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
 						initCard(new MTGCard());
 					}
 				} catch (IOException ex) {

@@ -8,15 +8,12 @@ import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MTGWallpaper;
-import org.magic.api.beans.shop.Contact;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ImagePanel2;
 import org.magic.services.MTGConstants;
@@ -24,10 +21,6 @@ import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
-import org.magic.services.tools.MTG;
-import org.magic.services.workers.AbstractObservableWorker;
-
-import groovy.lang.Tuple;
 
 public class ImageGalleryPanel extends MTGUIComponent {
 	
@@ -59,34 +52,34 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	    public void init(List<MTGWallpaper> list) {
 	    
 	    	
-	    	var sw2 = new SwingWorker<Void, SimpleEntry<MTGWallpaper, BufferedImage>>()
+	    	var sw2 = new SwingWorker<Void, MTGWallpaper>()
 			{
 
 				@Override
 				protected Void doInBackground() throws Exception {
 					for(var wall : list)
 					{
-						var entry = new AbstractMap.SimpleEntry<MTGWallpaper, BufferedImage>(wall,URLTools.extractAsImage(wall.getUrlThumb().toASCIIString()));
-						publish(entry);
+						wall.setPicture(URLTools.extractAsImage(wall.getUrlThumb().toASCIIString()));
+						publish(wall);
 					}
 					return null;
 				}
 				@Override
-				protected void process(List<SimpleEntry<MTGWallpaper, BufferedImage>> chunks) {
+				protected void process(List<MTGWallpaper> chunks) {
 						for(var img : chunks)
 						{
-							var thumb = new JWallThumb(img.getKey());
+							var thumb = new JWallThumb(img);
 							try {
 			                    		
 			        	        		thumb.setPreferredSize(new Dimension(THUMBNAIL_SIZE, THUMBNAIL_SIZE + 20));
-			        	        		thumb.setIcon(new ImageIcon(ImageTools.resize(img.getValue(),THUMBNAIL_SIZE, THUMBNAIL_SIZE)));
+			        	        		thumb.setIcon(new ImageIcon(ImageTools.resize(img.getPicture(),THUMBNAIL_SIZE, THUMBNAIL_SIZE)));
 				                        thumb.addMouseListener(new MouseAdapter() {
 				                            @Override
 				                            public void mouseClicked(MouseEvent e) {
 				                            	if(e.getClickCount()==1)
 				                            		thumb.selected(!thumb.isSelected());
 				                            	else if(e.getClickCount()==2 && openingLargePic)
-				                            		showFullImage(img.getKey());
+				                            		showFullImage(img);
 				                            }
 				                        });
 				                        

@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -29,6 +28,8 @@ import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+
 public class WallpaperGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -80,16 +81,8 @@ public class WallpaperGUI extends MTGUIComponent {
 				@Override
 				protected List<MTGWallpaper> doInBackground() throws Exception {
 					
-					var ret = new ArrayList<MTGWallpaper>();
-					for(var prov : MTG.listEnabledPlugins(MTGWallpaperProvider.class))
-					{
-						var result = prov.search(txtSearch.getText());
-						logger.info("{} return {} results",prov,result.size());
-						
-						ret.addAll(result);
-					}
+					return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(txtSearch.getText()).stream()).toList();
 				
-					return ret;
 				}
 
 				@Override

@@ -47,7 +47,6 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.interfaces.MTGTextGenerator;
-import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicTextPane;
@@ -610,16 +609,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		panelImageButtons.add(btnWallpaper, gbcbtnWallpaperl);
 		btnWallpaper.addActionListener(_->{
 		
-					var text = JOptionPane.showInputDialog("search",magicCard.getName());
-					
-					
-					logger.info("getting wallpapers for {}",text);
-					var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(text).stream()).toList();
-					logger.info("getting {} results",ret.size());
-					
-					
 					var wallChooser = new WallPaperChooseDialog();
-					wallChooser.getGalleryPanel().init(ret);
 					wallChooser.setVisible(true);
 					
 					if(wallChooser.hasSelected())

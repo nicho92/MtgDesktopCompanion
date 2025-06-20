@@ -35,7 +35,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 
 	public void setImage(Image i) {
 		selectedImage = i;
-		validate();
+		revalidate();
 		repaint();
 		addMouseListener(this);
 		addMouseMotionListener(this);
