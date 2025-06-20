@@ -291,7 +291,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		componentgbc14.gridy = 1;
 		add(rarityJComboBox, componentgbc14);
 
-		lblType = new JLabel(capitalize("CARD_TYPES") + " :");
+		lblType = new JLangLabel("CARD_TYPES",true);
 		var gbclblType = new GridBagConstraints();
 		gbclblType.insets = new Insets(0, 0, 5, 5);
 		gbclblType.gridx = 0;
@@ -374,7 +374,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			panelButton.add(btnG);
 
 		}
-		var textLabel = new JLabel(capitalize("CARD_TEXT") + ":");
+		var textLabel = new JLangLabel("CARD_TEXT",true);
 		var labelgbc16 = new GridBagConstraints();
 		labelgbc16.insets = new Insets(5, 5, 5, 5);
 		labelgbc16.gridx = 0;
@@ -401,7 +401,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 		add(panelEditor, componentgbc16);
 
-		var flavorLabel = new JLabel(capitalize("CARD_FLAVOR") + ":");
+		var flavorLabel = new JLangLabel("CARD_FLAVOR",true);
 		var labelgbc3 = new GridBagConstraints();
 		labelgbc3.insets = new Insets(5, 5, 5, 5);
 		labelgbc3.gridx = 0;
@@ -417,7 +417,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		componentgbc3.gridy = 7;
 		add(flavorJTextField, componentgbc3);
 
-		var layoutLabel = new JLabel(capitalize("CARD_LAYOUT") + ":");
+		var layoutLabel = new JLangLabel("CARD_LAYOUT",true);
 		var labelgbc6 = new GridBagConstraints();
 		labelgbc6.insets = new Insets(5, 5, 5, 5);
 		labelgbc6.gridx = 0;
@@ -435,8 +435,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		componentgbc6.gridy = 8;
 		add(layoutJComboBox, componentgbc6);
 
-		var powerLabel = new JLabel(capitalize("CARD_POWER") + "/"
-				+ capitalize("CARD_TOUGHNESS") + ":");
+		var powerLabel = new JLabel(capitalize("CARD_POWER") + "/" + capitalize("CARD_TOUGHNESS") + ":");
 		var labelgbc13 = new GridBagConstraints();
 		labelgbc13.insets = new Insets(5, 5, 5, 5);
 		labelgbc13.gridx = 2;
@@ -478,7 +477,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		componentgbc19.gridy = 9;
 		add(watermarksJTextField, componentgbc19);
 
-		var loyaltyLabel = new JLabel(capitalize("CARD_LOYALTY"));
+		var loyaltyLabel = new JLangLabel("CARD_LOYALTY",true);
 		var labelgbc7 = new GridBagConstraints();
 		labelgbc7.insets = new Insets(5, 5, 5, 5);
 		labelgbc7.gridx = 2;
@@ -493,7 +492,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		componentgbc7.gridy = 9;
 		add(loyaltyJTextField, componentgbc7);
 
-		var numberLabel = new JLabel(capitalize("CARD_NUMBER"));
+		var numberLabel = new JLangLabel("CARD_NUMBER",true);
 		var labelgbc11 = new GridBagConstraints();
 		labelgbc11.insets = new Insets(5, 5, 5, 5);
 		labelgbc11.gridx = 0;
@@ -616,9 +615,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					{
 						magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());
 						magicCard.setArtist(wallChooser.getSelectedItem().getAuthor());
+						artistJTextField.setText(wallChooser.getSelectedItem().getAuthor());
 						imagePanel.setImage(wallChooser.getSelectedItem().getPicture());
 					}
-					
+					showCrop();
 		
 		});
 		
@@ -807,20 +807,21 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		AutoBinding<MTGCard, Boolean, JCheckBox, Boolean> autoBinding21 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, promoProperty, chkPromo, promoChkProperty);
 		autoBinding21.bind();
 		
+		BeanProperty<MTGCard, String> numberProperty = BeanProperty.create("number");
+		BeanProperty<JTextField, String> numberTxtProperty = BeanProperty.create("text");
+		AutoBinding<MTGCard, String, JTextField, String> autoBinding22 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, numberTxtProperty);
+		autoBinding22.bind();
+		
 		
 		spinner.setValue(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)):30);
 		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)));
 		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT)!=null?magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT):"");
 		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)));
-		
-		numberJTextField.setText(magicCard.getNumber());
-		
-		
+	
 		spinner.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
 		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
 		cboColorAccent.addItemListener(_-> magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
 		chkColorIndicator.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
-		numberJTextField.addPropertyChangeListener("text", _->magicCard.setNumber(numberJTextField.getText()));
 		
 		
 		

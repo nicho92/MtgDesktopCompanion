@@ -5,8 +5,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +25,10 @@ public class ImageGalleryPanel extends MTGUIComponent {
 		private static final long serialVersionUID = 1L;
 		private static final int THUMBNAIL_SIZE = 150;
 		private boolean openingLargePic=true;
+		private SwingWorker<Void, MTGWallpaper> sw2;
 		
 		
-	    public ImageGalleryPanel(boolean openingLarge)
+	    public ImageGalleryPanel(boolean openingLarge, boolean multiple)
 	    {
 	    	this.openingLargePic = openingLarge;
 	    	setLayout(new WrapLayout(FlowLayout.LEFT, 10, 10));
@@ -49,10 +48,23 @@ public class ImageGalleryPanel extends MTGUIComponent {
 			return ret;
 		}
 		
+		@Override
+		public void onDestroy() {
+			if(sw2!=null && !sw2.isCancelled())
+	    		sw2.cancel(true);
+		}
+		
+		
+		
 	    public void init(List<MTGWallpaper> list) {
-	    
 	    	
-	    	var sw2 = new SwingWorker<Void, MTGWallpaper>()
+	    	if(sw2!=null && !sw2.isCancelled())
+	    		sw2.cancel(true);
+	    	
+	    	
+	    	clean();
+	    	
+	    	sw2 = new SwingWorker<Void, MTGWallpaper>()
 			{
 
 				@Override
@@ -94,7 +106,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 				}
 				@Override
 				protected void done() {
-				
+					getParent().revalidate();
 				}
 			};
 
@@ -138,6 +150,12 @@ public class ImageGalleryPanel extends MTGUIComponent {
 		@Override
 		public String getTitle() {
 			return "THUMBNAIL";
+		}
+
+		public void clean() {
+			removeAll();
+			revalidate();
+			
 		}
 
 }

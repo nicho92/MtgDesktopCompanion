@@ -43,12 +43,13 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 	
 	@Override
 	public JComponent getSelectComponent() {
-		return new JScrollPane(getGalleryPanel());
+		var scroll = new JScrollPane(getGalleryPanel(),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.getVerticalScrollBar().setUnitIncrement(16);
+		return scroll;
 	}
 	
 	private ImageGalleryPanel getGalleryPanel() {
-		panel = new  ImageGalleryPanel(false);
-		panel.setPreferredSize(new Dimension(1024, 768));
+		panel = new  ImageGalleryPanel(false,false);
 		return panel;
 	}
 	

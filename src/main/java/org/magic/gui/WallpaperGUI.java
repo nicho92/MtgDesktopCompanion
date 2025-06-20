@@ -54,7 +54,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		
 		
-		panelThumnail = new ImageGalleryPanel(true);
+		panelThumnail = new ImageGalleryPanel(true,true);
 		var panelNorthh = new JPanel();
 		chkSelectAll = new JCheckBox("Select All");
 		txtSearch = UITools.createSearchField();
@@ -72,8 +72,6 @@ public class WallpaperGUI extends MTGUIComponent {
 		panelNorthh.add(txtSearch);
 		txtSearch.setColumns(20);
 		txtSearch.addActionListener(_ ->{
-			panelThumnail.removeAll();
-			panelThumnail.revalidate();
 			lblLoad.start();
 
 			var sw = new SwingWorker<List<MTGWallpaper>, MTGWallpaper>() {

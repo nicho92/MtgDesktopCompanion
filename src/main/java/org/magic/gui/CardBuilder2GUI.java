@@ -455,8 +455,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private void renderingCard() {
 		buzyCard.start();
 		buzyCard.setText("Rendering");
-		ThreadManager.getInstance().runInEdt(new SwingWorker<BufferedImage, Void>()
-		{
+		ThreadManager.getInstance().runInEdt(new SwingWorker<BufferedImage, Void>(){
 
 			@Override
 			protected BufferedImage doInBackground() throws Exception {
