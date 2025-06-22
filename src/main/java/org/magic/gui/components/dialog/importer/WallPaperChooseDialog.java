@@ -2,7 +2,6 @@ package org.magic.gui.components.dialog.importer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -10,11 +9,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.magic.api.beans.MTGWallpaper;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.ImageGalleryPanel;
-import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -26,15 +27,23 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 	
 	public WallPaperChooseDialog() {
 		super();
-		
+		setPreferredSize(new Dimension(1024, 768));
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var text = new JTextField(20);
-		var btn  = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH, KeyEvent.VK_S, "searchwalldialog");
+				
+		getContentPane().add(UITools.createFlowCenterPanel(text,buzy),BorderLayout.NORTH);	
 		
-		getContentPane().add(UITools.createFlowCenterPanel(text,btn,buzy),BorderLayout.NORTH);	
-		
-		btn.addActionListener(_->{
+		text.addActionListener(_->{
 			var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(text.getText()).stream()).toList();
+			
+			if(ret.isEmpty())
+			{
+				MTGControler.getInstance().notify(new MTGNotification("Search", "No Results", MESSAGE_TYPE.ERROR));
+				return;
+			}
+			
+			
+			
 			panel.init(ret);
 		});
 		

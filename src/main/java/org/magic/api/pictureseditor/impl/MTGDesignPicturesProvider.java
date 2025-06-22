@@ -31,7 +31,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	private static final String CARD_TEMPLATE = "card-template";
 	private static final String FALSE = "false";
 	private static final String DESIGNER ="designer";
-	
 	private static final String BASE_URI="https://mtg.design";
 	private MTGHttpClient httpclient;
 
@@ -39,6 +38,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	public MTGDesignPicturesProvider() {
 		super();
 		httpclient = URLTools.newClient();
+	
 	}
 	
 	@Override
@@ -213,6 +213,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			}
 		}
 
+		
+	
+		
 		if(!StringUtils.isEmpty(mc.getFlavor()))
 			build.addParameter("flavor-text", mc.getFlavor());
 
@@ -224,7 +227,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		else if(mc.getColors().size()==2)
 		{
 			build.addParameter(CARD_TEMPLATE, "Gld");
-			build.addParameter(CARD_ACCENT, mc.getColors().get(0).getCode()+mc.getColors().get(1).getCode());
+			build.addParameter(CARD_ACCENT, getAccents(mc.getColors().get(0).getCode()+mc.getColors().get(1).getCode()));
 		}
 		else if(mc.getColors().size()>2)
 		{
@@ -257,7 +260,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		try {
 			logger.trace("generate {}",build.build());
 			var resp = httpclient.doGet(build.build().toASCIIString());
-			logger.trace("generate {}",resp.getStatusLine().getReasonPhrase());
+			logger.info("generate {}",resp.getStatusLine().getReasonPhrase());
 			BufferedImage im = ImageTools.read(resp.getEntity().getContent());
 			EntityUtils.consume(resp.getEntity());
 			return im;
@@ -268,6 +271,20 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 
 
+	}
+	
+	
+	private String getAccents(String code) {
+		
+		if(code.equals("WR"))
+			return "RW";
+		
+		
+		
+		return code;
+		
+		
+		
 	}
 
 	@Override

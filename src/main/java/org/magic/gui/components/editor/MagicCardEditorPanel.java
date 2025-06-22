@@ -91,7 +91,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JLabel lblColorIndicator;
 	private JCheckBox chkColorIndicator;
 	private JLabel lblColorOrientation;
-	private JComboBox<String> cboColorAccent;
 	private JPanel panelImageButtons;
 	private JButton btnImage;
 	private JButton btnUrl;
@@ -647,24 +646,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gbcchkColorIndicator.gridy = 12;
 		add(chkColorIndicator, gbcchkColorIndicator);
 
-		lblColorOrientation = new JLabel("Color Orientation :");
-		var gbclblColorOrientation = new GridBagConstraints();
-		gbclblColorOrientation.anchor = GridBagConstraints.NORTH;
-		gbclblColorOrientation.insets = new Insets(0, 0, 5, 5);
-		gbclblColorOrientation.gridx = 2;
-		gbclblColorOrientation.gridy = 13;
-		add(lblColorOrientation, gbclblColorOrientation);
-
-		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"", "C", "G", "W", "WU", "WB", "U", "UB", "UR", "C", "B", "BR", "BG", "R", "RG", "TW", "G", "GW", "GU"}));
-
-		var gbccomboBox = new GridBagConstraints();
-		gbccomboBox.anchor = GridBagConstraints.NORTH;
-		gbccomboBox.insets = new Insets(0, 0, 5, 0);
-		gbccomboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbccomboBox.gridx = 3;
-		gbccomboBox.gridy = 13;
-		add(cboColorAccent, gbccomboBox);
-		
 		lblPromo = new JLabel("Promo :");
 		GridBagConstraints gbclblFrame = new GridBagConstraints();
 		gbclblFrame.insets = new Insets(0, 0, 5, 5);
@@ -815,12 +796,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		
 		spinner.setValue(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)):30);
 		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)));
-		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT)!=null?magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT):"");
 		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)));
 	
 		spinner.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
 		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
-		cboColorAccent.addItemListener(_-> magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
 		chkColorIndicator.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
 		
 		

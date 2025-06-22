@@ -26,11 +26,13 @@ public class ImageGalleryPanel extends MTGUIComponent {
 		private static final int THUMBNAIL_SIZE = 150;
 		private boolean openingLargePic=true;
 		private SwingWorker<Void, MTGWallpaper> sw2;
+		private boolean multipleSelection;
 		
 		
 	    public ImageGalleryPanel(boolean openingLarge, boolean multiple)
 	    {
 	    	this.openingLargePic = openingLarge;
+	    	this.multipleSelection = multiple;
 	    	setLayout(new WrapLayout(FlowLayout.LEFT, 10, 10));
 	    }
 	    
@@ -89,7 +91,19 @@ public class ImageGalleryPanel extends MTGUIComponent {
 				                            @Override
 				                            public void mouseClicked(MouseEvent e) {
 				                            	if(e.getClickCount()==1)
+				                            	{
+				                            		if(!multipleSelection)
+				                            		{
+				                            			for (var comp : getComponents()) 
+				                    					{
+				                    						var th = (JWallThumb) comp;
+				                    						th.selected(false);
+				                    					}
+				                            			
+				                            		}
 				                            		thumb.selected(!thumb.isSelected());
+				                            		
+				                            	}
 				                            	else if(e.getClickCount()==2 && openingLargePic)
 				                            		showFullImage(img);
 				                            }
