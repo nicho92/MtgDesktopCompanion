@@ -67,7 +67,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField costJTextField;
 	private JTextField flavorJTextField;
 	private JCheckBox chkFoil;
-	private JTextField gathererCodeJTextField;
 	private JComboBox<String> layoutJComboBox;
 	private JTextField loyaltyJTextField;
 	private JTextField nameJTextField;
@@ -520,20 +519,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				gbcchboxFoil.gridy = 10;
 				add(chkFoil, gbcchboxFoil);
 
-				var gathererCodeLabel = new JLabel("Gatherer ID:");
-				var labelgbc5 = new GridBagConstraints();
-				labelgbc5.insets = new Insets(5, 5, 5, 5);
-				labelgbc5.gridx = 0;
-				labelgbc5.gridy = 11;
-				add(gathererCodeLabel, labelgbc5);
-
-				gathererCodeJTextField = new JTextField();
-				var componentgbc5 = new GridBagConstraints();
-				componentgbc5.insets = new Insets(5, 0, 5, 5);
-				componentgbc5.fill = GridBagConstraints.HORIZONTAL;
-				componentgbc5.gridx = 1;
-				componentgbc5.gridy = 11;
-				add(gathererCodeJTextField, componentgbc5);
 
 		lblTxtSize = new JLabel("Text Size :");
 		var gbclblTxtSize = new GridBagConstraints();
@@ -741,11 +726,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flavorProperty, flavorJTextField, textProperty2);
 		autoBinding3.bind();
-	
-		BeanProperty<MTGCard, String> gathererCodeProperty = BeanProperty.create("gathererCode");
-		BeanProperty<JTextField, String> textProperty3 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, gathererCodeProperty, gathererCodeJTextField, textProperty3);
-		autoBinding5.bind();
 		//
 		BeanProperty<MTGCard, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
@@ -811,7 +791,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding3);
-		bindingGroup.addBinding(autoBinding5);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding13);
 		bindingGroup.addBinding(autoBinding14);

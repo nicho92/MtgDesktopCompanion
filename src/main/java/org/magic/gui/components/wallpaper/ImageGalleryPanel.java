@@ -60,8 +60,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 		
 	    public void init(List<MTGWallpaper> list) {
 	    	
-	    	if(sw2!=null && !sw2.isCancelled())
-	    		sw2.cancel(true);
+	    	onDestroy();
 	    	
 	    	
 	    	clean();
