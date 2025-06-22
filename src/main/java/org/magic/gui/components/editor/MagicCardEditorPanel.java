@@ -684,7 +684,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			}
 
 		} catch (Exception e) {
-			logger.error("error cropping",e);
+			logger.error("error cropping",e.getMessage());
 		}
 
 	}

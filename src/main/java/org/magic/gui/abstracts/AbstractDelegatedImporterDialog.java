@@ -49,6 +49,12 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 		return selected;
 	}
 	
+	public void onDestroy()
+	{
+		
+	}
+	
+	
 	
 	public abstract JComponent getSelectComponent();
 	
@@ -78,11 +84,13 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				selectedItem.clear();
+				onDestroy();
 			}
 
 			@Override
 			public void windowClosing(WindowEvent e) {
 				selectedItem.clear();
+				onDestroy();
 			}
 		});
 

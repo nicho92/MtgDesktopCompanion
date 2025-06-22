@@ -73,6 +73,9 @@ public class ImageGalleryPanel extends MTGUIComponent {
 				protected Void doInBackground() throws Exception {
 					for(var wall : list)
 					{
+						if(isCancelled())
+							break;
+						
 						wall.setPicture(URLTools.extractAsImage(wall.getUrlThumb().toASCIIString()));
 						publish(wall);
 					}

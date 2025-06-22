@@ -49,6 +49,13 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 		
 	}
 	
+	@Override
+	public void onDestroy() {
+		if(panel!=null)
+			panel.onDestroy();
+	}
+	
+	
 	
 	@Override
 	public JComponent getSelectComponent() {
