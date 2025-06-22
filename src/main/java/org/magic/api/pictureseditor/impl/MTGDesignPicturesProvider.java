@@ -279,6 +279,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(code.equals("WR"))
 			return "RW";
 		
+		if(code.equals("WG"))
+			return "GW";
 		
 		
 		return code;

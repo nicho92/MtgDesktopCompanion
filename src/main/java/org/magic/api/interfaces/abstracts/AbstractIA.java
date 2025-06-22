@@ -46,7 +46,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 
 			 
 			 try {
-				 mc.setText(read(obj,"text","oracleText").getAsString());
+				 mc.setText(read(obj,"text","oracleText","oracle_text").getAsString());
 			 }
 			 catch(Exception _)
 			 {
@@ -73,7 +73,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 }
 			 
 			 try {
-				 mc.setFlavor(read(obj,"flavor","flavorText").getAsString());
+				 mc.setFlavor(read(obj,"flavor","flavorText","flavor_text").getAsString());
 			 }
 			 catch(Exception _)
 			 {
@@ -83,14 +83,14 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 
 			 
 			 
-			 if(read(obj,"type").isJsonPrimitive())
+			 if(read(obj,"type","type_line").isJsonPrimitive())
 			 {
-				 mc.getTypes().add(read(obj,"type").getAsString());
+				 mc.getTypes().add(read(obj,"type","type_line").getAsString());
 			 }
 			 
 			
 				 try {
-					 read(obj,"types").getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
+					 read(obj,"types","type_line").getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
 				 }catch(Exception _)
 				 {
 					 //do nothing
