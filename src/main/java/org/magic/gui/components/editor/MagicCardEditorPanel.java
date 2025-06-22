@@ -90,7 +90,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JSpinner spinner;
 	private JLabel lblColorIndicator;
 	private JCheckBox chkColorIndicator;
-	private JLabel lblColorOrientation;
 	private JPanel panelImageButtons;
 	private JButton btnImage;
 	private JButton btnUrl;
