@@ -236,7 +236,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelPictures.setBackground(Color.WHITE);
 			panelPictures.setPreferredSize(new Dimension(400, 10));
 
-			cardsModel.setDefaultHiddenComlumns(1,6,8,9,10,11,12,13,14,15);
+			cardsModel.setDefaultHiddenComlumns(1,7,8,9,10,11,12,13,14,15,16);
 			
 			UITools.initTableVisibility(cardsTable, cardsModel);
 	
@@ -389,6 +389,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						initEdition(ed);
 						cardsModel.bind(provider.searchCardByEdition(ed));
 						cardsModel.fireTableDataChanged();
+						cardsTable.packAll();
 					} catch (IOException e) {
 						MTGControler.getInstance().notify(e);
 					}
