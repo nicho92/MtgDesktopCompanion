@@ -7,7 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -233,13 +232,17 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			
 		
 			cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+			
 			panelPictures.setBackground(Color.WHITE);
 			panelPictures.setPreferredSize(new Dimension(400, 10));
 
 			cardsModel.setDefaultHiddenComlumns(1,7,8,9,10,11,12,13,14,15,16);
-			
 			UITools.initTableVisibility(cardsTable, cardsModel);
-	
+			
+			editionModel.setDefaultHiddenComlumns(4,5,8,9);
+			UITools.initTableVisibility(editionsTable, editionModel);
+			
+			
 			//////////////////////////////////////////////////// ACTION LISTENER
 
 			btnRefreshSet.addActionListener(_->{
@@ -372,14 +375,12 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						initCard(mc);
 						tabbedPane.setSelectedIndex(1);
 					}
-
+					
 				}
 			});
 			
 			
-			editionsTable.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent me) {	
+			editionsTable.getSelectionModel().addListSelectionListener(_->{
 
 					if(UITools.getTableSelections(editionsTable, 1).isEmpty())
 						return;
@@ -393,7 +394,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					} catch (IOException e) {
 						MTGControler.getInstance().notify(e);
 					}
-				}
+				
 			});
 			
 			btnGenerateCard.addActionListener(_->{
@@ -439,7 +440,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				try {
 					provider.addCard(me, mc);
 					var bi = new BufferedImage(panelPictures.getSize().width, 560,BufferedImage.TYPE_INT_ARGB);
-					Graphics2D g = bi.createGraphics();
+					var g = bi.createGraphics();
 					panelPictures.paint(g);
 					g.dispose();
 					picturesProvider.savePicture(bi, mc, me);
@@ -449,8 +450,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 
 			btnRefresh.addActionListener(_ -> renderingCard());
-
-	
 	}
 
 	private void renderingCard() {
