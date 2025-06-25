@@ -66,7 +66,7 @@ cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-com
 - import / export decks and list cards to dozen formats (mtgo,dci sheet, csv, cockatrice,MagicCardMarket wantlist..) 
 - Cards prices alerts
 - Manacurve, colors and types repartition analysis
-- Standalone servers (game room, console server, http server, price checking, JsonServer).
+- Standalone servers (http server, price checking, JsonServer, Online COmmerce, Online Trading, Online Catalog).
 - New magiccardMarket Pricer : Stay tunned !!,  when you're alerted by a good bid for your wanted cards, it's automatically added to your cart's account ! 
 - Manage your stock card, mass modification, import/export from deck, website. Update your Mkm Seller Account stock, Automaticaly update prices !
 - Get alerted with many notifier (Telegram, mail, Discord,....) 
