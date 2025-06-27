@@ -3,6 +3,7 @@ package org.magic.api.wallpaper.impl;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,8 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 						w.setUrl(URI.create(im.getAsJsonObject().get("link").getAsString()));
 						w.setUrlThumb(URI.create(im.getAsJsonObject().get("link").getAsString()));
 						w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
+						w.setPublishDate(new Date(im.getAsJsonObject().get("datetime").getAsLong()*1000));
+						w.setProvider(getName());
 						ret.add(w);
 						notify(w);
 					});

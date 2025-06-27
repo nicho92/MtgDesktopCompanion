@@ -2,6 +2,7 @@ package org.magic.api.wallpaper.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.STABLE;
 	}
 	
 	@Override
@@ -60,11 +61,17 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				    {
 					    ret.get("results").getAsJsonArray().forEach(el->{
 					    	try {
+					    		
+					    		if(el.getAsJsonObject().get("content")!=null)
+					    		{
+					    		
 					    		var p = new MTGWallpaper();
 					    		p.setFormat("png");
 					    		p.setName(el.getAsJsonObject().get("title").getAsString());
 					    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));
 					    		p.setUrlThumb(new URI(el.getAsJsonObject().get("preview").getAsJsonObject().get("src").getAsString()));
+					    		p.setPublishDate(new Date(el.getAsJsonObject().get("published_time").getAsLong()*1000));
+					    		p.setProvider(getName());
 					    		
 					    		if(el.getAsJsonObject().get("author").getAsJsonObject().get("username")!=null)
 					    			p.setAuthor(el.getAsJsonObject().get("author").getAsJsonObject().get("username").getAsString());
@@ -73,7 +80,9 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					    		
 					    		  if(list.size()<getInt(LIMIT))
 					    			  list.add(p);
-
+					    		}
+					    		
+					    		
 							} catch (Exception e) {
 								logger.error("Error for {} . error : {}",el,e.getMessage());
 							}
@@ -101,7 +110,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				  .addContent("mature_content", getString("MATURE"))
 				  .addContent("access_token", bToken)
 				  .toJson().getAsJsonObject();
-		
 		  logger.debug("ret = {} ",obj);
 		
 		return obj;

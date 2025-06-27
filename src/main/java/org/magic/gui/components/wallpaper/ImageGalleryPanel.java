@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -62,8 +63,10 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	    	
 	    	onDestroy();
 	    	
-	    	
 	    	clean();
+	    	
+	    	Collections.sort(list,Collections.reverseOrder());
+	    	
 	    	
 	    	sw2 = new SwingWorker<Void, MTGWallpaper>()
 			{
@@ -96,15 +99,12 @@ public class ImageGalleryPanel extends MTGUIComponent {
 				                            	{
 				                            		if(!multipleSelection)
 				                            		{
-				                            			for (var comp : getComponents()) 
-				                    					{
+				                            			for (var comp : getComponents()){
 				                    						var th = (JWallThumb) comp;
 				                    						th.selected(false);
 				                    					}
-				                            			
 				                            		}
 				                            		thumb.selected(!thumb.isSelected());
-				                            		
 				                            	}
 				                            	else if(e.getClickCount()==2 && openingLargePic)
 				                            		showFullImage(img);

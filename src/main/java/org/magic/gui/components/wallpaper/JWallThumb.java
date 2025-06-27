@@ -7,6 +7,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MTGWallpaper;
+import org.magic.services.tools.UITools;
 
 public class JWallThumb extends JLabel {
 
@@ -47,7 +48,7 @@ public class JWallThumb extends JLabel {
 		super();
 		wall = w;
 		setText(w.getName());
-		setToolTipText(w.getName());
+		setToolTipText(w.getName() + " By " + w.getAuthor() + " - " + UITools.formatDateTime(w.getPublishDate()));
 	}
 
 	@Override

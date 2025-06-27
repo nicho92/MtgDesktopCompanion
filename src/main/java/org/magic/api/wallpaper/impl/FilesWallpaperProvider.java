@@ -3,6 +3,7 @@ package org.magic.api.wallpaper.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,8 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 				w.setUrl(f.toURI());
 				w.setUrlThumb(f.toURI());
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
+				w.setPublishDate(new Date(f.lastModified()));
+				w.setProvider(getName());
 				list.add(w);
 				notify(w);
 			}

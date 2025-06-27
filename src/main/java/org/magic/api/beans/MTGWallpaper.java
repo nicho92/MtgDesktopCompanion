@@ -1,10 +1,10 @@
 package org.magic.api.beans;
 
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.Date;
 
-public class MTGWallpaper {
+public class MTGWallpaper implements Comparable<MTGWallpaper> {
 
 	private transient BufferedImage picture;
 	private URI url;
@@ -12,7 +12,26 @@ public class MTGWallpaper {
 	private String name;
 	private String format;	
 	private String author;
+	private Date publishDate;
+	private String provider;
 	
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
+	
+	public String getProvider() {
+		return provider;
+	}
+	
+	
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
+	}
+	
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
 	public void setAuthor(String author) {
 		this.author = author;
 	}
@@ -64,12 +83,12 @@ public class MTGWallpaper {
 
 	}
 
-	public Dimension getDimension() {
-		try {
-			return new Dimension(getPicture().getWidth(), getPicture().getHeight());
-		} catch (Exception _) {
-			return new Dimension(0, 0);
-		}
+	@Override
+	public int compareTo(MTGWallpaper o) {
+		if(getPublishDate()!=null && o!=null && o.getPublishDate()!=null)
+			return getPublishDate().compareTo(o.getPublishDate());
+		
+		return -1;
 	}
 
 }

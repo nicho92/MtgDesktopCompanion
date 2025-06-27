@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -78,9 +79,7 @@ public class WallpaperGUI extends MTGUIComponent {
 
 				@Override
 				protected List<MTGWallpaper> doInBackground() throws Exception {
-					
-					return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(txtSearch.getText()).stream()).toList();
-				
+					return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(txtSearch.getText()).stream()).collect(Collectors.toList());
 				}
 
 				@Override
