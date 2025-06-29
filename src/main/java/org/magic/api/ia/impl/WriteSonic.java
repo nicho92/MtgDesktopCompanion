@@ -25,7 +25,7 @@ public class WriteSonic extends AbstractIA {
 	
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = super.getDefaultAttributes();
+		var map = new HashMap<String, MTGProperty>();
 		
 		map.put("GOOGLE_RESULTS", MTGProperty.newBooleanProperty("false", "use google search for result"));
 		map.put("ENABLE_MEMORY", MTGProperty.newBooleanProperty("true", "ChatSonic can maintain the context of your conversations just like you would with a person. It remembers past questions or comments in your conversation and can easily answer follow-up questions."));

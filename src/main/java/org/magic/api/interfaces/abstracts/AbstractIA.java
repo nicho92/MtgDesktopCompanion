@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGCard;
@@ -10,6 +11,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.services.MTGControler;
 
@@ -177,5 +179,12 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		return  ask( CARD_QUERY+" \"" + card.getName() +"\" in "+MTGControler.getInstance().getLocale().getDisplayLanguage(Locale.US));
 	}
 
+	
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var map = super.getDefaultAttributes();
+		map.put("SYSTEM_MSG", new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
+		return map;
+	}
 	
 }

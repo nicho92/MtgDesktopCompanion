@@ -18,8 +18,6 @@ import com.google.gson.JsonObject;
 
 public class DeepSeek extends AbstractIA {
 
-	
-	private static final String SYSTEM_MSG = "SYSTEM_MSG";
 	private static final String API_KEY = "API_KEY";
 
 
@@ -64,11 +62,11 @@ public class DeepSeek extends AbstractIA {
 			obj.add("messages", arr);
 			
 			
-			if(!getString(SYSTEM_MSG).isEmpty())
+			if(!getString("SYSTEM_MSG").isEmpty())
 			{
 				var sysObj = new JsonObject();
 				sysObj.addProperty("role","system");
-				sysObj.addProperty("content", getString(SYSTEM_MSG));
+				sysObj.addProperty("content", getString("SYSTEM_MSG"));
 				arr.add(sysObj);
 			}
 			
@@ -108,12 +106,6 @@ public class DeepSeek extends AbstractIA {
 		return List.of(API_KEY);
 	}
 	
-	
-	@Override
-	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = super.getDefaultAttributes();
-		map.put(SYSTEM_MSG, new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
-		return map;
-	}
+
 	
 }

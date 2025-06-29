@@ -72,6 +72,16 @@
 	</repositories>
 	<dependencies>
 	<dependency>
+    <groupId>io.github.ollama4j</groupId>
+    <artifactId>ollama4j</artifactId>
+    <version>1.0.100</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.19.1</version>
+</dependency>
+	<dependency>
 	    <groupId>org.mindrot</groupId>
 	    <artifactId>jbcrypt</artifactId>
 	    <version>0.4</version>
@@ -480,7 +490,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.11.1</version>
+			<version>0.11.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>

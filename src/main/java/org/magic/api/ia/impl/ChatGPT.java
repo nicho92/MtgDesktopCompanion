@@ -24,7 +24,6 @@ public class ChatGPT extends AbstractIA {
 
 	
 	private static final String CONTENT = "content";
-	private static final String SYSTEM_MSG = "SYSTEM_MSG";
 	private MTGHttpClient client;
 	private static final String TOKEN = "TOKEN";
 	
@@ -58,11 +57,11 @@ public class ChatGPT extends AbstractIA {
 					
 					var arr = new JsonArray();
 					
-					if(!getString(SYSTEM_MSG).isEmpty())
+					if(!getString("SYSTEM_MSG").isEmpty())
 					{
 						var sysObj = new JsonObject();
 						sysObj.addProperty("role","system");
-						sysObj.addProperty(CONTENT, getString(SYSTEM_MSG));
+						sysObj.addProperty(CONTENT, getString("SYSTEM_MSG"));
 						arr.add(sysObj);
 					}
 					
@@ -118,7 +117,6 @@ public class ChatGPT extends AbstractIA {
 			map.put("MODEL", new MTGProperty("gpt-3.5-turbo","choose langage model","gpt-4o","gpt-4o-mini", "gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"));
 			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0", "You can think of temperature like randomness, with 0 being least random (or most deterministic) and 2 being most random (least deterministic)", 0, 2));
 			map.put("MAX_TOKEN", MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
-			map.put(SYSTEM_MSG, new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
 			return map;
 	}
 	

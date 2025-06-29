@@ -21,7 +21,6 @@ public class LLamaIA  extends AbstractIA{
 
 	
 	private static final String CONTENT = "content";
-	private static final String SYSTEM_MSG = "SYSTEM_MSG";
 	private static final String TEMPERATURE = "TEMPERATURE";
 	private static final String MAX_TOKEN = "MAX_TOKEN";
 	private MTGHttpClient client;
@@ -51,7 +50,7 @@ public class LLamaIA  extends AbstractIA{
 		
 		var sysMsg = new JsonObject();
 				sysMsg.addProperty("role", "system");
-				sysMsg.addProperty(CONTENT, getString(SYSTEM_MSG));
+				sysMsg.addProperty(CONTENT, getString("SYSTEM_MSG"));
 
 		
 		var userMsg = new JsonObject();
@@ -98,7 +97,6 @@ public class LLamaIA  extends AbstractIA{
 			map.put("MODEL", new MTGProperty("llama3.1-70b","choose langage model"));
 			map.put(TEMPERATURE, MTGProperty.newIntegerProperty("0", "You can think of temperature like randomness, with 0 being least random (or most deterministic) and 2 being most random (least deterministic)", 0, 2));
 			map.put(MAX_TOKEN, MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
-			map.put(SYSTEM_MSG, new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
 			return map;
 	}
 	
