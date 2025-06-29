@@ -258,7 +258,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		build.addParameter("edit", FALSE);
 
 		try {
-			logger.trace("generate {}",build.build());
+			logger.debug("generate {}",build.build());
 			var resp = httpclient.doGet(build.build().toASCIIString());
 			logger.info("generate {}",resp.getStatusLine().getReasonPhrase());
 			BufferedImage im = ImageTools.read(resp.getEntity().getContent());

@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -53,6 +54,7 @@ import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
@@ -159,6 +161,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				final JComboBox<String> cboG = new JComboBox<>(data);
 				final JComboBox<String> cboC = new JComboBox<>(data);
 				final JComboBox<String> cboUn = new JComboBox<>(data);
+				final JComboBox<String> cboS = new JComboBox<>(data);
 				cboUn.addItem("X");
 
 				var btn = new JButton(capitalize("SET_COST") + ":");
@@ -211,6 +214,12 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 						colors.add(EnumColors.GREEN);
 					}
 
+					for (var i = 0; i < cboS.getSelectedIndex(); i++) {
+						cost.append(EnumColors.SNOW.toManaCode());
+						cmc += 1;
+						colors.add(EnumColors.SNOW);
+					}
+					
 					magicCard.setCmc(cmc);
 					magicCard.setColors(new ArrayList<>(colors));
 					magicCard.setColorIdentity(new ArrayList<>(colors));
@@ -218,8 +227,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					g.dispose();
 				});
 
-				g.getContentPane().add(new JLabel(
-						new ImageIcon(IconsProvider.getInstance().getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboUn);
 				g.getContentPane().add(new JLabel(
 						new ImageIcon(IconsProvider.getInstance().getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
@@ -239,6 +247,13 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				g.getContentPane().add(new JLabel(
 						new ImageIcon(IconsProvider.getInstance().getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboC);
+				g.getContentPane().add(cboS);
+				g.getContentPane().add(new JLabel(
+						new ImageIcon(IconsProvider.getInstance().getManaSymbol("S").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(cboS);
+				
+				
+				
 				g.getContentPane().add(btn);
 				g.setLocationRelativeTo(null);
 				g.pack();
@@ -596,7 +611,23 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					
 					if(wallChooser.hasSelected())
 					{
-						magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());
+						
+						if(MTG.getEnabledPlugin(MTGPictureEditor.class).getMode()==MOD.FILE)
+						{
+							var f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,wallChooser.getSelectedItem().getName()+"."+wallChooser.getSelectedItem().getFormat());
+							
+							try {
+								URLTools.download(wallChooser.getSelectedItem().getUrl().toASCIIString(), f);
+								magicCard.setUrl(f.getAbsolutePath());	
+							} catch (IOException e1) {
+								MTGControler.getInstance().notify(e1);
+							}
+						}
+						else
+						{
+							magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());	
+						}
+						
 						magicCard.setArtist(wallChooser.getSelectedItem().getAuthor());
 						artistJTextField.setText(wallChooser.getSelectedItem().getAuthor());
 						imagePanel.setImage(wallChooser.getSelectedItem().getPicture());
@@ -687,6 +718,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboSuperType.unselectAll();
 		cboTypes.unselectAll();
 		cboSubtypes.unselectAll();
+		
 		imagePanel.setImage(null);
 		
 		if (mbindingGroup != null) {

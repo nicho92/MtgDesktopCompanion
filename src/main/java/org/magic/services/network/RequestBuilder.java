@@ -141,6 +141,14 @@ public class RequestBuilder
 		return this;
 	}
 
+
+	public RequestBuilder removeContent(String k) {
+		content.remove(k);
+		return this;
+		
+	}
+
+	
 	public RequestBuilder addContent(String k, String c)
 	{
 		content.put(k, c);

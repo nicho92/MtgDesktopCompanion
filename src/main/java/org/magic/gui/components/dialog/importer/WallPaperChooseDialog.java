@@ -3,6 +3,7 @@ package org.magic.gui.components.dialog.importer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
@@ -34,7 +35,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 		getContentPane().add(UITools.createFlowCenterPanel(text,buzy),BorderLayout.NORTH);	
 		
 		text.addActionListener(_->{
-			var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(text.getText()).stream()).toList();
+			var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(text.getText()).stream()).collect(Collectors.toList());
 			if(ret.isEmpty())
 			{
 				MTGControler.getInstance().notify(new MTGNotification("Search", "No Results", MESSAGE_TYPE.ERROR));
