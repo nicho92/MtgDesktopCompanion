@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
@@ -14,6 +15,7 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -185,6 +187,20 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		var map = super.getDefaultAttributes();
 		map.put("SYSTEM_MSG", new MTGProperty("You are a helpful assistant that generate Magic the gathering card in json format.","contextual prompt for the chatbot"));
 		return map;
+	}
+		
+	@Override
+	public MTGCard generateRandomCard(String description) throws IOException {
+		
+		var ret = ask(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description));
+			
+		if(ret==null)
+			return null;
+		
+		ret = StringUtils.substringBetween(ret,"\u0060\u0060\u0060");
+		
+		var obj = URLTools.toJson(ret).getAsJsonObject();
+		return parseIaCardSuggestion(obj);
 	}
 	
 }

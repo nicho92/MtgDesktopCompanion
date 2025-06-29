@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
@@ -75,16 +73,4 @@ public class WriteSonic extends AbstractIA {
 		return "ChatSonic";
 	}
 
-
-	@Override
-	public MTGCard generateRandomCard(String description) throws IOException {
-		var ret = ask(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description));
-		if(ret==null)
-			return null;
-		
-		ret = StringUtils.substringBetween(ret,"\u0060\u0060\u0060").replace("JSON", "").replace("json", "").trim();
-		var obj = URLTools.toJson(ret).getAsJsonObject();
-		return parseIaCardSuggestion(obj);
-	}
-	
 }

@@ -3,11 +3,8 @@ package org.magic.api.ia.impl;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.entity.StringEntity;
-import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
@@ -82,16 +79,6 @@ public class DeepSeek extends AbstractIA {
 		var query = query(obj,"/chat/completions");
 		
 		logger.info(query);
-		
-		return null;
-	}
-
-	@Override
-	public MTGCard generateRandomCard(String description) throws IOException {
-		
-		var ret = ask(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description));
-		
-		System.out.println(ret);
 		
 		return null;
 	}

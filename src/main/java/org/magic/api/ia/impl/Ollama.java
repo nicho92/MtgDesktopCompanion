@@ -3,11 +3,8 @@ package org.magic.api.ia.impl;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
-import org.magic.services.network.URLTools;
 
 import io.github.ollama4j.OllamaAPI;
 import io.github.ollama4j.exceptions.OllamaBaseException;
@@ -68,24 +65,6 @@ public class Ollama extends AbstractIA{
 		logger.info("response : {}",ret);
 		
 		return ret;
-	}
-
-	@Override
-	public MTGCard generateRandomCard(String description) throws IOException {
-        init();
-        
-	var ret = ask(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description));
-		
-	if(ret==null)
-		return null;
-	
-	ret = StringUtils.substringBetween(ret,"\u0060\u0060\u0060");
-	
-	var obj = URLTools.toJson(ret).getAsJsonObject();
-	return parseIaCardSuggestion(obj);
-		
-		
-		
 	}
 
 	@Override

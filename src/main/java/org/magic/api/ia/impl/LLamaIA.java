@@ -113,12 +113,6 @@ public class LLamaIA  extends AbstractIA{
 																  .get(CONTENT).getAsString();
 	}
 
-	@Override
-	public MTGCard generateRandomCard(String prompt) throws IOException {
-		return parseIaCardSuggestion(query(prompt).getAsJsonObject());
-		
-	}
-	
 	
 	@Override
 	public STATUT getStatut() {
