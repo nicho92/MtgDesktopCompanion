@@ -122,13 +122,13 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			var btnNewSet = new JButton(MTGConstants.ICON_NEW);
 			var btnRemoveEdition = new JButton(MTGConstants.ICON_DELETE);
 			var btnImport = new JButton(MTGConstants.ICON_IMPORT);
-			var btnRefreshSet = new JButton(MTGConstants.ICON_REFRESH);
+			var btnRebuildSet = new JButton(MTGConstants.ICON_MASS_IMPORT);
 			var btnGenerateCard = new JButton(MTGConstants.ICON_IA);
 			var btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
 			var tabbedResult = new JTabbedPane(SwingConstants.TOP);
 			var btnRemoveCard = new JButton(MTGConstants.ICON_DELETE);
 			var btnNewCard = new JButton(MTGConstants.ICON_NEW);
-			
+			var btnReloadSets = new JButton(MTGConstants.ICON_REFRESH);
 			
 			//////////////////////////////////////////////////// INIT GLOBAL COMPONENTS
 			buzyCard = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -183,9 +183,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelCards.add(panelCardsHaut, BorderLayout.NORTH);
 			panelSets.add(panelEditionHaut, BorderLayout.NORTH);
 			panelEditionHaut.add(btnNewSet);
+			panelEditionHaut.add(btnReloadSets);
 			panelEditionHaut.add(btnSaveEdition);
 			panelEditionHaut.add(btnRemoveEdition);
-			panelEditionHaut.add(btnRefreshSet);
+			panelEditionHaut.add(btnRebuildSet);
 			panelEditionHaut.add(buzySet);
 			
 			panelSets.add(splitcardEdPanel, BorderLayout.CENTER);
@@ -221,6 +222,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnSaveEdition.setToolTipText("Save the set");
 			btnNewSet.setToolTipText("New set");
 			btnRemoveEdition.setToolTipText("Delete Set");
+			btnRebuildSet.setToolTipText("Rebuild Set");
+			btnReloadSets.setToolTipText("Reload");
 			
 			btnImport.setToolTipText("Import existing card");
 			btnSaveCard.setToolTipText("Save the card");
@@ -245,7 +248,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			
 			//////////////////////////////////////////////////// ACTION LISTENER
 
-			btnRefreshSet.addActionListener(_->{
+			btnRebuildSet.addActionListener(_->{
 				MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
 				
 				if(ed!=null)
@@ -327,7 +330,11 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 				initCard(mc);
 			});
-
+			
+			btnReloadSets.addActionListener(_->{
+				onFirstShowing();
+			});
+			
 
 			btnNewSet.addActionListener(_ -> {
 				var id = JOptionPane.showInputDialog("ID");
@@ -352,9 +359,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnRemoveEdition.addActionListener(_ -> {
 
 				MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
-				int res = JOptionPane.showConfirmDialog(null,
-						MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", ed),
-						MTGControler.getInstance().getLangService().get("DELETE"), JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", ed),MTGControler.getInstance().getLangService().get("DELETE"), JOptionPane.YES_NO_OPTION);
 				
 				if (res == JOptionPane.YES_OPTION) {
 					provider.removeEdition(ed);
