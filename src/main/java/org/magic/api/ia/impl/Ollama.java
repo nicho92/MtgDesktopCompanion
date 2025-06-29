@@ -18,7 +18,8 @@ import io.github.ollama4j.models.chat.OllamaChatResult;
 
 public class Ollama extends AbstractIA{
 
-	 OllamaAPI ollamaAPI ;
+	 private OllamaAPI ollamaAPI ;
+	 private OllamaChatRequestBuilder builder;
 	
 	
 	 private void init()
@@ -27,25 +28,38 @@ public class Ollama extends AbstractIA{
 		 {
 			 	ollamaAPI = new OllamaAPI(getString("URL"));
 				ollamaAPI.setVerbose(getBoolean("VERBOSE"));
-				ollamaAPI.setRequestTimeoutSeconds(1000000);
+				ollamaAPI.setRequestTimeoutSeconds(180);
 		 }
+		 builder = OllamaChatRequestBuilder.getInstance(getString("MODEL"));
 	 }
 	 
+	 
+	 public static void main(String[] args) throws IOException {
+		
+		 var ollama = new Ollama();
+		 
+		 ollama.ask("Peux tu me generer une carte Magic the gathering au format Json avec la Princesse Zelda ?");
+		 
+		 
+	}
 	 
 	@Override
 	public String ask(String prompt) throws IOException {
         init();
         				
-        var builder = OllamaChatRequestBuilder.getInstance(getString("MODEL"));
+        
         var requestModel = builder.withMessage(OllamaChatMessageRole.USER,prompt)
-        										.withMessage(OllamaChatMessageRole.SYSTEM,getString("SYSTEM_MSG"))
+        						//				.withMessage(OllamaChatMessageRole.SYSTEM,getString("SYSTEM_MSG"))
         										.build();
 
         OllamaChatResult chatResult;
 		try {
 			chatResult = ollamaAPI.chat(requestModel);
-		} catch (OllamaBaseException | IOException | InterruptedException | ToolInvocationException e) {
+		} catch (OllamaBaseException | IOException |  ToolInvocationException e) {
 			throw new IOException(e);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+			return "";
 		}
 
 		var ret =  chatResult.getResponseModel().getMessage().getContent();
@@ -83,6 +97,10 @@ public class Ollama extends AbstractIA{
 		return m;
 	}
 	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 	
 	@Override
 	public String getName() {
