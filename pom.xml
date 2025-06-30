@@ -6,7 +6,7 @@
 	<url>https://www.mtgcompanion.org</url>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>2.55</version>
+	<version>2.56</version>
 	<packaging>jar</packaging>
 	<issueManagement>
 		<system>GitHub</system>
@@ -384,7 +384,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.50.1.0</version>
+			<version>3.50.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
