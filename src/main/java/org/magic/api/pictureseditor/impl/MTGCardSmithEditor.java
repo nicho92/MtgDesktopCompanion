@@ -16,11 +16,8 @@ import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
-import org.magic.gui.CardBuilder2GUI;
-import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.AccountsManager;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -40,19 +37,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	private MTGHttpClient client;
 	private boolean connected;
 	private Map<String,String> layout;
-	
-	
-	public static void main(String[] args) throws Exception {
-		
-		MTGControler.getInstance().init();
-		
-		MTGUIComponent.createJDialog(new CardBuilder2GUI(), true, false).setVisible(true);
-		
-		
-		
-		
-	}
-	
 	
 	@Override
 	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
@@ -79,7 +63,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("pos_sub_x","")
 				.addContent("pos_sub_y","")
 				.addContent("frame_name", EnumColors.determine(mc.getColors()).toPrettyString())
-				.addContent("frame_rare", "/moderator/tmp/"+getFrame(mc))
 				.addContent("pos_cost_y","")
 				.addContent("pos_desc_f","Mplantin.ttf")
 				.addContent("pos_desc_x","")
@@ -95,7 +78,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("pos_bottom2_y","")
 				.addContent("pos_bottom3_x","")
 				.addContent("pos_bottom3_y","")
-				.addContent("frame_category","")
+				.addContent("frame_category","Standard Colors")
 				.addContent("name",mc.getName())
 				.addContent("title_color","#000000")
 				.addContent("custom_mana",mc.getCost().toLowerCase())
@@ -125,25 +108,28 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("artist_color","#ffffff")
 				.addContent("category","")
 				.addContent("creator",getString("DESIGNER"))
-				.addContent("card_creator", MTGConstants.MTG_APP_NAME)
-				.addContent("col_type", "12/24")
-				.addContent("col_set", "TEST3")
-				.addContent("special_card_color","lgc")
 				.addContent("image_path",imgPath);
 				
 		
 		if(mc.isCreature())
-		{
 			build.addContent("showPT","true");
-			build.addContent("pos_img", "/moderator/ptImgs/"+getPTLayout(mc));
-		}
+
 		
 		if(mc.isLegendary())
 		{
 			build.removeContent("frame");
-			
+			var color = EnumColors.determine(mc.getColors());
+			build.addContent("special_card_color", "lg"+(color==EnumColors.GOLD||color==EnumColors.UNCOLOR?"o":color.getCode().toLowerCase()));
+			build.addContent("frame_category","Legendary Frames");
 		}
+
+		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
+			build.addContent("frame_color[]", "colorless");
+
+
 		
+		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD)
+			build.addContent("frame_rare", "/moderator/tmp/custom_666ba6254de65.png");
 		
 		
 		logger.debug("sending {}", build);
@@ -151,12 +137,8 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		var res = build.execute();
 		
 		if(res.getStatusLine().getStatusCode()!=200)
-		{
-			logger.error(EntityUtils.toString(res.getEntity()));
-			
 			throw new IOException(res.getStatusLine().getReasonPhrase());
-		}
-
+		
 		return URLTools.extractAsImage(BASE_URL+URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get("success").getAsString());
 	}
 	
@@ -170,26 +152,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 	}
 	
-	private String getPTLayout(MTGCard mc)
-	{
-		switch (EnumColors.determine(mc.getColors()))
-		{
-		
-		case RED: return "custom_666b5f5ca44ec.png";
-		case BLUE: return "custom_66638454b50c0.png";
-		case WHITE: return "custom_666383e4ba24e.png";
-		case BLACK: return "custom_666b5f5ca44ec.png";
-		case GOLD: return "custom_66638527ed756.png";
-		case GREEN: return "custom_6663851f571d5.png";
-		case UNCOLOR: return "custom_666b5f5b0a7b2.png";
-		case SNOW: return "custom_6663847235c24.png";
-		default : return "custom_666383e4ba24e.png";
-		}
-		
-		
-	}
-	
-
 	private String getFrame(MTGCard mc) {
 		
 		var color= EnumColors.determine(mc.getColors()).name().toLowerCase();
@@ -197,15 +159,10 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		var ret = layout.get("normal-"+color);
 		
 		if(mc.isLand())
-		{
 			ret = layout.get("normal-land");
-			if(mc.isLegendary())
-				ret = layout.get("legendary-land");
-		}
 		else
-		{
 			ret = layout.get("normal-"+color);
-		}
+
 		return ret;
 	}
 
@@ -235,11 +192,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		layout.put("borderless-gold", "custom_6663160c80b70.png");
 		layout.put("borderless-uncolor","custom_6663162ac879a.png");
 		layout.put("borderless-land","custom_6663164095e7a.png");
-		
 	
-		layout.put("hybrid-white-black","custom_66631afd8787d.png");
-		
-		
 	}
 	
 	
@@ -280,7 +233,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 
 		
 	}
-	
 	
 	private String uploadPicture(File f) throws IOException
 	{
