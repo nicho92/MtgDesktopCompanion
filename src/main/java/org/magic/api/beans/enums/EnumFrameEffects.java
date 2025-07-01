@@ -6,7 +6,7 @@ import java.util.Objects;
 import org.magic.api.interfaces.extra.MTGEnumeration;
 
 public enum EnumFrameEffects implements MTGEnumeration{
-
+	NONE,
 	BORDERLESS,
 	COLORSHIFTED,
 	COMPANION,

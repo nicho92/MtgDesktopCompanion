@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
@@ -30,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -44,6 +46,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
@@ -69,7 +72,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField costJTextField;
 	private JTextField flavorJTextField;
 	private JCheckBox chkFoil;
-	private JComboBox<String> layoutJComboBox;
+	private JComboBox<EnumFrameEffects> layoutJComboBox;
 	private JTextField loyaltyJTextField;
 	private JTextField nameJTextField;
 	private JTextField numberJTextField;
@@ -96,8 +99,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JButton btnUrl;
 	private JButton btnWallpaper;
 	private CropImagePanel imagePanel;
-	private JLabel lblPromo;
-	private JCheckBox chkPromo;
+	private JLabel lblZoom;
+	private JSlider sldZoom;
 
 	@Override
 	public String getTitle() {
@@ -436,9 +439,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		labelgbc6.gridy = 8;
 		add(layoutLabel, labelgbc6);
 
-		layoutJComboBox = new JComboBox<>();
-		layoutJComboBox.setModel(new DefaultComboBoxModel<>(new String[] { "normal", "split", "flip", "double-faced",
-				"token", "plane", "scheme", "phenomenon", "leveler", "vanguard", "meld", "token", "aftermath" }));
+		layoutJComboBox = UITools.createCombobox(EnumFrameEffects.values());
 
 		var componentgbc6 = new GridBagConstraints();
 		componentgbc6.insets = new Insets(5, 0, 5, 5);
@@ -661,20 +662,20 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gbcchkColorIndicator.gridy = 12;
 		add(chkColorIndicator, gbcchkColorIndicator);
 
-		lblPromo = new JLabel("Promo :");
+		lblZoom = new JLabel("Zoom");
 		GridBagConstraints gbclblFrame = new GridBagConstraints();
 		gbclblFrame.insets = new Insets(0, 0, 5, 5);
 		gbclblFrame.gridx = 2;
 		gbclblFrame.gridy = 14;
-		add(lblPromo, gbclblFrame);
+		add(lblZoom, gbclblFrame);
 		
-		chkPromo = new JCheckBox();
+		sldZoom = new JSlider(100,400);
 		GridBagConstraints gbcchkPromo = new GridBagConstraints();
 		gbcchkPromo.insets = new Insets(0, 0, 5, 0);
 		gbcchkPromo.fill = GridBagConstraints.HORIZONTAL;
 		gbcchkPromo.gridx = 3;
 		gbcchkPromo.gridy = 14;
-		add(chkPromo, gbcchkPromo);
+		add(sldZoom, gbcchkPromo);
 		
 				
 		
@@ -710,6 +711,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSupertypes(cboSuperType.getSelectedElements());
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
+		magicCard.setFrameEffects(List.of((EnumFrameEffects)layoutJComboBox.getSelectedItem()));
 		return magicCard;
 	}
 
@@ -793,12 +795,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
 		autoBinding20.bind();
-		
-		BeanProperty<MTGCard, Boolean> promoProperty = BeanProperty.create("promoCard");
-		BeanProperty<JCheckBox, Boolean> promoChkProperty = BeanProperty.create("selected");
-		AutoBinding<MTGCard, Boolean, JCheckBox, Boolean> autoBinding21 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, promoProperty, chkPromo, promoChkProperty);
-		autoBinding21.bind();
-		
+			
 		BeanProperty<MTGCard, String> numberProperty = BeanProperty.create("number");
 		BeanProperty<JTextField, String> numberTxtProperty = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding22 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, numberTxtProperty);
@@ -808,11 +805,15 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		spinner.setValue(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)):30);
 		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)));
 		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)));
-	
+		
+		if(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM)!=null)
+			sldZoom.setValue(Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM)));
+		
+		
 		spinner.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
 		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
 		chkColorIndicator.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
-		
+		sldZoom.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ZOOM, String.valueOf(sldZoom.getValue()) ));
 		
 		
 		
@@ -830,7 +831,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding17);
 		bindingGroup.addBinding(autoBinding19);
 		bindingGroup.addBinding(autoBinding20);
-		bindingGroup.addBinding(autoBinding21);
 		return bindingGroup;
 	}
 

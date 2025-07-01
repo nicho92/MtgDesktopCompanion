@@ -506,7 +506,7 @@ public class MTGCard extends AbstractProduct {
 
 	public boolean isBorderLess()
 	{
-		return border == EnumBorders.BORDERLESS;
+		return border == EnumBorders.BORDERLESS || frameEffects.contains(EnumFrameEffects.BORDERLESS);
 	}
 
 	public boolean isColorless() {

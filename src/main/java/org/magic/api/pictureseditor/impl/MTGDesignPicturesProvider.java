@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
@@ -176,7 +177,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(mc.getCustomMetadata().get(FOIL)!=null &&  mc.getCustomMetadata().get(FOIL).equalsIgnoreCase(TRUE) )
 			build.addParameter("foil",TRUE);
 		
-		if(mc.isPromoCard())
+		if(mc.getFrameEffects().contains(EnumFrameEffects.PROMO))
 			build.addParameter("card-layout", "mgdpromo");
 		else
 			build.addParameter("card-layout", "regular");

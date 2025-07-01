@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardsPatterns;
@@ -17,7 +16,6 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.AccountsManager;
-import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -44,8 +42,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		connect();
 		
 		var imgPath = uploadPicture(new File(mc.getUrl()));
-		
-		
 		var build = RequestBuilder.build().url(urlBuilder+"?fromAjax=1&v=3").setClient(client).post()
 				.addHeader("x-requested-with", "XMLHttpRequest")
 				.addHeader(URLTools.REFERER, BASE_URL+"/mtg-card-maker/edit")
@@ -85,9 +81,9 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("watermark","")
 				.addContent("frame_color[]",EnumColors.determine(mc.getColors()).toPrettyString().toLowerCase())
 				.addContent("special_card_color","")
-				.addContent("pos_art_x","0")
-				.addContent("pos_art_y","0")
-				.addContent("pos_art_s","100")
+				.addContent("pos_art_x",mc.isBorderLess()?"-29":"0")
+				.addContent("pos_art_y",mc.isBorderLess()?"-59":"0")
+				.addContent("pos_art_s",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM)==null?"100":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM))
 				.addContent("subtype_color","#000000")
 				.addContent("type",mc.getSupertypes().stream().collect(Collectors.joining(" ")) + " " + mc.getTypes().stream().collect(Collectors.joining(" ")))
 				.addContent("custom_type","")
@@ -121,6 +117,13 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			var color = EnumColors.determine(mc.getColors());
 			build.addContent("special_card_color", "lg"+(color==EnumColors.GOLD||color==EnumColors.UNCOLOR?"o":color.getCode().toLowerCase()));
 			build.addContent("frame_category","Legendary Frames");
+			
+			if(mc.isLand())
+			{
+				build.addContent("frame_rare", "/moderator/tmp/custom_666ba6254de65.png");
+				build.addContent("special_card_color", "lgc");
+			}
+			
 		}
 
 		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
@@ -158,6 +161,11 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		var ret = layout.get("normal-"+color);
 		
+		if(mc.isBorderLess())
+			return layout.get("borderless-"+color);
+		
+		
+		
 		if(mc.isLand())
 			ret = layout.get("normal-land");
 		else
@@ -182,16 +190,16 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		layout.put("normal-green", "custom_666b647f32017.jpg");
 		layout.put("normal-uncolor", "custom_666b64b05d996.jpg");
 		layout.put("normal-land", "custom_666b64d958319.jpg");
-		layout.put("normal-gold", "custom_666ba621b8c9d.jpg");
+		layout.put("normal-gold", "custom_666ba621b8c9d.png");
 		
-		layout.put("borderless-white", "custom_666314a2af573.png");
-		layout.put("borderless-black", "custom_666315acf23e5.png");
-		layout.put("borderless-blue", "custom_6669c9a190551.png");
-		layout.put("borderless-red", "custom_666315d0904d2.png");
-		layout.put("borderless-green", "custom_666315eddaa6d.png");
-		layout.put("borderless-gold", "custom_6663160c80b70.png");
-		layout.put("borderless-uncolor","custom_6663162ac879a.png");
-		layout.put("borderless-land","custom_6663164095e7a.png");
+		layout.put("borderless-white", "custom_66637c40bf2a2.png");
+		layout.put("borderless-blue", "custom_6663822aa3c55.png");
+		layout.put("borderless-black", "custom_6663830c90efd.png");
+		layout.put("borderless-red", "custom_6663833f965ba.png");
+		layout.put("borderless-green", "custom_666388ec7e198.png");
+		layout.put("borderless-gold", "custom_66638b4a98a6e.png");
+		layout.put("borderless-uncolor","custom_66638ba07c65e.png");
+		layout.put("borderless-land","custom_66638ca862a35.png");
 	
 	}
 	

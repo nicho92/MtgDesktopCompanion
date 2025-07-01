@@ -9,6 +9,7 @@ public abstract class AbstractPicturesEditorProvider extends AbstractMTGPlugin i
 	public static final String INDICATOR = "INDICATOR";
 	public static final String SIZE = "SIZE";
 	public static final String FOIL="FOIL";
+	public static final String ZOOM="ZOOM";
 	
 	@Override
 	public PLUGINS getType() {
