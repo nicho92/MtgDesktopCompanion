@@ -83,25 +83,16 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private MagicTextPane textJEditorPane;
 	private JTextField toughnessJTextField;
 	private JTextField watermarksJTextField;
-	private JPanel panelPT;
-	private JLabel label;
-	private JLabel lblType;
-	private JPanel panelType;
 	private JCheckableListBox<String> cboSuperType;
 	private JCheckableListBox<String> cboTypes;
 	private JTextField txtSubTypes;
-	private JPanel panelButton;
 	private JCheckableListBox<String> cboSubtypes;
-	private JLabel lblTxtSize;
 	private JSpinner spinner;
-	private JLabel lblColorIndicator;
 	private JCheckBox chkColorIndicator;
-	private JPanel panelImageButtons;
 	private JButton btnImage;
 	private JButton btnUrl;
 	private JButton btnWallpaper;
 	private CropImagePanel imagePanel;
-	private JLabel lblZoom;
 	private JSlider sldZoom;
 	private JSlider sldX;
 	private JSlider sldY;
@@ -127,27 +118,25 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
 
-		var nameLabel = new JLangLabel("NAME",true);
-		var labelgbc10 = new GridBagConstraints();
-		labelgbc10.insets = new Insets(5, 5, 5, 5);
-		labelgbc10.gridx = 0;
-		labelgbc10.gridy = 0;
-		add(nameLabel, labelgbc10);
-
+		add(new JLangLabel("NAME",true), UITools.createGridBagConstraints(null, null, 0, 0));
+		add(new JLangLabel("CARD_MANA",true), UITools.createGridBagConstraints(null, null, 2, 0));
+		add(new JLangLabel("CARD_ARTIST",true), UITools.createGridBagConstraints(null, null, 0, 1));
+		add(new JLangLabel("CARD_RARITY",true), UITools.createGridBagConstraints(null, null, 2, 1));
+		add(new JLangLabel("CARD_TYPES",true), UITools.createGridBagConstraints(null, null, 0, 2));
+		add(new JLangLabel("CARD_TEXT",true), UITools.createGridBagConstraints(null, null, 0, 4));
+		add(new JLangLabel("CARD_FLAVOR",true), UITools.createGridBagConstraints(null, null, 0, 7));
+		add(new JLangLabel("CARD_LAYOUT",true), UITools.createGridBagConstraints(null, null, 0, 8));
+		add(new JLabel(capitalize("CARD_POWER") + "/" + capitalize("CARD_TOUGHNESS") + ":"), UITools.createGridBagConstraints(null, null, 2, 8));		
+		add(new JLangLabel("CARD_WATERMARK",true), UITools.createGridBagConstraints(null, null, 0, 9));
+		add(new JLangLabel("CARD_LOYALTY",true), UITools.createGridBagConstraints(null, null, 2, 9));
+		add(new JLangLabel("CARD_NUMBER",true), UITools.createGridBagConstraints(null, null, 0, 10));
+		add(new JLangLabel("FOIL",true), UITools.createGridBagConstraints(null, null, 2, 10));
+		add(new JLabel("Color Indicator :"), UITools.createGridBagConstraints(null, null, 2, 12));
+		add(new JLabel("Picture :"), UITools.createGridBagConstraints(null, null, 2, 14));
+		add(new JLabel("Text Size :"), UITools.createGridBagConstraints(null, null, 2, 11));
+			
 		nameJTextField = new JTextField();
-		var componentgbc10 = new GridBagConstraints();
-		componentgbc10.insets = new Insets(5, 0, 5, 5);
-		componentgbc10.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc10.gridx = 1;
-		componentgbc10.gridy = 0;
-		add(nameJTextField, componentgbc10);
-
-		var costLabel = new JLangLabel("CARD_MANA",true);
-		var labelgbc2 = new GridBagConstraints();
-		labelgbc2.insets = new Insets(5, 5, 5, 5);
-		labelgbc2.gridx = 2;
-		labelgbc2.gridy = 0;
-		add(costLabel, labelgbc2);
+		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
 		costJTextField = new JTextField();
 		costJTextField.setEditable(false);
@@ -236,27 +225,20 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboUn);
-				g.getContentPane().add(new JLabel(
-						new ImageIcon(IconsProvider.getInstance().getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboW);
-				g.getContentPane().add(new JLabel(
-						new ImageIcon(IconsProvider.getInstance().getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboU);
-				g.getContentPane().add(new JLabel(
-						new ImageIcon(IconsProvider.getInstance().getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboB);
-				g.getContentPane().add(new JLabel(
-						new ImageIcon(IconsProvider.getInstance().getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboR);
-				g.getContentPane().add(new JLabel(
-						new ImageIcon(IconsProvider.getInstance().getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboG);
-				g.getContentPane().add(new JLabel(
-						new ImageIcon(IconsProvider.getInstance().getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboC);
 				g.getContentPane().add(cboS);
-				g.getContentPane().add(new JLabel(
-						new ImageIcon(IconsProvider.getInstance().getManaSymbol("S").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("S").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboS);
 				
 				
@@ -269,112 +251,50 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			}
 
 		});
-
-		var componentgbc2 = new GridBagConstraints();
-		componentgbc2.insets = new Insets(5, 0, 5, 0);
-		componentgbc2.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc2.gridx = 3;
-		componentgbc2.gridy = 0;
-		add(costJTextField, componentgbc2);
-
-		var artistLabel = new JLabel(
-				capitalize("CARD_ARTIST") + " :");
-		var labelgbc0 = new GridBagConstraints();
-		labelgbc0.insets = new Insets(5, 5, 5, 5);
-		labelgbc0.gridx = 0;
-		labelgbc0.gridy = 1;
-		add(artistLabel, labelgbc0);
+		add(costJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 0));
 
 		artistJTextField = new JTextField();
-		var componentgbc0 = new GridBagConstraints();
-		componentgbc0.insets = new Insets(5, 0, 5, 5);
-		componentgbc0.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc0.gridx = 1;
-		componentgbc0.gridy = 1;
-		add(artistJTextField, componentgbc0);
-
-		var rarityLabel = new JLabel(
-				capitalize("CARD_RARITY") + " :");
-		var labelgbc14 = new GridBagConstraints();
-		labelgbc14.insets = new Insets(5, 5, 5, 5);
-		labelgbc14.gridx = 2;
-		labelgbc14.gridy = 1;
-		add(rarityLabel, labelgbc14);
+		add(artistJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 
 		rarityJComboBox = UITools.createCombobox(EnumRarity.values());
-
-		var componentgbc14 = new GridBagConstraints();
-		componentgbc14.insets = new Insets(5, 0, 5, 0);
-		componentgbc14.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc14.gridx = 3;
-		componentgbc14.gridy = 1;
-		add(rarityJComboBox, componentgbc14);
-
-		lblType = new JLangLabel("CARD_TYPES",true);
-		var gbclblType = new GridBagConstraints();
-		gbclblType.insets = new Insets(0, 0, 5, 5);
-		gbclblType.gridx = 0;
-		gbclblType.gridy = 2;
-		add(lblType, gbclblType);
-
-		panelType = new JPanel();
-		var gbcpanelType = new GridBagConstraints();
-		gbcpanelType.gridwidth = 3;
-		gbcpanelType.insets = new Insets(0, 0, 5, 0);
-		gbcpanelType.fill = GridBagConstraints.BOTH;
-		gbcpanelType.gridx = 1;
-		gbcpanelType.gridy = 2;
-		add(panelType, gbcpanelType);
-		panelType.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		add(rarityJComboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 1));
 
 		cboSuperType = new JCheckableListBox<>();
 		var modelSt = new DefaultListCheckModel();
 		cboSuperType.setModel(modelSt);
-		for (String t : new String[] { "", "Basic", "Elite", "Legendary", "Ongoing", "Snow", "World" }) {
-			modelSt.addElement(t);
-		}
-		panelType.add(cboSuperType);
+		
+		List.of("", "Basic", "Elite", "Legendary", "Ongoing", "Snow", "World" ).forEach(modelSt::addElement);
 
 		cboTypes = new JCheckableListBox<>();
 		var model = new DefaultListCheckModel();
 		cboTypes.setModel(model);
-		for (String t : new String[] { "", "Arcane", "Artifact", "Aura", "Clue", "Conspiracy", "Continuous",
+		List.of("", "Arcane", "Artifact", "Aura", "Clue", "Conspiracy", "Continuous",
 				"Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification",
 				"Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Local", "Mana source",
 				"Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine",
-				"Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World" }) {
-			model.addElement(t);
-		}
-
-		panelType.add(cboTypes);
-
-		cboTypes.setModel(model);
-
+				"Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World").forEach(model::addElement);
+		
 		cboSubtypes = new JCheckableListBox<>();
-		panelType.add(cboSubtypes);
-
-		txtSubTypes = new JTextField();
+		
+		txtSubTypes = new JTextField(10);
 		txtSubTypes.addActionListener(_ -> {
 			cboSubtypes.addElement(txtSubTypes.getText(), true);
 			txtSubTypes.setText("");
 		});
 
-		panelType.add(txtSubTypes);
-		txtSubTypes.setColumns(10);
-
-		panelButton = new JPanel();
+		
+		var gbcpanelType = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2,3,null);
+		add(UITools.createFlowPanel(cboSuperType,cboTypes,cboSubtypes,txtSubTypes), gbcpanelType);
+		
+		var panelButton = new JPanel();
 		FlowLayout flpanelButton = (FlowLayout) panelButton.getLayout();
 		flpanelButton.setAlignment(FlowLayout.LEFT);
-		var gbcpanelButton = new GridBagConstraints();
-		gbcpanelButton.gridwidth = 2;
-		gbcpanelButton.insets = new Insets(0, 0, 5, 5);
-		gbcpanelButton.fill = GridBagConstraints.BOTH;
-		gbcpanelButton.gridx = 1;
-		gbcpanelButton.gridy = 3;
+		
+		var gbcpanelButton = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 3,2,null);
 		add(panelButton, gbcpanelButton);
 
-		var symbolcs = new String[] { "W", "U", "B", "R", "G", "C", "T", "E" };
-		for (String s : symbolcs) {
+		for (var s : new String[] { "W", "U", "B", "R", "G", "C", "T", "E" }) 
+		{
 			final var btnG = new JButton();
 			btnG.setToolTipText(s);
 			btnG.setIcon(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
@@ -393,24 +313,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			panelButton.add(btnG);
 
 		}
-		var textLabel = new JLangLabel("CARD_TEXT",true);
-		var labelgbc16 = new GridBagConstraints();
-		labelgbc16.insets = new Insets(5, 5, 5, 5);
-		labelgbc16.gridx = 0;
-		labelgbc16.gridy = 4;
-		add(textLabel, labelgbc16);
+		
 		var panelEditor = new JPanel();
 		panelEditor.setLayout(new BorderLayout());
-
-
 		textJEditorPane = new MagicTextPane(false);
-		var componentgbc16 = new GridBagConstraints();
-		componentgbc16.gridwidth = 3;
-		componentgbc16.gridheight = 3;
-		componentgbc16.insets = new Insets(5, 0, 5, 0);
-		componentgbc16.fill = GridBagConstraints.BOTH;
-		componentgbc16.gridx = 1;
-		componentgbc16.gridy = 4;
 
 		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
 		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,MTG.getEnabledPlugin(MTGTextGenerator.class)));
@@ -418,151 +324,42 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		panelEditor.add(scrollPane,BorderLayout.SOUTH);
 		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
 
-		add(panelEditor, componentgbc16);
+		add(panelEditor, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4,3,3));
 
-		var flavorLabel = new JLangLabel("CARD_FLAVOR",true);
-		var labelgbc3 = new GridBagConstraints();
-		labelgbc3.insets = new Insets(5, 5, 5, 5);
-		labelgbc3.gridx = 0;
-		labelgbc3.gridy = 7;
-		add(flavorLabel, labelgbc3);
 
 		flavorJTextField = new JTextField();
-		var componentgbc3 = new GridBagConstraints();
-		componentgbc3.gridwidth = 3;
-		componentgbc3.insets = new Insets(5, 0, 5, 0);
-		componentgbc3.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc3.gridx = 1;
-		componentgbc3.gridy = 7;
-		add(flavorJTextField, componentgbc3);
+		add(flavorJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7,3,null));
 
-		var layoutLabel = new JLangLabel("CARD_LAYOUT",true);
-		var labelgbc6 = new GridBagConstraints();
-		labelgbc6.insets = new Insets(5, 5, 5, 5);
-		labelgbc6.gridx = 0;
-		labelgbc6.gridy = 8;
-		add(layoutLabel, labelgbc6);
-
+	
 		layoutJComboBox = UITools.createCombobox(EnumFrameEffects.values());
-
-		var componentgbc6 = new GridBagConstraints();
-		componentgbc6.insets = new Insets(5, 0, 5, 5);
-		componentgbc6.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc6.gridx = 1;
-		componentgbc6.gridy = 8;
-		add(layoutJComboBox, componentgbc6);
-
-		var powerLabel = new JLabel(capitalize("CARD_POWER") + "/" + capitalize("CARD_TOUGHNESS") + ":");
-		var labelgbc13 = new GridBagConstraints();
-		labelgbc13.insets = new Insets(5, 5, 5, 5);
-		labelgbc13.gridx = 2;
-		labelgbc13.gridy = 8;
-		add(powerLabel, labelgbc13);
-
-		panelPT = new JPanel();
-		var gbcpanelPT = new GridBagConstraints();
-		gbcpanelPT.insets = new Insets(0, 0, 5, 0);
-		gbcpanelPT.fill = GridBagConstraints.BOTH;
-		gbcpanelPT.gridx = 3;
-		gbcpanelPT.gridy = 8;
-		add(panelPT, gbcpanelPT);
-
-		powerJTextField = new JTextField();
-		powerJTextField.setColumns(2);
-		panelPT.add(powerJTextField);
-
-		label = new JLabel("/");
-		panelPT.add(label);
-
-		toughnessJTextField = new JTextField();
-		toughnessJTextField.setColumns(2);
-		panelPT.add(toughnessJTextField);
-
-		var watermarksLabel = new JLabel(
-				capitalize("CARD_WATERMARK") + " :");
-		var labelgbc19 = new GridBagConstraints();
-		labelgbc19.insets = new Insets(5, 5, 5, 5);
-		labelgbc19.gridx = 0;
-		labelgbc19.gridy = 9;
-		add(watermarksLabel, labelgbc19);
-
+		add(layoutJComboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
+	
+		powerJTextField = new JTextField(2);
+		toughnessJTextField = new JTextField(2);
+		add(UITools.createFlowPanel(powerJTextField,new JLabel("/"),toughnessJTextField), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 8));
+		
 		watermarksJTextField = new JTextField();
-		var componentgbc19 = new GridBagConstraints();
-		componentgbc19.insets = new Insets(5, 0, 5, 5);
-		componentgbc19.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc19.gridx = 1;
-		componentgbc19.gridy = 9;
-		add(watermarksJTextField, componentgbc19);
-
-		var loyaltyLabel = new JLangLabel("CARD_LOYALTY",true);
-		var labelgbc7 = new GridBagConstraints();
-		labelgbc7.insets = new Insets(5, 5, 5, 5);
-		labelgbc7.gridx = 2;
-		labelgbc7.gridy = 9;
-		add(loyaltyLabel, labelgbc7);
+		add(watermarksJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 
 		loyaltyJTextField = new JTextField();
-		var componentgbc7 = new GridBagConstraints();
-		componentgbc7.insets = new Insets(5, 0, 5, 0);
-		componentgbc7.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc7.gridx = 3;
-		componentgbc7.gridy = 9;
-		add(loyaltyJTextField, componentgbc7);
-
-		var numberLabel = new JLangLabel("CARD_NUMBER",true);
-		var labelgbc11 = new GridBagConstraints();
-		labelgbc11.insets = new Insets(5, 5, 5, 5);
-		labelgbc11.gridx = 0;
-		labelgbc11.gridy = 10;
-		add(numberLabel, labelgbc11);
+		add(loyaltyJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
 
 		numberJTextField = new JTextField();
-		var componentgbc11 = new GridBagConstraints();
-		componentgbc11.insets = new Insets(5, 0, 5, 5);
-		componentgbc11.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc11.gridx = 1;
-		componentgbc11.gridy = 10;
-		add(numberJTextField, componentgbc11);
-
-		var lblFoil = new JLabel(
-						"Foil :");
-				var gbclblFoil = new GridBagConstraints();
-				gbclblFoil.insets = new Insets(5, 5, 5, 5);
-				gbclblFoil.gridx = 2;
-				gbclblFoil.gridy = 10;
-				add(lblFoil, gbclblFoil);
-
-				chkFoil = new JCheckBox();
-				var gbcchboxFoil = new GridBagConstraints();
-				gbcchboxFoil.insets = new Insets(5, 0, 5, 0);
-				gbcchboxFoil.gridx = 3;
-				gbcchboxFoil.gridy = 10;
-				add(chkFoil, gbcchboxFoil);
+		add(numberJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 
 
-		lblTxtSize = new JLabel("Text Size :");
-		var gbclblTxtSize = new GridBagConstraints();
-		gbclblTxtSize.insets = new Insets(0, 0, 5, 5);
-		gbclblTxtSize.gridx = 2;
-		gbclblTxtSize.gridy = 11;
-		add(lblTxtSize, gbclblTxtSize);
+		chkFoil = new JCheckBox();
+		add(chkFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
 
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(32, 18, 38, 1));
-		var gbcspinner = new GridBagConstraints();
-		gbcspinner.insets = new Insets(0, 0, 5, 0);
-		gbcspinner.gridx = 3;
-		gbcspinner.gridy = 11;
-		add(spinner, gbcspinner);
+		add(spinner, UITools.createGridBagConstraints(null, null, 3, 11));
 
-		panelImageButtons = new JPanel();
-		var gbcpanelImageButtons = new GridBagConstraints();
-		gbcpanelImageButtons.gridheight = 4;
-		gbcpanelImageButtons.insets = new Insets(0, 0, 0, 5);
-		gbcpanelImageButtons.fill = GridBagConstraints.BOTH;
-		gbcpanelImageButtons.gridx = 0;
-		gbcpanelImageButtons.gridy = 12;
-		add(panelImageButtons, gbcpanelImageButtons);
+		var panelImageButtons = new JPanel();
+		add(panelImageButtons, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 12,null,4));
+		
+		
+		
 		var gblpanelImageButtons = new GridBagLayout();
 		gblpanelImageButtons.columnWidths = new int[]{63, 0};
 		gblpanelImageButtons.rowHeights = new int[]{23, 0, 0};
@@ -581,21 +378,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			showCrop();
 			}
 		});
-		var gbcbtnImage = new GridBagConstraints();
-		gbcbtnImage.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnImage.anchor = GridBagConstraints.NORTH;
-		gbcbtnImage.insets = new Insets(0, 0, 5, 0);
-		gbcbtnImage.gridx = 0;
-		gbcbtnImage.gridy = 0;
-		panelImageButtons.add(btnImage, gbcbtnImage);
+		panelImageButtons.add(btnImage,  UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 0));
 
 		btnUrl = new JButton("URL");
-		var gbcbtnUrl = new GridBagConstraints();
-		gbcbtnUrl.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnUrl.anchor = GridBagConstraints.NORTH;
-		gbcbtnUrl.gridx = 0;
-		gbcbtnUrl.gridy = 1;
-		panelImageButtons.add(btnUrl, gbcbtnUrl);
+		panelImageButtons.add(btnUrl, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 1));
 		btnUrl.addActionListener(_->{
 					String urlImage = JOptionPane.showInputDialog("URL");
 					magicCard.setUrl(urlImage);
@@ -603,12 +389,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		});
 		
 		btnWallpaper = new JButton("WallPaper");
-		var gbcbtnWallpaperl = new GridBagConstraints();
-		gbcbtnWallpaperl.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnWallpaperl.anchor = GridBagConstraints.NORTH;
-		gbcbtnWallpaperl.gridx = 0;
-		gbcbtnWallpaperl.gridy = 2;
-		panelImageButtons.add(btnWallpaper, gbcbtnWallpaperl);
+		panelImageButtons.add(btnWallpaper, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 2));
 		btnWallpaper.addActionListener(_->{
 		
 					var wallChooser = new WallPaperChooseDialog();
@@ -641,37 +422,15 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		
 		});
 		
-		
 		imagePanel = new CropImagePanel();
 		imagePanel.setBorder(new LineBorder(Color.BLACK));
-		var gbcimagePanel = new GridBagConstraints();
-		gbcimagePanel.gridheight = 4;
-		gbcimagePanel.insets = new Insets(0, 0, 0, 5);
-		gbcimagePanel.fill = GridBagConstraints.BOTH;
-		gbcimagePanel.gridx = 1;
-		gbcimagePanel.gridy = 12;
-		add(imagePanel, gbcimagePanel);
+		add(imagePanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 12,null,4));
 
-		lblColorIndicator = new JLabel("Color Indicator");
-		var gbclblColorIndicator = new GridBagConstraints();
-		gbclblColorIndicator.insets = new Insets(0, 0, 5, 5);
-		gbclblColorIndicator.gridx = 2;
-		gbclblColorIndicator.gridy = 12;
-		add(lblColorIndicator, gbclblColorIndicator);
+
 
 		chkColorIndicator = new JCheckBox("");
-		var gbcchkColorIndicator = new GridBagConstraints();
-		gbcchkColorIndicator.insets = new Insets(0, 0, 5, 0);
-		gbcchkColorIndicator.gridx = 3;
-		gbcchkColorIndicator.gridy = 12;
-		add(chkColorIndicator, gbcchkColorIndicator);
+		add(chkColorIndicator, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 12));
 
-		lblZoom = new JLabel("Picture : ");
-		GridBagConstraints gbclblFrame = new GridBagConstraints();
-		gbclblFrame.insets = new Insets(0, 0, 5, 5);
-		gbclblFrame.gridx = 2;
-		gbclblFrame.gridy = 14;
-		add(lblZoom, gbclblFrame);
 		
 		sldZoom = new JSlider(100,400);
 		sldX = new JSlider(-300,300);
@@ -688,12 +447,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		pan.add(UITools.createFlowPanel(new JLabel("X:"), sldX));
 		pan.add(UITools.createFlowPanel(new JLabel("Y:"), sldY));
 		
-		GridBagConstraints gbcchkPromo = new GridBagConstraints();
-		gbcchkPromo.insets = new Insets(0, 0, 5, 0);
-		gbcchkPromo.fill = GridBagConstraints.BOTH;
-		gbcchkPromo.gridx = 3;
-		gbcchkPromo.gridy = 14;
-		add(pan, gbcchkPromo);
+		add(pan,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 14));
 		
 		
 		mbindingGroup = initDataBindings();
