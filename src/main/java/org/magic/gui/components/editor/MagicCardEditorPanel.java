@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
@@ -665,7 +666,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gbcchkColorIndicator.gridy = 12;
 		add(chkColorIndicator, gbcchkColorIndicator);
 
-		lblZoom = new JLabel("Zoom");
+		lblZoom = new JLabel("Picture : ");
 		GridBagConstraints gbclblFrame = new GridBagConstraints();
 		gbclblFrame.insets = new Insets(0, 0, 5, 5);
 		gbclblFrame.gridx = 2;
@@ -673,26 +674,26 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(lblZoom, gbclblFrame);
 		
 		sldZoom = new JSlider(100,400);
-		sldZoom.setValue(100);
-		GridBagConstraints gbcchkPromo = new GridBagConstraints();
-		gbcchkPromo.insets = new Insets(0, 0, 5, 0);
-		gbcchkPromo.fill = GridBagConstraints.HORIZONTAL;
-		gbcchkPromo.gridx = 3;
-		gbcchkPromo.gridy = 14;
-		add(sldZoom, gbcchkPromo);
-		
 		sldX = new JSlider(-300,300);
 		sldY = new JSlider(-300,300);
-		
+
+		sldZoom.setValue(100);
 		sldX.setValue(0);
 		sldY.setValue(0);
 		
-		GridBagConstraints gbcchksld = new GridBagConstraints();
-		gbcchksld.insets = new Insets(0, 0, 5, 0);
-		gbcchksld.fill = GridBagConstraints.HORIZONTAL;
-		gbcchksld.gridx = 3;
-		gbcchksld.gridy = 13;
-		add(UITools.createFlowPanel(new JLabel("X:"),sldX,new JLabel("Y:"),sldY), gbcchksld);
+		var pan = new JPanel();
+		pan.setLayout(new GridLayout(3, 1));
+		
+		pan.add(UITools.createFlowPanel(new JLabel("Z:"), sldZoom));
+		pan.add(UITools.createFlowPanel(new JLabel("X:"), sldX));
+		pan.add(UITools.createFlowPanel(new JLabel("Y:"), sldY));
+		
+		GridBagConstraints gbcchkPromo = new GridBagConstraints();
+		gbcchkPromo.insets = new Insets(0, 0, 5, 0);
+		gbcchkPromo.fill = GridBagConstraints.BOTH;
+		gbcchkPromo.gridx = 3;
+		gbcchkPromo.gridy = 14;
+		add(pan, gbcchkPromo);
 		
 		
 		mbindingGroup = initDataBindings();
