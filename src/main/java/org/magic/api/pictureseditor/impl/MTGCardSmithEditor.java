@@ -77,7 +77,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("frame_category","Standard Colors")
 				.addContent("name",mc.getName())
 				.addContent("title_color","#000000")
-				.addContent("custom_mana",mc.getCost().toLowerCase())
+				.addContent("custom_mana",mc.getCost()!=null?mc.getCost().toLowerCase():"")
 				.addContent("watermark","")
 				.addContent("frame_color[]",EnumColors.determine(mc.getColors()).toPrettyString().toLowerCase())
 				.addContent("special_card_color","")

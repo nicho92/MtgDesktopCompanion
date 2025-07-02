@@ -10,7 +10,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -240,9 +239,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				g.getContentPane().add(cboS);
 				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("S").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboS);
-				
-				
-				
 				g.getContentPane().add(btn);
 				g.setLocationRelativeTo(null);
 				g.pack();
