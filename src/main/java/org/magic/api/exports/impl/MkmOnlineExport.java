@@ -244,7 +244,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 			enumAtts.put(PRODUCT_ATTS.idGame, "1");
 			enumAtts.put(PRODUCT_ATTS.exact, "true");
 
-			List<Article> list = new ArrayList<>();
 			for (MTGCardStock mcs : stock)
 			{
 
@@ -278,8 +277,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 						a.setLanguage(convertLang(mcs.getLanguage()));
 						a.setProduct(p);
 						a.setIdProduct(p.getIdProduct());
-						list.add(a);
-
 
 						if(mcs.getTiersAppIds().get(getName())!=null)
 						{
