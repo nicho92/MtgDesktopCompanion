@@ -20,7 +20,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -63,6 +62,8 @@ import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+
 public class MagicCardEditorPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -101,6 +102,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private CropImagePanel imagePanel;
 	private JLabel lblZoom;
 	private JSlider sldZoom;
+	private JSlider sldX;
+	private JSlider sldY;
 
 	@Override
 	public String getTitle() {
@@ -670,6 +673,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(lblZoom, gbclblFrame);
 		
 		sldZoom = new JSlider(100,400);
+		sldZoom.setValue(100);
 		GridBagConstraints gbcchkPromo = new GridBagConstraints();
 		gbcchkPromo.insets = new Insets(0, 0, 5, 0);
 		gbcchkPromo.fill = GridBagConstraints.HORIZONTAL;
@@ -677,7 +681,19 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gbcchkPromo.gridy = 14;
 		add(sldZoom, gbcchkPromo);
 		
-				
+		sldX = new JSlider(-300,300);
+		sldY = new JSlider(-300,300);
+		
+		sldX.setValue(0);
+		sldY.setValue(0);
+		
+		GridBagConstraints gbcchksld = new GridBagConstraints();
+		gbcchksld.insets = new Insets(0, 0, 5, 0);
+		gbcchksld.fill = GridBagConstraints.HORIZONTAL;
+		gbcchksld.gridx = 3;
+		gbcchksld.gridy = 13;
+		add(UITools.createFlowPanel(new JLabel("X:"),sldX,new JLabel("Y:"),sldY), gbcchksld);
+		
 		
 		mbindingGroup = initDataBindings();
 		
@@ -814,8 +830,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
 		chkColorIndicator.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
 		sldZoom.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ZOOM, String.valueOf(sldZoom.getValue()) ));
-		
-		
+		sldX.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.X, String.valueOf(sldX.getValue()) ));
+		sldY.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.Y, String.valueOf(sldY.getValue()) ));
 		
 		
 		//
