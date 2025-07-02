@@ -268,11 +268,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboTypes = new JCheckableListBox<>();
 		var model = new DefaultListCheckModel();
 		cboTypes.setModel(model);
-		List.of("", "Arcane", "Artifact", "Aura", "Clue", "Conspiracy", "Continuous",
-				"Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification",
-				"Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Local", "Mana source",
-				"Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine",
-				"Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World").forEach(model::addElement);
+		List.of("", "Arcane", "Artifact", "Aura", "Clue", "Conspiracy", "Continuous","Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification","Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Local", "Mana source","Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine","Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World").forEach(model::addElement);
 		
 		cboSubtypes = new JCheckableListBox<>();
 		
@@ -426,11 +422,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		imagePanel.setBorder(new LineBorder(Color.BLACK));
 		add(imagePanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 12,null,4));
 
-
-
 		chkColorIndicator = new JCheckBox("");
 		add(chkColorIndicator, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 12));
-
 		
 		sldZoom = new JSlider(100,400);
 		sldX = new JSlider(-300,300);
