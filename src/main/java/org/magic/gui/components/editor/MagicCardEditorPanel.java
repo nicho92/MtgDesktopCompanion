@@ -73,7 +73,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField costJTextField;
 	private JTextField flavorJTextField;
 	private JCheckBox chkFoil;
-	private JComboBox<EnumFrameEffects> layoutJComboBox;
+	private JCheckableListBox<EnumFrameEffects> layoutJComboBox;
 	private JTextField loyaltyJTextField;
 	private JTextField nameJTextField;
 	private JTextField numberJTextField;
@@ -95,6 +95,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JSlider sldZoom;
 	private JSlider sldX;
 	private JSlider sldY;
+	private JCheckBox chkWhiteText;
 
 	@Override
 	public String getTitle() {
@@ -236,7 +237,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				g.getContentPane().add(cboG);
 				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboC);
-				g.getContentPane().add(cboS);
 				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("S").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
 				g.getContentPane().add(cboS);
 				g.getContentPane().add(btn);
@@ -323,7 +323,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(flavorJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7,3,null));
 
 	
-		layoutJComboBox = UITools.createCombobox(EnumFrameEffects.values());
+		layoutJComboBox = new JCheckableListBox<>();
+		for(var eff : EnumFrameEffects.values())
+			layoutJComboBox.addElement(eff, false);
+		
 		add(layoutJComboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 	
 		powerJTextField = new JTextField(2);
@@ -421,6 +424,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		chkColorIndicator = new JCheckBox("");
 		add(chkColorIndicator, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 12));
 		
+		
+		
 		sldZoom = new JSlider(100,400);
 		sldX = new JSlider(-300,300);
 		sldY = new JSlider(-300,300);
@@ -428,10 +433,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		sldZoom.setValue(100);
 		sldX.setValue(0);
 		sldY.setValue(0);
-		
+		chkWhiteText = new JCheckBox();
 		var pan = new JPanel();
-		pan.setLayout(new GridLayout(3, 1));
+		pan.setLayout(new GridLayout(4, 1));
 		
+		pan.add(UITools.createFlowPanel(new JLabel("White text :"),chkWhiteText));
 		pan.add(UITools.createFlowPanel(new JLabel("Z:"), sldZoom));
 		pan.add(UITools.createFlowPanel(new JLabel("X:"), sldX));
 		pan.add(UITools.createFlowPanel(new JLabel("Y:"), sldY));
@@ -471,7 +477,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSupertypes(cboSuperType.getSelectedElements());
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
-		magicCard.setFrameEffects(List.of((EnumFrameEffects)layoutJComboBox.getSelectedItem()));
+		magicCard.setFrameEffects(layoutJComboBox.getSelectedElements());
 		return magicCard;
 	}
 
@@ -494,8 +500,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		if (magicCard != null) {
 			cboSuperType.setSelectedElements(magicCard.getSupertypes());
 			cboTypes.setSelectedElements(magicCard.getTypes());
+			layoutJComboBox.setSelectedElements(magicCard.getFrameEffects());
 			magicCard.getSubtypes().forEach(s->cboSubtypes.addElement(s, true));
-
 		}
 
 	}
@@ -576,7 +582,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		sldZoom.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ZOOM, String.valueOf(sldZoom.getValue()) ));
 		sldX.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.X, String.valueOf(sldX.getValue()) ));
 		sldY.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.Y, String.valueOf(sldY.getValue()) ));
-		
+		chkWhiteText.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.TEXT_COLOR, chkWhiteText.isSelected()?"#ffffff":"#000000"));
 		
 		//
 		var bindingGroup = new BindingGroup();

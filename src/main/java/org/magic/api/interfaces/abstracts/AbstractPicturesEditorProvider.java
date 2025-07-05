@@ -12,6 +12,7 @@ public abstract class AbstractPicturesEditorProvider extends AbstractMTGPlugin i
 	public static final String ZOOM="ZOOM";
 	public static final String X = "X";
 	public static final String Y = "Y";
+	public static String TEXT_COLOR="TEXT_COLOR";
 	
 	@Override
 	public PLUGINS getType() {

@@ -1,5 +1,6 @@
 package org.magic.api.pictureseditor.impl;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardsPatterns;
@@ -28,12 +28,16 @@ import com.google.gson.JsonObject;
 public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 
 	private static final String BASE_URL = "https://mtgcardsmith.com";
-	private final String urlBuilder=BASE_URL+"/src/actions/m15card2";
+	private static final String BASE_URL_DEVM = "https://devm.mtgcardsmith.com";
+	
+	private final String urlBuilder=BASE_URL_DEVM+"/src/actions/m15cardTest";
 	private final String urlPictureUpload=BASE_URL+"/src/actions/cards/upload";
-	private final String urlAuthentication="https://shop.mtgcardsmith.com/my-account/?redirect_to="+BASE_URL;
+	private final String urlAuthentication=BASE_URL+"/my-account/";
 	
 	private MTGHttpClient client;
 	private boolean connected;
+	
+	
 	private Map<String,String> layout;
 	
 	@Override
@@ -41,15 +45,20 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		connect();
 		
+		
 		var imgPath = uploadPicture(new File(mc.getUrl()));
+		
+		int size = Integer.parseInt(mc.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE));
+		
 		var build = RequestBuilder.build().url(urlBuilder+"?fromAjax=1&v=3").setClient(client).post()
 				.addHeader("x-requested-with", "XMLHttpRequest")
-				.addHeader(URLTools.REFERER, BASE_URL+"/mtg-card-maker/edit")
-				.addHeader(URLTools.HOST, "mtgcardsmith.com")
+				.addHeader(URLTools.REFERER, BASE_URL)
+				.addHeader(URLTools.HOST, "devm.mtgcardsmith.com")
 				.addHeader(URLTools.ORIGIN, BASE_URL)
 				.addHeader(URLTools.ACCEPT, "application/json, text/javascript, */*; q=0.01")
 				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
 				.addHeader(URLTools.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8")
+			//	.addContent("session_data_card", "{\"dimensions\":{\"width\":316,\"height\":232},\"frame\":\"m15\",\"image_path\":"+imgPath+"\",\"status\":\"new\"}")
 				.addContent("slug","")
 				.addContent("create_date","")
 				.addContent("frame","/moderator/tmp/"+getFrame(mc))
@@ -76,7 +85,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("pos_bottom3_y","")
 				.addContent("frame_category","Standard Colors")
 				.addContent("name",mc.getName())
-				.addContent("title_color","#000000")
+				.addContent("title_color",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR)==null?"#000000":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR))
 				.addContent("custom_mana",mc.getCost()!=null?mc.getCost().toLowerCase():"")
 				.addContent("watermark","")
 				.addContent("frame_color[]",EnumColors.determine(mc.getColors()).toPrettyString().toLowerCase())
@@ -84,14 +93,14 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("pos_art_x",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.X)==null?"0":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.X))
 				.addContent("pos_art_y",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.Y)==null?"0":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.Y))
 				.addContent("pos_art_s",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM)==null?"100":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM))
-				.addContent("subtype_color","#000000")
+				.addContent("subtype_color",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR)==null?"#000000":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR))
 				.addContent("type",mc.getSupertypes().stream().collect(Collectors.joining(" ")) + " " + mc.getTypes().stream().collect(Collectors.joining(" ")))
 				.addContent("custom_type","")
 				.addContent("subtype",mc.getSubtypes().stream().collect(Collectors.joining(" ")))
 				.addContent("rarity",mc.getRarity().toPrettyString().toLowerCase())
 				.addContent("set_icon","mtgcs1")
-				.addContent("body_color","#000000")
-				.addContent("text_size","large")
+				.addContent("body_color",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR)==null?"#000000":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR))
+				.addContent("text_size",(size==18?"vsmall":size<=20?"small":size<=24?"large":"vlarge"))
 				.addContent("description", minimize(mc.getText()) + (mc.getFlavor().isEmpty()?"":"\n<i>"+mc.getFlavor()+"</i>"))
 				.addContent("power",mc.getPower())
 				.addContent("toughness",mc.getToughness())
@@ -138,7 +147,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		logger.debug("sending {}", build);
 		
 		var res = build.execute();
-		
+	
 		if(res.getStatusLine().getStatusCode()!=200)
 			throw new IOException(res.getStatusLine().getReasonPhrase());
 		
@@ -203,33 +212,49 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	
 	}
 	
-	
 
 	private void connect() throws IOException
 	{
 		if(connected)
 			return;
 		
-		if(getAuthenticator().getLogin().isEmpty() || getAuthenticator().getPassword().isEmpty())
-		{
+		if(getAuthenticator().getLogin().isEmpty() || getAuthenticator().getPassword().isEmpty()){
 			throw new IOException("Please fill LOGIN/PASSWORD field in account panel");
 		}
 		
 		
-		var nonce = RequestBuilder.build().url("https://shop.mtgcardsmith.com/my-account").setClient(client).get().toHtml().getElementById("woocommerce-login-nonce").attr("value");
+		var nonce = RequestBuilder.build().url(urlAuthentication).setClient(client).get().toHtml().getElementById("woocommerce-login-nonce").attr("value");
 		
 		RequestBuilder.build().url(urlAuthentication).setClient(client).post()
-																							.addContent("username", getAuthenticator().getLogin())
-																							.addContent("password", getAuthenticator().getPassword())
-																							.addContent("_wp_http_referer", "/my-account/?redirect_to="+BASE_URL)
-																							.addContent("login", "Log in")
-																							.addContent("rememberme", "forever")
-																							.addContent("woocommerce-login-nonce", nonce)
-																							.addContent("redirect", BASE_URL)
-																							.execute();
+																.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+																.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
+																.addHeader(URLTools.CONTENT_TYPE, "application/x-www-form-urlencoded")
+																.addHeader("Pragma", "no-cache")
+																.addHeader("Connection", "keep-alive")
+																.addHeader(URLTools.HOST, "mtgcardsmith.com")
+																.addHeader(URLTools.ORIGIN, BASE_URL)
+																.addHeader(URLTools.REFERER, BASE_URL+"/my-account/")
+																.addHeader("sec-ch-ua","Not)A;Brand\";v=\"8\",\"Chromium\";v=\"138\", \"Google Chrome\";v=\"138")
+																.addHeader("sec-ch-ua-mobile","?0")
+																.addHeader("sec-ch-ua-platform","Windows")
+																.addHeader("sec-fetch-dest","document")
+																.addHeader("sec-fetch-mode","navigate")
+																.addHeader("sec-fetch-site","same-origin")
+																.addHeader("sec-fetch-user","?1")
+																.addHeader("upgrade-insecure-requests","1")
+														
+																.addContent("username", getAuthenticator().getLogin())
+																.addContent("password", getAuthenticator().getPassword())
+																.addContent("_wp_http_referer", "/my-account/")
+																.addContent("login", "Log in")
+																.addContent("rememberme", "forever")
+																.addContent("woocommerce-login-nonce", nonce)
+																
+																.execute();
+		
 		try 
 		{
-			var c = RequestBuilder.build().clean().url(BASE_URL+"/account/profile").setClient(client).get().toHtml().select("a[Title=Home]").first().text();
+			var c = RequestBuilder.build().clean().url(urlAuthentication).setClient(client).get().toHtml().select("div.woocommerce-MyAccount-content p strong").first().text();
 			logger.info("logged as {}", c);
 			connected=true;
 		}
@@ -259,7 +284,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 												.toHtml();
 		
 		var imgPath = res.select("img.previewImg2").attr("src");
-		
 		logger.info("File {} uploaded at {}", f,imgPath);
 		
 		return imgPath ;
@@ -317,6 +341,8 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			content.get("output").getAsJsonObject().addProperty("height", img.getHeight());
 			content.get("output").getAsJsonObject().addProperty("image", "data:image/png;base64,"+CryptoUtils.toBase64(binary));			
 			
+			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("x", 0);
+			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("y", 0);
 			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("width", img.getWidth());
 			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("height", img.getHeight());
 			
