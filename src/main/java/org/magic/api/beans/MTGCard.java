@@ -665,6 +665,11 @@ public class MTGCard extends AbstractProduct {
 		return frameEffects.contains(EnumFrameEffects.SHOWCASE);
 	}
 
+	public boolean isMiracle() {
+		return frameEffects.contains(EnumFrameEffects.MIRACLE);
+	}
+
+	
 	public boolean isSiege()
 	{
 		return getSubtypes().contains("Siege");

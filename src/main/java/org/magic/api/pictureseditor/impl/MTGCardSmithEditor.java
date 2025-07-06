@@ -14,6 +14,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
+import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.AccountsManager;
@@ -124,11 +125,11 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
 			build.addContent("frame_color[]", "colorless");
 		
-		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD)
+		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD && !mc.isBorderLess() && !mc.isShowCase() && !mc.isMiracle())
 			build.addContent("frame_rare", "/moderator/tmp/custom_666ba6254de65.png");
 		
 		
-		if(mc.isLegendary() && !mc.isBorderLess() && !mc.isShowCase())
+		if(mc.isLegendary() && !mc.isBorderLess() && !mc.isShowCase()&& !mc.isMiracle())
 		{
 			build.removeContent("frame");
 			var color = EnumColors.determine(mc.getColors());
@@ -141,13 +142,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				build.addContent("special_card_color", "lgc");
 			}
 		}
-		
-		if(mc.isBorderLess())
-		{
-			build.addContent("frame_category", "Borderless");
-		}
-		
-		
+
 		
 		logger.debug("sending {}", build);
 		
@@ -180,6 +175,12 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		if(mc.isShowCase())
 			return layout.get("showcase"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
+		
+		if(mc.isMiracle())
+			return layout.get("miracle-"+color);
+		
+		if(mc.getFrameEffects().contains(EnumFrameEffects.SNOW))
+			return layout.get("snow"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
 		
 		
 		return ret;
@@ -238,6 +239,36 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		layout.put("showcase-lgd-gold", "custom_6664ae37db2f3.png");
 		layout.put("showcase-lgd-uncolor","custom_6664aee666127.png");
 		layout.put("showcase-lgd-land","custom_6664af14ba437.png");
+		
+		layout.put("miracle-white", "custom_666ddff883b56.png");
+		layout.put("miracle-blue", "custom_666de274cd91d.png");
+		layout.put("miracle-black", "custom_666de307afb9c.png");
+		layout.put("miracle-red", "custom_666de366c1d3c.png");
+		layout.put("miracle-green", "custom_666de3b4b75b6.png");
+		layout.put("miracle-gold", "custom_666de40a71e71.png");
+		layout.put("miracle-uncolor","custom_666de520b3ba8.png");
+		layout.put("miracle-land","custom_666de520b3ba8.png");
+			
+		layout.put("snow-white", "custom_66883e8de255c.png");
+		layout.put("snow-blue", "custom_66883eebbb9da.png");
+		layout.put("snow-black", "custom_66883f180fe4a.png");
+		layout.put("snow-red", "custom_66883f42e7b07.png");
+		layout.put("snow-green", "custom_66883f56a4e85.png");
+		layout.put("snow-gold", "custom_66883f71996e5.png");
+		layout.put("snow-uncolor","custom_66884ef81b4ca.png");
+		layout.put("snow-land","custom_66884e9d9d083.png");
+
+		layout.put("snow-lgd-white", "custom_668ae09ed1314.png");
+		layout.put("snow-lgd-blue", "custom_668ae0d74b67d.png");
+		layout.put("snow-lgd-black", "custom_668ae13e91f64.png");
+		layout.put("snow-lgd-red", "custom_668ae157754ba.png");
+		layout.put("snow-lgd-green", "custom_668ae16a06865.png");
+		layout.put("snow-lgd-gold", "custom_668ae266e779e.png");
+		layout.put("snow-lgd-uncolor","custom_668ae27de5d49.png");
+		layout.put("snow-lgd-land","custom_668ae2998c618.png");
+
+		
+		
 		
 	}
 	

@@ -73,7 +73,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField costJTextField;
 	private JTextField flavorJTextField;
 	private JCheckBox chkFoil;
-	private JCheckableListBox<EnumFrameEffects> layoutJComboBox;
+	private JComboBox<EnumFrameEffects> layoutJComboBox;
 	private JTextField loyaltyJTextField;
 	private JTextField nameJTextField;
 	private JTextField numberJTextField;
@@ -323,9 +323,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(flavorJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7,3,null));
 
 	
-		layoutJComboBox = new JCheckableListBox<>();
+		layoutJComboBox = new JComboBox<>();
 		for(var eff : EnumFrameEffects.values())
-			layoutJComboBox.addElement(eff, false);
+			layoutJComboBox.addItem(eff);
 		
 		add(layoutJComboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 	
@@ -477,7 +477,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSupertypes(cboSuperType.getSelectedElements());
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
-		magicCard.setFrameEffects(layoutJComboBox.getSelectedElements());
+		magicCard.setFrameEffects(List.of((EnumFrameEffects)layoutJComboBox.getSelectedItem()));
 		
 		magicCard.getCustomMetadata().put(EnumExtraCardMetaData.CROP_H, String.valueOf(imagePanel.getCroppedDimension().getHeight()));
 		magicCard.getCustomMetadata().put(EnumExtraCardMetaData.CROP_W, String.valueOf(imagePanel.getCroppedDimension().getWidth()));
@@ -506,8 +506,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		if (magicCard != null) {
 			cboSuperType.setSelectedElements(magicCard.getSupertypes());
 			cboTypes.setSelectedElements(magicCard.getTypes());
-			layoutJComboBox.setSelectedElements(magicCard.getFrameEffects());
 			magicCard.getSubtypes().forEach(s->cboSubtypes.addElement(s, true));
+			
+			if(!magicCard.getFrameEffects().isEmpty())
+				layoutJComboBox.setSelectedItem(magicCard.getFrameEffects().get(0));
 		}
 
 	}
