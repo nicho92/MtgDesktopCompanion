@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
@@ -139,7 +140,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(!mc.getSubtypes().isEmpty())
 			build.addParameter("sub-type", String.join(" ", mc.getSubtypes()));
 
-		build.addParameter("text-size", mc.getCustomMetadata().get(SIZE)!=null?mc.getCustomMetadata().get(SIZE):"30");
+		build.addParameter("text-size", mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SIZE,"30"));
 
 		if(mc.getRarity()!=null)
 			build.addParameter("rarity", mc.getRarity().name().substring(0,1).toUpperCase());
@@ -163,18 +164,18 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		build.addParameter(DESIGNER, getString(DESIGNER));
 
-		if(mc.isLand() && mc.getCustomMetadata().get(ACCENT)!=null)
-			build.addParameter("land-overlay", mc.getCustomMetadata().get(ACCENT));
+		if(mc.isLand() && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)!=null)
+			build.addParameter("land-overlay", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT));
 		else
 			build.addParameter("land-overlay", "C");
 
 		build.addParameter("watermark", "0");
 		build.addParameter("set-symbol", "0");
 		
-		if(mc.getCustomMetadata().get(CENTER)!=null &&  mc.getCustomMetadata().get(CENTER).equalsIgnoreCase(TRUE) )
+		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.CENTER)!=null &&  mc.getCustomMetadata().get(EnumExtraCardMetaData.CENTER).equalsIgnoreCase(TRUE) )
 			build.addParameter("centered", TRUE);
 		
-		if(mc.getCustomMetadata().get(FOIL)!=null &&  mc.getCustomMetadata().get(FOIL).equalsIgnoreCase(TRUE) )
+		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.FOIL)!=null &&  mc.getCustomMetadata().get(EnumExtraCardMetaData.FOIL).equalsIgnoreCase(TRUE) )
 			build.addParameter("foil",TRUE);
 		
 		if(mc.getFrameEffects().contains(EnumFrameEffects.PROMO))
@@ -241,7 +242,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			build.addParameter(CARD_ACCENT, "C");
 		}
 
-		if(mc.getCustomMetadata().get(INDICATOR)!=null && mc.getCustomMetadata().get(INDICATOR).equalsIgnoreCase(TRUE))
+		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.INDICATOR)!=null && mc.getCustomMetadata().get(EnumExtraCardMetaData.INDICATOR).equalsIgnoreCase(TRUE))
 		{
 			try {
 			if(mc.getColors().size()==1)

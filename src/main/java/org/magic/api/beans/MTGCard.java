@@ -1,7 +1,7 @@
 package org.magic.api.beans;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +10,7 @@ import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumItems;
@@ -53,7 +54,7 @@ public class MTGCard extends AbstractProduct {
 	private List<EnumColors> colorIndicator;
 	private List<EnumColors> colors;
 	private String cost="";
-	private Map<String,String> customMetadata;
+	private Map<EnumExtraCardMetaData,String> customMetadata;
 	private Integer defense;
 	private Integer edhrecRank;
 	private List<MTGEdition> editions;
@@ -128,7 +129,7 @@ public class MTGCard extends AbstractProduct {
 		colorIndicator = new ArrayList<>();
 		finishes = new ArrayList<>();
 		attractionLights = new ArrayList<>();
-		customMetadata = new HashMap<>();
+		customMetadata = new EnumMap<>(EnumExtraCardMetaData.class);
 		setTypeProduct(EnumItems.CARD);
 	}
 	
@@ -248,7 +249,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	
-	public Map<String, String> getCustomMetadata() {
+	public Map<EnumExtraCardMetaData, String> getCustomMetadata() {
 		return customMetadata;
 	}
 
@@ -727,7 +728,7 @@ public class MTGCard extends AbstractProduct {
 		this.cost = cost;
 	}
 
-	public void setCustomMetadata(Map<String, String> customMetadata) {
+	public void setCustomMetadata(Map<EnumExtraCardMetaData, String> customMetadata) {
 		this.customMetadata = customMetadata;
 	}
 

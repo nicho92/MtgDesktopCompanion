@@ -45,12 +45,12 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.interfaces.MTGTextGenerator;
-import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
@@ -568,21 +568,21 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		autoBinding22.bind();
 		
 		
-		spinner.setValue(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)):30);
-		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)));
-		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)));
+		spinner.setValue(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)):30);
+		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.FOIL)));
+		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.INDICATOR)));
 		
-		if(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM)!=null)
-			sldZoom.setValue(Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM)));
+		if(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)!=null)
+			sldZoom.setValue(Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)));
 		
 		
-		spinner.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
-		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
-		chkColorIndicator.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
-		sldZoom.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ZOOM, String.valueOf(sldZoom.getValue()) ));
-		sldX.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.X, String.valueOf(sldX.getValue()) ));
-		sldY.addChangeListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.Y, String.valueOf(sldY.getValue()) ));
-		chkWhiteText.addItemListener(_->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.TEXT_COLOR, chkWhiteText.isSelected()?"#ffffff":"#000000"));
+		spinner.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SIZE, spinner.getValue().toString() ));
+		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.FOIL, String.valueOf(chkFoil.isSelected()) ));
+		chkColorIndicator.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
+		sldZoom.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ZOOM, String.valueOf(sldZoom.getValue()) ));
+		sldX.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.X, String.valueOf(sldX.getValue()) ));
+		sldY.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.Y, String.valueOf(sldY.getValue()) ));
+		chkWhiteText.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.TEXT_COLOR, chkWhiteText.isSelected()?"#ffffff":"#000000"));
 		
 		//
 		var bindingGroup = new BindingGroup();

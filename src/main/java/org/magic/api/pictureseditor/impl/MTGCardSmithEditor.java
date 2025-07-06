@@ -1,6 +1,5 @@
 package org.magic.api.pictureseditor.impl;
 
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.AccountsManager;
@@ -48,7 +49,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		var imgPath = uploadPicture(new File(mc.getUrl()));
 		
-		int size = Integer.parseInt(mc.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE));
+		int size = Integer.parseInt(mc.getCustomMetadata().get(EnumExtraCardMetaData.SIZE));
 		
 		var build = RequestBuilder.build().url(urlBuilder+"?fromAjax=1&v=3").setClient(client).post()
 				.addHeader("x-requested-with", "XMLHttpRequest")
@@ -85,21 +86,21 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("pos_bottom3_y","")
 				.addContent("frame_category","Standard Colors")
 				.addContent("name",mc.getName())
-				.addContent("title_color",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR)==null?"#000000":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR))
+				.addContent("title_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,"#000000"))
 				.addContent("custom_mana",mc.getCost()!=null?mc.getCost().toLowerCase():"")
 				.addContent("watermark","")
 				.addContent("frame_color[]",EnumColors.determine(mc.getColors()).toPrettyString().toLowerCase())
 				.addContent("special_card_color","")
-				.addContent("pos_art_x",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.X)==null?"0":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.X))
-				.addContent("pos_art_y",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.Y)==null?"0":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.Y))
-				.addContent("pos_art_s",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM)==null?"100":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.ZOOM))
-				.addContent("subtype_color",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR)==null?"#000000":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR))
+				.addContent("pos_art_x",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.X,"0"))
+				.addContent("pos_art_y",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.Y,"0"))
+				.addContent("pos_art_s",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ZOOM,"100"))
+				.addContent("subtype_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,"#000000"))
 				.addContent("type",mc.getSupertypes().stream().collect(Collectors.joining(" ")) + " " + mc.getTypes().stream().collect(Collectors.joining(" ")))
 				.addContent("custom_type","")
 				.addContent("subtype",mc.getSubtypes().stream().collect(Collectors.joining(" ")))
 				.addContent("rarity",mc.getRarity().toPrettyString().toLowerCase())
 				.addContent("set_icon","mtgcs1")
-				.addContent("body_color",mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR)==null?"#000000":mc.getCustomMetadata().get(AbstractPicturesEditorProvider.TEXT_COLOR))
+				.addContent("body_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,"#000000"))
 				.addContent("text_size",(size==18?"vsmall":size<=20?"small":size<=24?"large":"vlarge"))
 				.addContent("description", minimize(mc.getText()) + (mc.getFlavor().isEmpty()?"":"\n<i>"+mc.getFlavor()+"</i>"))
 				.addContent("power",mc.getPower())
@@ -186,7 +187,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	public MTGCardSmithEditor() {
 		client = URLTools.newClient();
 		initLayout();
-	}
+	} 
 	
 	
 	private void initLayout() {
