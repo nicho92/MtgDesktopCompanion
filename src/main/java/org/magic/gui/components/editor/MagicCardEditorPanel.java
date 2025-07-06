@@ -259,7 +259,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		var modelSt = new DefaultListCheckModel();
 		cboSuperType.setModel(modelSt);
 		
-		List.of("", "Basic", "Elite", "Legendary", "Ongoing", "Snow", "World" ).forEach(modelSt::addElement);
+		List.of("", "Basic", "Legendary","Ongoing", "Snow", "World" ).forEach(modelSt::addElement);
 
 		cboTypes = new JCheckableListBox<>();
 		var model = new DefaultListCheckModel();
@@ -478,6 +478,12 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
 		magicCard.setFrameEffects(layoutJComboBox.getSelectedElements());
+		
+		magicCard.getCustomMetadata().put(EnumExtraCardMetaData.CROP_H, String.valueOf(imagePanel.getCroppedDimension().getHeight()));
+		magicCard.getCustomMetadata().put(EnumExtraCardMetaData.CROP_W, String.valueOf(imagePanel.getCroppedDimension().getWidth()));
+		magicCard.getCustomMetadata().put(EnumExtraCardMetaData.CROP_X, String.valueOf(imagePanel.getCroppedDimension().getX()));
+		magicCard.getCustomMetadata().put(EnumExtraCardMetaData.CROP_Y, String.valueOf(imagePanel.getCroppedDimension().getY()));
+		
 		return magicCard;
 	}
 
@@ -571,6 +577,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		spinner.setValue(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)):30);
 		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.FOIL)));
 		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.INDICATOR)));
+		
+		chkWhiteText.setSelected(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR)!=null && magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR).equals("#ffffff"));
+		
+		
 		
 		if(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)!=null)
 			sldZoom.setValue(Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)));

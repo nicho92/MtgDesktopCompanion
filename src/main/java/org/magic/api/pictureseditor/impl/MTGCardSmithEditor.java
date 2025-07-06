@@ -47,7 +47,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		connect();
 		
 		
-		var imgPath = uploadPicture(new File(mc.getUrl()));
+		var imgPath = uploadPicture(new File(mc.getUrl()),mc);
 		
 		int size = Integer.parseInt(mc.getCustomMetadata().get(EnumExtraCardMetaData.SIZE));
 		
@@ -88,7 +88,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("name",mc.getName())
 				.addContent("title_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,"#000000"))
 				.addContent("custom_mana",mc.getCost()!=null?mc.getCost().toLowerCase():"")
-				.addContent("watermark","")
+				.addContent("watermark",mc.getWatermarks())
 				.addContent("frame_color[]",EnumColors.determine(mc.getColors()).toPrettyString().toLowerCase())
 				.addContent("special_card_color","")
 				.addContent("pos_art_x",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.X,"0"))
@@ -121,7 +121,14 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			build.addContent("showPT","true");
 
 		
-		if(mc.isLegendary())
+		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
+			build.addContent("frame_color[]", "colorless");
+		
+		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD)
+			build.addContent("frame_rare", "/moderator/tmp/custom_666ba6254de65.png");
+		
+		
+		if(mc.isLegendary() && !mc.isBorderLess() && !mc.isShowCase())
 		{
 			build.removeContent("frame");
 			var color = EnumColors.determine(mc.getColors());
@@ -133,16 +140,13 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				build.addContent("frame_rare", "/moderator/tmp/custom_666ba6254de65.png");
 				build.addContent("special_card_color", "lgc");
 			}
-			
 		}
-
-		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
-			build.addContent("frame_color[]", "colorless");
-
-
 		
-		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD)
-			build.addContent("frame_rare", "/moderator/tmp/custom_666ba6254de65.png");
+		if(mc.isBorderLess())
+		{
+			build.addContent("frame_category", "Borderless");
+		}
+		
 		
 		
 		logger.debug("sending {}", build);
@@ -168,19 +172,16 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	private String getFrame(MTGCard mc) {
 		
 		var color= EnumColors.determine(mc.getColors()).name().toLowerCase();
+		var ret = layout.get("normal-"+(mc.isLand()?"land":color));
 		
-		var ret = layout.get("normal-"+color);
-		
+			
 		if(mc.isBorderLess())
-			return layout.get("borderless-"+color);
+			return layout.get("borderless"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
+		
+		if(mc.isShowCase())
+			return layout.get("showcase"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
 		
 		
-		
-		if(mc.isLand())
-			ret = layout.get("normal-land");
-		else
-			ret = layout.get("normal-"+color);
-
 		return ret;
 	}
 
@@ -198,9 +199,9 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		layout.put("normal-black", "custom_666b62e1659a8.jpg");
 		layout.put("normal-red", "custom_666b637f49d3c.jpg");
 		layout.put("normal-green", "custom_666b647f32017.jpg");
+		layout.put("normal-gold", "custom_666ba621b8c9d.png");
 		layout.put("normal-uncolor", "custom_666b64b05d996.jpg");
 		layout.put("normal-land", "custom_666b64d958319.jpg");
-		layout.put("normal-gold", "custom_666ba621b8c9d.png");
 		
 		layout.put("borderless-white", "custom_66637c40bf2a2.png");
 		layout.put("borderless-blue", "custom_6663822aa3c55.png");
@@ -210,7 +211,34 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		layout.put("borderless-gold", "custom_66638b4a98a6e.png");
 		layout.put("borderless-uncolor","custom_66638ba07c65e.png");
 		layout.put("borderless-land","custom_66638ca862a35.png");
+		
+		layout.put("borderless-lgd-white", "custom_666389e5e46a1.png");
+		layout.put("borderless-lgd-blue", "custom_666382be85178.png");
+		layout.put("borderless-lgd-black", "custom_666383273f96e.png");
+		layout.put("borderless-lgd-red", "custom_66638376b7b51.png");
+		layout.put("borderless-lgd-green", "custom_666389293baab.png");
+		layout.put("borderless-lgd-gold", "custom_66638b876689f.png");
+		layout.put("borderless-lgd-uncolor","custom_66638bcd6c326.png");
+		layout.put("borderless-lgd-land","custom_66638ce7c7962.png");
+		
+		layout.put("showcase-white", "custom_6664ab5a731fd.png");
+		layout.put("showcase-blue", "custom_6664acc08fa47.png");
+		layout.put("showcase-black", "custom_6664acf6de3a1.png");
+		layout.put("showcase-red", "custom_6664ad7621e7e.png");
+		layout.put("showcase-green", "custom_6664ade1f1fe1.png");
+		layout.put("showcase-gold","custom_6664ae137d3bb.png");
+		layout.put("showcase-uncolor","custom_6664aeb38ff4d.png");
+		layout.put("showcase-land","custom_6664aefd6ecb4.png");
 	
+		layout.put("showcase-lgd-white", "custom_6664ac46512e6.png");
+		layout.put("showcase-lgd-blue", "custom_6664ace1500bd.png");
+		layout.put("showcase-lgd-black", "custom_6664ad0e2d7fc.png");
+		layout.put("showcase-lgd-red", "custom_6664adcb0132a.png");
+		layout.put("showcase-lgd-green", "custom_6664adfe5c5f4.png");
+		layout.put("showcase-lgd-gold", "custom_6664ae37db2f3.png");
+		layout.put("showcase-lgd-uncolor","custom_6664aee666127.png");
+		layout.put("showcase-lgd-land","custom_6664af14ba437.png");
+		
 	}
 	
 
@@ -264,11 +292,9 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			logger.error("can't connect");
 			connected=false;
 		}
-
-		
 	}
 	
-	private String uploadPicture(File f) throws IOException
+	private String uploadPicture(File f, MTGCard mc) throws IOException
 	{
 		var res = RequestBuilder.build().url(urlPictureUpload).setClient(client).post().addHeader(urlBuilder, urlAuthentication)
 												.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -281,7 +307,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 												.addHeader(URLTools.ORIGIN, BASE_URL)
 												.addContent("location", "mtg-card-maker")	 
 												.addContent("status", "new")
-												.addContent("slim[]", generateJsonData(f).toString())
+												.addContent("slim[]", generateJsonData(f,mc.getCustomMetadata()).toString())
 												.toHtml();
 		
 		var imgPath = res.select("img.previewImg2").attr("src");
@@ -291,7 +317,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	}
 	
 	
-	private JsonObject generateJsonData(File f) throws IOException
+	private JsonObject generateJsonData(File f, Map<EnumExtraCardMetaData, String> map) throws IOException
 	{
 		
 		var binary =  FileTools.readFileAsBinary(f);
@@ -338,22 +364,23 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			content.get("input").getAsJsonObject().addProperty("height", img.getHeight());
 						
 			content.get("output").getAsJsonObject().addProperty("name", f.getName());
-			content.get("output").getAsJsonObject().addProperty("width", img.getWidth());
-			content.get("output").getAsJsonObject().addProperty("height", img.getHeight());
+			content.get("output").getAsJsonObject().addProperty("width", map.getOrDefault(EnumExtraCardMetaData.CROP_W, ""+img.getWidth()));
+			content.get("output").getAsJsonObject().addProperty("height", map.getOrDefault(EnumExtraCardMetaData.CROP_H, ""+img.getHeight()));
 			content.get("output").getAsJsonObject().addProperty("image", "data:image/png;base64,"+CryptoUtils.toBase64(binary));			
 			
-			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("x", 0);
-			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("y", 0);
-			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("width", img.getWidth());
-			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("height", img.getHeight());
+			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("x", map.getOrDefault(EnumExtraCardMetaData.CROP_X, "0"));
+			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("y", map.getOrDefault(EnumExtraCardMetaData.CROP_Y, "0"));
+			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("width", map.getOrDefault(EnumExtraCardMetaData.CROP_W, ""+img.getWidth()));
+			content.get("actions").getAsJsonObject().get("crop").getAsJsonObject().addProperty("height", map.getOrDefault(EnumExtraCardMetaData.CROP_H, ""+img.getHeight()));
 			
 			content.get("actions").getAsJsonObject().get("size").getAsJsonObject().addProperty("width", img.getWidth());
 			content.get("actions").getAsJsonObject().get("size").getAsJsonObject().addProperty("height", img.getHeight());
 			
+			logger.debug("Upload data {}", content);
+			
 			return content;
 			
 	}
-	
 	
 	@Override
 	public List<String> listAuthenticationAttributes() {
