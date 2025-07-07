@@ -378,8 +378,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		btnUrl = new JButton("URL");
 		panelImageButtons.add(btnUrl, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 1));
 		btnUrl.addActionListener(_->{
-					String urlImage = JOptionPane.showInputDialog("URL");
-					magicCard.setUrl(urlImage);
+					magicCard.setUrl(JOptionPane.showInputDialog("URL"));
 					showCrop();
 		});
 		

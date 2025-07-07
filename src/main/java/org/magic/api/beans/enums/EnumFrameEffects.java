@@ -28,6 +28,7 @@ public enum EnumFrameEffects implements MTGEnumeration{
 	NYXBORN,
 	NYXTOUCHED,
 	ORIGINPWDFC,
+	PLACEHOLDERIMAGE,
 	PROMO,
 	SHATTEREDGLASS,
 	SHOWCASE,

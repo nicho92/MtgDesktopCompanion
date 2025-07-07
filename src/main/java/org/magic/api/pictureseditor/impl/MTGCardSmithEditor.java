@@ -125,11 +125,11 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
 			build.addContent("frame_color[]", "colorless");
 		
-		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD && !mc.isBorderLess() && !mc.isShowCase() && !mc.isMiracle())
+		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD && !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isMiracle() && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID))
 			build.addContent("frame_rare", "/moderator/tmp/custom_666ba6254de65.png");
 		
 		
-		if(mc.isLegendary() && !mc.isBorderLess() && !mc.isShowCase()&& !mc.isMiracle())
+		if(mc.isLegendary() && !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isMiracle() && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID))
 		{
 			build.removeContent("frame");
 			var color = EnumColors.determine(mc.getColors());
@@ -173,14 +173,17 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		if(mc.isBorderLess())
 			return layout.get("borderless"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
 		
-		if(mc.isShowCase())
-			return layout.get("showcase"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
+		if(mc.getFrameEffects().contains(EnumFrameEffects.ETCHED))
+			return layout.get("etched"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
 		
 		if(mc.isMiracle())
 			return layout.get("miracle-"+color);
 		
-		if(mc.getFrameEffects().contains(EnumFrameEffects.SNOW))
+		if(mc.isSnow())
 			return layout.get("snow"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
+		
+		if(mc.getFrameEffects().contains(EnumFrameEffects.DEVOID))
+			return layout.get("devoid-"+color);
 		
 		
 		return ret;
@@ -222,23 +225,23 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		layout.put("borderless-lgd-uncolor","custom_66638bcd6c326.png");
 		layout.put("borderless-lgd-land","custom_66638ce7c7962.png");
 		
-		layout.put("showcase-white", "custom_6664ab5a731fd.png");
-		layout.put("showcase-blue", "custom_6664acc08fa47.png");
-		layout.put("showcase-black", "custom_6664acf6de3a1.png");
-		layout.put("showcase-red", "custom_6664ad7621e7e.png");
-		layout.put("showcase-green", "custom_6664ade1f1fe1.png");
-		layout.put("showcase-gold","custom_6664ae137d3bb.png");
-		layout.put("showcase-uncolor","custom_6664aeb38ff4d.png");
-		layout.put("showcase-land","custom_6664aefd6ecb4.png");
+		layout.put("etched-white", "custom_6664ab5a731fd.png");
+		layout.put("etched-blue", "custom_6664acc08fa47.png");
+		layout.put("etched-black", "custom_6664acf6de3a1.png");
+		layout.put("etched-red", "custom_6664ad7621e7e.png");
+		layout.put("etched-green", "custom_6664ade1f1fe1.png");
+		layout.put("etched-gold","custom_6664ae137d3bb.png");
+		layout.put("etched-uncolor","custom_6664aeb38ff4d.png");
+		layout.put("etched-land","custom_6664aefd6ecb4.png");
 	
-		layout.put("showcase-lgd-white", "custom_6664ac46512e6.png");
-		layout.put("showcase-lgd-blue", "custom_6664ace1500bd.png");
-		layout.put("showcase-lgd-black", "custom_6664ad0e2d7fc.png");
-		layout.put("showcase-lgd-red", "custom_6664adcb0132a.png");
-		layout.put("showcase-lgd-green", "custom_6664adfe5c5f4.png");
-		layout.put("showcase-lgd-gold", "custom_6664ae37db2f3.png");
-		layout.put("showcase-lgd-uncolor","custom_6664aee666127.png");
-		layout.put("showcase-lgd-land","custom_6664af14ba437.png");
+		layout.put("etched-lgd-white", "custom_6664ac46512e6.png");
+		layout.put("etched-lgd-blue", "custom_6664ace1500bd.png");
+		layout.put("etched-lgd-black", "custom_6664ad0e2d7fc.png");
+		layout.put("etched-lgd-red", "custom_6664adcb0132a.png");
+		layout.put("etched-lgd-green", "custom_6664adfe5c5f4.png");
+		layout.put("etched-lgd-gold", "custom_6664ae37db2f3.png");
+		layout.put("etched-lgd-uncolor","custom_6664aee666127.png");
+		layout.put("etched-lgd-land","custom_6664af14ba437.png");
 		
 		layout.put("miracle-white", "custom_666ddff883b56.png");
 		layout.put("miracle-blue", "custom_666de274cd91d.png");
@@ -267,6 +270,14 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		layout.put("snow-lgd-uncolor","custom_668ae27de5d49.png");
 		layout.put("snow-lgd-land","custom_668ae2998c618.png");
 
+		layout.put("devoid-white", "custom_6668ca7255427.png");
+		layout.put("devoid-blue", "custom_6663a74405cb0.png");
+		layout.put("devoid-black", "custom_6663a7713b0d8.png");
+		layout.put("devoid-red", "custom_6663a78537554.png");
+		layout.put("devoid-green", "custom_6663a7b7e76af.png");
+		layout.put("devoid-gold", "custom_6663a7cd57fda.png");
+		layout.put("devoid-uncolor","custom_6663a7ea55f7d.png");
+		layout.put("devoid-land","custom_6663a8122b4cc.png");
 		
 		
 		
