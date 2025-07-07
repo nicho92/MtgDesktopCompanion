@@ -509,6 +509,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			
 			if(!magicCard.getFrameEffects().isEmpty())
 				layoutJComboBox.setSelectedItem(magicCard.getFrameEffects().get(0));
+			else
+				layoutJComboBox.setSelectedItem(EnumFrameEffects.NONE);
 		}
 
 	}

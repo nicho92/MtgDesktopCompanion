@@ -38,15 +38,19 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	
 	private MTGHttpClient client;
 	private boolean connected;
-	
-	
 	private Map<String,String> layout;
+	
+	
+	
+	private boolean isNormalLayout(MTGCard mc)
+	{
+		return !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isMiracle() && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID); 
+	}
 	
 	@Override
 	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 		
 		connect();
-		
 		
 		var imgPath = uploadPicture(new File(mc.getUrl()),mc);
 		
@@ -125,11 +129,11 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
 			build.addContent("frame_color[]", "colorless");
 		
-		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD && !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isMiracle() && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID))
+		if(EnumColors.determine(mc.getColors())==EnumColors.GOLD && isNormalLayout(mc))
 			build.addContent("frame_rare", "/moderator/tmp/custom_666ba6254de65.png");
 		
 		
-		if(mc.isLegendary() && !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isMiracle() && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID))
+		if(mc.isLegendary() && isNormalLayout(mc))
 		{
 			build.removeContent("frame");
 			var color = EnumColors.determine(mc.getColors());
