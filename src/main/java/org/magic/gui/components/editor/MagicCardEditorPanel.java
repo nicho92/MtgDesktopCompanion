@@ -264,7 +264,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboTypes = new JCheckableListBox<>();
 		var model = new DefaultListCheckModel();
 		cboTypes.setModel(model);
-		List.of("", "Arcane", "Artifact", "Aura", "Clue", "Conspiracy", "Continuous","Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification","Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Local", "Mana source","Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine","Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World").forEach(model::addElement);
+		List.of("", "artifact","battle","conspiracy","creature","enchantment","instant","land","phenomenon","plane","planeswalker","scheme","sorcery","tribal","vanguard").forEach(model::addElement);
 		
 		cboSubtypes = new JCheckableListBox<>();
 		
