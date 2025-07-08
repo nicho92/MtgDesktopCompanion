@@ -54,7 +54,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		var imgPath = uploadPicture(new File(mc.getUrl()),mc);
 		
-		int size = Integer.parseInt(mc.getCustomMetadata().get(EnumExtraCardMetaData.SIZE));
+		int size = Integer.parseInt(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SIZE,"30"));
 		
 		var build = RequestBuilder.build().url(urlBuilder+"?fromAjax=1&v=3").setClient(client).post()
 				.addHeader("x-requested-with", "XMLHttpRequest")
@@ -124,7 +124,13 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		if(mc.isCreature())
 			build.addContent("showPT","true");
-
+		
+		if(mc.isVehicule())
+		{
+			build.removeContent("frame");
+			build.addContent("special_card_color", "vehart01"+EnumColors.determine(mc.getColors()).getCode().toLowerCase());
+		}
+		
 		
 		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
 			build.addContent("frame_color[]", "colorless");
