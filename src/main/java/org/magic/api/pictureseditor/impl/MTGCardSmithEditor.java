@@ -44,7 +44,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	
 	private boolean isNormalLayout(MTGCard mc)
 	{
-		return !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isVehicule() && !mc.isMiracle() && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID); 
+		return !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isVehicule() && !mc.getFrameEffects().contains(EnumFrameEffects.ENCHANTMENT) && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID); 
 	}
 	
 	@Override
@@ -189,8 +189,8 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		if(mc.getFrameEffects().contains(EnumFrameEffects.ETCHED))
 			return layout.get("etched"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
 		
-		if(mc.isMiracle())
-			return layout.get("miracle-"+color);
+		if(mc.getFrameEffects().contains(EnumFrameEffects.ENCHANTMENT))
+			return layout.get("enchantment-"+color);
 		
 		if(mc.isSnow())
 			return layout.get("snow"+(mc.isLegendary()?"-lgd-":"-")+(mc.isLand()?"land":color));
@@ -256,14 +256,14 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		layout.put("etched-lgd-uncolor","custom_6664aee666127.png");
 		layout.put("etched-lgd-land","custom_6664af14ba437.png");
 		
-		layout.put("miracle-white", "custom_666ddff883b56.png");
-		layout.put("miracle-blue", "custom_666de274cd91d.png");
-		layout.put("miracle-black", "custom_666de307afb9c.png");
-		layout.put("miracle-red", "custom_666de366c1d3c.png");
-		layout.put("miracle-green", "custom_666de3b4b75b6.png");
-		layout.put("miracle-gold", "custom_666de40a71e71.png");
-		layout.put("miracle-uncolor","custom_666de520b3ba8.png");
-		layout.put("miracle-land","custom_666de520b3ba8.png");
+		layout.put("enchantment-white", "custom_666ddff883b56.png");
+		layout.put("enchantment-blue", "custom_666de274cd91d.png");
+		layout.put("enchantment-black", "custom_666de307afb9c.png");
+		layout.put("enchantment-red", "custom_666de366c1d3c.png");
+		layout.put("enchantment-green", "custom_666de3b4b75b6.png");
+		layout.put("enchantment-gold", "custom_666de40a71e71.png");
+		layout.put("enchantment-uncolor","custom_666de520b3ba8.png");
+		layout.put("enchantment-land","custom_666de520b3ba8.png");
 			
 		layout.put("snow-white", "custom_66883e8de255c.png");
 		layout.put("snow-blue", "custom_66883eebbb9da.png");
