@@ -36,12 +36,6 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	private MTGHttpClient httpclient;
 
-
-
-	public FunCardMakerPicturesProvider() {
-		super();
-	}
-
 	@Override
 	public MOD getMode() {
 		return MOD.FILE;

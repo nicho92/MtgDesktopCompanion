@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -23,6 +24,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
@@ -56,50 +59,42 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 		MTGDeck deck = info.toBaseDeck();
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
-
-		Elements trs = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
-		var sideboard = false;
-		for (Element tr : trs)
+		var txt = d.getElementById("deck_input_deck").attr("value");
+		
+		var sideboard=false;
+		for(var line : UITools.stringLineSplit(txt, true))
 		{
-			if (tr.hasClass("deck-category-header") && tr.text().contains("Sideboard"))
+			if(line.equalsIgnoreCase("sideboard"))
 			{
-				sideboard = true;
+				sideboard=true;
 			}
 			else
 			{
-				Elements tds = tr.select("td");
-				if(!tds.isEmpty())
-				{
-					var qty = Integer.parseInt(tds.get(0).text().trim());
-					var name = tds.get(1).select("a").first().text();
-					var p = Pattern.compile("\\["+EnumCardsPatterns.REGEX_ANY_STRING+"\\]");
-					var m  = p.matcher(tds.get(1).select("a").first().attr("data-card-id"));
-					MTGEdition ed  = null;
-
-					if(m.find())
-						ed = new MTGEdition(m.group(1));
-
+				var entry = parseString(line);
 					try {
-						MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false).get(0);
-
-						if(sideboard)
-							deck.getSideBoard().put(mc, qty);
+						var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
+						
+						if(!sideboard)
+							deck.getMain().put(mc, entry.getValue());
 						else
-							deck.getMain().put(mc, qty);
-
+							deck.getSideBoard().put(mc, entry.getValue());
+						
 						notify(mc);
-					}
-					catch(Exception _)
+					}catch(Exception e)
 					{
-						logger.error("No card found for {} {}",name,ed);
+						logger.error("error getting card for {}",line);
 					}
-				}
+				
 			}
+			
+
 		}
+		
+		
 		return deck;
 	}
-
-
+	
+	
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		var url = "";
