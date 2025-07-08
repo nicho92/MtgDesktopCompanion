@@ -44,7 +44,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	
 	private boolean isNormalLayout(MTGCard mc)
 	{
-		return !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isMiracle() && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID); 
+		return !mc.isBorderLess() && !mc.getFrameEffects().contains(EnumFrameEffects.ETCHED) && !mc.isVehicule() && !mc.isMiracle() && !mc.isSnow() && !mc.getFrameEffects().contains(EnumFrameEffects.DEVOID); 
 	}
 	
 	@Override
@@ -119,6 +119,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("artist_color","#ffffff")
 				.addContent("category","")
 				.addContent("creator",getString("DESIGNER"))
+				.addContent("set", mc.getEdition().getId())
 				.addContent("image_path",imgPath);
 				
 		
@@ -127,8 +128,10 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		if(mc.isVehicule())
 		{
+			var c = EnumColors.determine(mc.getColors());
+			
 			build.removeContent("frame");
-			build.addContent("special_card_color", "vehart01"+EnumColors.determine(mc.getColors()).getCode().toLowerCase());
+			build.addContent("special_card_color", "vehart01"+(c==EnumColors.GOLD?"m":c.getCode().toLowerCase()));
 		}
 		
 		
