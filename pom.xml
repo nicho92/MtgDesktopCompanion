@@ -86,7 +86,11 @@
 	    <artifactId>langchain4j-mistral-ai</artifactId>
 	    <version>1.1.0-rc1</version>
 	</dependency>
-
+	<dependency>
+	    <groupId>dev.langchain4j</groupId>
+	    <artifactId>langchain4j-open-ai</artifactId>
+	    <version>1.1.0</version>
+	</dependency>
 	<dependency>
     <groupId>io.github.ollama4j</groupId>
     <artifactId>ollama4j</artifactId>
