@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -346,12 +347,16 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				if(text.isEmpty())
 					return;
 				
+				
+				var qty = JOptionPane.showInputDialog("How Many cards ?");
+				
+				
 				buzySet.start();
 				buzySet.setText("generating set from IA");
 				ThreadManager.getInstance().runInEdt(new SwingWorker<List<MTGCard>, Void>() {
 						@Override
 						protected List<MTGCard> doInBackground() throws Exception {
-							return MTG.getEnabledPlugin(MTGIA.class).generateSet(text,set,5);
+							return MTG.getEnabledPlugin(MTGIA.class).generateSet(text,set,Integer.parseInt(qty.isEmpty()?"10":qty));
 						}
 						
 						@Override
@@ -391,6 +396,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					}
 					
 				var ed = new MTGEdition(id,id);
+					ed.setReleaseDate(UITools.formatDate(new Date(), "yyyy-MM-dd"));
 						provider.saveEdition(ed);
 						editionModel.addItem(ed);
 						magicEditionDetailPanel.setMagicEdition(ed, true);

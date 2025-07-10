@@ -124,6 +124,7 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		super();
 		setId(idMe);
 		setSet(name);
+
 	}
 
 	public MTGEdition() {
