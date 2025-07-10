@@ -29,7 +29,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -226,6 +225,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnRebuildSet.setToolTipText("Rebuild Set");
 			btnReloadSets.setToolTipText("Reload");
 			
+			btnGenerateSet.setEnabled(false);
 			btnImport.setToolTipText("Import existing card");
 			btnSaveCard.setToolTipText("Save the card");
 			btnRefresh.setToolTipText("Refresh");
@@ -342,12 +342,12 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				if(set==null)
 					return;
 				
+				var text = JOptionPane.showInputDialog("Prompt");
+				if(text.isEmpty())
+					return;
+				
 				buzySet.start();
 				buzySet.setText("generating set from IA");
-				var text = JOptionPane.showInputDialog("Little description ?");
-				
-				
-				
 				ThreadManager.getInstance().runInEdt(new SwingWorker<List<MTGCard>, Void>() {
 						@Override
 						protected List<MTGCard> doInBackground() throws Exception {
@@ -405,7 +405,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnRemoveEdition.addActionListener(_ -> {
 
 				MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
-				int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", ed),MTGControler.getInstance().getLangService().get("DELETE"), JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(null,MTG.capitalize("CONFIRM_DELETE", ed),MTG.capitalize("DELETE"), JOptionPane.YES_NO_OPTION);
 				
 				if (res == JOptionPane.YES_OPTION) {
 					provider.removeEdition(ed);
@@ -439,6 +439,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					MTGEdition ed =UITools.getTableSelection(editionsTable, 1);
 					try {
 						initEdition(ed);
+						btnGenerateSet.setEnabled(true);
 						cardsModel.bind(provider.searchCardByEdition(ed));
 						cardsModel.fireTableDataChanged();
 						cardsTable.packAll();
@@ -449,10 +450,13 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 			
 			btnGenerateCard.addActionListener(_->{
+			
+				var text = JOptionPane.showInputDialog("Prompt");
+				if(text.isEmpty())
+					return;
+				
 				buzyCard.start();
 				buzyCard.setText("generating card from IA");
-				var text = JOptionPane.showInputDialog("Little description ?");
-				
 				ThreadManager.getInstance().runInEdt(new SwingWorker<MTGCard, Void>() {
 						@Override
 						protected MTGCard doInBackground() throws Exception {
@@ -480,11 +484,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnSaveCard.addActionListener(_ -> {
 				var me = (MTGEdition) cboSets.getSelectedItem();
 				var mc = magicCardEditorPanel.getMagicCard();
-					 
-
-				if (mc.getId() == null)
-					mc.setId(DigestUtils.sha256Hex(me.getSet() + mc.getId() + mc.getName()));
-					
+	
 				try {
 					provider.addCard(me, mc);
 					var bi = new BufferedImage(panelPictures.getSize().width, 560,BufferedImage.TYPE_INT_ARGB);

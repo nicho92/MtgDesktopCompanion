@@ -54,7 +54,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -113,9 +112,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			
 			
 			
-		}catch(Exception ex)
+		}catch(Exception _)
 		{
-			logger.error("error in postTreatment {}", ex);
+			//do nothign
 		}
 	}
 

@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.MTGProperty;
@@ -104,6 +105,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		var cards = root.get(CARDS).getAsJsonArray();
 		mc.setEdition(me);
 		postTreatmentCard(mc);
+		
+
+		if (mc.getId() == null)
+			mc.setId(DigestUtils.sha256Hex(me.getSet() + mc.getId() + mc.getName()));
+		
 		
 		int index = indexOf(mc, cards);
 
