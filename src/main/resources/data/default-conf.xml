@@ -965,21 +965,25 @@
       <enable>false</enable>
     </sealedProvider>
   </sealeds>
-  <artificialIntelligences>
+ <artificialIntelligences>
     <ia>
       <class>org.magic.api.ia.impl.ChatGPT</class>
       <enable>false</enable>
     </ia>
     <ia>
-      <class>org.magic.api.ia.impl.WriteSonic</class>
+      <class>org.magic.api.ia.impl.DeepSeek</class>
       <enable>false</enable>
     </ia>
     <ia>
-      <class>org.magic.api.ia.impl.JsonIA</class>
+      <class>org.magic.api.ia.impl.Ollama</class>
+      <enable>false</enable>
+    </ia>
+    <ia>
+      <class>org.magic.api.ia.impl.MistralAI</class>
       <enable>true</enable>
     </ia>
     <ia>
-      <class>org.magic.api.ia.impl.LLamaIA</class>
+      <class>org.magic.api.ia.impl.Gemini</class>
       <enable>false</enable>
     </ia>
   </artificialIntelligences>

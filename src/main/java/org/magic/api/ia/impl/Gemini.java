@@ -1,63 +1,16 @@
 package org.magic.api.ia.impl;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.http.entity.StringEntity;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
-import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.network.MTGHttpClient;
-import org.magic.services.network.URLTools;
+
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 
 public class Gemini extends AbstractIA {
-	
-	
-	private MTGHttpClient client;
 
-	public Gemini() {
-		client = URLTools.newClient();
-	}
-		
-	@Override
-	public String ask(String prompt) throws IOException {
-		
-		var k = getAuthenticator().get("API_KEY");
-		var m = client.buildMap().put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON).put("X-goog-api-key", k).build();
-		
-		var obj = """
-				{
-				    "contents": [
-				      {
-				        "parts": [
-				          {
-				            "text": "PROMPT"
-				          }
-				        ]
-				      }
-				    ]
-				  }
-				""";
-		
-		
-		obj = obj.replace("PROMPT", prompt);
-		
-		
-		var resp = client.doPost("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), m);
-		var ret= URLTools.toJson(resp.getEntity().getContent());
-		
-		logger.info("return {}", ret);
-		
-		return ret.getAsJsonObject()
-								.get("candidates").getAsJsonArray()
-								.get(0).getAsJsonObject()
-								.get("content").getAsJsonObject()
-								.get("parts").getAsJsonArray()
-								.get(0).getAsJsonObject()
-								.get("text").getAsString().replace("json", "");	
-
-
-	}
 
 	@Override
 	public String getName() {
@@ -68,6 +21,37 @@ public class Gemini extends AbstractIA {
 	public List<String> listAuthenticationAttributes() {
 		return List.of("API_KEY");
 	}
+
+	@Override
+	public ChatModel getCardGeneratorEngine() {
+		return GoogleAiGeminiChatModel.builder() 
+				 .apiKey(getAuthenticator().get("API_KEY"))
+				 .modelName(getString("MODEL"))
+				 .responseFormat(getFormat())
+				 .logRequestsAndResponses(getBoolean("LOG"))
+				 .temperature(getDouble("TEMPERATURE"))
+	        .build();
+	}
 	
+	@Override
+	public ChatModel getStandardEngine() {
+		return GoogleAiGeminiChatModel.builder() 
+				 .apiKey(getAuthenticator().get("API_KEY"))
+				 .modelName(getString("MODEL"))
+				 .logRequestsAndResponses(getBoolean("LOG"))
+				 .temperature(getDouble("TEMPERATURE"))
+	        .build();
+	}
+	
+
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+			var map = super.getDefaultAttributes();
+			map.put("MODEL", new MTGProperty("gemini-1.5-flash","choose langage model","gemini-2.0-flash","gemini-1.5-flash","gemini-1.5-pro","gemini-1.0-pro"));
+			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0.7", "You can think of temperature like randomness, with low value is being least random (or most deterministic) and max being most random (least deterministic)", 0, 1));
+			map.put("LOG", MTGProperty.newBooleanProperty(FALSE, "enable chat model logger"));
+			return map;
+	}
+
 
 }

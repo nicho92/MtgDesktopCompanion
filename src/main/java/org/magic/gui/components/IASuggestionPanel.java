@@ -67,14 +67,8 @@ public class IASuggestionPanel extends MTGUIComponent {
 
 				@Override
 				protected String doInBackground() throws Exception {
-					var result = "";
+					return MTG.getEnabledPlugin(MTGIA.class).suggestDeckWith(cards);
 					
-					if(cards.size()==1)
-						result =  MTG.getEnabledPlugin(MTGIA.class).describe(cards.get(0));
-					else
-						result =  MTG.getEnabledPlugin(MTGIA.class).suggestDeckWith(cards);
-					
-					return result;
 				}
 
 				@Override

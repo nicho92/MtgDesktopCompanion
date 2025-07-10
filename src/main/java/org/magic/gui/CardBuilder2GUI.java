@@ -339,6 +339,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnNewSet.addActionListener(_ -> {
 				var id = JOptionPane.showInputDialog("ID");
 				
+				if(id.isEmpty())
+					return;
+				
 				try {
 				if(provider.listEditions().stream().anyMatch(ed->ed.getId().equals(id)))
 				{
@@ -410,10 +413,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				ThreadManager.getInstance().runInEdt(new SwingWorker<MTGCard, Void>() {
 						@Override
 						protected MTGCard doInBackground() throws Exception {
-							var mc= MTG.getEnabledPlugin(MTGIA.class).generateRandomCard(text);
-							mc.getEditions().add((MTGEdition)cboSets.getSelectedItem());
-							mc.setNumber(String.valueOf(provider.searchCardByEdition((MTGEdition) cboSets.getSelectedItem()).size() + 1));
-							return mc;
+							return MTG.getEnabledPlugin(MTGIA.class).generateRandomCard(text,(MTGEdition)cboSets.getSelectedItem(),String.valueOf(provider.searchCardByEdition((MTGEdition) cboSets.getSelectedItem()).size() + 1));
 						}
 						
 						@Override

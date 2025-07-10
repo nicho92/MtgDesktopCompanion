@@ -1,86 +1,58 @@
 package org.magic.api.ia.impl;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.http.entity.StringEntity;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
-import org.magic.services.MTGConstants;
-import org.magic.services.network.URLTools;
+import org.magic.services.tools.POMReader;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.openai.OpenAiChatModel;
 
 public class DeepSeek extends AbstractIA {
 
 	private static final String API_KEY = "API_KEY";
 
+	@Override
+	public String getVersion() {
+		return POMReader.readVersionFromPom(OpenAiChatModel.class, "/META-INF/maven/dev.langchain4j/langchain4j-open-ai/pom.properties");
+	}
 
 	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
+	public Map<String, MTGProperty> getDefaultAttributes() {
+			var map = super.getDefaultAttributes();
+			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0.7", "You can think of temperature like randomness, with low value is being least random (or most deterministic) and max being most random (least deterministic)", 0, 1));
+			map.put("MAX_TOKEN", MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
+			map.put("LOG", MTGProperty.newBooleanProperty(FALSE, "enable chat model logger"));
+			return map;
 	}
-	
-	
-	private JsonElement query( JsonObject obj,String endpoint) throws IOException
-	{
-		var	client = URLTools.newClient();
-		
-		if(getAuthenticator().get(API_KEY)==null)
-			throw new IOException("Please fill API_KEY value in Account configuration");
-		
-		
-		var headers = new HashMap<String, String>();
-		headers.put("Authorization", "Bearer " + getAuthenticator().get(API_KEY));
-		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
-		var resp =  client.doPost("https://api.deepseek.com"+endpoint, new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
-		logger.debug(resp);
-		var ret = URLTools.toJson(resp.getEntity().getContent());
-		
-		if(ret.getAsJsonObject().get("error")!=null)
-			throw new IOException(ret.getAsJsonObject().get("error").getAsJsonObject().get("message").getAsString());
-		
-		
-		
-		return ret;
-		
+
+	@Override
+	public ChatModel getCardGeneratorEngine() {
+		return OpenAiChatModel.builder() 
+				 .apiKey(getAuthenticator().get(API_KEY))
+				 .baseUrl("https://api.deepseek.com")
+				 .modelName("deepseek-chat")
+				 .responseFormat(getFormat().toString())
+				 .maxTokens(getInt("MAX_TOKEN"))
+				 .logRequests(getBoolean("LOG"))
+				 .logResponses(getBoolean("LOG"))
+				 .temperature(getDouble("TEMPERATURE"))
+	        .build();
 	}
-	
 	
 	@Override
-	public String ask(String prompt) throws IOException {
-
-		var obj = new JsonObject();
-		var arr = new JsonArray();
-			obj.addProperty("model", "deepseek-chat");
-			obj.addProperty("stream", false);
-			obj.add("messages", arr);
-			
-			
-			if(!getString("SYSTEM_MSG").isEmpty())
-			{
-				var sysObj = new JsonObject();
-				sysObj.addProperty("role","system");
-				sysObj.addProperty("content", getString("SYSTEM_MSG"));
-				arr.add(sysObj);
-			}
-			
-			var obj2 = new JsonObject();
-				  obj2.addProperty("content", prompt);
-				  obj2.addProperty("role", "user");
-				  
-				  arr.add(obj2);
-			obj.add("messages", arr);
-		
-		
-
-		var query = query(obj,"/chat/completions");
-		
-		logger.info(query);
-		
-		return null;
+	public ChatModel getStandardEngine() {
+		return OpenAiChatModel.builder() 
+				 .apiKey(getAuthenticator().get(API_KEY))
+				 .baseUrl("https://api.deepseek.com")
+				 .modelName("deepseek-chat")
+				 .maxTokens(getInt("MAX_TOKEN"))
+				 .logRequests(getBoolean("LOG"))
+				 .logResponses(getBoolean("LOG"))
+				 .temperature(getDouble("TEMPERATURE"))
+	        .build();
 	}
 
 	@Override
