@@ -62,7 +62,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.IASuggestionPanel;
 import org.magic.gui.components.card.CardStockPanel;
 import org.magic.gui.components.card.ComboFinderPanel;
 import org.magic.gui.components.card.MagicCardDetailPanel;
@@ -125,7 +124,6 @@ public class ConstructPanel extends MTGUIComponent {
 	private JXTable tableSide;
 	private JButton defaultEnterButton;
 	private RulesPanel rulesPanel;
-	private  IASuggestionPanel iaPanel;
 	private CriteriaComponent searchComponent;
 	private JPanel panneauGauche;
 	private JButton btnNewDeck;
@@ -181,7 +179,6 @@ public class ConstructPanel extends MTGUIComponent {
 		deckSidemodel.init(deck);
 		stockPanel.setCurrentDeck(deck);
 		objectviewerPanel.init(deck);
-		iaPanel.init(deck.getMainAsList());
 		tableDeck.packAll();
 		tableSide.packAll();
 	
@@ -256,8 +253,6 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauGauche = new JPanel();
 		listResult = new JList<>(new DefaultListModel<>());
 		stockDetailPanel = new CardStockPanel();
-		iaPanel = new IASuggestionPanel();
-
 
 		groupsFilterResult = new ButtonGroup() {
 			private static final long serialVersionUID = 1L;
@@ -331,7 +326,6 @@ public class ConstructPanel extends MTGUIComponent {
 		addContextComponent(cardDrawProbaPanel);
 		addContextComponent(rulesPanel);
 		addContextComponent(stockDetailPanel);
-		addContextComponent(iaPanel);
 		addContextComponent(importLogPanel);
 		
 		if(MTG.readPropertyAsBoolean("debug-json-panel"))

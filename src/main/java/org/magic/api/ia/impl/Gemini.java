@@ -7,6 +7,7 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 
 public class Gemini extends AbstractIA {
@@ -23,27 +24,21 @@ public class Gemini extends AbstractIA {
 	}
 
 	@Override
-	public ChatModel getCardGeneratorEngine() {
-		return GoogleAiGeminiChatModel.builder() 
-				 .apiKey(getAuthenticator().get("API_KEY"))
-				 .modelName(getString("MODEL"))
-				 .responseFormat(getFormat())
-				 .logRequestsAndResponses(getBoolean("LOG"))
-				 .temperature(getDouble("TEMPERATURE"))
-	        .build();
-	}
-	
-	@Override
-	public ChatModel getStandardEngine() {
-		return GoogleAiGeminiChatModel.builder() 
+	public ChatModel getEngine(ResponseFormat format) {
+		var b= GoogleAiGeminiChatModel.builder() 
 				 .apiKey(getAuthenticator().get("API_KEY"))
 				 .modelName(getString("MODEL"))
 				 .logRequestsAndResponses(getBoolean("LOG"))
-				 .temperature(getDouble("TEMPERATURE"))
-	        .build();
-	}
-	
+				 .temperature(getDouble("TEMPERATURE"));
+		
 
+		if(format!=null)
+			b.responseFormat(format);
+		
+		
+	     return b.build();
+	}
+	
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 			var map = super.getDefaultAttributes();

@@ -7,6 +7,7 @@ import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.tools.POMReader;
 
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 
 public class Ollama extends AbstractIA{
@@ -31,25 +32,19 @@ public class Ollama extends AbstractIA{
 	}
 
 	@Override
-	public ChatModel getCardGeneratorEngine() {
-		return OllamaChatModel.builder()
+	public ChatModel getEngine(ResponseFormat format) {
+		var b= OllamaChatModel.builder()
 				.baseUrl(getString("URL"))
 				 .modelName(getString("MODEL"))
-				 .responseFormat(getFormat())
 				 .logRequests(getBoolean("LOG"))
 				 .logResponses(getBoolean("LOG"))
-				 .temperature(getDouble("TEMPERATURE"))
-	        .build();
+				 .temperature(getDouble("TEMPERATURE"));
+	        
+
+		if(format!=null)
+			b.responseFormat(format);
+		
+		return b.build();
 	}
 	
-	@Override
-	public ChatModel getStandardEngine() {
-		return OllamaChatModel.builder()
-				.baseUrl(getString("URL"))
-				 .modelName(getString("MODEL"))
-				 .logRequests(getBoolean("LOG"))
-				 .logResponses(getBoolean("LOG"))
-				 .temperature(getDouble("TEMPERATURE"))
-	        .build();
-	}
 }

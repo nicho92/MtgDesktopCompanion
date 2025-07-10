@@ -8,6 +8,7 @@ import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.tools.POMReader;
 
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 
 public class DeepSeek extends AbstractIA {
@@ -29,32 +30,25 @@ public class DeepSeek extends AbstractIA {
 	}
 
 	@Override
-	public ChatModel getCardGeneratorEngine() {
-		return OpenAiChatModel.builder() 
+	public ChatModel getEngine(ResponseFormat format) {
+		var b=  OpenAiChatModel.builder() 
 				 .apiKey(getAuthenticator().get(API_KEY))
 				 .baseUrl("https://api.deepseek.com")
 				 .modelName("deepseek-chat")
-				 .responseFormat(getFormat().toString())
 				 .maxTokens(getInt("MAX_TOKEN"))
 				 .logRequests(getBoolean("LOG"))
 				 .logResponses(getBoolean("LOG"))
-				 .temperature(getDouble("TEMPERATURE"))
-	        .build();
+				 .temperature(getDouble("TEMPERATURE"));
+		
+				if(format!=null)
+					b.responseFormat(format.toString());
+			        
+				 
+				 
+				 
+				 return b.build();
 	}
 	
-	@Override
-	public ChatModel getStandardEngine() {
-		return OpenAiChatModel.builder() 
-				 .apiKey(getAuthenticator().get(API_KEY))
-				 .baseUrl("https://api.deepseek.com")
-				 .modelName("deepseek-chat")
-				 .maxTokens(getInt("MAX_TOKEN"))
-				 .logRequests(getBoolean("LOG"))
-				 .logResponses(getBoolean("LOG"))
-				 .temperature(getDouble("TEMPERATURE"))
-	        .build();
-	}
-
 	@Override
 	public String getName() {
 		return "DeepSeek";

@@ -58,7 +58,6 @@ import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
-import org.magic.gui.components.IASuggestionPanel;
 import org.magic.gui.components.ImagePanel2;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
@@ -120,9 +119,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private CardAbilitiesPanel abilitiesPanel;
 	private JButton defaultEnterButton;
 	private GedPanel<MTGCard> gedPanel;
-	private IASuggestionPanel iaPanel;
-	
-	
+		
 	public AbstractBuzyIndicatorComponent getLblLoading() {
 		return lblLoading;
 	}
@@ -208,7 +205,6 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		var scrollThumbnails = new JScrollPane();
 		var panneauCentral = new JSplitPane();
-		iaPanel = new IASuggestionPanel();
 		panneauStat = new JPanel();
 		panneauHaut = new JPanel();
 		panneauCard = new JPanel();
@@ -350,7 +346,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		addContextComponent(stockPanel);
 		addContextComponent(abilitiesPanel);
 		addContextComponent(gedPanel);
-		addContextComponent(iaPanel);
 		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(panelJson);
 
@@ -683,7 +678,6 @@ public class CardSearchPanel extends MTGUIComponent {
 			abilitiesPanel.init(selectedCard);
 			historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 			gedPanel.init(MTGCard.class, selectedCard);
-			iaPanel.init(List.of(selectedCard));
 
 
 			((DefaultListModel<MTGEdition>) listEdition.getModel()).removeAllElements();

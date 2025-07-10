@@ -9,6 +9,7 @@ import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.tools.POMReader;
 
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.mistralai.MistralAiChatModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModelName;
 
@@ -23,32 +24,22 @@ public class MistralAI extends AbstractIA {
 	
 
 	@Override
-	public ChatModel getCardGeneratorEngine() {
-		return MistralAiChatModel.builder() 
-				 .apiKey(getAuthenticator().get("API_KEY"))
-				 .modelName(MistralAiChatModelName.valueOf(getString("MODEL")))
-				 .responseFormat(getFormat())
-				 .logRequests(getBoolean("LOG"))
-				 .logResponses(getBoolean("LOG"))
-				 .temperature(getDouble("TEMPERATURE"))
-				 
-	        .build();
-	}
-	
-	@Override
-	public ChatModel getStandardEngine() {
-		return MistralAiChatModel.builder() 
+	public ChatModel getEngine(ResponseFormat format) {
+		var b= MistralAiChatModel.builder() 
 				 .apiKey(getAuthenticator().get("API_KEY"))
 				 .modelName(MistralAiChatModelName.valueOf(getString("MODEL")))
 				 .logRequests(getBoolean("LOG"))
 				 .logResponses(getBoolean("LOG"))
-				 .temperature(getDouble("TEMPERATURE"))
+				 .temperature(getDouble("TEMPERATURE"));
+		
+
+		if(format!=null)
+			b.responseFormat(format);
+		
 				 
-	        .build();
+	        return b.build();
 	}
-
-
-	
+		
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(MistralAiChatModel.class, "/META-INF/maven/dev.langchain4j/langchain4j-mistral-ai/pom.properties");
