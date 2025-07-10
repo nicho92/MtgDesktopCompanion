@@ -44,8 +44,8 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		var f = new File(edDir, mc.getScryfallId() + "." + getString(FORMAT));
 		try {
 			FileTools.deleteFile(f);
-		} catch (IOException e) {
-			logger.error("error removing {}",f,e);
+		} catch (Exception e) {
+			logger.error("error removing {} : {}",f,e.getMessage());
 		}
 	}
 

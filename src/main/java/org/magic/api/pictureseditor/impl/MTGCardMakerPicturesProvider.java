@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardsPatterns;
+import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.network.URLTools;
 
@@ -83,7 +84,9 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 		if (mc.getCost() == null)
 			mc.setCost("");
-
+		
+		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
+		
 		return URI.create(
 				"http://www.mtgcardmaker.com/mcmaker/createcard.php?" + "name="
 						+ URLTools.encode(String.valueOf(mc.getName())) + "&color=" + color + "&mana_r="

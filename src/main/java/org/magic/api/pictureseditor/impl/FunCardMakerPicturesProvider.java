@@ -13,6 +13,7 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
@@ -132,7 +133,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    		build.addContent("fields[illustration]",filename);
 						    	}
 						    }
-
+						    
+						    mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
+						    
 						    build.addHeader(URLTools.HOST, DOMAIN)
 							   	 .addHeader(URLTools.ORIGIN, WEBSITE)
 							     .addHeader(URLTools.REFERER,WEBSITE);

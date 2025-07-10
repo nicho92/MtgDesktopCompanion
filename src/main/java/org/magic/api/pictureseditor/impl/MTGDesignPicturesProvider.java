@@ -255,7 +255,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 				logger.error(e);
 			}
 		}
-
+		
+		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 
 		build.addParameter("edit", FALSE);
 

@@ -2,6 +2,7 @@ package org.magic.api.beans.enums;
 
 public enum EnumExtraCardMetaData {
 
+	PLUGIN_NAME,
 	ACCENT,
 	CENTER ,
 	INDICATOR,
@@ -15,4 +16,5 @@ public enum EnumExtraCardMetaData {
 	CROP_W,
 	CROP_H,
 	TEXT_COLOR;
+	
 }

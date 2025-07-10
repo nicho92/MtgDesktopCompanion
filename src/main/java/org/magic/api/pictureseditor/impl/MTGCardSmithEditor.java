@@ -156,13 +156,18 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			}
 		}
 
+		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 		
 		logger.debug("sending {}", build);
 		
 		var res = build.execute();
 	
+		
+		
 		if(res.getStatusLine().getStatusCode()!=200)
 			throw new IOException(res.getStatusLine().getReasonPhrase());
+		
+		
 		
 		return URLTools.extractAsImage(BASE_URL+URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get("success").getAsString());
 	}
