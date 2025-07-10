@@ -59,6 +59,7 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGIA;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -197,6 +198,7 @@ public class ConstructPanel extends MTGUIComponent {
 		var panneauHaut = new JPanel();
 		JButton btnUpdate;
 		var btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
+		var btnIA= UITools.createBindableJButton("", MTGConstants.ICON_IA, KeyEvent.VK_I, "IA");
 		HandPanel thumbnail;
 		searchComponent = new CriteriaComponent(false);
 		JTabbedPane tabbedPaneHaut;
@@ -313,6 +315,7 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauHaut.add(btnImport);
 		panneauHaut.add(btnExports);
 		panneauHaut.add(btnRandom);
+		panneauHaut.add(btnIA);
 		panneauHaut.add(btnPin);
 		
 		panneauHaut.add(buzyLabel);
@@ -392,6 +395,48 @@ public class ConstructPanel extends MTGUIComponent {
 			
 			MTGUIComponent.createJDialog(MTGUIComponent.build(new JScrollPane(tree), "Deck", MTGConstants.ICON_DECK),true,false).setVisible(true);
 			
+		});
+		
+		
+		btnIA.addActionListener(_->{
+			
+			var description = JOptionPane.showInputDialog("Description of your deck ?");
+			
+			if(description.isEmpty())
+				return;
+			
+			buzyLabel.start();
+			SwingWorker<MTGDeck, Void> sw = new SwingWorker<>()
+			{
+
+				@Override
+				protected MTGDeck doInBackground() throws Exception {
+					return MTG.getEnabledPlugin(MTGIA.class).generateDeck(description);
+				}
+
+				@Override
+				protected void done() {
+					try {
+						deck = get();
+						deckDetailsPanel.init(deck);
+						deckmodel.init(deck);
+						deckSidemodel.init(deck);
+						setDeck(deck);
+						updatePanels();
+					}catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						MTGControler.getInstance().notify(e);
+					}
+					catch (Exception e) {
+						MTGControler.getInstance().notify(e);
+					}
+					buzyLabel.end();
+
+				}
+
+
+			};
+			ThreadManager.getInstance().runInEdt(sw, "generate deck with ia");
 		});
 		
 		

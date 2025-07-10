@@ -113,9 +113,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			
 			
 			
-		}catch(Exception _)
+		}catch(Exception ex)
 		{
-			//do nothing
+			logger.error("error in postTreatment {}", ex);
 		}
 	}
 

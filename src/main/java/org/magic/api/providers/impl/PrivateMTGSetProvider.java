@@ -85,8 +85,15 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
             throw new IOException("Entry is outside of the target directory");
         }
 		
+		if(!f.exists())
+			return new ArrayList<>();
+		
 		
 		var root = FileTools.readJson(f).getAsJsonObject().get(CARDS);
+		
+		if(root==null || root.isJsonNull())
+			return new ArrayList<>();
+		
 		return serializer.fromJsonList(root.toString(), MTGCard.class);
 
 	}
@@ -109,7 +116,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			me.setCardCount(me.getCardCount() + 1);
 			root.addProperty("cardCount", me.getCardCount());
 		}
-		
+		logger.info("Adding {} card to {} set with id={}",mc,me,mc.getId());
 		FileTools.saveFile(f, root.toString());
 	}
 
@@ -148,24 +155,20 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 
 	public void saveEdition(MTGEdition me) throws IOException {
-		var cardCount = 0;
-		try {
-			cardCount = loadCardsFromSet(me).size();
 
-		} catch (Exception e) {
-			logger.error(e);
-		}
-
-		me.setCardCount(cardCount);
-		me.setCardCountOfficial(cardCount);
-		me.setCardCountPhysical(cardCount);
+		var cards= loadCardsFromSet(me);
+		
+		me.setCardCount(cards.size());
+		me.setCardCountOfficial(cards.size());
+		me.setCardCountPhysical(cards.size());
+		
 		var jsonparams = new JsonObject();
 		jsonparams.add("main", serializer.toJsonElement(me));
 
-		if (cardCount == 0)
+		if (cards.isEmpty())
 			jsonparams.add(CARDS, new JsonArray());
 		else
-			jsonparams.add(CARDS, serializer.toJsonElement(loadCardsFromSet(me)));
+			jsonparams.add(CARDS, serializer.toJsonElement(cards));
 
 		FileTools.saveFile(new File(setDirectory, me.getId() + ext), jsonparams.toString());
 
@@ -269,6 +272,13 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return ret;
 	}
 
+	@Override
+	public List<MTGEdition> listEditions() throws IOException {
+		//bypass cache
+		return loadEditions();
+	}
+	
+	
 	@Override
 	public MTGEdition getSetById(String id){
 		try {

@@ -100,7 +100,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				
 				@Override
 				protected void notifyEnd() {
-					editionModel.init(getResult());
+					editionModel.bind(getResult());
 					editionModel.fireTableDataChanged();
 					cboSets.setModel(new DefaultComboBoxModel<>(getResult().toArray(new MTGEdition[getResult().size()])));
 				}
@@ -124,6 +124,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			var btnImport = new JButton(MTGConstants.ICON_IMPORT);
 			var btnRebuildSet = new JButton(MTGConstants.ICON_MASS_IMPORT);
 			var btnGenerateCard = new JButton(MTGConstants.ICON_IA);
+			var btnGenerateSet= new JButton(MTGConstants.ICON_IA);
 			var btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
 			var tabbedResult = new JTabbedPane(SwingConstants.TOP);
 			var btnRemoveCard = new JButton(MTGConstants.ICON_DELETE);
@@ -183,6 +184,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelCards.add(panelCardsHaut, BorderLayout.NORTH);
 			panelSets.add(panelEditionHaut, BorderLayout.NORTH);
 			panelEditionHaut.add(btnNewSet);
+			panelEditionHaut.add(btnGenerateSet);
 			panelEditionHaut.add(btnReloadSets);
 			panelEditionHaut.add(btnSaveEdition);
 			panelEditionHaut.add(btnRemoveEdition);
@@ -218,7 +220,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			//////////////////////////////////////////////////// COMPONENT CONFIG
 
 			splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-
 			btnSaveEdition.setToolTipText("Save the set");
 			btnNewSet.setToolTipText("New set");
 			btnRemoveEdition.setToolTipText("Delete Set");
@@ -302,7 +303,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					provider.saveEdition(ed);
 					cboSets.removeAllItems();
 					cboSets.setModel(new DefaultComboBoxModel<>(provider.listEditions().toArray(new MTGEdition[provider.listEditions().size()])));
-					editionModel.init(provider.listEditions());
 					editionModel.fireTableDataChanged();
 				} catch (Exception ex) {
 					MTGControler.getInstance().notify(ex);
@@ -335,6 +335,47 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				onFirstShowing();
 			});
 			
+			
+			btnGenerateSet.addActionListener(_->{
+				MTGEdition set = UITools.getTableSelection(editionsTable, 1);
+				
+				if(set==null)
+					return;
+				
+				buzySet.start();
+				buzySet.setText("generating set from IA");
+				var text = JOptionPane.showInputDialog("Little description ?");
+				
+				
+				
+				ThreadManager.getInstance().runInEdt(new SwingWorker<List<MTGCard>, Void>() {
+						@Override
+						protected List<MTGCard> doInBackground() throws Exception {
+							return MTG.getEnabledPlugin(MTGIA.class).generateSet(text,set,5);
+						}
+						
+						@Override
+						protected void done() {
+							try {
+								cardsModel.addItems(get());
+								provider.saveEdition(set, get());
+								
+							} catch (InterruptedException _) {
+								Thread.currentThread().interrupt();
+							} catch (ExecutionException e) {
+								logger.error(e);
+							}
+							finally {
+								buzySet.end();
+							}
+						}
+					}, "generating set from IA");
+				
+			
+				
+				
+			});
+			
 
 			btnNewSet.addActionListener(_ -> {
 				var id = JOptionPane.showInputDialog("ID");
@@ -343,16 +384,18 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					return;
 				
 				try {
-				if(provider.listEditions().stream().anyMatch(ed->ed.getId().equals(id)))
-				{
-					MTGControler.getInstance().notify(new Exception("Set already present"));
-					return;
-				}
+					if(provider.listEditions().stream().anyMatch(ed->ed.getId().equals(id)))
+					{
+						MTGControler.getInstance().notify(new Exception("Set already present"));
+						return;
+					}
+					
 				var ed = new MTGEdition(id,id);
-				provider.saveEdition(ed);
-				editionModel.addItem(ed);
-				magicEditionDetailPanel.setMagicEdition(ed, true);
-				cboSets.addItem(ed);
+						provider.saveEdition(ed);
+						editionModel.addItem(ed);
+						magicEditionDetailPanel.setMagicEdition(ed, true);
+						cboSets.addItem(ed);
+						
 				} catch (IOException e1) {
 					MTGControler.getInstance().notify(e1);
 				}
