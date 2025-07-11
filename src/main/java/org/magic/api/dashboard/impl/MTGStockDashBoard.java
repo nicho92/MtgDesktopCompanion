@@ -80,7 +80,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		analyticService.setListener(urlNotifier);
 
 	}
-
+	
+	
+	
+	
 
 	@Override
 	public List<MTGDominance> getBestCards(FORMATS f, String filter) throws IOException {
