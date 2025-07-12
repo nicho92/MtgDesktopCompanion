@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -120,7 +121,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		for(var line : splitLines(content,removeBlank))
 		{
 			line = line.trim();
-			if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
+			if (!Strings.CS.startsWithAny(line, skipLinesStartWith())) {
 				var m = p.matcher(line);
 				if(m.find())
 				{
