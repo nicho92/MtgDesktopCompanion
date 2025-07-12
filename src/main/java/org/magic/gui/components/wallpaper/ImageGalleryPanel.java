@@ -4,7 +4,9 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -77,9 +79,16 @@ public class ImageGalleryPanel extends MTGUIComponent {
 					{
 						if(isCancelled())
 							break;
+						try {			
+							wall.setPicture(URLTools.extractAsImage(wall.getUrlThumb().toASCIIString()));
+							publish(wall);
+							}
+							catch(SocketException ex)
+							{
+								logger.error("socker error for {} ",wall.getUrl());
+							}
 						
-						wall.setPicture(URLTools.extractAsImage(wall.getUrlThumb().toASCIIString()));
-						publish(wall);
+						
 					}
 					return null;
 				}
