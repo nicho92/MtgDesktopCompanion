@@ -2,6 +2,7 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +109,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		
 
 		if (mc.getId() == null)
-			mc.setId(DigestUtils.sha256Hex(me.getSet() + mc.getId() + mc.getName()));
+			mc.setId(DigestUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getId() + mc.getName()));
 		
 		
 		int index = indexOf(mc, cards);
@@ -122,7 +123,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			me.setCardCount(me.getCardCount() + 1);
 			root.addProperty("cardCount", me.getCardCount());
 		}
-		logger.info("Adding {} card to {} set with id={}",mc,me,mc.getId());
+		logger.debug("Adding {} card to {} set with id={}",mc,me,mc.getId());
 		FileTools.saveFile(f, root.toString());
 	}
 

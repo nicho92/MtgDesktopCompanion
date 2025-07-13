@@ -311,7 +311,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		textJEditorPane = new MagicTextPane(false);
 
 		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
-		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,MTG.getEnabledPlugin(MTGTextGenerator.class)));
+		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane));
 		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
 		panelEditor.add(scrollPane,BorderLayout.SOUTH);
 		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));

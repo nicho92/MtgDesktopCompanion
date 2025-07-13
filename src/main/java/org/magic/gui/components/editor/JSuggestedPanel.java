@@ -21,6 +21,7 @@ import org.magic.gui.components.card.MagicTextPane;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 
 public class JSuggestedPanel extends JComponent {
 
@@ -29,7 +30,7 @@ public class JSuggestedPanel extends JComponent {
 	private AbstractBuzyIndicatorComponent buzy;
 	
 	
-	public JSuggestedPanel(MagicTextPane jTextPane,MTGTextGenerator gen) {
+	public JSuggestedPanel(MagicTextPane jTextPane) {
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		var suggestions = new JPanel();
@@ -46,7 +47,7 @@ public class JSuggestedPanel extends JComponent {
 
 				@Override
 				protected String doInBackground() throws Exception {
-					return gen.generateText();
+					return MTG.getEnabledPlugin(MTGTextGenerator.class).generateText();
 				}
 
 				@Override
@@ -120,7 +121,7 @@ public class JSuggestedPanel extends JComponent {
 
 						@Override
 						protected Void doInBackground() throws Exception {
-							for(String s : gen.suggestWords(caracters))
+							for(String s : MTG.getEnabledPlugin(MTGTextGenerator.class).suggestWords(caracters))
 							{
 								publish(s);
 							}

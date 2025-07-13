@@ -119,7 +119,10 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		var obj = URLTools.toJson(getEngine(getGeneratedCardFormat()).chat(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description))).getAsJsonObject();
 		logger.debug("return : {}",obj);
 		var mc = new MTGCard();
-			 mc.setNumber(number);
+			
+		if(number!=null)
+				mc.setNumber(number);
+			
 			 readJson(mc,obj,set);
 		return mc;
 	}
