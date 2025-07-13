@@ -49,7 +49,9 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	private JsonSchemaElement getCardElement() {
 		return JsonObjectSchema.builder()
         .addStringProperty("name")
+        .addProperty("supertypes", JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
         .addProperty("types", JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
+        .addProperty("subtypes", JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
         .addStringProperty("cost")
         .addIntegerProperty("cmc")
         .addEnumProperty("rarity",List.of(EnumRarity.values()).stream().map(en->en.getName()).toList())
@@ -183,7 +185,15 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		  mc.setRarity(EnumRarity.rarityByName(obj.get("rarity").getAsString()));
 		  mc.setFlavor(obj.get("flavor").getAsString());
 		  mc.setText(obj.get("text").getAsString());
+		  
 		  obj.get("types").getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
+		  
+		  if( obj.get("supertypes")!=null)
+			  obj.get("supertypes").getAsJsonArray().forEach(je->mc.getSupertypes().add(je.getAsString()));
+		  
+		  if( obj.get("subtypes")!=null)
+			  obj.get("subtypes").getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
+		  
 		  mc.setLayout(EnumLayout.NORMAL);
 		  mc.setFrameVersion("2015");
 		  mc.setId(DigestUtils.sha256Hex(set.getSet()+ mc.getName()));	 
@@ -193,8 +203,14 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		  
 		  if(obj.get("power")!=null && !obj.get("power").isJsonNull()) {
 			  mc.setPower(obj.get("power").getAsString());
-			  mc.setToughness(obj.get("toughness").getAsString());
 		  }
+		 
+		  if(obj.get("toughness")!=null && !obj.get("toughness").isJsonNull()) 
+			  mc.setToughness(obj.get("toughness").getAsString());
+		 
+		  
+		
+		  
 		  
 		  if(obj.get("loyalty")!=null && !obj.get("loyalty").isJsonNull()) {
 			  mc.setLoyalty(obj.get("loyalty").getAsInt());

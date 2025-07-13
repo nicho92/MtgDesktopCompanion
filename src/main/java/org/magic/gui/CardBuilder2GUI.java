@@ -291,7 +291,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					if (res == JOptionPane.YES_OPTION) {
 						provider.removeCard((MTGEdition) cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
 						picturesProvider.removePicture((MTGEdition) cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
-						initCard(new MTGCard());
+						var mc = new MTGCard();
+						mc.setEdition((MTGEdition) cboSets.getSelectedItem());
+						
+						initCard(mc);
 					}
 				} catch (IOException ex) {
 					MTGControler.getInstance().notify(ex);
@@ -546,6 +549,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		magicCardEditorPanel.setMagicCard(mc);
 		cboSets.setSelectedItem(mc.getEdition());
 		jsonPanel.init(mc);
+		
 		
 		ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<BufferedImage, Void,MTGPictureProvider>(buzyCard,picturesProvider) {
 			@Override
