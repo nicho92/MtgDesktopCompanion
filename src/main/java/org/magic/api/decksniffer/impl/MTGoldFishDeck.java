@@ -1,28 +1,21 @@
 package org.magic.api.decksniffer.impl;
 
-import static org.magic.services.tools.MTG.getEnabledPlugin;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
