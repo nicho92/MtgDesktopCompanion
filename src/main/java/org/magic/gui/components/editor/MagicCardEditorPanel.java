@@ -50,7 +50,6 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
-import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
