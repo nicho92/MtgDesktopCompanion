@@ -54,7 +54,7 @@
 		<jwt.version>0.12.6</jwt.version>
 		<lucene.version>10.2.2</lucene.version>
 		<artemis.version>2.41.0</artemis.version>
-		<flatlaf.version>3.6</flatlaf.version>
+		<flatlaf.version>3.6.1</flatlaf.version>
 		<qwartz.version>2.5.0</qwartz.version>
 		<rome.version>2.1.0</rome.version>
 		<log4j.version>2.24.3</log4j.version>
@@ -445,7 +445,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.6.1</version>
+			<version>6.0.0-preview_DEV</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
