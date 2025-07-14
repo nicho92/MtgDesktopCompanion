@@ -1,5 +1,7 @@
 package org.magic.game.model.abilities;
 
+import org.magic.game.model.effects.AbstractEffect;
+
 public class ActivatedAbilities extends AbstractAbilities {
 
 

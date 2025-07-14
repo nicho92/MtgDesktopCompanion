@@ -12,6 +12,14 @@ public class ActionCost implements Cost {
 		this.action=c;
 	}
 
+	public ActionCost() {
+	}
+	
+	public ActionCost(String action)
+	{
+		setAction(action);
+	}
+	
 
 	@Override
 	public String toString() {

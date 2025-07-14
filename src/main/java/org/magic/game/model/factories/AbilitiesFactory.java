@@ -12,9 +12,11 @@ import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
 import org.magic.game.model.abilities.LoyaltyAbilities;
+import org.magic.game.model.abilities.SagaAbilities;
 import org.magic.game.model.abilities.StaticAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities.KEYWORDS;
+import org.magic.game.model.costs.ActionCost;
 import org.magic.game.model.costs.LoyaltyCost;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 
@@ -55,6 +57,7 @@ public class AbilitiesFactory implements Serializable{
 		ret.addAll(getActivatedAbilities(mc));
 		ret.addAll(getLoyaltyAbilities(mc));
 		ret.addAll(getTriggeredAbility(mc));
+		ret.addAll(getSagaAbilities(mc));
 		ret.addAll(getStaticAbilities(mc));
 		return ret;
 	}
@@ -67,7 +70,7 @@ public class AbilitiesFactory implements Serializable{
 
 	public List<AbstractAbilities> getActivatedAbilities(MTGCard mc) {
 		List<AbstractAbilities> ret = new ArrayList<>();
-		if(!mc.isPlaneswalker())
+		if(!mc.isPlaneswalker() && !mc.isSaga())
 		{
 			for(String s : listSentences(mc))
 			{
@@ -92,6 +95,31 @@ public class AbilitiesFactory implements Serializable{
 		}
 		return ret;
 	}
+	
+	public List<SagaAbilities> getSagaAbilities(MTGCard mc) {
+		var list = new ArrayList<SagaAbilities>();
+			if(!mc.isSaga())
+				return list;
+			
+
+			for(String s : listSentences(mc))
+			{
+
+				Matcher m  = EnumCardsPatterns.extract(s, EnumCardsPatterns.SAGA_PATTERN);
+				if(m.matches()) 
+				{
+					var abilities = new SagaAbilities();
+					abilities.setCard(mc);
+					abilities.setCost(new ActionCost("Put Lore Counter"));
+					abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc,m.group(2)));
+					list.add(abilities);
+				}
+				
+			}
+			
+			return list;
+	}
+	
 
 	public List<LoyaltyAbilities> getLoyaltyAbilities(MTGCard mc) {
 		List<LoyaltyAbilities> list = new ArrayList<>();

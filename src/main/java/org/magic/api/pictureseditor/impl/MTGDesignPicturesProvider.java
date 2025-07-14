@@ -20,7 +20,9 @@ import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
+import org.magic.game.model.abilities.ActivatedAbilities;
 import org.magic.game.model.abilities.LoyaltyAbilities;
+import org.magic.game.model.abilities.SagaAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
@@ -186,22 +188,14 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		if(!mc.getText().isEmpty())
 		{
-			if(!mc.isPlaneswalker())
-			{
-				build.addParameter("rules-text", mc.getText());
-			}
-			else
+			if(mc.isPlaneswalker())
 			{
 
-				List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
-				if(abs.size()>3)
-				{
-					logger.error("{} can't generate 4 abitilities planeswalker. removing last ability",getName());
-					abs.remove(abs.size()-1);
-				}
+				var abs= AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
 				build.addParameter("pw-size", String.valueOf(abs.size()));
+				
 				for(var i=0;i<abs.size();i++)
-				{
+				{ 
 					if(i==0)
 					{
 						build.addParameter("rules-text", String.valueOf(abs.get(i).getCost()).replace("+", "")+": "+ abs.get(i).getEffect() +'\u00a0');
@@ -213,6 +207,27 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 					build.addParameter( (i==0)?"rules-text":"pw-text"+(i+1), abs.get(i).getCost()+": "+ abs.get(i).getEffect() +'\u00a0');
 				}
 			}
+			else if(mc.isSaga())
+			{
+				build.addParameter("type", "Enchantment Saga");
+				build.addParameter("saga-reminder", "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)");
+				
+				var abs = AbilitiesFactory.getInstance().getSagaAbilities(mc);
+				build.addParameter("pw-size", String.valueOf(abs.size()));
+				for(var i=0;i<abs.size();i++)
+				{
+					if(i==0)
+						build.addParameter("rules-text", abs.get(i).getEffect().toString());
+					else
+						build.addParameter("pw-text"+(i+1), abs.get(i).getEffect().toString());
+				}
+			}
+			else
+			{
+				build.addParameter("rules-text", mc.getText());
+			}
+				
+				
 		}
 
 		

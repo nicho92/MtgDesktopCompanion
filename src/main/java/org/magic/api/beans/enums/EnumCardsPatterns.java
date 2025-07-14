@@ -15,6 +15,7 @@ public enum EnumCardsPatterns {
 	CREATE_EMBLEM 			("You get an emblem with (.*?)"),
 	RULES_LINE					("^(\\d{1,3})\\.(\\d{1,3})?([a-z])?"),
 	LOYALTY_PATTERN		("\\[(.*?)\\][ ]?: (.*?)$"),
+	SAGA_PATTERN			("(.*?) — (.*?)$"),
 	ROLL_DICE					("then  roll a d(\\d+)");
 	
 

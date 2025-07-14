@@ -520,6 +520,11 @@ public class MTGCard extends AbstractProduct {
 		return getSubtypes().contains("Vehicle");
 	}
 	
+	public boolean isSaga()
+	{
+		return getSubtypes().contains("Saga") || getLayout()==EnumLayout.SAGA;
+	}
+	
 	public boolean isCompanion()
 	{
 		return isCreature() && isLegendary() && (getText().startsWith("Companion ") || getFrameEffects().contains(EnumFrameEffects.COMPANION));
