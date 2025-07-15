@@ -153,7 +153,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null,true).get(0);
 				d.getMain().put(mc, je.getAsJsonObject().get("quantity").getAsInt());
 				notify(mc);
-			} catch (Exception e) {
+			} catch (Exception _) {
 				logger.error("can't find card {}",je.getAsJsonObject());
 			}
 			
@@ -165,7 +165,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null,true).get(0);
 				d.getSideBoard().put(mc, je.getAsJsonObject().get("quantity").getAsInt());
 				notify(mc);
-			} catch (Exception e) {
+			} catch (Exception _) {
 				logger.error("can't find card {}",je.getAsJsonObject());
 			}
 			
