@@ -368,7 +368,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 												.toHtml();
 		
 		var imgPath = res.select("img.previewImg2").attr("src");
-		logger.info("File {} uploaded at {}", f,imgPath);
+		logger.debug("File {} uploaded at {}", f,imgPath);
 		
 		return imgPath ;
 	}

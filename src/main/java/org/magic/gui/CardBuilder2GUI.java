@@ -41,6 +41,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardsEditionSorter;
+import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicEditionDetailPanel;
@@ -246,6 +247,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			
 			editionModel.setDefaultHiddenComlumns(4,5,8,9);
 			UITools.initTableVisibility(editionsTable, editionModel);
+			
+			UITools.setSorter(cardsTable,6,new NumberSorter());
 			
 			
 			/// ACTION LISTENER

@@ -83,7 +83,8 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 	@Override
 	public int getWeight(MTGCard mc) {
 
-		if (mc.getColors().isEmpty()) {
+		if (mc.getColors().isEmpty()) 
+		{
 
 			if (mc.isArtifact()) {
 				return 6;
@@ -98,8 +99,8 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 			} else {
 				return -1;
 			}
-
 		}
+		
 
 		return EnumColors.determine(mc.getColors()).getPosition();
 
