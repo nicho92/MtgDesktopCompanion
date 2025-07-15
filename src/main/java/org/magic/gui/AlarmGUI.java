@@ -130,7 +130,7 @@ public class AlarmGUI extends MTGUIComponent {
 		table = UITools.createNewTable(model,true);
 		pricesTablePanel = new PricesTablePanel();
 		
-///////CONFIG
+///CONFIG
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		magicCardDetailPanel.enableThumbnail(true);
@@ -146,7 +146,7 @@ public class AlarmGUI extends MTGUIComponent {
 		groupShopPanel.enableControle(true);
 		panelRight.setLayout(new BorderLayout());
 
-///////ADDS
+///ADDS
 		splitPanel.setLeftComponent(new JScrollPane(table));
 		add(splitPanel, BorderLayout.CENTER);
 		splitPanel.setRightComponent(getContextTabbedPane());

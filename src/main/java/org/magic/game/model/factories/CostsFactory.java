@@ -38,13 +38,11 @@ public class CostsFactory {
 		if(c.contains("{E}"))
 			return new EnergyCost(StringUtils.countMatches(c, "{E}"));
 
-		////////////////
 		var p = Pattern.compile(EnumCardsPatterns.COST_LIFE_PATTERN.getPattern());
 		var m=p.matcher(c);
 		if(m.find())
 			return new LifeCost(Integer.parseInt(m.group(1)));
 
-		////////////////
 		p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
 		m = p.matcher(c);
 		if(m.matches())
@@ -57,8 +55,6 @@ public class CostsFactory {
 			return mana;
 		}
 
-
-		////////////////
 		var ac = new ActionCost();
 		ac.setAction(c);
 

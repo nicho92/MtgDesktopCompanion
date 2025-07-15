@@ -26,7 +26,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 		private static final long serialVersionUID = 1L;
 		private static final int THUMBNAIL_SIZE = 150;
 		private boolean openingLargePic=true;
-		private SwingWorker<Void, MTGWallpaper> sw2;
+		private transient SwingWorker<Void, MTGWallpaper> sw2;
 		private boolean multipleSelection;
 		
 		

@@ -378,7 +378,7 @@ public class ConstructPanel extends MTGUIComponent {
 		
 		deckDetailsPanel.init(deck);
 
-//////////////////////////////////////////////////////////////////ACTIONS
+///ACTIONS
 		btnNewDeck.addActionListener(_ -> {
 			var newDeck = new MTGDeck();
 			setDeck(newDeck);

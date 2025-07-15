@@ -176,7 +176,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		MagicCollectionTableCellRenderer render;
 		gedPanel = new GedPanel<>();
 
-		//////// INIT COMPONENTS
+		/// INIT COMPONENTS
 		panneauHaut = new JPanel();
 		packagePanel = new PackagesBrowserPanel(true);
 		btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "new Collection");
@@ -210,12 +210,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tree = new JLazyLoadingTree();
 		pricePanel = new PricesTablePanel();
 
-		//////// MODELS
+		/// MODELS
 		model = new MagicEditionsTableModel();
 		tableEditions = UITools.createNewTable(model,true);
 
 
-		///////// CONFIGURE COMPONENTS
+		/// CONFIGURE COMPONENTS
 		magicCardDetailPanel.setMinimumSize(new Dimension(750, (int)MTGControler.getInstance().getCardsGameDimension().getHeight()+85)); // used to rereduce the vertical split bar
 		splitListPanel.setDividerLocation(0.5);
 		splitListPanel.setResizeWeight(0.5);
@@ -231,12 +231,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		
 
-		///////// LAYOUT
+		/// LAYOUT
 		setLayout(new BorderLayout(0, 0));
 		panneauDroite.setLayout(new BorderLayout());
 		panneauGauche.setLayout(new BorderLayout(0, 0));
 
-		///////// ADD PANELS
+		/// ADD PANELS
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(btnAdd);
 		panneauHaut.add(btnRefresh);
@@ -274,7 +274,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(jsonPanel);
 
-		///////// Labels
+		/// Labels
 		btnAdd.setToolTipText(MTGControler.getInstance().getLangService().get("COLLECTION_ADD"));
 		btnRefresh.setToolTipText(capitalize("COLLECTION_REFRESH"));
 		btnRemove.setToolTipText(capitalize("ITEM_SELECTED_REMOVE"));

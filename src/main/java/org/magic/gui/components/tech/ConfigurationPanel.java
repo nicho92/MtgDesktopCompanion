@@ -140,7 +140,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 
-/////////////CONFIG PANEL BOX
+///CONFIG PANEL BOX
 
 
 					var daoPanelLayout = new GridBagLayout();
@@ -221,12 +221,12 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 
 
-////////////ACCOUNT BOX
+///ACCOUNT BOX
 		panelAccounts.add(new MTGAuthenticatorEditor(),BorderLayout.CENTER);
 
 
 
-////////////LOG BOX
+///LOG BOX
 		cboLogLevels = UITools.createCombobox(MTGLogger.getLevels());
 
 		var panelMainLogger = new JPanel();
@@ -260,7 +260,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelLogs.add(new JScrollPane(tableLoggers),BorderLayout.CENTER);
 
 
-/////////////DAO BOX
+///DAO BOX
 		var lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
 		var btnDuplicate = new JButton((capitalize(EXPORT)));
 		var lblLocation = new JLangLabel("LOCATION",true);
@@ -306,7 +306,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				};
 		ThreadManager.getInstance().runInEdt(sw, "getting DB size");
 
-/////////////CONFIG BOX
+///CONFIG BOX
 		cboCollections = UITools.createComboboxCollection();
 
 		txtMinPrice = new JTextField(MTGControler.getInstance().get("min-price-alert"),25);
@@ -356,7 +356,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 
 
-/////////////WEBSITE BOX
+///WEBSITE BOX
 
 		
 		var txtdirWebsserver = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY);
@@ -370,7 +370,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelWebSite.add(btnWebServerExport, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 2));
 
 
-/////////////NETWORK BOX
+///NETWORK BOX
 		var chkOnlineValidation = new JCheckBox();
 		chkOnlineValidation.setSelected(MTG.readPropertyAsBoolean("network-config/online-query"));
 		panelNetworks.add(new JLangLabel("NETWORK_VALIDATION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
@@ -381,7 +381,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelNetworks.add(new JLangLabel("NETWORK_AUTOCONNECT",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
 		panelNetworks.add(chkOnlineAutoConnect, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 2));
 
-/////////////PROFIL BOX
+///PROFIL BOX
 
 		var lblName = new JLangLabel("NAME",true);
 		txtName = new JTextField(MTGControler.getInstance().get("/game/player-profil/name"),10);
@@ -400,7 +400,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		loadIcon();
 
-/////////////MODULES BOX
+///MODULES BOX
 
 		chckbxSearch = new JCheckBox(capitalize("SEARCH_MODULE"));
 		chckbxCollection = new JCheckBox("Collection");
@@ -470,7 +470,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 
 
-/////////////CURRENCY BOX
+///CURRENCY BOX
 
 		var lblCurrency = new JLangLabel("CURRENCY",true);
 		JComboBox<Currency> cboCurrency = UITools.createCombobox(new ArrayList<>(Currency.getAvailableCurrencies()));
@@ -497,7 +497,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 
 
-/////////////GUI BOX
+///GUI BOX
 
 		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		var cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
@@ -572,7 +572,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		}
 
 
-/////////////EVENTS
+///EVENTS
 		btnShortKeys.addActionListener(_->MTGUIComponent.createJDialog(new ShortKeyManagerUI(),true,false).setVisible(true));
 
 

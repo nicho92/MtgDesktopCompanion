@@ -26,7 +26,7 @@ import org.magic.services.tools.MTG;
 public class JSuggestedPanel extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private AbstractBuzyIndicatorComponent buzy;
 	
 	
