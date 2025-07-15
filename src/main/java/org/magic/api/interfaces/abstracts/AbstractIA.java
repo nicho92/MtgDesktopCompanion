@@ -29,6 +29,8 @@ import dev.langchain4j.model.chat.request.json.JsonStringSchema;
 
 public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
+	
+	private static final String QUANTITY = "quantity";
 	private static final String NAME = "name";
 	private static final String LOYALTY = "loyalty";
 	private static final String TOUGHNESS = "toughness";
@@ -41,7 +43,11 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	private static final String SUBTYPES = "subtypes";
 	private static final String TYPES = "types";
 	private static final String SUPERTYPES = "supertypes";
+	
+	
 	private static final String NEW_CARD_QUERY = "generate a new magic the gathering card in json format ";
+	private static final String WITH_THIS_DESCRIPTION = " with this description  : ";
+	
 	private static final String NEW_SET_QUERY = "generate a new magic the gathering set of X cards in json format ";
 	private static final String NEW_DECK_QUERY = "generate a magic the gathering deck in json format ";
 	
@@ -111,12 +117,12 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			        		        .addProperty("mainboard", JsonArraySchema.builder().items(
 			        		        		JsonObjectSchema.builder()
 			        		        		.addStringProperty(NAME)
-			        		        		.addIntegerProperty("quantity")
+			        		        		.addIntegerProperty(QUANTITY)
 			        		        		.build()).build())
 			        		        .addProperty("sideboard", JsonArraySchema.builder().items(
 			        		        		JsonObjectSchema.builder()
 			        		        		.addStringProperty(NAME)
-			        		        		.addIntegerProperty("quantity")
+			        		        		.addIntegerProperty(QUANTITY)
 			        		        		.build()).build())
 			        		        .addStringProperty("description")
 			                .build())
@@ -128,7 +134,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	@Override
 	public MTGCard generateRandomCard(String description, MTGEdition set, String number) throws IOException {
 		
-		var obj = URLTools.toJson(getEngine(getGeneratedCardFormat()).chat(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description))).getAsJsonObject();
+		var obj = URLTools.toJson(getEngine(getGeneratedCardFormat()).chat(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": WITH_THIS_DESCRIPTION+description))).getAsJsonObject();
 		logger.debug("return : {}",obj);
 		var mc = new MTGCard();
 			
@@ -141,7 +147,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	
 	@Override
 	public MTGDeck generateDeck(String description) throws IOException {
-		var obj = URLTools.toJson(getEngine(getGeneratedDeckFormat()).chat(NEW_DECK_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description))).getAsJsonObject();
+		var obj = URLTools.toJson(getEngine(getGeneratedDeckFormat()).chat(NEW_DECK_QUERY  +( (description==null || description.isEmpty())?"": WITH_THIS_DESCRIPTION+description))).getAsJsonObject();
 		
 		var d = new MTGDeck();
 			d.setDescription(obj.get("description").getAsString());
@@ -151,7 +157,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			
 			try {
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null,true).get(0);
-				d.getMain().put(mc, je.getAsJsonObject().get("quantity").getAsInt());
+				d.getMain().put(mc, je.getAsJsonObject().get(QUANTITY).getAsInt());
 				notify(mc);
 			} catch (Exception _) {
 				logger.error("can't find card {}",je.getAsJsonObject());
@@ -163,7 +169,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			
 			try {
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null,true).get(0);
-				d.getSideBoard().put(mc, je.getAsJsonObject().get("quantity").getAsInt());
+				d.getSideBoard().put(mc, je.getAsJsonObject().get(QUANTITY).getAsInt());
 				notify(mc);
 			} catch (Exception _) {
 				logger.error("can't find card {}",je.getAsJsonObject());
@@ -175,7 +181,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	
 	@Override
 	public List<MTGCard> generateSet(String description, MTGEdition set, int qty) throws IOException {
-		var obj = URLTools.toJson(getEngine(getGeneratedSetFormat()).chat(NEW_SET_QUERY.replace("X",""+qty)  +( (description==null || description.isEmpty())?"": " with this description  : "+description))).getAsJsonObject();
+		var obj = URLTools.toJson(getEngine(getGeneratedSetFormat()).chat(NEW_SET_QUERY.replace("X",""+qty)  +( (description==null || description.isEmpty())?"": WITH_THIS_DESCRIPTION+description))).getAsJsonObject();
 		var list = new ArrayList<MTGCard>();
 		int number = 1;
 		
