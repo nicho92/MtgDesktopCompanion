@@ -69,7 +69,7 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 			
 			return pic;
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.error("error parsing json for {}",el);
 			return null;

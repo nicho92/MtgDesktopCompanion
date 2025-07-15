@@ -201,7 +201,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			logger.error("error no edition loaded", e2);
 		}
 
-		//////// INIT COMPONENTS
+		/// INIT COMPONENTS
 
 		var scrollThumbnails = new JScrollPane();
 		var panneauCentral = new JSplitPane();
@@ -245,14 +245,14 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		deckPanel = new CardsDeckCheckerPanel();
 
-		//////// MODELS
+		/// MODELS
 		listEdition.setModel(new DefaultListModel<>());
 
-		//////// RENDERER
+		/// RENDERER
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		listEdition.setCellRenderer(new MagicEditionIconListRenderer());
 
-		///////// CONFIGURE COMPONENTS
+		/// CONFIGURE COMPONENTS
 
 		btnFilter.setToolTipText(capitalize("FILTER"));
 		btnExport.setToolTipText(capitalize("EXPORT_RESULTS"));
@@ -284,19 +284,19 @@ public class CardSearchPanel extends MTGUIComponent {
 		var flowLayout = (FlowLayout) panneauHaut.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 
-		/////// DIMENSION
+		/// DIMENSION
 		cardsPicPanel.setPreferredSize(new Dimension(500, 10));
 
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		txtFilter.setColumns(25);
 
-		/////// VISIBILITY
+		/// VISIBILITY
 		tableCards.setColumnControlVisible(true);
 		panelFilters.setVisible(false);
 		lblLoading.setVisible(false);
 		tableCards.setShowVerticalLines(false);
 
-		////// ADD PANELS
+		/// ADD PANELS
 		for (String s : new String[] { "W", "U", "B", "R", "G", "C", "1" }) {
 			final var btnG = new JButton();
 			btnG.setToolTipText(s);
@@ -364,14 +364,14 @@ public class CardSearchPanel extends MTGUIComponent {
 		add(panneauCard, BorderLayout.EAST);
 		add(panneauCentral, BorderLayout.CENTER);
 
-		/////// Right click
+		/// Right click
 		try {
 			initPopupCollection();
 		} catch (Exception e2) {
 			logger.error("error init popup",e2);
 		}
 
-		/////// Action listners
+		/// Action listners
 		addComponentListener(new ComponentAdapter() {
 			@Override
 		    public void componentShown(ComponentEvent componentEvent){

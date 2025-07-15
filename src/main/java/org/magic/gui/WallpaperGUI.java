@@ -16,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MTGWallpaper;
@@ -62,7 +63,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var panelSouth = new JPanel();
 		
-		var scroll = new JScrollPane(panelThumnail,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		var scroll = new JScrollPane(panelThumnail,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		
 		
@@ -88,7 +89,7 @@ public class WallpaperGUI extends MTGUIComponent {
 					
 					try {
 						panelThumnail.init(get());
-					} catch (InterruptedException e) {
+					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
 						logger.error(e);

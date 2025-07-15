@@ -110,7 +110,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	public CardBuilder2GUI() {
 
-			//////////////////////////////////////////////////// INIT LOCAL COMPONENTS
+			/// INIT LOCAL COMPONENTS
 			var panelEditionHaut = new JPanel();
 			var panelSets = new JPanel();
 			var splitcardEdPanel = new JSplitPane();
@@ -131,7 +131,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			var btnNewCard = new JButton(MTGConstants.ICON_NEW);
 			var btnReloadSets = new JButton(MTGConstants.ICON_REFRESH);
 			
-			//////////////////////////////////////////////////// INIT GLOBAL COMPONENTS
+			/// INIT GLOBAL COMPONENTS
 			buzyCard = AbstractBuzyIndicatorComponent.createLabelComponent();
 			buzySet = AbstractBuzyIndicatorComponent.createLabelComponent();
 			editionModel = new MagicEditionsTableModel();
@@ -164,7 +164,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 			};
 
-			//////////////////////////////////////////////////// LAYOUT CONFIGURATION
+			/// LAYOUT CONFIGURATION
 			setLayout(new BorderLayout(0, 0));
 			panelSets.setLayout(new BorderLayout(0, 0));
 			panelCards.setLayout(new BorderLayout(0, 0));
@@ -179,7 +179,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			splitcardEdPanel.setResizeWeight(0.5);
 
 
-			//////////////////////////////////////////////////// PANEL ADDS
+			/// PANEL ADDS
 			add(tabbedPane);
 			panelCards.add(panelCardsHaut, BorderLayout.NORTH);
 			panelSets.add(panelEditionHaut, BorderLayout.NORTH);
@@ -217,7 +217,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
 
 
-			//////////////////////////////////////////////////// COMPONENT CONFIG
+			/// COMPONENT CONFIG
 
 			splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			btnSaveEdition.setToolTipText("Save the set");
@@ -248,7 +248,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			UITools.initTableVisibility(editionsTable, editionModel);
 			
 			
-			//////////////////////////////////////////////////// ACTION LISTENER
+			/// ACTION LISTENER
 
 			btnRebuildSet.addActionListener(_->{
 				MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
@@ -335,9 +335,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				initCard(mc);
 			});
 			
-			btnReloadSets.addActionListener(_->{
-				onFirstShowing();
-			});
+			btnReloadSets.addActionListener(_->onFirstShowing());
 			
 			
 			btnGenerateSet.addActionListener(_->{

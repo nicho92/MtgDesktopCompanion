@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGNotification;
@@ -40,7 +41,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 				try {
 				return p.search(text.getText()).stream();
 				}
-				catch(Exception e)
+				catch(Exception _)
 				{
 					return Stream.empty();
 				}
@@ -68,7 +69,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 	
 	@Override
 	public JComponent getSelectComponent() {
-		var scroll = new JScrollPane(getGalleryPanel(),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		var scroll = new JScrollPane(getGalleryPanel(),ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		return scroll;
 	}

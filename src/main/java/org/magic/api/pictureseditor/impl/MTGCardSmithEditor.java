@@ -32,9 +32,9 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	private static final String BASE_URL = "https://mtgcardsmith.com";
 	private static final String BASE_URL_DEVM = "https://devm.mtgcardsmith.com";
 	
-	private final String urlBuilder=BASE_URL_DEVM+"/src/actions/m15cardTest";
-	private final String urlPictureUpload=BASE_URL+"/src/actions/cards/upload";
-	private final String urlAuthentication=BASE_URL+"/my-account/";
+	private static final String urlBuilder=BASE_URL_DEVM+"/src/actions/m15cardTest";
+	private static final String urlPictureUpload=BASE_URL+"/src/actions/cards/upload";
+	private static final String urlAuthentication=BASE_URL+"/my-account/";
 	
 	private MTGHttpClient client;
 	private boolean connected;
@@ -129,7 +129,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		if(mc.isVehicule())
 		{
 			var c = EnumColors.determine(mc.getColors());
-			
 			build.removeContent("frame");
 			build.addContent("special_card_color", "vehart01"+(c==EnumColors.GOLD?"m":c.getCode().toLowerCase()));
 		}
@@ -176,9 +175,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		if(text==null)
 			return "";
 		
-		return Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern()).matcher(text).replaceAll(m -> {
-            return m.group().toLowerCase();
-        });
+		return Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern()).matcher(text).replaceAll(m ->m.group().toLowerCase());
 		
 	}
 	
@@ -322,7 +319,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 																.addHeader("Connection", "keep-alive")
 																.addHeader(URLTools.HOST, "mtgcardsmith.com")
 																.addHeader(URLTools.ORIGIN, BASE_URL)
-																.addHeader(URLTools.REFERER, BASE_URL+"/my-account/")
+																.addHeader(URLTools.REFERER, urlAuthentication)
 																.addHeader("sec-ch-ua","Not)A;Brand\";v=\"8\",\"Chromium\";v=\"138\", \"Google Chrome\";v=\"138")
 																.addHeader("sec-ch-ua-mobile","?0")
 																.addHeader("sec-ch-ua-platform","Windows")
@@ -347,7 +344,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			logger.info("logged as {}", c);
 			connected=true;
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			logger.error("can't connect");
 			connected=false;

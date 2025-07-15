@@ -54,7 +54,7 @@ public class JSuggestedPanel extends JComponent {
 				protected void done() {
 					try {
 						jTextPane.setText(get());
-					} catch (InterruptedException e) {
+					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
 						logger.error(e);

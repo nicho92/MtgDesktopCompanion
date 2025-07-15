@@ -81,7 +81,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 							wall.setPicture(URLTools.extractAsImage(wall.getUrlThumb().toASCIIString()));
 							publish(wall);
 							}
-							catch(SocketException ex)
+							catch(SocketException _)
 							{
 								logger.error("socker error for {} ",wall.getUrl());
 							}
