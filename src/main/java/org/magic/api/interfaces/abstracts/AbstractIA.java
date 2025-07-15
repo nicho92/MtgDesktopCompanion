@@ -29,6 +29,18 @@ import dev.langchain4j.model.chat.request.json.JsonStringSchema;
 
 public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
+	private static final String NAME = "name";
+	private static final String LOYALTY = "loyalty";
+	private static final String TOUGHNESS = "toughness";
+	private static final String POWER = "power";
+	private static final String TEXT = "text";
+	private static final String FLAVOR = "flavor";
+	private static final String RARITY = "rarity";
+	private static final String CMC = "cmc";
+	private static final String COST = "cost";
+	private static final String SUBTYPES = "subtypes";
+	private static final String TYPES = "types";
+	private static final String SUPERTYPES = "supertypes";
 	private static final String NEW_CARD_QUERY = "generate a new magic the gathering card in json format ";
 	private static final String NEW_SET_QUERY = "generate a new magic the gathering set of X cards in json format ";
 	private static final String NEW_DECK_QUERY = "generate a magic the gathering deck in json format ";
@@ -48,20 +60,20 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
 	private JsonSchemaElement getCardElement() {
 		return JsonObjectSchema.builder()
-        .addStringProperty("name")
-        .addProperty("supertypes", JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
-        .addProperty("types", JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
-        .addProperty("subtypes", JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
-        .addStringProperty("cost")
-        .addIntegerProperty("cmc")
-        .addEnumProperty("rarity",List.of(EnumRarity.values()).stream().map(en->en.getName()).toList())
-        .addStringProperty("flavor")
-        .addStringProperty("text")
-        .addIntegerProperty("cmc")
-        .addIntegerProperty("power")
-        .addIntegerProperty("toughness")
-        .addIntegerProperty("loyalty")
-        .required("name", "types", "cost", "text","flavor","rarity","cmc")
+        .addStringProperty(NAME)
+        .addProperty(SUPERTYPES, JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
+        .addProperty(TYPES, JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
+        .addProperty(SUBTYPES, JsonArraySchema.builder().items(JsonStringSchema.builder().build()).build())
+        .addStringProperty(COST)
+        .addIntegerProperty(CMC)
+        .addEnumProperty(RARITY,List.of(EnumRarity.values()).stream().map(en->en.getName()).toList())
+        .addStringProperty(FLAVOR)
+        .addStringProperty(TEXT)
+        .addIntegerProperty(CMC)
+        .addIntegerProperty(POWER)
+        .addIntegerProperty(TOUGHNESS)
+        .addIntegerProperty(LOYALTY)
+        .required(NAME, TYPES, COST, TEXT,FLAVOR,RARITY,CMC)
         .build();
 	}
 	
@@ -95,15 +107,15 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		        .jsonSchema(JsonSchema.builder()
 		                .name("MTG Deck")
 			                .rootElement(JsonObjectSchema.builder()
-			        		        .addStringProperty("name")
+			        		        .addStringProperty(NAME)
 			        		        .addProperty("mainboard", JsonArraySchema.builder().items(
 			        		        		JsonObjectSchema.builder()
-			        		        		.addStringProperty("name")
+			        		        		.addStringProperty(NAME)
 			        		        		.addIntegerProperty("quantity")
 			        		        		.build()).build())
 			        		        .addProperty("sideboard", JsonArraySchema.builder().items(
 			        		        		JsonObjectSchema.builder()
-			        		        		.addStringProperty("name")
+			        		        		.addStringProperty(NAME)
 			        		        		.addIntegerProperty("quantity")
 			        		        		.build()).build())
 			        		        .addStringProperty("description")
@@ -133,12 +145,12 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		
 		var d = new MTGDeck();
 			d.setDescription(obj.get("description").getAsString());
-			d.setName(obj.get("name").getAsString());
+			d.setName(obj.get(NAME).getAsString());
 			
 		obj.get("mainboard").getAsJsonArray().forEach(je->{
 			
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get("name").getAsString(), null,true).get(0);
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null,true).get(0);
 				d.getMain().put(mc, je.getAsJsonObject().get("quantity").getAsInt());
 				notify(mc);
 			} catch (Exception e) {
@@ -150,7 +162,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		obj.get("sideboard").getAsJsonArray().forEach(je->{
 			
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get("name").getAsString(), null,true).get(0);
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null,true).get(0);
 				d.getSideBoard().put(mc, je.getAsJsonObject().get("quantity").getAsInt());
 				notify(mc);
 			} catch (Exception e) {
@@ -180,22 +192,22 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
 	private void readJson(MTGCard mc, JsonObject obj, MTGEdition set) {
 		try {
-		  mc.setName(obj.get("name").getAsString());
-		  mc.setCost(obj.get("cost").getAsString());
+		  mc.setName(obj.get(NAME).getAsString());
+		  mc.setCost(obj.get(COST).getAsString());
 		  mc.setColors(EnumColors.parseByManaCost(mc.getCost()));
 		  mc.setColorIdentity(EnumColors.parseByManaCost(mc.getCost()));
-		  mc.setCmc(obj.get("cmc").getAsInt());
-		  mc.setRarity(EnumRarity.rarityByName(obj.get("rarity").getAsString()));
-		  mc.setFlavor(obj.get("flavor").getAsString());
-		  mc.setText(obj.get("text").getAsString());
+		  mc.setCmc(obj.get(CMC).getAsInt());
+		  mc.setRarity(EnumRarity.rarityByName(obj.get(RARITY).getAsString()));
+		  mc.setFlavor(obj.get(FLAVOR).getAsString());
+		  mc.setText(obj.get(TEXT).getAsString());
 		  
-		  obj.get("types").getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
+		  obj.get(TYPES).getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
 		  
-		  if( obj.get("supertypes")!=null)
-			  obj.get("supertypes").getAsJsonArray().forEach(je->mc.getSupertypes().add(je.getAsString()));
+		  if( obj.get(SUPERTYPES)!=null)
+			  obj.get(SUPERTYPES).getAsJsonArray().forEach(je->mc.getSupertypes().add(je.getAsString()));
 		  
-		  if( obj.get("subtypes")!=null)
-			  obj.get("subtypes").getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
+		  if( obj.get(SUBTYPES)!=null)
+			  obj.get(SUBTYPES).getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
 		  
 		  mc.setLayout(EnumLayout.NORMAL);
 		  mc.setFrameVersion("2015");
@@ -204,19 +216,19 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		  mc.getEditions().add(set);
 		  
 		  
-		  if(obj.get("power")!=null && !obj.get("power").isJsonNull()) {
-			  mc.setPower(obj.get("power").getAsString());
+		  if(obj.get(POWER)!=null && !obj.get(POWER).isJsonNull()) {
+			  mc.setPower(obj.get(POWER).getAsString());
 		  }
 		 
-		  if(obj.get("toughness")!=null && !obj.get("toughness").isJsonNull()) 
-			  mc.setToughness(obj.get("toughness").getAsString());
+		  if(obj.get(TOUGHNESS)!=null && !obj.get(TOUGHNESS).isJsonNull()) 
+			  mc.setToughness(obj.get(TOUGHNESS).getAsString());
 		 
 		  
 		
 		  
 		  
-		  if(obj.get("loyalty")!=null && !obj.get("loyalty").isJsonNull()) {
-			  mc.setLoyalty(obj.get("loyalty").getAsInt());
+		  if(obj.get(LOYALTY)!=null && !obj.get(LOYALTY).isJsonNull()) {
+			  mc.setLoyalty(obj.get(LOYALTY).getAsInt());
 		  }
 		}
 		catch(Exception e)

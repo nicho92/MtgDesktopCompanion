@@ -56,7 +56,7 @@ public class MistralAI extends AbstractIA {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 			var map = super.getDefaultAttributes();
 			
-			map.put("MODEL", new MTGProperty(MistralAiChatModelName.MISTRAL_SMALL_LATEST.name(),"choose langage model",Arrays.stream(MistralAiChatModelName.values()).map(e->e.name()).toList().toArray(new String[0])));
+			map.put("MODEL", new MTGProperty(MistralAiChatModelName.MISTRAL_SMALL_LATEST.name(),"choose langage model",Arrays.stream(MistralAiChatModelName.values()).map(Enum::name).toList().toArray(new String[0])));
 			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0.7", "You can think of temperature like randomness, with low value is being least random (or most deterministic) and max being most random (least deterministic)", 0, 2));
 			map.put("MAX_TOKEN", MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
 			map.put("LOG", MTGProperty.newBooleanProperty(FALSE, "enable chat model logger"));

@@ -49,7 +49,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 
 		  if(!cache.exists() || cache.length()==0)
 		  {
-			  logger.info("Init "+getName());
+			  logger.info("Init {} ",getName());
 			  var build = new StringBuilder();
 			  var count =0;
 			  for(var mc : getEnabledPlugin(MTGCardsIndexer.class).listCards())
