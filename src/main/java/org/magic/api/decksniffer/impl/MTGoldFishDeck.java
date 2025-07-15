@@ -73,7 +73,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 							deck.getSideBoard().put(mc, entry.getValue());
 						
 						notify(mc);
-					}catch(Exception e)
+					}catch(Exception _)
 					{
 						logger.error("error getting card for {}",line);
 					}

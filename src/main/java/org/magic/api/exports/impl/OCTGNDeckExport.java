@@ -42,10 +42,10 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		var temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("' standalone='yes'?>");
-		temp.append("<deck game='" + getString("MAGIC_GAME_ID") + "' sleeveid='" + getString("SLEEVE_ID") + "' >");
-		temp.append("<section name='Main' shared='" + getString(SHARED) + "'>");
+		temp.append("<deck game='").append(getString("MAGIC_GAME_ID")).append("' sleeveid='").append(getString("SLEEVE_ID")).append("' >");
+		temp.append("<section name='Main' shared='").append(getString(SHARED)).append("'>");
 		for (MTGCard mc : deck.getMain().keySet()) {
-			temp.append("<card qty='").append(deck.getMain().get(mc)).append("' id='" + mc.getScryfallId() + "'>")
+			temp.append("<card qty='").append(deck.getMain().get(mc)).append("' id='").append(mc.getScryfallId()).append("'>")
 					.append(mc.getName()).append("</card>");
 
 			notify(mc);
@@ -53,13 +53,13 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		temp.append("</section>");
 		temp.append("<section name='Sideboard' shared='" + getString(SHARED) + "'>");
 		for (MTGCard mc : deck.getSideBoard().keySet()) {
-			temp.append("<card qty='").append(deck.getSideBoard().get(mc)).append("' id='" + mc.getScryfallId() + "'>")
+			temp.append("<card qty='").append(deck.getSideBoard().get(mc)).append("' id='").append(mc.getScryfallId()).append("'>")
 					.append(mc.getName()).append("</card>");
 			notify(mc);
 		}
 		temp.append("</section>");
 
-		temp.append("<notes><![CDATA[" + deck.getDescription() + "]]></notes>");
+		temp.append("<notes><![CDATA[").append(deck.getDescription()).append("]]></notes>");
 
 		temp.append("</deck>");
 

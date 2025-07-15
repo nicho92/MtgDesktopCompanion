@@ -51,14 +51,14 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		temp.append("<zone name='main'>");
 		for (MTGCard mc : deck.getMain().keySet()) {
 			temp.append("<card number='").append(deck.getMain().get(mc))
-					.append("' price='" + 0 + "' name=\"").append(mc.getName()).append("\"/>");
+					.append("' price='0' name=\"").append(mc.getName()).append("\"/>");
 			notify(mc);
 		}
 		temp.append(endZoneTag);
 		temp.append("<zone name='side'>");
 		for (MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append("<card number='").append(deck.getSideBoard().get(mc))
-					.append("' price='" + 0 + "' name=\"").append(mc.getName()).append("\"/>");
+					.append("' price='0' name=\"").append(mc.getName()).append("\"/>");
 			notify(mc);
 		}
 		temp.append(endZoneTag);
