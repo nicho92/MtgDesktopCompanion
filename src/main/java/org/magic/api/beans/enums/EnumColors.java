@@ -25,7 +25,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 
 	UNCOLOR ("C",Color.GRAY,0),
 	GOLD ("",new Color(232,232,0),6),
-	SNOW ("S",new Color(232,232,0),6);
+	SNOW ("S",new Color(224,224,224),7);
 	
 	
 	private String code;

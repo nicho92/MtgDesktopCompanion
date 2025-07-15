@@ -136,7 +136,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(!mc.getTypes().isEmpty())
 			build.addParameter("type", String.join(" ", mc.getTypes()));
 
-		if(!mc.getSubtypes().isEmpty())
+		if(!mc.getSubtypes().isEmpty() && !mc.isSaga())
 			build.addParameter("sub-type", String.join(" ", mc.getSubtypes()));
 
 		build.addParameter("text-size", mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SIZE,"30"));
@@ -223,8 +223,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			{
 				build.addParameter("rules-text", mc.getText());
 			}
-				
-				
 		}
 
 		
@@ -254,19 +252,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			build.addParameter(CARD_ACCENT, "C");
 		}
 
-		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.INDICATOR)!=null && mc.getCustomMetadata().get(EnumExtraCardMetaData.INDICATOR).equalsIgnoreCase(TRUE))
-		{
-			try {
-			if(mc.getColors().size()==1)
-				build.addParameter("color-indicator",mc.getColors().get(0).getCode());
-			else
-				build.addParameter("color-indicator", mc.getColors().get(0).getCode()+mc.getColors().get(1).getCode());
-			}
-			catch(Exception e)
-			{
-				logger.error(e);
-			}
-		}
+		if(mc.isLand())
+			build.addParameter("land-overlay", mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"C"));
 		
 		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 

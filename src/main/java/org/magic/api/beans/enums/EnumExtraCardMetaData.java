@@ -5,7 +5,6 @@ public enum EnumExtraCardMetaData {
 	PLUGIN_NAME,
 	ACCENT,
 	CENTER ,
-	INDICATOR,
 	SIZE ,
 	FOIL,
 	ZOOM,

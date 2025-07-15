@@ -20,6 +20,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -86,7 +87,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField txtSubTypes;
 	private JCheckableListBox<String> cboSubtypes;
 	private JSpinner spinner;
-	private JCheckBox chkColorIndicator;
 	private JButton btnImage;
 	private JButton btnUrl;
 	private JButton btnWallpaper;
@@ -95,6 +95,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JSlider sldX;
 	private JSlider sldY;
 	private JCheckBox chkWhiteText;
+	private JComboBox<String> cboColorAccent;
 
 	@Override
 	public String getTitle() {
@@ -418,9 +419,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		imagePanel = new CropImagePanel();
 		imagePanel.setBorder(new LineBorder(Color.BLACK));
 		add(imagePanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 12,null,4));
-
-		chkColorIndicator = new JCheckBox("");
-		add(chkColorIndicator, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 12));
+		
+		
+		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"","C", "A", "W", "WU", "WB", "U", "UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
+		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 12));
 		
 		
 		
@@ -578,8 +580,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		
 		spinner.setValue(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)):30);
 		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.FOIL)));
-		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.INDICATOR)));
-		
+		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)!=null?magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT):"");
 		chkWhiteText.setSelected(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR)!=null && magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR).equals("#ffffff"));
 		
 		
@@ -590,15 +591,14 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		
 		spinner.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SIZE, spinner.getValue().toString() ));
 		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.FOIL, String.valueOf(chkFoil.isSelected()) ));
-		chkColorIndicator.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
+		cboColorAccent.addItemListener(_-> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
 		sldZoom.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ZOOM, String.valueOf(sldZoom.getValue()) ));
 		sldX.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.X, String.valueOf(sldX.getValue()) ));
 		sldY.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.Y, String.valueOf(sldY.getValue()) ));
 		chkWhiteText.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.TEXT_COLOR, chkWhiteText.isSelected()?"#ffffff":"#000000"));
 		
-		//
+		
 		var bindingGroup = new BindingGroup();
-		//
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding3);
