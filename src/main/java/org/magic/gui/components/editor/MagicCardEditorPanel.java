@@ -96,6 +96,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JSlider sldY;
 	private JCheckBox chkWhiteText;
 	private JComboBox<String> cboColorAccent;
+	private JCheckBox chkMatureContent;
 
 	@Override
 	public String getTitle() {
@@ -341,7 +342,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 		numberJTextField = new JTextField();
 		add(numberJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
-
+		
+		chkMatureContent = new JCheckBox("Mature Content");
+		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
+		
 
 		chkFoil = new JCheckBox();
 		add(chkFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
@@ -571,7 +575,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
 		autoBinding20.bind();
-			
+		
 		BeanProperty<MTGCard, String> numberProperty = BeanProperty.create("number");
 		BeanProperty<JTextField, String> numberTxtProperty = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding22 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, numberTxtProperty);
@@ -582,7 +586,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.FOIL)));
 		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)!=null?magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT):"");
 		chkWhiteText.setSelected(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR)!=null && magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR).equals("#ffffff"));
-		
+		chkMatureContent.setSelected(magicCard.isHasContentWarning());
 		
 		
 		if(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)!=null)
@@ -596,7 +600,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		sldX.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.X, String.valueOf(sldX.getValue()) ));
 		sldY.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.Y, String.valueOf(sldY.getValue()) ));
 		chkWhiteText.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.TEXT_COLOR, chkWhiteText.isSelected()?"#ffffff":"#000000"));
-		
+		chkMatureContent.addItemListener(_->magicCard.setHasContentWarning(chkMatureContent.isSelected()));
 		
 		var bindingGroup = new BindingGroup();
 		bindingGroup.addBinding(autoBinding);
