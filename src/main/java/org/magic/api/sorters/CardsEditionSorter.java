@@ -21,7 +21,7 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 
 		boolean o1NullNumber=StringUtils.isEmpty(o1.getNumber());
 		boolean o2NullNumber=StringUtils.isEmpty(o2.getNumber());
-
+		
 		if (!o1NullNumber && !o2NullNumber && (o1.getEdition().equals(o2.getEdition()))) {
 			int n1 = calculate(o1.getNumber());
 			int n2 = calculate(o2.getNumber());
@@ -56,24 +56,24 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 	}
 
 	private int calculate(String s) {
-		String num = s.replaceAll("\\D", "");
+		var num = s.replaceAll("\\D", "");
 		return num.isEmpty() ? 0 : Integer.parseInt(num);
 	}
 
 	private int land(MTGCard mc) {
 		if (mc.getName().equalsIgnoreCase("Plains"))
-			return 8;
-
-		if (mc.getName().equalsIgnoreCase("Island"))
 			return 9;
 
-		if (mc.getName().equalsIgnoreCase("Swamp"))
+		if (mc.getName().equalsIgnoreCase("Island"))
 			return 10;
 
-		if (mc.getName().equalsIgnoreCase("Mountain"))
+		if (mc.getName().equalsIgnoreCase("Swamp"))
 			return 11;
 
-		return 12; // return 12 for forest
+		if (mc.getName().equalsIgnoreCase("Mountain"))
+			return 12;
+
+		return 13; // return 12 for forest
 	}
 
 	private int name(MTGCard o1, MTGCard o2) {
@@ -87,12 +87,12 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 		{
 
 			if (mc.isArtifact()) {
-				return 6;
+				return 7;
 			} else if (mc.isLand()) {
 				if (mc.isBasicLand()) {
 					return land(mc); // basic land order
 				} else {
-					return 7; // advanced land
+					return 8; // advanced land
 				}
 			} else if (mc.getLayout()!=EnumLayout.NORMAL) {
 				return 99;
