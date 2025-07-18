@@ -71,7 +71,7 @@ public class MTGWallpaper implements Comparable<MTGWallpaper> {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
 	}
 
 	public String getFormat() {
