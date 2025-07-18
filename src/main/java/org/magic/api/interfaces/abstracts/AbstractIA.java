@@ -125,8 +125,9 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			        		        		.addIntegerProperty(QUANTITY)
 			        		        		.build()).build())
 			        		        .addStringProperty("description")
+			        		        .required("description","mainboard")
 			                .build())
-		                .build())
+			           .build())
 		        .build();
 	}
 
@@ -228,10 +229,6 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		 
 		  if(obj.get(TOUGHNESS)!=null && !obj.get(TOUGHNESS).isJsonNull()) 
 			  mc.setToughness(obj.get(TOUGHNESS).getAsString());
-		 
-		  
-		
-		  
 		  
 		  if(obj.get(LOYALTY)!=null && !obj.get(LOYALTY).isJsonNull()) {
 			  mc.setLoyalty(obj.get(LOYALTY).getAsInt());

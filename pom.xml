@@ -63,10 +63,12 @@
 		<rhino.version>1.8.0</rhino.version>
 		<commonmark.version>0.25.0</commonmark.version>
 	</properties>
+	
+	
 	<repositories>
 		<repository>
 			<id>reposilite-repository-releases</id>
-			<name>Reposilite Repository</name>
+			<name>Panda-Lang repository</name>
 			<url>https://repo.panda-lang.org/releases</url>
 		</repository>
 	</repositories>
