@@ -73,7 +73,7 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 		if (mc.getName().equalsIgnoreCase("Mountain"))
 			return 12;
 
-		return 13; // return 12 for forest
+		return 13; // return for forest
 	}
 
 	private int name(MTGCard o1, MTGCard o2) {
@@ -82,10 +82,21 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 
 	@Override
 	public int getWeight(MTGCard mc) {
-
+			
+		
+		if(mc.isShowCase())
+			return 90;
+		else if(mc.isBorderLess())
+			return 91;
+		else if(mc.isExtendedArt())
+			return 92;
+		else if (mc.isRetro())
+			return 93;
+		
+		
+		
 		if (mc.getColors().isEmpty()) 
 		{
-
 			if (mc.isArtifact()) {
 				return 7;
 			} else if (mc.isLand()) {
