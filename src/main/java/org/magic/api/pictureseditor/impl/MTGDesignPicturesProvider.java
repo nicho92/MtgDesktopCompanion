@@ -18,6 +18,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.factories.AbilitiesFactory;
@@ -171,16 +172,13 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		build.addParameter("watermark", "0");
 		build.addParameter("set-symbol", "0");
 		
-		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.CENTER)!=null &&  mc.getCustomMetadata().get(EnumExtraCardMetaData.CENTER).equalsIgnoreCase(TRUE) )
-			build.addParameter("centered", TRUE);
+		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.CENTER,FALSE)==TRUE)
+			build.addParameter("centered", "true");
 		
-		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.FOIL)!=null &&  mc.getCustomMetadata().get(EnumExtraCardMetaData.FOIL).equalsIgnoreCase(TRUE) )
-			build.addParameter("foil",TRUE);
-		
-		if(mc.getFrameEffects().contains(EnumFrameEffects.PROMO))
-			build.addParameter("card-layout", "mgdpromo");
-		else
-			build.addParameter("card-layout", "regular");
+		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.FOIL,FALSE)==TRUE)
+				build.addParameter("foil", "true");
+				
+		build.addParameter("card-layout", getFrame(mc));
 
 
 		if(!mc.getText().isEmpty())
@@ -199,9 +197,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 					}
 					else
 					{
-						build.addParameter("pw-text"+(i+1), abs.get(i).getCost()+": "+ abs.get(i).getEffect() +'\u00a0');
+						build.addParameter("pw-text"+(i+1),  String.valueOf(abs.get(i).getCost()).replace("+", "")+": "+ abs.get(i).getEffect() +'\u00a0');
 					}
-					build.addParameter( (i==0)?"rules-text":"pw-text"+(i+1), abs.get(i).getCost()+": "+ abs.get(i).getEffect() +'\u00a0');
+					build.addParameter( (i==0)?"rules-text":"pw-text"+(i+1),  String.valueOf(abs.get(i).getCost()).replace("+", "")+": "+ abs.get(i).getEffect() +'\u00a0');
 				}
 			}
 			else if(mc.isSaga())
@@ -276,6 +274,33 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	}
 	
 	
+	private String getFrame(MTGCard mc) {
+		if(mc.getFrameEffects().contains(EnumFrameEffects.PROMO))
+			return "mgdpromo";
+		
+		
+		mc.setLayout(EnumLayout.MODAL_DFC);
+		
+		if(mc.getFrameEffects().contains(EnumFrameEffects.SUNMOONDFC))
+		{
+			if(mc.getSide().equals("a"))
+				return "transform-sun";
+			else
+				return "transform-moon";
+		}
+	
+		if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC))
+			return "transform-compass";
+
+		if(mc.getFrameEffects().contains(EnumFrameEffects.MOONELDRAZIDFC))
+			return "transform-mooneldrazi";
+		
+		
+		mc.setLayout(EnumLayout.NORMAL);
+		
+		return "regular";
+	}
+
 	private String getAccents(String code) {
 		
 		if(code.equals("WR"))
