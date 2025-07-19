@@ -172,10 +172,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		build.addParameter("watermark", "0");
 		build.addParameter("set-symbol", "0");
 		
-		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.CENTER,FALSE)==TRUE)
+		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.CENTER,FALSE).equals(TRUE))
 			build.addParameter("centered", "true");
 		
-		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.FOIL,FALSE)==TRUE)
+		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.FOIL,FALSE).equals(TRUE))
 				build.addParameter("foil", "true");
 				
 		build.addParameter("card-layout", getFrame(mc));
