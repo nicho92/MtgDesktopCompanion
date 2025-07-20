@@ -462,7 +462,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnGenerateCard.addActionListener(_->{
 			
 				var text = JOptionPane.showInputDialog("Prompt");
-				if(text.isEmpty())
+				
+				if(text==null || text.isEmpty())
 					return;
 				
 				buzyCard.start();

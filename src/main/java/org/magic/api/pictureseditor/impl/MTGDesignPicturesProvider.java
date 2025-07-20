@@ -282,12 +282,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		mc.setLayout(EnumLayout.MODAL_DFC);
 		
 		if(mc.getFrameEffects().contains(EnumFrameEffects.SUNMOONDFC))
-		{
 			if(mc.getSide().equals("a"))
 				return "transform-sun";
 			else
 				return "transform-moon";
-		}
 	
 		if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC))
 			return "transform-compass";
