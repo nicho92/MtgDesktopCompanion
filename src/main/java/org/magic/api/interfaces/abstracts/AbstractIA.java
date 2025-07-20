@@ -46,7 +46,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	
 	
 	private static final String NEW_CARD_QUERY = "generate a new magic the gathering card in json format ";
-	private static final String WITH_THIS_DESCRIPTION = " with this description  : ";
+	private static final String WITH_THIS_DESCRIPTION = " based on the theme  : ";
 	
 	private static final String NEW_SET_QUERY = "generate a new magic the gathering set of X cards in json format ";
 	private static final String NEW_DECK_QUERY = "generate a magic the gathering deck in json format ";
@@ -216,8 +216,11 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		  if( obj.get(SUBTYPES)!=null)
 			  obj.get(SUBTYPES).getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
 		  
+		// can be overriden by PictureEditor
 		  mc.setLayout(EnumLayout.NORMAL);
-		  mc.setFrameVersion("2015");
+		  mc.setFrameVersion("2015"); 
+		
+		  
 		  mc.setId(DigestUtils.sha256Hex(set.getSet()+ mc.getName()));	 
 		  mc.setEdition(set);
 		  mc.getEditions().add(set);

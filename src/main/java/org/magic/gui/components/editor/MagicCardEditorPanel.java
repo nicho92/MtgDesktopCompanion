@@ -73,7 +73,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField costJTextField;
 	private JTextField flavorJTextField;
 	private JCheckBox chkFoil;
-	private JComboBox<EnumFrameEffects> layoutJComboBox;
+	private JComboBox<EnumFrameEffects> cboFrameEffects;
+	private JComboBox<String> cboSide;
 	private JTextField loyaltyJTextField;
 	private JTextField nameJTextField;
 	private JTextField numberJTextField;
@@ -324,11 +325,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(flavorJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7,3,null));
 
 	
-		layoutJComboBox = new JComboBox<>();
+		cboFrameEffects = new JComboBox<>();
 		for(var eff : EnumFrameEffects.values())
-			layoutJComboBox.addItem(eff);
+			cboFrameEffects.addItem(eff);
 		
-		add(layoutJComboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
+		add(cboFrameEffects, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 	
 		powerJTextField = new JTextField(2);
 		toughnessJTextField = new JTextField(2);
@@ -341,7 +342,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(loyaltyJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
 
 		numberJTextField = new JTextField();
-		add(numberJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
+		cboSide = new JComboBox<>(new String[] {"a","b"});
+		
+		
+		add(UITools.createFlowPanel(numberJTextField,cboSide), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 		
 		chkMatureContent = new JCheckBox("Mature Content");
 		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
@@ -481,7 +485,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSupertypes(cboSuperType.getSelectedElements());
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
-		magicCard.setFrameEffects(List.of((EnumFrameEffects)layoutJComboBox.getSelectedItem()));
+		magicCard.setFrameEffects(List.of((EnumFrameEffects)cboFrameEffects.getSelectedItem()));
 		
 		magicCard.getCustomMetadata().put(EnumExtraCardMetaData.CROP_H, String.valueOf(imagePanel.getCroppedDimension().getHeight()));
 		magicCard.getCustomMetadata().put(EnumExtraCardMetaData.CROP_W, String.valueOf(imagePanel.getCroppedDimension().getWidth()));
@@ -513,9 +517,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			magicCard.getSubtypes().forEach(s->cboSubtypes.addElement(s, true));
 			
 			if(!magicCard.getFrameEffects().isEmpty())
-				layoutJComboBox.setSelectedItem(magicCard.getFrameEffects().get(0));
+				cboFrameEffects.setSelectedItem(magicCard.getFrameEffects().get(0));
 			else
-				layoutJComboBox.setSelectedItem(EnumFrameEffects.NONE);
+				cboFrameEffects.setSelectedItem(EnumFrameEffects.NONE);
 		}
 
 	}
@@ -555,6 +559,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		BeanProperty<JComboBox<EnumRarity>, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
 		AutoBinding<MTGCard, Object, JComboBox<EnumRarity>, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
 		autoBinding14.bind();
+		//
+		BeanProperty<MTGCard, String> sideProperty = BeanProperty.create("side");
+		BeanProperty<JComboBox<String>, String> selectedSideProperty = BeanProperty.create("selectedItem");
+		AutoBinding<MTGCard, String, JComboBox<String>, String> autoBinding15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, sideProperty, cboSide, selectedSideProperty);
+		autoBinding15.bind();
 		//
 		BeanProperty<MTGCard, String> textProperty8 = BeanProperty.create("text");
 		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
@@ -609,6 +618,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding13);
 		bindingGroup.addBinding(autoBinding14);
+		bindingGroup.addBinding(autoBinding15);
 		bindingGroup.addBinding(autoBinding16);
 		bindingGroup.addBinding(autoBinding17);
 		bindingGroup.addBinding(autoBinding19);
