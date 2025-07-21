@@ -329,7 +329,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 	
 		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());
-		
 		add(cboFrameEffects, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 	
 		powerJTextField = new JTextField(2);

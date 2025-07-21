@@ -246,12 +246,13 @@ public class CardBuilder2GUI extends MTGUIComponent {
 							
 								List<MTGCard> cards = provider.searchCardByEdition(ed);
 								ed.setCardCount(cards.size());
-								ed.setCardCountOfficial(cards.size());
-
+								ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
+								ed.setCardCountPhysical(ed.getCardCountOfficial());
 								cards.forEach(mc->{
 									mc.getEditions().clear();
 									try {
 										mc.getEditions().add(BeanTools.cloneBean(ed));
+										mc.setEdition(mc.getEditions().get(0));
 										mc.setNumber(null);
 									} catch (Exception e) {
 										logger.error(e);
