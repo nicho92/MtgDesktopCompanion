@@ -549,6 +549,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			panelPictures.setImg(new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB));
 		}
 		

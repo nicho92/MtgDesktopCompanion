@@ -8,7 +8,7 @@ import org.magic.api.beans.MTGEdition;
 
 public interface MTGPictureEditor extends MTGPlugin {
 
-	enum MOD { LOCAL,URI,FILE}
+	enum MOD { URI,FILE}
 
 	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException;
 	public MOD getMode();

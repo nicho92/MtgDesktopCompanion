@@ -3,7 +3,6 @@ package org.magic.gui.components.editor;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -34,7 +33,6 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 
 import org.japura.gui.model.DefaultListCheckModel;
@@ -48,10 +46,8 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
-import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
@@ -96,7 +92,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JCheckBox chkFoil;
 	
 	private JComboBox<String> cboColorAccent;
-	private JComboBox<MTGCard> cboRotatedcard;
 	private JComboBox<EnumFrameEffects> cboFrameEffects;
 	private JComboBox<String> cboSide;
 	private JComboBox<EnumRarity> cboRarity;
@@ -124,7 +119,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
 
 		add(new JLangLabel("NAME",true), UITools.createGridBagConstraints(null, null, 0, 0));
@@ -140,6 +135,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(new JLangLabel("CARD_LOYALTY",true), UITools.createGridBagConstraints(null, null, 2, 9));
 		add(new JLangLabel("CARD_NUMBER",true), UITools.createGridBagConstraints(null, null, 0, 10));
 		add(new JLangLabel("FOIL",true), UITools.createGridBagConstraints(null, null, 2, 10));
+		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, null, 0, 12));
 		add(new JLangLabel("COLOR_INDICATOR",true), UITools.createGridBagConstraints(null, null, 2, 12));
 		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, null, 2, 14));
 		add(new JLangLabel("TEXT_SIZE",true), UITools.createGridBagConstraints(null, null, 2, 11));
@@ -216,7 +212,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					for (var i = 0; i < cboG.getSelectedIndex(); i++) {
 						cost.append(EnumColors.GREEN.toManaCode());
 						cmc += 1;
-						colors.add(EnumColors.GREEN);
+						colors.add(EnumColors.GREEN);  
 					}
 
 					for (var i = 0; i < cboS.getSelectedIndex(); i++) {
@@ -332,9 +328,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(flavorJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7,3,null));
 
 	
-		cboFrameEffects = new JComboBox<>();
-		for(var eff : EnumFrameEffects.values())
-			cboFrameEffects.addItem(eff);
+		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());
 		
 		add(cboFrameEffects, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 	
@@ -349,37 +343,25 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(loyaltyJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
 
 		numberJTextField = new JTextField();
-		cboSide = new JComboBox<>(new String[] {"a","b"});
-		cboRotatedcard = new JComboBox<MTGCard>();
-		
-		add(UITools.createFlowPanel(numberJTextField,cboSide,cboRotatedcard), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
+		cboSide = UITools.createCombobox((new String[] {"a","b"}));
+		add(UITools.createFlowPanel(numberJTextField,cboSide), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 		
 		chkMatureContent = new JCheckBox("Mature Content");
 		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
-		
 
 		chkFoil = new JCheckBox();
 		add(chkFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
 
-		spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(32, 18, 38, 1));
+		spinner = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
 		add(spinner, UITools.createGridBagConstraints(null, null, 3, 11));
 
-		var panelImageButtons = new JPanel();
-		add(panelImageButtons, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 12,null,4));
+		btnUrl = new JButton("URL");
+		btnImage = new JButton("Local File");
+		btnWallpaper = new JButton("WallPaper");
 		
+		add(UITools.createFlowPanel(btnUrl,btnImage,btnWallpaper), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 12));
 		
-		
-		var gblpanelImageButtons = new GridBagLayout();
-		gblpanelImageButtons.columnWidths = new int[]{63, 0};
-		gblpanelImageButtons.rowHeights = new int[]{23, 0, 0};
-		gblpanelImageButtons.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gblpanelImageButtons.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panelImageButtons.setLayout(gblpanelImageButtons);
-
-		btnImage = new JButton("Image");
 		btnImage.addActionListener(_ -> {
-
 			var choose = new JFileChooser();
 			choose.showOpenDialog(null);
 			var pics = choose.getSelectedFile();
@@ -387,16 +369,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				magicCard.setUrl(pics.getAbsolutePath());
 			}
 		});
-		panelImageButtons.add(btnImage,  UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 0));
-
-		btnUrl = new JButton("URL");
-		panelImageButtons.add(btnUrl, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 1));
+		
 		btnUrl.addActionListener(_->{
-					magicCard.setUrl(JOptionPane.showInputDialog("URL"));
+			magicCard.setUrl(JOptionPane.showInputDialog("URL"));
 		});
 		
-		btnWallpaper = new JButton("WallPaper");
-		panelImageButtons.add(btnWallpaper, UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 0, 2));
 		btnWallpaper.addActionListener(_->{
 		
 					var wallChooser = new WallPaperChooseDialog();
@@ -420,7 +397,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 						{
 							magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());	
 						}
-						
 						magicCard.setArtist(wallChooser.getSelectedItem().getAuthor());
 						artistJTextField.setText(wallChooser.getSelectedItem().getAuthor());
 					}
@@ -430,8 +406,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"","C", "A", "W", "WU", "WB", "U", "UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
 		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 12));
 		
-		
-		
 		sldZoom = new JSlider(100,400);
 		sldX = new JSlider(-300,300);
 		sldY = new JSlider(-300,300);
@@ -439,15 +413,15 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		sldZoom.setValue(100);
 		sldX.setValue(0);
 		sldY.setValue(0);
-		chkWhiteText = new JCheckBox();
+		chkWhiteText = new JCheckBox("White text");
 		var pan = new JPanel();
 		pan.setLayout(new GridLayout(4, 1));
 		
-		pan.add(UITools.createFlowPanel(new JLabel("White text :"),chkWhiteText));
+		pan.add(chkWhiteText);
 		pan.add(UITools.createFlowPanel(new JLabel("Z:"), sldZoom));
 		pan.add(UITools.createFlowPanel(new JLabel("X:"), sldX));
 		pan.add(UITools.createFlowPanel(new JLabel("Y:"), sldY));
-		
+	
 		add(pan,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 14));
 		
 		
@@ -516,11 +490,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		sldY.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.Y, String.valueOf(sldY.getValue()) ));
 		chkWhiteText.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.TEXT_COLOR, chkWhiteText.isSelected()?"#ffffff":"#000000"));
 		chkMatureContent.addItemListener(_->magicCard.setHasContentWarning(chkMatureContent.isSelected()));
-		
-		cboFrameEffects.addItemListener(_->initRotatedCards());
-		cboSide.addItemListener(_->initRotatedCards());
-		
-		
 		
 		BeanProperty<MTGCard, String> artistProperty = BeanProperty.create("artist");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
@@ -597,22 +566,4 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				bindingGroup.addBinding(autoBinding20);
 		return bindingGroup;
 	}
-
-
-	private void initRotatedCards() {
-		cboRotatedcard.setVisible(cboFrameEffects.getSelectedItem().toString().contains("DFC"));
-		cboRotatedcard.removeAllItems();
-		try {
-			MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class).searchCardByEdition(magicCard.getEdition()).stream().filter(mc->mc.getSide().equals(cboSide.getSelectedItem().equals("a")?"b":"a")).forEach(cboRotatedcard::addItem);
-		} catch (IOException e) {
-			logger.error(e);
-		}
-		
-	
-		
-		
-	}
-
-
-
 }

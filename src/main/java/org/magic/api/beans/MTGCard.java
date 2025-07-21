@@ -212,6 +212,10 @@ public class MTGCard extends AbstractProduct {
 	
 	public void setNumber(String number) {
 		this.number = number;
+		
+		if(getRotatedCard()!=null)
+			getRotatedCard().setNumber(number);
+		
 	}
 	
 

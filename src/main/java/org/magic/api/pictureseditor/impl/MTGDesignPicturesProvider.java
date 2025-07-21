@@ -253,6 +253,13 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(mc.isLand())
 			build.addParameter("land-overlay", mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"C"));
 		
+		if(mc.getCost().isEmpty() && mc.getSide().equals("b"))
+		{
+			build.addParameter(CARD_TEMPLATE, mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"C"));
+			build.addParameter(CARD_ACCENT, mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"C"));
+		}
+		
+		
 		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 
 		build.addParameter("edit", FALSE);
