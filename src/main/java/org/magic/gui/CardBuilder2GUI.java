@@ -4,9 +4,7 @@ import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -36,7 +34,6 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.api.interfaces.MTGPictureEditor;
-import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
@@ -44,6 +41,7 @@ import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.ImagePanel2;
 import org.magic.gui.components.card.MagicEditionDetailPanel;
 import org.magic.gui.components.dialog.importer.CardImporterDialog;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
@@ -67,8 +65,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private MagicCardEditorPanel magicCardEditorPanel;
 	private MagicEditionsTableModel editionModel;
 	private JComboBox<MTGEdition> cboSets;
-	private transient Image cardImage;
-	private JPanel panelPictures;
+	private ImagePanel2 panelPictures;
 	private JXTable cardsTable;
 	private MagicCardTableModel cardsModel;
 	private ObjectViewerPanel jsonPanel;
@@ -142,28 +139,15 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			picturesProvider = new PersonalSetPicturesProvider();
 			cardsModel = new MagicCardTableModel();
 			jsonPanel = new ObjectViewerPanel();
-			jsonPanel.setMaximumSize(new Dimension(400, 10));
+			jsonPanel.setMaximumSize(new Dimension(500, 10));
 			editionsTable = UITools.createNewTable(editionModel,false);
 			cardsTable = UITools.createNewTable(cardsModel,false);
 			tabbedPane = new JTabbedPane(SwingConstants.TOP);
 			cboSets = new JComboBox<>();
 			magicCardEditorPanel = new MagicCardEditorPanel();
 			magicEditionDetailPanel = new MagicEditionDetailPanel();
-
-			
-			panelPictures = new JPanel() {
-				private static final long serialVersionUID = 1L;
-				@Override
-				protected void paintComponent(Graphics g) {
-					super.paintComponent(g);
-					g.drawImage(cardImage, 0, 0, null);
-
-					if (magicCardEditorPanel.getImagePanel().getCroppedImage() != null && getEnabledPlugin(MTGPictureEditor.class).getMode()==MOD.LOCAL)
-						g.drawImage(magicCardEditorPanel.getImagePanel().getCroppedImage(), 35, 68, 329, 242, null);
-
-					revalidate();
-				}
-			};
+			panelPictures = new ImagePanel2(true, true,true,false);
+			panelPictures.setPreferredSize(new Dimension(500, 10));
 
 			/// LAYOUT CONFIGURATION
 			setLayout(new BorderLayout(0, 0));
@@ -239,9 +223,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		
 			cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 			
-			panelPictures.setBackground(Color.WHITE);
-			panelPictures.setPreferredSize(new Dimension(400, 10));
-
+	
 			cardsModel.setDefaultHiddenComlumns(1,7,8,9,10,11,12,13,14,15,16);
 			UITools.initTableVisibility(cardsTable, cardsModel);
 			
@@ -409,7 +391,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				} catch (IOException e1) {
 					MTGControler.getInstance().notify(e1);
 				}
-				
 			});
 
 			btnRemoveEdition.addActionListener(_ -> {
@@ -498,11 +479,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	
 				try {
 					provider.addCard(me, mc);
-					var bi = new BufferedImage(panelPictures.getSize().width, 560,BufferedImage.TYPE_INT_ARGB);
-					var g = bi.createGraphics();
-					panelPictures.paint(g);
-					g.dispose();
-					picturesProvider.savePicture(bi, mc, me);
+					picturesProvider.savePicture(panelPictures.getFront(), mc, me);
 				} catch (IOException ex) {
 					MTGControler.getInstance().notify(ex);
 				}
@@ -527,11 +504,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				BufferedImage img;
 				try {
 					img = get();
-					if(img!=null){
-						cardImage = ImageTools.scaleResize(img,panelPictures.getWidth());
-					}
-					panelPictures.revalidate();
-					panelPictures.repaint();
+					loadPicture(img);
 					jsonPanel.init(magicCardEditorPanel.getMagicCard());
 					
 				} catch (InterruptedException _) {
@@ -561,7 +534,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		
 			@Override
 			protected void notifyEnd () {
-					cardImage = getResult();
+					loadPicture(getResult());
 					panelPictures.repaint();
 			}
 			
@@ -569,6 +542,18 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		
 	}
 
+
+	private void loadPicture(BufferedImage img) {
+		try {
+			panelPictures.setImg(img,ImageTools.resize(picturesProvider.getBackPicture(magicCardEditorPanel.getMagicCard()), img.getHeight(),img.getWidth()));
+		}
+		catch(Exception e)
+		{
+			panelPictures.setImg(new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB));
+		}
+		
+	}
+	
 	protected void initEdition(MTGEdition ed) {
 		magicEditionDetailPanel.init(ed);
 	}

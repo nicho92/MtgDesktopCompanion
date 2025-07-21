@@ -105,14 +105,13 @@ public class ImagePanel2 extends JXPanel {
 				}
 			});
 	}
-	
-	
-	public void setImg(BufferedImage img)
+
+	public void setImg(BufferedImage img, BufferedImage imgBack)
     {
 			if(img==null)
 				return;
 
-	   		back=img;
+	   		back=imgBack;
 	   		front=img;
 	   		print=img;
 
@@ -123,6 +122,21 @@ public class ImagePanel2 extends JXPanel {
 			}
 
 	   		repaint();
+    }
+	
+	
+	public BufferedImage getFront() {
+		return front;
+	}
+	
+	public BufferedImage getPrint() {
+		return print;
+	}
+	
+	
+	public void setImg(BufferedImage img)
+    {
+		setImg(img,img);
     }
 	
 	

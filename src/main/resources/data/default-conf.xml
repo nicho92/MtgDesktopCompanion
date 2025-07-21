@@ -103,10 +103,6 @@
   </textGenerators>
   <editors>
     <editor>
-      <class>org.magic.api.pictureseditor.impl.MTGCardMakerPicturesProvider</class>
-      <enable>false</enable>
-    </editor>
-    <editor>
       <class>org.magic.api.pictureseditor.impl.MTGDesignPicturesProvider</class>
       <enable>true</enable>
     </editor>
