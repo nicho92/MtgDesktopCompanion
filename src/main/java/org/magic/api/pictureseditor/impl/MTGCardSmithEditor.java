@@ -29,6 +29,7 @@ import com.google.gson.JsonObject;
 
 public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 
+	private static final String BLACK_COLOR = "#000000";
 	private static final String BASE_URL = "https://mtgcardsmith.com";
 	private static final String BASE_URL_DEVM = "https://devm.mtgcardsmith.com";
 	
@@ -91,7 +92,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("pos_bottom3_y","")
 				.addContent("frame_category","Standard Colors")
 				.addContent("name",mc.getName())
-				.addContent("title_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,"#000000"))
+				.addContent("title_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,BLACK_COLOR))
 				.addContent("custom_mana",mc.getCost()!=null?mc.getCost().toLowerCase():"")
 				.addContent("watermark",mc.getWatermarks())
 				.addContent("frame_color[]",EnumColors.determine(mc.getColors()).toPrettyString().toLowerCase())
@@ -99,20 +100,20 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("pos_art_x",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.X,"0"))
 				.addContent("pos_art_y",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.Y,"0"))
 				.addContent("pos_art_s",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ZOOM,"100"))
-				.addContent("subtype_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,"#000000"))
+				.addContent("subtype_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,BLACK_COLOR))
 				.addContent("type",mc.getSupertypes().stream().collect(Collectors.joining(" ")) + " " + mc.getTypes().stream().collect(Collectors.joining(" ")))
 				.addContent("custom_type","")
 				.addContent("subtype",mc.getSubtypes().stream().collect(Collectors.joining(" ")))
 				.addContent("rarity",mc.getRarity().toPrettyString().toLowerCase())
 				.addContent("set_icon","mtgcs1")
-				.addContent("body_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,"#000000"))
+				.addContent("body_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,BLACK_COLOR))
 				.addContent("text_size",(size==18?"vsmall":size<=20?"small":size<=24?"large":"vlarge"))
 				.addContent("description", minimize(mc.getText()) + (mc.getFlavor().isEmpty()?"":"\n<i>"+mc.getFlavor()+"</i>"))
 				.addContent("power",mc.getPower())
 				.addContent("toughness",mc.getToughness())
 				.addContent("pos_pt_tx","0")
 				.addContent("pos_pt_ty","0")
-				.addContent("pt_color","#000000")
+				.addContent("pt_color",BLACK_COLOR)
 				.addContent("pos_pt_x","0")
 				.addContent("pos_pt_y","0")
 				.addContent("artist",mc.getArtist())

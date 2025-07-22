@@ -9,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -42,12 +43,16 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
+import org.magic.api.providers.impl.PrivateMTGSetProvider;
+import org.magic.api.sorters.CardNameSorter;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
@@ -95,6 +100,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JComboBox<EnumFrameEffects> cboFrameEffects;
 	private JComboBox<String> cboSide;
 	private JComboBox<EnumRarity> cboRarity;
+	private JComboBox<MTGCard> cboReversedCards;
 	private JCheckableListBox<String> cboSuperType;
 	private JCheckableListBox<String> cboTypes;
 	private JCheckableListBox<String> cboSubtypes;
@@ -329,7 +335,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 	
 		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());
-		add(cboFrameEffects, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
+		cboReversedCards = new JComboBox<>();
+		cboReversedCards.setVisible(false);
+		add(UITools.createFlowPanel(cboFrameEffects,cboReversedCards), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 	
 		powerJTextField = new JTextField(2);
 		toughnessJTextField = new JTextField(2);
@@ -352,7 +360,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(chkFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
 
 		spinner = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
-		add(spinner, UITools.createGridBagConstraints(null, null, 3, 11));
+		add(spinner, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 11));
 
 		btnUrl = new JButton("URL");
 		btnImage = new JButton("Local File");
@@ -402,6 +410,21 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		});
 		
 		
+		cboFrameEffects.addItemListener(event->{
+			if(event.getStateChange() == ItemEvent.SELECTED)
+			{
+				cboReversedCards.setVisible(cboFrameEffects.getSelectedItem().toString().contains("DFC"));
+				cboReversedCards.removeAllItems();
+				//cboReversedCards.addItem(null);
+				try {
+			MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER,MTGCardsProvider.class).searchCardByEdition(magicCard.getEdition()).stream().sorted(new CardNameSorter()).toList().forEach(cboReversedCards::addItem);
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			}
+		});
+		
+		
 		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"","C", "A", "W", "WU", "WB", "U", "UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
 		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 12));
 		
@@ -433,7 +456,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSupertypes(cboSuperType.getSelectedElements());
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
-		magicCard.setFrameEffects(List.of((EnumFrameEffects)cboFrameEffects.getSelectedItem()));
+		magicCard.setFrameEffects(List.of(cboFrameEffects.getItemAt(cboFrameEffects.getSelectedIndex())));
 		
 	
 		return magicCard;
@@ -463,6 +486,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				cboFrameEffects.setSelectedItem(magicCard.getFrameEffects().get(0));
 			else
 				cboFrameEffects.setSelectedItem(EnumFrameEffects.NONE);
+
 		}
 
 	}
