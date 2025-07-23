@@ -149,7 +149,6 @@ public class MTGCard extends AbstractProduct {
 	public boolean equals(Object obj) {
 
 		if(obj instanceof MTGCard c ) {
-		
 			if(c.getScryfallId()==null)
 				return false;
 			

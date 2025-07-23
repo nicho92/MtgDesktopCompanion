@@ -109,17 +109,21 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		
 
 		if (mc.getId() == null)
+		{
 			mc.setId(DigestUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getId() + mc.getName()));
-		
+		}
+		mc.setScryfallId(mc.getId());
 		
 		int index = indexOf(mc, cards);
-
+		
+		var joCard =serializer.toJsonElement(mc); 
+		
 		if (index > -1) 
 		{
-			cards.set(index, serializer.toJsonElement(mc));
+			cards.set(index, joCard);
 		} 
 		else {
-			cards.add(serializer.toJsonElement(mc));
+			cards.add(joCard);
 			me.setCardCount(me.getCardCount() + 1);
 			root.addProperty("cardCount", me.getCardCount());
 		}

@@ -409,15 +409,20 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					}
 		});
 		
+		cboReversedCards.addItemListener(event->{
+			if(event.getStateChange() == ItemEvent.SELECTED)
+				magicCard.setRotatedCard(cboReversedCards.getItemAt(cboReversedCards.getSelectedIndex()));
+		});
+		
 		
 		cboFrameEffects.addItemListener(event->{
 			if(event.getStateChange() == ItemEvent.SELECTED)
 			{
 				cboReversedCards.setVisible(cboFrameEffects.getSelectedItem().toString().contains("DFC"));
 				cboReversedCards.removeAllItems();
-				//cboReversedCards.addItem(null);
+				cboReversedCards.addItem(null);
 				try {
-			MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER,MTGCardsProvider.class).searchCardByEdition(magicCard.getEdition()).stream().sorted(new CardNameSorter()).toList().forEach(cboReversedCards::addItem);
+					MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER,MTGCardsProvider.class).searchCardByEdition(magicCard.getEdition()).stream().sorted(new CardNameSorter()).toList().forEach(cboReversedCards::addItem);
 				} catch (Exception e) {
 					logger.error(e);
 				}
@@ -458,7 +463,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setText(textJEditorPane.getText());
 		magicCard.setFrameEffects(List.of(cboFrameEffects.getItemAt(cboFrameEffects.getSelectedIndex())));
 		
-	
 		return magicCard;
 	}
 
@@ -476,21 +480,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			if (magicCard != null) {
 				mbindingGroup = initDataBindings();
 			}
-
-		if (magicCard != null) {
-			cboSuperType.setSelectedElements(magicCard.getSupertypes());
-			cboTypes.setSelectedElements(magicCard.getTypes());
-			magicCard.getSubtypes().forEach(s->cboSubtypes.addElement(s, true));
-				
-			if(!magicCard.getFrameEffects().isEmpty())
-				cboFrameEffects.setSelectedItem(magicCard.getFrameEffects().get(0));
-			else
-				cboFrameEffects.setSelectedItem(EnumFrameEffects.NONE);
-
-		}
-
 	}
-	
 	
 	protected BindingGroup initDataBindings() {
 			
@@ -499,7 +489,16 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)!=null?magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT):"");
 		chkWhiteText.setSelected(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR)!=null && magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR).equals("#ffffff"));
 		chkMatureContent.setSelected(magicCard.isHasContentWarning());
+		cboSuperType.setSelectedElements(magicCard.getSupertypes());
+		cboTypes.setSelectedElements(magicCard.getTypes());
+		magicCard.getSubtypes().forEach(s->cboSubtypes.addElement(s, true));
+		cboReversedCards.setSelectedItem(magicCard.getRotatedCard());	
 		
+		if(!magicCard.getFrameEffects().isEmpty())
+			cboFrameEffects.setSelectedItem(magicCard.getFrameEffects().get(0));
+		else
+			cboFrameEffects.setSelectedItem(EnumFrameEffects.NONE);
+
 		
 		if(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)!=null)
 			sldZoom.setValue(Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)));
