@@ -112,7 +112,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		{
 			mc.setId(DigestUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getId() + mc.getName()));
 		}
-		mc.setScryfallId(mc.getId());
 		
 		int index = indexOf(mc, cards);
 		

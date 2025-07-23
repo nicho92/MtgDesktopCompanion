@@ -100,6 +100,7 @@ public enum EnumPromoType implements MTGEnumeration{
 	@SerializedName(alternate = "setextension", value = "SETEXTENSION") SETEXTENSION,
 	@SerializedName(alternate = "setpromo", value = "SETPROMO") 			SETPROMO,
 	@SerializedName(alternate = "silverfoil", value = "SILVERFOIL") SILVERFOIL,
+	@SerializedName(alternate = "singularityfoil", value="SINGULARITYFOIL") SINGULARITYFOIL,
 	@SerializedName(alternate = "sldbonus", value = "SLDBONUS") SLDBONUS,
 	@SerializedName(alternate = "stamped", value = "STAMPED") STAMPED,
 	@SerializedName(alternate = "startercollection", value = "STARTERCOLLECTION") STARTERCOLLECTION,

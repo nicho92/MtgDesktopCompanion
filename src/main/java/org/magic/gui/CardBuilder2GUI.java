@@ -6,7 +6,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -479,6 +478,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				var mc = magicCardEditorPanel.getMagicCard();
 	
 				try {
+					jsonPanel.init(mc);
 					provider.addCard(me, mc);
 					picturesProvider.savePicture(panelPictures.getFront(), mc, me);
 				} catch (IOException ex) {
