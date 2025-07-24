@@ -122,22 +122,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return token;
 	}
 
-
-	public static void main(String[] args) throws IOException {
-		
-		MTGLogger.changeLevel(Level.INFO);
-		var mc = new MTGCard();
-			mc.setName("liliana of the veil");
-			
-		var set = new MTGEdition("PUMA");
-		mc.setEdition(set);
-		
-		
-		new MTGoldFishDashBoard().suggestId(mc,true);
-		
-	}
-	
-	
 	private String suggestId(MTGCard c,boolean foil) throws IOException
 	{
 		var arr = RequestBuilder.build().url(WEBSITE+"/autocomplete").setClient(client).get()

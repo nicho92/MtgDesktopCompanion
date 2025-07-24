@@ -81,11 +81,6 @@ public class PluginsAliasesProvider {
 		}
 	}
 	
-	public static void main(String[] args) {
-		PluginsAliasesProvider.inst().getReversedConditionFor(new CardTraderPricer(), "MODERATELY_PLAYED", null);
-	}
-	
-	
 
 	public EnumCondition getReversedConditionFor(MTGPlugin plug, String conditionName, EnumCondition defaultCondition)
 	{

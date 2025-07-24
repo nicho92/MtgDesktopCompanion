@@ -135,25 +135,4 @@ public class DeckTree extends JTree{
 		});
 	}
 	
-	
-	public static void main(String[] args) throws SQLException {
-		
-		MTGControler.getInstance().init();
-		
-		
-		var d = MTG.getEnabledPlugin(MTGDao.class).getDeckById(163);
-		
-		var tree = new DeckTree();
-		tree.setDeck(d);
-		tree.enableThumbnail();
-		
-		
-		MTGUIComponent.createJDialog(MTGUIComponent.build(tree, "Deck", MTGConstants.ICON_DECK),true,false).setVisible(true);
-		
-	}
-	
-	
-	
-	
-	
 }
