@@ -14,17 +14,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -43,8 +39,6 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
@@ -55,6 +49,7 @@ import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardNameSorter;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicTextPane;
+import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
@@ -155,108 +150,14 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				final var g = new JDialog();
-				g.setIconImage(MTGConstants.ICON_GAME_COLOR.getImage());
-				g.getContentPane().setLayout(new FlowLayout());
-				g.setModal(true);
-
-				var data = new String[]{ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
-				final JComboBox<String> cboW = new JComboBox<>(data);
-				final JComboBox<String> cboU = new JComboBox<>(data);
-				final JComboBox<String> cboB = new JComboBox<>(data);
-				final JComboBox<String> cboR = new JComboBox<>(data);
-				final JComboBox<String> cboG = new JComboBox<>(data);
-				final JComboBox<String> cboC = new JComboBox<>(data);
-				final JComboBox<String> cboUn = new JComboBox<>(data);
-				final JComboBox<String> cboS = new JComboBox<>(data);
-				cboUn.addItem("X");
-
-				var btn = new JButton(capitalize("SET_COST") + ":");
-				btn.addActionListener(_ -> {
-					var cost = new StringBuilder();
-					var cmc = 0;
-					Set<EnumColors> colors = new LinkedHashSet<>();
-
-					if (!cboUn.getSelectedItem().equals("X")) {
-						if (cboUn.getSelectedIndex() > 0) {
-							cost.append("{").append(cboUn.getSelectedItem()).append("}");
-							cmc += cboUn.getSelectedIndex();
-						}
-					} else {
-						cost.append("{X}");
-					}
-
-					for (var i = 0; i < cboC.getSelectedIndex(); i++) {
-						cost.append("{C}");
-						cmc += 1;
-					}
-
-					for (var i = 0; i < cboW.getSelectedIndex(); i++) {
-						cost.append(EnumColors.WHITE.toManaCode());
-						cmc += 1;
-						colors.add(EnumColors.WHITE);
-					}
-
-					for (var i = 0; i < cboU.getSelectedIndex(); i++) {
-						cost.append(EnumColors.BLUE.toManaCode());
-						cmc += 1;
-						colors.add(EnumColors.BLUE);
-					}
-
-					for (var i = 0; i < cboB.getSelectedIndex(); i++) {
-						cost.append(EnumColors.BLACK.toManaCode());
-						cmc += 1;
-						colors.add(EnumColors.BLACK);
-					}
-
-					for (var i = 0; i < cboR.getSelectedIndex(); i++) {
-						cost.append(EnumColors.RED.toManaCode());
-						cmc += 1;
-						colors.add(EnumColors.RED);
-					}
-
-					for (var i = 0; i < cboG.getSelectedIndex(); i++) {
-						cost.append(EnumColors.GREEN.toManaCode());
-						cmc += 1;
-						colors.add(EnumColors.GREEN);  
-					}
-
-					for (var i = 0; i < cboS.getSelectedIndex(); i++) {
-						cost.append(EnumColors.SNOW.toManaCode());
-						cmc += 1;
-						colors.add(EnumColors.SNOW);
-					}
-					
-					magicCard.setCmc(cmc);
-					magicCard.setColors(new ArrayList<>(colors));
-					magicCard.setColorIdentity(new ArrayList<>(colors));
-					costJTextField.setText(cost.toString());
-					g.dispose();
-				});
-
-				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-				g.getContentPane().add(cboUn);
-				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-				g.getContentPane().add(cboW);
-				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-				g.getContentPane().add(cboU);
-				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-				g.getContentPane().add(cboB);
-				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-				g.getContentPane().add(cboR);
-				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-				g.getContentPane().add(cboG);
-				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-				g.getContentPane().add(cboC);
-				g.getContentPane().add(new JLabel(new ImageIcon(IconsProvider.getInstance().getManaSymbol("S").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-				g.getContentPane().add(cboS);
-				g.getContentPane().add(btn);
-				g.setLocationRelativeTo(null);
-				g.pack();
+				var g = new ManaCostDialog();
 				g.setVisible(true);
-
+				
+				if(g.hasSelected())
+					costJTextField.setText(g.getSelectedItem());
+				else
+					costJTextField.setText("");
 			}
-
 		});
 		add(costJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 0));
 
