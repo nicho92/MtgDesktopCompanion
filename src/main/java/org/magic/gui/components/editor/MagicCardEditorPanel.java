@@ -421,8 +421,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		//
 		BeanProperty<MTGCard, String> costProperty = BeanProperty.create("cost");
 		BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, costJTextField, textProperty1);
-		autoBinding2.bind();
+		AutoBinding<MTGCard, String, JTextField, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, costJTextField, textProperty1);
+		autoBinding1.bind();
 		//
 		BeanProperty<MTGCard, String> flavorProperty = BeanProperty.create("flavor");
 		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
@@ -477,7 +477,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		
 		var bindingGroup = new BindingGroup();
 				bindingGroup.addBinding(autoBinding);
-				bindingGroup.addBinding(autoBinding2);
+				bindingGroup.addBinding(autoBinding1);
 				bindingGroup.addBinding(autoBinding3);
 				bindingGroup.addBinding(autoBinding10);
 				bindingGroup.addBinding(autoBinding13);
@@ -487,6 +487,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				bindingGroup.addBinding(autoBinding17);
 				bindingGroup.addBinding(autoBinding19);
 				bindingGroup.addBinding(autoBinding20);
+				bindingGroup.addBinding(autoBinding22);
 		return bindingGroup;
 	}
 }
