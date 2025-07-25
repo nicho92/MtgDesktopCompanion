@@ -2,7 +2,6 @@ package org.magic.gui.components.deck;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -16,13 +15,8 @@ import javax.swing.tree.TreePath;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.interfaces.MTGDao;
-import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicCardMainDetailPanel;
 import org.magic.gui.renderer.DeckTreeCellRenderer;
-import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.tools.MTG;
 
 public class DeckTree extends JTree{
 	
