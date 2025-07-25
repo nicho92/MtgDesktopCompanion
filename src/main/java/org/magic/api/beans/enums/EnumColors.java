@@ -103,7 +103,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 
 	public static EnumColors colorByCode(String s)
 	{
-		return List.of(EnumColors.values()).stream().filter(c->c.getCode().equalsIgnoreCase(s.trim())).findAny().orElse(null);
+		return List.of(EnumColors.values()).stream().filter(c->c.getCode().contains(s.trim())).findAny().orElse(null);
 	}
 	
 	public static List<EnumColors> parseByManaCost(String c)

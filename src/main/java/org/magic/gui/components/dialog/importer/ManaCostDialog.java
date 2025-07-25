@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.WrapLayout;
 import org.magic.services.providers.IconsProvider;
@@ -97,7 +98,28 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
         symbols.forEach(sym->sortedCost.append("{").append(sym).append("}"));
         
         return sortedCost.toString();
-		
 	}
+	
+	
+	public int getCmc()
+	{
+		int count =0;
+		
+		for(var s : symbols) {
+			try {
+				
+				if(!s.equalsIgnoreCase("X"))
+					count += Integer.parseInt(s);
+				
+			}catch(NumberFormatException _)
+			{
+				count +=1;
+			}
+			
+		};
+		
+		return count;
+	}
+	
 	
 }

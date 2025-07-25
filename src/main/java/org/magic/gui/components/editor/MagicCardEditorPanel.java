@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -39,6 +40,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
@@ -154,9 +156,19 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				g.setVisible(true);
 				
 				if(g.hasSelected())
+				{
 					costJTextField.setText(g.getSelectedItem());
+					magicCard.setCmc(g.getCmc());
+					magicCard.setColors(EnumColors.parseByManaCost(g.getSelectedItem()));
+					magicCard.setColorIdentity(EnumColors.parseByManaCost(g.getSelectedItem()));
+				}
 				else
+				{
+					magicCard.setColorIdentity(new ArrayList<>());
+					magicCard.setColors(new ArrayList<>());
 					costJTextField.setText("");
+					magicCard.setCmc(0);
+				}
 			}
 		});
 		add(costJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 0));
