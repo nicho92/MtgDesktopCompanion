@@ -15,7 +15,6 @@ import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGWallpaperProvider;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.ImageGalleryPanel;
 import org.magic.services.MTGControler;
@@ -25,7 +24,6 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 
 	private static final long serialVersionUID = 1L;
 	private ImageGalleryPanel 	panel ;
-	private AbstractBuzyIndicatorComponent buzy;
 	
 	public WallPaperChooseDialog() {
 		super();
@@ -35,7 +33,6 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 		getContentPane().add(text,BorderLayout.NORTH);	
 		
 		text.addActionListener(_->{
-			buzy.start();
 			var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->{
 				try {
 				return p.search(text.getText()).stream();
