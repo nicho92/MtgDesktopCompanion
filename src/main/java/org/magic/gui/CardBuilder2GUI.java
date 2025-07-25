@@ -546,7 +546,14 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	private void loadPicture(BufferedImage img) {
 		try {
-			panelPictures.setImg(img,ImageTools.resize(picturesProvider.getBackPicture(magicCardEditorPanel.getMagicCard()), img.getHeight(),img.getWidth()));
+			
+			var back = picturesProvider.getBackPicture(magicCardEditorPanel.getMagicCard());
+					
+			if(magicCardEditorPanel.getMagicCard().isDoubleFaced())
+				back = picturesProvider.getPicture(magicCardEditorPanel.getMagicCard().getRotatedCard());
+				
+			
+			panelPictures.setImg(img,ImageTools.resize(back, img.getHeight(),img.getWidth()));
 		}
 		catch(Exception e)
 		{
