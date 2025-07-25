@@ -93,7 +93,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addContent("frame_category","Standard Colors")
 				.addContent("name",mc.getName())
 				.addContent("title_color",mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.TEXT_COLOR,BLACK_COLOR))
-				.addContent("custom_mana",mc.getCost()!=null?mc.getCost().toLowerCase():"")
+				.addContent("custom_mana",getCost(mc.getCost()))
 				.addContent("watermark",mc.getWatermarks())
 				.addContent("frame_color[]",EnumColors.determine(mc.getColors()).toPrettyString().toLowerCase())
 				.addContent("special_card_color","")
@@ -172,6 +172,25 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		return URLTools.extractAsImage(BASE_URL+URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get("success").getAsString());
 	}
 	
+	private String getCost(String cost) {
+		if(cost==null)
+			return "";
+		
+		
+		if(cost.contains("/P"))
+		{
+			cost = cost.replace("C/P", "P/C")
+					.replace("W/P", "P/W")
+					.replace("U/P", "P/U")
+					.replace("B/P", "P/B")
+					.replace("R/P", "P/R")
+					.replace("G/P", "P/G")
+					;
+		}
+		return cost.toLowerCase();
+		
+	}
+
 	private String minimize(String text) {
 		if(text==null)
 			return "";

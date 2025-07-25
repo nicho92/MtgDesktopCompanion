@@ -20,7 +20,6 @@ import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.ImageGalleryPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
-import org.magic.services.tools.UITools;
 
 public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWallpaper>{
 
@@ -31,12 +30,12 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 	public WallPaperChooseDialog() {
 		super();
 		setPreferredSize(new Dimension(1024, 768));
-		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var text = new JTextField(20);
 				
-		getContentPane().add(UITools.createFlowCenterPanel(text,buzy),BorderLayout.NORTH);	
+		getContentPane().add(text,BorderLayout.NORTH);	
 		
 		text.addActionListener(_->{
+			buzy.start();
 			var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->{
 				try {
 				return p.search(text.getText()).stream();
