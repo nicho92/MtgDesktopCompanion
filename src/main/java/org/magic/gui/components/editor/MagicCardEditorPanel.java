@@ -118,7 +118,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	public MagicCardEditorPanel() {
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, Integer.MAX_VALUE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
@@ -328,6 +328,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					logger.error(e);
 				}
 			}
+			
+			if(magicCard.isDoubleFaced())
+				cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
+			
 		});
 		
 		
