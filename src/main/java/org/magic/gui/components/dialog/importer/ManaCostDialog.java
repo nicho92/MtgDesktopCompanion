@@ -1,6 +1,7 @@
 package org.magic.gui.components.dialog.importer;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,8 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
-import org.magic.api.beans.enums.EnumColors;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.WrapLayout;
 import org.magic.services.providers.IconsProvider;
@@ -58,6 +59,17 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
 				{
 						var lblMana = new JLabel(ImageTools.resize(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s)), 16,16));
 						lblMana.addMouseListener(new MouseAdapter() {
+							
+							@Override
+							public void mouseEntered(MouseEvent e) {
+								lblMana.setBorder(new LineBorder(Color.BLACK));
+							}
+							
+							public void mouseExited(MouseEvent e) {
+								lblMana.setBorder(null);
+							};
+							
+							
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								symbols.add(s);
@@ -94,7 +106,7 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
             return index >= 0 ? index : Integer.MAX_VALUE;
         }));
 
-        StringBuilder sortedCost = new StringBuilder();
+        var sortedCost = new StringBuilder();
         symbols.forEach(sym->sortedCost.append("{").append(sym).append("}"));
         
         return sortedCost.toString();

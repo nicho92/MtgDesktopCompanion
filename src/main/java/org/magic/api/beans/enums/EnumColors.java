@@ -24,8 +24,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 	@SerializedName(alternate = "Green", value = "GREEN") 	GREEN ("G",new Color(52,211,16),5),
 
 	UNCOLOR ("C",Color.GRAY,7),
-	GOLD ("",new Color(232,232,0),6),
-	SNOW ("S",new Color(224,224,224),10);
+	GOLD ("",new Color(232,232,0),6);
 	
 	
 	private String code;

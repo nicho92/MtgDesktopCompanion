@@ -58,6 +58,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
+import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -427,6 +428,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		BeanProperty<MTGCard, String> artistProperty = BeanProperty.create("artist");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, artistProperty, artistJTextField, textProperty);
+				
 		autoBinding.bind();
 		//
 		BeanProperty<MTGCard, String> costProperty = BeanProperty.create("cost");
