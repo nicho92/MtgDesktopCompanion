@@ -119,15 +119,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		return token;
 	}
-
+/*
 	private String suggestId(MTGCard c,boolean foil) throws IOException
 	{
 		var arr = RequestBuilder.build().url(WEBSITE+"/autocomplete").setClient(client).get()
 				.addContent("term",c.getName())
 				.addHeader("referer", WEBSITE)
 				.addHeader("x-requested-with", "XMLHttpRequest")
-				.addHeader(URLTools.ACCEPT,"application/json, text/javascript, */*; q=0.01")
-				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
+				.addHeader(URLTools.ACCEPT,"application/json, text/javascrip td")
 				.addHeader("priority","u=1, i")
 				.addHeader("x-csrf-token", readXcrf())
 				.toJson().getAsJsonArray();
@@ -150,7 +149,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				return "";
 	}
 	
-	
+	*/
 
 	private void parsing(HistoryPrice <?> history) throws IOException {
 		

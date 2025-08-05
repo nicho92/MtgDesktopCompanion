@@ -77,8 +77,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField powerJTextField;
 	private JTextField txtSubTypes;
 	private JTextField toughnessJTextField;
-	private JTextField watermarksJTextField;
-
 	private MagicTextPane textJEditorPane;
 	private JSpinner spinner;
 	private JButton btnImage;
@@ -134,11 +132,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(new JLangLabel("CARD_FLAVOR",true), UITools.createGridBagConstraints(null, null, 0, 7));
 		add(new JLangLabel("CARD_LAYOUT",true), UITools.createGridBagConstraints(null, null, 0, 8));
 		add(new JLabel(capitalize("CARD_POWER") + "/" + capitalize("CARD_TOUGHNESS") + ":"), UITools.createGridBagConstraints(null, null, 2, 8));		
-		add(new JLangLabel("CARD_WATERMARK",true), UITools.createGridBagConstraints(null, null, 0, 9));
 		add(new JLangLabel("CARD_LOYALTY",true), UITools.createGridBagConstraints(null, null, 2, 9));
-		add(new JLangLabel("CARD_NUMBER",true), UITools.createGridBagConstraints(null, null, 0, 10));
+		add(new JLangLabel("CARD_NUMBER",true), UITools.createGridBagConstraints(null, null, 0, 9));
 		add(new JLangLabel("FOIL",true), UITools.createGridBagConstraints(null, null, 2, 10));
-		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, null, 0, 12));
+		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, null, 0, 11));
 		add(new JLangLabel("COLOR_INDICATOR",true), UITools.createGridBagConstraints(null, null, 2, 12));
 		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, null, 2, 14));
 		add(new JLangLabel("TEXT_SIZE",true), UITools.createGridBagConstraints(null, null, 2, 11));
@@ -255,19 +252,16 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		powerJTextField = new JTextField(2);
 		toughnessJTextField = new JTextField(2);
 		add(UITools.createFlowPanel(powerJTextField,new JLabel("/"),toughnessJTextField), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 8));
-		
-		watermarksJTextField = new JTextField();
-		add(watermarksJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
-
+	
 		loyaltyJTextField = new JTextField();
 		add(loyaltyJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
 
 		numberJTextField = new JTextField();
 		cboSide = UITools.createCombobox((new String[] {"a","b"}));
-		add(UITools.createFlowPanel(numberJTextField,cboSide), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
+		add(UITools.createFlowPanel(numberJTextField,cboSide), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 		
 		chkMatureContent = new JCheckBox("Mature Content");
-		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
+		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 
 		chkFoil = new JCheckBox();
 		add(chkFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
@@ -279,7 +273,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		btnImage = new JButton("Local File");
 		btnWallpaper = new JButton("WallPaper");
 		
-		add(UITools.createFlowPanel(btnUrl,btnImage,btnWallpaper), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 12));
+		add(UITools.createFlowPanel(btnUrl,btnImage,btnWallpaper), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
 		
 		btnImage.addActionListener(_ -> {
 			var choose = new JFileChooser();
@@ -474,12 +468,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		BeanProperty<JTextField, Object> valueProperty5 = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, Object> autoBinding17 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, valueProperty5);
 		autoBinding17.bind();
-		//
-		BeanProperty<MTGCard, String> watermarksProperty = BeanProperty.create("watermarks");
-		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding19 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty10);
-		autoBinding19.bind();
-
+	
 		BeanProperty<MTGCard, String> loyaltyProperty = BeanProperty.create("loyalty");
 		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
@@ -501,7 +490,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				bindingGroup.addBinding(autoBinding15);
 				bindingGroup.addBinding(autoBinding16);
 				bindingGroup.addBinding(autoBinding17);
-				bindingGroup.addBinding(autoBinding19);
 				bindingGroup.addBinding(autoBinding20);
 				bindingGroup.addBinding(autoBinding22);
 
