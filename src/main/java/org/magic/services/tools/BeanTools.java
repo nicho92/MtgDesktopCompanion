@@ -6,16 +6,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import javax.swing.JTextField;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;

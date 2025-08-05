@@ -24,10 +24,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
 
 public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
-	public ManaCostDialog() {
-	}
-	
-	
 	private List<String> symbols;
 	private static final long serialVersionUID = 1L;
 

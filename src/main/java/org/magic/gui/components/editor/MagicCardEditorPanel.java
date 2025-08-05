@@ -58,7 +58,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
-import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
