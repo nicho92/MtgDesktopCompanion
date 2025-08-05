@@ -83,10 +83,8 @@ public class FileCustomManager implements CustomCardsManager {
 	public List<MTGCard> listCards(MTGEdition me) throws IOException {
 		
 		var f = new File(setDirectory, me.getId() + ext);
-		
-		if(!security(f))
-			throw new IOException("Directory is not safe");
-		
+		security(f);
+
 		if(!f.exists())
 			return new ArrayList<>();
 		
@@ -100,8 +98,9 @@ public class FileCustomManager implements CustomCardsManager {
 
 	}
 	
-	private boolean security(File f) {
-		return f.toPath().normalize().startsWith(setDirectory.getAbsolutePath());
+	private void security(File f) throws IOException {
+		if(!f.toPath().normalize().startsWith(setDirectory.getAbsolutePath()))
+			throw new IOException("Entry is outside of the target directory");
 	}
 
 
@@ -154,11 +153,11 @@ public class FileCustomManager implements CustomCardsManager {
 	}
 
 	private MTGEdition loadEditionFromFile(File f) throws IOException {
-			if(!security(f))
-				throw new IOException("Directory is not safe");
-				
-			var root = FileTools.readJson(f).getAsJsonObject();
-			return serializer.fromJson(root.get("main").toString(), MTGEdition.class);
+			
+		security(f);
+	
+		var root = FileTools.readJson(f).getAsJsonObject();
+		return serializer.fromJson(root.get("main").toString(), MTGEdition.class);
 	}
 
 	@Override
