@@ -242,29 +242,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	
 						@Override
 						protected Void doInBackground() throws Exception {
-							
-								List<MTGCard> cards = provider.searchCardByEdition(ed);
-								ed.setCardCount(cards.size());
-								ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
-								ed.setCardCountPhysical(ed.getCardCountOfficial());
-								cards.forEach(mc->{
-									mc.getEditions().clear();
-									try {
-										mc.getEditions().add(BeanTools.cloneBean(ed));
-										mc.setEdition(mc.getEditions().get(0));
-										mc.setNumber(null);
-									} catch (Exception e) {
-										logger.error(e);
-									} 
-								});
-								Collections.sort(cards,new CardsEditionSorter());
-
-								for(var i=0;i<cards.size();i++){
-									cards.get(i).setNumber(String.valueOf((i+1)));
-								}
-										
-										
-								provider.saveEdition(ed,cards);
+								provider.rebuildSet(ed);
 								return null;
 						}
 					}, "calculate Set " +ed);

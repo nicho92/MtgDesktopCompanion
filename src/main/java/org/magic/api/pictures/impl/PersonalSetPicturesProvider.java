@@ -41,7 +41,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public void removePicture(MTGEdition ed, MTGCard mc) {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir, ed.getId());
-		var f = new File(edDir, mc.getScryfallId() + "." + getString(FORMAT));
+		var f = new File(edDir, mc.getId() + "." + getString(FORMAT).toLowerCase());
 		try {
 			FileTools.deleteFile(f);
 		} catch (Exception e) {
@@ -74,7 +74,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir,mc.getEdition().getId());
 
-		return new File(edDir, mc.getId() + "." + getString(FORMAT)).getAbsolutePath();
+		return new File(edDir, mc.getId() + "." + getString(FORMAT).toLowerCase()).getAbsolutePath();
 	}
 
 	@Override

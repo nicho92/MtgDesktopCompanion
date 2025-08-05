@@ -2,7 +2,6 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.MTGProperty;
@@ -20,188 +18,66 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
-import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.customs.CustomCardsManager;
+import org.magic.api.customs.FileCustomManager;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.tools.FileTools;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
-	private static final String DIRECTORY = "DIRECTORY";
 
 	public static final String PERSONNAL_DATA_SET_PROVIDER = "Personnal Data Set Provider";
+	private CustomCardsManager manager;
+	
 
-	private static final String CARDS = "cards";
 
-	private String ext = ".json";
-	private File setDirectory;
-	private JsonExport serializer;
+	public void rebuildSet(MTGEdition ed) throws IOException {
+		manager.rebuild(ed);
+		
+	}
+
 	
 	public void removeEdition(MTGEdition me) {
-		var f = new File(setDirectory, me.getId() + ext);
-		try {
-			logger.debug("delete : {}",f);
-			FileTools.deleteFile(f);
-		} catch (IOException e) {
-			logger.error(e);
-		}
+		manager.removeEdition(me);
 	}
 
 
 	public boolean removeCard(MTGEdition me, MTGCard mc) throws IOException {
-		var f = new File(setDirectory, me.getId() + ext);
-		var root = FileTools.readJson(f).getAsJsonObject();
-		var cards = root.get(CARDS).getAsJsonArray();
-
-		for (var i = 0; i < cards.size(); i++) {
-			JsonElement el = cards.get(i);
-			if (el.getAsJsonObject().get("id").getAsString().equals(mc.getId())) {
-				cards.remove(el);
-				FileTools.saveFile(new File(setDirectory, me.getId() + ext), root.toString());
-				return true;
-			}
-		}
-		return false;
+		return manager.removeCard(me, mc);
 	}
 	
+	private List<MTGCard> loadCardsFromSet(MTGEdition me) throws IOException {
+		return manager.listCards(me);
+	}
+
+	public void addCard(MTGEdition me, MTGCard mc) throws IOException {
+		postTreatmentCard(mc);
+		manager.addCard(me, mc);
+	}
+	
+	
+	public void saveEdition(MTGEdition ed, List<MTGCard> cards) {
+		manager.saveEdition(ed,cards);
+	}
+
+	public void saveEdition(MTGEdition me) throws IOException {
+		manager.saveEdition(me);
+	}
+	
+	public PrivateMTGSetProvider() {
+		super();
+		manager = new FileCustomManager( getFile("DIRECTORY"));
+	}
+	
+
+
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
 		var b= new JsonCriteriaBuilder();
 		initBuilder(b);
 		return b;
 	}
-	
-
-	
-	
-	
-	private List<MTGCard> loadCardsFromSet(MTGEdition me) throws IOException {
 		
-		var f = new File(setDirectory, me.getId() + ext);
-		
-		if (!f.toPath().normalize().startsWith(getString(DIRECTORY))) {
-            throw new IOException("Entry is outside of the target directory");
-        }
-		
-		if(!f.exists())
-			return new ArrayList<>();
-		
-		
-		var root = FileTools.readJson(f).getAsJsonObject().get(CARDS);
-		
-		if(root==null || root.isJsonNull())
-			return new ArrayList<>();
-		
-		return serializer.fromJsonList(root.toString(), MTGCard.class);
-
-	}
-
-	public void addCard(MTGEdition me, MTGCard mc) throws IOException {
-		var f = new File(setDirectory, me.getId() + ext);
-		var root = FileTools.readJson(f).getAsJsonObject();
-		var cards = root.get(CARDS).getAsJsonArray();
-		mc.setEdition(me);
-		postTreatmentCard(mc);
-		
-
-		if (mc.getId() == null)
-		{
-			mc.setId(DigestUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getId() + mc.getName()));
-		}
-		
-		int index = indexOf(mc, cards);
-		
-		var joCard =serializer.toJsonElement(mc); 
-		
-		if (index > -1) 
-		{
-			cards.set(index, joCard);
-		} 
-		else {
-			cards.add(joCard);
-			me.setCardCount(me.getCardCount() + 1);
-			root.addProperty("cardCount", me.getCardCount());
-		}
-		logger.debug("Adding {} card to {} set with id={}",mc,me,mc.getId());
-		FileTools.saveFile(f, root.toString());
-	}
-
-	private int indexOf(MTGCard mc, JsonArray arr) {
-		for (var i = 0; i < arr.size(); i++)
-			if (arr.get(i).getAsJsonObject().get("id") != null && (arr.get(i).getAsJsonObject().get("id").getAsString().equals(mc.getId())))
-				return i;
-
-		return -1;
-	}
-
-	private MTGEdition loadEditionFromFile(File f) throws IOException {
-		if(f.getCanonicalPath().startsWith(getFile(DIRECTORY).getCanonicalPath()))
-		{
-			var root = FileTools.readJson(f).getAsJsonObject();
-			return serializer.fromJson(root.get("main").toString(), MTGEdition.class);
-		}
-		
-		throw new IOException("Path is incorrect : "+f.getAbsolutePath());
-	}
-
-	public void saveEdition(MTGEdition ed, List<MTGCard> cards) {
-		
-		cards.forEach(mc->{
-			try {
-				removeCard(ed, mc);
-				addCard(ed, mc);
-				saveEdition(ed);
-			} catch (IOException e) {
-				logger.error(e);
-			}
-		});
-	}
-
-
-
-
-	public void saveEdition(MTGEdition me) throws IOException {
-
-		var cards= loadCardsFromSet(me);
-		
-		me.setCardCount(cards.size());
-		me.setCardCountOfficial(cards.size());
-		me.setCardCountPhysical(cards.size());
-		
-		var jsonparams = new JsonObject();
-		jsonparams.add("main", serializer.toJsonElement(me));
-
-		if (cards.isEmpty())
-			jsonparams.add(CARDS, new JsonArray());
-		else
-			jsonparams.add(CARDS, serializer.toJsonElement(cards));
-
-		FileTools.saveFile(new File(setDirectory, me.getId() + ext), jsonparams.toString());
-
-	}
-	public PrivateMTGSetProvider() {
-		super();
-		setDirectory = getFile(DIRECTORY);
-		serializer = new JsonExport();
-		
-	}
-	
-
-	@Override
-	public void init() {
-	
-		logger.debug("Opening directory {}",setDirectory);
-		if (!setDirectory.exists())
-		{
-			logger.debug("Directory {} doesn't exist",setDirectory);
-			setDirectory.mkdir();
-		}
-	}
-
 	@Override
 	public MTGCard getCardById(String id) {
 		try {
@@ -221,8 +97,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
 		List<MTGCard> res = new ArrayList<>();
-			for (MTGEdition ed : listEditions())
-				for (MTGCard mc : loadCardsFromSet(ed))
+			for (var ed : listEditions())
+				for (var mc : loadCardsFromSet(ed))
 						res.add(mc);
 
 			return res;
@@ -233,13 +109,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact)throws IOException {
 		List<MTGCard> res = new ArrayList<>();
 		if (me == null) {
-			for (MTGEdition ed : listEditions())
-				for (MTGCard mc : loadCardsFromSet(ed))
+				for (var mc : listAllCards())
 					if (hasValue(mc, att, crit))
-					{
 						res.add(mc);
-					}
-		} else {
+		} 
+		else 
+		{
 			for (MTGCard mc : loadCardsFromSet(me)) {
 				if (hasValue(mc, att, crit))
 				{
@@ -263,7 +138,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	@Override
 	public MTGCard getCardByNumber(String id, MTGEdition me) throws IOException {
 
-		MTGEdition ed = getSetById(me.getId());
+		var ed = getSetById(me.getId());
 
 		for (MTGCard mc : loadCardsFromSet(ed))
 			if (mc.getNumber().equals(id))
@@ -275,11 +150,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
-		List<MTGEdition> ret = new ArrayList<>();
-		for (File f : setDirectory.listFiles(pathname -> pathname.getName().endsWith(ext))) {
-			ret.add(loadEditionFromFile(f));
-		}
-		return ret;
+		return manager.loadEditions();
 	}
 
 	@Override
@@ -291,11 +162,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	
 	@Override
 	public MTGEdition getSetById(String id){
-		try {
-			return loadEditionFromFile(new File(setDirectory, id + ext));
-		} catch (IOException _) {
-			return new MTGEdition(id,id);
-		}
+		return manager.getSetById(id);
 	}
 
 	@Override
@@ -319,12 +186,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return "0.1";
 	}
 
-
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
-
 	@Override
 	public String getName() {
 		return PERSONNAL_DATA_SET_PROVIDER;
@@ -338,22 +199,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of(DIRECTORY, MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR, "privateSets")));
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-
-		if(obj ==null)
-			return false;
-
-		return hashCode()==obj.hashCode();
-	}
-
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
+		return Map.of("DIRECTORY", MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR, "privateSets")));
 	}
 
 	@Override
@@ -364,14 +210,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public MTGCard getCardByArenaId(String id) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
 	public MTGCard getCardByScryfallId(String crit) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
