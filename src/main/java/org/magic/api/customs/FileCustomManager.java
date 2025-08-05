@@ -1,9 +1,7 @@
 package org.magic.api.customs;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +16,6 @@ import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.FileTools;
-import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -87,7 +84,8 @@ public class FileCustomManager implements CustomCardsManager {
 		
 		var f = new File(setDirectory, me.getId() + ext);
 		
-		security(f);
+		if(!security(f))
+			throw new IOException("Directory is not safe");
 		
 		if(!f.exists())
 			return new ArrayList<>();
@@ -102,11 +100,8 @@ public class FileCustomManager implements CustomCardsManager {
 
 	}
 	
-	private void security(File f) throws IOException {
-		if (!f.toPath().normalize().startsWith(setDirectory.getAbsolutePath())) {
-            throw new IOException("Entry is outside of the target directory");
-        }
-		
+	private boolean security(File f) {
+		return f.toPath().normalize().startsWith(setDirectory.getAbsolutePath());
 	}
 
 
@@ -159,7 +154,9 @@ public class FileCustomManager implements CustomCardsManager {
 	}
 
 	private MTGEdition loadEditionFromFile(File f) throws IOException {
-			security(f);
+			if(!security(f))
+				throw new IOException("Directory is not safe");
+				
 			var root = FileTools.readJson(f).getAsJsonObject();
 			return serializer.fromJson(root.get("main").toString(), MTGEdition.class);
 	}
