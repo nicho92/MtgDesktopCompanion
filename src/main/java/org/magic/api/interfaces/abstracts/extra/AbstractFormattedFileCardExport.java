@@ -49,7 +49,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	{
 		if(name.indexOf(',')>-1)
 			return "\""+name+"\"";
-		
+				
 		return name;
 	}
 

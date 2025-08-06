@@ -123,6 +123,59 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
 
+				
+		nameJTextField = new JTextField();
+		costJTextField = new JTextField();
+		artistJTextField = new JTextField();
+		cboRarity = UITools.createCombobox(EnumRarity.values());
+		cboSuperType = new JCheckableListBox<>();
+		cboTypes = new JCheckableListBox<>();
+		cboSubtypes = new JCheckableListBox<>();
+		txtSubTypes = new JTextField(10);
+		var panelButton = new JPanel();
+		var panelEditor = new JPanel();
+		textJEditorPane = new MagicTextPane(false);
+		flavorJTextField = new JTextField();
+		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());
+		cboReversedCards = new JComboBox<>();
+		loyaltyJTextField = new JTextField();
+		numberJTextField = new JTextField();
+		cboSide = UITools.createCombobox((new String[] {"a","b"}));
+		chkMatureContent = new JCheckBox("Mature");
+		chkFoil = new JCheckBox();
+		spinner = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
+		btnUrl = new JButton("URL");
+		btnImage = new JButton("Local File");
+		btnWallpaper = new JButton("WallPaper");
+		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane));
+		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"","C", "A", "W", "WU", "WB", "U", "UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
+		var modelSt = new DefaultListCheckModel();
+		var model = new DefaultListCheckModel();
+		powerJTextField = new JTextField(2);
+		toughnessJTextField = new JTextField(2);
+		sldZoom = new JSlider(100,400);
+		sldX = new JSlider(-300,300);
+		sldY = new JSlider(-300,300);
+		chkWhiteText = new JCheckBox("White text");
+		var pictureEditorPanel = new JPanel();
+		
+		cboSuperType.setModel(modelSt);
+		costJTextField.setEditable(false);
+		cboTypes.setModel(model);
+		List.of("", "Basic", "Legendary","Ongoing", "Snow", "World" ).forEach(modelSt::addElement);
+		List.of("", "Artifact","Battle","Conspiracy","Creature","Enchantment","Instant","Land","Phenomenon","Plane","Planeswalker","Scheme","Sorcery","Tribal","Vanguard").forEach(model::addElement);
+		FlowLayout flpanelButton = (FlowLayout) panelButton.getLayout();
+		flpanelButton.setAlignment(FlowLayout.LEFT);
+		panelEditor.setLayout(new BorderLayout());
+		cboReversedCards.setVisible(false);
+		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
+		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
+		sldZoom.setValue(100);
+		sldX.setValue(0);
+		sldY.setValue(0);
+		pictureEditorPanel.setLayout(new GridLayout(4, 1));
+		
+		
 		add(new JLangLabel("NAME",true), UITools.createGridBagConstraints(null, null, 0, 0));
 		add(new JLangLabel("CARD_MANA",true), UITools.createGridBagConstraints(null, null, 2, 0));
 		add(new JLangLabel("CARD_ARTIST",true), UITools.createGridBagConstraints(null, null, 0, 1));
@@ -139,12 +192,54 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(new JLangLabel("COLOR_INDICATOR",true), UITools.createGridBagConstraints(null, null, 2, 12));
 		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, null, 2, 14));
 		add(new JLangLabel("TEXT_SIZE",true), UITools.createGridBagConstraints(null, null, 2, 11));
-			
-		nameJTextField = new JTextField();
+		
 		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
+		add(costJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 0));
+		add(artistJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
+		add(cboRarity, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 1));
+		add(UITools.createFlowPanel(cboSuperType,cboTypes,cboSubtypes,txtSubTypes), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2,3,null));
+		add(panelButton, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 3,2,null));
+		add(flavorJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7,3,null));
+		add(UITools.createFlowPanel(cboFrameEffects,cboReversedCards), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
+		add(UITools.createFlowPanel(powerJTextField,new JLabel("/"),toughnessJTextField), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 8));
+		add(loyaltyJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
+		add(UITools.createFlowPanel(numberJTextField,cboSide), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
+		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
+		add(chkFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
+		add(spinner, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 11));
+		add(UITools.createFlowPanel(btnUrl,btnImage,btnWallpaper), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
+		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 12));
+		add(panelEditor, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4,3,3));
 
-		costJTextField = new JTextField();
-		costJTextField.setEditable(false);
+		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
+		panelEditor.add(scrollPane,BorderLayout.SOUTH);
+	
+		pictureEditorPanel.add(chkWhiteText);
+		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("Z:"), sldZoom));
+		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("X:"), sldX));
+		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("Y:"), sldY));
+	
+		add(pictureEditorPanel,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 14));
+		
+	
+		for (var s : new String[] { "W", "U", "B", "R", "G", "C", "T", "E" }) 
+		{
+			final var btnG = new JButton();
+			btnG.setToolTipText(s);
+			btnG.setIcon(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+			btnG.setForeground(btnG.getBackground());
+
+			btnG.addActionListener(_ -> {
+						try {
+							textJEditorPane.getDocument().insertString(textJEditorPane.getCaretPosition(), " {" + btnG.getToolTipText() + "}", null);
+						} catch (BadLocationException e1) {
+							textJEditorPane.setText(textJEditorPane.getText()+" {" + btnG.getToolTipText() + "}");
+							logger.error(e1);
+						}
+			});
+			panelButton.add(btnG);
+		}
+		
 		costJTextField.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -168,112 +263,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				}
 			}
 		});
-		add(costJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 0));
-
-		artistJTextField = new JTextField();
-		add(artistJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
-
-		cboRarity = UITools.createCombobox(EnumRarity.values());
-		add(cboRarity, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 1));
-
-		cboSuperType = new JCheckableListBox<>();
-		var modelSt = new DefaultListCheckModel();
-		cboSuperType.setModel(modelSt);
-		
-		List.of("", "Basic", "Legendary","Ongoing", "Snow", "World" ).forEach(modelSt::addElement);
-
-		cboTypes = new JCheckableListBox<>();
-		var model = new DefaultListCheckModel();
-		cboTypes.setModel(model);
-		List.of("", "Artifact","Battle","Conspiracy","Creature","Enchantment","Instant","Land","Phenomenon","Plane","Planeswalker","Scheme","Sorcery","Tribal","Vanguard").forEach(model::addElement);
-		
-		cboSubtypes = new JCheckableListBox<>();
-		
-		txtSubTypes = new JTextField(10);
+	
 		txtSubTypes.addActionListener(_ -> {
 			cboSubtypes.addElement(txtSubTypes.getText(), true);
 			txtSubTypes.setText("");
 		});
-
-		
-		var gbcpanelType = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2,3,null);
-		add(UITools.createFlowPanel(cboSuperType,cboTypes,cboSubtypes,txtSubTypes), gbcpanelType);
-		
-		var panelButton = new JPanel();
-		FlowLayout flpanelButton = (FlowLayout) panelButton.getLayout();
-		flpanelButton.setAlignment(FlowLayout.LEFT);
-		
-		var gbcpanelButton = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 3,2,null);
-		add(panelButton, gbcpanelButton);
-
-		for (var s : new String[] { "W", "U", "B", "R", "G", "C", "T", "E" }) 
-		{
-			final var btnG = new JButton();
-			btnG.setToolTipText(s);
-			btnG.setIcon(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
-			btnG.setForeground(btnG.getBackground());
-
-			btnG.addActionListener(
-					_ -> {
-						try {
-							textJEditorPane.getDocument().insertString(textJEditorPane.getCaretPosition(), " {" + btnG.getToolTipText() + "}", null);
-						} catch (BadLocationException e1) {
-							textJEditorPane.setText(textJEditorPane.getText()+" {" + btnG.getToolTipText() + "}");
-							logger.error(e1);
-						}
-					});
-
-			panelButton.add(btnG);
-
-		}
-		
-		var panelEditor = new JPanel();
-		panelEditor.setLayout(new BorderLayout());
-		textJEditorPane = new MagicTextPane(false);
-
-		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
-		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane));
-		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
-		panelEditor.add(scrollPane,BorderLayout.SOUTH);
-		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
-
-		add(panelEditor, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4,3,3));
-
-
-		flavorJTextField = new JTextField();
-		add(flavorJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7,3,null));
-
-	
-		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());
-		cboReversedCards = new JComboBox<>();
-		cboReversedCards.setVisible(false);
-		add(UITools.createFlowPanel(cboFrameEffects,cboReversedCards), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
-	
-		powerJTextField = new JTextField(2);
-		toughnessJTextField = new JTextField(2);
-		add(UITools.createFlowPanel(powerJTextField,new JLabel("/"),toughnessJTextField), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 8));
-	
-		loyaltyJTextField = new JTextField();
-		add(loyaltyJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
-
-		numberJTextField = new JTextField();
-		cboSide = UITools.createCombobox((new String[] {"a","b"}));
-		add(UITools.createFlowPanel(numberJTextField,cboSide), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
-		
-		chkMatureContent = new JCheckBox("Mature Content");
-		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
-
-		chkFoil = new JCheckBox();
-		add(chkFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
-
-		spinner = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
-		add(spinner, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 11));
-
-		btnUrl = new JButton("URL");
-		btnImage = new JButton("Local File");
-		btnWallpaper = new JButton("WallPaper");
-		
-		add(UITools.createFlowPanel(btnUrl,btnImage,btnWallpaper), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
 		
 		btnImage.addActionListener(_ -> {
 			var choose = new JFileChooser();
@@ -320,8 +314,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			if(event.getStateChange() == ItemEvent.SELECTED)
 				magicCard.setRotatedCard(cboReversedCards.getItemAt(cboReversedCards.getSelectedIndex()));
 		});
-		
-		
+
 		cboFrameEffects.addItemListener(event->{
 			if(event.getStateChange() == ItemEvent.SELECTED)
 			{
@@ -339,29 +332,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
 			
 		});
-		
-		
-		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"","C", "A", "W", "WU", "WB", "U", "UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
-		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 12));
-		
-		sldZoom = new JSlider(100,400);
-		sldX = new JSlider(-300,300);
-		sldY = new JSlider(-300,300);
-
-		sldZoom.setValue(100);
-		sldX.setValue(0);
-		sldY.setValue(0);
-		chkWhiteText = new JCheckBox("White text");
-		var pan = new JPanel();
-		pan.setLayout(new GridLayout(4, 1));
-		
-		pan.add(chkWhiteText);
-		pan.add(UITools.createFlowPanel(new JLabel("Z:"), sldZoom));
-		pan.add(UITools.createFlowPanel(new JLabel("X:"), sldX));
-		pan.add(UITools.createFlowPanel(new JLabel("Y:"), sldY));
-	
-		add(pan,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 14));
-		
 		
 		mbindingGroup = initDataBindings();
 		

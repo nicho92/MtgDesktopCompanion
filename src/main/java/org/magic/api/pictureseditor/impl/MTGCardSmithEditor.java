@@ -18,6 +18,7 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.AccountsManager;
+import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -52,6 +53,15 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 		
 		connect();
+		
+		if(mc.getUrl().startsWith("http"))
+		{
+			var f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,mc.getName()+".png");
+			URLTools.download(mc.getUrl(), f);
+			mc.setUrl(f.getAbsolutePath());
+		}
+		
+		
 		
 		var imgPath = uploadPicture(new File(mc.getUrl()),mc);
 		

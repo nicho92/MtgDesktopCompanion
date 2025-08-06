@@ -69,7 +69,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					    		p.setFormat("png");
 					    		p.setName(el.getAsJsonObject().get("title").getAsString());
 					    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));
-					    		p.setUrlThumb(new URI(el.getAsJsonObject().get("preview").getAsJsonObject().get("src").getAsString()));
+					    		p.setUrlThumb(new URI(el.getAsJsonObject().get("thumbs").getAsJsonArray().get(0).getAsJsonObject().get("src").getAsString()));
 					    		p.setPublishDate(new Date(el.getAsJsonObject().get("published_time").getAsLong()*1000));
 					    		p.setProvider(getName());
 					    		
