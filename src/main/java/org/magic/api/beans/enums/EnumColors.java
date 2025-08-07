@@ -43,6 +43,11 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 		return toPrettyString();
 	}
 	
+	public static EnumColors[] colors()
+	{
+		return new EnumColors[] {WHITE,BLUE,BLACK,RED,GREEN};
+	}
+	
 	
 	private EnumColors(String s,Color c,int position) {
 		code=s;
@@ -102,7 +107,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 
 	public static EnumColors colorByCode(String s)
 	{
-		return List.of(EnumColors.values()).stream().filter(c->c.getCode().contains(s.trim())).findAny().orElse(null);
+		return List.of(EnumColors.colors()).stream().filter(c->c.getCode().contains(s.trim())).findAny().orElse(null);
 	}
 	
 	public static List<EnumColors> parseByManaCost(String c)

@@ -14,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -78,7 +77,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField txtSubTypes;
 	private JTextField toughnessJTextField;
 	private MagicTextPane textJEditorPane;
-	private JSpinner spinner;
+	private JSpinner spinnerTextSize;
 	private JButton btnImage;
 	private JButton btnUrl;
 	private JButton btnWallpaper;
@@ -89,8 +88,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	
 	private JCheckBox chkWhiteText;
 	private JCheckBox chkMatureContent;
-	private JCheckBox chkFoil;
-	
+
 	private JComboBox<String> cboColorAccent;
 	private JComboBox<EnumFrameEffects> cboFrameEffects;
 	private JComboBox<String> cboSide;
@@ -118,9 +116,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	public MagicCardEditorPanel() {
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, Integer.MAX_VALUE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, 1.0 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0 };
 		setLayout(gridBagLayout);
 
 				
@@ -133,7 +131,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboSubtypes = new JCheckableListBox<>();
 		txtSubTypes = new JTextField(10);
 		var panelButton = new JPanel();
-		var panelEditor = new JPanel();
+		var textEditorPanel = new JPanel();
+		var pictureEditorPanel = new JPanel();
 		textJEditorPane = new MagicTextPane(false);
 		flavorJTextField = new JTextField();
 		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());
@@ -142,13 +141,16 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		numberJTextField = new JTextField();
 		cboSide = UITools.createCombobox((new String[] {"a","b"}));
 		chkMatureContent = new JCheckBox("Mature");
-		chkFoil = new JCheckBox();
-		spinner = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
+		spinnerTextSize = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
 		btnUrl = new JButton("URL");
-		btnImage = new JButton("Local File");
+		btnImage = new JButton("File");
 		btnWallpaper = new JButton("WallPaper");
-		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane));
 		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"","C", "A", "W", "WU", "WB", "U", "UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
+		
+		
+		
+		
+		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane));
 		var modelSt = new DefaultListCheckModel();
 		var model = new DefaultListCheckModel();
 		powerJTextField = new JTextField(2);
@@ -157,7 +159,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		sldX = new JSlider(-300,300);
 		sldY = new JSlider(-300,300);
 		chkWhiteText = new JCheckBox("White text");
-		var pictureEditorPanel = new JPanel();
+	
 		
 		cboSuperType.setModel(modelSt);
 		costJTextField.setEditable(false);
@@ -166,14 +168,14 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		List.of("", "Artifact","Battle","Conspiracy","Creature","Enchantment","Instant","Land","Phenomenon","Plane","Planeswalker","Scheme","Sorcery","Tribal","Vanguard").forEach(model::addElement);
 		FlowLayout flpanelButton = (FlowLayout) panelButton.getLayout();
 		flpanelButton.setAlignment(FlowLayout.LEFT);
-		panelEditor.setLayout(new BorderLayout());
+		textEditorPanel.setLayout(new BorderLayout());
 		cboReversedCards.setVisible(false);
-		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
-		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
+		scrollPane.setPreferredSize(new Dimension(textEditorPanel.getWidth(), 60));
+		textEditorPanel.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
 		sldZoom.setValue(100);
 		sldX.setValue(0);
 		sldY.setValue(0);
-		pictureEditorPanel.setLayout(new GridLayout(4, 1));
+		pictureEditorPanel.setLayout(new GridLayout(6, 1));
 		
 		
 		add(new JLangLabel("NAME",true), UITools.createGridBagConstraints(null, null, 0, 0));
@@ -185,13 +187,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(new JLangLabel("CARD_FLAVOR",true), UITools.createGridBagConstraints(null, null, 0, 7));
 		add(new JLangLabel("CARD_LAYOUT",true), UITools.createGridBagConstraints(null, null, 0, 8));
 		add(new JLabel(capitalize("CARD_POWER") + "/" + capitalize("CARD_TOUGHNESS") + ":"), UITools.createGridBagConstraints(null, null, 2, 8));		
-		add(new JLangLabel("CARD_LOYALTY",true), UITools.createGridBagConstraints(null, null, 2, 9));
 		add(new JLangLabel("CARD_NUMBER",true), UITools.createGridBagConstraints(null, null, 0, 9));
-		add(new JLangLabel("FOIL",true), UITools.createGridBagConstraints(null, null, 2, 10));
-		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, null, 0, 11));
-		add(new JLangLabel("COLOR_INDICATOR",true), UITools.createGridBagConstraints(null, null, 2, 12));
-		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, null, 2, 14));
-		add(new JLangLabel("TEXT_SIZE",true), UITools.createGridBagConstraints(null, null, 2, 11));
+		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 11));
+		add(new JLangLabel("COLOR_INDICATOR",true), UITools.createGridBagConstraints(null, null, 2, 10));
 		
 		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 		add(costJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 0));
@@ -201,25 +199,27 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(panelButton, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 3,2,null));
 		add(flavorJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7,3,null));
 		add(UITools.createFlowPanel(cboFrameEffects,cboReversedCards), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
-		add(UITools.createFlowPanel(powerJTextField,new JLabel("/"),toughnessJTextField), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 8));
-		add(loyaltyJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
+		add(UITools.createFlowPanel(powerJTextField,new JLabel("/"),toughnessJTextField, new JLangLabel("CARD_LOYALTY",true),loyaltyJTextField), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 8));
 		add(UITools.createFlowPanel(numberJTextField,cboSide), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
-		add(chkFoil, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
-		add(spinner, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 11));
-		add(UITools.createFlowPanel(btnUrl,btnImage,btnWallpaper), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
-		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 12));
-		add(panelEditor, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4,3,3));
+		add(pictureEditorPanel,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
+		
+		
+		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
+		add(textEditorPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4,3,3));
 
-		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
-		panelEditor.add(scrollPane,BorderLayout.SOUTH);
-	
+		
+		
+		textEditorPanel.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
+		textEditorPanel.add(scrollPane,BorderLayout.SOUTH);
+		pictureEditorPanel.add(UITools.createFlowPanel(btnUrl,btnImage,btnWallpaper));
+		pictureEditorPanel.add(UITools.createFlowPanel(new JLangLabel("SIZE",true), spinnerTextSize));
 		pictureEditorPanel.add(chkWhiteText);
 		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("Z:"), sldZoom));
 		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("X:"), sldX));
 		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("Y:"), sldY));
 	
-		add(pictureEditorPanel,  UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 14));
+		
 		
 	
 		for (var s : new String[] { "W", "U", "B", "R", "G", "C", "T", "E" }) 
@@ -250,16 +250,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				if(g.hasSelected())
 				{
 					costJTextField.setText(g.getSelectedItem());
-					magicCard.setCmc(g.getCmc());
-					magicCard.setColors(EnumColors.parseByManaCost(g.getSelectedItem()));
-					magicCard.setColorIdentity(EnumColors.parseByManaCost(g.getSelectedItem()));
 				}
 				else
 				{
-					magicCard.setColorIdentity(new ArrayList<>());
-					magicCard.setColors(new ArrayList<>());
 					costJTextField.setText("");
-					magicCard.setCmc(0);
 				}
 			}
 		});
@@ -343,7 +337,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
 		magicCard.setFrameEffects(List.of(cboFrameEffects.getItemAt(cboFrameEffects.getSelectedIndex())));
-		
+		magicCard.setColors(EnumColors.parseByManaCost(magicCard.getCost()));
+		magicCard.setColorIdentity(EnumColors.parseByManaCost(magicCard.getCost()));
+		magicCard.setCmc(MTGCard.calculateManaCost(magicCard.getCost()));
 		return magicCard;
 	}
 
@@ -365,8 +361,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	
 	protected BindingGroup initDataBindings() {
 			
-		spinner.setValue(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)):30);
-		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.FOIL)));
+		spinnerTextSize.setValue(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)):30);
 		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)!=null?magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT):"");
 		chkWhiteText.setSelected(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR)!=null && magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR).equals("#ffffff"));
 		chkMatureContent.setSelected(magicCard.isHasContentWarning());
@@ -385,8 +380,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			sldZoom.setValue(Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)));
 		
 		
-		spinner.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SIZE, spinner.getValue().toString() ));
-		chkFoil.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.FOIL, String.valueOf(chkFoil.isSelected()) ));
+		spinnerTextSize.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SIZE, spinnerTextSize.getValue().toString() ));
 		cboColorAccent.addItemListener(_-> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
 		sldZoom.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ZOOM, String.valueOf(sldZoom.getValue()) ));
 		sldX.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.X, String.valueOf(sldX.getValue()) ));

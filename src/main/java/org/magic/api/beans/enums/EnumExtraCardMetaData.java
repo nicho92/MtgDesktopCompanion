@@ -6,7 +6,6 @@ public enum EnumExtraCardMetaData {
 	ACCENT,
 	CENTER ,
 	SIZE ,
-	FOIL,
 	ZOOM,
 	X ,
 	Y ,

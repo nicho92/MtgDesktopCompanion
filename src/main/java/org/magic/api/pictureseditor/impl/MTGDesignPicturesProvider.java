@@ -174,10 +174,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		
 		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.CENTER,FALSE).equals(TRUE))
 			build.addParameter("centered", "true");
-		
-		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.FOIL,FALSE).equals(TRUE))
-				build.addParameter("foil", "true");
-				
+					
 		build.addParameter("card-layout", getFrame(mc));
 
 
@@ -229,7 +226,12 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(!StringUtils.isEmpty(mc.getFlavor()))
 			build.addParameter("flavor-text", mc.getFlavor());
 
-		if(mc.getColors().size()==1)
+		if(mc.isHybride())
+		{
+			build.addParameter(CARD_TEMPLATE,mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"C"));
+			build.addParameter(CARD_ACCENT, mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"C"));
+		}
+		else if(mc.getColors().size()==1)
 		{
 			build.addParameter(CARD_TEMPLATE,mc.getColors().get(0).getCode());
 			build.addParameter(CARD_ACCENT, mc.getColors().get(0).getCode());
@@ -328,13 +330,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 				return "transform-spark";
 			}
 
-		
-		
-
-		
-		
 		mc.setLayout(EnumLayout.NORMAL);
-		
 		return "regular";
 	}
 

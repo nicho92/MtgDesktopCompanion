@@ -107,27 +107,4 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
         
         return sortedCost.toString();
 	}
-	
-	
-	public int getCmc()
-	{
-		int count =0;
-		
-		for(var s : symbols) {
-			try {
-				
-				if(!s.equalsIgnoreCase("X"))
-					count += Integer.parseInt(s);
-				
-			}catch(NumberFormatException _)
-			{
-				count +=1;
-			}
-			
-		};
-		
-		return count;
-	}
-	
-	
 }

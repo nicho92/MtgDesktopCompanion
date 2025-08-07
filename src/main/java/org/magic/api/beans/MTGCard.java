@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.Strings;
 import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFinishes;
@@ -45,6 +48,27 @@ public class MTGCard extends AbstractProduct {
 				cardName.trim().equalsIgnoreCase("Snow-Covered Wastes")
 				);
 	}
+	
+	public static int calculateManaCost(String manaCost) {
+        int total = 0;
+        var matcher= Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern()).matcher(manaCost);
+
+        while (matcher.find()) {
+            var symbol = matcher.group(1);
+
+            if (symbol.matches("\\d+")) {
+                total += Integer.parseInt(symbol);
+            } else if (symbol.matches("[WUBRGC]") || symbol.matches("[WUBRGC]/[WUBRGC2]")) {
+                total += 1;
+            } 
+        }
+
+        return total;
+    }
+
+	
+	
+	
 	private boolean arenaCard;
 	private String artist="";
 	private String asciiName;
@@ -499,6 +523,12 @@ public class MTGCard extends AbstractProduct {
 	public boolean isArenaCard() {
 		return arenaCard;
 	}
+	
+	public boolean isHybride() {
+		
+		return Strings.CS.containsAny(getCost(),"/W", "/U", "/B", "/R", "/G");
+	}
+	
 
 	public boolean isArtifact() {
 		return getTypes().toString().toLowerCase().contains("artifact");
