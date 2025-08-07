@@ -111,8 +111,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    		colorBase=mc.getColors().get(0).getCode();
 						    }
 
-						    if(!getString(HYBRIDE).isEmpty())
-						    	colorBase=getString(HYBRIDE).toLowerCase();
+						    if(mc.isHybride())
+						    	colorBase=new StringBuilder().append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/").append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
 
 
 						    build.addContent("fields[background-base]", colorBase.toLowerCase());

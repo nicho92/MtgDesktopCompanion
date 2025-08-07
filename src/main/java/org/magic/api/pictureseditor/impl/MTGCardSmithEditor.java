@@ -143,7 +143,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			build.removeContent("frame");
 			build.addContent("special_card_color", "vehart01"+(c==EnumColors.GOLD?"m":c.getCode().toLowerCase()));
 		}
-		
+	
 		
 		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
 			build.addContent("frame_color[]", "colorless");
@@ -166,6 +166,15 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			}
 		}
 
+
+		
+		if(mc.isHybride())
+		{
+			build.removeContent("frame");
+			build.addContent("special_card_color", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toLowerCase());
+		}
+		
+		
 		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 		
 		logger.debug("sending {}", build);

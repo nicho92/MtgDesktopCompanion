@@ -219,9 +219,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 				build.addParameter("rules-text", mc.getText());
 			}
 		}
-
-		
-	
 		
 		if(!StringUtils.isEmpty(mc.getFlavor()))
 			build.addParameter("flavor-text", mc.getFlavor());
