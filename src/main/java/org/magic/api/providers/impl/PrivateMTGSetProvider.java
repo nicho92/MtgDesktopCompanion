@@ -18,8 +18,8 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
-import org.magic.api.customs.CustomCardsManager;
-import org.magic.api.customs.FileCustomManager;
+import org.magic.api.customs.impl.FileCustomManager;
+import org.magic.api.interfaces.CustomCardsManager;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 

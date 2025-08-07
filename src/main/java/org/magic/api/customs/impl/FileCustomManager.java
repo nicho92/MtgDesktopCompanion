@@ -1,4 +1,4 @@
-package org.magic.api.customs;
+package org.magic.api.customs.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.CustomCardsManager;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.BeanTools;

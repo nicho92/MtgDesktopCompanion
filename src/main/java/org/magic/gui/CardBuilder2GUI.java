@@ -239,7 +239,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	
 						@Override
 						protected Void doInBackground() throws Exception {
-								provider.rebuildSet(ed);
+								provider.rebuildSet(ed );
 								return null;
 						}
 					}, "calculate Set " +ed);

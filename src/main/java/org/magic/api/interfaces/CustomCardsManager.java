@@ -1,4 +1,4 @@
-package org.magic.api.customs;
+package org.magic.api.interfaces;
 
 import java.io.IOException;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 
-public interface CustomCardsManager  {
+public interface CustomCardsManager {
 
 
 
