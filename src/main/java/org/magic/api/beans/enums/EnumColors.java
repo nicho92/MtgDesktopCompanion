@@ -110,19 +110,32 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable{
 		return List.of(EnumColors.colors()).stream().filter(c->c.getCode().contains(s.trim())).findAny().orElse(null);
 	}
 	
-	public static List<EnumColors> parseByManaCost(String c)
+	private  static List<EnumColors> parse(EnumCardsPatterns p, String c)
 	{
 		if(c==null || c.isEmpty())
 			return new ArrayList<>();
 		
-		return Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern())
+		return Pattern.compile(p.getPattern())
 			        .matcher(c)
 			        .results()
-			        .map(mr->mr.group(1)).distinct()
+			        .map(mr->mr.group(1))
+			        .distinct()
 			        .map(EnumColors::colorByCode)
 			        .filter(Objects::nonNull)
 			        .toList();
 	}
+	
+
+	public static List<EnumColors> parseByManaCost(String c)
+	{
+		return parse(EnumCardsPatterns.MANA_PATTERN,c);
+	}
+	
+	public static List<EnumColors> parseColorsFromText(String c)
+	{
+		return parse(EnumCardsPatterns.MANA_COLORS,c);
+	}
+	
 
 	public static List<EnumColors> parseByCode(List<String> codes)
 	{

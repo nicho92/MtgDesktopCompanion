@@ -337,8 +337,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
 		magicCard.setFrameEffects(List.of(cboFrameEffects.getItemAt(cboFrameEffects.getSelectedIndex())));
-		magicCard.setColors(EnumColors.parseByManaCost(magicCard.getCost()));
-		magicCard.setColorIdentity(EnumColors.parseByManaCost(magicCard.getCost()));
+		magicCard.setColors(EnumColors.parseColorsFromText(magicCard.getCost()));
+		magicCard.setColorIdentity(EnumColors.parseColorsFromText(magicCard.getCost()));
 		magicCard.setCmc(MTGCard.calculateManaCost(magicCard.getCost()));
 		return magicCard;
 	}

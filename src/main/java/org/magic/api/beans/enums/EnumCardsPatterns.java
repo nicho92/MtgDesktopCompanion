@@ -16,7 +16,8 @@ public enum EnumCardsPatterns {
 	RULES_LINE					("^(\\d{1,3})\\.(\\d{1,3})?([a-z])?"),
 	LOYALTY_PATTERN		("\\[(.*?)\\][ ]?: (.*?)$"),
 	SAGA_PATTERN			("(.*?) — (.*?)$"),
-	ROLL_DICE					("then  roll a d(\\d+)");
+	ROLL_DICE					("then  roll a d(\\d+)"), 
+	MANA_COLORS 			("([WUBRG])");
 	
 
 	public static final String REGEX_ANY_STRING = "(.*?)";
@@ -39,8 +40,7 @@ public enum EnumCardsPatterns {
 
 	public static Matcher extract(String s , EnumCardsPatterns pat)
 	{
-		var p = Pattern.compile(pat.getPattern());
-		return p.matcher(s);
+		return Pattern.compile(pat.getPattern()).matcher(s);
 	}
 
 
