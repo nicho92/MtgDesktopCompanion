@@ -62,7 +62,7 @@
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.8.0</rhino.version>
 		<commonmark.version>0.25.1</commonmark.version>
-		<langchain4j.version>1.2.0</langchain4j.version>
+		<langchain4j.version>1.3.0</langchain4j.version>
 	</properties>
 	
 	
@@ -74,7 +74,7 @@
 		</repository>
 	</repositories>
 	
-	<dependencies>
+<dependencies>
 	<dependency>
 	    <groupId>dev.langchain4j</groupId>
 	    <artifactId>langchain4j</artifactId>
