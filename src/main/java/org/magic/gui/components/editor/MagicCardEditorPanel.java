@@ -142,9 +142,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboSide = UITools.createCombobox((new String[] {"a","b"}));
 		chkMatureContent = new JCheckBox("Mature");
 		spinnerTextSize = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
-		btnUrl = new JButton("URL");
-		btnImage = new JButton("File");
-		btnWallpaper = new JButton("WallPaper");
+		btnUrl = new JButton("URL",MTGConstants.ICON_WEBSITE);
+		btnImage = new JButton("File",MTGConstants.ICON_NEW);
+		btnWallpaper = new JButton("WallPaper",MTGConstants.ICON_WALLPAPER);
 		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"","C", "A", "W", "WU", "WB", "U", "UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
 		
 		
