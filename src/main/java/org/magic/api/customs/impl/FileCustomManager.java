@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -16,6 +15,7 @@ import org.magic.api.interfaces.CustomCardsManager;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.BeanTools;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.FileTools;
 
 import com.google.gson.JsonArray;
@@ -99,9 +99,9 @@ public class FileCustomManager implements CustomCardsManager {
 
 	}
 	
-	private void security(File f) throws IOException {
+	private void security(File f) throws SecurityException {
 		if(!f.toPath().normalize().startsWith(setDirectory.getAbsolutePath()))
-			throw new IOException("Entry is outside of the target directory");
+			throw new SecurityException("Entry is outside of the target directory");
 	}
 
 
@@ -125,7 +125,7 @@ public class FileCustomManager implements CustomCardsManager {
 		
 
 		if (mc.getId() == null)
-			mc.setId(DigestUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getId() + mc.getName()));
+			mc.setId(CryptoUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getName()));
 		
 		int index = indexOf(mc, cards);
 		
@@ -153,7 +153,7 @@ public class FileCustomManager implements CustomCardsManager {
 		return -1;
 	}
 
-	private MTGEdition loadEditionFromFile(File f) throws IOException {
+private MTGEdition loadEditionFromFile(File f) throws IOException {
 			
 		security(f);
 	
@@ -193,9 +193,9 @@ public class FileCustomManager implements CustomCardsManager {
 		});
 		Collections.sort(cards,new CardsEditionSorter());
 
-		for(var i=0;i<cards.size();i++){
+		for(var i=0;i<cards.size();i++)
 			cards.get(i).setNumber(String.valueOf((i+1)));
-		}
+
 		saveEdition(ed,cards);
 	}
 

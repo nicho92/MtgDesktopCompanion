@@ -287,46 +287,34 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		
 		mc.setLayout(EnumLayout.MODAL_DFC);
 		
-		if(mc.getFrameEffects().contains(EnumFrameEffects.SUNMOONDFC))
+		if(mc.getFrameEffects().contains(EnumFrameEffects.SUNMOONDFC)) {
 			if(mc.getSide().equals("a"))
-			{
 				return "transform-sun";
-			}
 			else
-			{
 				return "transform-moon";
 			}
 	
-		if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC))
+		if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC)) {
 			if(mc.getSide().equals("a"))
-			{
 				return "transform-compass";
-			}
 			else
-			{
 				return "transform-land";
-			}
+		}
 
-		if(mc.getFrameEffects().contains(EnumFrameEffects.MOONELDRAZIDFC))
+		if(mc.getFrameEffects().contains(EnumFrameEffects.MOONELDRAZIDFC)) {
 			if(mc.getSide().equals("a"))
-			{
 				return "transform-mooneldrazi";
-			}
 			else
-			{
 				return "transform-eldrazi";
 			}
 		
-		if(mc.getFrameEffects().contains(EnumFrameEffects.ORIGINPWDFC))
+		if(mc.getFrameEffects().contains(EnumFrameEffects.ORIGINPWDFC)) {
 			if(mc.getSide().equals("a"))
-			{
 				return "transform-origin";
-			}
 			else
-			{
 				return "transform-spark";
-			}
-
+		}
+		
 		mc.setLayout(EnumLayout.NORMAL);
 		return "regular";
 	}

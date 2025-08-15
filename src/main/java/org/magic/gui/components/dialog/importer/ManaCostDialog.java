@@ -60,12 +60,10 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
 							public void mouseEntered(MouseEvent e) {
 								lblMana.setBorder(new LineBorder(Color.BLACK));
 							}
-							
+							@Override
 							public void mouseExited(MouseEvent e) {
 								lblMana.setBorder(null);
-							};
-							
-							
+							}
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								symbols.add(s);

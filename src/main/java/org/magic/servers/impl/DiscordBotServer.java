@@ -24,6 +24,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.api.mkm.modele.InsightElement;
 import org.api.mkm.services.InsightService;
 import org.magic.api.beans.CardShake;
@@ -183,8 +184,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 			if(name.toLowerCase().startsWith("set|"))
 			{
 				try {
-					boolean noFoil= StringUtils.containsAnyIgnoreCase(info.getMessage(),"nofoil","no foil");
-					boolean foilOnly = StringUtils.containsAnyIgnoreCase(info.getMessage(),"foil","onlyfoil");
+					boolean noFoil= Strings.CS.containsAny(info.getMessage(),"nofoil","no foil");
+					boolean foilOnly = Strings.CS.containsAny(info.getMessage(),"foil","onlyfoil");
 
 					responseChardShake(event,name,noFoil,foilOnly);
 				} catch (IOException e) {
@@ -317,7 +318,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	private void responseSearch(MessageReceivedEvent event,String name, DiscordInfo info)
 	{
-		boolean priceask = !StringUtils.isEmpty(getString(PRICE_KEYWORDS)) && StringUtils.containsAny(event.getMessage().getContentRaw().toLowerCase(), getArray(PRICE_KEYWORDS));
+		boolean priceask = !StringUtils.isEmpty(getString(PRICE_KEYWORDS)) && Strings.CS.containsAny(event.getMessage().getContentRaw().toLowerCase(), getArray(PRICE_KEYWORDS));
 		final List<MTGCard> liste = new ArrayList<>();
 		MTGEdition ed = null;
 		if(name.contains("|"))

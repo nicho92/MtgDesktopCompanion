@@ -99,6 +99,10 @@ public class CryptoUtils {
 		return RandomStringUtils.secure().next(tokensize, true, true);
 	}
 
+	public static String sha256Hex(String string) {
+		return DigestUtils.sha256Hex(string);
+	}
+
 
 
 }

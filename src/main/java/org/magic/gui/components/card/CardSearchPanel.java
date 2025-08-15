@@ -270,7 +270,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauCentral.setDividerLocation(0.5);
 		panneauCentral.setResizeWeight(0.5);
 
-		/////// LAYOUT
+		/// LAYOUT
 		setLayout(new BorderLayout());
 		panneauStat.setLayout(new GridLayout(2, 2, 0, 0));
 		panneauCard.setLayout(new BorderLayout());

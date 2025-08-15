@@ -346,7 +346,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnNewSet.addActionListener(_ -> {
 				var id = JOptionPane.showInputDialog("ID");
 				
-				if(id.isEmpty())
+				if(id==null || id.isEmpty())
 					return;
 				
 				try {
@@ -530,7 +530,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			
 			panelPictures.setImg(img,ImageTools.resize(back, img.getHeight(),img.getWidth()));
 		}
-		catch(Exception e)
+		catch(Exception _)
 		{
 			panelPictures.setImg(new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB));
 		}

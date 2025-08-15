@@ -9,10 +9,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.logging.log4j.Logger;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;
@@ -86,16 +82,5 @@ public class BeanTools {
 	public static <T> T cloneBean(T ed) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
 		return (T) BeanUtils.cloneBean(ed);
 	}
-
-	public static <O,P, C> AutoBinding<O, P, C, P>  bind(O object, P type, String objectPropertyName, String componentPropertyName, C component )
-	{
-		BeanProperty<O, P> propertyBind = BeanProperty.create(objectPropertyName);
-		BeanProperty<C, P> textProperty = BeanProperty.create(componentPropertyName);
-		AutoBinding<O, P, C, P> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, object, propertyBind, component, textProperty);
-		
-		return autoBinding;
-	}
-	
-	
 	
 }
