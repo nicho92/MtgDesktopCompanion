@@ -313,6 +313,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		new MTGoldFishDashBoard().getOnlineShakesForEdition(new MTGEdition("LTR"));
+	}
+	
+	
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MTGEdition edition) throws IOException {
 		var list = new EditionsShakers();
@@ -340,52 +346,67 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			urlEditionChecker += "/"+page+"#"+getString(FORMAT);
 
 		Document doc = URLTools.extractAsHtml(urlEditionChecker);
-
-
-
-
-
-		Elements trs = doc.select(MTGConstants.HTML_TAG_TABLE+".card-container-table tbody tr");
 		
-		if(!trs.isEmpty())
-			trs.remove(0);
+		var trs = URLTools.toJson(doc.select("div[data-react-class=CardsContainer]").attr("data-react-props"));
 
-		for(Element e : trs)
+		for(var e : trs.getAsJsonObject().get("cards").getAsJsonArray())
 		{
-			var nameExtra= e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.badge").text();
-
-
-			if(nameExtra.contains("Sealed"))
+		
+			var obj = e.getAsJsonObject();
+			var nameExtra = obj.get("name").getAsString().toLowerCase();
+			
+			if(obj.get("subset_id").getAsString().equals("sealed"))
 				continue;
-
+			
 					var cs = new CardShake();
 						cs.setCurrency(getCurrency());
-						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").text().trim());
-						cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").attr("href"));
-						cs.setFoil(nameExtra.contains("Foil"));
-						cs.setEtched(nameExtra.contains("Etched"));
-						cs.setNumber(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+						cs.setName(obj.get("display_name").getAsString());
+						cs.setLink(WEBSITE+obj.get("links").getAsJsonObject().get("default").getAsString());
+						cs.setFoil(obj.get("foil").getAsBoolean());
+						cs.setEtched(nameExtra.contains("etched"));
+						
+						
+						
+						if(!obj.get("card_num").isJsonNull())
+							cs.setNumber(obj.get("card_num").getAsString());
+						
 						cs.setEd(edition.getId());
 						cs.setProviderName(getName());
-						cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-						cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
-						cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(6).text())/100);
-						cs.setPriceWeekChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text()));
-						cs.setPercentWeekChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(8).text())/100);
+						try {
+							
+							var pobj=obj.get("prices").getAsJsonObject().get(getString("FORMAT").toLowerCase()).getAsJsonObject();
+							
+							cs.setPrice(pobj.get("current_price").getAsDouble());
+							cs.setPriceDayChange(pobj.get("dod_delta").getAsDouble());
+							cs.setPercentDayChange(pobj.get("dod_pct").getAsDouble());
+							cs.setPriceWeekChange(pobj.get("wow_delta").getAsDouble());
+							cs.setPercentWeekChange(pobj.get("wow_pct").getAsDouble());
+						}
+						catch(Exception _)
+						{
+							cs.setPrice(0.0);
+						}
 						
-						if(nameExtra.toLowerCase().contains("extended"))
+						
+						
+						/*
+						
+						
+					
+						*/
+						if(nameExtra.contains("extended"))
 							cs.setCardVariation(EnumCardVariation.EXTENDEDART);
-						else if(nameExtra.toLowerCase().contains("showcase"))
+						else if(nameExtra.contains("showcase"))
 							cs.setCardVariation(EnumCardVariation.SHOWCASE);
-						else if(nameExtra.toLowerCase().contains("borderless"))
+						else if(nameExtra.contains("borderless"))
 							cs.setCardVariation(EnumCardVariation.BORDERLESS);
-						else if (nameExtra.toLowerCase().contains("timeshifted"))
+						else if (nameExtra.contains("timeshifted"))
 							cs.setCardVariation(EnumCardVariation.TIMESHIFTED);
-						else if (nameExtra.toLowerCase().contains("retro"))
+						else if (nameExtra.contains("retro"))
 							cs.setCardVariation(EnumCardVariation.RETRO);
-						else if (nameExtra.toLowerCase().contains("japanese"))
+						else if (nameExtra.contains("japanese"))
 							cs.setCardVariation(EnumCardVariation.JAPANESEALT);
-						else if (nameExtra.toLowerCase().contains("serialized"))
+						else if (nameExtra.contains("serialized"))
 							cs.setCardVariation(EnumCardVariation.SERIALIZED);
 						
 						
