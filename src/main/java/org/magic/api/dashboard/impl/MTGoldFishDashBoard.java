@@ -345,7 +345,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		else
 			urlEditionChecker += "/"+page+"#"+getString(FORMAT);
 
-		Document doc = URLTools.extractAsHtml(urlEditionChecker);
+		var doc = URLTools.extractAsHtml(urlEditionChecker);
 		
 		var trs = URLTools.toJson(doc.select("div[data-react-class=CardsContainer]").attr("data-react-props"));
 
@@ -386,14 +386,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						{
 							cs.setPrice(0.0);
 						}
-						
-						
-						
-						/*
-						
-						
-					
-						*/
+	
 						if(nameExtra.contains("extended"))
 							cs.setCardVariation(EnumCardVariation.EXTENDEDART);
 						else if(nameExtra.contains("showcase"))
