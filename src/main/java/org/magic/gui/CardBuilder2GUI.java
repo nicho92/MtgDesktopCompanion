@@ -325,7 +325,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 							try {
 								cardsModel.addItems(get());
 								provider.saveEdition(set, get());
-								
 							} catch (InterruptedException _) {
 								Thread.currentThread().interrupt();
 							} catch (Exception e) {
