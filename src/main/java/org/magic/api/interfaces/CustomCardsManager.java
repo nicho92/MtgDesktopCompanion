@@ -8,18 +8,15 @@ import org.magic.api.beans.MTGEdition;
 
 public interface CustomCardsManager {
 
-
-
-
-	List<MTGCard> listCards(MTGEdition me) throws IOException;
-	void addCard(MTGEdition me, MTGCard mc) throws IOException;
-	boolean removeCard(MTGEdition me, MTGCard mc) throws IOException;
+	List<MTGCard> listCustomsCards(MTGEdition me) throws IOException;
+	void addCustomCard(MTGEdition me, MTGCard mc) throws IOException;
+	boolean deleteCustomCard(MTGEdition me, MTGCard mc) throws IOException;
 	public void rebuild(MTGEdition me) throws IOException;
 	
-	List<MTGEdition> loadEditions() throws IOException;
-	void saveEdition(MTGEdition ed, List<MTGCard> cards);
-	void saveEdition(MTGEdition me) throws IOException;
-	void removeEdition(MTGEdition me);
-	MTGEdition getSetById(String id);
+	List<MTGEdition> loadCustomSets() throws IOException;
+	void saveCustomSet(MTGEdition ed, List<MTGCard> cards)throws IOException;
+	void saveCustomSet(MTGEdition me) throws IOException;
+	void deleteCustomSet(MTGEdition me)throws IOException;
+	MTGEdition getCustomSet(String id);
 
 }

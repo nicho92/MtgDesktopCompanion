@@ -139,6 +139,4 @@ public interface MTGDao extends MTGPlugin{
 	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> c, List<T> list) throws SQLException;
 	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c, Instant start,Instant end) throws SQLException;
 
-
-
 }

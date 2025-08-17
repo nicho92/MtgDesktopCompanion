@@ -38,30 +38,34 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	
 	public void removeEdition(MTGEdition me) {
-		manager.removeEdition(me);
+		try {
+			manager.deleteCustomSet(me);
+		} catch (IOException e) {
+			logger.error(e);
+		}
 	}
 
 
 	public boolean removeCard(MTGEdition me, MTGCard mc) throws IOException {
-		return manager.removeCard(me, mc);
+		return manager.deleteCustomCard(me, mc);
 	}
 	
 	private List<MTGCard> loadCardsFromSet(MTGEdition me) throws IOException {
-		return manager.listCards(me);
+		return manager.listCustomsCards(me);
 	}
 
 	public void addCard(MTGEdition me, MTGCard mc) throws IOException {
 		postTreatmentCard(mc);
-		manager.addCard(me, mc);
+		manager.addCustomCard(me, mc);
 	}
 	
 	
-	public void saveEdition(MTGEdition ed, List<MTGCard> cards) {
-		manager.saveEdition(ed,cards);
+	public void saveEdition(MTGEdition ed, List<MTGCard> cards) throws IOException {
+		manager.saveCustomSet(ed,cards);
 	}
 
 	public void saveEdition(MTGEdition me) throws IOException {
-		manager.saveEdition(me);
+		manager.saveCustomSet(me);
 	}
 	
 	public PrivateMTGSetProvider() {
@@ -150,7 +154,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
-		return manager.loadEditions();
+		return manager.loadCustomSets();
 	}
 
 	@Override
@@ -162,7 +166,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	
 	@Override
 	public MTGEdition getSetById(String id){
-		return manager.getSetById(id);
+		return manager.getCustomSet(id);
 	}
 
 	@Override

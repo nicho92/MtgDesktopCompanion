@@ -328,7 +328,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 								
 							} catch (InterruptedException _) {
 								Thread.currentThread().interrupt();
-							} catch (ExecutionException e) {
+							} catch (Exception e) {
 								logger.error(e);
 							}
 							finally {

@@ -50,7 +50,7 @@ public class FileCustomManager implements CustomCardsManager {
 	
 	
 	@Override
-	public void removeEdition(MTGEdition me) {
+	public void deleteCustomSet(MTGEdition me) {
 		var f = new File(setDirectory, me.getId() + ext);
 		try {
 			logger.debug("delete : {}",f);
@@ -62,7 +62,7 @@ public class FileCustomManager implements CustomCardsManager {
 
 
 	@Override
-	public boolean removeCard(MTGEdition me, MTGCard mc) throws IOException {
+	public boolean deleteCustomCard(MTGEdition me, MTGCard mc) throws IOException {
 		var f = new File(setDirectory, me.getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
 		var cards = root.get(CARDS).getAsJsonArray();
@@ -81,7 +81,7 @@ public class FileCustomManager implements CustomCardsManager {
 	
 	
 	@Override
-	public List<MTGCard> listCards(MTGEdition me) throws IOException {
+	public List<MTGCard> listCustomsCards(MTGEdition me) throws IOException {
 		
 		var f = new File(setDirectory, me.getId() + ext);
 		security(f);
@@ -106,7 +106,7 @@ public class FileCustomManager implements CustomCardsManager {
 
 
 	@Override
-	public List<MTGEdition> loadEditions() throws IOException {
+	public List<MTGEdition> loadCustomSets() throws IOException {
 		List<MTGEdition> ret = new ArrayList<>();
 		for (File f : setDirectory.listFiles(pathname -> pathname.getName().endsWith(ext))) {
 			ret.add(loadEditionFromFile(f));
@@ -116,7 +116,7 @@ public class FileCustomManager implements CustomCardsManager {
 	
 
 	@Override
-	public void addCard(MTGEdition me, MTGCard mc) throws IOException {
+	public void addCustomCard(MTGEdition me, MTGCard mc) throws IOException {
 		var f = new File(setDirectory, me.getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
 		var cards = root.get(CARDS).getAsJsonArray();
@@ -153,7 +153,7 @@ public class FileCustomManager implements CustomCardsManager {
 		return -1;
 	}
 
-private MTGEdition loadEditionFromFile(File f) throws IOException {
+	private MTGEdition loadEditionFromFile(File f) throws IOException {
 			
 		security(f);
 	
@@ -162,13 +162,13 @@ private MTGEdition loadEditionFromFile(File f) throws IOException {
 	}
 
 	@Override
-	public void saveEdition(MTGEdition ed, List<MTGCard> cards) {
+	public void saveCustomSet(MTGEdition ed, List<MTGCard> cards) {
 		
 		cards.forEach(mc->{
 			try {
-				removeCard(ed, mc);
-				addCard(ed, mc);
-				saveEdition(ed);
+				deleteCustomCard(ed, mc);
+				addCustomCard(ed, mc);
+				saveCustomSet(ed);
 			} catch (IOException e) {
 				logger.error(e);
 			}
@@ -177,7 +177,7 @@ private MTGEdition loadEditionFromFile(File f) throws IOException {
 
 	@Override
 	public void rebuild(MTGEdition ed) throws IOException {
-		List<MTGCard> cards = listCards(ed);
+		List<MTGCard> cards = listCustomsCards(ed);
 		ed.setCardCount(cards.size());
 		ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
 		ed.setCardCountPhysical(ed.getCardCountOfficial());
@@ -196,14 +196,14 @@ private MTGEdition loadEditionFromFile(File f) throws IOException {
 		for(var i=0;i<cards.size();i++)
 			cards.get(i).setNumber(String.valueOf((i+1)));
 
-		saveEdition(ed,cards);
+		saveCustomSet(ed,cards);
 	}
 
 
 	@Override
-	public void saveEdition(MTGEdition me) throws IOException {
+	public void saveCustomSet(MTGEdition me) throws IOException {
 
-		var cards= listCards(me);
+		var cards= listCustomsCards(me);
 		
 		me.setCardCount(cards.size());
 		me.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
@@ -223,7 +223,7 @@ private MTGEdition loadEditionFromFile(File f) throws IOException {
 
 
 	@Override
-	public MTGEdition getSetById(String id) {
+	public MTGEdition getCustomSet(String id) {
 		try {
 			return loadEditionFromFile(new File(setDirectory, id + ext));
 		} catch (IOException _) {
