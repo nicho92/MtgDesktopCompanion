@@ -313,12 +313,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
-	
-	public static void main(String[] args) throws IOException {
-		new MTGoldFishDashBoard().getOnlineShakesForEdition(new MTGEdition("LTR"));
-	}
-	
-	
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MTGEdition edition) throws IOException {
 		var list = new EditionsShakers();

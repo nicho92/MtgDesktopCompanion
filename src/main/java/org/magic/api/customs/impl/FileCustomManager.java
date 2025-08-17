@@ -19,7 +19,6 @@ import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.FileTools;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class FileCustomManager implements CustomCardsManager {
@@ -180,7 +179,7 @@ public class FileCustomManager implements CustomCardsManager {
 			mc.getEditions().clear();
 			try {
 				mc.getEditions().add(BeanTools.cloneBean(ed));
-				mc.setEdition(mc.getEditions().get(0));
+				mc.setEdition(ed);
 				mc.setNumber(null);
 			} catch (Exception e) {
 				logger.error(e);

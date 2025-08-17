@@ -65,9 +65,6 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	    	
 	    	clean();
 	    	
-	    //	Collections.sort(list,Collections.reverseOrder());
-	    	
-	    	
 	    	sw2 = new SwingWorker<Void, MTGWallpaper>()
 			{
 

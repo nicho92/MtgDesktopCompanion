@@ -2,6 +2,7 @@ package org.magic.api.wallpaper.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +98,10 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			} catch (Exception e) {
 				logger.error("error",e);
 			}
+		
+		if(getBoolean("DATE_UPDATE_ORDER"))
+			Collections.sort(list,Collections.reverseOrder());
+		
 		return list;
 	}
 
@@ -125,7 +130,8 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"),
-								LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1));
+								LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1),
+								"DATE_UPDATE_ORDER",MTGProperty.newBooleanProperty("true", "ordering results by published date (desc)"));
 	}
 
 }
