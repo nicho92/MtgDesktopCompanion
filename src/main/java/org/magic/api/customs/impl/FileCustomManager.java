@@ -43,11 +43,7 @@ public class FileCustomManager implements CustomCardsManager {
 			logger.debug("Directory {} doesn't exist",setDirectory);
 			setDirectory.mkdir();
 		}
-		
 	}
-	
-
-	
 	
 	@Override
 	public void deleteCustomSet(MTGEdition me) {
@@ -68,7 +64,7 @@ public class FileCustomManager implements CustomCardsManager {
 		var cards = root.get(CARDS).getAsJsonArray();
 
 		for (var i = 0; i < cards.size(); i++) {
-			JsonElement el = cards.get(i);
+			var el = cards.get(i);
 			if (el.getAsJsonObject().get("id").getAsString().equals(mc.getId())) {
 				cards.remove(el);
 				FileTools.saveFile(new File(setDirectory, me.getId() + ext), root.toString());
@@ -107,10 +103,10 @@ public class FileCustomManager implements CustomCardsManager {
 
 	@Override
 	public List<MTGEdition> loadCustomSets() throws IOException {
-		List<MTGEdition> ret = new ArrayList<>();
-		for (File f : setDirectory.listFiles(pathname -> pathname.getName().endsWith(ext))) {
+		var ret = new ArrayList<MTGEdition>();
+		for (File f : setDirectory.listFiles(pathname -> pathname.getName().endsWith(ext))) 
 			ret.add(loadEditionFromFile(f));
-		}
+		
 		return ret;
 	}
 	
@@ -122,8 +118,6 @@ public class FileCustomManager implements CustomCardsManager {
 		var cards = root.get(CARDS).getAsJsonArray();
 		mc.setEdition(me);
 	
-		
-
 		if (mc.getId() == null)
 			mc.setId(CryptoUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getName()));
 		
@@ -177,10 +171,11 @@ public class FileCustomManager implements CustomCardsManager {
 
 	@Override
 	public void rebuild(MTGEdition ed) throws IOException {
-		List<MTGCard> cards = listCustomsCards(ed);
+		var cards = listCustomsCards(ed);
 		ed.setCardCount(cards.size());
 		ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
 		ed.setCardCountPhysical(ed.getCardCountOfficial());
+		
 		cards.forEach(mc->{
 			mc.getEditions().clear();
 			try {
