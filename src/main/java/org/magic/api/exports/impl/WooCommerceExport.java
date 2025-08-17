@@ -212,6 +212,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
 
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> build(MTGStockItem st) {
 		Map<String, Object> productInfo = new HashMap<>();
 

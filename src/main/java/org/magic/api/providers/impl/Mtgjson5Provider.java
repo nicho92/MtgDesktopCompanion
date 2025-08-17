@@ -507,6 +507,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		return ret;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initOtherEditionCardsVar(MTGCard mc, MTGEdition me) {
 		String edCode = me.getId();
 

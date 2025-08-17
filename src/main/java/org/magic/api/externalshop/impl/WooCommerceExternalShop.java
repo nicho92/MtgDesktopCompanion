@@ -69,6 +69,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> listCategories() throws IOException {
 		init();
@@ -187,6 +188,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 		init();

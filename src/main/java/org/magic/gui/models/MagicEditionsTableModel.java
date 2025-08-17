@@ -16,12 +16,8 @@ import org.magic.services.providers.IconsProvider;
 
 public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private Map<MTGEdition, Integer> mapCount;
-	private MTGCollection collection;
 
 	public MagicEditionsTableModel() {
 		initColumns();
@@ -58,9 +54,8 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 
 	public void calculate() {
-
+		var collection = new MTGCollection(MTGControler.getInstance().get("default-library"));
 		try {
-			collection = new MTGCollection(MTGControler.getInstance().get("default-library"));
 			mapCount = CollectionEvaluator.analyse(collection);
 		} catch (IOException e) {
 			logger.error("can't evaluate for {} : {}",collection,e.getMessage());

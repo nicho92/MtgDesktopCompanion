@@ -115,8 +115,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		token = meta.attr("content");
 		
-		logger.debug("getting {} token",token);
-		
 		return token;
 	}
 /*
@@ -260,6 +258,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			for(var l : res.split("\\\\n"))
 			{
+				l=l.replace(" window.", "");
 				if(!StringUtils.isEmpty(l))
 				{
 				var content = l.split(",");
@@ -343,6 +342,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		var trs = URLTools.toJson(doc.select("div[data-react-class=CardsContainer]").attr("data-react-props"));
 
+		
+		logger.debug("result={}",trs);
+		
 		for(var e : trs.getAsJsonObject().get("cards").getAsJsonArray())
 		{
 		
@@ -358,17 +360,15 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						cs.setLink(WEBSITE+obj.get("links").getAsJsonObject().get("default").getAsString());
 						cs.setFoil(obj.get("foil").getAsBoolean());
 						cs.setEtched(nameExtra.contains("etched"));
-						
-						
+						cs.setEd(edition.getId());
+						cs.setProviderName(getName());	
 						
 						if(!obj.get("card_num").isJsonNull())
 							cs.setNumber(obj.get("card_num").getAsString());
-						
-						cs.setEd(edition.getId());
-						cs.setProviderName(getName());
+					
 						try {
 							
-							var pobj=obj.get("prices").getAsJsonObject().get(getString("FORMAT").toLowerCase()).getAsJsonObject();
+							var pobj=obj.get("prices").getAsJsonObject().get(getString(FORMAT).toLowerCase()).getAsJsonObject();
 							
 							cs.setPrice(pobj.get("current_price").getAsDouble());
 							cs.setPriceDayChange(pobj.get("dod_delta").getAsDouble());
