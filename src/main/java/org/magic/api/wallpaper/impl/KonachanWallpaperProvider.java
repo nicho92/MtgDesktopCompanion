@@ -28,7 +28,10 @@ public class KonachanWallpaperProvider extends AbstractWallpaperProvider{
 			var arr = URLTools.extractAsJson(baseUrl).getAsJsonArray();
 			
 			if(arr.isEmpty())
+			{
+				logger.info("{} return nothing", getName());
 				return ret;
+			}
 			
 			for(var je : arr)
 			{
@@ -45,12 +48,12 @@ public class KonachanWallpaperProvider extends AbstractWallpaperProvider{
 				ret.add(pic);
 				
 				if(ret.size()>=getInt("LIMIT"))
-					return ret;
+					break;
 				
 			}
 		}
 		
-		
+		logger.info("{} return {} results", getName(), ret.size());
 		return ret;
 	}
 

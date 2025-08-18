@@ -49,10 +49,11 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 					ret.add(w);
 				
 				if(ret.size()>=getInt("LIMIT"))
-					return ret;
+					break;
 				
 			}
 		}
+		logger.info("{} return {} results", getName(), ret.size());
 		return ret;
 	}
 

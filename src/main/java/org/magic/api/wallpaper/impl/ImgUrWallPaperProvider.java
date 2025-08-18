@@ -94,6 +94,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 			logger.error(ex);
 		}
 
+		logger.info("{} return {} results", getName(), ret.size());
 		return ret;
 
 	}

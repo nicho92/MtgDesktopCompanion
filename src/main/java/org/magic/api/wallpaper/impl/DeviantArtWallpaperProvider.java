@@ -58,7 +58,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		    
 		    var offset = 0;
 		    var ret= readOffset(offset,search);
-				    while(ret.get("has_more").getAsBoolean())
+				    while(!ret.get("results").getAsJsonArray().isEmpty())
 				    {
 					    ret.get("results").getAsJsonArray().forEach(el->{
 					    	try {
@@ -77,21 +77,17 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					    		if(el.getAsJsonObject().get("author").getAsJsonObject().get("username")!=null)
 					    			p.setAuthor(el.getAsJsonObject().get("author").getAsJsonObject().get("username").getAsString());
 					    		
-					    		
-					    		
 					    		  if(list.size()<getInt(LIMIT))
 					    			  list.add(p);
 					    		}
-					    		
-					    		
 							} catch (Exception e) {
 								logger.error("Error for {} . error : {}",el,e.getMessage());
 							}
 					    });
 
-					    if(list.size()>=getInt(LIMIT))
-			    			break;
-
+					    if(list.size()>=getInt(LIMIT) || ret.get("next_offset").isJsonNull())
+					    	break;
+					    
 					    ret = readOffset(ret.get("next_offset").getAsInt(), search);
 				    }
 				   
@@ -101,6 +97,9 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		
 		if(getBoolean("DATE_UPDATE_ORDER"))
 			Collections.sort(list,Collections.reverseOrder());
+		
+		
+		logger.info("{} return {} results", getName(), list.size());
 		
 		return list;
 	}

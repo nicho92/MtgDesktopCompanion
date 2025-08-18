@@ -39,6 +39,8 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 				list.add(w);
 				notify(w);
 			}
+			
+			logger.info("{} return {} results", getName(), list.size());
 			return list;
 		} catch (Exception e) {
 			logger.error(e);
