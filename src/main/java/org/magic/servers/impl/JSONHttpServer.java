@@ -1443,8 +1443,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 	private void initWallpapers()
 	{
-		
-		get("/wallpaper/:plugins/:search", URLTools.HEADER_JSON,(request, _) ->MTG.getPlugin(request.params(":plugins"),MTGWallpaperProvider.class).search(request.params(":search")), transformer);
+		get("/wallpaper/:search", URLTools.HEADER_JSON,(request, _) ->MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(request.params(":search")).stream()).collect(Collectors.toList()), transformer);
 		
 	}
 	
