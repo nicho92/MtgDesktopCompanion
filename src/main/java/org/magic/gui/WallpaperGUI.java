@@ -92,7 +92,7 @@ public class WallpaperGUI extends MTGUIComponent {
 					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
-						logger.error(e);
+						logger.error("error in execution",e);
 					}
 					
 				}

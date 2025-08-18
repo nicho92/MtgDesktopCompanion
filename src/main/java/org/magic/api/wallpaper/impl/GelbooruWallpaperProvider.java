@@ -34,6 +34,7 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 		
 		while(ret.size()<total)
 		{
+			try {
 			var baseUrl ="https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&pid="+(page++)+"&limit=100&api_key="+getAuthenticator().get("API_KEY")+"&user_id="+getAuthenticator().get("USER_ID")+"&tags="+search.replace(" ", "_");
 			var obj =  URLTools.extractAsJson(baseUrl).getAsJsonObject();
 			total = obj.get("@attributes").getAsJsonObject().get("count").getAsInt();
@@ -51,6 +52,10 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 				if(ret.size()>=getInt("LIMIT"))
 					break;
 				
+			}
+			}catch(Exception e)
+			{
+				logger.error("error in {}", getName(),e);
 			}
 		}
 		logger.info("{} return {} results", getName(), ret.size());
