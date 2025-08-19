@@ -10,7 +10,7 @@ public interface CustomCardsManager {
 
 	List<MTGCard> listCustomsCards(MTGEdition me) throws IOException;
 	void addCustomCard(MTGEdition me, MTGCard mc) throws IOException;
-	boolean deleteCustomCard(MTGEdition me, MTGCard mc) throws IOException;
+	boolean deleteCustomCard(MTGCard mc) throws IOException;
 	public void rebuild(MTGEdition me) throws IOException;
 	
 	List<MTGEdition> loadCustomSets() throws IOException;

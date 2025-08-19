@@ -105,14 +105,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		return "CARD_EDITOR";
 	}
 	
-	
-	@Override
-	public void onVisible() {
-		btnUrl.setEnabled(MTG.getEnabledPlugin(MTGPictureEditor.class).getMode()==MOD.URI);
-		btnImage.setEnabled(MTG.getEnabledPlugin(MTGPictureEditor.class).getMode()!=MOD.URI);
-	}
-	
-
 	public MagicCardEditorPanel() {
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };

@@ -54,16 +54,21 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		connect();
 		
+		File f = null; 
+		
 		if(mc.getUrl().startsWith("http"))
 		{
-			var f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,mc.getName()+".png");
+			f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,mc.getName()+".png");
 			URLTools.download(mc.getUrl(), f);
-			mc.setUrl(f.getAbsolutePath());
+		}
+		else
+		{
+			f = new File(mc.getUrl());
 		}
 		
 		
 		
-		var imgPath = uploadPicture(new File(mc.getUrl()),mc);
+		var imgPath = uploadPicture(f,mc);
 		
 		int size = Integer.parseInt(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SIZE,"30"));
 		

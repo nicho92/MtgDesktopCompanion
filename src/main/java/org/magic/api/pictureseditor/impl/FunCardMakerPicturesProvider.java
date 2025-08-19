@@ -18,6 +18,7 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -29,8 +30,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 
 	private static final String LAYOUT_OLD_MODERN = "LAYOUT_OLD_MODERN";
-	private static final String HYBRIDE = "HYBRIDE";
-	private static final String DOMAIN="funcardmaker.thaledric.fr";
+ 	private static final String DOMAIN="funcardmaker.thaledric.fr";
 	private static final String WEBSITE="http://"+DOMAIN;
 	private static final String GENERATE_URL =WEBSITE+"/generate.php";
 	private static final String UPLOAD_URL =WEBSITE+"/upload.php";
@@ -124,9 +124,21 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    if(mc.getRarity()!=null)
 						    	build.addContent("fields[se-rarity]",mc.getRarity().name().substring(0,1).toLowerCase());
 
-						    if(mc.getUrl()!=null && !mc.getUrl().startsWith("http"))
+						    if(mc.getUrl()!=null)
 						    {
-						    	var f = new File(mc.getUrl());
+						    	File f = null; 
+								
+								if(mc.getUrl().startsWith("http"))
+								{
+									f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,mc.getName()+".png");
+									URLTools.download(mc.getUrl(), f);
+									
+								}
+								else
+								{
+									f = new File(mc.getUrl());
+								}
+								
 						    	if(f.exists())
 						    	{
 						    		String filename=upload(f);
@@ -183,9 +195,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("COPYRIGHT", new MTGProperty("(c)2024-Wizards of the coast","Bottom card information"),
-							   LAYOUT_OLD_MODERN, new MTGProperty("modern","choose the layout of the card","old","modern"),
-							   HYBRIDE, new MTGProperty("","information about hybrid card"));
+		return Map.of("COPYRIGHT", new MTGProperty("(c)2025-Wizards of the coast","Bottom card information"),
+							   LAYOUT_OLD_MODERN, new MTGProperty("modern","choose the layout of the card","old","modern"));
 	}
 
 	@Override

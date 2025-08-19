@@ -57,8 +57,8 @@ public class FileCustomManager implements CustomCardsManager {
 
 
 	@Override
-	public boolean deleteCustomCard(MTGEdition me, MTGCard mc) throws IOException {
-		var f = new File(setDirectory, me.getId() + ext);
+	public boolean deleteCustomCard(MTGCard mc) throws IOException {
+		var f = new File(setDirectory, mc.getEdition().getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
 		var cards = root.get(CARDS).getAsJsonArray();
 
@@ -66,7 +66,7 @@ public class FileCustomManager implements CustomCardsManager {
 			var el = cards.get(i);
 			if (el.getAsJsonObject().get("id").getAsString().equals(mc.getId())) {
 				cards.remove(el);
-				FileTools.saveFile(new File(setDirectory, me.getId() + ext), root.toString());
+				FileTools.saveFile(new File(setDirectory, mc.getEdition().getId() + ext), root.toString());
 				return true;
 			}
 		}
@@ -159,7 +159,7 @@ public class FileCustomManager implements CustomCardsManager {
 		
 		cards.forEach(mc->{
 			try {
-				deleteCustomCard(ed, mc);
+				deleteCustomCard(mc);
 				addCustomCard(ed, mc);
 				saveCustomSet(ed);
 			} catch (IOException e) {

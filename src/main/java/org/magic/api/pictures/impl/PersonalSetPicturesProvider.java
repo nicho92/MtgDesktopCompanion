@@ -38,9 +38,9 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		ImageTools.saveImage(bi, Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile(), getString(FORMAT));
 	}
 
-	public void removePicture(MTGEdition ed, MTGCard mc) {
+	public void removePicture(MTGCard mc) {
 		var mainDir = getFile(PICS_DIR);
-		var edDir = new File(mainDir, ed.getId());
+		var edDir = new File(mainDir, mc.getEdition().getId());
 		var f = new File(edDir, mc.getId() + "." + getString(FORMAT).toLowerCase());
 		try {
 			FileTools.deleteFile(f);

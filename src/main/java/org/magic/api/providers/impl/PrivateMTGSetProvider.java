@@ -46,8 +46,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 
-	public boolean removeCard(MTGEdition me, MTGCard mc) throws IOException {
-		return manager.deleteCustomCard(me, mc);
+	public boolean removeCard(MTGCard mc) throws IOException {
+		return manager.deleteCustomCard(mc);
 	}
 	
 	private List<MTGCard> loadCardsFromSet(MTGEdition me) throws IOException {
@@ -56,6 +56,9 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	public void addCard(MTGEdition me, MTGCard mc) throws IOException {
 		postTreatmentCard(mc);
+		
+		
+		
 		manager.addCustomCard(me, mc);
 	}
 	
