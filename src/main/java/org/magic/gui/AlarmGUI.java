@@ -199,7 +199,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 					try {
 						model.bind(get());
-
+						table.packAll();
 					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {

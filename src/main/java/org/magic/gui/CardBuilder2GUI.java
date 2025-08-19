@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultComboBoxModel;
@@ -100,6 +99,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				protected void notifyEnd() {
 					editionModel.bind(getResult());
 					editionModel.fireTableDataChanged();
+					editionsTable.packAll();
 					cboSets.setModel(new DefaultComboBoxModel<>(getResult().toArray(new MTGEdition[getResult().size()])));
 					btnRemoveCard.setEnabled(false);
 				}
