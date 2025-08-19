@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultComboBoxModel;
@@ -236,8 +237,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			UITools.initTableVisibility(editionsTable, editionModel);
 			
 			UITools.setSorter(cardsTable,6,new NumberSorter());
-			
-			
+				
 			/// ACTION LISTENER
 
 			btnRebuildSet.addActionListener(_->{
