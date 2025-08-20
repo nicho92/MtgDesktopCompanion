@@ -12,7 +12,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
-import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
 public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
@@ -25,10 +24,10 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	public List<MTGWallpaper> search(String search) {
 
 
-		List<MTGWallpaper> ret = new ArrayList<>();
-		MTGHttpClient c = URLTools.newClient();
-		Map<String,String> h = new HashMap<>();
-		Map<String,String> e = new HashMap<>();
+		var ret = new ArrayList<MTGWallpaper>();
+		var c = URLTools.newClient();
+		var h = new HashMap<String,String>();
+		var e = new HashMap<String,String>();
 
 		if(getAuthenticator().get(CLIENTID)==null)
 		{
