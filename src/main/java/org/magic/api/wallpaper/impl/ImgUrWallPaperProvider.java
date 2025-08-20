@@ -66,11 +66,17 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 						if(je.getAsJsonObject().get("account_url")!=null)
 							w.setAuthor(je.getAsJsonObject().get("account_url").getAsString());
 						
+						
+						w.setMature(je.getAsJsonObject().get("nsfw").getAsBoolean());
 						w.setUrl(URI.create(im.getAsJsonObject().get("link").getAsString()));
 						w.setUrlThumb(URI.create(im.getAsJsonObject().get("link").getAsString()));
 						w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
 						w.setPublishDate(new Date(im.getAsJsonObject().get("datetime").getAsLong()*1000));
 						w.setProvider(getName());
+					
+						for( var el : je.getAsJsonObject().get("tags").getAsJsonArray())
+							w.getTags().add(el.getAsJsonObject().get("name").getAsString());
+							
 						ret.add(w);
 						notify(w);
 					});

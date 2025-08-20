@@ -292,6 +292,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 							magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());	
 						}
 						magicCard.setArtist(wallChooser.getSelectedItem().getAuthor());
+						magicCard.setHasContentWarning(wallChooser.getSelectedItem().isMature());
 						artistJTextField.setText(wallChooser.getSelectedItem().getAuthor());
 					}
 		});

@@ -45,6 +45,9 @@ public class KonachanWallpaperProvider extends AbstractWallpaperProvider{
 					pic.setPublishDate(new Date(el.get("created_at").getAsLong()*1000));
 					pic.setName(el.get("id").getAsString());
 					pic.setProvider(getName());
+					for(var s : el.get("tags").getAsString().split(" "))
+						pic.getTags().add(s);
+				
 				ret.add(pic);
 				
 				if(ret.size()>=getInt("LIMIT"))

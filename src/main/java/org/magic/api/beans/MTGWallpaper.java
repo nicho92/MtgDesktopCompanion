@@ -2,7 +2,9 @@ package org.magic.api.beans;
 
 import java.awt.image.BufferedImage;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MTGWallpaper implements Comparable<MTGWallpaper> {
 
@@ -14,7 +16,25 @@ public class MTGWallpaper implements Comparable<MTGWallpaper> {
 	private String author;
 	private Date publishDate;
 	private String provider;
+	private boolean mature;
+	private List<String> tags;
 	
+	public MTGWallpaper() {
+		tags = new ArrayList<>();
+	}
+	
+	public List<String> getTags() {
+		return tags;
+	}
+	
+	public boolean isMature() {
+		return mature;
+	}
+
+	public void setMature(boolean mature) {
+		this.mature = mature;
+	}
+
 	public void setProvider(String provider) {
 		this.provider = provider;
 	}

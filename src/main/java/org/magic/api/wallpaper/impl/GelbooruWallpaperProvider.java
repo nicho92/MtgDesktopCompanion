@@ -73,6 +73,10 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 			pic.setUrlThumb(URI.create(el.get("preview_url").getAsString()));
 			pic.setUrl(URI.create(el.get("file_url").getAsString()));
 			
+			for(var s : el.get("tags").getAsString().split(" "))
+				pic.getTags().add(s);
+			
+			
 			return pic;
 		}
 		catch(Exception _)
