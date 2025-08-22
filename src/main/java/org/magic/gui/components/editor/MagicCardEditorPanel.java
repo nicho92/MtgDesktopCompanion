@@ -297,7 +297,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 						if(wallChooser.getSelectedItem().getUserAgent()!=null)
 						{
 							try {
-								magicCard.setUrl(ImagePoster.upload(wallChooser.getSelectedItem().getUrl().toASCIIString()));
+								magicCard.setUrl(new ImagePoster().upload(wallChooser.getSelectedItem().getUrl().toASCIIString()));
 							} catch (IOException e1) {
 								logger.error(e1);
 							}

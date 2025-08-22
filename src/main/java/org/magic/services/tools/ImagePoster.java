@@ -10,10 +10,15 @@ import org.magic.services.network.URLTools;
 
 public class ImagePoster {
 	
-	private static Logger logger = MTGLogger.getLogger(ImagePoster.class);
+	private Logger logger = MTGLogger.getLogger(ImagePoster.class);
+	private int expirationDay = 1;
+	
+	public void setExpirationDay(int expirationDay) {
+		this.expirationDay = expirationDay;
+	}
 	
 	
-	public static String upload(String wallUrl) throws IOException {
+	public String upload(String wallUrl) throws IOException {
 		var baseUrl = "https://postimages.org/";
 		var client = URLTools.newClient();
 		var jsonRet = RequestBuilder.build().setClient(client).post().url(baseUrl+"/json/rr")
@@ -24,19 +29,17 @@ public class ImagePoster {
 					.addHeader("Cache-Control", "no-cache")
 					.addContent("upload_session", new Date().getTime() + Double.toString(Math.random()).substring(1))
 					.addContent("optsize", "0")
-					.addContent("expire", "1")
+					.addContent("expire", String.valueOf(expirationDay))
 					.addContent("url", wallUrl)
 					.addContent("numfiles", "1")
 					.addContent("gallery", "").toJson().getAsJsonObject();
 		
 		logger.debug("upload result : {}",  jsonRet);
 		
-		if(jsonRet.get("status").getAsString().equals("OK"))
-		{
+		if(jsonRet.get("status").getAsString().equals("OK")){
 			return RequestBuilder.build().setClient(client).post().url(jsonRet.get("url").getAsString()).toHtml().getElementById("code_direct").attr("value");
 		}
-		else
-		{
+		else {
 			logger.error("error {}", jsonRet);
 			throw new IOException("Error at upload");
 		}
