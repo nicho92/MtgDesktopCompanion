@@ -35,7 +35,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 		text.addActionListener(_->{
 			var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->{
 				try {
-				return p.search(text.getText()).stream();
+				return p.search(text.getText().trim()).stream();
 				}
 				catch(Exception _)
 				{

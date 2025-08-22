@@ -48,6 +48,10 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 		
 		logger.debug("ret = {}", obj);
 		
+		if(obj.get("items").getAsJsonArray().isEmpty())
+			break;
+		
+		
 		for(var el : obj.get("items").getAsJsonArray())
 		{
 			 for(var modelVersion :  el.getAsJsonObject().get("modelVersions").getAsJsonArray())
@@ -57,23 +61,21 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 					 if(image.getAsJsonObject().get("type").getAsString().equals("image")) 
 					 {
 						 var wall= new MTGWallpaper();
-						 wall.setProvider(getName());
-						 wall.setMature(el.getAsJsonObject().get("nsfw").getAsBoolean());
-						 wall.setName(el.getAsJsonObject().get("name").getAsString());
-						 try {
-						 wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
-						 }
-						 catch(Exception _)
-						 {
-							 //do nothign
-						 }
-						 wall.setPublishDate(Date.from(Instant.parse(modelVersion.getAsJsonObject().get("publishedAt").getAsString())));
-						 el.getAsJsonObject().get("tags").getAsJsonArray().forEach(t->wall.getTags().add(t.getAsString()));
-						 wall.setUrl(URI.create(image.getAsJsonObject().get("url").getAsString()));
-						 wall.setUrlThumb(wall.getUrl());
+							 wall.setProvider(getName());
+							 wall.setMature(el.getAsJsonObject().get("nsfw").getAsBoolean());
+							 wall.setName(el.getAsJsonObject().get("name").getAsString() +"_"+image.getAsJsonObject().get("id").getAsString());
+							 wall.setUrl(URI.create(image.getAsJsonObject().get("url").getAsString()));
+							 
+							 wall.setUrlThumb(URI.create(wall.getUrl().toASCIIString().replaceAll("width=\\d+", "width=60")));
+							
+							 
+							 wall.setPublishDate(Date.from(Instant.parse(modelVersion.getAsJsonObject().get("publishedAt").getAsString())));
+							 el.getAsJsonObject().get("tags").getAsJsonArray().forEach(t->wall.getTags().add(t.getAsString()));
+							 if(!el.getAsJsonObject().get("creator").getAsJsonObject().get("username").isJsonNull())
+								 wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
 						
 						 
-						 if(ret.size()>getInt(LIMIT))
+						 if(ret.size()>=getInt(LIMIT))
 						 {
 							 logger.info("{} return {} results", getName(),ret.size());
 							 return ret;
@@ -85,6 +87,7 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 					 }
 				 }
 			 }
+			 
 		}
 		
 		}
@@ -96,7 +99,7 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"),
-							  LIMIT,MTGProperty.newIntegerProperty("100", "Max results to return", 1, 200),
+							  LIMIT,MTGProperty.newIntegerProperty("250", "Max results to return", 1, -1),
 							  "SEARCH_MODE",new MTGProperty("tag", "set search mode by tags or by query", "tag","query")
 								);
 	}
