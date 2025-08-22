@@ -57,6 +57,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
+import org.magic.services.providers.ImagePoster;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -290,6 +291,16 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 						else
 						{
 							magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());	
+						}
+						
+						//protected webhoster.
+						if(wallChooser.getSelectedItem().getUserAgent()!=null)
+						{
+							try {
+								magicCard.setUrl(ImagePoster.upload(wallChooser.getSelectedItem().getUrl().toASCIIString()));
+							} catch (IOException e1) {
+								logger.error(e1);
+							}
 						}
 						magicCard.setArtist(wallChooser.getSelectedItem().getAuthor());
 						magicCard.setHasContentWarning(wallChooser.getSelectedItem().isMature());

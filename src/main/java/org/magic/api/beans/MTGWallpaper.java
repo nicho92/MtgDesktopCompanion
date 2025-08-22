@@ -18,6 +18,17 @@ public class MTGWallpaper implements Comparable<MTGWallpaper> {
 	private String provider;
 	private boolean mature;
 	private List<String> tags;
+	private transient String userAgent;
+	
+	
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+	
+	public String getUserAgent() {
+		return userAgent;
+	}
+	
 	
 	public MTGWallpaper() {
 		tags = new ArrayList<>();

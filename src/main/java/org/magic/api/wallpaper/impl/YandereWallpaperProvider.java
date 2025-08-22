@@ -9,6 +9,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 
 public class YandereWallpaperProvider extends AbstractWallpaperProvider{
@@ -32,6 +33,7 @@ public class YandereWallpaperProvider extends AbstractWallpaperProvider{
 				pic.setPublishDate(new Date(el.get("created_at").getAsLong()*1000));
 				pic.setName(el.get("id").getAsString());
 				pic.setProvider(getName());
+				pic.setUserAgent(MTGConstants.MTG_APP_NAME); 
 				for(var s : el.get("tags").getAsString().split(" "))
 					pic.getTags().add(s);
 				

@@ -16,6 +16,8 @@ import org.magic.api.beans.MTGWallpaper;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ImagePanel2;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.MTGHttpClient;
+import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -28,10 +30,11 @@ public class ImageGalleryPanel extends MTGUIComponent {
 		private boolean openingLargePic=true;
 		private transient SwingWorker<Void, MTGWallpaper> sw2;
 		private boolean multipleSelection;
-		
+		private MTGHttpClient client;
 		
 	    public ImageGalleryPanel(boolean openingLarge, boolean multiple)
 	    {
+	    	client = URLTools.newClient();
 	    	this.openingLargePic = openingLarge;
 	    	this.multipleSelection = multiple;
 	    	setLayout(new WrapLayout(FlowLayout.LEFT, 10, 10));
@@ -65,6 +68,8 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	    	
 	    	clean();
 	    	
+	    	
+	    	
 	    	sw2 = new SwingWorker<Void, MTGWallpaper>()
 			{
 
@@ -74,8 +79,15 @@ public class ImageGalleryPanel extends MTGUIComponent {
 					{
 						if(isCancelled())
 							break;
-						try {			
-							wall.setPicture(URLTools.extractAsImage(wall.getUrlThumb().toASCIIString()));
+						try {		
+							
+							var b = RequestBuilder.build().setClient(client).get().url(wall.getUrlThumb().toASCIIString());
+							
+							if(wall.getUserAgent()!=null)
+								b = b.addHeader(URLTools.USER_AGENT, wall.getUserAgent());
+							
+							
+							wall.setPicture(b.toImage());
 							publish(wall);
 							}
 							catch(SocketException _)
@@ -149,7 +161,16 @@ public class ImageGalleryPanel extends MTGUIComponent {
 					protected void auditedRun() {
 						BufferedImage img;
 						try {
-							img = URLTools.extractAsImage(wall.getUrl().toASCIIString());
+							
+							var b = RequestBuilder.build().setClient(client).get().url(wall.getUrl().toASCIIString());
+							
+							if(wall.getUserAgent()!=null)
+								b = b.addHeader(URLTools.USER_AGENT, wall.getUserAgent());
+							
+							
+							wall.setPicture(b.toImage());
+							
+							img = wall.getPicture();
 							pane.setImg(img);
 				    		pane.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
 				    		diag.pack();
