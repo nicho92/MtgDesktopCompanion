@@ -94,7 +94,7 @@ public class DanbooruWallpaperProvider extends AbstractWallpaperProvider{
 			pic.setUrl(URI.create(el.get("large_file_url").getAsString()));
 			pic.setPublishDate(Date.from(OffsetDateTime.parse(el.get("updated_at").getAsString()).toInstant()));
 			pic.setUserAgent(userAgent);
-			
+			pic.setMature(true);
 			
 			for(var s : el.get("tag_string").getAsString().split(" "))
 				pic.getTags().add(s);

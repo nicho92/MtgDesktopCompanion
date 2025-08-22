@@ -15,17 +15,14 @@ public class ImagePoster {
 	
 	public static String upload(String wallUrl) throws IOException {
 		var baseUrl = "https://postimages.org/";
-		
-		var uploadSession = new Date().getTime() + Double.toString(Math.random()).substring(1);
 		var client = URLTools.newClient();
-		
 		var jsonRet = RequestBuilder.build().setClient(client).post().url(baseUrl+"/json/rr")
 					.addHeader("x-requested-with","XMLHttpRequest")
 					.addHeader(URLTools.ORIGIN, baseUrl)
 					.addHeader(URLTools.REFERER, baseUrl+"/web")
 					.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON)
 					.addHeader("Cache-Control", "no-cache")
-					.addContent("upload_session", uploadSession)
+					.addContent("upload_session", new Date().getTime() + Double.toString(Math.random()).substring(1))
 					.addContent("optsize", "0")
 					.addContent("expire", "1")
 					.addContent("url", wallUrl)
