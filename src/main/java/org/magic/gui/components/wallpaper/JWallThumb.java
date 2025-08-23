@@ -48,7 +48,18 @@ public class JWallThumb extends JLabel {
 		super();
 		wall = w;
 		setText(w.getName());
-		setToolTipText(w.getName() + " By " + w.getAuthor() + " - " + UITools.formatDateTime(w.getPublishDate()) + " - " + w.getProvider());
+		
+		var b = new StringBuilder("<html>");
+			 b.append("<b>").append(w.getName()).append("</b><br/>");
+			 b.append("Author : ").append(w.getAuthor()).append("<br/>");
+			 b.append("Date : ").append(UITools.formatDateTime(w.getPublishDate())).append("<br/>");
+			 b.append("Nsfw : ").append(w.isMature()).append("<br/>");
+			 b.append("Provider : ").append(w.getProvider()).append("<br/>");
+			 if(!w.getTags().isEmpty())
+				 b.append("Tags : ").append(String.join(", ", w.getTags())).append("<br/>");
+		
+		
+		setToolTipText(b.toString());
 	}
 
 	@Override

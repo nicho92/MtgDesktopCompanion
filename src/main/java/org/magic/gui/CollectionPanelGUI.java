@@ -148,12 +148,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		var init = new SwingWorker<List<MTGEdition>, Void>() {
 				@Override
 				protected List<MTGEdition> doInBackground() throws Exception {
-					return MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions();
+					var eds= MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions();
+					model.init(eds);
+					return eds;
 				}
 				@Override
 				protected void done() {
 					try {
-						model.init(get());
+						get();
+						model.fireTableDataChanged();
 					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (Exception e) {

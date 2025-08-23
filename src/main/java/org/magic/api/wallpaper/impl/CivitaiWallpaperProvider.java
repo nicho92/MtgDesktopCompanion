@@ -62,11 +62,14 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 					 {
 						 var wall= new MTGWallpaper();
 							 wall.setProvider(getName());
-							 wall.setMature(el.getAsJsonObject().get("nsfw").getAsBoolean());
+							 wall.setMature(image.getAsJsonObject().get("nsfwLevel").getAsInt()>1);
+							 
+							 
+							 
 							 wall.setName(el.getAsJsonObject().get("name").getAsString() +"_"+image.getAsJsonObject().get("id").getAsString());
 							 wall.setUrl(URI.create(image.getAsJsonObject().get("url").getAsString()));
 							 
-							 wall.setUrlThumb(URI.create(wall.getUrl().toASCIIString().replaceAll("width=\\d+", "width=60")));
+							 wall.setUrlThumb(URI.create(wall.getUrl().toASCIIString().replaceAll("width=\\d+", "width=30")));
 							
 							 
 							 wall.setPublishDate(Date.from(Instant.parse(modelVersion.getAsJsonObject().get("publishedAt").getAsString())));

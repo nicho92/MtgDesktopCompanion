@@ -49,7 +49,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 		} catch (Exception e) {
 			logger.error("error calculate", e);
 		}
-		fireTableDataChanged();
+		
 	}
 
 
