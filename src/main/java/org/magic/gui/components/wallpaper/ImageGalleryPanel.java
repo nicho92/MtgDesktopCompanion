@@ -92,9 +92,12 @@ public class ImageGalleryPanel extends MTGUIComponent {
 							}
 							catch(SocketException _)
 							{
-								logger.error("socker error for {} ",wall.getUrl());
+								logger.error("socket error for {} ",wall.getUrl());
 							}
-						
+							catch(IOException e)
+							{
+								logger.error("IOException for {} : {}",wall.getUrl(),e.getMessage());
+							}
 						
 					}
 					return null;
@@ -138,6 +141,16 @@ public class ImageGalleryPanel extends MTGUIComponent {
 				}
 				@Override
 				protected void done() {
+					
+					try {
+						get();
+					}
+					catch(Exception e)
+					{
+						logger.error(e);
+					}
+					
+					
 					getParent().revalidate();
 				}
 			};

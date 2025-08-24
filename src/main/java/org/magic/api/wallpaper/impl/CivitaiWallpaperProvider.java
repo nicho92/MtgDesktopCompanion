@@ -10,6 +10,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
@@ -30,6 +31,14 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 		return "CivitAI";
 	}
 	
+	public static void main(String[] args) {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		var prov = new CivitaiWallpaperProvider();
+		prov.search("lara croft");
+	}
+	
+	
+	
 	@Override
 	public List<MTGWallpaper> search(String search) {
 		var ret = new ArrayList<MTGWallpaper>();
@@ -39,14 +48,29 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 		while(ret.size()<getInt(LIMIT))
 		{
 		
-		var obj = RequestBuilder.build().setClient(URLTools.newClient()).get().url(BASE_URL+"/api/v1/models")
+		var build = RequestBuilder.build().setClient(URLTools.newClient()).get().url(BASE_URL+"/api/v1/models")
 				.addHeader("Authorization", "Bearer "+getAuthenticator().get("API_KEY"))
 				.addHeader(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON)
 				.addContent(getString("SEARCH_MODE"), search)
-				.addContent("page", String.valueOf(page++))
-				.addContent("nsfw", getString("MATURE")).toJson().getAsJsonObject();
+				.addContent("limit", "100")
+				.addContent("nsfw", getString("MATURE"));
+				
+		
+		if(getString("SEARCH_MODE").equals("tag"))
+			build = build.addContent("page", String.valueOf(page++));
+		
+		
+		var obj = build.toJson().getAsJsonObject();
 		
 		logger.debug("ret = {}", obj);
+		
+		
+		if(obj.get("error")!=null)
+		{
+			logger.error("error : {}", obj.get("error").getAsString());
+			return ret;
+		}
+		
 		
 		if(obj.get("items").getAsJsonArray().isEmpty())
 			break;
@@ -71,8 +95,7 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 							 if(!el.getAsJsonObject().get("creator").getAsJsonObject().get("username").isJsonNull())
 								 wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
 						
-						 
-						 if(ret.size()>=getInt(LIMIT))
+						if(ret.size()>=getInt(LIMIT))
 						 {
 							 logger.info("{} return {} results", getName(),ret.size());
 							 return ret;
@@ -88,7 +111,6 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 		}
 		
 		}
-		
 		logger.info("{} return {} results", getName(),ret.size());
 		return ret;
 	}
