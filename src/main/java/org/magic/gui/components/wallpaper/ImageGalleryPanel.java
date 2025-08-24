@@ -58,7 +58,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 		@Override
 		public void onDestroy() {
 			if(sw2!=null && !sw2.isCancelled())
-	    		sw2.cancel(true);
+	    		sw2.cancel(false);
 		}
 		
 		
