@@ -3,6 +3,7 @@ package org.magic.gui.components.dialog.importer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -10,47 +11,85 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingWorker;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGWallpaperProvider;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.ImageGalleryPanel;
 import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWallpaper>{
 
 	private static final long serialVersionUID = 1L;
 	private ImageGalleryPanel 	panel ;
-	
+	private AbstractBuzyIndicatorComponent buzy;
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public WallPaperChooseDialog() {
 		super();
 		setPreferredSize(new Dimension(1024, 768));
-		var text = new JTextField(20);
-				
-		getContentPane().add(text,BorderLayout.NORTH);	
+		var text = new JTextField(30);
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		
+		getContentPane().add(UITools.createFlowPanel(text,buzy),BorderLayout.NORTH);	
 		
 		text.addActionListener(_->{
-			var ret = MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->{
-				try {
-				return p.search(text.getText().trim()).stream();
+			
+			buzy.start();
+			ThreadManager.getInstance().runInEdt(new SwingWorker<List<MTGWallpaper>, Void>(){
+
+				@Override
+				protected List<MTGWallpaper> doInBackground() throws Exception {
+					return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->{
+						try {
+							return p.search(text.getText().trim()).stream();
+							}
+							catch(Exception _)
+							{
+								return Stream.empty();
+							}
+							
+						}).collect(Collectors.toList());
 				}
-				catch(Exception _)
-				{
-					return Stream.empty();
+
+				@Override
+				protected void done() {
+					try {
+						if(get().isEmpty())
+						{
+							MTGControler.getInstance().notify(new MTGNotification("Search", "No Results", MESSAGE_TYPE.ERROR));
+							return;
+						}
+						
+						panel.init(get());
+						
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					} catch (ExecutionException e) {
+						logger.error(e);
+					}
+				
+					buzy.end();
+					
 				}
 				
-			}).collect(Collectors.toList());
+				
+				
+				
+			}, "search wallpaper");
 			
 			
-			if(ret.isEmpty())
-			{
-				MTGControler.getInstance().notify(new MTGNotification("Search", "No Results", MESSAGE_TYPE.ERROR));
-				return;
-			}
-			panel.init(ret);
+			
+		
 		});
 		
 	}
