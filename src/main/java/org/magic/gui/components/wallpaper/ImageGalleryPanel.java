@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
@@ -145,8 +146,11 @@ public class ImageGalleryPanel extends MTGUIComponent {
 					try {
 						get();
 					}
-					catch(Exception e)
+					catch(InterruptedException e)
 					{
+						Thread.currentThread().interrupt();
+					
+					} catch (ExecutionException e) {
 						logger.error(e);
 					}
 					
