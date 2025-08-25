@@ -10,7 +10,6 @@ import java.util.Map;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
-import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
@@ -30,14 +29,6 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 	public String getName() {
 		return "CivitAI";
 	}
-	
-	public static void main(String[] args) {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		var prov = new CivitaiWallpaperProvider();
-		prov.search("lara croft");
-	}
-	
-	
 	
 	@Override
 	public List<MTGWallpaper> search(String search) {
