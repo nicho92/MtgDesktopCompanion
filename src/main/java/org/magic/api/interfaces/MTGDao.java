@@ -135,8 +135,7 @@ public interface MTGDao extends MTGPlugin{
 	public boolean executeQuery(String query)throws SQLException;
 	public boolean isSQL();
 
-	
 	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> c, List<T> list) throws SQLException;
 	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c, Instant start,Instant end) throws SQLException;
-
+	
 }

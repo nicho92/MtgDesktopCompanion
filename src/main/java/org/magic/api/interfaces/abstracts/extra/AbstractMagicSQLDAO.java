@@ -167,7 +167,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 
-
 	protected boolean enablePooling()
 	{
 		return true;
@@ -177,7 +176,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private boolean createDB() throws SQLException {
 		
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
-			
 			
 			stat.executeUpdate(hlper.createTableCollections());
 			logger.debug("Create table collections");
@@ -1746,10 +1744,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 
 	}
-
 	
-
-
 	@Override
 	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> classe, List<T> list) throws SQLException {
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into technicalauditlog  (classname ,techObject,startTime) values (?,?,?)")) {

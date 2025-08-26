@@ -77,19 +77,7 @@ public class SQLTools {
 				.column("startTime",SQLDataType.TIMESTAMP)
 				.getSQL();
 	}
-	
-	public String createCustomCards() { 
-		return	ctx.createTableIfNotExists("customCards")
-				.column("id",SQLDataType.INTEGER.identity(true))
-				.column("name",SQLDataType.VARCHAR(250))				
-				.column("dateCreation",SQLDataType.DATE)
-				.column("dateUpdate",SQLDataType.DATE)
-				.column("mcard",SQLDataType.JSON)
-				.primaryKey("id")
-				.getSQL();
-	}
-	
-	
+		
 	public String createTableDecks() { 
 		return	ctx.createTableIfNotExists("decks")
 				.column("id",SQLDataType.INTEGER.identity(true))

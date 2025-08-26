@@ -39,69 +39,71 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 		while(ret.size()<getInt(LIMIT))
 		{
 		
-		var build = RequestBuilder.build().setClient(URLTools.newClient()).get().url(BASE_URL+"/api/v1/models")
-				.addHeader("Authorization", "Bearer "+getAuthenticator().get("API_KEY"))
-				.addHeader(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON)
-				.addContent(getString("SEARCH_MODE"), search)
-				.addContent("limit", "100")
-				.addContent("nsfw", getString("MATURE"));
-				
+			var build = RequestBuilder.build().setClient(URLTools.newClient()).get().url(BASE_URL+"/api/v1/models")
+					.addHeader("Authorization", "Bearer "+getAuthenticator().get("API_KEY"))
+					.addHeader(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON)
+					.addContent(getString("SEARCH_MODE"), search)
+					.addContent("limit", "100")
+					.addContent("nsfw", getString("MATURE"));
+					
+			
+			if(getString("SEARCH_MODE").equals("tag"))
+				build = build.addContent("page", String.valueOf(page++));
+			
+			
+			var obj = build.toJson().getAsJsonObject();
+			
+			logger.debug("ret = {}", obj);
+			
 		
-		if(getString("SEARCH_MODE").equals("tag"))
-			build = build.addContent("page", String.valueOf(page++));
+			if(obj.get("error")!=null)
+			{
+				logger.error("error : {}", obj.get("error").getAsString());
+				break;
+			}
+			
+		
+			if(obj.get("items").getAsJsonArray().isEmpty())
+				break;
 		
 		
-		var obj = build.toJson().getAsJsonObject();
-		
-		logger.debug("ret = {}", obj);
-		
-		
-		if(obj.get("error")!=null)
-		{
-			logger.error("error : {}", obj.get("error").getAsString());
-			return ret;
-		}
-		
-		
-		if(obj.get("items").getAsJsonArray().isEmpty())
-			break;
-		
-		
-		for(var el : obj.get("items").getAsJsonArray())
-		{
-			 for(var modelVersion :  el.getAsJsonObject().get("modelVersions").getAsJsonArray())
-			 {
-				 for(var image : modelVersion.getAsJsonObject().get("images").getAsJsonArray())
+			for(var el : obj.get("items").getAsJsonArray())
+			{
+				 for(var modelVersion :  el.getAsJsonObject().get("modelVersions").getAsJsonArray())
 				 {
-					 if(image.getAsJsonObject().get("type").getAsString().equals("image")) 
+					 for(var image : modelVersion.getAsJsonObject().get("images").getAsJsonArray())
 					 {
-						 var wall= new MTGWallpaper();
-							 wall.setProvider(getName());
-							 wall.setMature(image.getAsJsonObject().get("nsfwLevel").getAsInt()>1);
-							 wall.setName(el.getAsJsonObject().get("name").getAsString() +"_"+image.getAsJsonObject().get("id").getAsString());
-							 wall.setUrl(URI.create(image.getAsJsonObject().get("url").getAsString()));
-							 wall.setUrlThumb(URI.create(wall.getUrl().toASCIIString().replaceAll("width=\\d+", "width=30")));
-							 wall.setPublishDate(Date.from(Instant.parse(modelVersion.getAsJsonObject().get("publishedAt").getAsString())));
-							 el.getAsJsonObject().get("tags").getAsJsonArray().forEach(t->wall.getTags().add(t.getAsString()));
-							 if(!el.getAsJsonObject().get("creator").getAsJsonObject().get("username").isJsonNull())
-								 wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
-						
-						if(ret.size()>=getInt(LIMIT))
+						 if(image.getAsJsonObject().get("type").getAsString().equals("image")) 
 						 {
-							 logger.info("{} return {} results", getName(),ret.size());
-							 return ret;
-						 }
-						 else
-						 {
-							 ret.add(wall);
+							 var wall= new MTGWallpaper();
+								 wall.setProvider(getName());
+								 wall.setMature(image.getAsJsonObject().get("nsfwLevel").getAsInt()>1);
+								 wall.setName(el.getAsJsonObject().get("name").getAsString() +"_"+image.getAsJsonObject().get("id").getAsString());
+								 wall.setUrl(URI.create(image.getAsJsonObject().get("url").getAsString()));
+								 wall.setUrlThumb(URI.create(wall.getUrl().toASCIIString().replaceAll("width=\\d+", "width=30")));
+								 wall.setPublishDate(Date.from(Instant.parse(modelVersion.getAsJsonObject().get("publishedAt").getAsString())));
+								 el.getAsJsonObject().get("tags").getAsJsonArray().forEach(t->wall.getTags().add(t.getAsString()));
+								 if(!el.getAsJsonObject().get("creator").getAsJsonObject().get("username").isJsonNull())
+									 wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
+							
+							if(ret.size()>=getInt(LIMIT))
+							 {
+								 logger.info("{} return {} results", getName(),ret.size());
+								 return ret;
+							 }
+							 else
+							 {
+								 ret.add(wall);
+							 }
 						 }
 					 }
 				 }
-			 }
-			 
-		}
+				 
+			}
 		
 		}
+		
+		
 		logger.info("{} return {} results", getName(),ret.size());
 		return ret;
 	}

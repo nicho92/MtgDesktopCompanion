@@ -130,11 +130,11 @@
 			<artifactId>snakeyaml</artifactId>
 			<version>2.4</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>io.lettuce</groupId>
 			<artifactId>lettuce-core</artifactId>
 			<version>6.8.0.RELEASE</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>

@@ -449,10 +449,6 @@
   </providers>
   <daos>
     <dao>
-      <class>org.magic.api.dao.impl.RedisDAO</class>
-      <enable>false</enable>
-    </dao>
-    <dao>
       <class>org.magic.api.dao.impl.MysqlDAO</class>
       <enable>false</enable>
     </dao>

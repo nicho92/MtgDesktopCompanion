@@ -40,7 +40,7 @@ public class ImagePoster {
 			return RequestBuilder.build().setClient(client).post().url(jsonRet.get("url").getAsString()).toHtml().getElementById("code_direct").attr("value");
 		}
 		else {
-			logger.error("error {}", jsonRet);
+			logger.error("error to upload {} : {}",wallUrl, jsonRet);
 			throw new IOException("Error at upload");
 		}
 	}
