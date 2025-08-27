@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.magic.api.beans.MTGCard;
@@ -11,6 +12,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.services.network.URLTools;
@@ -195,6 +197,16 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		}
 		return list;
 	}
+	
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		var map = super.getDefaultAttributes();
+		map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0.7", "You can think of temperature like randomness, with low value is being least random (or most deterministic) and max being most random (least deterministic)", 0, 1));
+		map.put("MAX_TOKEN", MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
+		map.put("LOG", MTGProperty.newBooleanProperty(FALSE, "enable chat model logger"));
+		return map;
+	}
+	
 	
 
 	private void readJson(MTGCard mc, JsonObject obj, MTGEdition set) {

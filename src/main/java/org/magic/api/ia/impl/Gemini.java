@@ -43,8 +43,6 @@ public class Gemini extends AbstractIA {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 			var map = super.getDefaultAttributes();
 			map.put("MODEL", new MTGProperty("gemini-2.5-flash","choose langage model","gemini-2.5-flash","gemini-2.0-flash","gemini-1.5-flash","gemini-1.5-pro","gemini-1.0-pro"));
-			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0.7", "You can think of temperature like randomness, with low value is being least random (or most deterministic) and max being most random (least deterministic)", 0, 1));
-			map.put("LOG", MTGProperty.newBooleanProperty(FALSE, "enable chat model logger"));
 			return map;
 	}
 

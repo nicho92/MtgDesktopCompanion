@@ -23,9 +23,6 @@ public class GrokIA extends AbstractIA {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 			var map = super.getDefaultAttributes();
-			map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0.7", "You can think of temperature like randomness, with low value is being least random (or most deterministic) and max being most random (least deterministic)", 0, 1));
-			map.put("MAX_TOKEN", MTGProperty.newIntegerProperty("2000","Maximum size of the prompt",50,5000));
-			map.put("LOG", MTGProperty.newBooleanProperty(FALSE, "enable chat model logger"));
 			map.put("MODEL", new MTGProperty("grok-3-mini","choose langage model","grok-3","grok-3-mini","grok-3-fast","grok-3-mini-fast","grok-4-0709"));
 			return map;
 	}
