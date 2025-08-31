@@ -2,38 +2,38 @@ package org.magic.api.customs.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.interfaces.CustomCardsManager;
-import org.magic.api.sorters.CardsEditionSorter;
-import org.magic.services.logging.MTGLogger;
-import org.magic.services.tools.BeanTools;
-import org.magic.services.tools.CryptoUtils;
+import org.magic.api.interfaces.abstracts.extra.AbstractCustomCardsManager;
+import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class FileCustomManager implements CustomCardsManager {
+public class FileCustomManager extends AbstractCustomCardsManager {
 	
 	private File setDirectory;
 	private JsonExport serializer;
 
 	private static final String CARDS = "cards";
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private String ext = ".json";
 	
 	
+	@Override
+	public Map<String, MTGProperty> getDefaultAttributes() {
+		return Map.of("DIRECTORY", MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR, "privateSets")));
+	}
+	
 
-	public FileCustomManager(File directory) {
-		setDirectory = directory;
+	public FileCustomManager() {
+		setDirectory = getFile("DIRECTORY");
 		serializer = new JsonExport();
 		
 		logger.debug("Opening directory {}",setDirectory);
@@ -101,7 +101,7 @@ public class FileCustomManager implements CustomCardsManager {
 
 
 	@Override
-	public List<MTGEdition> loadCustomSets() throws IOException {
+	public List<MTGEdition> listCustomSets() throws IOException {
 		var ret = new ArrayList<MTGEdition>();
 		for (File f : setDirectory.listFiles(pathname -> pathname.getName().endsWith(ext))) 
 			ret.add(loadEditionFromFile(f));
@@ -111,17 +111,11 @@ public class FileCustomManager implements CustomCardsManager {
 	
 
 	@Override
-	public void addCustomCard(MTGEdition me, MTGCard mc) throws IOException {
-		var f = new File(setDirectory, me.getId() + ext);
+	public void saveCustomCard(MTGCard mc) throws IOException {
+		var f = new File(setDirectory, mc.getEdition().getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
 		var cards = root.get(CARDS).getAsJsonArray();
-		mc.setEdition(me);
-	
-		if (mc.getId() == null)
-			mc.setId(CryptoUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getName()));
-		
 		int index = indexOf(mc, cards);
-		
 		var joCard =serializer.toJsonElement(mc); 
 		
 		if (index > -1) 
@@ -131,10 +125,9 @@ public class FileCustomManager implements CustomCardsManager {
 		else 
 		{
 			cards.add(joCard);
-			me.setCardCount(me.getCardCount() + 1);
-			root.addProperty("cardCount", me.getCardCount());
+			root.addProperty("cardCount", cards.size()+1);
 		}
-		logger.debug("Adding {} card to {} set with id={}",mc,me,mc.getId());
+		logger.debug("Adding {} card to {} set with id={}",mc,mc.getEdition(),mc.getId());
 		FileTools.saveFile(f, root.toString());
 	}
 
@@ -154,46 +147,7 @@ public class FileCustomManager implements CustomCardsManager {
 		return serializer.fromJson(root.get("main").toString(), MTGEdition.class);
 	}
 
-	@Override
-	public void saveCustomSet(MTGEdition ed, List<MTGCard> cards) {
-		
-		cards.forEach(mc->{
-			try {
-				deleteCustomCard(mc);
-				addCustomCard(ed, mc);
-				saveCustomSet(ed);
-			} catch (IOException e) {
-				logger.error(e);
-			}
-		});
-	}
-
-	@Override
-	public void rebuild(MTGEdition ed) throws IOException {
-		var cards = listCustomsCards(ed);
-		ed.setCardCount(cards.size());
-		ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
-		ed.setCardCountPhysical(ed.getCardCountOfficial());
-		
-		cards.forEach(mc->{
-			mc.getEditions().clear();
-			try {
-				mc.getEditions().add(BeanTools.cloneBean(ed));
-				mc.setEdition(ed);
-				mc.setNumber(null);
-			} catch (Exception e) {
-				logger.error(e);
-			} 
-		});
-		Collections.sort(cards,new CardsEditionSorter());
-
-		for(var i=0;i<cards.size();i++)
-			cards.get(i).setNumber(String.valueOf((i+1)));
-
-		saveCustomSet(ed,cards);
-	}
-
-
+	
 	@Override
 	public void saveCustomSet(MTGEdition me) throws IOException {
 
@@ -223,6 +177,11 @@ public class FileCustomManager implements CustomCardsManager {
 		} catch (IOException _) {
 			return new MTGEdition(id,id);
 		}
+	}
+
+	@Override
+	public String getName() {
+		return "File";
 	}
 	
 }

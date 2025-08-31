@@ -97,7 +97,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 
 
-	protected void postTreatmentCard(MTGCard mc)
+	public static  void postTreatmentCard(MTGCard mc)
 	{
 		
 		try {

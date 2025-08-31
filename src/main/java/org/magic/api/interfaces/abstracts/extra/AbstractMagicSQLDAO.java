@@ -90,7 +90,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		 hlper = new SQLTools(getDialect());
 	}
 	
-	
 	private List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
 		try{
 			return serialiser.fromJsonList(rs.getString(field), MTGStockItem.class);
@@ -176,6 +175,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private boolean createDB() throws SQLException {
 		
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
+			
+			
+			stat.executeUpdate(hlper.createCustomCards());			
+			stat.executeUpdate(hlper.createCustomSets());
+			logger.debug("Create tables customs");
 			
 			stat.executeUpdate(hlper.createTableCollections());
 			logger.debug("Create table collections");
@@ -319,10 +323,134 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return ged;
 
 	}
+	
+	
+	
 
-
-
-
+	@Override
+	public void saveCustomCard(MTGCard card) throws SQLException
+	{
+		boolean create=true;
+		
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * FROM customcards WHERE id=?"))
+		{
+			pst.setString(1, card.getId());
+			if(executeQuery(pst).next())
+				create=false;
+			
+		}
+		
+		if(create)
+		{
+			try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO customcards (id,idSet, name, mcard,side) VALUES (?,?,?,?,?)"))
+			{
+				pst.setString(1, card.getId());
+				pst.setString(2, card.getEdition().getId());
+				pst.setString(3, card.getName());
+				storeCard(pst, 4, card);
+				pst.setString(5, card.getSide());
+				
+				executeUpdate(pst,false);
+			}
+		}
+		else
+		{
+			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE customcards SET idSet=?, name=?, mcard=?,side=? WHERE id=?"))
+			{
+				
+				pst.setString(1, card.getEdition().getId());
+				pst.setString(2, card.getName());
+				storeCard(pst, 3, card);
+				pst.setString(4, card.getSide());
+				pst.setString(5, card.getId());
+				
+				executeUpdate(pst,false);
+			}
+		}
+	}
+	
+	@Override
+	public void saveCustomSet(MTGEdition ed) throws SQLException {
+		
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO customsets (id,name, type, block, releasedate, onlineonly) VALUES (?,?,?,?,?,?)"))
+		{
+			pst.setString(1, ed.getId());
+			pst.setString(2, ed.getSet());
+			pst.setString(3, ed.getType());
+			pst.setString(4, ed.getBlock());
+			pst.setString(5, ed.getReleaseDate());
+			pst.setBoolean(6, ed.isOnlineOnly());
+			
+			executeUpdate(pst,false);
+		}
+	}
+	
+	@Override
+	public void deleteCustomCard(MTGCard card) throws SQLException {
+			try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customcards where id=?")) {
+				pst.setString(1, card.getId());
+				executeUpdate(pst,false);
+			}
+		
+	}
+	
+	@Override
+	public void deleteCustomSet(MTGEdition ed) throws SQLException {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customsets where id=?")) {
+			pst.setString(1, ed.getId());
+			executeUpdate(pst,false);
+		}
+		
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customcards where idSet=?")) {
+			pst.setString(1, ed.getId());
+			executeUpdate(pst,false);
+		}
+		
+	}
+	
+	@Override
+	public MTGEdition getCustomSetById(String id) throws SQLException {
+		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from customsets where id=?"))
+		{
+				pst.setString(1, id);
+				var rs = executeQuery(pst);
+				if(rs.next())
+					return readCustomSet(rs);
+		}
+		
+		return null;
+	}
+	
+	
+	@Override
+	public List<MTGEdition> listCustomSets() throws SQLException {
+		
+		var ret = new ArrayList<MTGEdition>();
+		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from customsets"))
+		{
+				var rs = executeQuery(pst);
+				while(rs.next())
+					ret.add(readCustomSet(rs));
+		}
+		return ret;
+	}
+	
+	
+	@Override
+	public List<MTGCard> listCustomCards(MTGEdition ed) throws SQLException {
+		var ret = new ArrayList<MTGCard>();
+		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from customcards where idSet=?"))
+		{
+				pst.setString(1, ed.getId());
+				ResultSet rs = executeQuery(pst);
+				while(rs.next())
+					ret.add(readCard(rs,"mcard"));
+		}
+		
+		return ret;
+	}
+	
+	
 	@Override
 	public <T extends MTGSerializable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException {
 		try (var c = pool.getConnection();var pst = c.prepareStatement("DELETE FROM ged where className = ? and IdInstance = ? and fileName= ?"))
@@ -846,6 +974,28 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return deck;
 
 	}
+	
+
+
+
+	private MTGEdition readCustomSet(ResultSet rs) throws SQLException {
+		var set = new MTGEdition();
+			  set.setId(rs.getString("id"));
+			  set.setSet(rs.getString("name"));
+			  set.setType(rs.getString("type"));
+			  set.setBlock(rs.getString("block"));
+			  set.setReleaseDate(rs.getString("releasedate"));
+			  
+			  var cards = listCustomCards(set);
+			  
+				set.setCardCount(cards.size());
+				set.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
+				set.setCardCountPhysical(set.getCardCountOfficial());
+			
+			  
+		return set;
+	}
+	
 
 	private Transaction readTransaction(ResultSet rs) throws SQLException {
 		var state = new Transaction();

@@ -26,6 +26,15 @@ public interface MTGDao extends MTGPlugin{
 
 	
 	
+	public void saveCustomSet(MTGEdition ed) throws SQLException;
+	public List<MTGEdition> listCustomSets() throws SQLException;
+	public void deleteCustomSet(MTGEdition ed) throws SQLException;
+	public void saveCustomCard(MTGCard card) throws SQLException;
+	public List<MTGCard> listCustomCards(MTGEdition ed) throws SQLException;
+	public void deleteCustomCard(MTGCard card) throws SQLException;
+	public MTGEdition getCustomSetById(String id) throws SQLException;
+	
+	
 	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException;
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException;
 	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException;
@@ -48,10 +57,10 @@ public interface MTGDao extends MTGPlugin{
 	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException;
 	
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException;
-	public List<MTGCard> listCardsFromCollection(String collectionName) throws SQLException;
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException;
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException;
 	public List<MTGCard> listCardsFromCollection(String collectionName,String me) throws SQLException;
+	
 	public List<MTGCardStock> listStocks(MTGCard mc) throws SQLException;
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException;
 	public List<MTGCardStock> listStocks(String cardName, List<MTGCollection> cols) throws SQLException;

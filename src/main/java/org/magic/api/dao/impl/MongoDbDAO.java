@@ -85,6 +85,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colAnnounces="announces";
 	private String colGed="ged";
 	private String colTechnical="technical";
+	private String colCustomsCards="customsCards";
+	private String colCustomsSets="customsSets";
 	
 	
 	private String dbIDField = "db_id";
@@ -562,7 +564,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<MTGCollection> listCollectionFromCards(MTGCard mc) throws SQLException {
 
-		List<MTGCollection> ret = new ArrayList<>();
+		var ret = new ArrayList<MTGCollection>();
 		db.getCollection(colStocks, BasicDBObject.class).distinct(dbStockColField, Filters.eq(dbIDField, mc.getScryfallId()), String.class)
 				.forEach((Consumer<String>) result -> {
 					try {
@@ -590,7 +592,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException {
-		ArrayList<MTGCardStock> ret = new ArrayList<>();
+		var ret = new ArrayList<MTGCardStock>();
 		db.getCollection(colStocks, BasicDBObject.class)
 				.find(Filters.and(Filters.eq(dbIDField,mc.getScryfallId()),Filters.eq(dbStockField+".magicCollection.name",col.getName())))
 				.forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get(dbStockField).toString(), MTGCardStock.class)));
@@ -1024,6 +1026,61 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 		return trans;
+	}
+
+	@Override
+	public List<MTGEdition> listCustomSets() throws SQLException {
+		var trans = new ArrayList<MTGEdition>();
+		db.getCollection(colCustomsSets,BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
+			var o = deserialize(result.toString(), MTGEdition.class);
+			trans.add(o);
+		});
+
+		return trans;
+	}
+
+	@Override
+	public void saveCustomSet(MTGEdition ed) throws SQLException {
+			
+		var obj = db.getCollection(colCustomsSets, BasicDBObject.class).find(Filters.eq("id", ed.getId())).first();
+		
+		if(obj==null)
+			db.getCollection(colCustomsSets, BasicDBObject.class).insertOne(BasicDBObject.parse(serialiser.toJson(ed)));
+		else
+			db.getCollection(colCustomsSets, BasicDBObject.class).replaceOne(Filters.eq("id", ed.getId()),BasicDBObject.parse(serialiser.toJson(ed)));
+	}
+
+	@Override
+	public void deleteCustomSet(MTGEdition ed) throws SQLException {
+		db.getCollection(colCustomsSets).deleteOne(Filters.eq("id", ed.getId()));
+		db.getCollection(colCustomsCards).deleteMany(Filters.eq("edition.id", ed.getId()));
+	}
+
+	@Override
+	public void saveCustomCard(MTGCard card) throws SQLException {
+		db.getCollection(colCustomsCards, BasicDBObject.class).insertOne(BasicDBObject.parse(serialiser.toJson(card)));
+		
+	}
+
+	@Override
+	public List<MTGCard> listCustomCards(MTGEdition ed) throws SQLException {
+		var trans = new ArrayList<MTGCard>();
+		db.getCollection(colCustomsCards,BasicDBObject.class).find(Filters.eq("edition.id", ed.getId())).forEach((Consumer<BasicDBObject>) result ->{
+			var o = deserialize(result.toString(), MTGCard.class);
+			trans.add(o);
+		});
+
+		return trans;
+	}
+
+	@Override
+	public void deleteCustomCard(MTGCard card) throws SQLException {
+		db.getCollection(colCustomsCards).deleteOne(Filters.eq("id", card.getId()));
+	}
+
+	@Override
+	public MTGEdition getCustomSetById(String id) throws SQLException {
+		return deserialize(db.getCollection(colCustomsSets,BasicDBObject.class).find(Filters.eq("id", id)).first(),MTGEdition.class);
 	}
 
 

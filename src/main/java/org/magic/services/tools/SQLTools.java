@@ -67,7 +67,29 @@ public class SQLTools {
 					.values(c.getId(),c.getName(),c.getLastName(),c.getTelephone(),c.getCountry(),c.getZipCode(),c.getCity(),c.getAddress(),c.getWebsite(),c.getEmail(),true,true)
 					.getSQL();
 	}
-		
+	
+	public String createCustomCards() { 
+		return	ctx.createTableIfNotExists("customcards")
+				.column("id",SQLDataType.VARCHAR(250))
+				.column("idSet",SQLDataType.VARCHAR(5))
+				.column("name",SQLDataType.VARCHAR(250))				
+				.column("mcard",SQLDataType.JSON)
+				.column("side",SQLDataType.VARCHAR(1))
+				.primaryKey("id")
+				.getSQL();
+	}
+	
+	public String createCustomSets() { 
+		return	ctx.createTableIfNotExists("customsets")
+				.column("id",SQLDataType.VARCHAR(5))
+				.column("name",SQLDataType.VARCHAR(250))				
+				.column("type",SQLDataType.VARCHAR(150))
+				.column("block",SQLDataType.VARCHAR(150))
+				.column("releaseDate",SQLDataType.VARCHAR(10))
+				.column("onlineOnly",SQLDataType.BOOLEAN)
+				.primaryKey("id")
+				.getSQL();
+	}	
 	
 	
 	public String createTableTechnicalAudit() { 

@@ -1,6 +1,5 @@
 package org.magic.api.providers.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
+import org.magic.api.customs.impl.DAOCustomManager;
 import org.magic.api.customs.impl.FileCustomManager;
 import org.magic.api.interfaces.CustomCardsManager;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
@@ -29,55 +29,16 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public static final String PERSONNAL_DATA_SET_PROVIDER = "Personnal Data Set Provider";
 	private CustomCardsManager manager;
 	
-
-
-	public void rebuildSet(MTGEdition ed) throws IOException {
-		manager.rebuild(ed);
-		
-	}
-
-	
-	public void removeEdition(MTGEdition me) {
-		try {
-			manager.deleteCustomSet(me);
-		} catch (IOException e) {
-			logger.error(e);
-		}
-	}
-
-
-	public boolean removeCard(MTGCard mc) throws IOException {
-		return manager.deleteCustomCard(mc);
-	}
-	
-	private List<MTGCard> loadCardsFromSet(MTGEdition me) throws IOException {
-		return manager.listCustomsCards(me);
-	}
-
-	public void addCard(MTGEdition me, MTGCard mc) throws IOException {
-		postTreatmentCard(mc);
-		
-		
-		
-		manager.addCustomCard(me, mc);
-	}
-	
-	
-	public void saveEdition(MTGEdition ed, List<MTGCard> cards) throws IOException {
-		manager.saveCustomSet(ed,cards);
-	}
-
-	public void saveEdition(MTGEdition me) throws IOException {
-		manager.saveCustomSet(me);
-	}
-	
 	public PrivateMTGSetProvider() {
 		super();
-		manager = new FileCustomManager( getFile("DIRECTORY"));
+		
+		if(getString("MODE").equals("FILE"))
+			manager = new FileCustomManager();
+		else
+			manager = new DAOCustomManager();
+		
 	}
 	
-
-
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
 		var b= new JsonCriteriaBuilder();
@@ -96,7 +57,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MTGCard> searchCardByEdition(MTGEdition ed) throws IOException {
-		return loadCardsFromSet(ed);
+		return manager.listCustomsCards(ed);
 	}
 
 
@@ -105,7 +66,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public List<MTGCard> listAllCards() throws IOException {
 		List<MTGCard> res = new ArrayList<>();
 			for (var ed : listEditions())
-				for (var mc : loadCardsFromSet(ed))
+				for (var mc : manager.listCustomsCards(ed))
 						res.add(mc);
 
 			return res;
@@ -122,7 +83,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		} 
 		else 
 		{
-			for (MTGCard mc : loadCardsFromSet(me)) {
+			for (MTGCard mc : manager.listCustomsCards(me)) {
 				if (hasValue(mc, att, crit))
 				{
 					res.add(mc);
@@ -147,7 +108,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 		var ed = getSetById(me.getId());
 
-		for (MTGCard mc : loadCardsFromSet(ed))
+		for (MTGCard mc : manager.listCustomsCards(ed))
 			if (mc.getNumber().equals(id))
 				return mc;
 
@@ -157,15 +118,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
-		return manager.loadCustomSets();
+		return manager.listCustomSets();
 	}
-
-	@Override
-	public List<MTGEdition> listEditions() throws IOException {
-		//bypass cache
-		return loadEditions();
-	}
-	
 	
 	@Override
 	public MTGEdition getSetById(String id){
@@ -206,7 +160,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("DIRECTORY", MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR, "privateSets")));
+		return Map.of("MODE", new MTGProperty("FILE","chose storage mode for your custom cards","FILE","DAO"));
 	}
 
 	@Override
