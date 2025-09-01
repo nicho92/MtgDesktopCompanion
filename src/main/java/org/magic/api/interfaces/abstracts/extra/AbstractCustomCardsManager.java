@@ -36,8 +36,6 @@ public abstract class AbstractCustomCardsManager extends AbstractMTGPlugin imple
 				deleteCustomCard(mc);
 				saveCustomCard(ed, mc);
 				saveCustomSet(ed);
-				notify(mc);
-				
 			} catch (IOException e) {
 				logger.error(e);
 			}

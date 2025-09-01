@@ -324,23 +324,25 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 	
-	
+	private boolean exist(String table, String id)
+	{
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT 1 FROM "+table+" WHERE id=?"))
+		{
+			pst.setString(1, id);
+			return executeQuery(pst).next();
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+			return false;
+		}
+	}
 	
 
 	@Override
 	public void saveCustomCard(MTGCard card) throws SQLException
 	{
-		boolean create=true;
-		
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * FROM customcards WHERE id=?"))
-		{
-			pst.setString(1, card.getId());
-			if(executeQuery(pst).next())
-				create=false;
-			
-		}
-		
-		if(create)
+		if(!exist("customcards",card.getId()))
 		{
 			try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO customcards (id,idSet, name, mcard,side) VALUES (?,?,?,?,?)"))
 			{
@@ -357,7 +359,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		{
 			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE customcards SET idSet=?, name=?, mcard=?,side=? WHERE id=?"))
 			{
-				
 				pst.setString(1, card.getEdition().getId());
 				pst.setString(2, card.getName());
 				storeCard(pst, 3, card);
@@ -371,18 +372,38 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void saveCustomSet(MTGEdition ed) throws SQLException {
-		
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO customsets (id,name, type, block, releasedate, onlineonly) VALUES (?,?,?,?,?,?)"))
-		{
-			pst.setString(1, ed.getId());
-			pst.setString(2, ed.getSet());
-			pst.setString(3, ed.getType());
-			pst.setString(4, ed.getBlock());
-			pst.setString(5, ed.getReleaseDate());
-			pst.setBoolean(6, ed.isOnlineOnly());
-			
-			executeUpdate(pst,false);
+
+		if(!exist("customsets",ed.getId())) 
+		{ 
+			try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO customsets (id,name, type, block, releasedate, onlineonly) VALUES (?,?,?,?,?,?)"))
+			{
+				pst.setString(1, ed.getId());
+				pst.setString(2, ed.getSet());
+				pst.setString(3, ed.getType());
+				pst.setString(4, ed.getBlock());
+				pst.setString(5, ed.getReleaseDate());
+				pst.setBoolean(6, ed.isOnlineOnly());
+				
+				executeUpdate(pst,false);
+			}
 		}
+		else
+		{
+			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE customsets SET name=?, type=?,block=?,releasedate=?,onlineonly=? WHERE id=?"))
+			{
+				
+				pst.setString(1, ed.getSet());
+				pst.setString(2, ed.getType());
+				pst.setString(3, ed.getBlock());
+				pst.setString(4, ed.getReleaseDate());
+				pst.setBoolean(5, ed.isOnlineOnly());
+				pst.setString(6, ed.getId());
+				
+				executeUpdate(pst,false);
+			}
+		}
+			
+			
 	}
 	
 	@Override

@@ -26,6 +26,7 @@ public class DAOCustomManager extends AbstractCustomCardsManager {
 	public void saveCustomCard(MTGCard mc) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).saveCustomCard(mc);
+			notify(mc);
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
@@ -58,8 +59,21 @@ public class DAOCustomManager extends AbstractCustomCardsManager {
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
-		
 	}
+	
+	@Override
+	public void saveCustomSet(MTGEdition ed, List<MTGCard> cards) {
+		
+		cards.forEach(mc->{
+			try {
+				saveCustomCard(ed, mc);
+				
+			} catch (IOException e) {
+				logger.error(e);
+			}
+		});
+	}
+	
 
 	@Override
 	public void deleteCustomSet(MTGEdition me) throws IOException {

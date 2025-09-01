@@ -3,7 +3,6 @@ package org.magic.api.providers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.swing.Icon;
@@ -12,13 +11,10 @@ import javax.swing.ImageIcon;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
-import org.magic.api.customs.impl.DAOCustomManager;
-import org.magic.api.customs.impl.FileCustomManager;
 import org.magic.api.interfaces.CustomCardsManager;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
@@ -30,12 +26,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	private CustomCardsManager manager;
 	
 	public PrivateMTGSetProvider() {
-		super();
-		
-		if(getString("MODE").equals("FILE"))
-			manager = new FileCustomManager();
-		else
-			manager = new DAOCustomManager();
+			manager = MTGConstants.CUSTOM_STORAGE;
 		
 	}
 	
@@ -155,12 +146,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MTGConstants.IMAGE_LOGO);
-	}
-
-
-	@Override
-	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("MODE", new MTGProperty("FILE","chose storage mode for your custom cards","FILE","DAO"));
 	}
 
 	@Override

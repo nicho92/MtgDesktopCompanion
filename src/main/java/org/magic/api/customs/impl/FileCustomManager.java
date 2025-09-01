@@ -128,6 +128,8 @@ public class FileCustomManager extends AbstractCustomCardsManager {
 			root.addProperty("cardCount", cards.size()+1);
 		}
 		logger.debug("Adding {} card to {} set with id={}",mc,mc.getEdition(),mc.getId());
+		notify(mc);
+		
 		FileTools.saveFile(f, root.toString());
 	}
 

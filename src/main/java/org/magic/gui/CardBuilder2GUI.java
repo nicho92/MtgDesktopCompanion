@@ -139,7 +139,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			buzyCard = AbstractBuzyIndicatorComponent.createLabelComponent();
 			buzySet = AbstractBuzyIndicatorComponent.createProgressComponent();
 			editionModel = new MagicEditionsTableModel();
-			provider = new DAOCustomManager();
+			provider = MTGConstants.CUSTOM_STORAGE;
 			btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 			picturesProvider = new PersonalSetPicturesProvider();
 			cardsModel = new MagicCardTableModel();
