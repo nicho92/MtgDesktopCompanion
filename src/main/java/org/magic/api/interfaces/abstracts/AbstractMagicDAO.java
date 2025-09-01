@@ -301,14 +301,21 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			dao.saveOrUpdateTransaction(oe);
 		}
 
-	
-
 		logger.debug("duplicate announces");
 		for(MTGAnnounce oe : listAnnounces())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateAnnounce(oe);
 		}
+		
+		logger.debug("duplicate customs");
+		for(var set : listCustomSets())
+		{
+			dao.saveCustomSet(set);
+			for(var c : listCustomCards(set) )
+				dao.saveCustomCard(c);
+		}
+		
 
 	}
 

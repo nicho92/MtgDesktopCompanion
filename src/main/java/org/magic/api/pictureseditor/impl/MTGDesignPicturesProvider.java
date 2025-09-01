@@ -327,6 +327,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(code.equals("WG"))
 			return "GW";
 		
+		if(code.equals("UG"))
+			return "GU";
 		
 		return code;
 		
