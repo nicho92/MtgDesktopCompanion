@@ -276,22 +276,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 					
 					if(wallChooser.hasSelected())
 					{
-						
-						if(MTG.getEnabledPlugin(MTGPictureEditor.class).getMode()==MOD.FILE)
-						{
-							var f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,wallChooser.getSelectedItem().getName()+"."+wallChooser.getSelectedItem().getFormat());
-							
-							try {
-								URLTools.download(wallChooser.getSelectedItem().getUrl().toASCIIString(), f);
-								magicCard.setUrl(f.getAbsolutePath());	
-							} catch (IOException e1) {
-								MTGControler.getInstance().notify(e1);
-							}
-						}
-						else
-						{
-							magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());	
-						}
+
+						magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());	
 						
 						//protected webhoster.
 						if(wallChooser.getSelectedItem().getUserAgent()!=null)

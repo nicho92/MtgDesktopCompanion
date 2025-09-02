@@ -54,19 +54,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		connect();
 		
-		File f = null; 
-		
-		if(mc.getUrl().startsWith("http"))
-		{
-			f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,mc.getName()+".png");
-			URLTools.download(mc.getUrl(), f);
-		}
-		else
-		{
-			f = new File(mc.getUrl());
-		}
-		
-		
+		File f = toFile(mc.getUrl(),mc.getName()+".png"); 
 		
 		var imgPath = uploadPicture(f,mc);
 		

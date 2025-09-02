@@ -111,7 +111,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    		colorBase=mc.getColors().get(0).getCode();
 						    }
 
-						    if(mc.isHybride())
+						    if(mc.isHybride() || !mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"").isEmpty())
 						    	colorBase=new StringBuilder().append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/").append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
 
 
@@ -126,18 +126,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 						    if(mc.getUrl()!=null)
 						    {
-						    	File f = null; 
-								
-								if(mc.getUrl().startsWith("http"))
-								{
-									f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,mc.getName()+".png");
-									URLTools.download(mc.getUrl(), f);
-									
-								}
-								else
-								{
-									f = new File(mc.getUrl());
-								}
+						    	var f = toFile(mc.getUrl(),mc.getName()+".png"); 
 								
 						    	if(f.exists())
 						    	{
