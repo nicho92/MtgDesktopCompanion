@@ -30,12 +30,11 @@ import javax.swing.SwingWorker;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.customs.impl.DAOCustomManager;
-import org.magic.api.interfaces.CustomCardsManager;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
+import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -69,7 +68,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private JTabbedPane tabbedPane;
 
 	private transient PersonalSetPicturesProvider picturesProvider;
-	private transient CustomCardsManager provider;
+	private transient PrivateMTGSetProvider provider;
 	
 	
 	private JButton btnRefresh;
@@ -90,11 +89,11 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	@Override
 	public void onFirstShowing() {
-			var sw = new AbstractObservableWorker<List<MTGEdition>, Void,CustomCardsManager>(buzySet,provider){
+			var sw = new AbstractObservableWorker<List<MTGEdition>, Void,PrivateMTGSetProvider>(buzySet,provider){
 
 				@Override
 				protected List<MTGEdition> doInBackground() throws Exception {
-					return plug.listCustomSets();
+					return plug.loadEditions();
 				}
 				
 				@Override
@@ -139,7 +138,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			buzyCard = AbstractBuzyIndicatorComponent.createLabelComponent();
 			buzySet = AbstractBuzyIndicatorComponent.createProgressComponent();
 			editionModel = new MagicEditionsTableModel();
-			provider = MTGConstants.CUSTOM_STORAGE;
+			provider = new PrivateMTGSetProvider();
 			btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 			picturesProvider = new PersonalSetPicturesProvider();
 			cardsModel = new MagicCardTableModel();
@@ -244,7 +243,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnRebuildSet.addActionListener(_->{
 				MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
 				if(ed!=null)
-					ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<Void, Void, CustomCardsManager>(buzySet,provider, ed.getCardCount()) {
+					ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<Void, Void, PrivateMTGSetProvider>(buzySet,provider, ed.getCardCount()) {
 	
 						@Override
 						protected Void doInBackground() throws Exception {
@@ -280,7 +279,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					provider.saveCustomSet(ed);
 					cboSets.removeAllItems();
 					
-					var eds = provider.listCustomSets();
+					var eds = provider.loadEditions();
 					
 					cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MTGEdition[eds.size()])));
 					editionModel.fireTableDataChanged();
@@ -304,7 +303,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				mc.setEdition(ed);
 				mc.getEditions().add(ed);
 				try {
-					mc.setNumber(String.valueOf(provider.listCustomsCards((MTGEdition) cboSets.getSelectedItem()).size() + 1));
+					mc.setNumber(String.valueOf(provider.searchCardByEdition((MTGEdition) cboSets.getSelectedItem()).size() + 1));
 				} catch (IOException e1) {
 					logger.error(e1);
 				}
@@ -361,7 +360,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					return;
 				
 				try {
-					if(provider.getCustomSet(id)!=null)
+					if(provider.getSetById(id)!=null)
 					{
 						MTGControler.getInstance().notify(new Exception("Set already present"));
 						return;
@@ -428,7 +427,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					try {
 						initEdition(ed);
 						btnGenerateSet.setEnabled(true);
-						cardsModel.bind(provider.listCustomsCards(ed));
+						cardsModel.bind(provider.searchCardByEdition(ed));
 						cardsModel.fireTableDataChanged();
 						cardsTable.packAll();
 						btnRemoveCard.setEnabled(false); 
@@ -450,7 +449,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				ThreadManager.getInstance().runInEdt(new SwingWorker<MTGCard, Void>() {
 						@Override
 						protected MTGCard doInBackground() throws Exception {
-							return MTG.getEnabledPlugin(MTGIA.class).generateRandomCard(text,(MTGEdition)cboSets.getSelectedItem(),String.valueOf(provider.listCustomsCards((MTGEdition) cboSets.getSelectedItem()).size() + 1));
+							return MTG.getEnabledPlugin(MTGIA.class).generateRandomCard(text,(MTGEdition)cboSets.getSelectedItem(),String.valueOf(provider.searchCardByEdition((MTGEdition) cboSets.getSelectedItem()).size() + 1));
 						}
 						
 						@Override

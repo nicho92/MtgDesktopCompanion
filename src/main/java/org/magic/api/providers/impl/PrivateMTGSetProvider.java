@@ -1,7 +1,10 @@
 package org.magic.api.providers.impl;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,20 +18,100 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
-import org.magic.api.interfaces.CustomCardsManager;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
+import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.MTGConstants;
+import org.magic.services.tools.BeanTools;
+import org.magic.services.tools.CryptoUtils;
+import org.magic.services.tools.MTG;
 
-public class PrivateMTGSetProvider extends AbstractCardsProvider {
+public class PrivateMTGSetProvider extends AbstractCardsProvider{
 
 
 	public static final String PERSONNAL_DATA_SET_PROVIDER = "Personnal Data Set Provider";
-	private CustomCardsManager manager;
+
+	public boolean deleteCustomCard(MTGCard mc) throws IOException {
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).deleteCustomCard(mc);
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+
+	public void saveCustomSet(MTGEdition me) throws IOException {
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).saveCustomSet(me);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
 	
-	public PrivateMTGSetProvider() {
-			manager = MTGConstants.CUSTOM_STORAGE;
+	public void saveCustomSet(MTGEdition ed, List<MTGCard> cards) {
+		
+		cards.forEach(mc->{
+			try {
+				saveCustomCard(ed, mc);
+			} catch (IOException e) {
+				logger.error(e);
+			}
+		});
+	}
+
+	public void deleteCustomSet(MTGEdition me) throws IOException {
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).deleteCustomSet(me);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 		
 	}
+
+	public void saveCustomCard(MTGEdition me, MTGCard mc) throws IOException {
+		
+		mc.setEdition(me);
+		
+		if (mc.getId() == null)
+			mc.setId(CryptoUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getName()));
+
+		AbstractCardsProvider.postTreatmentCard(mc);
+		
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).saveCustomCard(mc);
+			notify(mc);
+		} catch (SQLException e) {
+			throw new IOException(e); 
+		}
+	
+		
+	}
+
+	
+	public void rebuild(MTGEdition ed) throws IOException {
+		var cards = searchCardByEdition(ed);
+		ed.setCardCount(cards.size());
+		ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
+		ed.setCardCountPhysical(ed.getCardCountOfficial());
+		
+		cards.forEach(mc->{
+			mc.getEditions().clear();
+			try {
+				mc.getEditions().add(BeanTools.cloneBean(ed));
+				mc.setEdition(ed);
+				mc.setNumber(null);
+			} catch (Exception e) {
+				logger.error(e);
+			} 
+		});
+		Collections.sort(cards,new CardsEditionSorter());
+
+		for(var i=0;i<cards.size();i++)
+			cards.get(i).setNumber(String.valueOf((i+1)));
+
+		saveCustomSet(ed,cards);
+	}
+	
 	
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
@@ -47,8 +130,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<MTGCard> searchCardByEdition(MTGEdition ed) throws IOException {
-		return manager.listCustomsCards(ed);
+	public List<MTGCard> searchCardByEdition(MTGEdition me) throws IOException {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).listCustomCards(me);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 	}
 
 
@@ -57,7 +144,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public List<MTGCard> listAllCards() throws IOException {
 		List<MTGCard> res = new ArrayList<>();
 			for (var ed : listEditions())
-				for (var mc : manager.listCustomsCards(ed))
+				for (var mc : searchCardByEdition(ed))
 						res.add(mc);
 
 			return res;
@@ -74,7 +161,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		} 
 		else 
 		{
-			for (MTGCard mc : manager.listCustomsCards(me)) {
+			for (MTGCard mc : searchCardByEdition(me)) {
 				if (hasValue(mc, att, crit))
 				{
 					res.add(mc);
@@ -99,7 +186,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 		var ed = getSetById(me.getId());
 
-		for (MTGCard mc : manager.listCustomsCards(ed))
+		for (MTGCard mc : searchCardByEdition(ed))
 			if (mc.getNumber().equals(id))
 				return mc;
 
@@ -109,12 +196,20 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
-		return manager.listCustomSets();
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).listCustomSets();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 	}
 	
 	@Override
 	public MTGEdition getSetById(String id){
-		return manager.getCustomSet(id);
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).getCustomSetById(id);
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 
 	@Override

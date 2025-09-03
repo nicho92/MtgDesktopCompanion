@@ -1,9 +1,7 @@
 package org.magic.api.ia.impl;
 
 import java.util.List;
-import java.util.Map;
 
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.tools.POMReader;
 

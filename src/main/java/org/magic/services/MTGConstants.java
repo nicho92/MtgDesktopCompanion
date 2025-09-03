@@ -21,9 +21,6 @@ import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.shop.Contact;
-import org.magic.api.customs.impl.DAOCustomManager;
-import org.magic.api.customs.impl.FileCustomManager;
-import org.magic.api.interfaces.CustomCardsManager;
 import org.magic.services.providers.IconsProvider;
 
 import freemarker.template.Configuration;
@@ -104,8 +101,6 @@ public class MTGConstants {
 	public static final String EMAIL_NOTIFIER_NAME = "email";
 	public static final String DEFAULT_CLIPBOARD_NAME = "clipboard";
 	public static final String DEFAULT_MANUAL_IMPORT_SYNTAX = "MTGO";
-	public static final CustomCardsManager CUSTOM_STORAGE = new DAOCustomManager();
-
 	
 	
 //HTML CONSTANTS
