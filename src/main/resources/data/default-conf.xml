@@ -709,10 +709,6 @@
       <enable>false</enable>
     </export>
     <export>
-      <class>org.magic.api.exports.impl.MTGArenaImporter</class>
-      <enable>true</enable>
-    </export>
-    <export>
       <class>org.magic.api.exports.impl.MTGStandExport</class>
       <enable>true</enable>
     </export>
