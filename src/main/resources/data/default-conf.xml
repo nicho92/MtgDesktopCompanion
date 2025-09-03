@@ -31,7 +31,7 @@
   <keystore-pass>changeit</keystore-pass>
   <min-price-alert>1</min-price-alert>
   <debug-json-panel>false</debug-json-panel>
-  <lookAndFeel>com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatLightOwlIJTheme</lookAndFeel>
+  <lookAndFeel>com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTLightOwlIJTheme</lookAndFeel>
   <locale>en</locale>
   <notifyPrerelease>true</notifyPrerelease>
   <card-pictures-dimension>
