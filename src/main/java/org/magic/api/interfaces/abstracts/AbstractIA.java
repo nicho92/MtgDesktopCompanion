@@ -77,7 +77,6 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
         .addEnumProperty(RARITY,List.of(EnumRarity.values()).stream().map(en->en.getName()).toList())
         .addStringProperty(FLAVOR)
         .addStringProperty(TEXT)
-        .addIntegerProperty(CMC)
         .addIntegerProperty(POWER)
         .addIntegerProperty(TOUGHNESS)
         .addIntegerProperty(LOYALTY)
