@@ -31,11 +31,9 @@ public class MistralAI extends AbstractIA {
 				 .logRequests(getBoolean("LOG"))
 				 .logResponses(getBoolean("LOG"))
 				 .temperature(getDouble("TEMPERATURE"));
-		
 
 		if(format!=null)
 			b.responseFormat(format);
-		
 				 
 	        return b.build();
 	}

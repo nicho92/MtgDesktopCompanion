@@ -47,10 +47,10 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	private static final String SUPERTYPES = "supertypes";
 	
 	
-	private static final String NEW_CARD_QUERY = "generate a new magic the gathering card in json format ";
+	private static final String NEW_CARD_QUERY = "generate a new magic the gathering card in json format (with mana cost symbols between {}) ";
 	private static final String WITH_THIS_DESCRIPTION = " based on the theme  : ";
 	
-	private static final String NEW_SET_QUERY = "generate a new magic the gathering set of X cards in json format ";
+	private static final String NEW_SET_QUERY = "generate a new magic the gathering set of X cards in json format (with mana cost symbols between {})";
 	private static final String NEW_DECK_QUERY = "generate a magic the gathering deck in json format ";
 	
 	

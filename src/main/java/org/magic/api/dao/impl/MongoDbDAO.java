@@ -1058,7 +1058,12 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveCustomCard(MTGCard card) throws SQLException {
-		db.getCollection(colCustomsCards, BasicDBObject.class).insertOne(BasicDBObject.parse(serialiser.toJson(card)));
+		
+		var obj = db.getCollection(colCustomsCards, BasicDBObject.class).find(Filters.eq("id", card.getId())).first();
+		if(obj==null)
+			db.getCollection(colCustomsCards, BasicDBObject.class).insertOne(BasicDBObject.parse(serialiser.toJson(card)));
+		else
+			db.getCollection(colCustomsCards, BasicDBObject.class).replaceOne(Filters.eq("id", card.getId()),BasicDBObject.parse(serialiser.toJson(card)));
 		
 	}
 

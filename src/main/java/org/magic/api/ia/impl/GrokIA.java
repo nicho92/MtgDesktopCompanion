@@ -40,9 +40,6 @@ public class GrokIA extends AbstractIA {
 		
 				if(format!=null)
 					b.responseFormat(format.toString());
-			        
-				 
-				 
 				 
 				 return b.build();
 	}
