@@ -2847,18 +2847,18 @@
 	
 	<edition id="EOE">
 		<set lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/1/15/Edge_of_Eternities_logo.png"/>
-		
-		
 		<prereleasepack num="1" lang="en"  url="https://tapsgames.com/cdn/shop/files/raw_f87ea772-29d2-464b-81af-4580b9142f83.png"/>
 		<bundle lang="en" num="1" url="https://tapsgames.com/cdn/shop/files/raw_3a2fce2c-6808-4945-aaf0-c38f6b68c331.png"/>
-		
 		<box lang="en" num="1" extra="play" url="https://tapsgames.com/cdn/shop/files/raw_a83d63a6-2778-41d6-b03c-567834273ee6.png"/>
-		<box lang="en" num="2" extra="collector" url="https://tapsgames.com/cdn/shop/files/46949a50cda3d1a24c9908cdcb8b2e9e50d43be2_Asset_SEA_BOX_MTG_D44490000.webp"/>
-				
-		
-		
 		<booster lang="en" num="1" extra="collector" url="https://afkgaming.co.uk/cdn/shop/files/MTGEOE_EN_Bstr_Clctr_01_02.png"/>
 		<booster lang="en" num="2" extra="play" url="https://media.forbiddenplanet.com/products/58/b2/f852b80b57cdaa70177b54ef010077917659.png"/>
+	</edition>
+	
+	<edition id="TLA">
+		<set lang="en" num="1" url="https://media.wizards.com/2025/images/daily/EN_rrknlGmxSD.webp"/>
+		<box lang="en" num="1" extra="collector" url="https://static.wixstatic.com/media/ac433a_5ad9514ab8d840668fac424861f3009d~mv2.png/v1/fill/w_900,h_909,al_c/ac433a_5ad9514ab8d840668fac424861f3009d~mv2.png"/>
+		<box lang="en" num="2" extra="play" url="https://static.wixstatic.com/media/ac433a_70b7e5b0f9034599b62b070eaf34a189~mv2.png/v1/fill/w_900,h_796,al_c/ac433a_70b7e5b0f9034599b62b070eaf34a189~mv2.png"/>
+		<box lang="en" num="3" extra="jump" url="https://static.wixstatic.com/media/ac433a_8233fb3bbf164835bc032478d2ef5fce~mv2.png/v1/fill/w_900,h_808,al_c/ac433a_8233fb3bbf164835bc032478d2ef5fce~mv2.png"/>
 		
 	</edition>
 	
