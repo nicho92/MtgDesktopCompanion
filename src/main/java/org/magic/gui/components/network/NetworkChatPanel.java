@@ -260,7 +260,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 					catch(InterruptedException ie)
 					{
 						Thread.currentThread().interrupt();
-						MTGControler.getInstance().notify(ie);
+						logger.error(ie);
 					}
 					catch (Exception e) {
 						MTGControler.getInstance().notify(e);

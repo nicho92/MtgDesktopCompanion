@@ -465,7 +465,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(1, ed.getId());
 				ResultSet rs = executeQuery(pst);
 				while(rs.next())
-					ret.add(readCard(rs,"mcard"));
+					ret.add(readCard(rs,MCARD));
 		}
 		
 		return ret;
