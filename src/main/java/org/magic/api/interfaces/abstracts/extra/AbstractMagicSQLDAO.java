@@ -604,7 +604,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	private void createIndex(Statement stat) throws SQLException {
 		
-		for(var c : new String[] {"idmc","idMe",COLLECTION,"comments","conditions","langage","name"})
+		for(var c : new String[] {"id","idSet","name","side"})
+			stat.executeUpdate(hlper.createIndex("customcards",c));
+		
+		for(var c : new String[] {"id","name","type","block","releasedate","onlineonly"})
+			stat.executeUpdate(hlper.createIndex("customsets",c));
+		
+		for(var c : new String[] {"id","name",COLLECTION,"comments","conditions","langage","name"})
 			stat.executeUpdate(hlper.createIndex("stocks",c));
 		
 		for(var c : new String[] {"name","url","categorie","typeNews"})
