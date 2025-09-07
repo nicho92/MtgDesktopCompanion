@@ -1023,8 +1023,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			var o = deserialize(result.toString(), c);
 			trans.add(o);
 		});
-
-
 		return trans;
 	}
 

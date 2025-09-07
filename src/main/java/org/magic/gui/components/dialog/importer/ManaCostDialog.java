@@ -3,6 +3,7 @@ package org.magic.gui.components.dialog.importer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -18,10 +19,12 @@ import javax.swing.border.LineBorder;
 
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.WrapLayout;
+import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 
 public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
 	private List<String> symbols;
@@ -34,17 +37,28 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
 		var panelManaSymbols = new JPanel();
 		
 		var lblResults = new JLabel();
+		var btnClear = UITools.createBindableJButton("", MTGConstants.ICON_SMALL_CLEAR, KeyEvent.VK_DELETE, "clearmana");
+		
 		
 		symbols = new ArrayList<>();
+		
+		
 		
 		
 		component.setLayout(new BorderLayout());
 		panelManaSymbols.setLayout(new WrapLayout());
 		
-		component.add(lblResults,BorderLayout.SOUTH);
+		component.add(UITools.createFlowPanel(lblResults, btnClear),BorderLayout.SOUTH);
 		component.add(panelManaSymbols,BorderLayout.CENTER);
 		
 		setPreferredSize(new Dimension(350, 200));
+		
+		
+		btnClear.addActionListener(_->{
+			lblResults.setText("");
+			symbols.clear();
+		});
+		
 		
 		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 			
@@ -76,7 +90,6 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
 				pack();
 			}
 		}, "load icons");
-		
 		
 		
 		return component;
