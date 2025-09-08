@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -1056,6 +1057,22 @@ public class MTGCard extends AbstractProduct {
 		return getName();
 	}
 
+	public static final List<String> types() {
+		return List.of("", "Artifact","Battle","Conspiracy","Creature","Enchantment","Instant","Land","Phenomenon","Plane","Planeswalker","Scheme","Sorcery","Tribal","Token");
+	}
 
+	public static final List<String> superTypes() {
+		return List.of("", "Basic", "Legendary","Ongoing", "Snow", "World" );
+	}
+
+	public static final List<String> getManaCosts() {
+		return Arrays.asList(
+	            "0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","X",
+	            "W", "U", "B", "R", "G",
+	            "W/U", "W/B", "U/B", "U/R", "B/R", "B/G", "R/G", "R/W", "G/W", "G/U",
+	            "W/P", "U/P", "B/P", "R/P", "G/P",
+	            "C", "S"
+	        );
+	}
 
 }
