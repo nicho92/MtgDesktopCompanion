@@ -91,7 +91,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	public void rebuild(MTGEdition ed) throws IOException {
 		var cards = searchCardByEdition(ed);
 		ed.setCardCount(cards.size());
-		ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
+		ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a") && mc.isToken()).count());
 		ed.setCardCountPhysical(ed.getCardCountOfficial());
 		
 		cards.forEach(mc->{
@@ -108,7 +108,13 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 
 		for(var i=0;i<cards.size();i++)
 			cards.get(i).setNumber(String.valueOf((i+1)));
-
+		
+		
+		var i = 1;
+		for(var t : cards.stream().filter(mc->mc.isToken()).toList()){
+			t.setNumber("T"+(i++));
+		}
+			
 		saveCustomSet(ed,cards);
 	}
 	

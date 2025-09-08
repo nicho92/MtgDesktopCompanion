@@ -243,9 +243,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			build.addParameter(CARD_TEMPLATE, "C");
 			build.addParameter(CARD_ACCENT, "C");
 		}
-		
-		if(mc.getTypes().contains("Token"))
-			build.addParameter(CARD_TEMPLATE, "Token");
+
 		
 		
 		if(mc.isLand())
@@ -280,6 +278,14 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	
 	
 	private String getFrame(MTGCard mc) {
+		
+		if(mc.getTypes().contains("Token"))
+		{
+			mc.setLayout(EnumLayout.TOKEN);
+			return "token";
+		}
+		
+		
 		if(mc.getFrameEffects().contains(EnumFrameEffects.PROMO))
 			return "mgdpromo";
 		
