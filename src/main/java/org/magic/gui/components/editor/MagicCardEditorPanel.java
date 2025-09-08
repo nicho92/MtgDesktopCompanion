@@ -153,7 +153,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		costJTextField.setEditable(false);
 		cboTypes.setModel(model);
 		List.of("", "Basic", "Legendary","Ongoing", "Snow", "World" ).forEach(modelSt::addElement);
-		List.of("", "Artifact","Battle","Conspiracy","Creature","Enchantment","Instant","Land","Phenomenon","Plane","Planeswalker","Scheme","Sorcery","Tribal","Vanguard").forEach(model::addElement);
+		List.of("", "Artifact","Battle","Conspiracy","Creature","Enchantment","Instant","Land","Phenomenon","Plane","Planeswalker","Scheme","Sorcery","Tribal","Token").forEach(model::addElement);
 		FlowLayout flpanelButton = (FlowLayout) panelButton.getLayout();
 		flpanelButton.setAlignment(FlowLayout.LEFT);
 		textEditorPanel.setLayout(new BorderLayout());

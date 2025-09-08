@@ -8,6 +8,7 @@ import org.magic.api.interfaces.extra.MTGEnumeration;
 public enum EnumFrameEffects implements MTGEnumeration{
 	NONE,
 	BORDERLESS,
+	BOOSTERFUN,
 	COLORSHIFTED,
 	COMPANION,
 	COMPASSLANDDFC,

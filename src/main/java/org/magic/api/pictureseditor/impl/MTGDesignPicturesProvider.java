@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.utils.URIBuilder;
@@ -59,15 +58,11 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		String u = BASE_URI+"/login";
 	
 		if(getAuthenticator().getLogin().isEmpty() || getAuthenticator().getPassword().isEmpty())
-		{
 			throw new IOException("Please fill LOGIN/PASSWORD field in account panel");
-		}
-		
-		
 		
 		var p =  httpclient.doGet(u).getEntity();
-		String token = URLTools.toHtml(EntityUtils.toString(p)).select("input[name=_token]").first().attr("value");
-		List<NameValuePair> nvps = new ArrayList<>();
+		var token = URLTools.toHtml(EntityUtils.toString(p)).select("input[name=_token]").first().attr("value");
+		var nvps = new ArrayList<NameValuePair>();
 							nvps.add(new BasicNameValuePair("email", getAuthenticator().getLogin()));
 							nvps.add(new BasicNameValuePair("password", getAuthenticator().getPassword()));
 							nvps.add(new BasicNameValuePair("remember", "on"));
@@ -79,7 +74,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		headers.put(URLTools.UPGR_INSECURE_REQ, "1");
 		headers.put(URLTools.ORIGIN, BASE_URI);
 
-		HttpResponse resp = httpclient.doPost(u, new UrlEncodedFormEntity(nvps), headers);
+		var resp = httpclient.doPost(u, new UrlEncodedFormEntity(nvps), headers);
 
 		logger.debug("Connection : {}",resp.getStatusLine().getReasonPhrase());
 		
@@ -248,7 +243,11 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			build.addParameter(CARD_TEMPLATE, "C");
 			build.addParameter(CARD_ACCENT, "C");
 		}
-
+		
+		if(mc.getTypes().contains("Token"))
+			build.addParameter(CARD_TEMPLATE, "Token");
+		
+		
 		if(mc.isLand())
 			build.addParameter("land-overlay", mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"C"));
 		
