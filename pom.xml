@@ -61,7 +61,7 @@
 		<poi.version>5.4.1</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.8.0</rhino.version>
-		<commonmark.version>0.25.1</commonmark.version>
+		<commonmark.version>0.26.0</commonmark.version>
 		<langchain4j.version>1.4.0</langchain4j.version>
 	</properties>
 	
@@ -313,7 +313,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.20.6</version>
+			<version>3.20.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -399,7 +399,7 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.5.5</version>
+			<version>3.5.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>
@@ -582,7 +582,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.13.1</version>
+			<version>2.13.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
