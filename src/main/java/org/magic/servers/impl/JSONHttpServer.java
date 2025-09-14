@@ -104,6 +104,7 @@ import org.magic.services.network.URLTools;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.Chrono;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.GithubUtils;
 import org.magic.services.tools.ImageTools;
@@ -219,7 +220,27 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void start() throws IOException {
 
 		if(getBoolean(ENABLE_SSL))
+		{
 			Spark.secure(getString(KEYSTORE_URI), getString(KEYSTORE_PASS), null, null);
+			
+	
+			
+			try 
+			{
+				CryptoUtils.getCertificates(getFile(KEYSTORE_URI), getString(KEYSTORE_PASS)).forEach(c->{
+					
+					var expir = UITools.daysBetween(Instant.now(),c.getNotAfter().toInstant());
+					if(expir<=7)
+						logger.warn("{} will expire in {} days",c.getSubjectX500Principal(), expir);
+				});
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+			}
+			
+			
+		}
 
 			initCache();
 			initVars();

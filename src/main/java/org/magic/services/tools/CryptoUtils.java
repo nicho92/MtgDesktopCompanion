@@ -1,8 +1,18 @@
 package org.magic.services.tools;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -78,6 +88,22 @@ public class CryptoUtils {
 			return -1L;
 		}
 	}
+	
+	public static List<X509Certificate> getCertificates(File keystoreFile,String password) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException
+	{
+		var ret = new ArrayList<X509Certificate>();
+	        var keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+	        keystore.load(new FileInputStream(keystoreFile), password.toCharArray());
+	        var aliases = keystore.aliases();
+	        while(aliases.hasMoreElements()){
+	            String alias = aliases.nextElement();
+	            if(keystore.getCertificate(alias).getType().equals("X.509")){
+	                ret.add((X509Certificate) keystore.getCertificate(alias));
+	            }
+	        }
+	        return ret;
+	}
+	
 
 	public static Double randomDouble(double bound) {
 		try {
