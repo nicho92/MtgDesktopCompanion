@@ -260,9 +260,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			}
 		});
 		
-		btnUrl.addActionListener(_->{
-			magicCard.setUrl(JOptionPane.showInputDialog("URL"));
-		});
+		btnUrl.addActionListener(_->magicCard.setUrl(JOptionPane.showInputDialog("URL")));
 		
 		btnWallpaper.addActionListener(_->{
 		

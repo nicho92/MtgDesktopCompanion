@@ -31,11 +31,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 
 	public static final String PERSONNAL_DATA_SET_PROVIDER = "Personnal Data Set Provider";
 
-	public boolean deleteCustomCard(MTGCard mc) throws IOException {
+	public boolean deleteCustomCard(MTGCard mc) {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).deleteCustomCard(mc);
 			return true;
 		} catch (SQLException e) {
+			logger.error(e);
 			return false;
 		}
 	}
@@ -111,7 +112,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 		
 		
 		var i = 1;
-		for(var t : cards.stream().filter(mc->mc.isToken()).toList()){
+		for(var t : cards.stream().filter(MTGCard::isToken).toList()){
 			t.setNumber("T"+(i++));
 		}
 			
@@ -213,7 +214,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	public MTGEdition getSetById(String id){
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).getCustomSetById(id);
-		} catch (SQLException e) {
+		} catch (SQLException _) {
 			return null;
 		}
 	}

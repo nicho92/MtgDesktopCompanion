@@ -147,7 +147,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 					try {
 						get();
 					}
-					catch(InterruptedException e)
+					catch(InterruptedException _)
 					{
 						Thread.currentThread().interrupt();
 					

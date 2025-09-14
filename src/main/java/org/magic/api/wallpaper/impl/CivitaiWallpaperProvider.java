@@ -15,8 +15,9 @@ import org.magic.services.network.URLTools;
 
 public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 		
+	private static final String SEARCH_MODE = "SEARCH_MODE";
 	private static final String LIMIT = "LIMIT";
-	private final String BASE_URL="https://civitai.com/";
+	private static final String BASE_URL="https://civitai.com/";
 	
 	@Override
 	public List<String> listAuthenticationAttributes() {
@@ -42,12 +43,12 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 			var build = RequestBuilder.build().setClient(URLTools.newClient()).get().url(BASE_URL+"/api/v1/models")
 					.addHeader("Authorization", "Bearer "+getAuthenticator().get("API_KEY"))
 					.addHeader(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON)
-					.addContent(getString("SEARCH_MODE"), search)
+					.addContent(getString(SEARCH_MODE), search)
 					.addContent("limit", "100")
 					.addContent("nsfw", getString("MATURE"));
 					
 			
-			if(getString("SEARCH_MODE").equals("tag"))
+			if(getString(SEARCH_MODE).equals("tag"))
 				build = build.addContent("page", String.valueOf(page++));
 			
 			
@@ -112,7 +113,7 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"),
 							  LIMIT,MTGProperty.newIntegerProperty("250", "Max results to return", 1, -1),
-							  "SEARCH_MODE",new MTGProperty("tag", "set search mode by tags or by query", "tag","query")
+							  SEARCH_MODE,new MTGProperty("tag", "set search mode by tags or by query", "tag","query")
 								);
 	}
 	

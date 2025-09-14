@@ -254,7 +254,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 
 			btnRemoveCard.addActionListener(_ -> {
-				try {
+			
 					
 					MTGCard mc = UITools.getTableSelection(cardsTable, 0);
 					
@@ -268,9 +268,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						picturesProvider.removePicture(mc);
 						cardsModel.removeItem(mc);
 					}
-				} catch (IOException ex) {
-					MTGControler.getInstance().notify(ex);
-				}
+				
 			});
 
 			btnSaveEdition.addActionListener(_ -> {

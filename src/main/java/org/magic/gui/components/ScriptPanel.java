@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Future;
 
@@ -39,7 +38,6 @@ import org.fife.ui.autocomplete.DefaultCompletionProvider;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.jfree.ui.ExtensionFileFilter;
-import org.magic.api.beans.technical.PluginEntry;
 import org.magic.api.interfaces.MTGScript;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -256,7 +254,7 @@ public class ScriptPanel extends MTGUIComponent {
 	private CompletionProvider createCompletionProvider() {
 		var provider = new DefaultCompletionProvider();
 		Set<String> sets = new HashSet<>();
-		for (Entry<Class, PluginEntry> exp : PluginRegistry.inst().entrySet()) {
+		for (var exp : PluginRegistry.inst().entrySet()) {
 			PluginRegistry.inst().getStringMethod(exp.getKey()).forEach(sets::add);
 		}
 		sets.forEach(s->provider.addCompletion(new BasicCompletion(provider, s)));
