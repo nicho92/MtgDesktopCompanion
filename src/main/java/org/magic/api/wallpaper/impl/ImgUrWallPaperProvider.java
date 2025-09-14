@@ -62,9 +62,13 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 						else
 							w.setName(defaultTitle);
 						
-						if(je.getAsJsonObject().get("account_url")!=null)
+						try {
 							w.setAuthor(je.getAsJsonObject().get("account_url").getAsString());
-						
+						}
+						catch(Exception _)
+						{
+							w.setAuthor("");
+						}
 						
 						w.setMature(je.getAsJsonObject().get("nsfw").getAsBoolean());
 						w.setUrl(URI.create(im.getAsJsonObject().get("link").getAsString()));

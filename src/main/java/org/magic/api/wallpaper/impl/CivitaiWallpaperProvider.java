@@ -84,8 +84,13 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 								 wall.setUrlThumb(URI.create(wall.getUrl().toASCIIString().replaceAll("width=\\d+", "width=30")));
 								 wall.setPublishDate(Date.from(Instant.parse(modelVersion.getAsJsonObject().get("publishedAt").getAsString())));
 								 el.getAsJsonObject().get("tags").getAsJsonArray().forEach(t->wall.getTags().add(t.getAsString()));
-								 if(!el.getAsJsonObject().get("creator").getAsJsonObject().get("username").isJsonNull())
-									 wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
+								 try {
+								 	 wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
+								 }
+								 catch(NullPointerException _)
+								 {
+									 wall.setAuthor("");
+								 }
 							
 							if(ret.size()>=getInt(LIMIT))
 							 {
