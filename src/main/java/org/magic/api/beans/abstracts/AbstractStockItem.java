@@ -156,6 +156,10 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		return new MoneyValue(price, MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 	}
 	
+	public Double getPrice() {
+		return price;
+	}
+	
 
 	@Override
 	public MTGGrading getGrade() {
