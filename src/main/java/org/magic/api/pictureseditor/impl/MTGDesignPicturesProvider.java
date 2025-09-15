@@ -113,7 +113,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			build.addParameter("card-total", String.valueOf(me.getCardCount()));
 			build.addParameter("card-set", me.getId());
 			build.addParameter("language", "EN");
-			build.addParameter("card-border", "black");
 		}
 		else
 		{
@@ -121,11 +120,16 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			build.addParameter("card-total", "1");
 			build.addParameter("card-set", "MTG");
 			build.addParameter("language", "EN");
-			build.addParameter("card-border", "black");
 		}
 		build.addParameter("card-title", mc.getName());
 		build.addParameter("mana-cost", mc.getCost());
 
+		
+		if(mc.getBorder()==null)
+			build.addParameter("card-border", "black");
+		else
+			build.addParameter("card-border", mc.getBorder().name().toLowerCase());
+		
 		if(!mc.getSupertypes().isEmpty())
 			build.addParameter("super-type", String.join(" ", mc.getSupertypes()));
 

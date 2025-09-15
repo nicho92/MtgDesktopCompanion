@@ -38,6 +38,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
@@ -87,6 +88,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 	private JComboBox<String> cboColorAccent;
 	private JComboBox<EnumFrameEffects> cboFrameEffects;
+	private JComboBox<EnumBorders> cboBorders;
 	private JComboBox<String> cboSide;
 	private JComboBox<EnumRarity> cboRarity;
 	private JComboBox<MTGCard> cboReversedCards;
@@ -124,6 +126,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		textJEditorPane = new MagicTextPane(false);
 		flavorJTextField = new JTextField();
 		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());
+		cboBorders = UITools.createCombobox(EnumBorders.values());
 		cboReversedCards = new JComboBox<>();
 		loyaltyJTextField = new JTextField();
 		numberJTextField = new JTextField();
@@ -178,6 +181,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(new JLangLabel("CARD_NUMBER",true), UITools.createGridBagConstraints(null, null, 0, 9));
 		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 11));
 		add(new JLangLabel("COLOR_INDICATOR",true), UITools.createGridBagConstraints(null, null, 2, 10));
+		add(new JLangLabel("BORDER",true), UITools.createGridBagConstraints(null, null, 2, 11));
+		
 		
 		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 		add(costJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 0));
@@ -191,10 +196,12 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(UITools.createFlowPanel(numberJTextField,cboSide), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 		add(pictureEditorPanel,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
-		
-		
 		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
+		add(cboBorders,UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 11));
+		
+		
 		add(textEditorPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4,3,3));
+		
 
 		
 		
@@ -417,6 +424,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		AutoBinding<MTGCard, String, JTextField, Object> autoBinding17 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, valueProperty5);
 		autoBinding17.bind();
 	
+		BeanProperty<MTGCard, Object> borderProperty = BeanProperty.create("border");
+		BeanProperty<JComboBox<EnumBorders>, Object> selectedIndexProperty2 = BeanProperty.create("selectedItem");
+		AutoBinding<MTGCard, Object, JComboBox<EnumBorders>, Object> autoBinding18 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, borderProperty, cboBorders, selectedIndexProperty2);
+		autoBinding18.bind();
+		
 		BeanProperty<MTGCard, String> loyaltyProperty = BeanProperty.create("loyalty");
 		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
@@ -438,6 +450,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				bindingGroup.addBinding(autoBinding15);
 				bindingGroup.addBinding(autoBinding16);
 				bindingGroup.addBinding(autoBinding17);
+				bindingGroup.addBinding(autoBinding18);
 				bindingGroup.addBinding(autoBinding20);
 				bindingGroup.addBinding(autoBinding22);
 

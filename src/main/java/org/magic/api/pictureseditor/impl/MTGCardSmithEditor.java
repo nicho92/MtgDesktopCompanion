@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
@@ -135,7 +136,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			build.removeContent("frame");
 			build.addContent("special_card_color", "vehart01"+(c==EnumColors.GOLD?"m":c.getCode().toLowerCase()));
 		}
-	
+			
 		
 		if(EnumColors.determine(mc.getColors())==EnumColors.UNCOLOR)
 			build.addContent("frame_color[]", "colorless");
@@ -157,6 +158,14 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				build.addContent("special_card_color", "lgc");
 			}
 		}
+		
+		if(mc.getBorder()==EnumBorders.SILVER)
+		{
+			var c = EnumColors.determine(mc.getColors());
+			build.removeContent("frame");
+			build.addContent("special_card_color", "sl"+(c==EnumColors.GOLD?"m":c.getCode().toLowerCase()));
+		}
+		
 
 
 		
