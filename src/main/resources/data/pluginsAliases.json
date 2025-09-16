@@ -12,6 +12,21 @@
 			}
 		
 	},
+	
+	"MTGStudio" : {
+		"conditions": {
+				"DAMAGED":"Poor",
+				"EXCELLENT":"Fine",
+				"GOOD":"Good",
+				"LIGHTLY_PLAYED":"",
+				"MINT":"Mint",
+				"NEAR_MINT":"Near Mint",
+				"PLAYED":"Laminated",
+				"POOR":"Poor",
+				"SEALED":"Sealed"
+			}
+		
+	},
 
 	"MTGAProTracker" : {
 		"regex":{
