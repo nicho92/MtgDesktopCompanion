@@ -92,7 +92,7 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.warn("can't get condition value \"{}\" for {} : msg={}",conditionName,plug,e.getMessage());
+			logger.trace("can't get condition value \"{}\" for {} : msg={}",conditionName,plug,e.getMessage());
 			return defaultCondition;
 		}
 	}
