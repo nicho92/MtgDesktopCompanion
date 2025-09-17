@@ -40,7 +40,7 @@ public class MTGStudioExport extends AbstractCardExport{
 	}
 	
 	public static void main(String[] args) throws IOException {
-		var f = new File("D:\\Desktop\\Collection.xml");
+		var f = new File("D:\\Desktop\\MTGStudioExport.xml");
 		
 		new MTGStudioExport().importStockFromFile(f);
 		
@@ -48,7 +48,7 @@ public class MTGStudioExport extends AbstractCardExport{
 	
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		List<MTGCardStock> list = new ArrayList<>();
+		var list = new ArrayList<MTGCardStock>();
 	
 		try {
 			var builder = XMLTools.createSecureXMLDocumentBuilder();
@@ -62,9 +62,11 @@ public class MTGStudioExport extends AbstractCardExport{
 				var cells = nodes.item(i).getChildNodes();
 				
 				var cardName = cells.item(3).getTextContent().trim();
-				var cardSet = cells.item(5).getTextContent();
+				var cardSet = aliases.getReversedSetIdFor(this, cells.item(5).getTextContent());
 				var m = Pattern.compile("(.*?)( \\[(.*?)\\])?$").matcher(cardName); 
 
+				System.out.println(cardSet);
+				
 				
 				var qty = Integer.parseInt(cells.item(7).getTextContent());
 				var condition =  cells.item(21).getTextContent();
