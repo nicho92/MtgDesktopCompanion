@@ -62,7 +62,7 @@
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.8.0</rhino.version>
 		<commonmark.version>0.26.0</commonmark.version>
-		<langchain4j.version>1.4.0</langchain4j.version>
+		<langchain4j.version>1.5.0</langchain4j.version>
 	</properties>
 	
 	
@@ -465,7 +465,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.4.8-jre</version>
+			<version>33.5.0-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -638,7 +638,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.7</version>
+			<version>42.7.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>

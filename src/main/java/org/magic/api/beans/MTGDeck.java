@@ -97,6 +97,16 @@ public class MTGDeck implements MTGSerializable {
 		return getMain().keySet().stream().toList();
 	}
 
+	public List<MTGCard> getAllUniqueCards() {
+		
+		var list = new ArrayList<MTGCard>();
+		
+		list.addAll(getMain().keySet().stream().toList());
+		list.addAll(getSideBoard().keySet().stream().toList());
+		
+		return list;
+	}
+	
 	public int getCardCountByName(String name) {
 			return getMain().entrySet().stream().filter(e->e.getKey().getName().equals(name)).mapToInt(Entry::getValue).sum();
 	}
@@ -174,6 +184,7 @@ public class MTGDeck implements MTGSerializable {
 	public List<MTGCard> getSideAsList() {
 		return toList(getSideBoard().entrySet());
 	}
+	
 
 	private List<MTGCard> toList(Set<Entry<MTGCard, Integer>> entrySet) {
 		var deck = new ArrayList<MTGCard>();

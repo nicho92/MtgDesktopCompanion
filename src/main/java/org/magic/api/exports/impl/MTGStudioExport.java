@@ -14,13 +14,14 @@ import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.tools.XMLTools;
 
-import com.github.javaparser.ast.Node;
-
 public class MTGStudioExport extends AbstractCardExport{
+
+	private String cardRegex="(.*?)( \\[(.*?)\\])?( \\((\\d+)\\))?$";
 
 	@Override
 	public String getName() {
@@ -86,7 +87,25 @@ public class MTGStudioExport extends AbstractCardExport{
 			nodes = XMLTools.parseNodes(xmlDocument, "/mtgstudiodeck/deck/cards/*");
 			for(var i=0; i<nodes.getLength();i++)
 			{
+				var c = nodes.item(i);
 				
+				var qtyMain = Integer.parseInt(c.getAttributes().getNamedItem("deck").getTextContent());
+				var qtySide = Integer.parseInt(c.getAttributes().getNamedItem("sb").getTextContent());
+				var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getReversedSetIdFor(this, c.getAttributes().getNamedItem("edition").getTextContent()));
+				var m = Pattern.compile(cardRegex).matcher(c.getTextContent());
+				if(m.find())
+				{
+					var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cleanName(m.group(1)), set, true,null);
+					if(!cards.isEmpty())
+					{
+						
+						if(qtyMain>0)
+							d.getMain().put(cards.get(0), qtyMain);
+						
+						if(qtySide>0)
+							d.getSideBoard().put(cards.get(0), qtySide);
+					}
+				}
 			}
 		}
 		catch(Exception e)
@@ -101,8 +120,31 @@ public class MTGStudioExport extends AbstractCardExport{
 	
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		// TODO Auto-generated method stub
-		super.exportDeck(deck, dest);
+		var builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>").append(System.lineSeparator());
+		builder.append("<mtgstudiodeck version=\"1.0\"><deck>").append(System.lineSeparator());
+		
+		builder.append("<deckinfo>").append(System.lineSeparator());
+			builder.append("<title>").append(deck.getName()).append("</title>");
+			builder.append("<archetype>").append("Unspecified").append("</archetype>");
+			builder.append("<creator>").append(System.getProperty("user.name")).append("</creator>");
+			builder.append("<created>").append(UITools.formatDate(deck.getDateCreation())).append("</created>");
+			builder.append("<modified>").append(UITools.formatDate(deck.getDateUpdate())).append("</modified>");
+			builder.append("<version>1.0</version>");
+			builder.append("<description>").append(deck.getDescription()).append("</description>");
+			builder.append("<email/>");
+			
+			
+		builder.append("</deckinfo>").append(System.lineSeparator());
+		builder.append("<cards>").append(System.lineSeparator());
+		
+			deck.getAllUniqueCards().forEach(c->{
+				builder.append("<card deck=\"").append(deck.getMain().getOrDefault(c,0)).append("\" ").append("sb=\"").append(deck.getSideBoard().getOrDefault(c,0)).append("\"").append("edition=\"").append(aliases.getReversedSetIdFor(this, c.getEdition())).append("\">").append(c.getName()).append("</card>").append(System.lineSeparator());
+			});
+			
+		
+		builder.append("</cards>");
+		builder.append("</deck></mtgstudiodeck>");
+		FileTools.saveFile(dest, builder.toString());
 	}
 	
 	
@@ -129,7 +171,8 @@ public class MTGStudioExport extends AbstractCardExport{
 				var comment = cells.item(25).getTextContent();
 				var cardName = cells.item(3).getTextContent().trim();
 				var cardSet = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getReversedSetIdFor(this, cells.item(5).getTextContent()));
-				var m = Pattern.compile("(.*?)( \\[(.*?)\\])?( \\((\\d+)\\))?$").matcher(cardName);
+				var price = UITools.parseDouble(cells.item(13).getTextContent());
+				var m = Pattern.compile(cardRegex).matcher(cardName);
 				
 				if(m.find())
 				{
@@ -141,7 +184,7 @@ public class MTGStudioExport extends AbstractCardExport{
 							mcs.setQte(qty);
 							mcs.setFoil(foil);
 							mcs.setComment(comment);
-							
+							mcs.setPrice(price);
 							if(cells.item(29).getTextContent().equals("Proxy"))
 								mcs.setCondition(EnumCondition.PROXY);
 							else
