@@ -32,10 +32,16 @@ Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=Pa
 
 [AUR Package](https://aur.archlinux.org/packages/mtg-desktop-companion) thanks to @LuckyTurtleDev
 
+# Configure JAVA 
+
+Need to have Java >=23 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+and java.exe is in your PATH : [HOW TO](https://www.baeldung.com/java-home-on-windows-mac-os-x-linux) 
+
+
+
 # Launch
 ```
- Need to have Java >=23 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html and java.exe is in your PATH
-
  Download and unzip latest release at https://github.com/nicho92/MtgDesktopCompanion/releases
 
  go to /bin directory and launch mtg-desktop-companion.bat (for windows) or mtg-desktop-companion.sh (for unix)
