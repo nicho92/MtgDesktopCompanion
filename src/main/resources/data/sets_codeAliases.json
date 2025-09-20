@@ -20,6 +20,10 @@
 		"TINR",
 		"AINR"
 	],
+	"EOE",[
+		"AEOE"
+	],
+	
 	"YBLB": [
 		"YDSK",
 		"YDFT",
@@ -382,6 +386,7 @@
 		"4BB"
 	],
 	"PMEI": [
+		"PH23",
 		"RFIN",
 		"PSS5",
 		"PW25",
