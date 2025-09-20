@@ -38,7 +38,7 @@ public class MTGStudioExport extends AbstractCardExport{
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 	
@@ -60,19 +60,13 @@ public class MTGStudioExport extends AbstractCardExport{
 			builder.append(aliases.getReversedSetIdFor(this, mcs.getProduct().getEdition())).append(",");
 			builder.append(mcs.getQte()).append(",");
 			builder.append(mcs.isFoil()?"y":"n").append(",");
-			builder.append(UITools.formatDouble(mcs.getValue().doubleValue())).append(",");
+			builder.append(UITools.formatDouble(mcs.getValue().doubleValue(),'.')).append(",");
 			builder.append(aliases.getConditionFor(this, mcs.getCondition())).append(",");
 			builder.append(mcs.getComment()).append(System.lineSeparator());
 			notify(mcs.getProduct());
 		}
-		
-		FileTools.saveFile(f, builder.toString());
+		FileTools.saveFile(new File(f.getAbsolutePath().replace(".xml", ".csv")), builder.toString());
 	}
-	
-	public static void main(String[] args) throws IOException {
-		new MTGStudioExport().importDeckFromFile(new File("D:\\Desktop\\New Deck.deck"));
-	}
-	
 	
 	@Override
 	public MTGDeck importDeck(String content, String name) throws IOException {
