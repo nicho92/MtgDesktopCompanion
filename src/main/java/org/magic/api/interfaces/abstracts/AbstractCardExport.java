@@ -40,6 +40,14 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	}
 
 
+	protected String commated(String name)
+	{
+		if(name.indexOf(',')>-1)
+			return "\""+name+"\"";
+				
+		return name;
+	}
+
 	protected String cleanName(String cname) {
 		
 		if(cname==null)

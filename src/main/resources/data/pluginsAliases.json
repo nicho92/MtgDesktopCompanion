@@ -44,7 +44,7 @@
 			"NEM":"NE",
 			"PCY":"PY",
 			"LGN":"LE",
-			"CHR":"CH,
+			"CHR":"CH",
 			"ULG":"UL",
 			"UDS":"UD",
 			"USG":"US",
@@ -62,11 +62,11 @@
 			"P02":"P2",
 			"PTK":"P3",
 			"TOR":"TO",
-			"WTH","WL",
-			"INV","IN",
-			"STH","SH",
-			"5DN";"5D",
-			"JUD","JU"
+			"WTH":"WL",
+			"INV":"IN",
+			"STH":"SH",
+			"5DN":"5D",
+			"JUD":"JU"
 		}
 		
 	},
@@ -471,7 +471,7 @@
 			"NEM":"NE",
 			"PCY":"PY",
 			"LGN":"LE",
-			"CHR":"CH,
+			"CHR":"CH",
 			"ULG":"UL",
 			"UDS":"UD",
 			"USG":"US",
@@ -489,11 +489,11 @@
 			"P02":"P2",
 			"PTK":"P3",
 			"TOR":"TO",
-			"WTH","WL",
-			"INV","IN",
-			"STH","SH",
-			"5DN";"5D",
-			"JUD","JU"
+			"WTH":"WL",
+			"INV":"IN",
+			"STH":"SH",
+			"5DN":"5D",
+			"JUD":"JU"
 		}
 	},
 	"StarCityGame":{

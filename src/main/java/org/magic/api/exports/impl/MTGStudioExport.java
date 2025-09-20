@@ -50,7 +50,23 @@ public class MTGStudioExport extends AbstractCardExport{
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-
+		
+		var builder = new StringBuilder("Name,Set,Qty,Foil,Price,Condition,Notes").append(System.lineSeparator());
+		
+		
+		for(var mcs : stock)
+		{
+			builder.append(commated(mcs.getProduct().getName())).append(",");
+			builder.append(aliases.getReversedSetIdFor(this, mcs.getProduct().getEdition())).append(",");
+			builder.append(mcs.getQte()).append(",");
+			builder.append(mcs.isFoil()?"y":"n").append(",");
+			builder.append(UITools.formatDouble(mcs.getValue().doubleValue())).append(",");
+			builder.append(aliases.getConditionFor(this, mcs.getCondition())).append(",");
+			builder.append(mcs.getComment()).append(System.lineSeparator());
+			notify(mcs.getProduct());
+		}
+		
+		FileTools.saveFile(f, builder.toString());
 	}
 	
 	public static void main(String[] args) throws IOException {

@@ -120,7 +120,7 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception _)
 		{
-			logger.error("Error getting condition {} for plug {}",condition,plug);
+			logger.error("Error getting condition {} for plug {}",condition.name(),plug);
 			return condition.name();
 		}
 	}
