@@ -1,7 +1,6 @@
 {
 	"TLA" : [
 		"FTLA"
-	
 	],
 	"FIN" :[
 		"AFIN"
@@ -20,7 +19,7 @@
 		"TINR",
 		"AINR"
 	],
-	"EOE",[
+	"EOE":[
 		"AEOE"
 	],
 	
