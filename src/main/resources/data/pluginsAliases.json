@@ -67,7 +67,16 @@
 			"INV":"IN",
 			"STH":"SH",
 			"5DN":"5D",
-			"JUD":"JU"
+			"JUD":"JU",
+			"UGL":"UG",
+			"UNH":"UH",
+			"MMQ":"MM",
+			"SCG":"SC",
+			"MRD":"MR",
+			"5DN":"FD",
+			"UNH":"UH",
+			"CHK":"COK"
+			
 		}
 		
 	},
