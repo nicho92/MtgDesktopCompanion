@@ -16,6 +16,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
+import com.google.common.collect.ImmutableMap;
+
 public class MagicVillePricer extends AbstractPricesProvider {
 
 	private static final String MAX = "MAX";
@@ -38,7 +40,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 		var list = new ArrayList<MTGPrice>();
 
-		var res = httpclient.toString(httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null));
+		var res = httpclient.toString(httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", Map.of("recherche_titre", card.getName()), null));
 		if(res.length()>100)
 		{
 			logger.error("too much result");

@@ -38,9 +38,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
-
 public class MTGHttpClient {
 
 	private HttpClient httpclient;
@@ -94,11 +91,7 @@ public class MTGHttpClient {
 		return ret;
 	}
 
-	public HttpClientConnectionManager getConnectionManager() {
-		return connectionManager;
-	}
-
-	public HttpResponse execute(HttpRequestBase req) throws IOException
+	private HttpResponse execute(HttpRequestBase req) throws IOException
 	{
 		var info = new NetworkInfo();
 		info.setRequest(req);
@@ -242,12 +235,6 @@ public class MTGHttpClient {
 
 	public List<Cookie> getCookies() {
 		return cookieStore.getCookies();
-	}
-
-
-
-	public Builder<String, String> buildMap() {
-		return new ImmutableMap.Builder<>();
 	}
 
 }

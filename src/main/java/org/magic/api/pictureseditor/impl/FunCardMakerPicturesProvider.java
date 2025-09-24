@@ -23,6 +23,7 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
@@ -166,13 +167,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 										builder.addTextBody("MAX_FILE_SIZE", "104857600");
 		
 				HttpEntity ent = builder.build();
-				Map<String,String> map = httpclient.buildMap()
-									.put("Host", DOMAIN)
-									.put("Origin", WEBSITE)
-									.put("Referer",WEBSITE)
-									.put("X-Requested-With","XMLHttpRequest").build();
 
-				var response = URLTools.toJson(httpclient.toString(httpclient.doPost(UPLOAD_URL, ent, map)));
+				var response = URLTools.toJson(httpclient.toString(httpclient.doPost(UPLOAD_URL, ent, Map.of("Host", DOMAIN,"Origin", WEBSITE,"Referer",WEBSITE,"X-Requested-With","XMLHttpRequest"))));
 				 logger.trace("response: {}",response);
 
 				 if(response.getAsJsonObject().get("error")!=null)

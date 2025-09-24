@@ -19,6 +19,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
+import com.google.common.collect.ImmutableMap;
+
 public class StarCityGamesPricer extends AbstractPricesProvider {
 
 	NumberFormat format = NumberFormat.getCurrencyInstance();
@@ -37,7 +39,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 		var payload = "{\"Keyword\":\"\",\"Variant\":{\"MaxPerPage\":32},\"FacetSelections\":{\"card_name\":[\""+cardName+"\"]},\"MaxPerPage\":24,\"clientguid\":\"cc3be22005ef47d3969c3de28f09571b\"}";
 
 		
-		var hds = c.buildMap()
+		var hds = new ImmutableMap.Builder<String,String>()
 		 .put("Accept-Encoding","gzip, deflate, br")
 		 .put("Accept","*/*")
 		 .put("Accept-Language","fr-FR,fr;q=0.9,en;q=0.8")
