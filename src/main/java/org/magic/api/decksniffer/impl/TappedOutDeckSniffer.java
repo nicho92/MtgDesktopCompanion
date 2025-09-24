@@ -46,7 +46,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
 		httpclient.doGet(URI_BASE+"/accounts/log-in/?next=/");
-		RequestBuilder b = httpclient.build()
+		
+		var b = RequestBuilder.build()
+						  .setClient(httpclient)
 						  .url(URI_BASE+"/accounts/login/")
 						  .post()
 						  .addContent("username", getAuthenticator().getLogin())

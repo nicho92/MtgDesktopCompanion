@@ -250,12 +250,6 @@ public class MTGHttpClient {
 		return new ImmutableMap.Builder<>();
 	}
 
-	public RequestBuilder build()
-	{
-		return RequestBuilder.build();
-	}
-
-
 }
 
 

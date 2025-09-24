@@ -55,9 +55,10 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 
 
-		RequestBuilder build= httpclient.build();
-
+		RequestBuilder build= RequestBuilder.build();
+					
 					 build.post().url(GENERATE_URL)
+					 	  .setClient(httpclient)
 					 	  .addContent("width", "791")
 						  .addContent("height", "1107")
 						  .addContent("fields[title]", mc.getName())
