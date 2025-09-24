@@ -23,7 +23,6 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {

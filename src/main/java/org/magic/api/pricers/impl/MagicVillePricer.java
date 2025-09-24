@@ -16,8 +16,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
-import com.google.common.collect.ImmutableMap;
-
 public class MagicVillePricer extends AbstractPricesProvider {
 
 	private static final String MAX = "MAX";
