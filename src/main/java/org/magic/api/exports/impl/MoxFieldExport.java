@@ -27,8 +27,13 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 			
 			
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".csv"; 
+	}
+	
+	@Override
+	public String getDeckFileExtension() {
+		return ".txt";
 	}
 
 	@Override
@@ -66,7 +71,7 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 				builder.append(e.getKey().getNumber()).append(System.lineSeparator());
 			}
 		}
-		FileTools.saveFile(new File(dest.getAbsolutePath().replace(".csv", ".txt")), builder.toString());
+		FileTools.saveFile(dest, builder.toString());
 	}
 	
 	@Override

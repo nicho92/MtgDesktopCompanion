@@ -31,6 +31,15 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return true;
 	}
 
+
+	@Override
+	public String getDeckFileExtension() {
+		return getStockFileExtension();
+	}
+	
+	
+	
+
 	@Override
 	public EnumExportCategory getCategory() {
 		if(needFile())

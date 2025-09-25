@@ -16,7 +16,7 @@ public class CardKingdomCardExport extends AbstractCardExport {
 	private static final String BASE_URL="https://www.cardkingdom.com/builder";
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "";
 	}
 

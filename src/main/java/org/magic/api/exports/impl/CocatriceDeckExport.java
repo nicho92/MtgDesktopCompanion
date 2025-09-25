@@ -35,7 +35,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".cod";
 	}
 

@@ -73,7 +73,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".pdf";
 	}
 

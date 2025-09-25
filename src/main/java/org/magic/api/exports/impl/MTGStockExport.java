@@ -24,7 +24,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	private String columns="\"Card\",\"Set\",\"Quantity\",\"Price\",\"Condition\",\"Language\",\"Foil\",\"Signed\"";
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".mtgstock";
 	}
 	

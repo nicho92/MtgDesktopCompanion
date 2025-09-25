@@ -104,7 +104,7 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".csv";
 	}
 

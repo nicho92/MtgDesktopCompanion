@@ -26,7 +26,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	boolean side=false;
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "";
 	}
 

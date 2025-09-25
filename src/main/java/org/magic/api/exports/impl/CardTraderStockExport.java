@@ -29,7 +29,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "";
 	}
 

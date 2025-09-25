@@ -418,7 +418,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 							@Override
 							public boolean accept(File f) {
-								return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
+								return (f.isDirectory() || f.getName().endsWith(exp.getStockFileExtension()));
 							}
 						});
 						int res = -1;

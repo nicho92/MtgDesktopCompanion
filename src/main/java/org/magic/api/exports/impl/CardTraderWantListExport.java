@@ -17,7 +17,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 public class CardTraderWantListExport extends AbstractCardExport {
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".ctwantlist";
 	}
 

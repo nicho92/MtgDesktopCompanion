@@ -28,7 +28,7 @@ public class LigaMagicExport extends AbstractCardExport {
 
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".xls";
 	}
 

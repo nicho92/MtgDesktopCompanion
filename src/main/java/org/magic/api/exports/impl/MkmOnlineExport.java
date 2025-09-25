@@ -138,7 +138,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "";
 	}
 

@@ -32,7 +32,7 @@ public class XMLExport extends AbstractCardExport {
 	private XStream xstream;
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".xml";
 	}
 

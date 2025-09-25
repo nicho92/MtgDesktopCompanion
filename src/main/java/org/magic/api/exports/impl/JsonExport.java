@@ -128,7 +128,7 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".json";
 	}
 

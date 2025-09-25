@@ -21,7 +21,7 @@ public class PersonnalExport extends AbstractCardExport {
 	private String regx = "";
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "";
 	}
 

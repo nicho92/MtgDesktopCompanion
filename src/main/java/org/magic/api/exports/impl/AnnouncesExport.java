@@ -47,7 +47,7 @@ public class AnnouncesExport extends AbstractCardExport {
 	}
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return null;
 	}
 
@@ -126,4 +126,5 @@ public class AnnouncesExport extends AbstractCardExport {
 	public Icon getIcon() {
 		return MTGConstants.ICON_ANNOUNCES;
 	}
+
 }

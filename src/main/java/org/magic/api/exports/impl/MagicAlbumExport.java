@@ -19,7 +19,7 @@ import org.magic.services.tools.MTG;
 public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".csv";
 	}
 

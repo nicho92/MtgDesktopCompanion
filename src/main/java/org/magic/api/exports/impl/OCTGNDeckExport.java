@@ -33,7 +33,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".o8d";
 	}
 

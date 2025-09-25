@@ -21,7 +21,7 @@ public class ClipBoardExport extends AbstractCardExport {
 	}
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "";
 	}
 

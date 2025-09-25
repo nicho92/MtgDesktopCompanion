@@ -22,7 +22,7 @@ public class YamlExport extends AbstractCardExport {
 	
 	
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".yml";
 	}
 

@@ -26,7 +26,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	private String columns= "Name; Edition; Price; Language; Collector's number; Condition; Currency; Edition code; Foil; List name; Quantity; Scryfall ID";
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".csv";
 	}
 

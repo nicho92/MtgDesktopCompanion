@@ -26,7 +26,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 	private String columns="amount,card_name,is_foil,is_pinned,is_signed,set_id,set_code,collector_number,language,condition,comment,added\n";
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "."+getString(FORMAT).toLowerCase();
 	}
 

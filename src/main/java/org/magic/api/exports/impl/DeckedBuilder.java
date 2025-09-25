@@ -16,7 +16,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	private static final String COLUMNS ="Total Qty,Reg Qty,Foil Qty,Card,Set,Mana Cost,Card Type,Color,Rarity,Mvid,Single Price,Single Foil Price,Total Price,Price Source,Notes";
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".csv";
 	}
 

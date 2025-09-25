@@ -22,7 +22,7 @@ public class SystemClipBoardExport extends AbstractCardExport {
 	Clipboard clipboard;
 	
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "";
 	}
 

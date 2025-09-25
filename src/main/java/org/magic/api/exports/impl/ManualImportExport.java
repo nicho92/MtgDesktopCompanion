@@ -22,7 +22,7 @@ public class ManualImportExport extends AbstractCardExport {
 	}
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".man";
 	}
 

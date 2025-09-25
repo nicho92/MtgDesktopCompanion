@@ -696,12 +696,12 @@ public class ConstructPanel extends MTGUIComponent {
 						jf.setFileFilter(new FileFilter() {
 							@Override
 							public String getDescription() {
-								return exp.getName() +" ("+exp.getFileExtension()+")" ;
+								return exp.getName() +" ("+exp.getDeckFileExtension()+")" ;
 							}
 
 							@Override
 							public boolean accept(File f) {
-								return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
+								return (f.isDirectory() || f.getName().endsWith(exp.getDeckFileExtension()));
 							}
 						});
 

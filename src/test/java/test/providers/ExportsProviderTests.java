@@ -46,7 +46,7 @@ public class ExportsProviderTests {
 					  d.getSideBoard().put(cards.get(0), 3);
 			
 			System.out.println("*****************************"+p.getName());
-			System.out.println("EXT  "+p.getFileExtension());
+			System.out.println("EXT  "+p.getStockFileExtension());
 			System.out.println("STAT "+p.getStatut());
 			System.out.println("PROP "+p.getProperties());
 			System.out.println("TYPE "+p.getType());
@@ -56,8 +56,8 @@ public class ExportsProviderTests {
 			System.out.println("JMX NAME "+p.getObjectName());
 			System.out.println("CONF FILE " + p.getConfFile());
 			
-			File destD = new File("target","TEST-"+p.getName()+"-DECK"+p.getFileExtension());
-			File destS = new File("target","TEST-"+p.getName()+"-STOCK"+p.getFileExtension());
+			File destD = new File("target","TEST-"+p.getName()+"-DECK"+p.getDeckFileExtension());
+			File destS = new File("target","TEST-"+p.getName()+"-STOCK"+p.getStockFileExtension());
 			
 			
 			

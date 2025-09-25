@@ -64,7 +64,7 @@ public class JExportButton extends JButton {
 						if(exp.needFile())
 						{
 							var jf = new JFileChooser(".");
-							jf.setSelectedFile(new File("alerts" + exp.getFileExtension()));
+							jf.setSelectedFile(new File("alerts" + exp.getStockFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
 						}
@@ -115,7 +115,7 @@ public class JExportButton extends JButton {
 						if(exp.needFile())
 						{
 							var jf = new JFileChooser(".");
-							jf.setSelectedFile(new File(export.getName() + exp.getFileExtension()));
+							jf.setSelectedFile(new File(export.getName() + exp.getDeckFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
 						}
@@ -167,7 +167,7 @@ public class JExportButton extends JButton {
 						if(exp.needFile())
 						{
 							var jf = new JFileChooser(".");
-							jf.setSelectedFile(new File("stocks" + exp.getFileExtension()));
+							jf.setSelectedFile(new File("stocks" + exp.getStockFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
 						}

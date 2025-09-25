@@ -13,7 +13,7 @@ import org.magic.services.tools.FileTools;
 public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".dck";
 	}
 	

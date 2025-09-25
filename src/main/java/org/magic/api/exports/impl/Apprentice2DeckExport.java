@@ -23,7 +23,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".deck";
 	}
 

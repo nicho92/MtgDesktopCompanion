@@ -44,8 +44,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	protected enum FORMAT_SEARCH { ID, NAME,NUMBER}
 
 
-	
-
 	protected String[] splitLines(String content,boolean removeBlank)
 	{
 		String[] arr = UITools.stringLineSplit(content,removeBlank);

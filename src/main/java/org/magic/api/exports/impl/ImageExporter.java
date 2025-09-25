@@ -143,7 +143,7 @@ public class ImageExporter extends AbstractCardExport{
 	}
 
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return "."+getString(FORMAT);
 	}
 

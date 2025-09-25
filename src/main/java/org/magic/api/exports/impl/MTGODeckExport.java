@@ -28,7 +28,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 	}
 	
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".dek";
 	}
 

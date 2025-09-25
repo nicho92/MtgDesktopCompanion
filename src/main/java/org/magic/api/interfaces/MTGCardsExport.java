@@ -14,7 +14,8 @@ public interface MTGCardsExport extends MTGPlugin{
 		EXPORT, IMPORT, BOTH
 	}
 
-	public String getFileExtension();
+	public String getDeckFileExtension();
+	public String getStockFileExtension();
 
 	public void exportDeck(MTGDeck deck, File dest) throws IOException;
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException;

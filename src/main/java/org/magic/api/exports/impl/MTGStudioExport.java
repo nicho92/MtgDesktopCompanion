@@ -33,9 +33,6 @@ public class MTGStudioExport extends AbstractCardExport{
 		return EnumExportCategory.APPLICATION;
 	}
 
-	
-	
-
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -43,10 +40,15 @@ public class MTGStudioExport extends AbstractCardExport{
 	
 	
 	@Override
-	public String getFileExtension() {
+	public String getStockFileExtension() {
 		return ".xml";
 	}
 
+	@Override
+	public String getDeckFileExtension() {
+		return ".xml";
+	}
+	
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
@@ -65,7 +67,7 @@ public class MTGStudioExport extends AbstractCardExport{
 			builder.append(mcs.getComment()).append(System.lineSeparator());
 			notify(mcs.getProduct());
 		}
-		FileTools.saveFile(new File(f.getAbsolutePath().replace(".xml", ".csv")), builder.toString());
+		FileTools.saveFile(f, builder.toString());
 	}
 	
 	@Override

@@ -318,14 +318,14 @@ public class StockPanelGUI extends MTGUIComponent {
 
 							@Override
 							public String getDescription() {
-								return exp.getName() +" ("+exp.getFileExtension()+")" ;
+								return exp.getName() +" ("+exp.getStockFileExtension()+")" ;
 							}
 
 							@Override
 							public boolean accept(File f) {
 								if (f.isDirectory())
 									return true;
-								return f.getName().endsWith(exp.getFileExtension());
+								return f.getName().endsWith(exp.getStockFileExtension());
 							}
 						});
 
