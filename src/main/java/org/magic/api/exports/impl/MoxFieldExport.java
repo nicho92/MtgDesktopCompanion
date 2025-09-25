@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -19,7 +20,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
-public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
+public class MoxFieldExport extends AbstractFormattedFileCardExport {
 
 	
 	String columns = "\"Count\",\"Tradelist Count\",\"Name\",\"Edition\",\"Condition\",\"Language\",\"Foil\",\"Tags\",\"Last Modified\",\"Collector Number\",\"Alter\",\"Proxy\",\"Purchase Price\""; 
@@ -39,6 +40,50 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
+	
+	@Override
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
+		
+		var builder = new StringBuilder();
+		
+		for(var e : deck.getMain().entrySet())
+		{
+			builder.append(e.getValue()).append(" ");
+			builder.append(e.getKey().getName()).append(" ");
+			builder.append("(").append(e.getKey().getEdition().getId()).append(") ");
+			builder.append(e.getKey().getNumber()).append(System.lineSeparator());
+		}
+		
+		
+		if(!deck.getSideBoard().isEmpty())
+		{
+			builder.append(System.lineSeparator()).append("SIDEBOARD:").append(System.lineSeparator());
+			for(var e : deck.getSideBoard().entrySet())
+			{
+				builder.append(e.getValue()).append(" ");
+				builder.append(e.getKey().getName()).append(" ");
+				builder.append("(").append(e.getKey().getEdition().getId()).append(") ");
+				builder.append(e.getKey().getNumber()).append(System.lineSeparator());
+			}
+		}
+		FileTools.saveFile(new File(dest.getAbsolutePath().replace(".csv", ".txt")), builder.toString());
+	}
+	
+	@Override
+	public MTGDeck importDeck(String f, String name) throws IOException {
+	
+		var d = new MTGDeck();
+		d.setName(name);
+		
+		matches(f, true, aliases.getRegexFor(this, "deck")).forEach(m->{
+			System.out.println(m);
+		});
+		
+		
+		return d;
+		
+	}
+	
 	
 
 	@Override

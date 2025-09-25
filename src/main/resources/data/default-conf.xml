@@ -757,7 +757,7 @@
       <enable>true</enable>
     </export>
     <export>
-      <class>org.magic.api.exports.impl.MoxFieldCSVExport</class>
+      <class>org.magic.api.exports.impl.MoxFieldExport</class>
       <enable>true</enable>
     </export>
     <export>
