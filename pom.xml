@@ -119,7 +119,7 @@
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
-		    <version>476</version>
+		    <version>477</version>
 		</dependency>
 		<dependency>
     		<groupId>org.apache.tomcat</groupId>
