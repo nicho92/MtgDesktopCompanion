@@ -53,6 +53,7 @@ import org.magic.game.actions.cards.LoyaltyActions;
 import org.magic.game.actions.cards.RemoveCounterActions;
 import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
+import org.magic.game.actions.cards.TransformActions;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
@@ -375,6 +376,12 @@ public class DisplayableCard extends JLabel implements Draggable {
 						menu.add(mnuModifier);
 					}
 
+					if (magicCard.isDoubleFaced()) {
+						var mnuModifier = new JMenu("Rotate");
+						mnuModifier.add(new TransformActions(this));
+						menu.add(mnuModifier);
+					}
+					
 			}
 
 			List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getActivatedAbilities(getMagicCard());
