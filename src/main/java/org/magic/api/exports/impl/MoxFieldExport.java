@@ -18,6 +18,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class MoxFieldExport extends AbstractFormattedFileCardExport {
@@ -74,19 +75,55 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 		FileTools.saveFile(dest, builder.toString());
 	}
 	
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		var exp = new MoxFieldExport();
+		
+		exp.importDeckFromFile(new File("D:\\Desktop\\Izzet_Cauldron.txt"));
+		
+	}
+	
+	
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
 	
 		var d = new MTGDeck();
 		d.setName(name);
 		
-		matches(f, true, aliases.getRegexFor(this, "deck")).forEach(m->{
-			System.out.println(m);
-		});
+		var sideboard=false;
 		
+		for(var m : matches(f, true, aliases.getRegexFor(this, "deck")))
+		{
+			if(m.group().equals("SIDEBOARD"))
+			{
+				sideboard=true;
+			}
+			else
+			{
+				
+				var qty = Integer.parseInt(m.group(1));
+				var setId=m.group(3);
+				var number = m.group(4);
+				
+				try {
+					var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, setId);
+					
+					if(!sideboard)
+						d.getMain().put(card, qty);
+					else
+						d.getSideBoard().put(card, qty);
+					
+				} catch (IOException e) {
+					logger.error("No card found for {}/{}",setId,number);
+				}
+				
+			}
+			
+		}
 		
 		return d;
-		
 	}
 	
 	
