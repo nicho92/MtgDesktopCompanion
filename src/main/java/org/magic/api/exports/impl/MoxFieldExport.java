@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -46,6 +47,16 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
+
+	
+	private void write(StringBuilder builder, Map.Entry<MTGCard, Integer> e)
+	{
+		builder.append(e.getValue()).append(" ");
+		builder.append(e.getKey().getName()).append(" ");
+		builder.append("(").append(e.getKey().getEdition().getId()).append(") ");
+		builder.append(e.getKey().getNumber()).append(System.lineSeparator());
+	}
+	
 	
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
@@ -53,38 +64,18 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 		var builder = new StringBuilder();
 		
 		for(var e : deck.getMain().entrySet())
-		{
-			builder.append(e.getValue()).append(" ");
-			builder.append(e.getKey().getName()).append(" ");
-			builder.append("(").append(e.getKey().getEdition().getId()).append(") ");
-			builder.append(e.getKey().getNumber()).append(System.lineSeparator());
-		}
-		
+			write(builder,e);
 		
 		if(!deck.getSideBoard().isEmpty())
 		{
 			builder.append(System.lineSeparator()).append("SIDEBOARD:").append(System.lineSeparator());
+			
 			for(var e : deck.getSideBoard().entrySet())
-			{
-				builder.append(e.getValue()).append(" ");
-				builder.append(e.getKey().getName()).append(" ");
-				builder.append("(").append(e.getKey().getEdition().getId()).append(") ");
-				builder.append(e.getKey().getNumber()).append(System.lineSeparator());
-			}
+				write(builder,e);
 		}
+				
 		FileTools.saveFile(dest, builder.toString());
 	}
-	
-	
-	
-	public static void main(String[] args) throws IOException {
-		
-		var exp = new MoxFieldExport();
-		
-		exp.importDeckFromFile(new File("D:\\Desktop\\Izzet_Cauldron.txt"));
-		
-	}
-	
 	
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
@@ -100,16 +91,15 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 			{
 				sideboard=true;
 			}
-			else
+			else 
 			{
-				
 				var qty = Integer.parseInt(m.group(1));
 				var setId=m.group(3);
 				var number = m.group(4);
 				
 				try {
 					var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, setId);
-					
+					notify(card);
 					if(!sideboard)
 						d.getMain().put(card, qty);
 					else
@@ -130,7 +120,7 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		List<MTGCardStock> list = new ArrayList<>();
+		var list = new ArrayList<MTGCardStock>();
 		matches(content,true).forEach(m->{
 
 			MTGEdition ed = null;

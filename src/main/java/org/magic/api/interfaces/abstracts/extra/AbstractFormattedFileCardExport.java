@@ -110,6 +110,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		for(var line : splitLines(content,removeBlank))
 		{
 			line = line.trim();
+			
 			if (!Strings.CS.startsWithAny(line, skipLinesStartWith())) {
 				var m = p.matcher(line);
 				if(m.find())
