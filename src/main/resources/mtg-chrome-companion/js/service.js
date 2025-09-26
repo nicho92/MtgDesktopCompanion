@@ -3,7 +3,7 @@ document.addEventListener('mouseup', function (e) {
   
   if (selection.length > 0 && selection.length < 30) {
 	  chrome.runtime.sendMessage({message: selection}, (response) => {
-		  console.log(response.result);
+		  console.log(response);
 		 
 		  
 	  });
