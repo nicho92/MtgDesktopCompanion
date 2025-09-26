@@ -91,7 +91,7 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 			{
 				sideboard=true;
 			}
-			else 
+			else if(!m.group().isEmpty())
 			{
 				var qty = Integer.parseInt(m.group(1));
 				var setId=m.group(3);
