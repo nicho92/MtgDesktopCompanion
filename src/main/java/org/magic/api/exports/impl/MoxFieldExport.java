@@ -76,6 +76,14 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 				
 		FileTools.saveFile(dest, builder.toString());
 	}
+		
+	public static void main(String[] args) throws Exception {
+		var exp  =new MoxFieldExport();
+		
+		exp.importDeckFromFile(new File("D:\\Desktop\\UR_No_Creature_Control.txt"));
+		
+	}
+	
 	
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
@@ -87,17 +95,21 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 		
 		for(var m : matches(f, true, aliases.getRegexFor(this, "deck")))
 		{
+			System.out.println(m.group());
+			
 			if(m.group().equals("SIDEBOARD"))
 			{
 				sideboard=true;
 			}
-			else if(!m.group().isEmpty())
+			else if(!m.group().isBlank())
 			{
-				var qty = Integer.parseInt(m.group(1));
-				var setId=m.group(3);
-				var number = m.group(4);
-				
 				try {
+			
+					var qty = Integer.parseInt(m.group(1));
+					var setId=m.group(3);
+					var number = m.group(4);
+				
+			
 					var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, setId);
 					notify(card);
 					if(!sideboard)
@@ -105,8 +117,8 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 					else
 						d.getSideBoard().put(card, qty);
 					
-				} catch (IOException e) {
-					logger.error("No card found for {}/{}",setId,number);
+				} catch (Exception e) {
+					logger.error("No card found for {}",m.group());
 				}
 				
 			}
