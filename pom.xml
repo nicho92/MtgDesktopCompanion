@@ -720,7 +720,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.14.0</version>
+				<version>3.14.1</version>
 				<executions>
 					<execution>
 						<id>log4j-plugin-processor</id>
@@ -784,9 +784,9 @@
 						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
 						-Djava.library.path="./natives"
 						-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
-						--add-opens=java.base/java.util=ALL-UNNAMED
-						--add-opens=java.base/java.lang=ALL-UNNAMED
-						--add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+						--enable-preview
+						--enable-native-access=ALL-UNNAMED
+						--add-modules jdk.incubator.vector
 					</extraJvmArguments>
 					<showConsoleWindow>true</showConsoleWindow>
 				</configuration>
