@@ -12,4 +12,6 @@ public interface MTGIA extends MTGPlugin {
 	public MTGCard generateRandomCard(String description, MTGEdition mtgEdition, String number) throws IOException;
 	public List<MTGCard> generateSet(String description, MTGEdition mtgEdition, int qty) throws IOException;
 	public MTGDeck generateDeck(String description)throws IOException;
+	public String ask(String prompt) throws IOException;
+	
 }

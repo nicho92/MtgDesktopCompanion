@@ -784,9 +784,9 @@
 						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
 						-Djava.library.path="./natives"
 						-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
-						--enable-preview
 						--enable-native-access=ALL-UNNAMED
 						--add-modules jdk.incubator.vector
+						-Djava.security.manager=allow
 					</extraJvmArguments>
 					<showConsoleWindow>true</showConsoleWindow>
 				</configuration>

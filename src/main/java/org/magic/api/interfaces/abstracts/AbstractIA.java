@@ -131,7 +131,13 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			           .build())
 		        .build();
 	}
-
+ 
+	
+	@Override
+	public String ask(String prompt) throws IOException {
+		return getEngine(null).chat(prompt);
+	}
+	
 
 	@Override
 	public MTGCard generateRandomCard(String description, MTGEdition set, String number) throws IOException {
