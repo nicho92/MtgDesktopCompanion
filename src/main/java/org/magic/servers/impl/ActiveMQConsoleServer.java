@@ -72,7 +72,7 @@ public class ActiveMQConsoleServer extends AbstractMTGServer{
 		@Override
 		public Map<String, MTGProperty> getDefaultAttributes() {
 				return Map.of("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
-									"PORT", MTGProperty.newIntegerProperty("8082", "listening port for webserver", 80, -1),
+									 "PORT", MTGProperty.newIntegerProperty("8083", "listening port for webserver", 80, -1),
 									 "AUTHENTICATION",MTGProperty.newBooleanProperty("false","enable or not hawt authentication"));
 		}
 		

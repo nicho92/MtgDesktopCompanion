@@ -31,8 +31,7 @@ public class HawtIOServer extends AbstractMTGServer{
 		public void init() 
 		{
 			System.setProperty("hawtio.authenticationEnabled", getString("AUTHENTICATION"));
-			
-			
+
 			server = new Server(getInt("PORT"));
 			 var handlers = new Handler.Sequence();
 		     handlers.setServer(server);
