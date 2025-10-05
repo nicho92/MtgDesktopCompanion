@@ -2,6 +2,9 @@
 	"TLA" : [
 		"FTLA"
 	],
+	"FIC" : [
+		"AFIC"
+	],
 	"FIN" :[
 		"AFIN"
 	],
