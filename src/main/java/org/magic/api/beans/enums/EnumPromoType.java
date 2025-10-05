@@ -114,7 +114,7 @@ public enum EnumPromoType implements MTGEnumeration{
 	@SerializedName(alternate = "themepack", value = "THEMEPACK") 			THEMEPACK,
 	@SerializedName(alternate = "thick", value = "THICK") THICK,
 	@SerializedName(alternate = "tourney", value = "TOURNEY") 				TOURNEY,
-	@SerializedName(alternate = "universesbeyond", value="UNIVERSEBEYOND") UNIVERSEBEYOND,
+	@SerializedName(alternate = "universesbeyond", value="UNIVERSESBEYOND") UNIVERSESBEYOND,
 	@SerializedName(alternate = "upsidedown", value = "UPSIDEDOWN") 				UPSIDEDOWN,
 	@SerializedName(alternate = "upsidedownback", value = "UPSIDEDOWNBACK") 				UPSIDEDOWNBACK,
 	@SerializedName(alternate = "vault", value = "VAULT") 				VAULT,
