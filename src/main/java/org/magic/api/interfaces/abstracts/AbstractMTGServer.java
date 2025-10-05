@@ -38,7 +38,12 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 		return cache.getItem(k);
 	}
 
-
+ 
+	public void preinit()
+	{
+		//do nothing;
+	}
+	
 
 	public void clearCache() {
 		if(cache!=null)
