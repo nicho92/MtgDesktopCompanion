@@ -13,6 +13,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -129,6 +130,8 @@ public class CryptoUtils {
 		return DigestUtils.sha256Hex(string);
 	}
 
-
-
+	public static String uuid() {
+		return UUID.randomUUID().toString();
+	}
+	
 }

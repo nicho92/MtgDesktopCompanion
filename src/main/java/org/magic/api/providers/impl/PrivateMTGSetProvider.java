@@ -74,7 +74,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 		mc.setEdition(me);
 		
 		if (mc.getId() == null)
-			mc.setId(CryptoUtils.sha256Hex(Instant.now().toEpochMilli()+ me.getSet() + mc.getName()));
+			mc.setId(CryptoUtils.uuid());
 
 		AbstractCardsProvider.postTreatmentCard(mc);
 		

@@ -16,6 +16,7 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.MTG;
 
 import com.google.gson.JsonObject;
@@ -238,7 +239,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		  mc.setFrameVersion("2015"); 
 		
 		  
-		  mc.setId(DigestUtils.sha256Hex(set.getSet()+ mc.getName()));	 
+		  mc.setId(CryptoUtils.uuid());	 
 		  mc.setEdition(set);
 		  mc.getEditions().add(set);
 		  
