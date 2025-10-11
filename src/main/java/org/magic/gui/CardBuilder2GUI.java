@@ -243,7 +243,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			cardsModel.setDefaultHiddenComlumns(1,7,8,9,10,11,12,13,14,15,16);
 			UITools.initTableVisibility(cardsTable, cardsModel);
 			
-			editionModel.setDefaultHiddenComlumns(1,4,5,8,9);
+			editionModel.setDefaultHiddenComlumns(0,4,5,8,9);
 			UITools.initTableVisibility(editionsTable, editionModel);
 			
 			UITools.setSorter(cardsTable,6,new NumberSorter());
