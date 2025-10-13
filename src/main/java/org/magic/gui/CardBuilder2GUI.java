@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
@@ -247,7 +248,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			UITools.initTableVisibility(editionsTable, editionModel);
 			
 			UITools.setSorter(cardsTable,6,new NumberSorter());
-				
 			/// ACTION LISTENER
 
 			btnRebuildSet.addActionListener(_->{
