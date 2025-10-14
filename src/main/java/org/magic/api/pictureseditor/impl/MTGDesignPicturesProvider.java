@@ -91,15 +91,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 		if(httpclient.getCookies().isEmpty())
 			connect();
-		
-		
-		if(mc.getEdition()==null)
-		{
-			if(me!=null)
-				mc.getEditions().set(0, me);
-			else
-				mc.getEditions().set(0, new MTGEdition("Fake"));
-		}
 
 		var build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");

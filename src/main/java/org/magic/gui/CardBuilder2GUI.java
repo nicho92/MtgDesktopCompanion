@@ -25,7 +25,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
