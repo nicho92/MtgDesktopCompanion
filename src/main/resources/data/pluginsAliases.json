@@ -13,6 +13,16 @@
 		
 	},
 	
+	"ManaPool" : {
+				"conditions": {
+				"NEAR_MINT" :"NM",
+				"LIGHTLY_PLAYED":"LP",
+				"DAMAGED":"DMG",
+				"POOR":"HP",
+				"PLAYED":"MP"
+			}
+	},
+	
 	"MTGStudio" : {
 		"conditions": {
 				"DAMAGED":"Poor",
