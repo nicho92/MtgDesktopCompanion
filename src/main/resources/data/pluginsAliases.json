@@ -16,6 +16,7 @@
 	"ManaPool" : {
 				"conditions": {
 				"NEAR_MINT" :"NM",
+				"MINT" :"NM",
 				"LIGHTLY_PLAYED":"LP",
 				"DAMAGED":"DMG",
 				"POOR":"HP",
