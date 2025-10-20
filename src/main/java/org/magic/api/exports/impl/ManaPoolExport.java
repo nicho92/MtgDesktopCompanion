@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Currency;
 import java.util.List;
 
-import org.apache.http.client.methods.HttpRequestBase;
 import org.api.manapool.listener.URLCallInfo;
 import org.api.manapool.model.EnumCondition;
 import org.api.manapool.model.EnumFinish;
@@ -67,10 +66,10 @@ public class ManaPoolExport extends AbstractCardExport {
 		var inventoryManager = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
 		inventoryManager.getClient().setCallListener((URLCallInfo callInfo)->{
 			var netinfo = new NetworkInfo();
-			netinfo.setEnd(callInfo.getEnd());
-			netinfo.setStart(callInfo.getStart());
-			netinfo.setRequest((HttpRequestBase)callInfo.getRequest());
-			netinfo.setReponse(callInfo.getResponse());
+				netinfo.setStart(callInfo.getStart());
+				netinfo.setEnd(callInfo.getEnd());
+				netinfo.setRequest(callInfo.getRequest());
+				netinfo.setReponse(callInfo.getResponse());
 
 			AbstractTechnicalServiceManager.inst().store(netinfo);
 
@@ -88,7 +87,7 @@ public class ManaPoolExport extends AbstractCardExport {
 					 item.setPrice(mcs.getValue().doubleValue());	 
 				 
 				try {
-					item.setCondition( EnumCondition.valueOf(aliases.getConditionFor(this, mcs.getCondition())));
+					item.setCondition(EnumCondition.valueOf(aliases.getConditionFor(this, mcs.getCondition())));
 				}
 				catch(IllegalArgumentException _)
 				{
@@ -96,19 +95,25 @@ public class ManaPoolExport extends AbstractCardExport {
 					item.setCondition(EnumCondition.NM);
 				}
 				 item.setFinishId(mcs.isFoil()?EnumFinish.FO:EnumFinish.NF);
-				 item.setLanguage(EnumLangages.FR);
 				 
+				 if(mcs.isEtched())
+					 item.setFinishId(EnumFinish.EF);
+							 
+				 var lcode = mcs.getLanguage().toUpperCase().substring(0,2);
+				 try {
+					 item.setLanguage(EnumLangages.valueOf(lcode));
+				 }
+				 catch(Exception e)
+				 {
+					 logger.warn("EnumLangage not found for {}", lcode);
+					 item.setLanguage(EnumLangages.EN);
+				 }
+					 
+				notify(mcs.getProduct());
 				return item;
 		}).toList();
 		
-		
-		
-		inventoryManager.addInventoryItems(items).forEach(e->{
-			logger.info(e.getId());
-		});;
-		
-		
-		
+		inventoryManager.addInventoryItems(items);
 		
 	}
 	
