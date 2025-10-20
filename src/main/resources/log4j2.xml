@@ -28,6 +28,7 @@
 	    <Logger name="org.ehcache" level="ERROR"></Logger>
 	    <Logger name="org.api.mkm" level="ERROR"></Logger>
 	    <Logger name="org.api.cardtrader" level="ERROR"></Logger>
+	    <Logger name="org.api.manapool" level="ERROR"></Logger>
 	    <Logger name="org.mtgstock.services" level="ERROR"></Logger>
 	    <Logger name="org.apache.poi" level="ERROR"></Logger>
 	    <Logger name="org.apache.http" level="ERROR"></Logger>

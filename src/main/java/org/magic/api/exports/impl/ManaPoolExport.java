@@ -2,9 +2,11 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Currency;
 import java.util.List;
 
-import org.api.cardtrader.tools.URLCallInfo;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.api.manapool.listener.URLCallInfo;
 import org.api.manapool.model.EnumCondition;
 import org.api.manapool.model.EnumFinish;
 import org.api.manapool.model.EnumLangages;
@@ -16,6 +18,7 @@ import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
+import org.magic.services.MTGControler;
 
 public class ManaPoolExport extends AbstractCardExport {
 
@@ -62,24 +65,36 @@ public class ManaPoolExport extends AbstractCardExport {
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		
 		var inventoryManager = new InventoryService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
-//		inventoryManager.setListener((URLCallInfo callInfo)->{
-//			var netinfo = new NetworkInfo();
-//			netinfo.setEnd(callInfo.getEnd());
-//			netinfo.setStart(callInfo.getStart());
-//			netinfo.setRequest(callInfo.getRequest());
-//			netinfo.setReponse(callInfo.getResponse());
-//
-//			AbstractTechnicalServiceManager.inst().store(netinfo);
-//
-//	});
+		inventoryManager.getClient().setCallListener((URLCallInfo callInfo)->{
+			var netinfo = new NetworkInfo();
+			netinfo.setEnd(callInfo.getEnd());
+			netinfo.setStart(callInfo.getStart());
+			netinfo.setRequest((HttpRequestBase)callInfo.getRequest());
+			netinfo.setReponse(callInfo.getResponse());
+
+			AbstractTechnicalServiceManager.inst().store(netinfo);
+
+	});
 		
 		var items = stock.stream().map(mcs->{
 			
 			var item = new ProductQueryEntry();
 				 item.setScryfallId(mcs.getProduct().getScryfallId());
 				 item.setQuantity(mcs.getQte());
-				 item.setPrice(mcs.getValue().doubleValue());
-				 item.setCondition( EnumCondition.valueOf(aliases.getConditionFor(this, mcs.getCondition())));
+				 
+				 if(MTGControler.getInstance().getCurrencyService().isEnable()) 
+					 item.setPrice(MTGControler.getInstance().getCurrencyService().convertTo(Currency.getInstance("USD"), mcs.getValue().doubleValue()));
+				 else
+					 item.setPrice(mcs.getValue().doubleValue());	 
+				 
+				try {
+					item.setCondition( EnumCondition.valueOf(aliases.getConditionFor(this, mcs.getCondition())));
+				}
+				catch(IllegalArgumentException _)
+				{
+					logger.warn("EnumCondition {} is not found",mcs.getCondition().name() );
+					item.setCondition(EnumCondition.NM);
+				}
 				 item.setFinishId(mcs.isFoil()?EnumFinish.FO:EnumFinish.NF);
 				 item.setLanguage(EnumLangages.FR);
 				 
