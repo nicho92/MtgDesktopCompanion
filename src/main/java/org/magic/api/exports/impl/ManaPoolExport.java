@@ -11,7 +11,7 @@ import org.api.manapool.model.EnumCondition;
 import org.api.manapool.model.EnumFinish;
 import org.api.manapool.model.EnumLangages;
 import org.api.manapool.model.ProductQueryEntry;
-import org.api.manapool.services.InventoryService;
+import org.api.manapool.services.ManaPoolAPIService;
 import org.api.manapool.tools.ManaPoolConstants;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -64,7 +64,7 @@ public class ManaPoolExport extends AbstractCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		
-		var inventoryManager = new InventoryService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
+		var inventoryManager = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
 		inventoryManager.getClient().setCallListener((URLCallInfo callInfo)->{
 			var netinfo = new NetworkInfo();
 			netinfo.setEnd(callInfo.getEnd());
