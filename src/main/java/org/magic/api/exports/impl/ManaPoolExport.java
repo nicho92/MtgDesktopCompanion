@@ -12,13 +12,13 @@ import org.api.manapool.model.enums.EnumCondition;
 import org.api.manapool.model.enums.EnumFinish;
 import org.api.manapool.model.enums.EnumLangages;
 import org.api.manapool.services.ManaPoolAPIService;
-import org.api.manapool.tools.ManaPoolConstants;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGControler;
+import org.magic.services.tools.POMReader;
 
 public class ManaPoolExport extends AbstractCardExport {
 
@@ -57,7 +57,7 @@ public class ManaPoolExport extends AbstractCardExport {
 	
 	@Override
 	public String getVersion() {
-		return ManaPoolConstants.API_VERSION;
+		return POMReader.readVersionFromPom(ManaPoolAPIService.class, "/META-INF/maven/com.github.nicho92/manapool-api-java/pom.properties");
 	}
 	
 	
@@ -134,7 +134,7 @@ public class ManaPoolExport extends AbstractCardExport {
 					&&
 					(p.getFinishId()==EnumFinish.FO?mcs.isFoil():true)
 					&&
-					(p.getCondition()==EnumCondition.valueOf(aliases.getConditionFor(this, mcs.getCondition())))
+					(p.getCondition()==EnumCondition.valueOf(aliases.getConditionFor(this, mcs.getCondition(),p.getCondition().name())))
 					;
 			
 		}).findFirst();

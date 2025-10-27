@@ -55,14 +55,14 @@
 		<lucene.version>10.3.1</lucene.version>
 		<artemis.version>2.43.0</artemis.version>
 		<flatlaf.version>3.6.2</flatlaf.version>
-		<qwartz.version>2.5.0</qwartz.version>
+		<qwartz.version>2.5.1</qwartz.version>
 		<rome.version>2.1.0</rome.version>
 		<log4j.version>2.25.1</log4j.version>
 		<poi.version>5.4.1</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.8.0</rhino.version>
 		<commonmark.version>0.27.0</commonmark.version>
-		<langchain4j.version>1.7.1</langchain4j.version>
+		<langchain4j.version>1.8.0</langchain4j.version>
 	</properties>
 	
 	
@@ -308,7 +308,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>manapool-api-java</artifactId>
-			<version>0.0.8</version>
+			<version>0.0.9</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>

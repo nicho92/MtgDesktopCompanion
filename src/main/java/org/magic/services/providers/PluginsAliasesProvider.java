@@ -111,6 +111,11 @@ public class PluginsAliasesProvider {
 
 	public String getConditionFor(MTGPlugin plug, EnumCondition condition)
 	{
+		return getConditionFor(plug, condition, condition.name());
+	}
+
+	public String getConditionFor(MTGPlugin plug, EnumCondition condition,String defaults)
+	{
 		
 		if(condition==null)
 			return "";
@@ -121,11 +126,10 @@ public class PluginsAliasesProvider {
 		catch(Exception _)
 		{
 			logger.error("Error getting condition {} for plug {}",condition.name(),plug);
-			return condition.name();
+			return defaults;
 		}
 	}
-
-
+	
 
 
 	public String getSetNameFor(MTGPlugin plug, MTGEdition ed)
