@@ -6,10 +6,11 @@ import java.util.Currency;
 import java.util.List;
 
 import org.api.manapool.listener.URLCallInfo;
-import org.api.manapool.model.EnumCondition;
-import org.api.manapool.model.EnumFinish;
-import org.api.manapool.model.EnumLangages;
+import org.api.manapool.model.Product;
 import org.api.manapool.model.ProductQueryEntry;
+import org.api.manapool.model.enums.EnumCondition;
+import org.api.manapool.model.enums.EnumFinish;
+import org.api.manapool.model.enums.EnumLangages;
 import org.api.manapool.services.ManaPoolAPIService;
 import org.api.manapool.tools.ManaPoolConstants;
 import org.magic.api.beans.MTGCardStock;
@@ -113,9 +114,39 @@ public class ManaPoolExport extends AbstractCardExport {
 				return item;
 		}).toList();
 		
-		inventoryManager.addInventoryItems(items);
+		
+		inventoryManager.addInventoryItems(items).forEach(it->{
+			
+			var mcs = filter(stock, it.getProduct().getSingle());
+			
+			if(mcs!=null)
+				mcs.getTiersAppIds().put(getName(), it.getId());
+		});
+		
 		
 	}
+	
+	private MTGCardStock filter(List<MTGCardStock> stock, Product p)
+	{
+		var opt = stock.stream().filter(mcs->{
+			
+			return mcs.getProduct().getScryfallId().equals(p.getScryfallId())
+					&&
+					(p.getFinishId()==EnumFinish.FO?mcs.isFoil():true)
+					&&
+					(p.getCondition()==EnumCondition.valueOf(aliases.getConditionFor(this, mcs.getCondition())))
+					;
+			
+		}).findFirst();
+		
+		if(opt.isPresent())
+			return opt.get();
+		
+		return null;
+		
+		
+	}
+	
 	
 	
 }

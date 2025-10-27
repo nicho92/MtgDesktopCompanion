@@ -24,8 +24,13 @@ public class ManaPoolPricer extends AbstractPricesProvider {
 		logger.debug("{} looking for prices for {} ",getName(),card);
 
 		MTGJsonPricerProvider.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
-
-		return MTGJsonPricerProvider.getInstance().getPriceFor(card,VENDOR.MANAPOOL);
+		
+		
+		return MTGJsonPricerProvider.getInstance().getPriceFor(card,VENDOR.MANAPOOL).stream().map(mp->{
+			mp.setUrl("https://manapool.com/");
+			return mp;
+			
+		}).toList();
 	}
 
 	@Override
