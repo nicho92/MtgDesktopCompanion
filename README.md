@@ -35,7 +35,7 @@ Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=Pa
 
 Need to have Java >=23 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
-and java.exe is in your PATH : [HOW TO](https://www.baeldung.com/java-home-on-windows-mac-os-x-linux) 
+and java is in your PATH : [HOW TO](https://www.baeldung.com/java-home-on-windows-mac-os-x-linux) 
 
 
 
