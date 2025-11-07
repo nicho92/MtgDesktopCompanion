@@ -68,7 +68,7 @@ public class TransactionService
 
 	}
 
-	public static Long saveTransaction(Transaction t, boolean reloadShipping) throws IOException {
+	public static String saveTransaction(Transaction t, boolean reloadShipping) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		if(reloadShipping) {
 			try {
@@ -119,7 +119,7 @@ public class TransactionService
 
 	}
 
-	public static Long newTransaction(Transaction t) throws IOException {
+	public static String newTransaction(Transaction t) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		t.setStatut(EnumTransactionStatus.NEW);
 		t.setCurrency(t.getConfig().getCurrency());
@@ -164,7 +164,7 @@ public class TransactionService
 		List<MTGStockItem> accepteds = new ArrayList<>();
 		for(var transactionItem : t.getItems())
 		{
-				var stock = mtgshop.getStockById(transactionItem.getProduct().getTypeProduct(),transactionItem.getId());
+				var stock = mtgshop.getStockById(transactionItem.getProduct().getTypeProduct(),String.valueOf(transactionItem.getId()));
 				if(transactionItem.getQte()>stock.getQte())
 				{
 					   t.setStatut(EnumTransactionStatus.IN_PROGRESS);

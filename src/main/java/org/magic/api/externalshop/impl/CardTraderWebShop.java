@@ -201,7 +201,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			u=o.getSeller();
 
 
-		Contact c = new Contact();
+		var c = new Contact();
 				c.setName(u.getUsername());
 				c.setAddress(o.getBillingAddress().getStreet());
 				c.setZipCode(o.getBillingAddress().getZip());
@@ -276,14 +276,14 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
+	public String saveOrUpdateTransaction(Transaction t) throws IOException {
 		// TODO Auto-generated method stub
-		return 0L;
+		return "";
 	}
 
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
-		var opt = service.listStock().stream().filter(item-> item.getId()==id.intValue()).findFirst();
+	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
+		var opt = service.listStock().stream().filter(item-> item.getId()==Integer.parseInt(id)).findFirst();
 		
 		if(opt.isPresent())
 			return toItem(opt.get());
@@ -316,8 +316,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Transaction getTransactionById(Long id) throws IOException {
-		return toTransaction(service.getOrderDetails(id.intValue()));
+	public Transaction getTransactionById(String id) throws IOException {
+		return toTransaction(service.getOrderDetails(Integer.parseInt(id)));
 	}
 
 	@Override

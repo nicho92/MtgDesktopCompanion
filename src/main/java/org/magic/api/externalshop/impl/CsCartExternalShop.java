@@ -149,7 +149,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		var ret = getBuilder(API_VENDORS+getAuthenticator().get(COMPANY_ID)+"/orders",METHOD.GET).toJson();
 		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
 			try {
-				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsLong()));
+				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsString()));
 			} catch (IOException _) {
 				logger.error("Error getting transaction {}",je.getAsJsonObject().get(ORDER_ID));
 			}
@@ -163,7 +163,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		var ret = getBuilder(API_ORDERS,METHOD.GET).addContent("user_id", String.valueOf(c.getId())).toJson();
 		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
 			try {
-				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsLong()));
+				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsString()));
 			} catch (IOException _) {
 				logger.error("Error getting transaction {}",je.getAsJsonObject().get(ORDER_ID));
 			}
@@ -315,7 +315,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public Transaction getTransactionById(Long id) throws IOException {
+	public Transaction getTransactionById(String id) throws IOException {
 		var ret = getBuilder(API_ORDERS+"/"+id,METHOD.GET).toJson();
 		return buildTransaction(ret.getAsJsonObject());
 	}
@@ -360,7 +360,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	
 	
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
+	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
 			var endpoint = API_VENDORS+getAuthenticator().get(COMPANY_ID)+"/products/"+id;
 			var req = getBuilder(endpoint, METHOD.GET).toJson().getAsJsonObject();
 		return buildStockItem(req);
@@ -390,7 +390,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
+	public String saveOrUpdateTransaction(Transaction t) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

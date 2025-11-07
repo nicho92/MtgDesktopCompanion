@@ -132,9 +132,9 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		}
 	}
 	@Override
-	public Long saveOrUpdateTransaction(Transaction t)  throws IOException {
+	public String saveOrUpdateTransaction(Transaction t)  throws IOException {
 			try {
-				return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+				return ""+MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 				}
 				catch(SQLException e)
 				{
@@ -144,9 +144,9 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	}
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
+	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).getStockById(typeStock,id);
+			return MTG.getEnabledPlugin(MTGDao.class).getStockById(typeStock,Long.parseLong(id));
 			}
 			catch(SQLException e)
 			{
@@ -182,9 +182,9 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 
 	@Override
-	public Transaction getTransactionById(Long id) throws IOException {
+	public Transaction getTransactionById(String id) throws IOException {
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).getTransaction(id);
+			return MTG.getEnabledPlugin(MTGDao.class).getTransaction(Long.parseLong(id));
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

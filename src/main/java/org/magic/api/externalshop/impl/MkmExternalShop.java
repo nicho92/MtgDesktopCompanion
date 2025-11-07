@@ -181,7 +181,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
+	public String saveOrUpdateTransaction(Transaction t) throws IOException {
 		init();
 		var stocks= new ArrayList<LightArticle>();
 		for(File f : loadFiles())
@@ -223,7 +223,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 				}
 			}
 		});
-		return t.getId();
+		return String.valueOf(t.getId());
 	}
 
 
@@ -389,8 +389,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock,Long id) throws IOException {
-			return loadStock(String.valueOf(id)).stream().findAny().orElse(null);
+	public MTGStockItem getStockById(EnumItems typeStock,String id) throws IOException {
+			return loadStock(id).stream().findAny().orElse(null);
 	}
 
 
@@ -458,9 +458,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 
 	@Override
-	public Transaction getTransactionById(Long parseInt) throws IOException {
+	public Transaction getTransactionById(String s) throws IOException {
 		var serv = new OrderService();
-		return toTransaction(serv.getOrderById(parseInt.intValue()));
+		return toTransaction(serv.getOrderById(Integer.parseInt(s)));
 	}
 
 

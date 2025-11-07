@@ -18,7 +18,7 @@ public interface MTGExternalShop extends MTGPlugin {
 
 
 	public List<MTGStockItem> listStock(String search) throws IOException;
-	public MTGStockItem getStockById(EnumItems typeStock,Long id)throws IOException;
+	public MTGStockItem getStockById(EnumItems typeStock,String id)throws IOException;
 	public void saveOrUpdateStock(MTGStockItem stock,boolean allShop)throws IOException;
 	public void saveOrUpdateStock(List<MTGStockItem> stocks,boolean allShop)throws IOException;
 	public void updateStockFromTransaction(Transaction t) throws IOException;
@@ -34,11 +34,11 @@ public interface MTGExternalShop extends MTGPlugin {
 	public Contact getContactByLogin(String login, String passw) throws IOException;
 
 
-	public Long saveOrUpdateTransaction(Transaction t) throws IOException;
+	public String saveOrUpdateTransaction(Transaction t) throws IOException;
 	public List<Transaction> listTransaction() throws IOException;
 	public void deleteTransaction(Transaction t) throws IOException;
 	public void deleteTransaction(List<Transaction> t) throws IOException;
-	public Transaction getTransactionById(Long id) throws IOException;
+	public Transaction getTransactionById(String id) throws IOException;
 
 	public List<Transaction> listTransactions(Contact c) throws IOException;
 	public boolean enableContact(String token)throws IOException;

@@ -79,7 +79,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 
-	private JsonObject readId(String entityName, Long id) throws IOException
+	private JsonObject readId(String entityName, String id) throws IOException
 	{
 		var resp=build(getBaseUrl()+entityName.toLowerCase()+"s/"+id+JSON,METHOD.GET).execute();
 		return URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject().get(entityName).getAsJsonObject();
@@ -248,7 +248,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 
 	@Override
-	public Transaction getTransactionById(Long id) throws IOException {
+	public Transaction getTransactionById(String id) throws IOException {
 		var obj= readId(ORDER,id);
 		return parseTransaction(obj);
 	}
@@ -288,11 +288,11 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
+	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
 
 		var obj= readId(VARIANT,id);
 
-		var it = ProductFactory.generateStockItem(parseProduct(readId(PRODUCT,obj.get("product_id").getAsLong())));
+		var it = ProductFactory.generateStockItem(parseProduct(readId(PRODUCT,obj.get("product_id").getAsString())));
 		  it.setId(obj.get("id").getAsLong());
 		  it.setPrice(obj.get(PRICE).getAsDouble());
 		  it.setQte(obj.get(INVENTORY_QUANTITY).getAsInt());
@@ -447,9 +447,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
+	public String saveOrUpdateTransaction(Transaction t) throws IOException {
 		// TODO Auto-generated method stub
-		return 0L;
+		return null;
 	}
 
 	@Override

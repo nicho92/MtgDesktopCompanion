@@ -149,9 +149,9 @@ public class MTGStudioExport extends AbstractCardExport{
 		builder.append("</deckinfo>").append(System.lineSeparator());
 		builder.append("<cards>").append(System.lineSeparator());
 		
-			deck.getAllUniqueCards().forEach(c->{
-				builder.append("<card deck=\"").append(deck.getMain().getOrDefault(c,0)).append("\" ").append("sb=\"").append(deck.getSideBoard().getOrDefault(c,0)).append("\"").append("edition=\"").append(aliases.getReversedSetIdFor(this, c.getEdition())).append("\">").append(c.getName()).append("</card>").append(System.lineSeparator());
-			});
+			deck.getAllUniqueCards().forEach(c->
+				builder.append("<card deck=\"").append(deck.getMain().getOrDefault(c,0)).append("\" ").append("sb=\"").append(deck.getSideBoard().getOrDefault(c,0)).append("\"").append("edition=\"").append(aliases.getReversedSetIdFor(this, c.getEdition())).append("\">").append(c.getName()).append("</card>").append(System.lineSeparator())
+			);
 			
 		
 		builder.append("</cards>");

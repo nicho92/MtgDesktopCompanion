@@ -1343,7 +1343,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	 , transformer);
 
 	get("/extShop/stock/:provider/:id", URLTools.HEADER_JSON, (request, _) ->
-			getPlugin(request.params(PROVIDER),MTGExternalShop.class).getStockById(null,Long.parseLong(request.params(":id")))
+			getPlugin(request.params(PROVIDER),MTGExternalShop.class).getStockById(null,request.params(":id"))
 	, transformer);
 
 	get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, _) ->
@@ -1351,7 +1351,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	, transformer);
 
 	get("/extShop/transactions/:provider/:id", URLTools.HEADER_JSON, (request, _) ->
-		getPlugin(request.params(PROVIDER),MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
+		getPlugin(request.params(PROVIDER),MTGExternalShop.class).getTransactionById(request.params(":id"))
 	, transformer);
 
 	post("/extShop/transactions/:to/save", URLTools.HEADER_JSON, (request, _) ->{
@@ -1436,7 +1436,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, _) ->
-			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
+			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(request.params(":id"))
 		, transformer);
 
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, _) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
@@ -1445,7 +1445,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			Contact c=converter.fromJson(request.queryParams("user"), Contact.class);
 
-			var t =MTG.getEnabledPlugin(MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")));
+			var t =MTG.getEnabledPlugin(MTGExternalShop.class).getTransactionById(request.params(":id"));
 
 			if(t.getContact().getId()==c.getId())
 			{

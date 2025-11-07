@@ -376,7 +376,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
+	public String saveOrUpdateTransaction(Transaction t) throws IOException {
 		init();
 		if(t.getId()>0)
 		{
@@ -404,11 +404,11 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			}
 		}
 
-		return t.getId();
+		return ""+t.getId();
 	}
 
 	@Override
-	public MTGStockItem getStockById( EnumItems typeStock,Long id) throws IOException {
+	public MTGStockItem getStockById( EnumItems typeStock,String id) throws IOException {
 		return loadStock("").stream().filter(mcsi->mcsi.getId().equals(id)).findFirst().orElseThrow();
 	}
 
@@ -473,12 +473,12 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Transaction getTransactionById(Long parseInt) throws IOException {
+	public Transaction getTransactionById(String parseInt) throws IOException {
 		init();
-		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt.intValue());
+		var ret = client.get(EndpointBaseType.ORDERS.getValue(), Integer.parseInt(parseInt));
 
 		var t = new Transaction();
-			t.setId(parseInt);
+			t.setId(Integer.parseInt(parseInt));
 			t.setContact(toContact(new JsonExport().toJsonElement(ret.get(BILLING)).getAsJsonObject(), Integer.parseInt(ret.get("customer_id").toString())));
 			t.setStatut(tostatus(ret.get(STATUS).toString()));
 			t.setItems(toWooItems(new JsonExport().toJsonArray(ret.get(LINE_ITEMS))));

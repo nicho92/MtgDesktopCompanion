@@ -65,8 +65,6 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 						it.setId(Integer.parseInt( it.getTiersAppIds(extComName)));
 						MTG.getPlugin(extComName, MTGExternalShop.class).saveOrUpdateStock(it, false);
 					}
-
-
 				}
 			}
 	}
