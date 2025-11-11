@@ -175,7 +175,17 @@ public class MTGCard extends AbstractProduct {
 
 		if(obj instanceof MTGCard c ) {
 			if(c.getScryfallId()==null)
-				return c.getId().equals(getId());
+			{
+				if(c.getId()!=null && getId()!=null)
+				{
+					return c.getId().equals(getId());
+				}
+				else
+				{
+					return false;
+				}
+				
+			}
 			
 			return c.getScryfallId().equals(getScryfallId());
 		}
