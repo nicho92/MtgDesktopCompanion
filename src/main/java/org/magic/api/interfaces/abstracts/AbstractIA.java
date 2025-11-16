@@ -173,17 +173,19 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			
 		});
 		
-		obj.get("sideboard").getAsJsonArray().forEach(je->{
-			
-			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null,true).get(0);
-				d.getSideBoard().put(mc, je.getAsJsonObject().get(QUANTITY).getAsInt());
-				notify(mc);
-			} catch (Exception _) {
-				logger.error("can't find card {}",je.getAsJsonObject());
-			}
-			
-		});
+		
+		if(obj.get("sideboard")!=null && !obj.get("sideboard").isJsonNull())
+			obj.get("sideboard").getAsJsonArray().forEach(je->{
+				
+				try {
+					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null,true).get(0);
+					d.getSideBoard().put(mc, je.getAsJsonObject().get(QUANTITY).getAsInt());
+					notify(mc);
+				} catch (Exception _) {
+					logger.error("can't find card {}",je.getAsJsonObject());
+				}
+				
+			});
 		return d;
 	}
 	
