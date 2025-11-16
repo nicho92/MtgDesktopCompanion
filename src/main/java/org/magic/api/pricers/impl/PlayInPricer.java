@@ -3,76 +3,65 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
-import org.apache.commons.text.StringEscapeUtils;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
-import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.services.MTGControler;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
 public class PlayInPricer extends AbstractPricesProvider {
 
-	private static final String BASE_URL="https://en.play-in.com/";
+	private static final String BASE_URL="https://www.play-in.com";
+	private MTGHttpClient client;
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.BUGGED;
 	}
+	
+	public static void main(String[] args) throws IOException {
+		var pricer = new PlayInPricer();
+		
+		var c = new MTGCard();
+		c.setName("Lightning Bolt");
+		
+		var u = pricer.getLocalePrice(c);
+		
+	}
+	
+	
+	public PlayInPricer() {
+		client = URLTools.newClient();
+	}
+	
+	
 
 	private String getPage(String name) throws IOException
 	{
-		String autocomplete = BASE_URL+"/api/autocompletion.php?search="+URLTools.encode(name);
-		Document ret = URLTools.extractAsHtml(autocomplete);
-		return BASE_URL+ret.select("a").first().attr("href");
-
+		var nextRouter="[\"\",{\"children\":[[\"lang\",\"en\",\"d\"],{\"children\":[\"(website)\",{\"children\":[\"__PAGE__\",{},null,null]},null,null]},null,null]},null,null,true]";
+		var heads = Map.of(URLTools.ACCEPT,"text/x-component",URLTools.ORIGIN,BASE_URL,URLTools.REFERER,BASE_URL,URLTools.CONTENT_TYPE,"text/plain;charset=UTF-8","next-router-state-tree",nextRouter,"next-action","7f7617c8e2a0143fb7835dd63bee1989331461053f");
+		var res = client.doPost(BASE_URL, new StringEntity("[{\"lang\":\"en\",\"search\":\""+name+"\",\"searchCategory\":\"unitCards\"}]"), heads);
+		var ret =EntityUtils.toString(res.getEntity());
+		var result = URLTools.toJson(ret.split("\\n")[1].substring(2)).getAsJsonArray();
+		return result.get(0).getAsJsonObject().get("href").getAsString();
 	}
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-
-		List<MTGPrice> list = new ArrayList<>();
-
-		String page = getPage(card.getName());
+		var nextRouter ="[\"\",{\"children\":[[\"lang\",\"en\",\"d\"],{\"children\":[\"(website)\",{\"children\":[\"carte\",{\"children\":[[\"cardId\",\"2337\",\"d\"],{\"children\":[[\"cardSlug\",\"foudre\",\"d\"],{\"children\":[\"__PAGE__\",{},null,null]},null,null]},null,null]},null,null]},null,null]},null,null]},null,\"refetch\"]";
+		var heads = Map.of(URLTools.ACCEPT,"text/x-component",URLTools.ORIGIN,BASE_URL,URLTools.REFERER,BASE_URL,URLTools.CONTENT_TYPE,"text/plain;charset=UTF-8","next-router-state-tree",nextRouter,"next-action","7f7617c8e2a0143fb7835dd63bee1989331461053f");
+		var list = new ArrayList<MTGPrice>();
+		var page = BASE_URL+getPage(card.getName());
+				
 		logger.info("{} looking for prices {}",getName(),page);
 
 		try {
-			Document doc = URLTools.extractAsHtml(page);
-			Elements els = doc.select("div.filterElement");
-			var lang = "";
-			var set = "";
-			for (Element e : els) {
-				var mp = new MTGPrice();
-
-				if(e.select("img.langue_big").first()!=null && !e.select("img.langue_big").first().attr("alt").isEmpty())
-					lang=e.select("img.langue_big").first().attr("alt");
-
-
-				if(!e.getElementsByClass("name_ext").text().isEmpty())
-					set=e.getElementsByClass("name_ext").text();
-
-
-
-				mp.setCardData(card);
-				mp.setLanguage(lang);
-				mp.setQuality(aliases.getReversedConditionFor(this, e.getElementsByClass("etat").html(), EnumCondition.NEAR_MINT));
-				mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
-				mp.setCurrency("EUR");
-				mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
-				mp.setSite(getName());
-				mp.setSellerUrl(page);
-				mp.setUrl(page);
-				mp.setSeller(set);
-				mp.setFoil(e.attr("data-foil").equals("O"));
-
-				if(mp.getSeller().toLowerCase().startsWith(card.getEdition().getSet().toLowerCase()))
-					list.add(mp);
-			}
+			var res = client.doGet(page);
+					
 			logger.info("{} found {} offers",getName(),list.size());
 
 			return list;
@@ -81,10 +70,6 @@ public class PlayInPricer extends AbstractPricesProvider {
 			logger.info("{} found no item : {}",getName(),e.getMessage());
 			return list;
 		}
-	}
-
-	private String clean(String html) {
-		return StringEscapeUtils.escapeHtml3(html).replace(",", ".").replace(" ", "").replace("€", "");
 	}
 
 	@Override
