@@ -37,7 +37,7 @@ public class ImagePoster {
 		logger.debug("upload result : {}",  jsonRet);
 		
 		if(jsonRet.get("status").getAsString().equals("OK")){
-			return RequestBuilder.build().setClient(client).post().url(jsonRet.get("url").getAsString()).toHtml().getElementById("code_direct").attr("value");
+			return RequestBuilder.build().setClient(client).post().url(jsonRet.get("url").getAsString()).toHtml().getElementById("direct").attr("value");
 		}
 		else {
 			logger.error("error to upload {} : {}",wallUrl, jsonRet);
