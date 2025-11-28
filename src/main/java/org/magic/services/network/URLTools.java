@@ -9,6 +9,7 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -233,6 +234,10 @@ public class URLTools {
 			return "";
 		
 		return element.text();
+	}
+
+	public static String toText(InputStream content) throws IOException {
+		return new String(content.readAllBytes(), StandardCharsets.UTF_8);
 	}
 
 

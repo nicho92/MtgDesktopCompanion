@@ -2,6 +2,7 @@ package org.magic.api.interfaces.abstracts.extra;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jetty.ee10.webapp.WebAppContext;
@@ -64,9 +65,10 @@ public abstract class AbstractWarServer extends AbstractMTGServer{
 
 		@Override
 		public Map<String, MTGProperty> getDefaultAttributes() {
-				return Map.of("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
-									 "PORT", MTGProperty.newIntegerProperty("8083", "listening port for webserver", 80, -1)
-									 );
+				var m = new HashMap<String, MTGProperty>();
+				m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
+				m.put("PORT", MTGProperty.newIntegerProperty("8083", "listening port for webserver", 80, -1));
+				return m;
 		}
 		
 		@Override

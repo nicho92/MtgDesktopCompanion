@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumBorders;
@@ -27,6 +29,7 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonObject;
+
 
 public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 
@@ -393,7 +396,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 	
 	private String uploadPicture(File f, MTGCard mc) throws IOException
 	{
-		var res = RequestBuilder.build().url(urlPictureUpload).setClient(client).post().addHeader(urlBuilder, urlAuthentication)
+		var res = RequestBuilder.build().url(urlPictureUpload).setClient(client).post()
 												.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
 												.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
 												.addHeader(URLTools.CONTENT_TYPE, "application/x-www-form-urlencoded")
@@ -405,13 +408,61 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 												.addContent("location", "mtg-card-maker")	 
 												.addContent("status", "new")
 												.addContent("slim[]", generateJsonData(f,mc.getCustomMetadata()).toString())
-												.toHtml();
+												.execute();
 		
-		var imgPath = res.select("img.previewImg2").attr("src");
+		
+		for(var h : res.getAllHeaders() )
+			System.out.println(h.getName() + " "+ h.getValue());
+		
+		var doc = RequestBuilder.build().url(BASE_URL+"/mtg-card-maker/edit").setClient(client).get()
+				.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
+				.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
+				.addHeader("cache-control", "no-cache")
+				.addHeader(URLTools.REFERER, BASE_URL+"/mtg-card-maker").toHtml();
+		
+		
+		System.out.println(doc);
+		
+		//var imgPath = res.select("img.previewImg2").attr("src");
+		
+		
+		var imgPath = "";
 		logger.debug("File {} uploaded at {}", f,imgPath);
 		
 		return imgPath ;
 	}
+	
+	private String uploadPicture2(File f, MTGCard mc) throws IOException
+	{
+		var hs = new HashMap<String,String>();
+		hs.put(URLTools.ACCEPT, "application/json, text/javascript, */*; q=0.01");
+		hs.put(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd");
+		hs.put("Pragma", "no-cache");
+		hs.put("Connection", "keep-alive");
+		hs.put("priority","u=1, i");
+		hs.put(URLTools.REFERER, BASE_URL+"/mtg-card-maker/edit");
+		hs.put(URLTools.HOST, "mtgcardsmith.com");
+		hs.put(URLTools.ORIGIN, BASE_URL);
+		hs.put("sec-ch-ua-mobile","?0");
+		hs.put("sec-ch-ua-platform","Windows");
+		hs.put("sec-fetch-dest","empty");
+		hs.put("sec-fetch-mode","cors");
+		hs.put("sec-fetch-site","same-origin");
+		hs.put("x-requested-with","XMLHttpRequest");
+		hs.put("content-type", "multipart/form-data");
+		
+		
+		var res = client.doPost(BASE_URL+"/api/imgUpload.php", MultipartEntityBuilder.create().addPart("file", new FileBody(f)).build(), hs);
+		var content = res.getEntity().getContent();
+		var jres = URLTools.toText(content);
+		System.out.println(jres);
+		
+		
+		return "" ;
+	}
+	
+	
 	
 	
 	private JsonObject generateJsonData(File f, Map<EnumExtraCardMetaData, String> map) throws IOException
@@ -501,7 +552,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BUGGED;
 	}
 	
 }
