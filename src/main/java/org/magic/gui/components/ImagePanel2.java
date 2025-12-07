@@ -23,6 +23,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 
 public class ImagePanel2 extends JXPanel {
 	
@@ -52,7 +53,7 @@ public class ImagePanel2 extends JXPanel {
 
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 		
-		scale = Double.parseDouble(MTGControler.getInstance().get("/card-pictures-dimension/zoom"));
+		scale = UITools.parseDouble(MTGControler.getInstance().get("/card-pictures-dimension/zoom","1.0"));
 		
 		renderer = new ReflectionRenderer();
 		
