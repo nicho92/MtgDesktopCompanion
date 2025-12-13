@@ -1,6 +1,7 @@
 {
 	"TLA" : [
-		"FTLA"
+		"FTLA",
+		"ATLA"
 	],
 	"FIC" : [
 		"AFIC"
