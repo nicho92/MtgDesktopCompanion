@@ -119,7 +119,7 @@
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
-		    <version>478</version>
+		    <version>479</version>
 		</dependency>
 		<dependency>
     		<groupId>org.apache.tomcat</groupId>
@@ -454,7 +454,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>6.1.3</version>
+			<version>6.2.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
