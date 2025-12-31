@@ -60,9 +60,9 @@
 		<log4j.version>2.25.3</log4j.version>
 		<poi.version>5.5.1</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
-		<rhino.version>1.8.1</rhino.version>
+		<rhino.version>1.9.0</rhino.version>
 		<commonmark.version>0.27.0</commonmark.version>
-		<langchain4j.version>1.9.1</langchain4j.version>
+		<langchain4j.version>1.10.0</langchain4j.version>
 	</properties>
 	
 	
@@ -384,7 +384,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>3.6.0</version>
+			<version>3.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
