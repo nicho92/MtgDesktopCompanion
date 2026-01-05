@@ -791,7 +791,6 @@
 						-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
 						--enable-native-access=ALL-UNNAMED
 						--add-modules jdk.incubator.vector
-						-Djava.security.manager=allow
 					</extraJvmArguments>
 					<showConsoleWindow>true</showConsoleWindow>
 				</configuration>
