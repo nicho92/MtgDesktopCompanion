@@ -79,8 +79,13 @@ public enum EnumPromoType implements MTGEnumeration{
 	
 	@SerializedName(alternate = "neoninkblue", value = "NEONINKBLUE") NEONINKBLUE,
 	@SerializedName(alternate = "neoninkgreen", value = "NEONINKGREEN") NEONINKGREEN,
+	@SerializedName(alternate = "neoninkmulticolor", value = "NEONINKMULTICOLOR") NEONINKMULTICOLOR,
+	@SerializedName(alternate = "neoninkpink", value = "NEONINKPINK") NEONINKPINK,
+	@SerializedName(alternate = "neoninkpurple", value = "NEONINKPURPLE") NEONINKPURPLE,
 	@SerializedName(alternate = "neoninkred", value = "NEONINKRED") NEONINKRED,
+	@SerializedName(alternate = "neoninkthreecolor", value = "NEONINKTHREECOLOR") NEONINKTHREECOLOR,
 	@SerializedName(alternate = "neoninkyellow", value = "NEONINKYELLOW") NEONINKYELLOW,
+	
 	
 	@SerializedName(alternate = "oilslick", value = "OILSLICK") OILSLICK,
 	@SerializedName(alternate = "openhouse", value = "OPENHOUSE") 			OPENHOUSE,
