@@ -602,7 +602,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext-core</artifactId>
-			<version>9.4.0</version>
+			<version>9.5.0</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
