@@ -26,15 +26,6 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 		return Map.of("LIMIT",MTGProperty.newIntegerProperty("150", "Max results to return", 1, -1));
 	}
 	
-	public static void main(String[] args) {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		var prov = new GelbooruWallpaperProvider();
-		
-		
-		prov.search("Street Fighter");
-	}
-	
-	
 	@Override
 	public List<MTGWallpaper> search(String search) {
 		
