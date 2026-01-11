@@ -9,7 +9,6 @@ import java.util.Map;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
-import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonObject;
