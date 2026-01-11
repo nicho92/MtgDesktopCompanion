@@ -9,6 +9,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonObject;
@@ -25,6 +26,15 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 		return Map.of("LIMIT",MTGProperty.newIntegerProperty("150", "Max results to return", 1, -1));
 	}
 	
+	public static void main(String[] args) {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		var prov = new GelbooruWallpaperProvider();
+		
+		
+		prov.search("Street Fighter");
+	}
+	
+	
 	@Override
 	public List<MTGWallpaper> search(String search) {
 		
@@ -36,6 +46,7 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 		{
 			try {
 			var baseUrl ="https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&pid="+(page++)+"&limit=100&api_key="+getAuthenticator().get("API_KEY")+"&user_id="+getAuthenticator().get("USER_ID")+"&tags="+search.replace(" ", "_");
+			logger.debug("Get results from {}",baseUrl);
 			var obj =  URLTools.extractAsJson(baseUrl).getAsJsonObject();
 			total = obj.get("@attributes").getAsJsonObject().get("count").getAsInt();
 			
@@ -45,12 +56,14 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 			for(var je : obj.get("post").getAsJsonArray())
 			{
 				var w = parseJson(je.getAsJsonObject());
-				
 				if(w!=null)
 					ret.add(w);
 				
 				if(ret.size()>=getInt("LIMIT"))
-					break;
+				{
+					logger.info("{} return {} results", getName(), ret.size());
+					return ret;
+				}
 				
 			}
 			}catch(Exception e)
