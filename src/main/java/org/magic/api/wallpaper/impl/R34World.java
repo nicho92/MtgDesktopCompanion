@@ -1,4 +1,4 @@
-package org.magic.api.wallpaper.impl;
+ package org.magic.api.wallpaper.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class R34World extends AbstractWallpaperProvider{
 				var ret = client.doPost("https://rule34.world/api/v2/post/search/root", new StringEntity("{\"skip\":"+skip+",\"take\":"+total+",\"countTotal\":true,\"checkHasMore\":true,\"type\":0,\"filterAi\":false,\"sortBy\":0,\"includeTags\":[\""+search.replace(" ", "_")+"\"]}"),Map.of(URLTools.CONTENT_TYPE,"application/json"));
 				var content = URLTools.toText(ret.getEntity().getContent());
 				
-				logger.info("return : {}",content);
+				logger.debug("return : {}",content);
 				var res = URLTools.toJson(content).getAsJsonObject();
 				
 				if(res.get("items")==null || res.get("items").getAsJsonArray().isEmpty())
