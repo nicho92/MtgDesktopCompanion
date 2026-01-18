@@ -242,7 +242,7 @@
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>
 			<artifactId>yauaa</artifactId>
-			<version>7.32.0</version>
+			<version>8.0.0</version>
 		</dependency>
 		
 		<dependency>
@@ -643,7 +643,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.8</version>
+			<version>42.7.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
