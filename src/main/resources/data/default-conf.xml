@@ -26,6 +26,7 @@
   <technical-log>false</technical-log>
   <default-library>Library</default-library>
   <loglevel>INFO</loglevel>
+  <allow-nsfw>false</allow-nsfw>
   <default-website-dir/>
   <keystore-name>jssecacerts</keystore-name>
   <keystore-pass>changeit</keystore-pass>

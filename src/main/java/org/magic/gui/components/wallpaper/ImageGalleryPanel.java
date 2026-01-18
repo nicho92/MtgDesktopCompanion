@@ -18,12 +18,14 @@ import org.magic.api.beans.MTGWallpaper;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ImagePanel2;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 
 public class ImageGalleryPanel extends MTGUIComponent {
 	
@@ -89,7 +91,12 @@ public class ImageGalleryPanel extends MTGUIComponent {
 								b = b.addHeader(URLTools.USER_AGENT, wall.getUserAgent());
 							
 							
-							wall.setPicture(b.toImage());
+							if(wall.isMature() && MTG.readPropertyAsBoolean("allow-nsfw")==false)
+								wall.setPicture(ImageTools.fastBlur(b.toImage(),25,0.2));
+							else
+								wall.setPicture(b.toImage());
+							
+							
 							publish(wall);
 							}
 							catch(SocketException _)
@@ -109,11 +116,10 @@ public class ImageGalleryPanel extends MTGUIComponent {
 						for(var img : chunks)
 						{
 							var thumb = new JWallThumb(img);
+							thumb.setPreferredSize(new Dimension(THUMBNAIL_SIZE, THUMBNAIL_SIZE + 20));
+							
 							try {
-			                    		
-			        	        		thumb.setPreferredSize(new Dimension(THUMBNAIL_SIZE, THUMBNAIL_SIZE + 20));
-			        	        		thumb.setIcon(new ImageIcon(ImageTools.resize(img.getPicture(),THUMBNAIL_SIZE, THUMBNAIL_SIZE)));
-				                        thumb.addMouseListener(new MouseAdapter() {
+			                    	    thumb.addMouseListener(new MouseAdapter() {
 				                            @Override
 				                            public void mouseClicked(MouseEvent e) {
 				                            	if(e.getClickCount()==1)
@@ -131,14 +137,16 @@ public class ImageGalleryPanel extends MTGUIComponent {
 				                            		showFullImage(img);
 				                            }
 				                        });
-				                        
-				                        add(thumb);
-				                        revalidate();
-				                        repaint();
+			        	        		thumb.setIcon(new ImageIcon(ImageTools.resize(img.getPicture(),THUMBNAIL_SIZE, THUMBNAIL_SIZE)));
 			                } catch (Exception e) {
-			                	remove(thumb);
-			                	logger.error(e);
+			                	//remove(thumb);
+			                	thumb.setIcon(new ImageIcon(MTGConstants.NO_PIC));
+			                	logger.error("Error getting image for {} at {}",img.getName(),img.getUrlThumb());
 			                }
+						      
+	                        add(thumb);
+	                        revalidate();
+	                        repaint();
 						}
 				}
 				@Override

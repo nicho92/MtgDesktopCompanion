@@ -148,6 +148,7 @@ public class MTGConstants {
 	public static final URL ANNIVERSARY_BACK_CARD = MTGConstants.class.getResource("/icons/back30.jpg");
 	public static final URL COLLECTOR_BACK_CARD = MTGConstants.class.getResource("/icons/backCE.jpg");
 	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
+	public static final Image NO_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/icons/no-pic.jpg"));
 	
 	public static ImageIcon getManaSymbol(String symb)
 	{

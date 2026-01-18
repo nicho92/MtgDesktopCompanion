@@ -319,6 +319,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var btnDefaultStock = new JButton(MTGConstants.ICON_TAB_STOCK);
 		var chkboxPrerelease = new JCheckBox();
 		var chkTechnicalLog = new JCheckBox();
+		var chknsfw = new JCheckBox();
 		
 		var btnExportConfig = new JButton(capitalize(EXPORT));
 		var btnImportConfig = new JButton(capitalize("IMPORT"));
@@ -330,7 +331,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		chkboxPrerelease.getModel().setSelected( MTG.readPropertyAsBoolean("notifyPrerelease"));
 		chkTechnicalLog.setSelected(MTG.readPropertyAsBoolean("technical-log"));
-
+		chknsfw.setSelected(MTG.readPropertyAsBoolean("allow-nsfw"));
 
 		panelConfig.add(new JLangLabel("MAIN_COLLECTION",true), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
@@ -352,7 +353,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelConfig.add(new JLangLabel("TECHNICAL_SERVICE_LOG",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 8));
 		panelConfig.add(chkTechnicalLog, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 8));
 
-	
+		panelConfig.add(new JLangLabel("ALLOW_NSFW",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 9));
+		panelConfig.add(chknsfw, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 9));
 
 
 
@@ -678,7 +680,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkTechnicalLog.addItemListener(_ -> MTGControler.getInstance().setProperty("technical-log", chkTechnicalLog.isSelected()));
 		chkOnlineValidation.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-query", chkOnlineValidation.isSelected()));
 		chkOnlineAutoConnect.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-autoconnect", chkOnlineAutoConnect.isSelected()));
-
+		chknsfw.addItemListener(_ -> MTGControler.getInstance().setProperty("allow-nsfw", chknsfw.isSelected()));
+		
 		btnSaveCode.addActionListener(_ -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
 		btnUpdateCurrency.addActionListener(_ -> {
 			try {
