@@ -222,13 +222,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		if(getBoolean(ENABLE_SSL))
 		{
 			Spark.secure(getString(KEYSTORE_URI), getString(KEYSTORE_PASS), null, null);
-			
-	
-			
-			try 
+				try 
 			{
 				CryptoUtils.getCertificates(getFile(KEYSTORE_URI), getString(KEYSTORE_PASS)).forEach(c->{
-					
 					var expir = UITools.daysBetween(Instant.now(),c.getNotAfter().toInstant());
 					if(expir<=7)
 						logger.warn("{} will expire in {} days",c.getSubjectX500Principal(), expir);
