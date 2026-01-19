@@ -6,7 +6,6 @@ import java.util.Properties;
 
 import org.jdesktop.swingx.JXTipOfTheDay;
 import org.jdesktop.swingx.tips.TipLoader;
-import org.jdesktop.swingx.tips.TipOfTheDayModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
@@ -21,9 +20,7 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 		{
 			tips.load(st);
 		}
-
-		TipOfTheDayModel model = TipLoader.load(tips);
-		setModel(model);
+		setModel(TipLoader.load(tips));
 
 	}
 
