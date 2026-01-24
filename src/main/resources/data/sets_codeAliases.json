@@ -1,4 +1,7 @@
 {
+	"ECL" : [
+		"AECL"
+	],
 	"TLA" : [
 		"FTLA",
 		"ATLA"
@@ -390,6 +393,7 @@
 		"4BB"
 	],
 	"PMEI": [
+		"PW26",
 		"LMAR",
 		"PH23",
 		"RFIN",
