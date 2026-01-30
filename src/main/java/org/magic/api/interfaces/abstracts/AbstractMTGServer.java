@@ -41,7 +41,7 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
  
 	public void preinit()
 	{
-		//do nothing;
+		//do nothing
 	}
 	
 

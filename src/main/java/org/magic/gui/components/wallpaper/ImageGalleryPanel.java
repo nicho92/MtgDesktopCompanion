@@ -18,7 +18,6 @@ import org.magic.api.beans.MTGWallpaper;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ImagePanel2;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -138,8 +137,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 				                            }
 				                        });
 			        	        		thumb.setIcon(new ImageIcon(ImageTools.resize(img.getPicture(),THUMBNAIL_SIZE, THUMBNAIL_SIZE)));
-			                } catch (Exception e) {
-			                	//remove(thumb);
+			                } catch (Exception _) {
 			                	thumb.setIcon(new ImageIcon(MTGConstants.NO_PIC));
 			                	logger.error("Error getting image for {} at {}",img.getName(),img.getUrlThumb());
 			                }

@@ -63,10 +63,12 @@ class DummyWebcamDevice implements WebcamDevice
 
     private Dimension[] dimensions;
     private boolean open;
+	private Random r;
 
 	public DummyWebcamDevice(Image ic) {
 		bounce=ic;
 		init();
+		r = new SecureRandom();
 	}
 
 
@@ -76,7 +78,6 @@ class DummyWebcamDevice implements WebcamDevice
           buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
           display = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
           g = buffer.createGraphics();
-          Random  r = new SecureRandom();
           xvel = (r.nextDouble()-0.5)*MAX_VEL*2;
           yvel = (r.nextDouble()-0.5)*MAX_VEL*2;
           dimensions = new Dimension[1];

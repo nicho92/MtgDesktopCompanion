@@ -104,7 +104,7 @@ public class ManaPoolExport extends AbstractCardExport {
 				 try {
 					 item.setLanguage(EnumLangages.valueOf(lcode));
 				 }
-				 catch(Exception e)
+				 catch(Exception _)
 				 {
 					 logger.warn("EnumLangage not found for {}", lcode);
 					 item.setLanguage(EnumLangages.EN);

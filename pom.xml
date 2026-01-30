@@ -53,7 +53,7 @@
 		
 		<jwt.version>0.13.0</jwt.version>
 		<lucene.version>10.3.2</lucene.version>
-		<artemis.version>2.44.0</artemis.version>
+		<artemis.version>2.50.0</artemis.version>
 		<flatlaf.version>3.7</flatlaf.version>
 		<qwartz.version>2.5.2</qwartz.version>
 		<rome.version>2.1.0</rome.version>
@@ -124,12 +124,12 @@
 		<dependency>
     		<groupId>org.apache.tomcat</groupId>
     		<artifactId>tomcat-jdbc</artifactId>
-    		<version>11.0.15</version>
+    		<version>11.0.18</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.firebirdsql.jdbc</groupId>
 		    <artifactId>jaybird</artifactId>
-		    <version>6.0.3</version>
+		    <version>6.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.yaml</groupId>
@@ -318,7 +318,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.20.10</version>
+			<version>3.20.11</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -542,7 +542,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.20.0</version>
+			<version>1.21.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -638,7 +638,7 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>9.5.0</version>
+			<version>9.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>

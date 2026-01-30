@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -76,7 +77,7 @@ public class MTGStudioExport extends AbstractCardExport{
 		
 		try {
 			var builder = XMLTools.createSecureXMLDocumentBuilder();
-			var xmlDocument = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
+			var xmlDocument = builder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
 			var nodes = XMLTools.parseNodes(xmlDocument, "/mtgstudiodeck/deck/deckinfo/*");
 
 			for(var i=0; i<nodes.getLength();i++)
@@ -169,7 +170,7 @@ public class MTGStudioExport extends AbstractCardExport{
 	
 		try {
 			var builder = XMLTools.createSecureXMLDocumentBuilder();
-			var xmlDocument = builder.parse(new ByteArrayInputStream(content.getBytes("UTF-8")));
+			var xmlDocument = builder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
 			String expression = "/CACHE/LINES/LINE";
 			var nodes = XMLTools.parseNodes(xmlDocument, expression);
 			

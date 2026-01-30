@@ -105,7 +105,7 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 					else
 						d.getSideBoard().put(card, qty);
 					
-				} catch (Exception e) {
+				} catch (Exception _) {
 					logger.error("No card found for {}/{}",setId,number);
 				}
 				

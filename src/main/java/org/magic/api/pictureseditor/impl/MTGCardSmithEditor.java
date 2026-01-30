@@ -412,7 +412,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		
 		for(var h : res.getAllHeaders() )
-			System.out.println(h.getName() + " "+ h.getValue());
+			logger.info(h.getName() + " "+ h.getValue());
 		
 		var doc = RequestBuilder.build().url(BASE_URL+"/mtg-card-maker/edit").setClient(client).get()
 				.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -420,9 +420,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
 				.addHeader("cache-control", "no-cache")
 				.addHeader(URLTools.REFERER, BASE_URL+"/mtg-card-maker").toHtml();
-		
-		
-		System.out.println(doc);
 		
 		//var imgPath = res.select("img.previewImg2").attr("src");
 		
@@ -456,7 +453,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		var res = client.doPost(BASE_URL+"/api/imgUpload.php", MultipartEntityBuilder.create().addPart("file", new FileBody(f)).build(), hs);
 		var content = res.getEntity().getContent();
 		var jres = URLTools.toText(content);
-		System.out.println(jres);
+		logger.debug(jres);
 		
 		
 		return "" ;

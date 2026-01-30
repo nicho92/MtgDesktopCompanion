@@ -9,9 +9,7 @@ import java.awt.Transparency;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.ConvolveOp;
 import java.awt.image.DataBufferInt;
-import java.awt.image.Kernel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -140,7 +138,8 @@ public class ImageTools {
 
 	public static BufferedImage blurImage(BufferedImage src, int radius) {
 		
-		if (radius < 1) return src;
+		if (radius < 1) 
+			return src;
 
         int w = src.getWidth();
         int h = src.getHeight();
@@ -159,7 +158,16 @@ public class ImageTools {
         int[] g = new int[wh];
         int[] b = new int[wh];
 
-        int rsum, gsum, bsum, x, y, i, p, yp, yi, yw;
+        int rsum;
+        int gsum;
+        int bsum;
+        int x;
+        int y;
+        int i;
+        int p;
+        int yp;
+        int yi;
+        int yw;
         int[] vmin = new int[Math.max(w, h)];
 
         int divsum = (div + 1) >> 1;
@@ -176,8 +184,12 @@ public class ImageTools {
         int stackstart;
         int[] sir;
         int rbs;
-        int routsum, goutsum, boutsum;
-        int rinsum, ginsum, binsum;
+        int routsum;
+        int goutsum;
+        int boutsum;
+        int rinsum;
+        int ginsum;
+        int binsum;
 
         // Horizontal
         for (y = 0; y < h; y++) {
