@@ -31,7 +31,6 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	private String keyRuneCode;
 	private int tcgplayerGroupId;
 	private boolean preview;
-	private boolean foreignOnly;
 	private List<EnumExtra> booster;
 	
 	@Override
@@ -55,15 +54,6 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		return cardCountPhysical;
 	}
 	
-
-	public boolean isForeignOnly() {
-		return foreignOnly;
-	}
-
-	public void setForeignOnly(boolean foreignOnly) {
-		this.foreignOnly = foreignOnly;
-	}
-
 	public boolean isPreview() {
 		return preview;
 	}

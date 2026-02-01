@@ -21,6 +21,7 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.AccountsManager;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -168,10 +169,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			build.removeContent("frame");
 			build.addContent("special_card_color", "sl"+(c==EnumColors.GOLD?"m":c.getCode().toLowerCase()));
 		}
-		
-
-
-		
+			
 		if(mc.isHybride())
 		{
 			build.removeContent("frame");
@@ -394,6 +392,22 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		}
 	}
 	
+	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		
+		var smith = new MTGCardSmithEditor();
+		
+		var mc = new MTGCard();
+		
+		smith.connect();
+		
+		smith.uploadPicture(new File("C:\\Users\\nicol\\.magicDeskCompanion\\data\\downloadWallpaper\\Sub-Zero, Cryomancer.png"), mc);
+		
+		
+	}
+	
+	
 	private String uploadPicture(File f, MTGCard mc) throws IOException
 	{
 		var res = RequestBuilder.build().url(urlPictureUpload).setClient(client).post()
@@ -410,22 +424,31 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 												.addContent("slim[]", generateJsonData(f,mc.getCustomMetadata()).toString())
 												.execute();
 		
-		
-		for(var h : res.getAllHeaders() )
-			logger.info(h.getName() + " "+ h.getValue());
+		logger.info("{} results {}",urlPictureUpload,res.getStatusLine());
 		
 		var doc = RequestBuilder.build().url(BASE_URL+"/mtg-card-maker/edit").setClient(client).get()
 				.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
 				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
 				.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
 				.addHeader("cache-control", "no-cache")
-				.addHeader(URLTools.REFERER, BASE_URL+"/mtg-card-maker").toHtml();
+				.addHeader(URLTools.REFERER, BASE_URL+"/mtg-card-maker")
+				.addHeader("pragma","no-cache")
+				.addHeader("priority","u=0, i")
+				.addHeader("sec-ch-ua","\"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"144\", \"Google Chrome\";v=\"144\"")
+				.addHeader("sec-ch-ua-mobile","?0")
+				.addHeader("sec-ch-ua-platform","\"Windows\"")
+				.addHeader("sec-fetch-dest","document")
+				.addHeader("sec-fetch-mode","navigate")
+				.addHeader("sec-fetch-site","same-origin")
+				.addHeader("sec-fetch-user","?1")
+				.addHeader("upgrade-insecure-requests","1").toHtml();
+
+		System.out.println(doc);
 		
-		//var imgPath = res.select("img.previewImg2").attr("src");
 		
+		var imgPath = doc.select("img.previewImg2").attr("src");
 		
-		var imgPath = "";
-		logger.debug("File {} uploaded at {}", f,imgPath);
+		logger.info("File {} uploaded at {}", f,imgPath);
 		
 		return imgPath ;
 	}
@@ -458,9 +481,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		
 		return "" ;
 	}
-	
-	
-	
 	
 	private JsonObject generateJsonData(File f, Map<EnumExtraCardMetaData, String> map) throws IOException
 	{
@@ -521,7 +541,7 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 			content.get("actions").getAsJsonObject().get("size").getAsJsonObject().addProperty("width", img.getWidth());
 			content.get("actions").getAsJsonObject().get("size").getAsJsonObject().addProperty("height", img.getHeight());
 			
-			logger.debug("Upload data {}", content);
+			logger.info("Upload data {}", content);
 			
 			return content;
 			
