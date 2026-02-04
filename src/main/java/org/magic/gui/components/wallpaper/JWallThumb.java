@@ -55,11 +55,12 @@ public class JWallThumb extends JLabel {
 			 b.append("Date : ").append(UITools.formatDateTime(w.getPublishDate())).append("<br/>");
 			 b.append("Nsfw : ").append(w.isMature()).append("<br/>");
 			 b.append("Provider : ").append(w.getProvider()).append("<br/>");
-			 if(!w.getTags().isEmpty())
-				 b.append("Tags : ").append(String.join(", ", w.getTags())).append("<br/>");
+			 b.append("extension : ").append(w.getFormat()).append("<br/>");
 		
-		
-		setToolTipText(b.toString());
+			 setToolTipText(b.toString());
+			 
+			 
+			  
 	}
 
 	@Override

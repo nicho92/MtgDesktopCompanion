@@ -4,8 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -98,13 +96,9 @@ public class ImageGalleryPanel extends MTGUIComponent {
 							
 							publish(wall);
 							}
-							catch(SocketException _)
+							catch(Exception e)
 							{
-								logger.error("socket error for {} ",wall.getUrl());
-							}
-							catch(IOException e)
-							{
-								logger.error("IOException for {} : {}",wall.getUrl(),e.getMessage());
+								logger.error("Exception for {} : {}",wall.getUrl(),e.getMessage());
 							}
 						
 					}
@@ -137,6 +131,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 				                            }
 				                        });
 			        	        		thumb.setIcon(new ImageIcon(ImageTools.resize(img.getPicture(),THUMBNAIL_SIZE, THUMBNAIL_SIZE)));
+			        	        		
 			                } catch (Exception _) {
 			                	thumb.setIcon(new ImageIcon(MTGConstants.NO_PIC));
 			                	logger.error("Error getting image for {} at {}",img.getName(),img.getUrlThumb());
@@ -146,7 +141,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	                        revalidate();
 	                        repaint();
 						}
-				}
+					}
 				@Override
 				protected void done() {
 					
@@ -164,6 +159,8 @@ public class ImageGalleryPanel extends MTGUIComponent {
 					{
 						//do nothign
 					}
+					
+					
 					
 					
 					getParent().revalidate();
@@ -195,14 +192,13 @@ public class ImageGalleryPanel extends MTGUIComponent {
 							if(wall.getUserAgent()!=null)
 								b = b.addHeader(URLTools.USER_AGENT, wall.getUserAgent());
 							
-							
 							wall.setPicture(b.toImage());
 							
 							img = wall.getPicture();
 							pane.setImg(img);
 				    		pane.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
 				    		diag.pack();
-						} catch (IOException e) {
+						} catch (Exception e) {
 							logger.error(e);
 						}
 					}
