@@ -18,14 +18,6 @@ public class ImagePoster {
 	}
 	
 	
-	public static void main(String[] args) throws IOException {
-		
-		
-		new ImagePoster().upload("https://api-cdn.rule34.xxx//images/4878/f39a928a37aabaaa392fb0252b220a50.jpeg");
-		
-	}
-	
-	
 	public String upload(String wallUrl) throws IOException {
 		var baseUrl = "https://postimages.org/";
 		var client = URLTools.newClient();
