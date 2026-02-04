@@ -32,6 +32,8 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	private int tcgplayerGroupId;
 	private boolean preview;
 	private List<EnumExtra> booster;
+
+	private boolean foreignOnly;
 	
 	@Override
 	public String getStoreId() {
@@ -239,5 +241,14 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		this.tcgplayerGroupId = tcgplayerGroupId;
 	}
 
+	public void setForeignOnly(boolean fo) {
+		this.foreignOnly=fo;
+		
+	}
+
+	public boolean isForeignOnly() {
+		return foreignOnly;
+	}
+	
 
 }

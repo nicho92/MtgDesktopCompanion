@@ -610,6 +610,7 @@ private MTGPool pool;
 								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
 								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
+								 ed.setForeignOnly(rs.getBoolean(IS_FOREIGN_ONLY));
 								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
 								 ed.setPreview(LocalDate.parse(ed.getReleaseDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
 								 eds.add(ed);
@@ -674,8 +675,8 @@ private MTGPool pool;
 				while(rs.next())
 				{
 					var names = new MTGRuling();
-					names.setText(rs.getString("comment"));
-					names.setDate(UITools.parseDate(rs.getString("publishedAt"), "yyyy-MM-dd"));
+					names.setText(rs.getString("text"));
+					names.setDate(UITools.parseDate(rs.getString("date"), "yyyy-MM-dd"));
 					var id = rs.getString(UUID);
 
 					mapRules.put(id, names);
@@ -693,7 +694,7 @@ private MTGPool pool;
 		logger.debug("legalities empty. Loading it");
 		
 		List<String> formats = new ArrayList<>();
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cardLegalities)");ResultSet rs = pst.executeQuery())
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cardLegalities)");var rs = pst.executeQuery())
 		{
 			while(rs.next())
 			{
