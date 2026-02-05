@@ -4,7 +4,9 @@
 	],
 	"TLA" : [
 		"FTLA",
-		"ATLA"
+		"ATLA",
+		"ATLE",
+		"JTLA"
 	],
 	"FIC" : [
 		"AFIC"
@@ -393,6 +395,7 @@
 		"4BB"
 	],
 	"PMEI": [
+		"PL26",
 		"PW26",
 		"LMAR",
 		"PH23",
