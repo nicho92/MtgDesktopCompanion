@@ -147,6 +147,11 @@ public class RequestBuilder
 		return this;
 		
 	}
+	
+	public RequestBuilder updateContent(String k,String v) {
+		return removeContent(k).addContent(k, v);
+	}
+	
 
 	
 	public RequestBuilder addContent(String k, String c)
