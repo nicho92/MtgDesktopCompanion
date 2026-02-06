@@ -27,14 +27,14 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 		
 		var req = RequestBuilder.build().setClient(URLTools.newClient()).url("https://api.rule34.xxx/index.php").get()
 														.addContent("page", "dapi")
+														.addContent("tags", search.replace(" ", "_"))
+														.addContent("limit", "1000")
+														.addContent("pid", String.valueOf(pidStart))
 														.addContent("json","1")
 														.addContent("s","post")
 														.addContent("q", "index")
-														.addContent("tags", search.replace(" ", "_"))
 														.addContent("api_key", getAuthenticator().get("API_KEY"))
-														.addContent("user_id", getAuthenticator().get("USER_ID"))
-														.addContent("limit", "1000")
-														.addContent("pid", String.valueOf(pidStart));
+														.addContent("user_id", getAuthenticator().get("USER_ID"));
 		
 		while(results.size()<getInt("LIMIT"))
 		{
@@ -46,6 +46,9 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 					return returnResults(results);
 				
 				var arr = ret.getAsJsonArray();
+				
+				if(arr.isEmpty())
+					return returnResults(results);
 				
 				for(var e : arr)
 				{
@@ -74,13 +77,9 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 					} catch (Exception ex) {
 						logger.error("Error getting wall for {} : {}",e,ex.getMessage());
 					}
-					
 				}
-			
 				req = req.updateContent("pid",String.valueOf(pidStart++));
 		}
-		
-		
 		return returnResults (results);
 		
 	}
