@@ -33,7 +33,7 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 														.addContent("tags", search.replace(" ", "_"))
 														.addContent("api_key", getAuthenticator().get("API_KEY"))
 														.addContent("user_id", getAuthenticator().get("USER_ID"))
-														.addContent("limit", "500")
+														.addContent("limit", "1000")
 														.addContent("pid", String.valueOf(pidStart));
 		
 		while(results.size()<getInt("LIMIT"))
@@ -51,7 +51,7 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 				{
 					try {
 						var obj = e.getAsJsonObject();
-						var wall = new MTGWallpaper();
+						var wall = new MTGWallpaper();  
 						
 						wall.setProvider(getName());
 						wall.setAuthor(obj.get("owner").getAsString());
@@ -63,6 +63,9 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 						wall.setPublishDate(new Date(obj.get("change").getAsLong()*1000));
 						Stream.of(obj.get("tags").getAsString().split(" ")).forEach(wall.getTags()::add);
 						results.add(wall);
+						
+						notify(wall);
+						
 						
 						if(results.size()>=getInt("LIMIT"))
 							return returnResults(results);
@@ -83,9 +86,7 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 	}
 	
 	private List<MTGWallpaper> returnResults(List<MTGWallpaper> results) {
-		
 		logger.info("Return {} results",results.size());
-		
 		return results;
 	}
 
