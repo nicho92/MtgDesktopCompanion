@@ -13,12 +13,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.commons.math3.distribution.EnumeratedDistribution;
 import org.apache.commons.math3.util.Pair;
 import org.apache.commons.text.StringEscapeUtils;
+import org.firebirdsql.jaybird.util.PluginLoader.ClassSource;
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
@@ -40,12 +42,16 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.SQLCriteriaBuilder;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
@@ -72,7 +78,9 @@ private MTGPool pool;
 	
 	private List<String> splitArrayValue(String val)
 	{
-		return List.of(val.split(",")).stream().map(String::trim).filter(s->!s.isEmpty()).toList();
+		var ret = new ArrayList<String>();
+		URLTools.toJson(val).getAsJsonArray().forEach(je->ret.add(je.getAsString()));
+		return ret;	
 	}
 	
 	@Override
