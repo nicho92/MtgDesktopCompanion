@@ -53,7 +53,7 @@
 		
 		<jwt.version>0.13.0</jwt.version>
 		<lucene.version>10.3.2</lucene.version>
-		<artemis.version>2.50.0</artemis.version>
+		<artemis.version>2.51.0</artemis.version>
 		<flatlaf.version>3.7</flatlaf.version>
 		<qwartz.version>2.5.2</qwartz.version>
 		<rome.version>2.1.0</rome.version>
@@ -409,7 +409,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.51.1.0</version>
+			<version>3.51.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -643,7 +643,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.9</version>
+			<version>42.7.10</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
