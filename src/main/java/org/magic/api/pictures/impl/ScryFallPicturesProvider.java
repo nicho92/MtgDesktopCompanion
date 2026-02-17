@@ -11,6 +11,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
@@ -42,12 +43,20 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		return URI.create(url).toURL();
 	}
+	
+	private BufferedImage extractAsImage(String url) throws IOException
+	{
+		
+		return  RequestBuilder.build().setClient(URLTools.newClient()).url(url).addHeader("Accept","application/json;q=0.9,*/*;q=0.8").get().toImage();
+		
+	}
+	
 
 	@Override
 	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
 		var url = generateLink(mc, false);
 		try {
-			return URLTools.extractAsImage(url.toString());
+			return extractAsImage(url.toString());
 		} catch (Exception _) {
 			return null;
 		}
@@ -62,7 +71,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public BufferedImage extractPicture(MTGCard mc) throws IOException {
 		var u = generateLink(mc,true);
 		try {
-			return URLTools.extractAsImage(u.toString());
+			return extractAsImage(u.toString());
 		} catch (Exception e) {
 			logger.error(e);
 			return getBackPicture(mc);
