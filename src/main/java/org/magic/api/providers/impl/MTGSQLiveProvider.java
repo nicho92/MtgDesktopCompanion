@@ -78,9 +78,8 @@ private MTGPool pool;
 	
 	private List<String> splitArrayValue(String val)
 	{
-		var ret = new ArrayList<String>();
-		URLTools.toJson(val).getAsJsonArray().forEach(je->ret.add(je.getAsString()));
-		return ret;	
+		
+		return List.of(val.split(",")).stream().map(String::trim).filter(s->!s.isEmpty()).toList();
 	}
 	
 	@Override

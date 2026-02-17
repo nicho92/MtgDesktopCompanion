@@ -60,7 +60,7 @@
 		<log4j.version>2.25.3</log4j.version>
 		<poi.version>5.5.1</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
-		<rhino.version>1.9.0</rhino.version>
+		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.27.1</commonmark.version>
 		<langchain4j.version>1.11.0</langchain4j.version>
 	</properties>
@@ -242,7 +242,7 @@
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>
 			<artifactId>yauaa</artifactId>
-			<version>8.0.0</version>
+			<version>8.1.0</version>
 		</dependency>
 		
 		<dependency>
@@ -454,7 +454,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>6.3.0</version>
+			<version>6.3.1</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
