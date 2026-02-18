@@ -89,6 +89,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public enum BULKTYPE {ORACLE_CARDS,UNIQUE_ARTWORK,DEFAULT_CARDS, ALL_CARDS,RULINGS}
 	
 	
+	private JsonElement extractAsJson(String url) {
+		return  RequestBuilder.build().setClient(URLTools.newClient()).url(url).addHeader("Accept","application/json;q=0.9,*/*;q=0.8").get().toJson();
+	}
+
+	
 	@Override
 	public void init() {
 		
@@ -180,7 +185,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return f;
 		
 		logger.info("{} will be update",f);
-		var arr = URLTools.extractAsJson(BASE_URI + "/bulk-data").getAsJsonObject().get("data").getAsJsonArray();
+		var arr = extractAsJson(BASE_URI + "/bulk-data").getAsJsonObject().get("data").getAsJsonArray();
 		
 		for(var obj : arr)
 		{
@@ -197,7 +202,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	public JsonObject getJsonFor(MTGCard mc)
 	{
-			return URLTools.extractAsJson(BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber()).getAsJsonObject();
+			return extractAsJson(BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber()).getAsJsonObject();
 	}
 	
 	@Override
@@ -284,7 +289,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				return List.of(cacheCards.get(crit, new Callable<MTGCard>() {
 					@Override
 					public MTGCard call() throws Exception {
-						return generateCard(URLTools.extractAsJson(BASE_URI+BASE_SUBURI+crit).getAsJsonObject(),true);
+						return generateCard(extractAsJson(BASE_URI+BASE_SUBURI+crit).getAsJsonObject(),true);
 					}
 				}));
 				
@@ -357,7 +362,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
 		String url = BASE_URI + "/sets";
-		var root = URLTools.extractAsJson(url).getAsJsonObject();
+		var root = extractAsJson(url).getAsJsonObject();
 		var eds = new ArrayList<MTGEdition>();
 		root.get("data").getAsJsonArray().forEach(je->	eds.add(generateEdition(je.getAsJsonObject())));
 		return eds;
@@ -564,7 +569,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					{
 						try {
 							
-							var retJson = URLTools.extractAsJson(BASE_URI+BASE_SUBURI+e.getAsJsonObject().get(ID).getAsString()).getAsJsonObject();
+							var retJson = extractAsJson(BASE_URI+BASE_SUBURI+e.getAsJsonObject().get(ID).getAsString()).getAsJsonObject();
 							mc.setRotatedCard(generateCard(retJson,false));
 							mc.getRotatedCard().setSide("b");
 							
