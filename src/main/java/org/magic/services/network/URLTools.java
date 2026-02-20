@@ -127,11 +127,9 @@ public class URLTools {
 
 	private static String toHtmlFromMarkdown(String c)
 	{
-		
 		List<Extension> extensions = List.of(TablesExtension.create());
-		
 		var parser = Parser.builder().extensions(extensions).build();
-		Node document = parser.parse(c);
+		var document = parser.parse(c);
 		return HtmlRenderer.builder().extensions(extensions).build().render(document);
 	}
 
@@ -140,7 +138,7 @@ public class URLTools {
 	}
 
 	public static JsonElement extractAsJson(String url) 	{
-		return RequestBuilder.build().setClient(newClient()).url(url).get().toJson();
+		return RequestBuilder.build().setClient(newClient()).url(url).get().addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
 	}
 
 	public static Document extractAsHtml(String url) throws IOException 	{

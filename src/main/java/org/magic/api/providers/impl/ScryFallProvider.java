@@ -87,13 +87,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	
 	public enum BULKTYPE {ORACLE_CARDS,UNIQUE_ARTWORK,DEFAULT_CARDS, ALL_CARDS,RULINGS}
-	
-	
-	private JsonElement extractAsJson(String url) {
-		return  RequestBuilder.build().setClient(URLTools.newClient()).url(url).addHeader("Accept","application/json;q=0.9,*/*;q=0.8").get().toJson();
-	}
 
-	
 	@Override
 	public void init() {
 		
@@ -185,7 +179,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return f;
 		
 		logger.info("{} will be update",f);
-		var arr = extractAsJson(BASE_URI + "/bulk-data").getAsJsonObject().get("data").getAsJsonArray();
+		var arr = URLTools.extractAsJson(BASE_URI + "/bulk-data").getAsJsonObject().get("data").getAsJsonArray();
 		
 		for(var obj : arr)
 		{
@@ -202,7 +196,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	public JsonObject getJsonFor(MTGCard mc)
 	{
-			return extractAsJson(BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber()).getAsJsonObject();
+			return URLTools.extractAsJson(BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber()).getAsJsonObject();
 	}
 	
 	@Override
@@ -289,7 +283,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				return List.of(cacheCards.get(crit, new Callable<MTGCard>() {
 					@Override
 					public MTGCard call() throws Exception {
-						return generateCard(extractAsJson(BASE_URI+BASE_SUBURI+crit).getAsJsonObject(),true);
+						return generateCard(URLTools.extractAsJson(BASE_URI+BASE_SUBURI+crit).getAsJsonObject(),true);
 					}
 				}));
 				
@@ -322,9 +316,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		while(hasMore)
 		{
-			
 			var arr = obj.get("data").getAsJsonArray();
-			
 			for(var e : arr)
 			{
 				try {
@@ -349,7 +341,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private RequestBuilder createQuery(String q) {
 		return RequestBuilder.build().setClient(URLTools.newClient()).url(BASE_URI+"/cards/search").get()
-				.addContent("unique","prints")						
+				.addContent("unique","prints")
+				.addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8")
 				.addContent("include_extras",getString("EXTRA"))
 				.addContent("include_multilingual",getString("MULTILINGUAL"))
 				.addContent("include_variations",getString("VARIATIONS"))
@@ -362,7 +355,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
 		String url = BASE_URI + "/sets";
-		var root = extractAsJson(url).getAsJsonObject();
+		var root = URLTools.extractAsJson(url).getAsJsonObject();
 		var eds = new ArrayList<MTGEdition>();
 		root.get("data").getAsJsonArray().forEach(je->	eds.add(generateEdition(je.getAsJsonObject())));
 		return eds;
@@ -569,7 +562,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					{
 						try {
 							
-							var retJson = extractAsJson(BASE_URI+BASE_SUBURI+e.getAsJsonObject().get(ID).getAsString()).getAsJsonObject();
+							var retJson = URLTools.extractAsJson(BASE_URI+BASE_SUBURI+e.getAsJsonObject().get(ID).getAsString()).getAsJsonObject();
 							mc.setRotatedCard(generateCard(retJson,false));
 							mc.getRotatedCard().setSide("b");
 							
