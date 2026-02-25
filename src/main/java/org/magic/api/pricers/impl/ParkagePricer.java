@@ -32,14 +32,13 @@ public class ParkagePricer extends AbstractPricesProvider {
 
 		ArrayList<MTGPrice> ret= new ArrayList<>();
 
+		var url = "https://back.parkage.com/api/parkage/search/get?text="+URLTools.encode(card.getName())+"&category_id=1&nomenclature_id=2&complete=true&count=true&limit=20&offset=0&preorder=&isnew=&lang=&with_quantity=false&isDiscount=false&order=relevance&direction=DESC";
 		
-		var url = "https://search.luciole.tech/api/search?text="+URLTools.encode(card.getName())+"&namespace=en&_ref=2&title=undefined&description=undefined&list=true&count=true&limit=25&offset=0&preorder=&isnew=&lang=&with_quantity=false&isDiscount=false&user_hash=";
 		
-		
-		URLTools.extractAsJson(url).getAsJsonObject().get("list").getAsJsonArray().forEach(je->{
+		URLTools.extractAsJson(url).getAsJsonObject().get("data").getAsJsonObject().get("list").getAsJsonArray().forEach(je->{
 				var jo = je.getAsJsonObject();
 				
-				if(jo.get("image_url_1").getAsString().contains(card.getNumber()))
+				if(jo.get("card_number").getAsString().equalsIgnoreCase(card.getNumber()))
 				{
 				
 					var mp = new MTGPrice();

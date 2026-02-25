@@ -46,7 +46,7 @@ public class EbayPricer extends AbstractPricesProvider {
 			var result = query.get().toJson().getAsJsonObject();
 		
 			
-		logger.debug("result : {}",result);
+		logger.trace("result : {}",result);
 		
 		if(result.get("total").getAsInt()>0) {
 			result.get("itemSummaries").getAsJsonArray().forEach(je->{

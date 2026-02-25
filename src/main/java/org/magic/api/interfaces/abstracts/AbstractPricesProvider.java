@@ -20,7 +20,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 		return PLUGINS.PRICER;
 	}
 
-	protected abstract List<MTGPrice> getLocalePrice(MTGCard card) throws IOException;
+	protected abstract  List<MTGPrice> getLocalePrice(MTGCard card) throws IOException;
 
 
 	@Override

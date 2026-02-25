@@ -22,7 +22,7 @@ public class MkmPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
+	protected synchronized List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 		logger.debug("{} looking for prices for {} ",getName(),card);
 

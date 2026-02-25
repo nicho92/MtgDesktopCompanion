@@ -133,27 +133,27 @@ public class URLTools {
 	}
 
 	public static org.w3c.dom.Document extractAsXml(String url) throws IOException {
-		return RequestBuilder.build().setClient(newClient()).url(url).get().toXml();
+		return RequestBuilder.build().newClient().url(url).get().toXml();
 	}
 
 	public static JsonElement extractAsJson(String url) 	{
-		return RequestBuilder.build().setClient(newClient()).url(url).get().addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
+		return RequestBuilder.build().newClient().url(url).get().addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
 	}
 
 	public static Document extractAsHtml(String url) throws IOException 	{
-		return RequestBuilder.build().setClient(newClient()).url(url).get().toHtml();
+		return RequestBuilder.build().newClient().url(url).get().toHtml();
 	}
 
 	public static InputStream extractAsInputStream(String url) throws IOException 	{
-		return RequestBuilder.build().setClient(newClient()).url(url).get().execute().getEntity().getContent();
+		return RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent();
 	}
 
 	public static String extractAsString(String url) throws IOException	{
-		return RequestBuilder.build().setClient(newClient()).url(url).get().toContentString();
+		return RequestBuilder.build().newClient().url(url).get().toContentString();
 	}
 
 	public static void download(String url,File to) throws IOException {
-		RequestBuilder.build().setClient(newClient()).url(url).get().download(to);
+		RequestBuilder.build().newClient().url(url).get().download(to);
 	}
 
 

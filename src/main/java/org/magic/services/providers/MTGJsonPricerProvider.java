@@ -222,6 +222,9 @@ public class MTGJsonPricerProvider {
 	}
 
 	public List<MTGPrice> getPriceFor(MTGCard card, VENDOR v) {
+		
+		logger.debug("getting price for {} with vendor={}}",card,v);
+		
 		var ret = new ArrayList<MTGPrice>();
 		Data d;
 		try {
