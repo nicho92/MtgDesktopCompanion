@@ -33,7 +33,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 	String url =BASE_URL+"mc.php";
 	List<MTGPrice> ret = new ArrayList<>();
 
-	Document content =RequestBuilder.build().url(url).setClient(URLTools.newClient()).get()
+	Document content =RequestBuilder.build().url(url).newClient().get()
 						.addContent("rub","cartes")
 						.addContent("op","search")
 						.addContent("search","2")
@@ -45,7 +45,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 
 
 			content = RequestBuilder.build().url(link)
-											.setClient(URLTools.newClient())
+											.newClient()
 											.get()
 											.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
 											.addHeader("Upgrade-Insecure-Requests", "1")

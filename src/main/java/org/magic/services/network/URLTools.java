@@ -172,7 +172,7 @@ public class URLTools {
 		if(url.startsWith("//"))
 			url="https:"+url;
 		
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().toImage();
+		return RequestBuilder.build().newClient().url(url).get().toImage();
 	}
 
 
@@ -180,7 +180,7 @@ public class URLTools {
 	{
 		int resp;
 		try {
-			resp = RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().execute().getStatusLine().getStatusCode();
+			resp = RequestBuilder.build().newClient().url(url).get().execute().getStatusLine().getStatusCode();
 			return resp >= 200 && resp < 300;
 		} catch (IOException e) {
 			logger.error(e);
@@ -208,7 +208,7 @@ public class URLTools {
 	}
 
 	public static byte[] readAsBinary(String url) throws IOException {
-			var is = RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().execute().getEntity().getContent();
+			var is = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent();
 			return IOUtils.toByteArray(is);
 
 

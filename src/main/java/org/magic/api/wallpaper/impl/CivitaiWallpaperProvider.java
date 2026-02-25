@@ -40,7 +40,7 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 		while(ret.size()<getInt(LIMIT))
 		{
 		
-			var build = RequestBuilder.build().setClient(URLTools.newClient()).get().url(BASE_URL+"/api/v1/models")
+			var build = RequestBuilder.build().newClient().get().url(BASE_URL+"/api/v1/models")
 					.addHeader("Authorization", "Bearer "+getAuthenticator().get("API_KEY"))
 					.addHeader(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON)
 					.addContent(getString(SEARCH_MODE), search)

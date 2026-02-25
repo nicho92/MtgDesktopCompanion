@@ -25,7 +25,7 @@ public class DHLTrackingService extends AbstractTrackingService {
 		
 		var t = new Tracking(number);
 
-		var res = RequestBuilder.build().setClient(URLTools.newClient()).url(BASEURL+number).get()
+		var res = RequestBuilder.build().newClient().url(BASEURL+number).get()
 				.addHeader("DHL-API-Key",getAuthenticator().get(API_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject().get("shipments").getAsJsonArray();
 

@@ -164,6 +164,14 @@ public class RequestBuilder
 		this.client=client;
 		return this;
 	}
+	
+
+	public RequestBuilder newClient() {
+		this.client=URLTools.newClient();
+		return this;
+	}
+	
+	
 
 	public JsonElement toJson()
 	{

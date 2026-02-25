@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonElement;
@@ -16,7 +15,7 @@ public class SCGGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		var ret = RequestBuilder.build().url("https://api.gosgc.com/v1/pop-report/GetCertAuthCode/"+identifier+"/empty/empty").get().setClient(URLTools.newClient()).toJson().getAsJsonObject();
+		var ret = RequestBuilder.build().url("https://api.gosgc.com/v1/pop-report/GetCertAuthCode/"+identifier+"/empty/empty").get().newClient().toJson().getAsJsonObject();
 
 		Entry<String,JsonElement> entry=ret.entrySet().stream().filter(e->e.getValue().getAsString().equals("1")).findFirst().orElse(null);
 

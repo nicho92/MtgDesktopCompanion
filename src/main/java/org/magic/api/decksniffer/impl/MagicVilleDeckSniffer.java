@@ -18,7 +18,6 @@ import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
@@ -50,9 +49,9 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		var doc = RequestBuilder.build().setClient(URLTools.newClient()).get().url(info.getUrl()).toHtml();
+		var doc = RequestBuilder.build().newClient().get().url(info.getUrl()).toHtml();
 		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
-		var content = RequestBuilder.build().setClient(URLTools.newClient()).get().url(urlimport).toContentString();
+		var content = RequestBuilder.build().newClient().get().url(urlimport).toContentString();
 		var imp = MTG.getPlugin("MagicWorkStation", MTGCardsExport.class);
 		try {
 			imp.addObserver(listObservers().get(0));
@@ -82,7 +81,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
 		for(var currPage=0;currPage<maxPage;currPage++)
 		{
-			var d = RequestBuilder.build().get().setClient(URLTools.newClient())
+			var d = RequestBuilder.build().get().newClient()
 						.url(baseUrl + mapCodes.get(filter)+"&pointeur="+currPage)
 						.toHtml();
 				Elements trs = d.select("tr[height=33]");

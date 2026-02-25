@@ -12,7 +12,6 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
@@ -47,7 +46,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	private BufferedImage extractAsImage(String url) throws IOException
 	{
 		
-		return  RequestBuilder.build().setClient(URLTools.newClient()).url(url).addHeader("Accept","application/json;q=0.9,*/*;q=0.8").get().toImage();
+		return  RequestBuilder.build().newClient().url(url).addHeader("Accept","application/json;q=0.9,*/*;q=0.8").get().toImage();
 		
 	}
 	

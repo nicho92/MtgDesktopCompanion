@@ -43,7 +43,7 @@ public class IPTranslator {
 				@Override
 				public Location call() throws Exception {
 					
-					var o = RequestBuilder.build().url("http://ip-api.com/json/"+ip+"?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp").setClient(URLTools.newClient()).get().toJson();
+					var o = RequestBuilder.build().url("http://ip-api.com/json/"+ip+"?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp").newClient().get().toJson();
 					return translate(o.getAsJsonObject());
 				}
 			});

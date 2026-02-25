@@ -42,7 +42,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 		}
 
 
-		var e = RequestBuilder.build().setClient(URLTools.newClient()).url(baseUri+"/"+number +"?lang="+getString("LANG")).get()
+		var e = RequestBuilder.build().newClient().url(baseUri+"/"+number +"?lang="+getString("LANG")).get()
 				.addHeader("X-Okapi-Key", getAuthenticator().get(OKAPI_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
 		

@@ -11,7 +11,6 @@ import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonObject;
 
@@ -46,7 +45,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				}
 
 			build = RequestBuilder.build();
-		    bToken = build.setClient(URLTools.newClient())
+		    bToken = build.newClient()
 								   .get()
 								   .url(BASE_URL+"/oauth2/token")
 								   .addContent("grant_type", "client_credentials")

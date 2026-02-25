@@ -23,7 +23,7 @@ public class MondialRelayTrackingService extends AbstractTrackingService {
 		track.setTrackingUri("https://www.mondialrelay.fr/suivi-de-colis/?numeroExpedition="+number+"&codePostal="+c.getZipCode());
 		track.setNumber(number);
 
-		var ret=	  RequestBuilder.build().url("https://www.mondialrelay.fr/_mvc/fr-FR/SuiviExpedition/RechercherJsonResponsive").setClient(URLTools.newClient()).post()
+		var ret=	  RequestBuilder.build().url("https://www.mondialrelay.fr/_mvc/fr-FR/SuiviExpedition/RechercherJsonResponsive").newClient().post()
 					.addContent("CodeMarque","")
 					.addContent("NumeroExpedition",number)
 					.addContent("CodePostal",c.getZipCode())

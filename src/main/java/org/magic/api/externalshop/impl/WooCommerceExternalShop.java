@@ -409,7 +409,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById( EnumItems typeStock,String id) throws IOException {
-		return loadStock("").stream().filter(mcsi->mcsi.getId()==Long.valueOf(id)).findFirst().orElseThrow();
+		return loadStock("").stream().filter(mcsi->mcsi.getId().equals(Long.valueOf(id))).findFirst().orElseThrow();
 	}
 
 	@Override

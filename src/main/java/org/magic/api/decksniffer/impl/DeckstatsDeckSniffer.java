@@ -202,7 +202,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		
 		for (var i = 1; i <= getInt(MAX_PAGE); i++) {
 			
-			var q = RequestBuilder.build().get().setClient(URLTools.newClient())
+			var q = RequestBuilder.build().get().newClient()
 									.url("https://deckstats.net/decks/search")
 									.addContent("search_format",""+formats.get(filter))
 									.addContent("lng","fr")

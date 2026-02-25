@@ -11,7 +11,6 @@ import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 
 public class R34WallPaperProvider extends AbstractWallpaperProvider{
 
@@ -25,7 +24,7 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 		var results = new ArrayList<MTGWallpaper>();
 		var pidStart=0;
 		
-		var req = RequestBuilder.build().setClient(URLTools.newClient()).url("https://api.rule34.xxx/index.php").get()
+		var req = RequestBuilder.build().newClient().url("https://api.rule34.xxx/index.php").get()
 														.addContent("page", "dapi")
 														.addContent("tags", search.replace(" ", "_"))
 														.addContent("limit", "1000")

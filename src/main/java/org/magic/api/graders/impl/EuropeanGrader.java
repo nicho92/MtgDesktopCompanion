@@ -7,7 +7,6 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
 public class EuropeanGrader extends AbstractGradersProvider {
@@ -25,7 +24,7 @@ public class EuropeanGrader extends AbstractGradersProvider {
 
 
 		Document d = RequestBuilder.build().get()
-										   .setClient(URLTools.newClient())
+										   .newClient()
 										   .url(url)
 										   .addContent("certificate",identifier).toHtml();
 

@@ -25,7 +25,7 @@ public class EbayPricer extends AbstractPricesProvider {
 		var clientSecret=getAuthenticator().get("CLIENT_SECRET");
 		var domain ="https://api.ebay.com";
 
-		var token = RequestBuilder.build().setClient(URLTools.newClient())
+		var token = RequestBuilder.build().newClient()
 				.url(domain+"/identity/v1/oauth2/token")
 				.addHeader(URLTools.CONTENT_TYPE,"application/x-www-form-urlencoded")
 				.addHeader(URLTools.AUTHORIZATION, "Basic " + CryptoUtils.toBase64( (clientId+":"+clientSecret).getBytes()))
@@ -34,7 +34,7 @@ public class EbayPricer extends AbstractPricesProvider {
 				.post()
 				.toJson().getAsJsonObject().get("access_token").getAsString();
 		
-		var query = RequestBuilder.build().setClient(URLTools.newClient())
+		var query = RequestBuilder.build().newClient()
 						.url(domain+"/buy/browse/v1/item_summary/search")
 						.addHeader("X-EBAY-C-MARKETPLACE-ID",getString("EBAY_MARKETPLACE"))
 						.addHeader(URLTools.AUTHORIZATION, "bearer " + token)

@@ -69,7 +69,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		var deck = info.toBaseDeck();
 		
 		var obj = RequestBuilder.build()
-				   .setClient(URLTools.newClient())
+				   .newClient()
 				   .url(info.getUrl().toString())
 				   .get()
 				   .toJson().getAsJsonObject();
@@ -133,7 +133,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 			
 			var q = RequestBuilder.build()
-							.setClient(URLTools.newClient())
+							.newClient()
 							.url(BASE_URI+"/_next/data/"+endpoint+"/search/decks.json")
 							.get()
 							.addContent("orderBy", "-createdAt")

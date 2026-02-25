@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 
 public class MTGGradeGrader extends AbstractGradersProvider {
 
@@ -22,7 +21,7 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 
 
 		var d = RequestBuilder.build().get()
-				   .setClient(URLTools.newClient())
+				   .newClient()
 				   .url(url)
 				   .toHtml();
 

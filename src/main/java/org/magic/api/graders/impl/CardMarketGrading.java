@@ -6,7 +6,6 @@ import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
 public class CardMarketGrading extends AbstractGradersProvider {
@@ -21,7 +20,7 @@ public class CardMarketGrading extends AbstractGradersProvider {
 			 g.setGraderName(getName());
 		
 		var d = RequestBuilder.build()
-				.setClient(URLTools.newClient())
+				.newClient()
 				.url(BASE_SITE)
 				.addContent("post_id","11150")
 				.addContent("form_id","f00dd21")

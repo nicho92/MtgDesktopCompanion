@@ -8,7 +8,6 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
 public class PCAGrader extends AbstractGradersProvider {
@@ -23,7 +22,7 @@ public class PCAGrader extends AbstractGradersProvider {
 
 		var url=getWebSite()+"/resumeBdd/"+identifier+"/1";
 		var d = RequestBuilder.build().get()
-				   .setClient(URLTools.newClient())
+				   .newClient()
 				   .url(url)
 				   .toHtml();
 

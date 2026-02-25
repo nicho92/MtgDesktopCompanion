@@ -340,7 +340,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 
 	private RequestBuilder createQuery(String q) {
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(BASE_URI+"/cards/search").get()
+		return RequestBuilder.build().newClient().url(BASE_URI+"/cards/search").get()
 				.addContent("unique","prints")
 				.addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8")
 				.addContent("include_extras",getString("EXTRA"))

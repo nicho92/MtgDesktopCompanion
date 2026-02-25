@@ -9,7 +9,6 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 
 public class CardSpherePricer extends AbstractPricesProvider {
 
@@ -23,7 +22,7 @@ public class CardSpherePricer extends AbstractPricesProvider {
 		var ret = new ArrayList<MTGPrice>();
 		
 		var arr = RequestBuilder.build()
-						.setClient(URLTools.newClient())
+						.newClient()
 						.url("https://www.multiversebridge.com/api/v1/cards/scryfall/"+card.getScryfallId())
 						.get()
 						.toJson().getAsJsonArray();

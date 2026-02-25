@@ -12,7 +12,6 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
 public class BigOrBitCardsPricer extends AbstractPricesProvider {
@@ -44,7 +43,7 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 											 .get()
 											 .url("https://www.bigorbitcards.co.uk/magic-the-gathering/search/"+UITools.replaceSpecialCharacters(card.getName()+ extra, "+"))
 											 .addContent("resultsPerPage","96")
-											 .setClient(URLTools.newClient())
+											 .newClient()
 											 .toHtml()
 											 .select("div.products article div.product-desc");
 
