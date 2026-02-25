@@ -90,7 +90,6 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				selectedItem.clear();
-				onDestroy();
 			}
 		});
 
