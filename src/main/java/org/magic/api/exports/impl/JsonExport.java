@@ -58,6 +58,12 @@ public class JsonExport extends AbstractCardExport {
 	}
 	
 	
+
+
+	public Gson getEngine() {
+		return gson;
+	}
+	
 	public JsonExport() {
 		gson=init()
 				.setPrettyPrinting()

@@ -334,7 +334,7 @@ public class FileTools {
  		try (var zis = new ZipInputStream(new FileInputStream(src))) {
  			var ze = zis.getNextEntry();
  			while (ze != null) {
-				logger.info("unzip : {}",src.getAbsoluteFile());
+				logger.debug("unzip : {}",src.getAbsoluteFile());
  				try (var fos = new FileOutputStream(dst)) {
  					var info = new FileAccessInfo(dst);
 					int len;

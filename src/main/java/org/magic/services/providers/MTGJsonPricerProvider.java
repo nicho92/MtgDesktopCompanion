@@ -14,6 +14,7 @@ import java.util.TreeMap;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
@@ -37,7 +38,7 @@ public class MTGJsonPricerProvider {
 	public enum STOCK {RETAIL, BUYLIST}
 	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET,CARDSPHERE,MANAPOOL}
 	
-	private Map<VENDOR,List<Data>> caches;
+	private Map<VENDOR,JsonArray> caches;
 	private static MTGJsonPricerProvider inst;
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
@@ -48,8 +49,7 @@ public class MTGJsonPricerProvider {
 
 	public MTGJsonPricerProvider() throws IOException {
 
-		gson = new GsonBuilder().setPrettyPrinting().create();
-		
+		gson = new JsonExport().getEngine();
 		caches = new EnumMap<>(VENDOR.class);
 		
 
@@ -86,7 +86,7 @@ public class MTGJsonPricerProvider {
 	}
 
 	
-	private void buildPrices(VENDOR v) throws IOException {
+	private void buildPricesFile(VENDOR v) throws IOException {
 		var c = new Chrono();
 		c.start();
 		JsonArray arr = new JsonArray();
@@ -96,14 +96,12 @@ public class MTGJsonPricerProvider {
 				logger.info("Begin caching datas ");
 				reader.beginObject();
 				reader.nextName();
-				Meta m = gson.fromJson(reader, Meta.class);
-				logger.debug(m);
+				gson.fromJson(reader, Meta.class);
 				reader.nextName();//data
 				reader.beginObject();
 				while(reader.hasNext())
 				{
 					var data = new Data();
-					data.setMeta(m);
 					data.setMtgjsonId(reader.nextName());
 					reader.beginObject();
 					String vendor = null;
@@ -157,7 +155,7 @@ public class MTGJsonPricerProvider {
 									}//fin boucle Foil/Normal
 									reader.endObject();
 									
-									if(vendor.toUpperCase().equals(v.name()))
+									if(vendor.toUpperCase().equals(v.name()) && !data.getPrices().isEmpty())
 										arr.add(gson.toJsonTree(data));
 									
 								}
@@ -174,11 +172,10 @@ public class MTGJsonPricerProvider {
 			FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json"),arr.toString());
 			logger.info("Ending buildings datas {}s",c.stop());
 	}
-
-	public List<Data> loadData(VENDOR v) throws IOException
+	
+	public JsonArray loadData(VENDOR v) throws IOException
 	{
 		File f = new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json");
-
 		if(f.exists())
 		{
 			int lastModif = FileTools.daysBetween(f);
@@ -189,24 +186,18 @@ public class MTGJsonPricerProvider {
 				logger.info("{} is older than {} days. Will be updated",f.getAbsolutePath(),expireday);
 				FileTools.deleteFile(f);
 			}
-
 		}
-
-		if(caches.isEmpty())
+		
+		if(caches.get(v)==null)
 		{
+			logger.debug("Filling cache for {}", v);
 			if(!f.exists())
 			{
 				logger.error("{} doesn't existe. running buildPrices({})",f.getAbsolutePath(),v);
-				buildPrices(v);
+				buildPricesFile(v);
 			}
-			logger.debug("Filling cache for {}", v);
-			
-			try(var reader = new FileReader(f))
-			{
-				var el = JsonParser.parseReader(reader).getAsJsonArray();
-				
-				for(var e : el)
-					caches.computeIfAbsent(v, _->new ArrayList<Data>()).add(gson.fromJson(e,Data.class));
+			try(var reader = new FileReader(f)) {
+				caches.put(v, JsonParser.parseReader(reader).getAsJsonArray());
 			}
 			logger.debug("Filling cache for {} done", v);
 		}
@@ -220,7 +211,7 @@ public class MTGJsonPricerProvider {
 
 		return Currency.getInstance("USD");
 	}
-
+	
 	public List<MTGPrice> getPriceFor(MTGCard card, VENDOR v) {
 		
 		logger.debug("getting price for {} with vendor={}}",card,v);
@@ -228,12 +219,15 @@ public class MTGJsonPricerProvider {
 		var ret = new ArrayList<MTGPrice>();
 		Data d;
 		try {
-			d = loadData(v).stream().filter(i->i.getMtgjsonId().equals(card.getId())).findFirst().orElse(null);
-			logger.debug("data = {}", d);
+			d = loadData(v).asList().stream()
+					.filter(je->je.getAsJsonObject().get("mtgjsonId").getAsString().equals(card.getId()))
+					.map(jo->gson.fromJson(jo, Data.class))
+					.findFirst().orElse(null);
 		} catch (Exception e) {
 			logger.error(e);
 			return ret;
 		}
+		
 		if(d==null)
 		{
 			logger.warn("{} found nothing for {}",v,card);
@@ -254,8 +248,9 @@ public class MTGJsonPricerProvider {
 				ret.add(mp);
 				logger.debug("Found {} Price={} Foil={}",card,mp.getValue(),mp.isFoil());
 			}
-			catch(Exception _)
+			catch(Exception e)
 			{
+				logger.error(e);
 				logger.error("No price found for {} with foil={}",card,b);
 			}
 		}
@@ -373,18 +368,8 @@ class PriceEntry
 
 class Data
 {
-	private Meta meta;
 	private String mtgjsonId;
 	private List<PriceEntry> prices;
-
-
-	public Meta getMeta() {
-		return meta;
-	}
-
-	public void setMeta(Meta meta) {
-		this.meta = meta;
-	}
 
 	public Data()
 	{

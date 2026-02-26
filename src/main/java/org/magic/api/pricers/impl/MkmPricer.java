@@ -28,7 +28,12 @@ public class MkmPricer extends AbstractPricesProvider {
 
 		MTGJsonPricerProvider.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
 
-		return MTGJsonPricerProvider.getInstance().getPriceFor(card,VENDOR.CARDMARKET);
+		var ret =  MTGJsonPricerProvider.getInstance().getPriceFor(card,VENDOR.CARDMARKET);
+		
+		ret.forEach(p->p.setSite(getName()));
+		
+		return ret;
+		
 	}
 
 	@Override
@@ -40,6 +45,5 @@ public class MkmPricer extends AbstractPricesProvider {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("EXPIRE_FILE_DAYS",MTGProperty.newIntegerProperty("1","Number of day when the file will be updated",1,-1));
 	}
-
 
 }
