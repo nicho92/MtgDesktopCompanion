@@ -37,12 +37,13 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 		
 		while(results.size()<getInt("LIMIT"))
 		{
+				
 				var ret = req.toJson();
-				logger.debug("return : {}",  ret);
+				logger.trace("return : {}",  ret);
 				
 				
 				if(ret==null || ret.isJsonNull())
-					return returnResults(results);
+					return returnResults(results); 
 				
 				var arr = ret.getAsJsonArray();
 				

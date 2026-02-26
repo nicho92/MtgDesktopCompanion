@@ -392,22 +392,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 		}
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		
-		var smith = new MTGCardSmithEditor();
-		
-		var mc = new MTGCard();
-		
-		smith.connect();
-		
-		smith.uploadPicture(new File("C:\\Users\\nicol\\.magicDeskCompanion\\data\\downloadWallpaper\\Sub-Zero, Cryomancer.png"), mc);
-		
-		
-	}
-	
-	
 	private String uploadPicture(File f, MTGCard mc) throws IOException
 	{
 		var res = RequestBuilder.build().url(urlPictureUpload).setClient(client).post()
