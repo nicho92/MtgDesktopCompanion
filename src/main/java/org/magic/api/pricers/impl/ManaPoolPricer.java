@@ -26,33 +26,25 @@ public class ManaPoolPricer extends AbstractPricesProvider {
 		return "ManaPool";
 	}
 	
+	private List<PriceVariation> poolResults;
+
+	
+	public ManaPoolPricer() {
+		poolResults = new ArrayList<>();
+	}
+	
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 		
 		var poolservice = new ManaPoolAPIService(getAuthenticator().get("EMAIL"),getAuthenticator().get("TOKEN"));
 		var ret = new ArrayList<MTGPrice>();
-		var f = new File(MTGConstants.DATA_DIR, "manapool_variants.json");
 		
-		List<PriceVariation> poolResults = new ArrayList<>();
-		
-		
-		if(f.exists() && FileTools.daysBetween(f)<getInt("EXPIRE_FILE_DAYS"))
+		if(poolResults.isEmpty())
 		{
-			poolResults.addAll(new JsonExport().fromJsonList(FileTools.readFile(f), PriceVariation.class));
-		}
-		else
-		{
-			logger.info("cache file is empty or out of date. Will refresh it");
+			logger.info("cache  is empty or out of date. Will refresh it");
 			poolResults.addAll(poolservice.listVariantsPrices());
-			try {
-				FileTools.saveFile(f, new JsonExport().toJson(poolResults));
-			} catch (IOException e) {
-				logger.error(e);
-			}
-			
 		}
-			
-			poolResults.stream().filter(pv->pv.getScryfallId().equals(card.getScryfallId()) && pv.getAvailable()>0).forEach(pv->{
+		poolResults.stream().filter(pv->pv.getScryfallId().equals(card.getScryfallId()) && pv.getAvailable()>0).forEach(pv->{
 				var mp = new MTGPrice();
 				mp.setCardData(card);
 				mp.setCurrency("USD");
@@ -68,15 +60,7 @@ public class ManaPoolPricer extends AbstractPricesProvider {
 				mp.setQuality(aliases.getReversedConditionFor(this, pv.getConditionId().name(),org.magic.api.beans.enums.EnumCondition.NEAR_MINT));
 				mp.setQty(pv.getAvailable());
 				ret.add(mp);
-				
-			
-				
 			});
-		
-		
-		
-		
-		
 		return ret;
 	}
 
@@ -84,11 +68,5 @@ public class ManaPoolPricer extends AbstractPricesProvider {
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-
-	@Override
-	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("EXPIRE_FILE_DAYS",MTGProperty.newIntegerProperty("1","Number of day when the file will be updated",1,-1));
-	}
-
 
 }

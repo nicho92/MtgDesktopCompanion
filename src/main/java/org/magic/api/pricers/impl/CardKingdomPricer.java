@@ -121,7 +121,6 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		Elements prices = null;
 		Elements qualities = null;
 
-		logger.info("{} looking for prices {} foil={}",getName(),card,foil);
 		try {
 			var doc = URLTools.extractAsHtml(url);
 			qualities = doc.select(".cardTypeList li");

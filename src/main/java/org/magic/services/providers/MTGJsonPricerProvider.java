@@ -26,7 +26,6 @@ import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
@@ -170,7 +169,7 @@ public class MTGJsonPricerProvider {
 			}
 		
 			FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json"),arr.toString());
-			logger.info("Ending buildings datas {}s",c.stop());
+			logger.debug("Ending buildings {} datas {}s",v,c.stop());
 	}
 	
 	public JsonArray loadData(VENDOR v) throws IOException
@@ -234,7 +233,7 @@ public class MTGJsonPricerProvider {
 			return ret;
 		}
 		
-		for(Boolean b : new Boolean[] {true,false}) 
+		for(var b : new Boolean[] {true,false}) 
 		{
 			try {
 				var mp = new MTGPrice();
@@ -250,8 +249,7 @@ public class MTGJsonPricerProvider {
 			}
 			catch(Exception e)
 			{
-				logger.error(e);
-				logger.error("No price found for {} with foil={}",card,b);
+				logger.error("No price found for {} with foil={} for {} : {}",card,b,v,e.getMessage());
 			}
 		}
 
