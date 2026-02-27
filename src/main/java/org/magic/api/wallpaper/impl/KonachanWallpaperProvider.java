@@ -23,10 +23,7 @@ public class KonachanWallpaperProvider extends AbstractWallpaperProvider{
 		
 		while(ret.size()<getInt("LIMIT"))
 		{
-			var baseUrl ="https://konachan.com/post.json?limit=100&page="+(page++)+"&tags="+search.replace(" ", "_");
-			
-			var arr = URLTools.extractAsJson(baseUrl).getAsJsonArray();
-			
+			var arr = URLTools.extractAsJson("https://konachan.com/post.json?limit=100&page="+(page++)+"&tags="+search.replace(" ", "_")).getAsJsonArray();
 			if(arr.isEmpty())
 			{
 				logger.info("{} return nothing", getName());

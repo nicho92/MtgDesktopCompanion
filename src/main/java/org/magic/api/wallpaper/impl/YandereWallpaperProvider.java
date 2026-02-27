@@ -33,7 +33,7 @@ public class YandereWallpaperProvider extends AbstractWallpaperProvider{
 				pic.setPublishDate(new Date(el.get("created_at").getAsLong()*1000));
 				pic.setName(el.get("id").getAsString());
 				pic.setProvider(getName());
-				pic.setUserAgent(MTGConstants.MTG_APP_NAME); 
+				pic.addHeader(URLTools.USER_AGENT,MTGConstants.MTG_APP_NAME); 
 				for(var s : el.get("tags").getAsString().split(" "))
 					pic.getTags().add(s);
 				

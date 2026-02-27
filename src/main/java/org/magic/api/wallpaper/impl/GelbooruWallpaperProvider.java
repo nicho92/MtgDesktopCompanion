@@ -35,7 +35,7 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 		while(ret.size()<total)
 		{
 			try {
-			var baseUrl ="https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&pid="+(page++)+"&limit=100&api_key="+getAuthenticator().get("API_KEY")+"&user_id="+getAuthenticator().get("USER_ID")+"&tags="+search.replace(" ", "_");
+			var baseUrl ="https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&pid="+(page++)+"&limit=100&api_key="+getAuthenticator().get("API_KEY")+"&user_id="+getAuthenticator().get("USER_ID")+"&tags="+search.toLowerCase().replace(" ", "_");
 			logger.debug("Get results from {}",baseUrl);
 			var obj =  URLTools.extractAsJson(baseUrl).getAsJsonObject();
 			total = obj.get("@attributes").getAsJsonObject().get("count").getAsInt();
@@ -61,6 +61,7 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 				logger.error("error in {}", getName(),e);
 			}
 		}
+	
 		logger.info("{} return {} results", getName(), ret.size());
 		return ret;
 	}
@@ -75,7 +76,7 @@ public class GelbooruWallpaperProvider extends AbstractWallpaperProvider{
 			pic.setProvider(getName());
 			pic.setUrlThumb(URI.create(el.get("preview_url").getAsString()));
 			pic.setUrl(URI.create(el.get("file_url").getAsString()));
-			
+			pic.addHeader(URLTools.REFERER, "https://gelbooru.com");
 			for(var s : el.get("tags").getAsString().split(" "))
 				pic.getTags().add(s);
 			

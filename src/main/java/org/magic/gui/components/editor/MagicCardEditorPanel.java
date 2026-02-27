@@ -52,6 +52,7 @@ import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImagePoster;
 import org.magic.services.tools.MTG;
@@ -280,7 +281,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 						magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());	
 						
 						//protected webhoster.
-						if(wallChooser.getSelectedItem().getUserAgent()!=null)
+						if(wallChooser.getSelectedItem().getHeaders().get(URLTools.USER_AGENT)!=null)
 						{
 							try {
 								magicCard.setUrl(new ImagePoster().upload(wallChooser.getSelectedItem().getUrl().toASCIIString()));

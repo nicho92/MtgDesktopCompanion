@@ -88,8 +88,8 @@ public class ImageGalleryPanel extends MTGUIComponent {
 							
 							var b = RequestBuilder.build().setClient(client).get().url(wall.getUrlThumb().toASCIIString());
 							
-							if(wall.getUserAgent()!=null)
-								b = b.addHeader(URLTools.USER_AGENT, wall.getUserAgent());
+							wall.getHeaders().entrySet().forEach(e->b.addHeader(e.getKey(), e.getValue()));
+							
 							
 							
 							if(wall.isMature() && MTG.readPropertyAsBoolean("allow-nsfw")==false)
@@ -203,10 +203,9 @@ public class ImageGalleryPanel extends MTGUIComponent {
 						BufferedImage img;
 						try {
 							
-							var b = RequestBuilder.build().setClient(client).get().url(wall.getUrl().toASCIIString());
+							var b = RequestBuilder.build().setClient(client).get().url(wall.getUrl().toASCIIString()).addHeader(URLTools.ACCEPT, "image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
 							
-							if(wall.getUserAgent()!=null)
-								b = b.addHeader(URLTools.USER_AGENT, wall.getUserAgent());
+							wall.getHeaders().entrySet().forEach(e->b.addHeader(e.getKey(), e.getValue()));
 							
 							wall.setPicture(b.toImage());
 							
@@ -215,7 +214,6 @@ public class ImageGalleryPanel extends MTGUIComponent {
 							tags.bind(wall.getTags());
 				    		pane.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
 							diag.revalidate();
-							//diag.pack();
 						} catch (Exception e) {
 							logger.error(e);
 						}

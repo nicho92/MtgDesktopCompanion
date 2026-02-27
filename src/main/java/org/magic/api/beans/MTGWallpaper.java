@@ -4,7 +4,9 @@ import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MTGWallpaper implements Comparable<MTGWallpaper> {
 
@@ -18,20 +20,20 @@ public class MTGWallpaper implements Comparable<MTGWallpaper> {
 	private String provider;
 	private boolean mature;
 	private List<String> tags;
-	private transient String userAgent;
-	
-	
-	public void setUserAgent(String userAgent) {
-		this.userAgent = userAgent;
-	}
-	
-	public String getUserAgent() {
-		return userAgent;
-	}
-	
+	private transient Map<String,String> headers;
 	
 	public MTGWallpaper() {
 		tags = new ArrayList<>();
+		headers = new HashMap<>();
+	}
+	
+	public void addHeader(String k, String v)
+	{
+		headers.put(k, v);
+	}
+	
+	public Map<String, String> getHeaders() {
+		return headers;
 	}
 	
 	public List<String> getTags() {

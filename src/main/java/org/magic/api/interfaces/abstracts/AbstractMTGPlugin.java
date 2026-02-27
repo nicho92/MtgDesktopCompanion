@@ -201,6 +201,11 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public String[] getArray(String k) {
 		return getString(k).split(",");
 	}
+	
+	public List<String> getList(String k) {
+		return List.of(getString(k).split(","));
+	}
+	
 
 	public File getFile(String k) {
 		return new File(getString(k));

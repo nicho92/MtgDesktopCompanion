@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
@@ -66,7 +67,7 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 						wall.setPublishDate(new Date(obj.get("change").getAsLong()*1000));
 						Stream.of(obj.get("tags").getAsString().split(" ")).forEach(wall.getTags()::add);
 						
-						if(!wall.getFormat().endsWith("mp4")) {
+						if(!wall.getFormat().endsWith("mp4") && !CollectionUtils.containsAny(wall.getTags(),getList("FILTER"))) {
 							results.add(wall);
 							notify(wall);
 						}
@@ -93,7 +94,7 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("LIMIT",MTGProperty.newIntegerProperty("500", "Max results to return", 1, -1));
+		return Map.of("LIMIT",MTGProperty.newIntegerProperty("500", "Max results to return", 1, -1), "FILTER",new MTGProperty("", "don't return results with this comma separated tags"));
 	}
 	
 
