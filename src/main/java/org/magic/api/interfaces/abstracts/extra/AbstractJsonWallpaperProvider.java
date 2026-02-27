@@ -10,6 +10,7 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperProvider {
@@ -39,24 +40,31 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 		return 100;
 	}
 	
+	protected JsonArray extractArrayFromQuery(RequestBuilder req)
+	{
+		var je = req.toJson();
+		
+		if(je==null || je.isJsonNull())
+			return new JsonArray(0);
+		
+		
+		return req.toJson().getAsJsonArray();
+	}
+	
+	
 	
 	
 	@Override
 	public List<MTGWallpaper> search(String search) {
 		var results = new ArrayList<MTGWallpaper>();
 		var pidStart=0;
-		
 		var req = createQuery(search, pidStart);
+		
+		
 		while(results.size()<getInt("LIMIT"))
 		{
-				logger.info("read at {}={} complete ={}/{}",getPaginationKey(),pidStart,results.size(),getInt("LIMIT"));
-				var ret = req.toJson();
-				logger.trace("return : {}",  ret);
-				
-				if(ret==null || ret.isJsonNull())
-					break;
-				
-				var arr = ret.getAsJsonArray();
+				logger.trace("read at {}={} complete ={}/{}",getPaginationKey(),pidStart,results.size(),getInt("LIMIT"));
+				var arr = extractArrayFromQuery(req);
 				
 				if(arr.isEmpty())
 					break;
