@@ -87,10 +87,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 						try {		
 							
 							var b = RequestBuilder.build().setClient(client).get().url(wall.getUrlThumb().toASCIIString());
-							
 							wall.getHeaders().entrySet().forEach(e->b.addHeader(e.getKey(), e.getValue()));
-							
-							
 							
 							if(wall.isMature() && MTG.readPropertyAsBoolean("allow-nsfw")==false)
 								wall.setPicture(ImageTools.fastBlur(b.toImage(),25,0.2));
