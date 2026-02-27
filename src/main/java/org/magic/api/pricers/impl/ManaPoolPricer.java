@@ -1,23 +1,17 @@
 package org.magic.api.pricers.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import org.api.manapool.model.PriceVariation;
 import org.api.manapool.model.enums.EnumFinish;
 import org.api.manapool.services.ManaPoolAPIService;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
-import org.magic.api.beans.technical.MTGProperty;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.tools.FileTools;
 
 public class ManaPoolPricer extends AbstractPricesProvider {
 
@@ -35,13 +29,12 @@ public class ManaPoolPricer extends AbstractPricesProvider {
 	
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		
-		var poolservice = new ManaPoolAPIService(getAuthenticator().get("EMAIL"),getAuthenticator().get("TOKEN"));
 		var ret = new ArrayList<MTGPrice>();
 		
 		if(poolResults.isEmpty())
 		{
 			logger.info("cache  is empty or out of date. Will refresh it");
+			var poolservice = new ManaPoolAPIService(getAuthenticator().get("EMAIL"),getAuthenticator().get("TOKEN"));
 			poolResults.addAll(poolservice.listVariantsPrices());
 		}
 		poolResults.stream().filter(pv->pv.getScryfallId().equals(card.getScryfallId()) && pv.getAvailable()>0).forEach(pv->{

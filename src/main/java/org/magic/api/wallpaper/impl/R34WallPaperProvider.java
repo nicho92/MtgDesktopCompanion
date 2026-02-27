@@ -65,10 +65,11 @@ public class R34WallPaperProvider extends AbstractWallpaperProvider{
 						wall.setFormat(obj.get("image").getAsString().substring(obj.get("image").getAsString().indexOf(".")+1));
 						wall.setPublishDate(new Date(obj.get("change").getAsLong()*1000));
 						Stream.of(obj.get("tags").getAsString().split(" ")).forEach(wall.getTags()::add);
-						results.add(wall);
 						
-						notify(wall);
-						
+						if(!wall.getFormat().endsWith("mp4")) {
+							results.add(wall);
+							notify(wall);
+						}
 						
 						if(results.size()>=getInt("LIMIT"))
 							return returnResults(results);

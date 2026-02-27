@@ -25,6 +25,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import org.magic.gui.components.wallpaper.WrapLayout;
 import org.magic.services.MTGControler;
 
 public class JTagsPanel extends JComponent {
@@ -55,8 +56,8 @@ public class JTagsPanel extends JComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		panelTags = new JPanel();
-		var flowLayout = (FlowLayout) panelTags.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
+	
+		panelTags.setLayout(new WrapLayout(FlowLayout.LEFT, 10, 10));
 		add(panelTags, BorderLayout.CENTER);
 
 		panelAdds = new JPanel();
@@ -93,7 +94,7 @@ public class JTagsPanel extends JComponent {
 		btnAdd.getActionMap().put("ADD", action);
 		panelAdds.add(btnAdd);
 		componentFont = MTGControler.getInstance().getFont().deriveFont(Font.PLAIN, 15);
-
+		
 	}
 
 	public void setFontSize(int s) {
@@ -116,6 +117,7 @@ public class JTagsPanel extends JComponent {
 		clean();
 		this.tags = tagsList;
 		tags.forEach(this::addLabel);
+		
 
 	}
 

@@ -1,4 +1,5 @@
 package org.magic.gui.components.wallpaper;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
@@ -10,11 +11,14 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ImagePanel2;
+import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
@@ -174,11 +178,23 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	    private void showFullImage(MTGWallpaper wall) {
 	  
 	    		var pane = new ImagePanel2(false, false, true, true);
-	    	
+	    		var tags = new JTagsPanel();
+	    				tags.setEditable(false);
+	    				tags.setFontSize(9);
+	    			
+	    			
+	    		var container = new JPanel();
+	    			  container.setLayout(new BorderLayout());
+	    			  container.add(pane,BorderLayout.CENTER);
+	    			  container.add(tags,BorderLayout.SOUTH);
 	    		
-				var diag = MTGUIComponent.createJDialog(MTGUIComponent.build(pane, wall.getName() + " By " + wall.getAuthor(), getIcon()), true, false);
-				diag.setLocationRelativeTo(null);
+				var diag = MTGUIComponent.createJDialog(MTGUIComponent.build(container, wall.getName() + " By " + wall.getAuthor(), getIcon()), true, false);
+				
 				diag.setVisible(true);
+				diag.setLocationRelativeTo(SwingUtilities.getRootPane(this));
+				diag.setPreferredSize(new Dimension(1024,768));
+				diag.setSize(new Dimension(1024,768));
+				
 				
 				ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 					
@@ -196,8 +212,10 @@ public class ImageGalleryPanel extends MTGUIComponent {
 							
 							img = wall.getPicture();
 							pane.setImg(img);
+							tags.bind(wall.getTags());
 				    		pane.setPreferredSize(new Dimension(img.getWidth(), img.getHeight()));
-				    		diag.pack();
+							diag.revalidate();
+							//diag.pack();
 						} catch (Exception e) {
 							logger.error(e);
 						}
