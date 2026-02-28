@@ -63,7 +63,7 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 		
 		while(results.size()<getInt("LIMIT"))
 		{
-				logger.trace("read at {}={} complete ={}/{}",getPaginationKey(),pidStart,results.size(),getInt("LIMIT"));
+				logger.debug("read at {}={} complete ={}/{}",getPaginationKey(),pidStart,results.size(),getInt("LIMIT"));
 				var arr = extractArrayFromQuery(req);
 				
 				if(arr.isEmpty())

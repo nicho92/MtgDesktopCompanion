@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.abstracts.extra.AbstractJsonWallpaperProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
@@ -14,7 +15,7 @@ import com.google.gson.JsonObject;
 
 public class DanbooruWallpaperProvider extends AbstractJsonWallpaperProvider{
 	
-	private String userAgent = "gallery-dl/1.30.5-dev";
+	private String userAgent = MTGConstants.MTG_APP_NAME+"/1.0";
 	
 
 	@Override
