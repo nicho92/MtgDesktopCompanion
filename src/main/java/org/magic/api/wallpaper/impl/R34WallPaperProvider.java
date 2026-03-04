@@ -28,7 +28,7 @@ public class R34WallPaperProvider extends AbstractJsonWallpaperProvider{
 	protected RequestBuilder createQuery(String search, int pidStart) {
 		return RequestBuilder.build().newClient().url("https://api.rule34.xxx/index.php").get()
 		.addContent("page", "dapi")
-		.addContent("tags", search.replace(" ", "_"))
+		.addContent("tags", search.toLowerCase().replace(" ", "_"))
 		.addContent("limit", String.valueOf(getResultsPerPage()))
 		.addContent(getPaginationKey(), String.valueOf(pidStart))
 		.addContent("json","1")

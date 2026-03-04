@@ -82,7 +82,7 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 						logger.error("Error getting wall for {} : {}",e,ex.getMessage());
 					}
 				}
-				logger.info("read {}={}. return {} items. Filtered={} . Complete ={}/{}.",getPaginationKey(),pidStart,arr.size() ,filtered,results.size(),getInt("LIMIT"));
+				logger.debug("read {}={}. return {} items. Filtered={} . Complete ={}/{}.",getPaginationKey(),pidStart,arr.size() ,filtered,results.size(),getInt("LIMIT"));
 
 				
 				if(arr.size()<getResultsPerPage())
