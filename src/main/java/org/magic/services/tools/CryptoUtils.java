@@ -2,7 +2,6 @@ package org.magic.services.tools;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -40,7 +39,7 @@ public class CryptoUtils {
 
 	public static String getMD5(byte[] input) {
 		  byte[] bytes= DigestUtils.getMd5Digest().digest(input);
-			 StringBuilder sb = new StringBuilder();
+			 var sb = new StringBuilder();
 		      for (byte b : bytes) {
 		          sb.append(String.format("%02x", b));
 		      }

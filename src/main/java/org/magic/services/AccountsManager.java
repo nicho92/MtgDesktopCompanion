@@ -2,6 +2,9 @@ package org.magic.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +27,7 @@ public class AccountsManager {
 
 	public String getKey() throws IOException {
 
-		String key=FileTools.readFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"key"));
+		var key=FileTools.readFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"key"));
 		if(key.isEmpty())
 		{
 			throw new IOException("Please create a keypass");
