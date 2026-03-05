@@ -17,9 +17,11 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 
 	
 
+	protected static final String LIMIT = "LIMIT";
+
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("LIMIT",MTGProperty.newIntegerProperty("500", "Max results to return", 1, -1), 
+		return Map.of(LIMIT,MTGProperty.newIntegerProperty("500", "Max results to return", 1, -1), 
 							 "FILTER",new MTGProperty("", "don't return results with this comma separated tags")
 							);
 	}
@@ -53,7 +55,7 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 		
 		var filtered = 0;
 		
-		while(results.size()<getInt("LIMIT"))
+		while(results.size()<getInt(LIMIT))
 		{
 				var arr = extractArrayFromQuery(req);
 		
@@ -75,14 +77,14 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 							filtered++;
 						}
 						
-						if(results.size()>=getInt("LIMIT"))
+						if(results.size()>=getInt(LIMIT))
 							break;
 					
 					} catch (Exception ex) {
 						logger.error("Error getting wall for {} : {}",e,ex.getMessage());
 					}
 				}
-				logger.debug("read {}={}. return {} items. Filtered={} . Complete ={}/{}.",getPaginationKey(),pidStart,arr.size() ,filtered,results.size(),getInt("LIMIT"));
+				logger.debug("read {}={}. return {} items. Filtered={} . Complete ={}/{}.",getPaginationKey(),pidStart,arr.size() ,filtered,results.size(),getInt(LIMIT));
 
 				
 				if(arr.size()<getResultsPerPage())

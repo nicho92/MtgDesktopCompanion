@@ -90,14 +90,14 @@ public class CryptoUtils {
 		}
 	}
 	
-	public static List<X509Certificate> getCertificates(File keystoreFile,String password) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException
+	public static List<X509Certificate> getCertificates(File keystoreFile,String password) throws KeyStoreException, NoSuchAlgorithmException, CertificateException,  IOException
 	{
 		var ret = new ArrayList<X509Certificate>();
 	        var keystore = KeyStore.getInstance(KeyStore.getDefaultType());
 	        keystore.load(new FileInputStream(keystoreFile), password.toCharArray());
 	        var aliases = keystore.aliases();
 	        while(aliases.hasMoreElements()){
-	            String alias = aliases.nextElement();
+	            var alias = aliases.nextElement();
 	            if(keystore.getCertificate(alias).getType().equals("X.509")){
 	                ret.add((X509Certificate) keystore.getCertificate(alias));
 	            }
