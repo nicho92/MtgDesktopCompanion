@@ -2,9 +2,6 @@ package org.magic.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

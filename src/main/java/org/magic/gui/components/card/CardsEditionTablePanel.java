@@ -72,7 +72,7 @@ public class CardsEditionTablePanel extends JPanel {
 
 		UITools.initTableVisibility(table, model);
 		
-		UITools.setSorter(table, 6, new NumberSorter());
+	//UITools.setSorter(table, 6, new NumberSorter()) --> make error with set "Unknow event"
 		
 		panneauHaut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -255,7 +255,8 @@ public class CardsEditionTablePanel extends JPanel {
 					super.done();
 					model.init(get());
 					table.packAll();
-				} catch(InterruptedException _)
+				} 
+				catch(InterruptedException _)
 				{
 					Thread.currentThread().interrupt();
 				}

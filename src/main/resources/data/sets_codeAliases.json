@@ -116,7 +116,8 @@
 	],
 	"LTR":[
 		"ALTR",
-		"FLTR"
+		"FLTR",
+		"MLTR"
 	],
 	"PSAL":[
 		"PHUK",
@@ -399,6 +400,7 @@
 	],
 	"PMEI": [
 		"PLG24",
+		"PLG25",
 		"PL26",
 		"PW26",
 		"LMAR",
