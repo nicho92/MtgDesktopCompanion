@@ -54,7 +54,7 @@
 		<jwt.version>0.13.0</jwt.version>
 		<lucene.version>10.4.0</lucene.version>
 		<artemis.version>2.52.0</artemis.version>
-		<flatlaf.version>3.7</flatlaf.version>
+		<flatlaf.version>3.7.1</flatlaf.version>
 		<qwartz.version>2.5.2</qwartz.version>
 		<rome.version>2.1.0</rome.version>
 		<log4j.version>2.25.3</log4j.version>
@@ -572,7 +572,7 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.3.5</version>
+			<version>1.3.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

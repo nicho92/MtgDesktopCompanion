@@ -2,6 +2,7 @@ package org.magic.api.beans;
 
 import javax.swing.Icon;
 
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.MTGConstants;
@@ -37,6 +38,7 @@ public class MTGCollection implements MTGSerializable, MTGIconable {
 	}
 
 	@Override
+	@BsonIgnore 
 	public Icon getIcon() {
 		return MTGConstants.ICON_TAB_BACK;
 	}
