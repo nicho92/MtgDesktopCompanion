@@ -59,7 +59,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 			 m.put(LISTENERS_TCP, new MTGProperty("tcp://"+URLTools.getInternalIP()+":61616","listening endoints.Separated by comma"));
 			 m.put("SECURITY_ENABLED", MTGProperty.newBooleanProperty("false","Sets whether security is enabled for this server."));
 			 m.put(LOG_DIR, MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR,"activemq")));
-			 m.put("ADRESSES", new MTGProperty("trade,news","defaults adresses of messaging"));
+			 m.put("ADRESSES", new MTGProperty("welcome","defaults adresses of messaging"));
 			 m.put("RETENTION_DAYS", MTGProperty.newIntegerProperty("7","retention days for the log",1,-1));
 			 m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
 			 return m;
@@ -121,13 +121,21 @@ public class ActiveMQServer extends AbstractMTGServer {
 		try {
 			init();
 			server.start();
+			logger.info("{} is started", getName());
+			} catch (Exception e) {
+				throw new IOException(e);
+			}
+			
+		try {
 			plug.getClient().join(new Player("Admin",true), getArray(LISTENERS_TCP)[0], DEFAULT_TOPIC);
 			plug.getClient().disableConsummer();
-			logger.info("{} is started", getName());
-		} catch (Exception e) {
-			throw new IOException(e);
+			
+		}catch(Exception e)
+		{
+			logger.error("error starting agent",e);
 		}
-
+			
+		
 	}
 
 	@Override
