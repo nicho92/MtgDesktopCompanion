@@ -40,6 +40,7 @@ public enum EnumFrameEffects implements MTGEnumeration{
 	SUNMOONDFC,
 	TEXTLESS,
 	TOMBSTONE,
+	TRANSLUCENT,
 	UPSIDEDOWNDFC,
 	WAXINGANDWANINGMOONDFC;
 
