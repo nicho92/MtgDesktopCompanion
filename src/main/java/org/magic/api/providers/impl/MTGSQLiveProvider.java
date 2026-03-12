@@ -611,7 +611,7 @@ private MTGPool pool;
 								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
 								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
-								 //ed.setForeignOnly(rs.getBoolean(IS_FOREIGN_ONLY));
+								 ed.setForeignOnly(rs.getBoolean(IS_FOREIGN_ONLY));
 								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
 								 ed.setPreview(LocalDate.parse(ed.getReleaseDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
 								 eds.add(ed);

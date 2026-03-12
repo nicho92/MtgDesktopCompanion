@@ -15,10 +15,6 @@ import org.magic.services.network.RequestBuilder;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
-	private static final String HTTP_API_SCRYFALL = "https://api.scryfall.com/cards/";
-	private static final String IMAGE_TAG = "?format=image";
-
-
 	@Override
 	public String generateUrl(MTGCard mc) {
 		try {
@@ -30,17 +26,20 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	private URL generateLink(MTGCard mc, boolean crop) throws MalformedURLException {
 
-		String  url = HTTP_API_SCRYFALL + mc.getScryfallId() + IMAGE_TAG;
-		
+		var url = new StringBuilder("https://cards.scryfall.io/")
+				.append( getProperty("PIC_SIZE", "large"));
+				
 		if(mc.isDoubleFaced() && !mc.getSide().equals("a") && mc.getLayout()!=EnumLayout.MELD)
-				url=url+"&face=back";
-		
-		if (crop)
-			url += "&version=art_crop";
+			url.append("/back/");
 		else
-			url += "&version=" + getProperty("PIC_SIZE", "large");
-
-		return URI.create(url).toURL();
+			url.append("/front/");
+		
+		
+		url.append(mc.getScryfallId().charAt(0)).append("/").append(mc.getScryfallId().charAt(1)).append("/").append(mc.getScryfallId()).append(".jpg");
+		
+		return URI.create(url.toString()).toURL();
+		
+		
 	}
 	
 	private BufferedImage extractAsImage(String url) throws IOException
