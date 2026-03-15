@@ -10,6 +10,7 @@
   <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 
+  <link rel="stylesheet" type="text/css" href="../dist/css/estilos.css" />
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <link href="//fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
@@ -58,13 +59,13 @@
 			$("#settingPanel").load("inc/settingPanel.html");
 
       		$("#searchBtn").click(function() {
-      			$("#fotorama").empty();
+      			$(".gallery-container").empty();
       			
       			$.ajax({
 			        url: restserver+"/wallpaper/"+$("#txtSearch").val()
 			    }).then(function(data) {
 			       	$(data).each(function( index,value ){
-			    		$("#fotorama").append("<a href='"+value.url+"' target='_blank'><img src='"+value.urlThumb+"'/></a>");
+			    		$(".gallery-container").append(" <div class='gallery__item'><a href='"+value.url+"' target='_blank'><img src='"+value.urlThumb+"' class='gallery__img'/> <h6 class='gallery__title'>"+value.name+"</h6></a></div>");
 					});
 			    	
   	 			});
@@ -106,10 +107,12 @@
         
       </div>
 	  <br/><br/><br/>
-       <div id="fotorama" class="fotorama" data-nav="thumbs"></div>
+       <div class="gallery-container"></div>
       <footer class="footer py-4" id="navfooter"></footer>
     
   </main>
+  
+  
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
       <i class="material-icons py-2">settings</i>
