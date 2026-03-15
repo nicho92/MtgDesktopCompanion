@@ -78,7 +78,7 @@
 <dependency>
     <groupId>com.squareup.okio</groupId>
     <artifactId>okio-jvm</artifactId>
-    <version>3.16.4</version>
+    <version>3.17.0</version>
     <scope>runtime</scope>
 </dependency>
 	<dependency>
@@ -152,12 +152,12 @@
 			<version>1.7.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.activemq</groupId>
+			<groupId>org.apache.artemis</groupId>
 			<artifactId>artemis-core-client</artifactId>
 			<version>${artemis.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.activemq</groupId>
+			<groupId>org.apache.artemis</groupId>
 			<artifactId>artemis-server</artifactId>
 			<version>${artemis.version}</version>
 		</dependency>
@@ -375,6 +375,12 @@
 			<groupId>org.panda-lang</groupId>
 			<artifactId>pandomium</artifactId>
 			<version>1.1.4-JCEF-v1.0.10-84.3.8+gc8a556f+chromium-84.0.4147.105</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.commonmark</groupId>
@@ -470,7 +476,7 @@
 		<dependency>
 		    <groupId>org.zoomba-lang</groupId>
 		    <artifactId>spark-core</artifactId>
-		    <version>3.0.3</version>
+		    <version>3.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
