@@ -3,12 +3,14 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -22,7 +24,7 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
-import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
+import dev.langchain4j.model.openai.OpenAiChatModelName;
 
 public class ManaBoxExport extends AbstractFormattedFileCardExport {
 
@@ -190,7 +192,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put("CURRENCY", new MTGProperty(Currency.getInstance(Locale.getDefault()).getCurrencyCode(), "Choose current currency for your prices",ArrayUtils.toStringArray(Currency.getAvailableCurrencies().stream().map(c->c.getCurrencyCode()).toArray())));
+		m.put("CURRENCY", new MTGProperty(Currency.getInstance(Locale.getDefault()).getCurrencyCode(), "Choose current currency for your prices",Currency.getAvailableCurrencies().stream().map(c->c.getCurrencyCode()).toList().toArray(new String[0])));
 		return m;
 	}
 	

@@ -2,6 +2,7 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +21,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
-
-import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
 
 public class AnnouncesExport extends AbstractCardExport {
 
@@ -107,7 +106,7 @@ public class AnnouncesExport extends AbstractCardExport {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		
 		var m = super.getDefaultAttributes();
-			m.put("MODE", new MTGProperty("SELL", "Choose announce mode. to Buy or to Sell",ArrayUtils.toStringArray(EnumTransactionDirection.values())));
+			m.put("MODE", new MTGProperty("SELL", "Choose announce mode. to Buy or to Sell",Arrays.stream(EnumTransactionDirection.values()).map(Enum::name).toList().toArray(new String[0])));
 		
 			return m;
 	}

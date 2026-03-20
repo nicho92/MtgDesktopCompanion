@@ -67,7 +67,7 @@ public class NetworkInfo extends AbstractAuditableItem{
 			//do nothing
 		}
 
-		StatusLine sl = new StatusLine() {
+		var sl = new StatusLine() {
 
 			@Override
 			public int getStatusCode() {
@@ -92,7 +92,7 @@ public class NetworkInfo extends AbstractAuditableItem{
 
 		 response = new BasicHttpResponse(sl);
 
-		 BasicHttpEntity entity = new BasicHttpEntity();
+		 var entity = new BasicHttpEntity();
 		 				 entity.setContentType(o.get(CONTENT_TYPE).getAsString());
 
 		 response.setEntity(entity);

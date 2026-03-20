@@ -4,9 +4,11 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ import java.util.regex.Pattern;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.api.mkm.modele.InsightElement;
@@ -72,7 +75,6 @@ import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
@@ -563,8 +565,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		var map = new HashMap<String,MTGProperty>();
 				map.put(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run bot at startup"));
 				map.put(SHOWCOLLECTIONS,MTGProperty.newBooleanProperty(TRUE, "return the collections where the searched card is present"));
-				map.put(ACTIVITY_TYPE, new MTGProperty(ActivityType.WATCHING.name(),"The current activity of the bot",ArrayUtils.toStringArray(ActivityType.values())));
-				map.put(ACTIVITY, new MTGProperty("bees flying","textual complement of the bot activity"));
+				map.put(ACTIVITY_TYPE, new MTGProperty(ActivityType.WATCHING.name(),"The current activity of the bot",Arrays.stream(ActivityType.values()).map(Enum::name).toList().toArray(new String[0])));
+						map.put(ACTIVITY, new MTGProperty("bees flying","textual complement of the bot activity"));
 				map.put("BLOCKED_USERS",new MTGProperty("","enter here the usernames that are blocked by the bot. The bot will not respond to their queries. Separated by a comma."));
 				map.put(EXTERNAL_LINK,new MTGProperty("https://my.mtgcompanion.org/prices-ui/pages/index.html?id=","if you want to redirect the response with a external link. Bot will complete the url with scryfallID"));
 				map.put(PRICE_KEYWORDS,new MTGProperty("price,prix,how much,cost","keywords parsed in query message that will activate price search"));
