@@ -1,6 +1,5 @@
 package org.magic.api.wallpaper.impl;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,23 +65,15 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	public List<MTGWallpaper> search(String search) {
 		
 		if(getString("GRANT_TYPE").equals("CLIENT"))
-		{
 			return clientSearch(search);
-		}
 		else
-			try {
-				return codeSearch(search);
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-				
-				return new ArrayList<>();
-			}
+			return codeSearch(search);
 			
 		
 	}
 	
 	
-	public List<MTGWallpaper> codeSearch(String s) throws IOException
+	public List<MTGWallpaper> codeSearch(String s) 
 	{
 		var list = new ArrayList<MTGWallpaper>();
 		
@@ -99,7 +90,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		if(maps.get("csrf_token")==null)
 		{
 			maps.clear();
-			return list;
+			return returnList(list);
 		}
 		
 		while(list.size()<getInt(LIMIT))
@@ -118,7 +109,8 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		if(jobj.get("error")!=null)
 		{
 			maps.clear();
-			throw new IOException(jobj.get("errorDescription").getAsString());
+			logger.error(jobj.get("errorDescription").getAsString());
+			return returnList(list);
 		}
 		
 		
@@ -145,10 +137,19 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		}
 		}
 		
-		return list;
+		return returnList(list);
 	}
 	
 	
+	private List<MTGWallpaper> returnList(ArrayList<MTGWallpaper> list) {
+		if(getBoolean("DATE_UPDATE_ORDER") && !list.isEmpty())
+			Collections.sort(list,Collections.reverseOrder());
+		
+		logger.info("{} return {} results", getName(), list.size());
+		
+		return list;
+	}
+
 	private URI createMedia(JsonObject objMedia, boolean b) {
 		
 		var baseUri = objMedia.get("baseUri").getAsString();
@@ -167,7 +168,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		
 		var c = "";
 		
-		
 		if(b)
 		{
 			c= types.get(0).getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
@@ -178,9 +178,10 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			{
 				if(t.getAsJsonObject().get("t").getAsString().equals("fullview") && !b)
 				{
-						
 						if(t.getAsJsonObject().get("c")!=null)
+						{
 							c = t.getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
+						}
 						else
 						{
 							try {
@@ -196,9 +197,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				}
 			}
 		}
-		
-		
-		
 		return URI.create(baseUri+c+(!token.isEmpty() ? "?token="+token:""));
 	}
 
@@ -209,13 +207,13 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		if(m.find())
 			return m.group(1);
 
-		logger.warn("no CSRF found ! : {}", el.select("div.content"));
+		logger.warn("no CSRF found ! : {}", el.select("div.content p").text());
 		return null;
 	}
 	
-	private boolean authenticatedClient() throws IOException 
+	private void authenticatedClient()  
 	{
-		
+		try {
 		RequestBuilder.build().get().setClient(client).url(BASE_URL+"/users/login").addContent("client_id", getAuthenticator().get("CLIENT_ID"))
 															 .addContent("redirect_uri", MTGConstants.MTG_DESKTOP_WEBSITE)
 															 .addContent("referer", BASE_URL)
@@ -233,14 +231,20 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					bstep1.toHtml().select("input[type=hidden]").forEach(el->maps.put(el.attr("name"), el.attr("value")));
 		
 		logger.debug("Step 1 done.  completing data maps {}. Waiting 2 sec",maps);
-					
+		}
+		catch(Exception ex)
+		{
+			logger.error("error at step 1 : {}",ex.getMessage());
+		}
+		
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException _) {
 			Thread.currentThread().interrupt();
-			//do nothing
 		}
 		
+		try 
+		{
 		var bstep2 = RequestBuilder.build().post().setClient(client).url(BASE_URL+"/_sisu/do/signin")
 				.addContent("remember", "on")
 				.addContent("password", getAuthenticator().getPassword());
@@ -251,11 +255,13 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		maps.put("csrf_token", extractCsrfToken(b.getAllElements()));
 		
 		logger.debug("Step 2 done. with csrf {}",maps.get("csrf_token"));
-		
-		return client.getCookies().stream().allMatch(c->List.of("auth", "auth_secure", "userinfo").contains(c.getName()));
+		}
+		catch(Exception ex)
+		{
+			logger.error("error at step 2 : {}",ex.getMessage());
+		}
 	}
-	
-	
+		
 	public List<MTGWallpaper> clientSearch(String search) {
 		
 		var list = new ArrayList<MTGWallpaper>();
@@ -307,12 +313,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				logger.error("error",e);
 			}
 		
-		if(getBoolean("DATE_UPDATE_ORDER"))
-			Collections.sort(list,Collections.reverseOrder());
-		
-		logger.info("{} return {} results", getName(), list.size());
-		
-		return list;
+		return returnList(list);
 	}
 	
 
