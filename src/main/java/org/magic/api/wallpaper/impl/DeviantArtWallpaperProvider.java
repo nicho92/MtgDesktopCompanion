@@ -179,16 +179,21 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			{
 				if(t.getAsJsonObject().get("t").getAsString().equals("fullview") && !b)
 				{
-					try {
-						c = t.getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
 						
-					}
-					catch(NullPointerException _)
-					{
-						c = types.get(types.size()-1).getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
-					}
-						
-					break;
+						if(t.getAsJsonObject().get("c")!=null)
+							c = t.getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
+						else
+						{
+							try {
+								c = types.get(types.size()-1).getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
+							}
+							catch(Exception _)
+							{
+								logger.error("No c found for {}",prettyName);
+							}
+						}
+
+						break;
 				}
 			}
 		}
@@ -205,7 +210,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		if(m.find())
 			return m.group(1);
 
-		logger.warn("no CSRF found !");
+		logger.warn("no CSRF found ! : {}", el);
 		return null;
 	}
 	
@@ -231,8 +236,9 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		logger.debug("Step 1 done.  completing data maps {}. Waiting 2 sec",maps);
 					
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(3000);
 		} catch (InterruptedException _) {
+			Thread.currentThread().interrupt();
 			//do nothing
 		}
 		
@@ -243,10 +249,10 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		maps.entrySet().forEach(e->bstep2.addContent(e.getKey(),e.getValue()));
 		
 		var b = bstep2.toHtml();
-		
 		maps.put("csrf_token", extractCsrfToken(b.getAllElements()));
 		
 		logger.debug("Step 2 done. with csrf {}",maps.get("csrf_token"));
+		
 		return client.getCookies().stream().allMatch(c->List.of("auth", "auth_secure", "userinfo").contains(c.getName()));
 	}
 	
