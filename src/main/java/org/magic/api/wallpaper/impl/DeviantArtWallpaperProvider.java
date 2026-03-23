@@ -99,7 +99,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		if(maps.get("csrf_token")==null)
 		{
 			maps.clear();
-			logger.error("Csrf is missing,Invalid or expired form submission");
 			return list;
 		}
 		
@@ -128,6 +127,8 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		for(var e : jobj.get("deviations").getAsJsonArray())
 		{
 			
+			if(e.getAsJsonObject().get("type").getAsString().equals("image")) { 
+			
 			var wall = new MTGWallpaper();
 				 wall.setName(e.getAsJsonObject().get("title").getAsString());
 				 wall.setMature(e.getAsJsonObject().get("isMature").getAsBoolean());
@@ -135,14 +136,12 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				 wall.setProvider(getName());
 				 wall.setFormat(e.getAsJsonObject().get("filetype").getAsString());
 				 wall.setAuthor(e.getAsJsonObject().get("author").getAsJsonObject().get("username").getAsString());
-				 
+
 				 var objMedia = e.getAsJsonObject().get("media").getAsJsonObject();
-				 
 				 wall.setUrl(createMedia(objMedia,false));
 				 wall.setUrlThumb(createMedia(objMedia,true));
-				 
-			
-			list.add(wall);
+				 list.add(wall);
+			}
 		}
 		}
 		
@@ -189,7 +188,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 							}
 							catch(Exception _)
 							{
-								logger.error("No c found for {}",prettyName);
+								logger.error("No c found for {} with thumb={} : {}",prettyName,b ,types.get(types.size()-1).getAsJsonObject());
 							}
 						}
 
@@ -210,7 +209,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		if(m.find())
 			return m.group(1);
 
-		logger.warn("no CSRF found ! : {}", el);
+		logger.warn("no CSRF found ! : {}", el.select("div.content"));
 		return null;
 	}
 	
