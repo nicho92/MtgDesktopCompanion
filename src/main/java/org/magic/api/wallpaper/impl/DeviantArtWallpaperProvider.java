@@ -137,6 +137,8 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		}
 		}
 		
+		maps.put("cursor", null);
+		
 		return returnList(list);
 	}
 	
