@@ -72,6 +72,60 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		
 	}
 	
+public List<MTGWallpaper> clientSearch(String search) {
+		
+		var list = new ArrayList<MTGWallpaper>();
+		try 
+		{
+
+			if(getAuthenticator()==null){
+					logger.error("please fill CLIENT_ID && CLIENT_SECRET attributs in config panel");
+					return list;
+			}
+		    initToken();
+	    
+		    var offset = 0;
+		    var ret= readOffset(offset,search);
+				    while(!ret.get("results").getAsJsonArray().isEmpty())
+				    {
+					    ret.get("results").getAsJsonArray().forEach(el->{
+					    	try {
+					    		
+					    		if(el.getAsJsonObject().get("content")!=null)
+					    		{
+					    		var p = new MTGWallpaper();
+						    		p.setFormat("png");
+						    		p.setName(el.getAsJsonObject().get("title").getAsString());
+						    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));
+						    		p.setUrlThumb(new URI(el.getAsJsonObject().get("thumbs").getAsJsonArray().get(0).getAsJsonObject().get("src").getAsString()));
+						    		p.setPublishDate(new Date(el.getAsJsonObject().get("published_time").getAsLong()*1000));
+						    		p.setProvider(getName());
+						    		p.setMature(el.getAsJsonObject().get("is_mature").getAsBoolean());
+				    		
+					    		if(el.getAsJsonObject().get("author").getAsJsonObject().get("username")!=null)
+					    			p.setAuthor(el.getAsJsonObject().get("author").getAsJsonObject().get("username").getAsString());
+					    		
+					    		  if(list.size()<getInt(LIMIT))
+					    			  list.add(p);
+					    		}
+							} catch (Exception e) {
+								logger.error("Error for {} . error : {}",el,e.getMessage());
+							}
+					    });
+
+					    if(list.size()>=getInt(LIMIT) || ret.get("next_offset").isJsonNull())
+					    	break;
+					    
+					    ret = readOffset(ret.get("next_offset").getAsInt(), search);
+				    }
+				   
+			} catch (Exception e) {
+				logger.error("error",e);
+			}
+		
+		return returnList(list);
+	}
+	
 	
 	public List<MTGWallpaper> codeSearch(String s) 
 	{
@@ -181,20 +235,8 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				if(t.getAsJsonObject().get("t").getAsString().equals("fullview") && !b)
 				{
 						if(t.getAsJsonObject().get("c")!=null)
-						{
 							c = t.getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
-						}
-						else
-						{
-							try {
-								c = types.get(types.size()-1).getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
-							}
-							catch(Exception _)
-							{
-								logger.error("No c found for {} with thumb={} : {}",prettyName,b ,types.get(types.size()-1).getAsJsonObject());
-							}
-						}
-
+				
 						break;
 				}
 			}
@@ -216,7 +258,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	private void authenticatedClient()  
 	{
 		try {
-		RequestBuilder.build().get().setClient(client).url(BASE_URL+"/users/login").addContent("client_id", getAuthenticator().get("CLIENT_ID"))
+			RequestBuilder.build().get().setClient(client).url(BASE_URL+"/users/login").addContent("client_id", getAuthenticator().get("CLIENT_ID"))
 															 .addContent("redirect_uri", MTGConstants.MTG_DESKTOP_WEBSITE)
 															 .addContent("referer", BASE_URL)
 															 .addContent("response_type", "code").toHtml().select("input[type=hidden]").forEach(el->maps.put(el.attr("name"), el.attr("value")));
@@ -264,59 +306,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		}
 	}
 		
-	public List<MTGWallpaper> clientSearch(String search) {
-		
-		var list = new ArrayList<MTGWallpaper>();
-		try 
-		{
-
-			if(getAuthenticator()==null){
-					logger.error("please fill CLIENT_ID && CLIENT_SECRET attributs in config panel");
-					return list;
-			}
-		    initToken();
-	    
-		    var offset = 0;
-		    var ret= readOffset(offset,search);
-				    while(!ret.get("results").getAsJsonArray().isEmpty())
-				    {
-					    ret.get("results").getAsJsonArray().forEach(el->{
-					    	try {
-					    		
-					    		if(el.getAsJsonObject().get("content")!=null)
-					    		{
-					    		var p = new MTGWallpaper();
-						    		p.setFormat("png");
-						    		p.setName(el.getAsJsonObject().get("title").getAsString());
-						    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));
-						    		p.setUrlThumb(new URI(el.getAsJsonObject().get("thumbs").getAsJsonArray().get(0).getAsJsonObject().get("src").getAsString()));
-						    		p.setPublishDate(new Date(el.getAsJsonObject().get("published_time").getAsLong()*1000));
-						    		p.setProvider(getName());
-						    		p.setMature(el.getAsJsonObject().get("is_mature").getAsBoolean());
-				    		
-					    		if(el.getAsJsonObject().get("author").getAsJsonObject().get("username")!=null)
-					    			p.setAuthor(el.getAsJsonObject().get("author").getAsJsonObject().get("username").getAsString());
-					    		
-					    		  if(list.size()<getInt(LIMIT))
-					    			  list.add(p);
-					    		}
-							} catch (Exception e) {
-								logger.error("Error for {} . error : {}",el,e.getMessage());
-							}
-					    });
-
-					    if(list.size()>=getInt(LIMIT) || ret.get("next_offset").isJsonNull())
-					    	break;
-					    
-					    ret = readOffset(ret.get("next_offset").getAsInt(), search);
-				    }
-				   
-			} catch (Exception e) {
-				logger.error("error",e);
-			}
-		
-		return returnList(list);
-	}
+	
 	
 
 	private void initToken() {
