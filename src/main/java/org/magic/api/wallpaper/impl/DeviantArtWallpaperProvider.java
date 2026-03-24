@@ -57,7 +57,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	
 	public DeviantArtWallpaperProvider() {
 		client = URLTools.newClient();
-		maps = new HashMap<String,String>();
+		maps = new HashMap<>();
 	};
 	
 	
