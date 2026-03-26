@@ -3,14 +3,12 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -23,8 +21,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-
-import dev.langchain4j.model.openai.OpenAiChatModelName;
 
 public class ManaBoxExport extends AbstractFormattedFileCardExport {
 

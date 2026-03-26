@@ -59,7 +59,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 			 m.put(LISTENERS_TCP, new MTGProperty("tcp://"+URLTools.getInternalIP()+":61616","listening endoints.Separated by comma"));
 			 m.put("SECURITY_ENABLED", MTGProperty.newBooleanProperty("false","Sets whether security is enabled for this server."));
 			 m.put(LOG_DIR, MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR,"activemq")));
-			 m.put("ADRESSES", new MTGProperty("welcome","defaults adresses of messaging"));
+			 m.put("ADRESSES", new MTGProperty(DEFAULT_TOPIC,"defaults adresses of messaging"));
 			 m.put("RETENTION_DAYS", MTGProperty.newIntegerProperty("7","retention days for the log",1,-1));
 			 m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
 			 return m;

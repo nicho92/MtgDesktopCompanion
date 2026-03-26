@@ -24,6 +24,9 @@ import com.google.gson.JsonObject;
 public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 
+	private static final String CLIENT_ID = "CLIENT_ID";
+	private static final String CLIENT = "CLIENT";
+	private static final String CSRF_TOKEN = "csrf_token";
 	private static final String LIMIT = "LIMIT";
 	private static final String BASE_URL = "https://www.deviantart.com";
 	
@@ -41,7 +44,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("CLIENT_ID","CLIENT_SECRET","LOGIN","PASSWORD");
+		return List.of(CLIENT_ID,"CLIENT_SECRET","LOGIN","PASSWORD");
 	}
 	
 
@@ -50,7 +53,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		return Map.of("MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"),
 						      LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1),
 							  "DATE_UPDATE_ORDER",MTGProperty.newBooleanProperty("true", "ordering results by published date (desc)"),
-							  "GRANT_TYPE", new MTGProperty("CLIENT", "Grant type for API Access. CODE need user and password, CLIENT needs client_id and client_secret ", "CODE","CLIENT"));
+							  "GRANT_TYPE", new MTGProperty(CLIENT, "Grant type for API Access. CODE need user and password, CLIENT needs client_id and client_secret ", "CODE",CLIENT));
 	}
 
 	
@@ -64,7 +67,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public List<MTGWallpaper> search(String search) {
 		
-		if(getString("GRANT_TYPE").equals("CLIENT"))
+		if(getString("GRANT_TYPE").equalsIgnoreCase(CLIENT))
 			return clientSearch(search);
 		else
 			return codeSearch(search);
@@ -83,7 +86,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 					return list;
 			}
 		    initToken();
-	    
+		
 		    var offset = 0;
 		    var ret= readOffset(offset,search);
 				    while(!ret.get("results").getAsJsonArray().isEmpty())
@@ -141,7 +144,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 			authenticatedClient();
 		
 		
-		if(maps.get("csrf_token")==null)
+		if(maps.get(CSRF_TOKEN)==null)
 		{
 			maps.clear();
 			return returnList(list);
@@ -156,7 +159,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 								.addContent("q", s)
 								.addContent("cursor", maps.get("cursor"))
 								.addContent("da_minor_version", "20230710")
-								.addContent("csrf_token",maps.get("csrf_token")).toJson().getAsJsonObject();
+								.addContent(CSRF_TOKEN,maps.get(CSRF_TOKEN)).toJson().getAsJsonObject();
 		
 		logger.debug("ret {}",jobj);
 		
@@ -258,7 +261,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 	private void authenticatedClient()  
 	{
 		try {
-			RequestBuilder.build().get().setClient(client).url(BASE_URL+"/users/login").addContent("client_id", getAuthenticator().get("CLIENT_ID"))
+			RequestBuilder.build().get().setClient(client).url(BASE_URL+"/users/login").addContent("client_id", getAuthenticator().get(CLIENT_ID))
 															 .addContent("redirect_uri", MTGConstants.MTG_DESKTOP_WEBSITE)
 															 .addContent("referer", BASE_URL)
 															 .addContent("response_type", "code").toHtml().select("input[type=hidden]").forEach(el->maps.put(el.attr("name"), el.attr("value")));
@@ -296,9 +299,9 @@ public List<MTGWallpaper> clientSearch(String search) {
 		maps.entrySet().forEach(e->bstep2.addContent(e.getKey(),e.getValue()));
 		
 		var b = bstep2.toHtml();
-		maps.put("csrf_token", extractCsrfToken(b.getAllElements()));
+		maps.put(CSRF_TOKEN, extractCsrfToken(b.getAllElements()));
 		
-		logger.debug("Step 2 done. with csrf {}",maps.get("csrf_token"));
+		logger.debug("Step 2 done. with csrf {}",maps.get(CSRF_TOKEN));
 		}
 		catch(Exception ex)
 		{
@@ -315,7 +318,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 				   .get()
 				   .url(TOKEN_ENDPOINT)
 				   .addContent("grant_type", "client_credentials")
-				   .addContent("client_id", getAuthenticator().get("CLIENT_ID"))
+				   .addContent("client_id", getAuthenticator().get(CLIENT_ID))
 				   .addContent("client_secret", getAuthenticator().get("CLIENT_SECRET"))
 				   .toJson().getAsJsonObject();
 		 		
