@@ -34,7 +34,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	private static final String TOKEN_ENDPOINT=BASE_URL+"/oauth2/token";
 
 	private String bToken;
-	private MTGHttpClient client;
+	private MTGHttpClient httpclient;
 	private HashMap<String, String> maps;
 
 	@Override
@@ -59,7 +59,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	
 	
 	public DeviantArtWallpaperProvider() {
-		client = URLTools.newClient();
+		httpclient = URLTools.newClient();
 		maps = new HashMap<>();
 	};
 	
@@ -154,7 +154,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 		{
 		
 		
-		var jobj = RequestBuilder.build().get().setClient(client)
+		var jobj = RequestBuilder.build().get().setClient(httpclient)
 								.url(BASE_URL+"/_puppy/dabrowse/search/deviations")
 								.addContent("q", s)
 								.addContent("cursor", maps.get("cursor"))
@@ -261,7 +261,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 	private void authenticatedClient()  
 	{
 		try {
-			RequestBuilder.build().get().setClient(client).url(BASE_URL+"/users/login").addContent("client_id", getAuthenticator().get(CLIENT_ID))
+			RequestBuilder.build().get().setClient(httpclient).url(BASE_URL+"/users/login").addContent("client_id", getAuthenticator().get(CLIENT_ID))
 															 .addContent("redirect_uri", MTGConstants.MTG_DESKTOP_WEBSITE)
 															 .addContent("referer", BASE_URL)
 															 .addContent("response_type", "code").toHtml().select("input[type=hidden]").forEach(el->maps.put(el.attr("name"), el.attr("value")));
@@ -271,7 +271,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 		if(maps.containsKey("challenge") && !maps.get("challenge").equals("0"))
 			logger.error("Login requires solving a CAPTCHA");
 			
-		var bstep1 = RequestBuilder.build().post().setClient(client).url(BASE_URL+"/_sisu/do/step2");
+		var bstep1 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL+"/_sisu/do/step2");
 					maps.entrySet().forEach(e->bstep1.addContent(e.getKey(),e.getValue()));
 					bstep1.addContent("username", getAuthenticator().getLogin());
 					bstep1.addContent("remember", "on");
@@ -292,7 +292,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 		
 		try 
 		{
-		var bstep2 = RequestBuilder.build().post().setClient(client).url(BASE_URL+"/_sisu/do/signin")
+		var bstep2 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL+"/_sisu/do/signin")
 				.addContent("remember", "on")
 				.addContent("password", getAuthenticator().getPassword());
 		
@@ -314,7 +314,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 
 	private void initToken() {
 		 var obj = RequestBuilder.build()
-				   .setClient(client)
+				   .setClient(httpclient)
 				   .get()
 				   .url(TOKEN_ENDPOINT)
 				   .addContent("grant_type", "client_credentials")
@@ -328,7 +328,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 
 	private JsonObject readOffset(int offset,String search) {
 		var obj= RequestBuilder.build()
-				  .setClient(client)
+				  .setClient(httpclient)
 				  .get()
 				  .url(BROWSE_ENDPOINT)
 				  .addContent("q", search)
