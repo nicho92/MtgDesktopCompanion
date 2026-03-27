@@ -102,7 +102,7 @@ public class SQLTools {
 		
 	public String createTableDecks() { 
 		return	ctx.createTableIfNotExists("decks")
-				.column("id",SQLDataType.INTEGER.identity(true))
+				.column("id",SQLDataType.INTEGER.generatedByDefaultAsIdentity())
 				.column("description",SQLDataType.LONGVARCHAR)
 				.column("name",SQLDataType.VARCHAR(250))				
 				.column("dateCreation",SQLDataType.DATE)
@@ -118,7 +118,7 @@ public class SQLTools {
 	
 	public String createTableSealed() {  
 			return ctx.createTableIfNotExists("sealed")
-				.column("id",SQLDataType.INTEGER.identity(true))
+				.column("id",SQLDataType.INTEGER.generatedByDefaultAsIdentity())
 				.column("edition",SQLDataType.VARCHAR(5))
 				.column("qte",SQLDataType.INTEGER)
 				.column("comment",SQLDataType.LONGVARCHAR)
@@ -137,7 +137,7 @@ public class SQLTools {
 	
 	public String createTableNews() { 
 		return ctx.createTableIfNotExists("news")
-					.column("id",SQLDataType.INTEGER.identity(true))
+					.column("id",SQLDataType.INTEGER.generatedByDefaultAsIdentity())
 					.column("name",SQLDataType.VARCHAR(100))
 					.column("url",SQLDataType.VARCHAR(255))
 					.column("categorie",SQLDataType.VARCHAR(50))
@@ -161,7 +161,7 @@ public class SQLTools {
 
 	public String createTableStocks() { 
 			return ctx.createTableIfNotExists("stocks")
-				.column("idstock",SQLDataType.INTEGER.identity(true))
+				.column("idstock",SQLDataType.INTEGER.generatedByDefaultAsIdentity())
 				.column("idmc",SQLDataType.VARCHAR(50))
 				.column("idMe",SQLDataType.VARCHAR(5))
 				.column("name", SQLDataType.VARCHAR(150))
@@ -193,7 +193,7 @@ public class SQLTools {
 		
 	public String createTableContacts() { 
 			return ctx.createTableIfNotExists("contacts")
-				.column("contact_id", SQLDataType.INTEGER.identity(true))
+				.column("contact_id", SQLDataType.INTEGER.generatedByDefaultAsIdentity())
 				.column("contact_name", SQLDataType.VARCHAR(250))
 				.column("contact_lastname",SQLDataType.VARCHAR(250))
 				.column("contact_password",SQLDataType.VARCHAR(250))
@@ -214,7 +214,7 @@ public class SQLTools {
 	
 	public String createTableTransactions() { 
 			return ctx.createTableIfNotExists("transactions")
-				.column("id", SQLDataType.INTEGER.identity(true))
+				.column("id", SQLDataType.INTEGER.generatedByDefaultAsIdentity())
 				.column("dateTransaction", SQLDataType.TIMESTAMP)
 				.column("message", SQLDataType.VARCHAR(250))
 				.column("stocksItem", SQLDataType.JSON)
@@ -237,7 +237,7 @@ public class SQLTools {
 	
 	public String createTableGed() { 
 			return ctx.createTableIfNotExists("ged")
-				.column("id", SQLDataType.INTEGER.identity(true))
+				.column("id", SQLDataType.INTEGER.generatedByDefaultAsIdentity())
 				.column("creationDate", SQLDataType.TIMESTAMP)
 				.column("className", SQLDataType.VARCHAR(250))
 				.column("idInstance", SQLDataType.VARCHAR(250))
@@ -249,7 +249,7 @@ public class SQLTools {
 	
 	public String createTableAnnounces() { 
 			return ctx.createTableIfNotExists("announces")
-				.column("id", SQLDataType.INTEGER.identity(true))
+				.column("id", SQLDataType.INTEGER.generatedByDefaultAsIdentity())
 				.column("creationDate", SQLDataType.TIMESTAMP)
 				.column("startDate", SQLDataType.TIMESTAMP)
 				.column("endDate", SQLDataType.TIMESTAMP)
