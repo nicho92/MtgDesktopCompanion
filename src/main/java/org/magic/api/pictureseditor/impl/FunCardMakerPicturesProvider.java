@@ -71,7 +71,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 					 
 					 
-					 		if(getString(LAYOUT_OLD_MODERN).equals("old"))
+					 		if(getString(LAYOUT_OLD_MODERN).equalsIgnoreCase("old"))
 					 			mc.setFrameVersion("1993");
 					 		else
 					 			mc.setFrameVersion("2003");
