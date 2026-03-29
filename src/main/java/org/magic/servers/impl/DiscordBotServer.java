@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;

@@ -219,7 +219,7 @@ public List<MTGWallpaper> clientSearch(String search) {
 		}
 		catch(Exception _)
 		{
-			logger.warn("no token for {}",prettyName);
+			logger.debug("no token for {}",prettyName);
 		}
 		
 		
