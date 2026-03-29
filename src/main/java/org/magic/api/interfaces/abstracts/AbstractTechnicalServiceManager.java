@@ -22,6 +22,7 @@ import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.technical.FileStorageTechnicalServiceManager;
+import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.IPTranslator;
 import org.magic.services.threads.MTGRunnable;
@@ -125,7 +126,7 @@ public abstract class AbstractTechnicalServiceManager {
 		fileInfos = new ArrayList<>();
 		discordInfos = new ArrayList<>();
 		jsonMessages=new ArrayList<>();
-		
+		 
 		
 		if(isEnable())
 		{	
@@ -152,13 +153,27 @@ public abstract class AbstractTechnicalServiceManager {
 		if(isEnable())
 		{
 				try {
-					storeItems(JsonQueryInfo.class,getJsonInfo().stream().filter(it->!it.isStored()).toList());
-					storeItems(DAOInfo.class,getDaoInfos().stream().filter(it->!it.isStored()).toList());
-					storeItems(NetworkInfo.class,getNetworkInfos().stream().filter(it->!it.isStored()).toList());
-					storeItems(TaskInfo.class,getTasksInfos().stream().filter(it->!it.isStored()).toList());
-					storeItems(DiscordInfo.class,getDiscordInfos().stream().filter(it->!it.isStored()).toList());
-					storeItems(FileAccessInfo.class,getFileInfos().stream().filter(it->!it.isStored()).toList());
-					storeItems(TalkMessage.class,getJsonMessages().stream().filter(it->!it.isStored()).toList());
+					
+					if(persisteEnableFor(JsonQueryInfo.class))
+						storeItems(JsonQueryInfo.class,getJsonInfo().stream().filter(it->!it.isStored()).toList());
+					
+					if(persisteEnableFor(DAOInfo.class))
+						storeItems(DAOInfo.class,getDaoInfos().stream().filter(it->!it.isStored()).toList());
+					
+					if(persisteEnableFor(NetworkInfo.class))
+						storeItems(NetworkInfo.class,getNetworkInfos().stream().filter(it->!it.isStored()).toList());
+					
+					if(persisteEnableFor(TaskInfo.class))
+						storeItems(TaskInfo.class,getTasksInfos().stream().filter(it->!it.isStored()).toList());
+					
+					if(persisteEnableFor(DiscordInfo.class))
+						storeItems(DiscordInfo.class,getDiscordInfos().stream().filter(it->!it.isStored()).toList());
+					
+					if(persisteEnableFor(FileAccessInfo.class))
+						storeItems(FileAccessInfo.class,getFileInfos().stream().filter(it->!it.isStored()).toList());
+					
+					if(persisteEnableFor(TalkMessage.class))
+						storeItems(TalkMessage.class,getJsonMessages().stream().filter(it->!it.isStored()).toList());
 				}
 				catch(Exception e)
 				{
@@ -166,6 +181,11 @@ public abstract class AbstractTechnicalServiceManager {
 				}
 		}
 
+	}
+
+	private <T extends AbstractAuditableItem>boolean persisteEnableFor(Class<T> c) {
+		
+		return MTGControler.getInstance().get("technical-log/conf/"+c.getSimpleName().toLowerCase(),"true").equals("true");
 	}
 
 	public void store(AbstractAuditableItem item) {

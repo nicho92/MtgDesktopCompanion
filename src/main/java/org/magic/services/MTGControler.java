@@ -121,7 +121,7 @@ public class MTGControler {
 
 			ThreadManager.getInstance().initThreadPoolConfig(getThreadPoolConfig());
 		
-			AbstractTechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
+			AbstractTechnicalServiceManager.inst().enable(get("technical-log/enable").equals("true"));
 		
 		} catch (Exception e) {
 			logger.error("error init", e);

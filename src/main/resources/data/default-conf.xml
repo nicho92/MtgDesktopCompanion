@@ -22,6 +22,20 @@
   <currencylayer-access-api/>
   <tooltip>true</tooltip>
   <technical-log>false</technical-log>
+  
+  <technical-log>
+  	<enable>false</enable>
+  	<conf>
+  		<jsonqueryinfo>true<jsonqueryinfo>
+  		<daoinfo>true</daoinfo>
+  		<taskinfo>true</taskinfo>
+  		<networkinfo>true</networkinfo>
+  		<discordinfo>true</discordinfo>
+  		<fileaccessinfo>true</fileaccessinfo>
+  		<talkmessage>true<talkmessage>
+  	</conf>
+  </technical-log>
+  
   <default-library>Library</default-library>
   <loglevel>INFO</loglevel>
   <allow-nsfw>false</allow-nsfw>

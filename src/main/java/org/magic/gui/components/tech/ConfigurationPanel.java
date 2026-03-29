@@ -330,7 +330,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 
 		chkboxPrerelease.getModel().setSelected( MTG.readPropertyAsBoolean("notifyPrerelease"));
-		chkTechnicalLog.setSelected(MTG.readPropertyAsBoolean("technical-log"));
+		chkTechnicalLog.setSelected(MTG.readPropertyAsBoolean("technical-log/enable"));
 		chknsfw.setSelected(MTG.readPropertyAsBoolean("allow-nsfw"));
 
 		panelConfig.add(new JLangLabel("MAIN_COLLECTION",true), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
@@ -677,7 +677,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkEnabledAutocomplete.addItemListener(_ -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
 		chkEnabledChrome.addItemListener(_ -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
 		chkboxPrerelease.addItemListener(_ -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
-		chkTechnicalLog.addItemListener(_ -> MTGControler.getInstance().setProperty("technical-log", chkTechnicalLog.isSelected()));
+		chkTechnicalLog.addItemListener(_ -> MTGControler.getInstance().setProperty("technical-log/enable", chkTechnicalLog.isSelected()));
 		chkOnlineValidation.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-query", chkOnlineValidation.isSelected()));
 		chkOnlineAutoConnect.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-autoconnect", chkOnlineAutoConnect.isSelected()));
 		chknsfw.addItemListener(_ -> MTGControler.getInstance().setProperty("allow-nsfw", chknsfw.isSelected()));
