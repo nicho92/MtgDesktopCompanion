@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
-import org.utils.webcam.WebcamUtils;
+import org.magic.services.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
 

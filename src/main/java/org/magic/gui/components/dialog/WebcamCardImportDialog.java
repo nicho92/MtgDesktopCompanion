@@ -56,8 +56,8 @@ import org.magic.services.recognition.area.RadiusAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+import org.magic.services.webcam.WebcamUtils;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.utils.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.Webcam;
 

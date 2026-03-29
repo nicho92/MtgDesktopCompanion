@@ -1,4 +1,4 @@
-package org.utils.webcam;
+package org.magic.services.webcam;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;

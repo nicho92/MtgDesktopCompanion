@@ -1,4 +1,4 @@
-package org.utils.webcam;
+package org.magic.services.webcam;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;

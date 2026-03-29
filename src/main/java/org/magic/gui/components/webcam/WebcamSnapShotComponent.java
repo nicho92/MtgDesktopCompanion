@@ -20,7 +20,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
-import org.utils.webcam.WebcamUtils;
+import org.magic.services.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.Webcam;
 
