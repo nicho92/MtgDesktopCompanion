@@ -26,13 +26,13 @@
   <technical-log>
   	<enable>false</enable>
   	<conf>
-  		<jsonqueryinfo>true<jsonqueryinfo>
+  		<jsonqueryinfo>true</jsonqueryinfo>
   		<daoinfo>true</daoinfo>
   		<taskinfo>true</taskinfo>
   		<networkinfo>true</networkinfo>
   		<discordinfo>true</discordinfo>
   		<fileaccessinfo>true</fileaccessinfo>
-  		<talkmessage>true<talkmessage>
+  		<talkmessage>true</talkmessage>
   	</conf>
   </technical-log>
   
