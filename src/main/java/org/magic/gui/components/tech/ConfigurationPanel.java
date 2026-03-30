@@ -61,6 +61,7 @@ import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.dialog.AuditLogDialog;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.components.widgets.JResizerPanel;
@@ -313,6 +314,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var btnSavePrice = new JButton(capitalize("SAVE"));
 		var lblCleancache = new JLabel(capitalize("CLEAN_CACHE") + " :");
 		var btnClean = new JButton(capitalize("CLEAN"));
+		var btnAuditLog = new JButton(capitalize("LOG_CONFIG"));
+		
 		chckbxIconset = new JCheckBox(capitalize("IMG_SET"));
 		chckbxIconcards = new JCheckBox(capitalize("IMG_CARD"));
 		
@@ -352,7 +355,9 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		panelConfig.add(new JLangLabel("TECHNICAL_SERVICE_LOG",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 8));
 		panelConfig.add(chkTechnicalLog, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 8));
-
+		panelConfig.add(btnAuditLog, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 2, 8));
+		
+		
 		panelConfig.add(new JLangLabel("ALLOW_NSFW",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 9));
 		panelConfig.add(chknsfw, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 9));
 
@@ -627,6 +632,16 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 
+		
+		btnAuditLog.addActionListener(_->{
+			
+			var diag = new AuditLogDialog();
+			
+			diag.setVisible(true);
+			
+		});
+		
+		
 		btnImportConfig.addActionListener(_->{
 
 			var chooser = new JFileChooser(MTGConstants.DATA_DIR);
