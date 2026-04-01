@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
@@ -39,7 +40,7 @@ public class JsonMessagePanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblTime;
-	private JTextArea textArea;
+	private JTextPane textArea;
 	private int iconSize=25;
 	
 	
@@ -54,7 +55,10 @@ public class JsonMessagePanel extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		textArea = new JTextArea(value.getMessage());
+		
+		textArea = new JTextPane();
+		textArea.setContentType("text/html");
+		textArea.setText(UITools.markdownToHtml(value.getMessage()));
 		
 		var gbc = UITools.createGridBagConstraints(null, null, 1, 0);
 			 gbc.insets = new Insets(0, 0, 5, 5);
@@ -126,8 +130,6 @@ public class JsonMessagePanel extends JPanel {
 		gbctextArea.gridy = 1;
 		add(textArea, gbctextArea);
 		textArea.setEditable(false);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
 		textArea.setFont(MTGControler.getInstance().getFont());
 		textArea.setOpaque(false);
 		

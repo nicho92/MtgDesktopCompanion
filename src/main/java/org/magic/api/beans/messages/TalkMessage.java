@@ -17,7 +17,7 @@ public class TalkMessage extends AbstractMessage{
 	
 	public TalkMessage(String message, Color color) {
 		setTypeMessage(MSG_TYPE.TALK);
-		setMessage(message);
+		setMessage(message); 
 		setColor(color);
 		
 		var m = Pattern.compile(REGEX).matcher(message);
@@ -35,7 +35,7 @@ public class TalkMessage extends AbstractMessage{
 		}
 		
 	}
-	
+
 	public MTGCard getMagicCard() {
 		return mc;
 	}

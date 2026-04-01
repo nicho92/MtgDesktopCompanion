@@ -669,4 +669,12 @@ public class ImageTools {
 
 	}
 
+	public static BufferedImage toImage(Icon icon) {
+		BufferedImage bi = new BufferedImage(icon.getIconWidth(),icon.getIconHeight(),BufferedImage.TYPE_INT_RGB);
+			var g = bi.createGraphics();
+			icon.paintIcon(null, g, 0,0);
+			g.dispose();
+		return bi;
+	}
+
 }
