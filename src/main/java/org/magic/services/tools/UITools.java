@@ -887,6 +887,9 @@ public class UITools {
 		for(var c : of)
 			tempPanel.add(c);
 		
+		tempPanel.revalidate();
+		
+		
 		return tempPanel;
 	}
 	
@@ -895,6 +898,8 @@ public class UITools {
 		((FlowLayout)tempPanel.getLayout()).setAlignment(FlowLayout.CENTER);
 		for(var c : of)
 			tempPanel.add(c);
+		
+		tempPanel.revalidate();
 		
 		return tempPanel;
 		

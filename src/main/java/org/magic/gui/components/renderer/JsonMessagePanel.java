@@ -114,7 +114,7 @@ public class JsonMessagePanel extends JPanel {
 		add(separator, gbcseparator);
 		
 		
-		GridBagConstraints gbc1 = UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 0);
+		var gbc1 = UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 0);
 		gbc1.insets = new Insets(0, 0, 5, 0);
 
 		add(new JLabel(value.getAuthor().getName()), gbc1);

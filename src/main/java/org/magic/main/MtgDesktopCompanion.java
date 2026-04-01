@@ -31,7 +31,7 @@ public class MtgDesktopCompanion {
 	private Chrono chrono;
 
 	public static void main(String[] args) {
-		new MtgDesktopCompanion();
+			new MtgDesktopCompanion();
 	}
 
 	public MtgDesktopCompanion() {

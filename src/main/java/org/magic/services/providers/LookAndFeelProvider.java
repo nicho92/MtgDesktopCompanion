@@ -53,6 +53,8 @@ public class LookAndFeelProvider {
 			FlatAnimatedLafChange.showSnapshot();
 			UIManager.setLookAndFeel(lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
+			
+			
 			FlatAnimatedLafChange.hideSnapshotWithAnimation();
 
 		} catch (Exception e) {
