@@ -70,6 +70,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.jdesktop.swingx.JXTable;
@@ -926,6 +928,13 @@ public class UITools {
 				return MTGConstants.TABLE_ROW_HEIGHT-2;
 			}
 		};
+	}
+
+
+	public static String markdownToHtml(String resp) {
+		var parser = Parser.builder().build();
+		var document = parser.parse(resp);
+		return HtmlRenderer.builder().build().render(document);
 	}
 	
 	
