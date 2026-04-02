@@ -2,7 +2,6 @@ package test.network;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.sql.SQLException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,18 +14,15 @@ import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.service.AiServices;
+
 public class IAVirtualUser {
 
 	@Before
-	public void initTest() throws IOException
+	public void initTest() throws Exception
 	{
-		try {
 			MTGControler.getInstance().init();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 	}
 	
 	@Test
@@ -34,7 +30,15 @@ public class IAVirtualUser {
 	{
 		var client = new ActiveMQNetworkClient();
 		var address = "tcp://my.mtgcompanion.org:61616";
-		var plug = MTG.getEnabledPlugin(MTGIA.class);
+		 var plug = MTG.getEnabledPlugin(MTGIA.class);
+		
+		
+		var ia = AiServices.builder(MTGIA.class)
+        .chatModel(plug.getEngine(null))
+        .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
+        .build();
+		
+		
 		
 		var p = new Player(plug.getName());
 			p.setAvatar(ImageTools.toImage(plug.getIcon()));
@@ -42,6 +46,7 @@ public class IAVirtualUser {
 			
 			
 		client.join(p,address,ActiveMQServer.DEFAULT_TOPIC);
+		
 		while(client.isActive())
 		{
 			var msg = client.consume();
@@ -49,7 +54,7 @@ public class IAVirtualUser {
 			{
 				if(!msg.getAuthor().getName().equals(plug.getName()))
 				{
-					var resp = MTG.getEnabledPlugin(MTGIA.class).ask(t.getMessage());
+					var resp = ia.ask(t.getMessage());
 					var tresp = new TalkMessage(resp,Color.BLUE);
 					client.sendMessage(tresp);
 				}

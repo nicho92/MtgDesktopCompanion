@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -58,7 +57,7 @@ public class JsonMessagePanel extends JPanel {
 		
 		textArea = new JTextPane();
 		textArea.setContentType("text/html");
-		textArea.setText(UITools.markdownToHtml(value.getMessage()));
+		textArea.setText(URLTools.toHtmlFromMarkdown(value.getMessage()));
 		
 		var gbc = UITools.createGridBagConstraints(null, null, 1, 0);
 			 gbc.insets = new Insets(0, 0, 5, 5);

@@ -936,12 +936,4 @@ public class UITools {
 	}
 
 
-	public static String markdownToHtml(String resp) {
-		var parser = Parser.builder().build();
-		var document = parser.parse(resp);
-		return HtmlRenderer.builder().build().render(document);
-	}
-	
-	
-
 }

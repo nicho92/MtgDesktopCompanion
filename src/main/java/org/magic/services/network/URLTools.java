@@ -124,7 +124,7 @@ public class URLTools {
 		}
 	}
 
-	private static String toHtmlFromMarkdown(String c)
+	public static String toHtmlFromMarkdown(String c)
 	{
 		List<Extension> extensions = List.of(TablesExtension.create());
 		var parser = Parser.builder().extensions(extensions).build();

@@ -20,7 +20,6 @@ import org.magic.services.tools.MTG;
 
 import com.google.gson.JsonObject;
 
-import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.chat.request.ResponseFormatType;
 import dev.langchain4j.model.chat.request.json.JsonArraySchema;
@@ -54,12 +53,13 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	private static final String NEW_DECK_QUERY = "generate a magic the gathering deck in json format ";
 	
 	
+	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.IA;
 	}
 
-	public abstract ChatModel getEngine(ResponseFormat format);
+	
 	
 	@Override
 	public STATUT getStatut() {
