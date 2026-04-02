@@ -8,6 +8,7 @@ import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.servers.impl.ActiveMQServer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
@@ -20,9 +21,7 @@ public class IAVirtualUser {
 	
 	public static void main(String[] args) throws Exception {
 		MTGControler.getInstance().init();
-		
-		var address = "tcp://my.mtgcompanion.org:61616";
-			init(address);
+		init(MTGConstants.MTG_CHAT_DEFAULT_URI);
 	}
 
 	public static void init(String address) throws IOException {

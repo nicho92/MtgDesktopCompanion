@@ -76,6 +76,9 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_WEBSITE = "https://www.mtgcompanion.org/";
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
+	public static final String MTG_CHAT_DEFAULT_URI = "tcp://my.mtgcompanion.org:61616";
+	
+	
 	
 //DEFAULT CONSTANTS
 	public static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };

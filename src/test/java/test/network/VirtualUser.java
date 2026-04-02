@@ -16,6 +16,7 @@ import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.servers.impl.ActiveMQServer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.MTG;
@@ -68,9 +69,8 @@ public class VirtualUser {
 	public void join() throws IOException
 	{
 		var client = new ActiveMQNetworkClient();
-		var address = "tcp://my.mtgcompanion.org:61616";
 		var p = new Player(CryptoUtils.randomString(10));
-		client.join(p,address,ActiveMQServer.DEFAULT_TOPIC);
+		client.join(p,MTGConstants.MTG_CHAT_DEFAULT_URI,ActiveMQServer.DEFAULT_TOPIC);
 		while(client.isActive())
 		{
 			var msg = client.consume();

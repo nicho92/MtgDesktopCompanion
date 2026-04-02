@@ -111,7 +111,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream().filter(s->s!=EnumPlayerStatus.CONNECTED).filter(s->s!=EnumPlayerStatus.DISCONNECTED).toList());
 		var panelChatBox = new JPanel();
 		
-		var server = MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER);
+		var server = MTGControler.getInstance().get("network-config/network-last-server", MTGConstants.MTG_CHAT_DEFAULT_URI);
 
 		txtServer.setText(server);
 		txtServer.setColumns(10);
