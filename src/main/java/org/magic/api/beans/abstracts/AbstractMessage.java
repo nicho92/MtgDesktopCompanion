@@ -1,6 +1,5 @@
 package org.magic.api.beans.abstracts;
 
-import java.awt.Color;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.technical.audit.Location;
-import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.CryptoUtils;
 
@@ -22,7 +20,6 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	private String id;
 	private MSG_TYPE  typeMessage;
 	private String message;
-	private Color color;
 	private Location location;
 	private String ip;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -50,16 +47,6 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-
-
-	public Color getColor() {
-		return color;
-	}
-	
-	public void setColor(Color color) {
-		this.color = color;
-	}
-		
 
 	public String getMessage() {
 		return message;

@@ -39,20 +39,19 @@ public class IAVirtualUser {
 		
 		var p = new Player(plug.getName());
 			 p.setAvatar(ImageTools.toImage(plug.getIcon()));
-			
+			 p.setColor(Color.ORANGE);
 		client.join(p,address,ActiveMQServer.DEFAULT_TOPIC);
 		
 		while(client.isActive())
 		{
 			var msg = client.consume();
-			if(msg instanceof TalkMessage t && !t.getMessage().isEmpty())
+			
+			//response only to my question
+			if(msg instanceof TalkMessage t && !t.getMessage().isEmpty() && t.getAuthor().getName().equals(MTGControler.getInstance().getProfilPlayer().getName()))
 			{
-				if(!msg.getAuthor().getName().equals(plug.getName()))
-				{
 					var resp = ia.ask(t.getMessage());
-					var tresp = new TalkMessage(resp,Color.ORANGE);
+					var tresp = new TalkMessage(resp);
 					client.sendMessage(tresp);
-				}
 			}
 		}
 		

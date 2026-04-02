@@ -1,6 +1,5 @@
 package org.magic.api.beans.messages;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
@@ -15,10 +14,9 @@ public class TalkMessage extends AbstractMessage{
 	private static final String REGEX = "\\{(.*?)\\}";
 	private MTGCard mc;
 	
-	public TalkMessage(String message, Color color) {
+	public TalkMessage(String message) {
 		setTypeMessage(MSG_TYPE.TALK);
 		setMessage(message); 
-		setColor(color);
 		
 		var m = Pattern.compile(REGEX).matcher(message);
 		if(m.find())
@@ -36,7 +34,7 @@ public class TalkMessage extends AbstractMessage{
 		
 	}
 
-	public MTGCard getMagicCard() {
+	public MTGCard getAttachement() {
 		return mc;
 	}
 	

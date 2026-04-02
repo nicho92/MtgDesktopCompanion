@@ -15,7 +15,7 @@ public class DeckMessage extends AbstractMessage {
 		setMessage("i share my deck  "+ item);
 	}
 
-	public MTGDeck getMagicDeck() {
+	public MTGDeck getAttachement() {
 		return item;
 	}
 

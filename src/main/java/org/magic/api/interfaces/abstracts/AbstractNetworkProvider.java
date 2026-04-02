@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.time.Instant;
 
@@ -98,8 +97,8 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 
 	
 	@Override
-	public void sendMessage(String text, Color c) throws IOException {
-		sendMessage(new TalkMessage(text,c));
+	public void sendMessage(String text) throws IOException {
+		sendMessage(new TalkMessage(text));
 		
 	}
 

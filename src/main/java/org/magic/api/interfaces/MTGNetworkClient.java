@@ -1,6 +1,5 @@
 package org.magic.api.interfaces;
 
-import java.awt.Color;
 import java.io.IOException;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
@@ -18,7 +17,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 
 	void join(Player p, String url, String topic) throws IOException;
 
-	void sendMessage(String text, Color c) throws IOException;
+	void sendMessage(String text) throws IOException;
 
 	void sendMessage(AbstractMessage obj) throws IOException;
 	

@@ -24,8 +24,8 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Abstract
 	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends AbstractMessage> list, AbstractMessage value, int index,boolean isSelected, boolean cellHasFocus) {
-	
-		pane.init(value);
+
+		pane.setMessage(value);
 		
 		if(isSelected)
 		{
@@ -38,4 +38,5 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Abstract
 			pane.setForeground(list.getForeground());
 		}
 		return this;
-	}}
+	}
+}

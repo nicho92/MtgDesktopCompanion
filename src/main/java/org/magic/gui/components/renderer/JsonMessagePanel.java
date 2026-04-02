@@ -45,7 +45,7 @@ public class JsonMessagePanel extends JPanel {
 	private JTextPane textArea;
 	private int iconSize=25;
 	private JPanel separator;
-	
+	private PrettyTime prettyTime;
 	
 	public JsonMessagePanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -66,6 +66,8 @@ public class JsonMessagePanel extends JPanel {
 		lblTime = new JLabel();
 		lblIcon = new JLabel();
 		separator = new JPanel();
+		
+		prettyTime = new PrettyTime(MTGControler.getInstance().getLocale());
 		
 		separator.add(lblIcon);
 		
@@ -94,22 +96,23 @@ public class JsonMessagePanel extends JPanel {
 	
 	
 	
-	public void init(AbstractMessage value)
+	public void setMessage(AbstractMessage value)
 	{
 	
-		setBorder(new LineBorder(value.getColor(),2,true));
+		setBorder(new LineBorder(value.getAuthor().getColor(),2,true));
 		
-		lblIcon.setIcon(null);
+		
 		
 		textArea.setText(URLTools.toHtmlFromMarkdown(value.getMessage()));
 		lblAuthor.setText(value.getAuthor().getName());
-		separator.setBackground(value.getColor());
-	
-		lblTime.setText("("+new PrettyTime(MTGControler.getInstance().getLocale()).format(new Date(value.getStart().toEpochMilli()))+")");		
+		separator.setBackground(value.getAuthor().getColor());
+		lblIcon.setIcon(null);
+		lblTime.setText("("+prettyTime.format(new Date(value.getStart().toEpochMilli()))+")");		
 		
 		if(value.getAuthor().getAvatar()!=null)	 
 			lblAvatar.setIcon(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize)));
-		
+		else
+			lblAvatar.setIcon(null);
 		
 		if(value.getTypeMessage()==MSG_TYPE.SEARCH)
 		{
@@ -123,7 +126,7 @@ public class JsonMessagePanel extends JPanel {
 
 		if(value.getTypeMessage()==MSG_TYPE.TALK)
 		{
-			var item = ((TalkMessage)value).getMagicCard();
+			var item = ((TalkMessage)value).getAttachement();
 			if(item!=null)
 				try {
 					lblIcon.setIcon(read(item));
@@ -134,7 +137,7 @@ public class JsonMessagePanel extends JPanel {
 		
 		if(value.getTypeMessage()==MSG_TYPE.DECK)
 		{
-			var item = ((DeckMessage)value).getMagicDeck();
+			var item = ((DeckMessage)value).getAttachement();
 			if(item!=null)
 				{
 				lblIcon.setIcon(MTGConstants.ICON_DECK);

@@ -134,7 +134,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			            var selected = listMsg.getSelectedValue();
 			            
 			            if(selected.getTypeMessage()==MSG_TYPE.DECK) {
-			            	var deck = ((DeckMessage)selected).getMagicDeck();
+			            	var deck = ((DeckMessage)selected).getAttachement();
 			        		deck.setId(-1);
 			        		
 				            var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
@@ -298,6 +298,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 					} catch (IOException e) {
 						MTGControler.getInstance().notify(e);
+						btnIa.setEnabled(true);
 					}
 				}
 			}, "MTGAssistant Agent");
@@ -318,14 +319,14 @@ public class NetworkChatPanel extends MTGUIComponent {
 			if(c!=null) {
 				editorPane.setForeground(c);
 				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
+				client.getPlayer().setColor(c);
 			}
 		});
 
 		editorPane.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent fe) {
-				if (editorPane.getText()
-						.equals(capitalize("CHAT_INTRO_TEXT")))
+				if (editorPane.getText().equals(capitalize("CHAT_INTRO_TEXT")))
 					editorPane.setText("");
 			}
 		});
@@ -337,7 +338,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !editorPane.getText().isEmpty()) {
 					e.consume();
 					try {
-						client.sendMessage(editorPane.getText().trim(), editorPane.getForeground());
+						client.sendMessage(editorPane.getText().trim());
 					} catch (IOException e1) {
 						logger.error(e1);
 					}

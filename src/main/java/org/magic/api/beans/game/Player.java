@@ -1,5 +1,6 @@
 package org.magic.api.beans.game;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.time.Instant;
@@ -42,6 +43,18 @@ public class Player extends Observable implements Serializable {
 	private transient int poisonCounter;
 	private long onlineConnectionTimeStamp;
 	private boolean admin=false;
+	private Color color;
+	
+
+
+	public Color getColor() {
+		return color;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+		
 
 	
 	public void setAdmin(boolean admin) {

@@ -2,6 +2,7 @@ package org.magic.services;
 
 import static org.magic.services.tools.MTG.getPlugin;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.File;
@@ -380,7 +381,8 @@ public class MTGControler {
 	public Player getProfilPlayer() {
 		var p = new Player("Player");
 		p.setName(config.getString("/game/player-profil/name"));
-
+		p.setColor(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
+		
 		var url = config.getString("/game/player-profil/avatar");
 		try {
 			if(!url.isEmpty())
