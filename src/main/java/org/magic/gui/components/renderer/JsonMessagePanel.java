@@ -98,7 +98,9 @@ public class JsonMessagePanel extends JPanel {
 	{
 	
 		setBorder(new LineBorder(value.getColor(),2,true));
+		
 		lblIcon.setIcon(null);
+		
 		textArea.setText(URLTools.toHtmlFromMarkdown(value.getMessage()));
 		lblAuthor.setText(value.getAuthor().getName());
 		separator.setBackground(value.getColor());
@@ -144,7 +146,7 @@ public class JsonMessagePanel extends JPanel {
 	private ImageIcon read(MTGProduct item) throws IOException 
 	{
 		
-		BufferedImage bi = null;
+		BufferedImage bi = null; 
 		
 		if(item.getTypeProduct()==EnumItems.CARD)
 			bi=MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture((MTGCard)item);

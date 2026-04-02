@@ -54,10 +54,12 @@ import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.MessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
+import org.magic.main.IAVirtualUser;
 import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -75,6 +77,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnColorChoose;
 	private JButton btnSearch;
 	private JButton btnDeck;
+	private JButton btnIa;
 	private DefaultListModel<AbstractMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
 	private transient MTGNetworkClient client;
@@ -111,7 +114,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 		var server = MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER);
 
 		txtServer.setText(server);
-	
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
 		panelChat.setLayout(new BorderLayout());
@@ -185,6 +187,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"searchquery");
 		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK,KeyEvent.VK_F,"deckquery");
+		btnIa = UITools.createBindableJButton("", MTGConstants.ICON_IA,KeyEvent.VK_I,"callAssistant");
+		
 		try {
 			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
 		} catch (Exception _) {
@@ -196,6 +200,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panneauHaut.add(txtServer);
 		panneauHaut.add(btnConnect);
 		panneauHaut.add(btnLogout);
+		panneauHaut.add(btnIa);
 
 		add(new JScrollPane(listPlayers), BorderLayout.EAST);
 		add(panneauBas, BorderLayout.SOUTH);
@@ -223,7 +228,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 	
 		
 		initActions();
-		
 		
 		if(MTG.readPropertyAsBoolean("network-config/online-autoconnect"))
 			btnConnect.doClick();
@@ -281,7 +285,24 @@ public class NetworkChatPanel extends MTGUIComponent {
 			
 		});
 
+		
+		btnIa.addActionListener(_->{
+			btnIa.setEnabled(false);			
+			ThreadManager.getInstance().executeThread(new MTGRunnable() {
+				
+				@Override
+				protected void auditedRun() {
+					
+					try {
+						IAVirtualUser.init(txtServer.getText());
 
+					} catch (IOException e) {
+						MTGControler.getInstance().notify(e);
+					}
+				}
+			}, "MTGAssistant Agent");
+		});
+		
 
 		btnLogout.addActionListener(_ -> {
 			try {
