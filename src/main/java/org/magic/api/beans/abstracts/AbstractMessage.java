@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.technical.audit.Location;
+import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.CryptoUtils;
 
@@ -97,5 +98,4 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
-
 }

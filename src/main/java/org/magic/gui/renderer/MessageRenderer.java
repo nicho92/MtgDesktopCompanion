@@ -10,16 +10,22 @@ import javax.swing.ListCellRenderer;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.gui.components.renderer.JsonMessagePanel;
 
-public class MessageRenderer implements ListCellRenderer<AbstractMessage> {
-
+public class MessageRenderer extends JPanel implements ListCellRenderer<AbstractMessage> {
+	
+	private static final long serialVersionUID = 1L;
+	private JsonMessagePanel pane;
+	
+	public MessageRenderer() {
+		pane = new JsonMessagePanel();
+		setLayout(new BorderLayout());
+		add(new JPanel(),BorderLayout.NORTH);
+		add(pane,BorderLayout.CENTER);
+	}
+	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends AbstractMessage> list, AbstractMessage value, int index,boolean isSelected, boolean cellHasFocus) {
-		var panel = new JPanel();
-		var pane = new JsonMessagePanel(value);
-		panel.setLayout(new BorderLayout());
-		panel.add(new JPanel(),BorderLayout.NORTH);
-		panel.add(pane,BorderLayout.CENTER);
-		pane.setOpaque(true);
+	
+		pane.init(value);
 		
 		if(isSelected)
 		{
@@ -31,7 +37,5 @@ public class MessageRenderer implements ListCellRenderer<AbstractMessage> {
 			pane.setBackground(list.getBackground());
 			pane.setForeground(list.getForeground());
 		}
-		
-		
-		return panel;
+		return this;
 	}}
