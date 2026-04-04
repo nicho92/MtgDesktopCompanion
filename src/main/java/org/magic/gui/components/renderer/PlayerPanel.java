@@ -42,7 +42,6 @@ public class PlayerPanel extends JPanel {
 
 		lblStatus = new JLabel("");
 		panel.add(lblStatus);
-
 	}
 
 	public void setPlayer(Player p)
@@ -51,7 +50,7 @@ public class PlayerPanel extends JPanel {
 			lblIcon.setIcon(new ImageIcon(ImageTools.resize(p.getAvatar(), ICONSIZE, ICONSIZE)));
 		}catch(Exception _)
 		{
-			//no avatar. do nothing
+			lblIcon.setIcon(null);
 		}
 		lblName.setText(p.getName());
 		lblCountry.setText(p.getLocal().getDisplayCountry());

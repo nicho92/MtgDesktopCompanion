@@ -10,21 +10,21 @@ import javax.swing.ListCellRenderer;
 import org.magic.api.beans.MTGEdition;
 import org.magic.services.providers.IconsProvider;
 
-public class MagicEditionIconListRenderer implements ListCellRenderer<MTGEdition> {
+public class MagicEditionIconListRenderer extends JLabel implements ListCellRenderer<MTGEdition> {
+
+	
+	
+	private static final long serialVersionUID = 1L;
 
 	public enum SIZE {SMALL,MEDIUM}
 	private SIZE size;
-	private JLabel l;
-
 
 	public MagicEditionIconListRenderer(SIZE s) {
 		size=s;
-		l = new JLabel();
 	}
 
 	public MagicEditionIconListRenderer() {
 		size=SIZE.MEDIUM;
-		l = new JLabel();
 	}
 
 	@Override
@@ -38,23 +38,20 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MTGEdition
 			else
 				ic = IconsProvider.getInstance().get24(value.getId());
 
-			l.setText(value.getSet());
-			l.setIcon(ic);
-			l.setOpaque(true);
+			setText(value.getSet());
+			setIcon(ic);
+			setOpaque(true);
 
 
 			if (isSelected) {
-				l.setBackground(list.getSelectionBackground());
-				l.setForeground(list.getSelectionForeground());
+				setBackground(list.getSelectionBackground());
+				setForeground(list.getSelectionForeground());
 			} else {
-				l.setBackground(list.getBackground());
-				l.setForeground(list.getForeground());
+				setBackground(list.getBackground());
+				setForeground(list.getForeground());
 			}
 		}
-
-		return l;
-
-
+		return this;
 	}
 
 }

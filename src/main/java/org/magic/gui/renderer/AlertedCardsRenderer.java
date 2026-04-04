@@ -10,9 +10,17 @@ import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 
 public class AlertedCardsRenderer implements TableCellRenderer {
 
+	
+	
+	private NumberCellEditorRenderer render;
+
+	public AlertedCardsRenderer() {
+		render = new NumberCellEditorRenderer();
+	}
+	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		var comp = new NumberCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		var comp = render.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
 		if(value==null)
 			return comp;

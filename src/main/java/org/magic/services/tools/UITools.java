@@ -237,9 +237,10 @@ public class UITools {
 
 	public static JXTable createNewTable(TableModel mod, boolean enableFilter)
 	{
-		var table = new JXTable();
-				if(mod!=null)
-					table.setModel(mod);
+			var table = new JXTable();
+			
+			if(mod!=null)
+				table.setModel(mod);
 		
 
 				table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
@@ -263,7 +264,7 @@ public class UITools {
 				
 				for(var c : List.of(MTGCardStock.class,MTGSealedStock.class))
 					table.setDefaultRenderer(c, (JTable t, Object value, boolean isSelected, boolean _, int _, int _)->{
-							MTGStockItem obj = (MTGStockItem)value; 
+							var obj = (MTGStockItem)value; 
 							
 							var lab = new JLabel(obj.getId() + " " + (obj.isUpdated()?"*":""));
 							lab.setOpaque(true);

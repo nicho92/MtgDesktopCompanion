@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
@@ -72,7 +73,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JList<AbstractMessage> listMsg;
 	private JButton btnConnect;
 	private JButton btnLogout;
-	private JTextArea editorPane;
+	private JTextArea txtChatMessageEditor;
 	private JComboBox<EnumPlayerStatus> cboStates;
 	private JButton btnColorChoose;
 	private JButton btnSearch;
@@ -86,45 +87,91 @@ public class NetworkChatPanel extends MTGUIComponent {
 	
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
-
+		
 		client = MTG.getEnabledPlugin(MTGNetworkClient.class);
-		
-		listMsgModel = new DefaultListModel<>();
-		listPlayerModel= new DefaultListModel<>();
-		listMsg = new JList<>(listMsgModel);
-		listMsg.setBorder(new TitledBorder(null, "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		listPlayers = new JList<>(listPlayerModel);
-		listPlayers.setBorder(new TitledBorder(null, "Online", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		btnLogout = new JButton(capitalize("LOGOUT"));
-		var lblIp = new JLangLabel("HOST",true);
-		btnConnect = new JButton(capitalize("CONNECT"));
-		var panneauHaut = new JPanel();
-		txtServer = new JTextField();
-		var panneauBas = new JPanel();
-		var panelChat = new JPanel();
-		tabbedPane = new JTabbedPane();
-		tabbedPane.addTab("Chat",MTGConstants.ICON_TAB_CHAT,panelChat);
-		
-		editorPane = new JTextArea();
-		var panel1 = new JPanel();
-		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
-		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream().filter(s->s!=EnumPlayerStatus.CONNECTED).filter(s->s!=EnumPlayerStatus.DISCONNECTED).toList());
-		var panelChatBox = new JPanel();
-		
 		var server = MTGControler.getInstance().get("network-config/network-last-server", MTGConstants.MTG_CHAT_DEFAULT_URI);
 
-		txtServer.setText(server);
-		txtServer.setColumns(10);
+		
+		
+		btnLogout = new JButton(capitalize("LOGOUT"));
+		btnConnect = new JButton(capitalize("CONNECT"));
+		txtServer = new JTextField(server,25);
+		tabbedPane = new JTabbedPane();
+		listMsgModel = new DefaultListModel<>();
+		listPlayerModel= new DefaultListModel<>();
+		stockResultModel = new CardStockTableModel();
+		listMsg = new JList<>(listMsgModel);
+		listPlayers = new JList<>(listPlayerModel);
+		txtChatMessageEditor = new JTextArea();
+		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
+		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream().filter(s->s!=EnumPlayerStatus.CONNECTED).filter(s->s!=EnumPlayerStatus.DISCONNECTED).toList());
+		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"searchquery");
+		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK,KeyEvent.VK_F,"sharedeck");
+		btnIa = UITools.createBindableJButton("", MTGConstants.ICON_IA,KeyEvent.VK_I,"callAssistant");
+	
+		
+		var lblIp = new JLangLabel("HOST",true);
+		
+		var panelChat = new JPanel();
+		var panelChatBox = new JPanel();
+		var panelSearch = new JScrollPane();
+		var tableResult = UITools.createNewTable(stockResultModel, true );
+		
+		
+		listMsg.setBorder(new TitledBorder(null, "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		listPlayers.setBorder(new TitledBorder(null, "Online", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				
+		
+		
 		btnLogout.setEnabled(false);
+		
 		panelChat.setLayout(new BorderLayout());
 		panelChatBox.setLayout(new BorderLayout());
-		editorPane.setText(capitalize("CHAT_INTRO_TEXT"));
-		editorPane.setLineWrap(true);
-		editorPane.setWrapStyleWord(true);
-		editorPane.setRows(3);
+		
 		listPlayers.setCellRenderer(new PlayerRenderer());
 		listMsg.setCellRenderer(new MessageRenderer());
-	 	listMsg.addMouseListener( new MouseAdapter()
+	 	
+		txtChatMessageEditor.setText(capitalize("CHAT_INTRO_TEXT"));
+		txtChatMessageEditor.setLineWrap(true);
+		txtChatMessageEditor.setWrapStyleWord(true);
+		txtChatMessageEditor.setRows(3);
+		txtChatMessageEditor.setEditable(false);
+		
+		stockResultModel.setWritable(false);
+		
+		try {
+			txtChatMessageEditor.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
+		} catch (Exception _) {
+			txtChatMessageEditor.setForeground(Color.BLACK);
+		}
+		
+		
+		tabbedPane.addTab(capitalize("CHAT"),MTGConstants.ICON_TAB_CHAT,panelChat);
+		tabbedPane.addTab(capitalize("SEARCH"), MTGConstants.ICON_SEARCH, panelSearch, null);
+		
+		add(UITools.createFlowCenterPanel(lblIp,txtServer,btnConnect,btnLogout,btnIa), BorderLayout.NORTH);
+		add(new JScrollPane(listPlayers), BorderLayout.EAST);
+		add(tabbedPane, BorderLayout.CENTER);
+		
+		panelChat.add(new JScrollPane(listMsg), BorderLayout.CENTER);
+		panelChat.add(panelChatBox, BorderLayout.SOUTH);
+		panelChatBox.add(txtChatMessageEditor, BorderLayout.CENTER);
+		panelChatBox.add(UITools.createFlowCenterPanel(cboStates,btnColorChoose,btnSearch,btnDeck), BorderLayout.NORTH);
+		panelSearch.setViewportView(tableResult);
+		
+		
+		
+		
+		initActions();
+		
+		if(MTG.readPropertyAsBoolean("network-config/online-autoconnect"))
+			btnConnect.doClick();
+		
+	}
+
+	private void initActions() {
+
+		listMsg.addMouseListener( new MouseAdapter()
 		{
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -133,7 +180,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 					    var menu = new JPopupMenu();
 			            var selected = listMsg.getSelectedValue();
 			            
-			            if(selected.getTypeMessage()==MSG_TYPE.DECK) {
+			            if(selected.getTypeMessage()==MSG_TYPE.DECK) 
+			            {
 			            	var deck = ((DeckMessage)selected).getAttachement();
 			        		deck.setId(-1);
 			        		
@@ -149,7 +197,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				            
 				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
 				            itemOpen.addActionListener(_->{
-				            		ConstructPanel deckV = new ConstructPanel();
+				            		var deckV = new ConstructPanel();
 				            			deckV.hideSearchComponent(true);
 				            			deckV.setDeck(deck);
 				            			
@@ -175,68 +223,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 				            });
 				            menu.add(itemOpen);
 			            }
-			            
-			            
-			            
-			            
 			            menu.show(listMsg, e.getPoint().x, e.getPoint().y);            
 			        }
 	        }
-
 		});
-		
-		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"searchquery");
-		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK,KeyEvent.VK_F,"deckquery");
-		btnIa = UITools.createBindableJButton("", MTGConstants.ICON_IA,KeyEvent.VK_I,"callAssistant");
-		
-		try {
-			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
-		} catch (Exception _) {
-			editorPane.setForeground(Color.BLACK);
-		}
-
-		add(panneauHaut, BorderLayout.NORTH);
-		panneauHaut.add(lblIp);
-		panneauHaut.add(txtServer);
-		panneauHaut.add(btnConnect);
-		panneauHaut.add(btnLogout);
-		panneauHaut.add(btnIa);
-
-		add(new JScrollPane(listPlayers), BorderLayout.EAST);
-		add(panneauBas, BorderLayout.SOUTH);
-		add(tabbedPane, BorderLayout.CENTER);
-		
-		
-		panelChat.add(new JScrollPane(listMsg), BorderLayout.CENTER);
-		panelChat.add(panelChatBox, BorderLayout.SOUTH);
-
-		panelChatBox.add(editorPane, BorderLayout.CENTER);
-		panelChatBox.add(panel1, BorderLayout.NORTH);
-
-		panel1.add(cboStates);
-		panel1.add(btnColorChoose);
-		panel1.add(btnSearch);
-		panel1.add(btnDeck);
-		
-		var panelSearch = new JScrollPane();
-		tabbedPane.addTab("Search", MTGConstants.ICON_SEARCH, panelSearch, null);
-		
-		stockResultModel = new CardStockTableModel();
-		stockResultModel.setWritable(false);
-		var tableResult = UITools.createNewTable(stockResultModel, true );
-		panelSearch.setViewportView(tableResult);
-	
-		
-		initActions();
-		
-		if(MTG.readPropertyAsBoolean("network-config/online-autoconnect"))
-			btnConnect.doClick();
-		
-	}
-
-	private void initActions() {
-
-		editorPane.setEditable(false);
 		
 	
 		btnConnect.addActionListener(_ -> {
@@ -258,7 +248,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 						txtServer.setEnabled(!client.isActive());
 						btnConnect.setEnabled(!client.isActive());
 						btnLogout.setEnabled(client.isActive());
-						editorPane.setEditable(client.isActive());
+						txtChatMessageEditor.setEditable(client.isActive());
 						MTGControler.getInstance().setProperty("network-config/network-last-server",txtServer.getText());
 					} 
 					catch(InterruptedException ie)
@@ -314,35 +304,35 @@ public class NetworkChatPanel extends MTGUIComponent {
 		});
 
 		btnColorChoose.addActionListener(_ -> {
-			var c = JColorChooser.showDialog(null, "Choose Text Color", editorPane.getForeground());
+			var c = JColorChooser.showDialog(null, "Choose Text Color", txtChatMessageEditor.getForeground());
 
 			if(c!=null) {
-				editorPane.setForeground(c);
+				txtChatMessageEditor.setForeground(c);
 				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
 				client.getPlayer().setColor(c);
 			}
 		});
 
-		editorPane.addFocusListener(new FocusAdapter() {
+		txtChatMessageEditor.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent fe) {
-				if (editorPane.getText().equals(capitalize("CHAT_INTRO_TEXT")))
-					editorPane.setText("");
+				if (txtChatMessageEditor.getText().equals(capitalize("CHAT_INTRO_TEXT")))
+					txtChatMessageEditor.setText("");
 			}
 		});
 
-		editorPane.addKeyListener(new KeyAdapter() {
+		txtChatMessageEditor.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				
-				if (e.getKeyCode() == KeyEvent.VK_ENTER && !editorPane.getText().isEmpty()) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !txtChatMessageEditor.getText().isEmpty()) {
 					e.consume();
 					try {
-						client.sendMessage(editorPane.getText().trim());
+						client.sendMessage(txtChatMessageEditor.getText().trim());
 					} catch (IOException e1) {
 						logger.error(e1);
 					}
-					editorPane.setText("");
+					txtChatMessageEditor.setText("");
 				}
 
 			}
@@ -430,7 +420,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				btnConnect.setEnabled(true);
 				btnLogout.setEnabled(false);
 				listPlayerModel.removeAllElements();
-				editorPane.setEditable(false);
+				txtChatMessageEditor.setEditable(false);
 				listMsgModel.removeAllElements();
 			}
 
@@ -442,7 +432,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				txtServer.setEnabled(false);
 				btnConnect.setEnabled(false);
 				btnLogout.setEnabled(true);
-				editorPane.setEditable(true);
+				txtChatMessageEditor.setEditable(true);
 				
 				
 				

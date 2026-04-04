@@ -3,7 +3,6 @@ package org.magic.gui.renderer;
 import java.awt.BorderLayout;
 import java.awt.Component;
 
-import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -15,29 +14,36 @@ import javax.swing.table.TableCellRenderer;
 import org.magic.api.beans.game.Player;
 import org.magic.gui.components.renderer.PlayerPanel;
 
-public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Player> {
+public class PlayerRenderer extends JPanel implements TableCellRenderer, ListCellRenderer<Player> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private PlayerPanel pComponent;
+	private JPanel separator;
+
+	public PlayerRenderer() {
+		
+		setLayout(new BorderLayout());
+		separator = new JPanel();
+		pComponent = new PlayerPanel();
+		
+		add(separator,BorderLayout.WEST);
+		add(pComponent,BorderLayout.CENTER);
+
+	}
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Player> list, Player value, int index,boolean isSelected, boolean cellHasFocus) {
-		var panel = new JPanel();
-		var separator = new JPanel();
 		
-		panel.setLayout(new BorderLayout());
-		
-		
-		
-		var comp= component(value);
+		pComponent.setPlayer(value);
 		
 		var color = value.getState().getColor();
-	
-		comp.setBorder(new LineBorder(color));
+		pComponent.setBorder(new LineBorder(color));
 		separator.setBackground(color);
 		
-		panel.add(separator,BorderLayout.WEST);
-		panel.add(comp,BorderLayout.CENTER);
-		
-		
-		return panel;
+		return this;
 	}
 	
 	
@@ -47,8 +53,8 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 		if(value==null)
 			return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-
-		var pComponent= component((Player)value);
+		
+		pComponent.setPlayer((Player)value);
 		
 		
 		
@@ -67,13 +73,5 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 		return pComponent;
 	}
 
-
-	private JComponent component(Player value) {
-		var pComponent = new PlayerPanel();
-		pComponent.setPlayer(value);
-		return pComponent;
-	}
-
-	
 
 }
