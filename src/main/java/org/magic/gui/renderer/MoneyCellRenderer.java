@@ -10,7 +10,9 @@ import javax.swing.table.TableCellRenderer;
 import org.magic.api.beans.technical.MoneyValue;
 import org.magic.services.tools.UITools;
 
-public class MoneyCellRenderer implements TableCellRenderer {
+public class MoneyCellRenderer extends JLabel implements TableCellRenderer {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
@@ -25,23 +27,21 @@ public class MoneyCellRenderer implements TableCellRenderer {
 				//do nothing
 			}
 	
-
-		var l= new JLabel(text,SwingConstants.CENTER);
-		   l.setOpaque(true);
+		setText(text);
+		setHorizontalAlignment(SwingConstants.CENTER);
+		setOpaque(true);
 			if(isSelected)
 			{
-				l.setBackground(table.getSelectionBackground());
-				l.setForeground(table.getSelectionForeground());
+				setBackground(table.getSelectionBackground());
+				setForeground(table.getSelectionForeground());
 			}
 			else
 			{
-				l.setBackground(table.getBackground());
-				l.setForeground(table.getForeground());
+				setBackground(table.getBackground());
+				setForeground(table.getForeground());
 			}
 
-
-
-		return l;
+		return this;
 	}
 
 }

@@ -109,7 +109,7 @@ import org.magic.gui.components.card.MagicCardMainDetailPanel;
 import org.magic.gui.renderer.ContactRenderer;
 import org.magic.gui.renderer.GradingCellRenderer;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
-import org.magic.gui.renderer.MagicEdiitionCellRenderer;
+import org.magic.gui.renderer.MagicEditionCellRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.gui.renderer.MoneyCellRenderer;
@@ -253,7 +253,7 @@ public class UITools {
 
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(Instant.class, new DateTableCellEditorRenderer());
-				table.setDefaultRenderer(MTGEdition.class, new MagicEdiitionCellRenderer());
+				table.setDefaultRenderer(MTGEdition.class, new MagicEditionCellRenderer());
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
 				table.setDefaultRenderer(Player.class, new PlayerRenderer());
 				table.setDefaultRenderer(Contact.class, new ContactRenderer());

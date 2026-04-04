@@ -9,7 +9,9 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.shop.Contact;
 
-public class ContactRenderer implements TableCellRenderer {
+public class ContactRenderer extends JLabel implements TableCellRenderer {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
@@ -21,22 +23,22 @@ public class ContactRenderer implements TableCellRenderer {
 
 		Contact p = (Contact) value;
 
-		var pComponent = new JLabel(p.getName() + " " + p.getLastName());
-		pComponent.setOpaque(true);
+		setText(p.getName() + " " + p.getLastName());
+		setOpaque(true);
 
 
 			if(isSelected)
 			{
-				pComponent.setForeground(table.getSelectionForeground());
-				pComponent.setBackground(table.getSelectionBackground());
+				setForeground(table.getSelectionForeground());
+				setBackground(table.getSelectionBackground());
 			}
 			else
 			{
-				pComponent.setForeground(table.getForeground());
-				pComponent.setBackground(table.getBackground());
+				setForeground(table.getForeground());
+				setBackground(table.getBackground());
 			}
 
-		return pComponent;
+		return this;
 
 	}
 

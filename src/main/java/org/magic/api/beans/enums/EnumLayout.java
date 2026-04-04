@@ -43,7 +43,7 @@ public enum EnumLayout implements MTGEnumeration{
 		}
 		catch(Exception _)
 		{
-			logger.warn("Layout {} is not found",s);
+			logger.warn("EnumLayout {} is not found",s);
 			return null;
 		}
 	}

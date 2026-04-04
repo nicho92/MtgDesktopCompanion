@@ -14,16 +14,21 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconsProvider;
 
-public class MagicEdiitionCellRenderer implements TableCellRenderer {
+public class MagicEditionCellRenderer extends JPanel implements TableCellRenderer {
 
+	private static final long serialVersionUID = 1L;
 	private Font f = MTGControler.getInstance().getFont().deriveFont(Font.PLAIN);
-	JPanel pane = new JPanel();
-
-	public MagicEdiitionCellRenderer() {
+	private JLabel lab;
+	
+	
+	public MagicEditionCellRenderer() {
 		var flowLayout = new FlowLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		pane.setLayout(flowLayout);
+		setLayout(flowLayout);
+		lab = new JLabel();
+		add(lab);
+		
 	}
 
 	@Override
@@ -33,28 +38,28 @@ public class MagicEdiitionCellRenderer implements TableCellRenderer {
 		if(value==null)
 			return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-		pane.removeAll();
-		pane.setBackground(table.getBackground());
+//	removeAll();
+		setBackground(table.getBackground());
 
 		MTGEdition ed = (MTGEdition) value;
-		var l = new JLabel(IconsProvider.getInstance().get16(ed.getId()));
-			l.setText(ed.getSet());
-			l.setToolTipText(ed.getSet());
-			l.setOpaque(false);
+			lab.setIcon(IconsProvider.getInstance().get16(ed.getId()));
+			lab.setText(ed.getSet());
+			lab.setToolTipText(ed.getSet());
+			lab.setOpaque(false);
 			if(isSelected)
 			{
-				l.setForeground(table.getSelectionForeground());
-				pane.setBackground(table.getSelectionBackground());
+				lab.setForeground(table.getSelectionForeground());
+				setBackground(table.getSelectionBackground());
 			}
 			else
 			{
-				l.setForeground(table.getForeground());
-				pane.setBackground(table.getBackground());
+				lab.setForeground(table.getForeground());
+				setBackground(table.getBackground());
 			}
 
-			l.setFont(f);
-			pane.add(l);
-		return pane;
+			lab.setFont(f);
+			
+		return this;
 
 	}
 
