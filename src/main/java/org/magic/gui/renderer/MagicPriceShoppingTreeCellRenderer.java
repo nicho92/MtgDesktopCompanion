@@ -9,35 +9,29 @@ import javax.swing.tree.TreeCellRenderer;
 import org.magic.api.beans.MTGPrice;
 import org.magic.services.MTGConstants;
 
-public class MagicPriceShoppingTreeCellRenderer implements TreeCellRenderer{
+public class MagicPriceShoppingTreeCellRenderer extends JLabel implements TreeCellRenderer{
 
-	private JLabel lab;
-
-
-	public MagicPriceShoppingTreeCellRenderer() {
-		lab = new JLabel();
-	}
 	
-	
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,int row, boolean hasFocus) {
-		lab.setBackground(tree.getBackground());
-		lab.setForeground(tree.getForeground());
-		lab.setText(value.toString());
+		setBackground(tree.getBackground());
+		setForeground(tree.getForeground());
+		setText(value.toString());
 		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
 
 		if(value instanceof String)
 		{
-			lab.setIcon(MTGConstants.ICON_TAB_USER);
+			setIcon(MTGConstants.ICON_TAB_USER);
 		}
 
 
 		if(value instanceof MTGPrice)
 		{
-
-		   lab.setIcon(MTGConstants.ICON_TAB_CARD);
+		   setIcon(MTGConstants.ICON_TAB_CARD);
 		}
-		return lab;
+		return this;
 	}
 
 }

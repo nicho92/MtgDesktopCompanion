@@ -12,26 +12,27 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.ImageTools;
 
-public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
+public class MTGPluginTreeCellRenderer extends JLabel  implements TreeCellRenderer{
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,int row, boolean hasFocus) {
-		var lab = new JLabel();
 		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
-		lab.setBackground(tree.getBackground());
-		lab.setForeground(tree.getForeground());
+		setBackground(tree.getBackground());
+		setForeground(tree.getForeground());
 		if(value instanceof MTGPlugin p)
 		{
-		   lab.setFont(lab.getFont().deriveFont(Font.BOLD));
-		   lab.setText(value.toString());
-		   lab.setIcon( ImageTools.resize(p.getIcon(),24,24));
+		   setFont(getFont().deriveFont(Font.BOLD));
+		   setText(value.toString());
+		   setIcon( ImageTools.resize(p.getIcon(),24,24));
 
 		}else if (value instanceof Entry<?, ?> e)
 		{
-			lab.setIcon(MTGConstants.ICON_MANA_INCOLOR);
-			lab.setText(e.getKey().toString());
+			setIcon(MTGConstants.ICON_MANA_INCOLOR);
+			setText(e.getKey().toString());
 		}
-		return lab;
+		return this;
 	}
 
 }

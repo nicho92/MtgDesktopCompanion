@@ -17,7 +17,10 @@ public class NewsTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,boolean isLeaf, int row, boolean focused) {
-	
+		
+		setText(String.valueOf(value));
+		
+		
 		if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGNews news) {
 			try {
 				setIcon(news.getProvider().getIcon());

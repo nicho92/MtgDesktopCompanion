@@ -26,8 +26,17 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	private URL generateLink(MTGCard mc, boolean crop) throws MalformedURLException {
 
-		var url = new StringBuilder("https://cards.scryfall.io/")
-				.append( getProperty("PIC_SIZE", "large"));
+		var url = new StringBuilder("https://cards.scryfall.io/");
+		
+		
+		if(crop)
+		{
+			url.append("art_crop");
+		}
+		else
+		{
+			url.append( getProperty("PIC_SIZE", "large"));
+		}
 				
 		if(mc.isDoubleFaced() && !mc.getSide().equals("a") && mc.getLayout()!=EnumLayout.MELD)
 			url.append("/back/");

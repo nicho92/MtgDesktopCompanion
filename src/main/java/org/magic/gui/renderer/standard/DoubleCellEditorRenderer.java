@@ -23,25 +23,31 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	private JFormattedTextField fmtTxtField;
 	private NumberFormat format = new DecimalFormat();
 	private boolean enableArrow;
-
+	private JLabel lab;
 
 	public DoubleCellEditorRenderer() {
-		fmtTxtField = new JFormattedTextField(format);
-		enableArrow=false;
+		this(false);
 	}
 
 	public DoubleCellEditorRenderer(boolean enabledArrow)
 	{
 		this.enableArrow=enabledArrow;
 		fmtTxtField = new JFormattedTextField(format);
+		lab=new JLabel();
+		lab.setOpaque(true);
+		lab.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 	public DoubleCellEditorRenderer(boolean enablePercent, boolean enabledArrow)
 	{
-		this.enableArrow=enabledArrow;
 		if(enablePercent)
 			this.format=NumberFormat.getPercentInstance();
 
+		lab = new JLabel();
+		lab.setOpaque(true);
+		lab.setHorizontalAlignment(SwingConstants.CENTER);
+
+		this.enableArrow=enabledArrow;
 		fmtTxtField = new JFormattedTextField(format);
 	}
 
@@ -68,8 +74,7 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 
 
 		if(value==null)
-			return new JLabel();
-
+			return lab;
 
 		if(value instanceof Long l)
 			val = l.doubleValue();
@@ -77,41 +82,34 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 			val = l;
 
 
-		var l= new JLabel(format.format(val),SwingConstants.CENTER);
-		l.setOpaque(true);
+		lab.setText(format.format(val));
+		
 		if(isSelected)
 		{
-			l.setBackground(table.getSelectionBackground());
-			l.setForeground(table.getSelectionForeground());
+			lab.setBackground(table.getSelectionBackground());
+			lab.setForeground(table.getSelectionForeground());
 		}
 		else
 		{
-			l.setBackground(table.getBackground());
-			l.setForeground(table.getForeground());
+			lab.setBackground(table.getBackground());
+			lab.setForeground(table.getForeground());
 
 		}
 
 		if(enableArrow) {
-			l.setHorizontalTextPosition(SwingConstants.LEFT);
+			lab.setHorizontalTextPosition(SwingConstants.LEFT);
 			if (val > 0)
-			{
-				l.setIcon(MTGConstants.ICON_UP);
-			}
+				lab.setIcon(MTGConstants.ICON_UP);
 
 			if (val < 0)
-			{
-				l.setIcon(MTGConstants.ICON_DOWN);
-
-			}
+				lab.setIcon(MTGConstants.ICON_DOWN);
 
 			if (val == 0)
-			{
-				l.setIcon(MTGConstants.ICON_STANDBY);
-			}
+				lab.setIcon(MTGConstants.ICON_STANDBY);
 
 		}
 
-		return l;
+		return lab;
 	}
 
 

@@ -19,11 +19,20 @@ public class BooleanCellEditorRenderer extends AbstractCellEditor implements Tab
 	 */
 	private static final long serialVersionUID = 1L;
 	private JCheckBox cbox;
+	private JPanel p;
 
 
 	public BooleanCellEditorRenderer() {
 		cbox = new JCheckBox();
 		cbox.setHorizontalAlignment(SwingConstants.CENTER);
+		p = new JPanel();
+		p.setOpaque(true);
+		p.setLayout(new BorderLayout());
+		p.add(cbox,BorderLayout.CENTER);
+		cbox.setOpaque(false);
+		
+		
+		
 	}
 
 	@Override
@@ -33,20 +42,12 @@ public class BooleanCellEditorRenderer extends AbstractCellEditor implements Tab
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		var p = new JPanel();
-			p.setOpaque(true);
-
-
-
+		
 			if(value==null)
 				return p;
 
-
 			cbox.setSelected(Boolean.parseBoolean(value.toString()));
-			cbox.setOpaque(false);
-			p.setLayout(new BorderLayout());
-			p.add(cbox,BorderLayout.CENTER);
-
+			
 			if(isSelected)
 				p.setBackground(table.getSelectionBackground());
 			else

@@ -5,36 +5,44 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.tools.ImageTools;
 
-public class MTGPluginCellRenderer implements TableCellRenderer{
+public class MTGPluginCellRenderer extends JLabel  implements TableCellRenderer{
+
+	
+	
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		var lab = new JLabel();
 
+		if(value==null)
+			return new DefaultTableCellRenderer();
+		
+		
 		var plug = ((MTGPlugin)value);
 
-		lab.setIcon( ImageTools.resize(plug.getIcon(),24,24));
-		lab.setText(plug.getName());
-		lab.setOpaque(true);
+		setIcon( ImageTools.resize(plug.getIcon(),24,24));
+		setText(plug.getName());
+		setOpaque(true);
 
 
 		if(plug.isPartner())
-			 lab.setFont(lab.getFont().deriveFont(Font.BOLD));
+			setFont(getFont().deriveFont(Font.BOLD));
 
 
 		if (isSelected) {
-			lab.setBackground(table.getSelectionBackground());
+			setBackground(table.getSelectionBackground());
+			setForeground(table.getSelectionForeground());
 		} else {
-			lab.setBackground(table.getBackground());
+			setBackground(table.getBackground());
+			setForeground(table.getForeground());
 		}
-
-
-		return lab;
+		return this;
 	}
 
 }

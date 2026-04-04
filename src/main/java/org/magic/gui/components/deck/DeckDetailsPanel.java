@@ -96,7 +96,7 @@ public class DeckDetailsPanel extends JComponent {
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 
-		add(new JLabel(capitalize("QTY") + " :"), UITools.createGridBagConstraints(null, null, 1, 5));
+		add(new JLangLabel("QTY",true), UITools.createGridBagConstraints(null, null, 1, 5));
 		nbCardsProgress = new JProgressBar();
 		nbCardsProgress.setStringPainted(true);
 		add(nbCardsProgress, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
@@ -123,7 +123,7 @@ public class DeckDetailsPanel extends JComponent {
 		panelLegalities.add(lbmnd);
 		panelLegalities.add(lbcmd);
 
-		add(new JLabel(capitalize("SIDEBOARD") + " :"), UITools.createGridBagConstraints(null, null, 1, 6));
+		add(new JLangLabel("SIDEBOARD",true), UITools.createGridBagConstraints(null, null, 1, 6));
 
 		nbSideProgress = new JProgressBar();
 		nbSideProgress.setMaximum(15);
@@ -209,7 +209,7 @@ public class DeckDetailsPanel extends JComponent {
 			@Override
 			protected Void doInBackground() throws Exception {
 				for (var i = 0; i < 4; i++) {
-					BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).extractPicture((MTGCard) magicDeck.getMain().keySet().toArray()[i]);
+					var im = getEnabledPlugin(MTGPictureProvider.class).extractPicture((MTGCard) magicDeck.getMain().keySet().toArray()[i]);
 					publish(im);
 				}
 				return null;

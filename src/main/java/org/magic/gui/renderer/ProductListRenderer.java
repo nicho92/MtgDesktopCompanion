@@ -13,19 +13,18 @@ public class ProductListRenderer implements ListCellRenderer<MTGProduct> {
 
 	ProductRendererComponent render;
 	
+	public ProductListRenderer() {
+		render = new ProductRendererComponent();
+	}
+	
+	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MTGProduct> list, MTGProduct value, int index,boolean isSelected, boolean cellHasFocus) {
 
 
 		if(value!=null)
 		{
-			
-			if(render==null)
-				render = new ProductRendererComponent(list);
-			
-			
 			render.init(value);
-			
 			
 			if (isSelected) {
 				render.setBackground(list.getSelectionBackground());
@@ -34,7 +33,6 @@ public class ProductListRenderer implements ListCellRenderer<MTGProduct> {
 				render.setBackground(list.getBackground());
 				render.setForeground(list.getForeground());
 			}
-
 			return render;
 		}
 

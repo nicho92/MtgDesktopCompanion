@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
@@ -33,16 +32,8 @@ public class ProductRendererComponent extends JPanel {
 
 	
 	private transient Map<MTGProduct, BufferedImage> loadedImages;
-	private JList<? extends MTGProduct> list;
-	
-	
-	public ProductRendererComponent(JList<? extends MTGProduct> list) {
-		this.list=list;
-		initGUI();
-	}
 
-	private void initGUI() {
-		
+	public ProductRendererComponent() {
 		loadedImages =  new ConcurrentHashMap<>();
 		
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -64,9 +55,8 @@ public class ProductRendererComponent extends JPanel {
 
 		lblProductType = new JLabel();
 		add(lblProductType, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 2));
-		
 	}
-
+	
 	public void init(MTGProduct p) {
 
 		if(p==null)
@@ -82,7 +72,7 @@ public class ProductRendererComponent extends JPanel {
 		if(p.getCategory()!=null)
 			lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
 		
-		 var image = loadedImages.get(p);
+		var image = loadedImages.get(p);
         if (image == null)
         {
         	var sw = new SwingWorker<BufferedImage, Void>()
@@ -102,13 +92,6 @@ public class ProductRendererComponent extends JPanel {
         	                return null;
         	            }
         	        }
-
-        	        @Override
-        	        protected void done()
-        	        {
-        	        	list.repaint();
-        	        }
-        	        
         	};
         	
         	ThreadManager.getInstance().runInEdt(sw, "loading");
