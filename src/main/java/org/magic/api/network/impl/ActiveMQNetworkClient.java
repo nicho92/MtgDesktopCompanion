@@ -195,9 +195,9 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		try {
 			logger.info("Getting a search stock query {}",s);
 			
-			if(s.getItem().getTypeProduct()==EnumItems.CARD)
+			if(s.getAttachement().getTypeProduct()==EnumItems.CARD)
 			{
-				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)s.getItem());
+				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)s.getAttachement());
 				sendMessage(new SearchAnswerMessage(s, ret));
 			}
 		} catch (SQLException e) {

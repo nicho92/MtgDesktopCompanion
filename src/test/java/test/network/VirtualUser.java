@@ -79,7 +79,7 @@ public class VirtualUser {
 			
 			if(msg instanceof SearchMessage search)
 			{
-				var c = (MTGCard)search.getItem();
+				var c = (MTGCard)search.getAttachement();
 				var ret = stock.stream().filter(mcs->mcs.getProduct().getId().equals(c.getId())).toList();
 				if(!ret.isEmpty())
 				{

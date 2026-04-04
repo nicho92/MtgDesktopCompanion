@@ -15,7 +15,7 @@ public class SearchMessage extends AbstractMessage {
 		setMessage("I'm searching  "+ item);
 	}
 
-	public MTGProduct getItem() {
+	public MTGProduct getAttachement() {
 		return item;
 	}
 

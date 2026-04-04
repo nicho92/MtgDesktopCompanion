@@ -25,6 +25,7 @@ public enum EnumLayout implements MTGEnumeration{
 	@SerializedName(alternate = "mutate", value = "MUTATE")								MUTATE,
 	@SerializedName(alternate = "normal", value = "NORMAL") 							NORMAL,
 	@SerializedName(alternate = "planar", value = "PLANAR")								PLANAR,
+	@SerializedName(alternate = "prepare", value="PREPARE")								PREPARE,
 	@SerializedName(alternate = "prototype", value = "PROTOTYPE")						PROTOTYPE,
 	@SerializedName(alternate = "reversible_card", value = "REVERSIBLE_CARD")		REVERSIBLE_CARD,
 	@SerializedName(alternate = "saga", value = "SAGA")										SAGA,

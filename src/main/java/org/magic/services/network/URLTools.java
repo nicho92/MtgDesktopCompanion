@@ -36,8 +36,6 @@ import com.google.gson.JsonParser;
 
 public class URLTools {
 
-
-
 	private static Logger logger = MTGLogger.getLogger(URLTools.class);
 
 	public static final String HEADER_JSON="application/json";
@@ -63,8 +61,7 @@ public class URLTools {
 	public static final String AUTHORIZATION = "Authorization";
 	
 	
-	private URLTools()	{
-	}
+	private URLTools()	{	}
 
 	public static String getExternalIp()
 	{
@@ -74,8 +71,6 @@ public class URLTools {
 			return "0.0.0.0";
 		}
 	}
-
-
 
 	public static Map<String,String> parseLinksHeader(Header header)
 	{
@@ -186,15 +181,11 @@ public class URLTools {
 			logger.error(e);
 			return false;
 		}
-
-
 	}
 
 	public static MTGHttpClient newClient() {
 		return new MTGHttpClient();
 	}
-
-
 
 	public static String getLocation(String url) {
 		try {
@@ -210,10 +201,7 @@ public class URLTools {
 	public static byte[] readAsBinary(String url) throws IOException {
 			var is = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent();
 			return IOUtils.toByteArray(is);
-
-
 	}
-
 
 	public static String getInternalIP() {
 		try {

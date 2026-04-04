@@ -467,7 +467,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 									if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) 
 									{
 												
-											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)msgs.getItem()).stream().filter(mcs->mcs.getQte()>0).toList();
+											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)msgs.getAttachement()).stream().filter(mcs->mcs.getQte()>0).toList();
 											if(!ret.isEmpty())
 												client.sendMessage(new SearchAnswerMessage(msgs, ret));
 											

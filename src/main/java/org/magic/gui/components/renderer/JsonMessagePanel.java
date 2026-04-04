@@ -116,7 +116,7 @@ public class JsonMessagePanel extends JPanel {
 		
 		if(value.getTypeMessage()==MSG_TYPE.SEARCH)
 		{
-			var item = ((SearchMessage)value).getItem();
+			var item = ((SearchMessage)value).getAttachement();
 			try {
 				lblIcon.setIcon(read(item));
 			} catch (IOException _) {

@@ -24,6 +24,6 @@ public class SearchAnswerMessage extends AbstractMessage {
 		setTypeMessage(MSG_TYPE.ANSWER);
 		this.searchQuery = msg;
 		this.resultItems = ret;
-		setMessage("I have \""+msg.getItem()+ "\" for you "+ msg.getAuthor().getName());
+		setMessage("I have \""+msg.getAttachement()+ "\" for you "+ msg.getAuthor().getName());
 	}
 }
