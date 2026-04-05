@@ -103,8 +103,8 @@ public class ProductRendererComponent extends JPanel {
         	        
         	        @Override
         	        protected void done() {
-        	        	lblImage.revalidate();
-        	        	lblImage.repaint();
+        	        	revalidate();
+        	        	repaint();
         	        }
         	        
         	};

@@ -51,7 +51,6 @@ import org.magic.gui.components.prices.DeckPricePanel;
 import org.magic.gui.components.prices.GroupedShoppingPanel;
 import org.magic.gui.components.prices.PriceSuggesterComponent;
 import org.magic.gui.components.prices.PricesTablePanel;
-import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.components.tech.ServerStatePanel;
 import org.magic.gui.components.widgets.JExportButton;

@@ -23,7 +23,7 @@ public class ActiveMQConsoleServer extends AbstractWarServer{
 		
 		@Override
 		protected String warUri() {
-			return "https://repo1.maven.org/maven2/org/apache/activemq/artemis-console/"+getVersion()+"/artemis-console-"+getVersion()+".war";
+			return "https://repo1.maven.org/maven2/org/apache/artemis/artemis-console/"+getVersion()+"/artemis-console-"+getVersion()+".war";
 		}
 	
 		@Override

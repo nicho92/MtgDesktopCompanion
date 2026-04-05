@@ -10,10 +10,14 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.services.MTGConstants;
+import org.magic.services.tools.ImageTools;
 
-public class ShortKeysCellRenderer implements TableCellRenderer{
+public class ShortKeysCellRenderer extends JLabel implements TableCellRenderer{
 
+	private static final long serialVersionUID = 1L;
+
+	private final int ICON_SIZE=32;
+	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column)
 	{
@@ -35,23 +39,26 @@ public class ShortKeysCellRenderer implements TableCellRenderer{
 
 
 
-		table.setRowHeight(MTGConstants.ICON_NEW.getIconHeight());
-		var l= new JLabel(val, ic, SwingConstants.LEFT);
-		l.setOpaque(true);
+		table.setRowHeight(ICON_SIZE);
+		
+		setText(val);
+		setIcon(ImageTools.resize(ic, ICON_SIZE,ICON_SIZE));
+		setHorizontalAlignment(SwingConstants.LEFT);
+		setOpaque(true);
 
 		if(isSelected)
 		{
-			l.setBackground(table.getSelectionBackground());
-			l.setForeground(table.getSelectionForeground());
+			setBackground(table.getSelectionBackground());
+			setForeground(table.getSelectionForeground());
 		}
 		else
 		{
-			l.setBackground(table.getBackground());
-			l.setForeground(table.getForeground());
+			setBackground(table.getBackground());
+			setForeground(table.getForeground());
 		}
 
 
-		return l;
+		return this;
 	}
 
 }
