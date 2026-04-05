@@ -12,6 +12,14 @@ public enum EnumPromoType implements MTGEnumeration{
 	@SerializedName(alternate = "ampersand", value = "AMPERSAND") AMPERSAND,
 	@SerializedName(alternate = "arenaleague", value = "ARENALEAGUE") 		ARENALEAGUE,
 	@SerializedName(alternate = "beginnerbox", value = "BEGINNERBOX") 		BEGINNERBOX,
+	
+	@SerializedName(alternate = "blueemerald", value="BLUEEMERALD")		BLUEEMERALD,
+	@SerializedName(alternate = "whiteemerald", value="WHITEEMERALD")	WHITEEMERALD,
+	@SerializedName(alternate = "greenemerald", value="GREENEMERALD")	GREENEMERALD,
+	@SerializedName(alternate = "cyanemerald", value="CYANEMERALD")	CYANEMERALD,
+	@SerializedName(alternate = "redemerald", value="REDEMERALD")	REDEMERALD,
+	@SerializedName(alternate = "yellowemerald", value="YELLOWEMERALD")	YELLOWEMERALD,
+	
 	@SerializedName(alternate = "boosterfun", value = "BOOSTERFUN")   		BOOSTERFUN,
 	@SerializedName(alternate = "boxtopper", value = "BOXTOPPER") 	  		BOXTOPPER,
 	@SerializedName(alternate = "brawldeck", value = "BRAWLDECK") 	 		BRAWLDECK,
