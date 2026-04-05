@@ -47,8 +47,10 @@ public class JTagsPanel extends JComponent {
 
 
 	public JTagsPanel() {
-		initGUI();
 		tags = new ArrayList<>();
+		
+		initGUI();
+		
 		isEditable = true;
 	}
 
@@ -66,7 +68,7 @@ public class JTagsPanel extends JComponent {
 
 		btnAdd = new JButton();
 
-		AbstractAction action = new AbstractAction("+") {
+		var action = new AbstractAction("+") {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent ae) {
@@ -76,7 +78,7 @@ public class JTagsPanel extends JComponent {
 				panelTags.revalidate();
 				btnAdd.setEnabled(false);
 				field.addActionListener(_ -> {
-					String s = field.getText();
+					var s = field.getText();
 					panelTags.remove(field);
 					if (!s.equals(""))
 						addTag(s);
@@ -152,8 +154,8 @@ public class JTagsPanel extends JComponent {
 
 
 	public void addTag(String t) {
-		tags.add(t);
-		addLabel(t);
+			tags.add(t);
+			addLabel(t);
 	}
 
 

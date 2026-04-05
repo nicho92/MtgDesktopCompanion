@@ -996,7 +996,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		deck.setSideBoard(readDeckBoard(rs, "sideboard"));
 
 		if(rs.getString("tags")!=null && !rs.getString("tags").isEmpty())
-			deck.setTags(Arrays.asList(rs.getString("tags").split("\\|")));
+		{
+			for(var t : rs.getString("tags").split("\\|"))
+					deck.getTags().add(t);
+		}
 
 		return deck;
 

@@ -9,7 +9,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -20,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+import javax.swing.border.LineBorder;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -56,7 +60,7 @@ public class DeckDetailsPanel extends JComponent {
 	private JLabel lbcmd;
 	private JLabel lbLeg;
 	private JProgressBar nbSideProgress;
-	private JPanel panel;
+	private JPanel panelDeckPictures;
 	private JTagsPanel tagsPanel;
 	private JLabel lblDate;
 	private JLabel lblDateInformation;
@@ -132,13 +136,14 @@ public class DeckDetailsPanel extends JComponent {
 
 		add(new JScrollPane(textArea), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 4));
 
-		add(new JLabel(capitalize("TAGS") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7));
+		add(new JLangLabel("TAGS",true), UITools.createGridBagConstraints(null, null, 1, 7));
 
 		tagsPanel = new JTagsPanel();
-		add(tagsPanel, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 2, 7));
+		add(tagsPanel, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 2, 7));
 
-		panel = new JPanel();
-		add(panel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 8));
+		panelDeckPictures = new JPanel();
+		
+		add(panelDeckPictures, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 8));
 
 		if (magicDeck != null) {
 			mBindingGroup = initDataBindings();
@@ -201,30 +206,31 @@ public class DeckDetailsPanel extends JComponent {
 		if(magicDeck==null || magicDeck.getMain().isEmpty())
 				return;
 
-
-		panel.removeAll();
+		panelDeckPictures.removeAll();
 		SwingWorker<Void, BufferedImage> sw = new SwingWorker<>()
 		{
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				for (var i = 0; i < 4; i++) {
-					var im = getEnabledPlugin(MTGPictureProvider.class).extractPicture((MTGCard) magicDeck.getMain().keySet().toArray()[i]);
-					publish(im);
-				}
-				return null;
-			}
+				
+				for(var e : magicDeck.getMain().keySet().stream().skip(0).limit(4).toList())
+					publish(getEnabledPlugin(MTGPictureProvider.class).extractPicture(e));
 
+				return null;
+				
+			}
+			
 			@Override
 			protected void process(List<BufferedImage> chunks) {
-				panel.add(new JLabel(new ImageIcon(ImageTools.resize(chunks.get(0), 150, 220))));
+				for(var b : chunks)
+					panelDeckPictures.add(new JLabel(new ImageIcon(ImageTools.resize(b, 150, 220))));
 			}
-
+			
 
 			@Override
 			protected void done() {
-				panel.revalidate();
-				panel.repaint();
+				panelDeckPictures.revalidate();
+				panelDeckPictures.repaint();
 			}
 
 		};
