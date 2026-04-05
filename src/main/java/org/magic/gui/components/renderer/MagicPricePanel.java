@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.SystemColor;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,15 +19,31 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.tools.UITools;
 public class MagicPricePanel extends JPanel {
 
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
+	private JLabel lblName;
+	private JLabel lblpriceValue;
+	private JLangLabel lblSeller;
+	private JLabel lblSellerinfo;
+	private JLangLabel lblInfos;
 
-	public MagicPricePanel(MTGPrice price) {
+	public void init(MTGPrice price)
+	{
+		lblName.setText(price.getSite());
+		try{
+			lblName.setIcon(PluginRegistry.inst().getPlugin(price.getSite(), MTGPricesProvider.class).getIcon());
+		}
+		catch(Exception _)
+		{
+			//do nothing
+		}
+		lblpriceValue.setText(UITools.formatDouble(price.getValue()) + " " +price.getCurrency());
+		lblSellerinfo.setText(price.getSeller());
+		lblInfos.setText(price.getLanguage() + "/" + price.getQuality() + ""+ (price.isFoil() ? "/" + capitalize("FOIL") + "" : ""));
+	}
+	
+	
+	public MagicPricePanel() {
 
-		setBackground(SystemColor.inactiveCaptionBorder);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 55, 108, 0 };
@@ -37,14 +52,7 @@ public class MagicPricePanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		var lblName = new JLabel(price.getSite());
-		try{
-			lblName.setIcon(PluginRegistry.inst().getPlugin(price.getSite(), MTGPricesProvider.class).getIcon());
-		}
-		catch(Exception _)
-		{
-			//do nothing
-		}
+		lblName = new JLabel();
 		lblName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblName, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0,2,null));
@@ -53,21 +61,21 @@ public class MagicPricePanel extends JPanel {
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 0, 1));
 
-		var lblpriceValue = new JLabel(UITools.formatDouble(price.getValue()) + " " +price.getCurrency());
+		lblpriceValue = new JLabel();
 		add(lblpriceValue, UITools.createGridBagConstraints(null, GridBagConstraints.VERTICAL, 1, 1));
 
-		var lblSeller = new JLangLabel("SELLER",true);
+		lblSeller = new JLangLabel("SELLER",true);
 		lblSeller.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblSeller, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 2));
 
-		var lblSellerinfo = new JLabel(price.getSeller());
+		lblSellerinfo = new JLabel();
 		add(lblSellerinfo, UITools.createGridBagConstraints(null, null, 1, 2));
 
-		var lblInfos = new JLangLabel("INFORMATIONS",true);
+		lblInfos = new JLangLabel("INFORMATIONS",true);
 		lblInfos.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblInfos, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
 
-		var lblNewLabel = new JLabel(price.getLanguage() + "/" + price.getQuality() + ""+ (price.isFoil() ? "/" + capitalize("FOIL") + "" : ""));
+		var lblNewLabel = new JLabel();
 		add(lblNewLabel, UITools.createGridBagConstraints(null, null, 1, 3));
 	}
 }

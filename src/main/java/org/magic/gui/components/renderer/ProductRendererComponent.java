@@ -63,14 +63,22 @@ public class ProductRendererComponent extends JPanel {
 			return;
 		
 		lblProductName.setText(p.getName());
+		
 		if(p.getEdition()!=null)
 		{
 			lblProductSet.setText(p.getEdition().getSet());
 			lblProductSet.setIcon(IconsProvider.getInstance().get16(p.getEdition().getId()));
 		}
+		else
+		{
+			lblProductSet.setText("");
+			lblProductSet.setIcon(null);
+		}
 
 		if(p.getCategory()!=null)
 			lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
+		else
+			lblProductType.setText("");
 		
 		var image = loadedImages.get(p);
         if (image == null)
@@ -92,6 +100,13 @@ public class ProductRendererComponent extends JPanel {
         	                return null;
         	            }
         	        }
+        	        
+        	        @Override
+        	        protected void done() {
+        	        	lblImage.revalidate();
+        	        	lblImage.repaint();
+        	        }
+        	        
         	};
         	
         	ThreadManager.getInstance().runInEdt(sw, "loading");

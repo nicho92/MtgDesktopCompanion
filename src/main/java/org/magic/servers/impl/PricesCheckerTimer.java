@@ -6,11 +6,9 @@ import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.Stream;
 
 import javax.swing.Icon;
 
@@ -50,19 +48,20 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 			@Override
 			public void run() {
 				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
-					for (MTGAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
+					for (var alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						alert.getOffers().clear();
-						for (MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class))
+
+						for (var prov : listEnabledPlugins(MTGPricesProvider.class))
 						{
-							List<MTGPrice> okz = new ArrayList<>();
+							var okz = new ArrayList<MTGPrice>();
 							try {
-								Stream<MTGPrice> stream = prov.getPrice(alert.getCard()).stream().filter(p->p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")));
+								var stream = prov.getPrice(alert.getCard()).stream().filter(p->p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")));
 
 								if(alert.isFoil())
 									stream=stream.filter(MTGPrice::isFoil);
 
+								var res= stream.toList();
 
-								List<MTGPrice> res= stream.toList();
 								alert.getOffers().addAll(res);
 								okz.addAll(res);
 								prov.alertDetected(okz);
@@ -76,11 +75,11 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 				var notif = new MTGNotification();
 					notif.setTitle("New offers");
 					notif.setType(MESSAGE_TYPE.INFO);
-					for(String not : getArray("NOTIFIER"))
+					for(var not : getArray("NOTIFIER"))
 					{
 						try {
 
-							MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
+							var notifier = getPlugin(not, MTGNotifier.class);
 							notif.setMessage(notifFormater.generate(notifier.getFormat(), getEnabledPlugin(MTGDao.class).listAlerts(), MTGAlert.class));
 							notifier.send(notif);
 						} catch (IOException e) {

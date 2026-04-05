@@ -1,4 +1,4 @@
-package org.magic.gui;
+ package org.magic.gui;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
@@ -57,6 +57,7 @@ import org.magic.gui.components.tech.ServerStatePanel;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
+import org.magic.gui.renderer.MagicPriceListRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -134,7 +135,7 @@ public class AlarmGUI extends MTGUIComponent {
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		magicCardDetailPanel.enableThumbnail(true);
-		list.setCellRenderer((JList<? extends MTGPrice> _, MTGPrice value, int _, boolean _,boolean _) -> new MagicPricePanel(value));
+		list.setCellRenderer(new MagicPriceListRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(7).setCellRenderer(new DoubleCellEditorRenderer(true));
