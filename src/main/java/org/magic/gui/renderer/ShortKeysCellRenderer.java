@@ -42,10 +42,15 @@ public class ShortKeysCellRenderer extends JLabel implements TableCellRenderer{
 		table.setRowHeight(ICON_SIZE);
 		
 		setText(val);
-		setIcon(ImageTools.resize(ic, ICON_SIZE,ICON_SIZE));
 		setHorizontalAlignment(SwingConstants.LEFT);
 		setOpaque(true);
 
+		
+		
+		if(ic!=null)
+			setIcon(ImageTools.resize(ic, ICON_SIZE,ICON_SIZE));
+		
+		
 		if(isSelected)
 		{
 			setBackground(table.getSelectionBackground());
