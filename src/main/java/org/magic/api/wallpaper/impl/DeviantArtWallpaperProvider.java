@@ -36,6 +36,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	private String bToken;
 	private MTGHttpClient httpclient;
 	private HashMap<String, String> maps;
+	
 
 	@Override
 	public STATUT getStatut() {
