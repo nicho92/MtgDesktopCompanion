@@ -23,6 +23,7 @@
 				"EXCELLENT":"Excellent",
 				"GOOD":"Good",
 				"PLAYED":"Played",
+				"LIGHTLY_PLAYED":"Played",
 				"DAMAGED":"Poor",
 				"POOR":"Poor"
 			}
