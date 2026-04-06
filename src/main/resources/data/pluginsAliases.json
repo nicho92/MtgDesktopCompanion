@@ -19,9 +19,11 @@
 		},
 		"conditions": {
 				"NEAR_MINT" :"Near Mint",
+				"MINT" :"Near Mint",
 				"EXCELLENT":"Excellent",
 				"GOOD":"Good",
 				"PLAYED":"Played",
+				"DAMAGED":"Poor",
 				"POOR":"Poor",
 			}
 		
