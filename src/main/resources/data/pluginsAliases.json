@@ -13,6 +13,21 @@
 		
 	},
 	
+	"CardNexus" : {
+		"regex":{
+			"default":"\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\""
+		},
+		"conditions": {
+				"NEAR_MINT" :"Near Mint",
+				"EXCELLENT":"Excellent",
+				"GOOD":"Good",
+				"PLAYED":"Played",
+				"POOR":"Poor",
+			}
+		
+	},
+	
+	
 	"ManaPool" : {
 				"conditions": {
 				"NEAR_MINT" :"NM",
