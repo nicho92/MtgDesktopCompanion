@@ -14,13 +14,7 @@ public class CardNexusExport  extends AbstractFormattedFileCardExport {
 
 	
 	
-	private static final String COLUMNS = "\"totalQtyOwned\",\"name\",\"printNumber\",\"finish\",\"variant\",\"expansion\",\"game\",\"condition\",\"language\",\"price\"";
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+	private static final String COLUMNS = "\"Qty\",\"name\",\"printNumber\",\"finish\",\"variant\",\"expansion\",\"game\",\"condition\",\"language\",\"price\"";
 	
 	@Override
 	public EnumExportCategory getCategory() {
