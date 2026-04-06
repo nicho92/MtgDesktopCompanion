@@ -697,8 +697,30 @@ public class StockPanelGUI extends MTGUIComponent {
 			addContextComponent(jsonPanel);
 
 
+		initRightPanel();
+		
+		add(bottomPanel, BorderLayout.SOUTH);
+
+		lblCount = new JLabel();
+		bottomPanel.add(lblCount);
+
+
+		gradePanel.getBtnSave().addActionListener(_->{
+			try{
+				MTGCardStock st = UITools.getTableSelection(table, 0);
+				gradePanel.saveTo(st);
+				model.fireTableDataChanged();
+			}
+			catch(Exception _)
+			{
+				MTG.notifyError("Choose a stock");
+			}
+		});
+
+	}
+
+	private void initRightPanel() {
 		rightPanel = new JPanel();
-		rightPanel.setBackground(SystemColor.inactiveCaption);
 		rightPanel.setVisible(false);
 		add(rightPanel, BorderLayout.EAST);
 		
@@ -756,7 +778,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		cboCollection = UITools.createComboboxCollection();
 		rightPanel.add(cboCollection, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 
-
 		textPane = new JTextPane();
 		rightPanel.add(textPane, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 11,2,3));
 
@@ -779,24 +800,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		rightPanel.add(chkboxForceFoil, gbcSepFoil);
 		
 		
-		add(bottomPanel, BorderLayout.SOUTH);
-
-		lblCount = new JLabel();
-		bottomPanel.add(lblCount);
-
-
-		gradePanel.getBtnSave().addActionListener(_->{
-			try{
-				MTGCardStock st = UITools.getTableSelection(table, 0);
-				gradePanel.saveTo(st);
-				model.fireTableDataChanged();
-			}
-			catch(Exception _)
-			{
-				MTG.notifyError("Choose a stock");
-			}
-		});
-
 	}
 
 	@Override
