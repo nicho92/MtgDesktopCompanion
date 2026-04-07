@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -51,6 +52,7 @@ import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
+import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.SealedBoosterTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -58,6 +60,7 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
+import org.magic.services.workers.AbstractObservableWorker;
 
 public class SealedDeckBuildPanel extends JPanel {
 	private static final String SORT_BY = "SORT_BY";
@@ -293,7 +296,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		panelEast.add(new JScrollPane(panelDeck));
 		panelDeck.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth() + 5,(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
 
-		panelEast.add(new JLabel(capitalize("DROP_HERE")),BorderLayout.NORTH);
+		panelEast.add(new JLangLabel("DROP_HERE"),BorderLayout.NORTH);
 
 		panelLands = new JPanel();
 		panelEast.add(panelLands, BorderLayout.SOUTH);
@@ -314,21 +317,29 @@ public class SealedDeckBuildPanel extends JPanel {
 	private void addLands() {
 		var qte = Integer.parseInt(txtNumberLand.getText());
 		var land = cboLands.getSelectedItem().toString();
-		try {
-			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( land, null, true)
-					.get(0);
+		
+			var wk = new AbstractObservableWorker<MTGCard, Void,MTGCardsProvider>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
 
-			for (var i = 0; i < qte; i++) {
-				deck.add(mc);
-				DisplayableCard c = createCard(mc);
-				panelDeck.addComponent(c);
-				panelDeck.postTreatment(c);
-			}
-
-			refreshStats();
-		} catch (IOException e) {
-			logger.error(e);
-		}
+						@Override
+						protected MTGCard doInBackground() throws Exception {
+							return  plug.searchCardByName( land, (MTGEdition) cboEditions.getSelectedItem(), true).get(0);
+						}
+						
+						@Override
+						protected void notifyEnd() {
+							
+							var	mc = getResult();
+								for (var i = 0; i < qte; i++) {
+									deck.add(mc);
+									var c = createCard(mc);
+									panelDeck.addComponent(c);
+									panelDeck.postTreatment(c);
+								}
+								refreshStats();
+						}
+			};
+			
+			ThreadManager.getInstance().runInEdt(wk,"adding lands");
 
 	}
 

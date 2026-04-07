@@ -29,24 +29,29 @@ import com.google.gson.annotations.SerializedName;
 public class MTGCard extends AbstractProduct {
 	private static final long serialVersionUID = 1L;
 
+
+	
 	public static boolean isBasicLand(String cardName)
 	{
 		
 		if(cardName==null)
 			return false;
 		
-		return (cardName.trim().equalsIgnoreCase("Plains")  ||
-				cardName.trim().equalsIgnoreCase("Island")  ||
-				cardName.trim().equalsIgnoreCase("Swamp")   ||
-				cardName.trim().equalsIgnoreCase("Mountain")||
-				cardName.trim().equalsIgnoreCase("Forest") ||
-				cardName.trim().equalsIgnoreCase("Wastes") ||
-				cardName.trim().equalsIgnoreCase("Snow-Covered Plains") ||
-				cardName.trim().equalsIgnoreCase("Snow-Covered Island") ||
-				cardName.trim().equalsIgnoreCase("Snow-Covered Swamp") ||
-				cardName.trim().equalsIgnoreCase("Snow-Covered Mountain") ||
-				cardName.trim().equalsIgnoreCase("Snow-Covered Forest") ||
-				cardName.trim().equalsIgnoreCase("Snow-Covered Wastes")
+		String name = cardName.trim().toLowerCase();
+		
+		
+		return (name.equals("Plains")  ||
+				name.equals("Island")  ||
+				name.equals("Swamp")   ||
+				name.equals("Mountain")||
+				name.equals("Forest") ||
+				name.equals("Wastes") ||
+				name.equals("Snow-Covered Plains") ||
+				name.equals("Snow-Covered Island") ||
+				name.equals("Snow-Covered Swamp") ||
+				name.equals("Snow-Covered Mountain") ||
+				name.equals("Snow-Covered Forest") ||
+				name.equals("Snow-Covered Wastes")
 				);
 	}
 	
