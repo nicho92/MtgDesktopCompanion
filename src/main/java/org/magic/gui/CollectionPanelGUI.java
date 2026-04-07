@@ -284,7 +284,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnAddAllSet.setToolTipText(capitalize("COLLECTION_SET_FULL"));
 		btnMassCollection.setToolTipText(capitalize("COLLECTION_IMPORT"));
 
-		UITools.sort(tableEditions,3,SortOrder.DESCENDING);
+		UITools.sort(tableEditions,5,SortOrder.DESCENDING);
 
 			
 	}

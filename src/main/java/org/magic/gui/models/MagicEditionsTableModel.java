@@ -21,21 +21,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 	public MagicEditionsTableModel() {
 		initColumns();
-	}
-
-	private void initColumns()
-	{
-		setColumns( "EDITION_CODE",
-				"EDITION",
-				"EDITION_SIZE",
-				"DATE_RELEASE",
-				"PC_COMPLETE",
-				"QTY",
-				"EDITION_TYPE",
-				"EDITION_BLOCK",
-				"EDITION_ONLINE",
-				"PREVIEW");
-
+		mapCount = new TreeMap<MTGEdition, Integer>();
 	}
 
 	@Override
@@ -75,6 +61,8 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 	public int getCountDefaultLibrary() {
 		return mapCount.values().stream().mapToInt(Integer::intValue).sum();
 	}
+	
+
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
@@ -83,13 +71,29 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 			case 0 : return ImageIcon.class;
 			case 1 : return MTGEdition.class;
 			case 2 : return Integer.class;
+			case 3 : return Integer.class;
 			case 4 : return Double.class;
-			case 5 : return Integer.class;
 			case 8 | 9 : return Boolean.class;
 			default : return super.getColumnClass(columnIndex);
 		}
 	}
 
+
+	private void initColumns()
+	{
+		setColumns( 
+				"EDITION_CODE",
+				"EDITION",
+				"QTY",
+				"EDITION_SIZE",
+				"PC_COMPLETE",
+				"DATE_RELEASE",
+				"EDITION_TYPE",
+				"EDITION_BLOCK",
+				"EDITION_ONLINE",
+				"PREVIEW");
+
+	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
@@ -99,12 +103,12 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 		if (column == 1)
 			return e;
-
+		
 		if (column == 2)
-			return e.getCardCountPhysical();
+			return mapCount.get(e)==null?0:mapCount.get(e);
 
 		if (column == 3)
-			return e.getReleaseDate();
+			return e.getCardCountPhysical();
 
 		if (column == 4) {
 
@@ -116,10 +120,11 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 			else
 				return (double) mapCount.get(e) / 1;
 		}
-
+		
 		if (column == 5)
-			return mapCount.get(e)==null?0:mapCount.get(e);
+			return e.getReleaseDate();
 
+			
 		if (column == 6)
 			return e.getType();
 

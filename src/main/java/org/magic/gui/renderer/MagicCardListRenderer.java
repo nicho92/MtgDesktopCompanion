@@ -8,25 +8,23 @@ import javax.swing.ListCellRenderer;
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.components.renderer.CardListPanel;
 
-public class MagicCardListRenderer implements ListCellRenderer<MTGCard> {
+public class MagicCardListRenderer extends CardListPanel implements ListCellRenderer<MTGCard> {
 
-	private CardListPanel render;
-
-	public MagicCardListRenderer() {
-		render = new CardListPanel();
-	}
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MTGCard> list, MTGCard value, int index,boolean isSelected, boolean cellHasFocus) {
-		render.setMagicCard(value);
+		setMagicCard(value);
 
 		if (isSelected) {
-			render.setBackground(list.getSelectionBackground());
+			setBackground(list.getSelectionBackground());
+			setForeground(list.getSelectionForeground());
 		} else {
-			render.setBackground(list.getBackground());
+			setBackground(list.getBackground());
+			setForeground(list.getForeground());
 		}
 
-		return render;
+		return this;
 	}
 
 }

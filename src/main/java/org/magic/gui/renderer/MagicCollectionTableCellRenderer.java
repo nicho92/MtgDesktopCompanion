@@ -2,7 +2,6 @@ package org.magic.gui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.text.NumberFormat;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -12,6 +11,7 @@ import javax.swing.JTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
 
@@ -22,17 +22,16 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Color c;
-
-
+	private Component pane;
+		
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
-		if (column == 4)
-			value = NumberFormat.getPercentInstance().format((double) value);
-
-		Component pane;
-
-		if(value instanceof ImageIcon ic)
+		if (value instanceof Double)
+		{
+			pane = new DoubleCellEditorRenderer(true, false).getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		}
+		else if(value instanceof ImageIcon ic)
 		{
 			pane=new JLabel(ic);
 			((JLabel)pane).setOpaque(true);
@@ -54,7 +53,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
 		double val = (double) table.getValueAt(row, 4);
 
-		if (val>= 0.1 && val<0.5) {
+		if (val> 0.0 && val<0.5) {
 			pane.setBackground(MTGConstants.COLLECTION_1PC);
 			pane.setForeground(Color.BLACK);
 		}
