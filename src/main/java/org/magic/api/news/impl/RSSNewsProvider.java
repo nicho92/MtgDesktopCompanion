@@ -11,7 +11,6 @@ import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.services.network.URLTools;
 import org.xml.sax.InputSource;
 
-import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
@@ -29,7 +28,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 		SyndFeed feed;
 
-		List<MTGNewsContent> ret = new ArrayList<>();
+		var ret = new ArrayList<MTGNewsContent>();
 		try {
 			logger.debug("reading {}",rssBean.getUrl());
 			var is = URLTools.extractAsInputStream(rssBean.getUrl());
@@ -38,7 +37,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 			feed = input.build(source);
 	
-			for (SyndEntry s : feed.getEntries()) {
+			for (var s : feed.getEntries()) {
 				var content = new MTGNewsContent();
 				content.setTitle(s.getTitle());
 				content.setAuthor(s.getAuthor());
