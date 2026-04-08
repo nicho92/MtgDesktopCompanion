@@ -100,15 +100,22 @@ public class ComboFinderPanel extends MTGUIComponent {
 		});
 
 
-		list.setCellRenderer((JList<? extends MTGCombo> _, MTGCombo cbo, int _, boolean isSelected,boolean _)->{
+		list.setCellRenderer((JList<? extends MTGCombo> lst, MTGCombo cbo, int _, boolean isSelected,boolean _)->{
 			var l= new JLabel(cbo.getName(),cbo.getPlugin().getIcon(),SwingConstants.LEFT);
 				l.setOpaque(true);
-
+				
 				if(isSelected)
-					l.setBackground(SystemColor.textHighlight);
+				{
+					l.setBackground(lst.getSelectionBackground());
+					l.setForeground(lst.getSelectionForeground());
+				}
 				else
-					l.setBackground(SystemColor.menu);
-
+				{
+					l.setBackground(lst.getBackground());
+					l.setForeground(lst.getForeground());
+				}
+				
+				
 				return l;
 		});
 
