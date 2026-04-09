@@ -22,6 +22,7 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 	private static final long serialVersionUID = 1L;
 	private JSpinner spinner;
 	private NumberFormat formater;
+	private JLabel label;
 
 	public NumberCellEditorRenderer() {
 		spinner = new JSpinner();
@@ -30,6 +31,9 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 		spinner.setModel(model1);
 		formater =NumberFormat.getNumberInstance();
 		formater.setGroupingUsed(false);
+		label= new JLabel();
+		label.setHorizontalAlignment(SwingConstants.HORIZONTAL);
+		label.setOpaque(true);
 	}
 
 
@@ -58,23 +62,21 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 			}
 		}
 
-
-		var l= new JLabel(text,SwingConstants.CENTER);
-		   l.setOpaque(true);
+		label.setText(text);
 			if(isSelected)
 			{
-				l.setBackground(table.getSelectionBackground());
-				l.setForeground(table.getSelectionForeground());
+				label.setBackground(table.getSelectionBackground());
+				label.setForeground(table.getSelectionForeground());
 			}
 			else
 			{
-				l.setBackground(table.getBackground());
-				l.setForeground(table.getForeground());
+				label.setBackground(table.getBackground());
+				label.setForeground(table.getForeground());
 			}
 
 
 
-		return l;
+		return label;
 	}
 
 }
