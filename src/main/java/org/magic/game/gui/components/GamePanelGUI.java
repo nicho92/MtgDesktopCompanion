@@ -34,6 +34,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.game.GameManager;
 import org.magic.api.beans.game.Player;
 import org.magic.game.actions.library.DrawActions;
@@ -43,6 +45,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.deck.JDeckChooserDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -175,6 +178,12 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 
 													var p1 = MTGControler.getInstance().getProfilPlayer();
 													p1.setDeck(deck);
+													
+													if(MTGDeckManager.isCommander(deck))
+														p1.setLife(40);
+													else
+														p1.setLife(20);
+													
 													setPlayer(p1);
 													GameManager.getInstance().initGame();
 

@@ -37,7 +37,7 @@ public class MTGCard extends AbstractProduct {
 		if(cardName==null)
 			return false;
 		
-		String name = cardName.trim().toLowerCase();
+		String name = cardName.trim();
 		
 		
 		return (name.equals("Plains")  ||
