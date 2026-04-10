@@ -13,9 +13,9 @@ public interface MTGNetworkClient extends MTGPlugin{
 	
 	AbstractMessage consume() throws IOException;
 
-	void switchAddress(String topicName) throws IOException;
+	void switchAddress(String channel) throws IOException;
 
-	void join(Player p, String url, String topic) throws IOException;
+	void join(Player p, String url, String channel) throws IOException;
 
 	void sendMessage(String text) throws IOException;
 
@@ -23,7 +23,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 	
 	void logout() throws IOException;
 
-	void changeStatus(EnumPlayerStatus selectedItem) throws IOException;
+	void changeStatus(EnumPlayerStatus status) throws IOException;
 	
 	boolean isActive();
 

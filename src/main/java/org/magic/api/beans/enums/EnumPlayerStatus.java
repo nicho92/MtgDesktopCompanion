@@ -13,8 +13,7 @@ public enum EnumPlayerStatus implements MTGIconable {
 	BUSY("Buzy",Color.RED), 
 	AWAY("Away",Color.ORANGE), 
 	GAMING("Gaming",Color.CYAN),
-	DISCONNECTED("Disconnected",Color.GRAY),
-	CONNECTED("Connected",Color.BLACK);
+	DISCONNECTED("Disconnected",Color.GRAY);
 	
 	private String name;
 	private Color color;

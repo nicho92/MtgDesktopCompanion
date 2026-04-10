@@ -42,7 +42,7 @@ public class ImagePoster {
 					.addContent("expire", String.valueOf(expirationDay))
 					.addContent("url", wallUrl)
 					.addContent("numfiles", "1")
-					.addContent("upload_session", new Date().getTime() + Double.toString(Math.random()).substring(1))
+					.addContent("upload_session", new Date().getTime() + Double.toString(CryptoUtils.randomDouble(Double.MAX_VALUE)).substring(1))
 					.toJson().getAsJsonObject();
 		
 		logger.debug("upload result : {}",  jsonRet);

@@ -174,7 +174,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 
 
 public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
-	private JsonExport serializer = new JsonExport();
+	private JsonExport serializer = new JsonExport(); 
 	private Map<String,Player> onlines = new LinkedHashMap<>();
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGNetworkClient client;
@@ -206,8 +206,6 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		jmsg.setEnd(Instant.now());
 
 		AbstractTechnicalServiceManager.inst().store(jmsg);
-		
-		
 	}
 	
 	@Override
@@ -250,7 +248,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		
 		if(!jmsg.getAuthor().isAdmin())
 			try {
-				logger.info("user {} : {} for {} ", session.getUsername(),jmsg,onlines);
+				logger.info("user {} : {} for {} ", session.getUsername(),jmsg.getMessage(),onlines);
 				client.sendMessage(new UsersTechnicalMessage(getOnlines().values().stream().toList()));
 			} catch (IOException e) {
 			logger.error("Error sending online users",e);

@@ -103,7 +103,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		listPlayers = new JList<>(listPlayerModel);
 		txtChatMessageEditor = new JTextArea();
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
-		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream().filter(s->s!=EnumPlayerStatus.CONNECTED).filter(s->s!=EnumPlayerStatus.DISCONNECTED).toList());
+		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream().filter(s->s!=EnumPlayerStatus.DISCONNECTED).toList());
 		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"searchquery");
 		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK,KeyEvent.VK_F,"sharedeck");
 		btnIa = UITools.createBindableJButton("", MTGConstants.ICON_IA,KeyEvent.VK_I,"callAssistant");
@@ -241,7 +241,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 				@Override
 				protected void done() {
 					
-					try {
+					try 
+					{
 						get();
 						
 						txtServer.setEnabled(!client.isActive());
@@ -259,7 +260,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 						MTGControler.getInstance().notify(e);
 					}
 				
-					
 					if(client.isActive())
 						runningDaemon();
 					
@@ -433,27 +433,23 @@ public class NetworkChatPanel extends MTGUIComponent {
 				btnLogout.setEnabled(true);
 				txtChatMessageEditor.setEditable(true);
 				
-				
-				
+			
 				for(var s : chunks)
 				{
-				
 					switch(s.getTypeMessage())
 					{
 						case CHANGESTATUS: 
 								var msg = (StatutMessage)s;
 								switch(msg.getStatut())
 								{
-									case CONNECTED : listPlayerModel.addElement(s.getAuthor());break;
+									case ONLINE : listPlayerModel.addElement(s.getAuthor());break;
 									case DISCONNECTED:listPlayerModel.removeElement(s.getAuthor());break;
 									default: Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(msg.getStatut()));break;
 								}
 								break;
 						
 						
-						case SYSTEM : listPlayerModel.removeAllElements();
-									  listPlayerModel.addAll(((UsersTechnicalMessage)s).getPlayers());
-											  break;
+						case SYSTEM : listPlayerModel.removeAllElements();  listPlayerModel.addAll(((UsersTechnicalMessage)s).getPlayers()); break;
 							  
 						case SEARCH: 
 							var msgs = (SearchMessage)s;
@@ -465,11 +461,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 							try {
 									if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) 
 									{
-												
 											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)msgs.getAttachement()).stream().filter(mcs->mcs.getQte()>0).toList();
 											if(!ret.isEmpty())
 												client.sendMessage(new SearchAnswerMessage(msgs, ret));
-											
 									} 
 								}
 								catch (Exception e) { 
@@ -496,19 +490,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 					}
 				
 				}
-				
-				listPlayers.updateUI();
-				
-				listMsg.ensureIndexIsVisible( listMsg.getModel().getSize() - 1 );
-				
+				listMsg.ensureIndexIsVisible( listMsg.getModel().getSize() - 1);
 			}
-
-			
 		};
-		
 		ThreadManager.getInstance().runInEdt(sw, "NetworkClient listening");
-		
-		
 	}
 
 	@Override

@@ -27,15 +27,12 @@ public class IAVirtualUser {
 	public static void init(String address) throws IOException {
 		
 		var client = new ActiveMQNetworkClient();
-
-		 var plug = MTG.getEnabledPlugin(MTGIA.class);
-		
-		
+		var plug = MTG.getEnabledPlugin(MTGIA.class);
 		var ia = AiServices.builder(MTGIA.class)
-        .chatModel(plug.getEngine(null))
-        .chatMemory(MessageWindowChatMemory.withMaxMessages(20))
-        .systemMessage("You are a Magic The Gathering Assistant")
-        .build();
+							        .chatModel(plug.getEngine(null))
+							        .chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+							        .systemMessage("You are a Magic The Gathering Assistant")
+							        .build();
 		
 		var p = new Player(plug.getName());
 			 p.setAvatar(ImageTools.toImage(plug.getIcon()));

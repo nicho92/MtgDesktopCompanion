@@ -52,9 +52,8 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 			return null;
 		
 		var json = URLTools.toJson(txt);
-		var type = AbstractMessage.MSG_TYPE.valueOf(json.getAsJsonObject().get("typeMessage").getAsString());
-		
-		switch(type)
+	
+		switch(AbstractMessage.MSG_TYPE.valueOf(json.getAsJsonObject().get("typeMessage").getAsString()))
 		{
 			case TALK : return serializer.fromJson(txt, TalkMessage.class);
 			case CONNECT: return serializer.fromJson(txt, StatutMessage.class);
@@ -75,16 +74,16 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	
 
 	@Override
-	public void join(Player p, String url,String adress) throws IOException {
+	public void join(Player p, String url,String channel) throws IOException {
 		this.player = p;
 		player.setOnlineConnectionTimeStamp(Instant.now().toEpochMilli());
 		player.setState(EnumPlayerStatus.ONLINE);
 		
 		createConnection(url);
+				
+		switchAddress(channel);
 		
-		switchAddress(adress);
-		
-		sendMessage(new StatutMessage(EnumPlayerStatus.CONNECTED));
+		changeStatus(player.getState());
 		
 		logger.info("Connected to server {} with id={}",url,player.getId());
 	}
