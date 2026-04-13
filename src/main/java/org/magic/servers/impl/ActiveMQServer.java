@@ -1,6 +1,5 @@
 package org.magic.servers.impl;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
@@ -38,6 +37,9 @@ import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonElement;
 
 public class ActiveMQServer extends AbstractMTGServer {
 
@@ -195,19 +197,24 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	@Override
 	public void afterCreateSession(ServerSession session) throws ActiveMQException {
 		logger.info("new connection from user={},  IP={}", session.getUsername(), session.getRemotingConnection().getRemoteAddress());
-		var jmsg = new TalkMessage("New connection");
-		jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
-
-		
+		var jmsg = new TalkMessage("New connection from "+ session.getUsername());
+			 jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
 		var p = new Player(session.getUsername());
-		p.setColor(Color.BLACK);
-		p.setId(Long.parseLong(session.getRemotingConnection().getClientID()));
+			 p.setId(Long.parseLong(session.getRemotingConnection().getClientID()));
 		jmsg.setAuthor(p);
 		jmsg.setEnd(Instant.now());
 
+		updateOnlines(p);
+		
 		AbstractTechnicalServiceManager.inst().store(jmsg);
 	}
 	
+	private void updateOnlines(Player author) {
+		logger.info("update {} : admin={} , statut = {}",author.getName(), author.isAdmin(), author.getState());
+		onlines.put(String.valueOf(author.getId()), author);
+	}
+
+
 	@Override
 	public void afterCloseSession(ServerSession session, boolean failed) throws ActiveMQException {
 		logger.info("disconnection from user : {}", session.getUsername());
@@ -221,51 +228,22 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 			}
 	}
 	
-	
-	private byte[] removeNullByte(byte[] input) {
-        int outputLength = (input.length + 1) / 2; 
-        byte[] output = new byte[outputLength];
-
-        for (int i = 0; i < outputLength; i++) {
-            output[i] = input[i * 2];  
-        }
-
-        return output;
-    }
-	
 	@Override
 	public void afterSend(ServerSession session, Transaction tx, Message message, boolean direct,boolean noAutoCreateQueue, RoutingStatus result) throws ActiveMQException {
 		var cmsg = ((CoreMessage)message);
-		var s = parse(cmsg);
-		var jmsg = serializer.fromJson(s, TalkMessage.class);
+		var jmsg = serializer.fromJson(cmsg.getBodyBuffer().readString(), TalkMessage.class);
 		jmsg.setEnd(Instant.now());
 		jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
-
-		if(!jmsg.getAuthor().isAdmin())
-			onlines.put(String.valueOf(jmsg.getAuthor().getId()), jmsg.getAuthor());
-		
+		updateOnlines(jmsg.getAuthor());
 		AbstractTechnicalServiceManager.inst().store(jmsg);
-		
 		if(!jmsg.getAuthor().isAdmin())
 			try {
-				logger.info("user {} : {} for {} ", session.getUsername(),jmsg.getMessage(),onlines);
-				client.sendMessage(new UsersTechnicalMessage(getOnlines().values().stream().toList()));
+				logger.info("{} : {}", session.getUsername(),jmsg.getMessage());
+				client.sendMessage(new UsersTechnicalMessage(getOnlines().values().stream().filter(p->!p.isAdmin()).toList()));
 			} catch (IOException e) {
-			logger.error("Error sending online users",e);
+				logger.error("Error sending online users",e);
 			}
 	}
-
-
-	private String parse(CoreMessage cmsg) {
-		var databuff = cmsg.getDataBuffer();
-		var size = databuff.readableBytes();
-		var bytes = new byte[size];
-		databuff.readBytes(bytes);
-		var s = new String(removeNullByte(bytes));
-		s = s.substring(s.indexOf("{"));
-		return s;
-	}
-
 }
 
 }

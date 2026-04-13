@@ -37,7 +37,10 @@ public class IAVirtualUser {
 		var p = new Player(plug.getName());
 			 p.setAvatar(ImageTools.toImage(plug.getIcon()));
 			 p.setColor(Color.ORANGE);
-		client.join(p,address,ActiveMQServer.DEFAULT_TOPIC);
+		
+			 client.join(p,address,ActiveMQServer.DEFAULT_TOPIC);
+			 
+			 
 		
 		while(client.isActive())
 		{

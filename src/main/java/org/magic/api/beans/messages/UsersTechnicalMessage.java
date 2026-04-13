@@ -16,7 +16,7 @@ public class UsersTechnicalMessage extends AbstractMessage {
 	public UsersTechnicalMessage(List<Player> players) {
 		this.players=players;
 		setTypeMessage(MSG_TYPE.SYSTEM);
-		setMessage("Send online users");
+		setMessage("Send online users : " + players.stream().map(Player::getName).toList());
 	}
 	
 	public List<Player> getPlayers() {

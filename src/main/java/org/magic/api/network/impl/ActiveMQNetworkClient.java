@@ -84,29 +84,24 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	
 
 	private QueueConfiguration createQueueConf(String adress) {
-		var cqc = QueueConfiguration.of("queue-"+player.getName()+"-"+player.getId());
-		cqc.setAddress(adress);
-		cqc.setDurable(false);
-		cqc.setAutoCreated(true);
-		cqc.setConfigurationManaged(true);
-		cqc.setRoutingType(RoutingType.MULTICAST);
-		cqc.setAutoCreateAddress(true);
-		
-		return cqc;
+		return QueueConfiguration.of("queue-"+player.getName()+"-"+player.getId())
+						.setAddress(adress)
+						.setDurable(false)
+						.setAutoCreated(true)
+						.setConfigurationManaged(true)
+						.setRoutingType(RoutingType.MULTICAST)
+						.setAutoCreateAddress(true);
 	}
-
-	
-
 
 	@Override
 	public void sendMessage(AbstractMessage obj) throws IOException {
 		obj.setAuthor(player);
+		
 		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
 		     message.getBodyBuffer().writeString(toJson(obj));
-		
 		try {
 			producer.send(message);
-			logger.debug("send {}",obj);
+			logger.debug("{} send {} : {}", obj.getAuthor().getName(), obj.getTypeMessage(),obj.getMessage());
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}		

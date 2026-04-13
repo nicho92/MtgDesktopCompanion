@@ -77,15 +77,12 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	public void join(Player p, String url,String channel) throws IOException {
 		this.player = p;
 		player.setOnlineConnectionTimeStamp(Instant.now().toEpochMilli());
-		player.setState(EnumPlayerStatus.ONLINE);
-		
+	
 		createConnection(url);
-				
 		switchAddress(channel);
+		changeStatus(EnumPlayerStatus.ONLINE);
 		
-		changeStatus(player.getState());
-		
-		logger.info("Connected to server {} with id={}",url,player.getId());
+		logger.info("{} connected to server {}",player.getName(),url);
 	}
 	
 	@Override

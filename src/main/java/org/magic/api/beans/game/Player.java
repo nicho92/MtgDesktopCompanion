@@ -103,7 +103,7 @@ public class Player extends Observable implements Serializable {
 		local = Locale.getDefault();
 
 		onlineConnectionTimeStamp= Instant.now().toEpochMilli();
-		
+		state = EnumPlayerStatus.DISCONNECTED;
 		setId(CryptoUtils.randomLong());
 		
 		mixHandAndLibrary();
