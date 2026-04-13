@@ -34,8 +34,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.game.GameManager;
 import org.magic.api.beans.game.Player;
 import org.magic.game.actions.library.DrawActions;

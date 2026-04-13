@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.SystemColor;
 import java.util.ArrayList;
 import java.util.List;
 

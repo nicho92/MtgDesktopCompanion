@@ -19,7 +19,6 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.messages.DeckMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGPictureProvider;

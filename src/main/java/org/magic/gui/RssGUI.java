@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -24,7 +23,6 @@ import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNews;
