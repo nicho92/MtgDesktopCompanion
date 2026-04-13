@@ -7,24 +7,23 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.gui.components.card.ManaPanel;
 
-public class ManaCellRenderer implements TableCellRenderer {
+public class ManaCellRenderer extends ManaPanel implements TableCellRenderer {
 
-	ManaPanel pane;
-
-	public ManaCellRenderer() {
-		pane = new ManaPanel();
-	}
+	
+	
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
-		pane.setManaCost(String.valueOf(value));
-		pane.setBackground(table.getBackground());
+		setManaCost(String.valueOf(value));
 
 		if(isSelected)
-			pane.setBackground(table.getSelectionBackground());
-
-		return pane;
+			setBackground(table.getSelectionBackground());
+		else
+			setBackground(table.getBackground());
+		
+		return this;
 
 	}
 

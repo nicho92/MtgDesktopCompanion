@@ -163,7 +163,7 @@ public class RssGUI extends MTGUIComponent {
 
 			if (curr.getUserObject() instanceof MTGNews n)
 			{
-				SwingWorker<List<MTGNewsContent>, MTGNews> sw = new SwingWorker<>()
+				var sw = new SwingWorker<List<MTGNewsContent>, MTGNews>()
 				{
 
 					@Override
@@ -186,15 +186,10 @@ public class RssGUI extends MTGUIComponent {
 						}
 						lblLoading.end();
 					}
-
-
-
 				};
-
 				lblLoading.start();
 				newsPanel.setMagicNews((MTGNews) curr.getUserObject());
 				ThreadManager.getInstance().runInEdt(sw,"loading rss");
-
 			}
 		});
 
@@ -212,7 +207,7 @@ public class RssGUI extends MTGUIComponent {
 					}
 				} else {
 
-					SwingWorker<Void, URL> sw = new SwingWorker<>()
+					var sw = new SwingWorker<Void, URL>()
 					{
 						@Override
 						protected void done() {
@@ -221,7 +216,7 @@ public class RssGUI extends MTGUIComponent {
 						}
 
 						@Override
-						protected void process(java.util.List<URL> chunks) {
+						protected void process(List<URL> chunks) {
 							try {
 								editorPane.loadURL(chunks.get(0).toString());
 							} catch (Exception e) {
@@ -259,7 +254,7 @@ public class RssGUI extends MTGUIComponent {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				for (MTGNews cat : getEnabledPlugin(MTGDao.class).listNews())
+				for (var cat : getEnabledPlugin(MTGDao.class).listNews())
 					publish(cat);
 
 				return null;
@@ -273,25 +268,20 @@ public class RssGUI extends MTGUIComponent {
 					tree.expandRow(i + 1);
 
 			}
-
-
-
 		};
-
-
 		ThreadManager.getInstance().runInEdt(sw,"Loading News Tree");
 	}
 
 	private void add(String cat, MTGNews n) {
-		DefaultMutableTreeNode node = getNodeCateg(cat);
+		var node = getNodeCateg(cat);
 		node.add(new DefaultMutableTreeNode(n));
 		rootNode.add(node);
 	}
 
 	private DefaultMutableTreeNode getNodeCateg(String cat) {
-		Enumeration<TreeNode> e = rootNode.breadthFirstEnumeration();
+		var e = rootNode.breadthFirstEnumeration();
 		while (e.hasMoreElements()) {
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.nextElement();
+			var node = (DefaultMutableTreeNode) e.nextElement();
 			if (node.getUserObject().toString().equalsIgnoreCase(cat)) {
 				return node;
 			}
