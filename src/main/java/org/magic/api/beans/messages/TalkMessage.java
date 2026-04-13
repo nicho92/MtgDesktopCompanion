@@ -23,7 +23,7 @@ public class TalkMessage extends AbstractMessage{
 		{
 			var cardName = m.group(1);
 			try {
-				var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true);
+				var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, false);
 				if(!ret.isEmpty())
 					mc=ret.get(0);
 				
