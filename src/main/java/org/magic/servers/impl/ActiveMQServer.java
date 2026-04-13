@@ -37,9 +37,6 @@ import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.UITools;
-
-import com.google.gson.JsonElement;
 
 public class ActiveMQServer extends AbstractMTGServer {
 
@@ -96,6 +93,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 				server.setSecurityManager(new ActiveMQSecurityManager() {
 					@Override
 					public boolean validateUserAndRole(String user, String password, Set<Role> roles, CheckType checkType) {
+						logger.debug("validating {} with password {}, roles = {}, checkType = {}",user,password,roles,checkType);
 						return true;
 					}
 					@Override
@@ -210,7 +208,6 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	}
 	
 	private void updateOnlines(Player author) {
-		logger.info("update {} : admin={} , statut = {}",author.getName(), author.isAdmin(), author.getState());
 		onlines.put(String.valueOf(author.getId()), author);
 	}
 
@@ -230,12 +227,14 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	
 	@Override
 	public void afterSend(ServerSession session, Transaction tx, Message message, boolean direct,boolean noAutoCreateQueue, RoutingStatus result) throws ActiveMQException {
-		var cmsg = ((CoreMessage)message);
-		var jmsg = serializer.fromJson(cmsg.getBodyBuffer().readString(), TalkMessage.class);
-		jmsg.setEnd(Instant.now());
-		jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
+		var jmsg = serializer.fromJson(((CoreMessage)message).getBodyBuffer().readString(), TalkMessage.class);
+			 jmsg.setEnd(Instant.now());
+			 jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
+			 
 		updateOnlines(jmsg.getAuthor());
+		
 		AbstractTechnicalServiceManager.inst().store(jmsg);
+		
 		if(!jmsg.getAuthor().isAdmin())
 			try {
 				logger.info("{} : {}", session.getUsername(),jmsg.getMessage());

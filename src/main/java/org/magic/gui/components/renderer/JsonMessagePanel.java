@@ -136,14 +136,8 @@ public class JsonMessagePanel extends JPanel {
 		}
 		
 		if(value.getTypeMessage()==MSG_TYPE.DECK)
-		{
-			var item = ((DeckMessage)value).getAttachement();
-			if(item!=null)
-				{
 				lblIcon.setIcon(MTGConstants.ICON_DECK);
-				textArea.setText(item.getName() + " " + item.getColors() + " ("+item.getMainAsList().size()+")");
-				}
-		}
+		
 	}
 
 	private ImageIcon read(MTGProduct item) throws IOException 

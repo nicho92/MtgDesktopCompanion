@@ -12,7 +12,11 @@ public class DeckMessage extends AbstractMessage {
 	public DeckMessage(MTGDeck item) {
 		this.item=item;
 		setTypeMessage(MSG_TYPE.DECK);
-		setMessage("i share my deck  "+ item);
+		
+		if(item.getDescription().isEmpty())
+			setMessage("i share my deck  "+ item.getName());
+		else
+			setMessage(item.getDescription());
 	}
 
 	public MTGDeck getAttachement() {
