@@ -372,7 +372,7 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 		
-		
+		listResult.setModel(resultListModel);
 		
 
 		initTables(tableDeck,BOARD.MAIN,deckmodel);
@@ -774,7 +774,7 @@ public class ConstructPanel extends MTGUIComponent {
 		}, buzyLabel);
 
 		defaultEnterButton.addActionListener(_ -> {
-
+			
 			resultListModel.clear();
 
 			AbstractObservableWorker<List<MTGCard>,MTGCard,MTGCardsProvider> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGCardsProvider.class))
@@ -803,14 +803,11 @@ public class ConstructPanel extends MTGUIComponent {
 						}
 					}
 				}
+	
 				@Override
-				protected void done() {
-					super.done();
+				protected void notifyEnd() {
 					lblCards.setText(resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
-					listResult.setModel(resultListModel);
-
 					listResult.updateUI();
-
 				}
 			};
 
