@@ -233,8 +233,16 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	@Override
 	public List<QueryAttribute> loadQueryableAttributs() {
 		try {
-				var keys = BeanUtils.describe(new MTGCard()).keySet();
-				return keys.stream().map(k->new QueryAttribute(k,String.class)).sorted().collect(Collectors.toList());
+			
+				var mc = new MTGCard();
+			
+				var keys = BeanUtils.describe(mc).keySet();
+				
+				return keys.stream().map(k->{
+					var qa = new QueryAttribute(k,String.class);
+					return qa;
+				}).sorted().collect(Collectors.toList());
+				
 			} catch (Exception e) {
 			logger.error(e);
 			return new ArrayList<>();
@@ -243,7 +251,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 
 	@Override
 	public String getVersion() {
-		return "0.1";
+		return "1.0";
 	}
 
 	@Override

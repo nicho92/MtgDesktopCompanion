@@ -1,6 +1,7 @@
 package org.magic.game.gui.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -9,6 +10,8 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.player.SearchActions;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class ExilPanel extends DraggablePanel {
 
@@ -21,20 +24,20 @@ public class ExilPanel extends DraggablePanel {
 		super();
 		setLayout(null);
 		setBorder(new LineBorder(Color.BLACK));
-		setBackground(Color.GRAY);
-
+		setPreferredSize(new Dimension(170, 95));
 		menu.removeAll();
 		menu.add(new JMenuItem(new SearchActions(getOrigine())));
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
+		g.drawImage(MTGConstants.ICON_GAME_EXILE,0,0,null);
 		if (GamePanelGUI.getInstance().getPlayer() != null) {
-			g.setFont(new Font("default", Font.BOLD, 12));
-			g.setColor(Color.BLACK);
+			g.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 12));
 			g.drawString(GamePanelGUI.getInstance().getPlayer().getExil().size() + " exiled cards", 15, 15);
-			revalidate();
 		}
+		revalidate();
+		repaint();
 	}
 
 	@Override

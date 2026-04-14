@@ -172,7 +172,9 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GAME_TRIGGER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/trigger.png"));
 	public static final ImageIcon ICON_GAME_ACTIVATED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/activated.png"));
 	public static final ImageIcon ICON_GAME_COLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/colors.gif"));
-
+	public static final Image ICON_GAME_EXILE = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource(ICON_DIR+"/game/exile.png"));
+	
+	
 	public static final ImageIcon ICON_CHROME = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/chrome.png"));
 	public static final ImageIcon ICON_FORUM = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/forum.png"));
 

@@ -28,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -70,7 +69,6 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 	private JLabel lblHandCount;
 	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
-	private JTextField txtChat;
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
 	private ExilPanel exilPanel;
@@ -221,22 +219,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panelActions.add(panel1, gbcpanel1);
 		panel1.setLayout(new BorderLayout(0, 0));
 
-		txtChat = new JTextField(capitalize("SAY_SOMETHING"));
-		panel1.add(txtChat);
-		txtChat.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtChat.setText("");
-			}
-		});
-
-		txtChat.addActionListener(_ -> {
-			player.say(txtChat.getText());
-			txtChat.setText("");
-		});
-		txtChat.setColumns(10);
-
+		
 		var panelPoolandDescribes = new JPanel();
 		panelInfo.add(panelPoolandDescribes, BorderLayout.CENTER);
 
@@ -255,7 +238,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panelHandLib.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		lblHandCount = new JLabel("0");
-		lblHandCount.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 18));
+		lblHandCount.setFont(MTGControler.getInstance().getFont().deriveFont( Font.BOLD, 18));
 		lblHandCount.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblHandCount.setIcon(MTGConstants.ICON_GAME_HAND);
 		panelHandLib.add(lblHandCount);
@@ -263,7 +246,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		lblLibraryCount = new JLabel("");
 		lblLibraryCount.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblLibraryCount.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLibraryCount.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 18));
+		lblLibraryCount.setFont(MTGControler.getInstance().getFont().deriveFont( Font.BOLD, 18));
 		lblLibraryCount.setIcon(MTGConstants.ICON_GAME_LIBRARY);
 		panelHandLib.add(lblLibraryCount);
 
@@ -302,7 +285,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 
 		spinLife = new JSpinner();
 		panel.add(spinLife);
-		spinLife.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 17));
+		spinLife.setFont(MTGControler.getInstance().getFont().deriveFont( Font.BOLD, 17));
 
 		var lblPoison = new JLabel("");
 		panel.add(lblPoison);
@@ -311,7 +294,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 
 		spinPoison = new JSpinner();
 		panel.add(spinPoison);
-		spinPoison.setFont(new Font(MTGControler.getInstance().getFont().getFontName(), Font.BOLD, 15));
+		spinPoison.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 15));
 
 		spinPoison.addChangeListener(_ -> {
 			if (player != null)
@@ -325,7 +308,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 
 		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
-
+ 
 
 		listActions = new JList<>();
 		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -363,15 +346,14 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panelLibraryAndGrave.add(panelDeck, BorderLayout.NORTH);
 
 		panelLibrary = new LibraryPanel();
-		panelLibrary.setPreferredSize(new Dimension(170, 215));
+		panelLibrary.setPreferredSize(new Dimension(174, 222));
 		panelLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 		panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
 		panelDeck.add(panelLibrary);
 
 		exilPanel = new ExilPanel();
-		exilPanel.setPreferredSize(new Dimension(0, 50));
-
+		
 		panelDeck.add(exilPanel);
 
 		panelLibrary.addMouseListener(new MouseAdapter() {
