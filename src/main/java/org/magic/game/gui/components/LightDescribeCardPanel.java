@@ -23,6 +23,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGRuling;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.card.ManaPanel;
+import org.magic.gui.components.widgets.JLangLabel;
 
 public class LightDescribeCardPanel extends JPanel {
 	/**
@@ -53,7 +54,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
-		var lblName = new JLabel("Name :");
+		var lblName = new JLangLabel("NAME",true);
 		var gbclblName = new GridBagConstraints();
 		gbclblName.anchor = GridBagConstraints.EAST;
 		gbclblName.insets = new Insets(0, 0, 5, 5);
@@ -71,7 +72,7 @@ public class LightDescribeCardPanel extends JPanel {
 		add(txtName, gbctxtName);
 		txtName.setColumns(10);
 
-		var lblCost = new JLabel("Cost :");
+		var lblCost = new JLangLabel("COST",true);
 		var gbclblCost = new GridBagConstraints();
 		gbclblCost.anchor = GridBagConstraints.EAST;
 		gbclblCost.insets = new Insets(0, 0, 5, 5);
@@ -87,7 +88,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbcmanaPanel.gridy = 1;
 		add(manaPanel, gbcmanaPanel);
 
-		var lblType = new JLabel("Type :");
+		var lblType = new JLangLabel("TYPE",true);
 		var gbclblType = new GridBagConstraints();
 		gbclblType.anchor = GridBagConstraints.EAST;
 		gbclblType.insets = new Insets(0, 0, 5, 5);
@@ -136,7 +137,7 @@ public class LightDescribeCardPanel extends JPanel {
 		panel.add(txtT);
 		txtT.setColumns(3);
 
-		var lblLoyalty = new JLabel("Loyalty :");
+		var lblLoyalty = new JLangLabel("LOYALTY",true);
 		var gbclblLoyalty = new GridBagConstraints();
 		gbclblLoyalty.anchor = GridBagConstraints.EAST;
 		gbclblLoyalty.insets = new Insets(0, 0, 5, 5);
