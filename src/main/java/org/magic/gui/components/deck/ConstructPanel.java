@@ -682,7 +682,6 @@ public class ConstructPanel extends MTGUIComponent {
 				}
 			}
 		});
-
 	
 		btnImport.addActionListener(ae -> {
 			var menu = new JPopupMenu();
@@ -758,7 +757,7 @@ public class ConstructPanel extends MTGUIComponent {
 				}
 			}
 
-			Component b = (Component) ae.getSource();
+			var b = (Component) ae.getSource();
 			var point = b.getLocationOnScreen();
 			menu.show(b, 0, 0);
 			menu.setLocation(point.x, point.y + b.getHeight());
@@ -777,7 +776,7 @@ public class ConstructPanel extends MTGUIComponent {
 			
 			resultListModel.clear();
 
-			AbstractObservableWorker<List<MTGCard>,MTGCard,MTGCardsProvider> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGCardsProvider.class))
+			var sw = new AbstractObservableWorker<List<MTGCard>,MTGCard,MTGCardsProvider>(buzy,getEnabledPlugin(MTGCardsProvider.class))
 			{
 				@Override
 				protected List<MTGCard> doInBackground() throws Exception {
@@ -823,15 +822,12 @@ public class ConstructPanel extends MTGUIComponent {
 		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(4).setCellEditor(new NumberCellEditorRenderer());
-
-
 		table.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus,int row, int column)-> {
 			
 			if(value==null)
 				return new JLabel();
 			
-			
-			JLabel comp = (JLabel)new DefaultTableCellRenderer().getTableCellRendererComponent(table2, value, isSelected, hasFocus, row, column);
+			var comp = (JLabel)new DefaultTableCellRenderer().getTableCellRendererComponent(table2, value, isSelected, hasFocus, row, column);
 			comp.setText(((MTGCard)value).getName());
 
 			try {
@@ -842,18 +838,11 @@ public class ConstructPanel extends MTGUIComponent {
 					logger.error("error applying font {}  {}",value,deck,e);
 				}
 
-
 			if(((MTGCard)value).isCompanion())
 				comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
 
-
-
 			return comp;
-
-
 		});
-
-
 
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
