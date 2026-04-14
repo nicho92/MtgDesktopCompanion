@@ -159,27 +159,34 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 
 	@Override
 	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact)throws IOException {
-		List<MTGCard> res = new ArrayList<>();
+		var res = new ArrayList<MTGCard>();
+	
 		if (me == null) {
 				for (var mc : listAllCards())
 					if (hasValue(mc, att, crit))
+					{
+						notify(mc);
 						res.add(mc);
+					}
 		} 
 		else 
 		{
 			for (MTGCard mc : searchCardByEdition(me)) {
 				if (hasValue(mc, att, crit))
 				{
+					notify(mc);
 					res.add(mc);
 				}
 			}
 		}
-
 		return res;
 	}
 
 	private boolean hasValue(MTGCard mc, String att, String val) {
 		try {
+			if(att.equals("set"))
+				return mc.getEdition().getId().equals(val);
+			
 			return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
 		} catch (Exception e) {
 			logger.error("error loading {} {} {}" ,mc,att,val,e);
@@ -227,7 +234,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	public List<QueryAttribute> loadQueryableAttributs() {
 		try {
 				var keys = BeanUtils.describe(new MTGCard()).keySet();
-				return keys.stream().map(k->new QueryAttribute(k,String.class)).collect(Collectors.toList());
+				return keys.stream().map(k->new QueryAttribute(k,String.class)).sorted().collect(Collectors.toList());
 			} catch (Exception e) {
 			logger.error(e);
 			return new ArrayList<>();

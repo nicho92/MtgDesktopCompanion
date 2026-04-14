@@ -91,6 +91,8 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.DeckImportWorker;
+
+import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 public class ConstructPanel extends MTGUIComponent {
 
 
@@ -786,12 +788,17 @@ public class ConstructPanel extends MTGUIComponent {
 				protected void process(List<MTGCard> chunks) {
 					super.process(chunks);
 					var form = new MTGFormat();
-					for (MTGCard m : chunks) {
-						if (groupsFilterResult.getSelection() != null) {
+					for (MTGCard m : chunks) 
+					{
+						if (groupsFilterResult.getSelection() != null) 
+						{
 							form.setFormat(groupsFilterResult.getSelection().getActionCommand());
 							if (m.getLegalities().contains(form))
 								resultListModel.addElement(m);
-						} else {
+							
+						} 
+						else 
+						{
 							resultListModel.addElement(m);
 						}
 					}
