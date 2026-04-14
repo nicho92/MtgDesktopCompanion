@@ -15,6 +15,8 @@ import org.magic.services.network.RequestBuilder;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String LARGE = "large";
+
 	@Override
 	public String generateUrl(MTGCard mc) {
 		try {
@@ -35,7 +37,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		}
 		else
 		{
-			url.append( getProperty("PIC_SIZE", "large"));
+			url.append( getProperty("PIC_SIZE", LARGE));
 		}
 				
 		if(mc.isDoubleFaced() && !mc.getSide().equals("a") && mc.getLayout()!=EnumLayout.MELD)
@@ -74,6 +76,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		return "ScryFall";
 	}
 
+	
 	@Override
 	public BufferedImage extractPicture(MTGCard mc) throws IOException {
 		var u = generateLink(mc,true);
@@ -88,7 +91,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of( "PIC_SIZE", new MTGProperty("large", "Image quality to download from scryfall", "large","normal","small"));
+		return Map.of( "PIC_SIZE", new MTGProperty(LARGE, "Image quality to download from scryfall", LARGE,"normal","small"));
 	}
 
 	@Override

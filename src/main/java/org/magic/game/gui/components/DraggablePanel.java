@@ -69,7 +69,7 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 
 		for (Component c : getComponents()) {
 			try {
-				DisplayableCard card = (DisplayableCard) c;
+				var card = (DisplayableCard) c;
 				if (BeanUtils.describe(card.getMagicCard()).get(prop).equalsIgnoreCase(value))
 					ret.add(card);
 			} catch (Exception e) {

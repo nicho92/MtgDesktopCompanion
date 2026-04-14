@@ -65,7 +65,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.DEPRECATED;
 	}
 
 	@Override

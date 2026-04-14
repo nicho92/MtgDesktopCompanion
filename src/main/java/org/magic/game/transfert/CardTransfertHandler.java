@@ -1,7 +1,6 @@
 package org.magic.game.transfert;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -41,7 +40,7 @@ public class CardTransfertHandler extends TransferHandler {
 		window.setBackground(new Color(0, true));
 
 		DragSource.getDefaultDragSource().addDragSourceMotionListener(dsde -> {
-			Point pt = dsde.getLocation();
+			var pt = dsde.getLocation();
 			pt.translate(5, 5);
 			window.setLocation(pt);
 			window.setVisible(true);
@@ -86,7 +85,7 @@ public class CardTransfertHandler extends TransferHandler {
 	@Override
 	public int getSourceActions(JComponent c) {
 		DisplayableCard p = (DisplayableCard) c;
-		Point pt = p.getLocation();
+		var pt = p.getLocation();
 		SwingUtilities.convertPointToScreen(pt, p);
 		dragLab.setIcon(p.toIcon());
 		window.setLocation(pt);
@@ -127,8 +126,7 @@ public class CardTransfertHandler extends TransferHandler {
 			dragLab.setIcon(null);
 			window.setVisible(false);
 
-			if (c.getParent() instanceof DraggablePanel dc) {
-				DraggablePanel dest = dc;
+			if (c.getParent() instanceof DraggablePanel dest) {
 				if (dest.getMousePosition() != null)
 					src.setLocation(dest.getMousePosition());
 				dest.postTreatment(src);
