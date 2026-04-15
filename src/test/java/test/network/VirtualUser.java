@@ -11,7 +11,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.game.Player;
-import org.magic.api.beans.messages.SearchAnswerMessage;
+import org.magic.api.beans.messages.SendStockMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
@@ -83,7 +83,7 @@ public class VirtualUser {
 				var ret = stock.stream().filter(mcs->mcs.getProduct().getId().equals(c.getId())).toList();
 				if(!ret.isEmpty())
 				{
-					client.sendMessage(new SearchAnswerMessage(search, ret));
+					client.sendMessage(new SendStockMessage(search, ret));
 				}
 				
 			}

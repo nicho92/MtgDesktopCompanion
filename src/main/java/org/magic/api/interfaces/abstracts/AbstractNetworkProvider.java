@@ -7,7 +7,7 @@ import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.DeckMessage;
-import org.magic.api.beans.messages.SearchAnswerMessage;
+import org.magic.api.beans.messages.SendStockMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
@@ -62,7 +62,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 			case SEARCH :return serializer.fromJson(txt, SearchMessage.class);
 			case SYSTEM:return serializer.fromJson(txt, TechnicalMessage.class);
 			case DECK:return serializer.fromJson(txt, DeckMessage.class);
-			case ANSWER:return serializer.fromJson(txt, SearchAnswerMessage.class);
+			case ANSWER:return serializer.fromJson(txt, SendStockMessage.class);
 			default : return serializer.fromJson(txt, TalkMessage.class);
 		}
 	}

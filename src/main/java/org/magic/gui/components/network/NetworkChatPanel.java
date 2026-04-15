@@ -39,7 +39,7 @@ import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.DeckMessage;
-import org.magic.api.beans.messages.SearchAnswerMessage;
+import org.magic.api.beans.messages.SendStockMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TechnicalMessage;
@@ -201,7 +201,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			            }
 			            
 			            if(selected.getTypeMessage()==MSG_TYPE.ANSWER) {
-			            	var items = ((SearchAnswerMessage)selected).getResultItems();
+			            	var items = ((SendStockMessage)selected).getResultItems();
 			        		
 				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
 				            itemOpen.addActionListener(_->{
@@ -459,7 +459,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 									{
 											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)msgs.getAttachement()).stream().filter(mcs->mcs.getQte()>0).toList();
 											if(!ret.isEmpty())
-												client.sendMessage(new SearchAnswerMessage(msgs, ret));
+												client.sendMessage(new SendStockMessage(msgs, ret));
 									} 
 								}
 								catch (Exception e) { 
@@ -468,7 +468,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 								break;
 								
 						case ANSWER: 
-							var ret = ((SearchAnswerMessage)s).getResultItems();
+							var ret = ((SendStockMessage)s).getResultItems();
 							
 							for(var c : ret)
 							{
