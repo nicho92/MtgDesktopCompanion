@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +28,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.TalkMessage;
-import org.magic.api.beans.messages.UsersTechnicalMessage;
+import org.magic.api.beans.messages.TechnicalMessage;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
@@ -217,7 +218,8 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		logger.info("disconnection from user : {}", session.getUsername());
 		onlines.remove(session.getRemotingConnection().getClientID());
 			try {
-				var msg = new UsersTechnicalMessage(getOnlines().values().stream().toList());
+				var msg = new TechnicalMessage();
+				msg.setPlayers(getOnlines().values().stream().toList());
 				msg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
 				client.sendMessage(msg);
 			} catch (IOException _) {
@@ -238,7 +240,11 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		if(!jmsg.getAuthor().isAdmin())
 			try {
 				logger.info("{} : {}", session.getUsername(),jmsg.getMessage());
-				client.sendMessage(new UsersTechnicalMessage(getOnlines().values().stream().filter(p->!p.isAdmin()).toList()));
+				
+				var onlineMsgs = new TechnicalMessage();
+					 onlineMsgs.setPlayers(getOnlines().values().stream().filter(p->!p.isAdmin()).toList());
+					 onlineMsgs.setChannels(List.of(getArray("ADRESSES")));
+				client.sendMessage(onlineMsgs);
 			} catch (IOException e) {
 				logger.error("Error sending online users",e);
 			}

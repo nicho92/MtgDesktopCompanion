@@ -42,7 +42,7 @@ import org.magic.api.beans.messages.DeckMessage;
 import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
-import org.magic.api.beans.messages.UsersTechnicalMessage;
+import org.magic.api.beans.messages.TechnicalMessage;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.gui.StockPanelGUI;
@@ -137,12 +137,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 		txtChatMessageEditor.setEditable(false);
 		
 		stockResultModel.setWritable(false);
-		
-		try {
-			txtChatMessageEditor.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
-		} catch (Exception _) {
-			txtChatMessageEditor.setForeground(Color.BLACK);
-		}
 		
 		
 		tabbedPane.addTab(capitalize("CHAT"),MTGConstants.ICON_TAB_CHAT,panelChat);
@@ -303,10 +297,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 		});
 
 		btnColorChoose.addActionListener(_ -> {
-			var c = JColorChooser.showDialog(null, "Choose Text Color", txtChatMessageEditor.getForeground());
-
+			var c = JColorChooser.showDialog(null, "Choose Text Color", client.getPlayer().getColor());
 			if(c!=null) {
-				txtChatMessageEditor.setForeground(c);
 				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
 				client.getPlayer().setColor(c);
 			}
@@ -322,7 +314,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		txtChatMessageEditor.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(java.awt.event.KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !txtChatMessageEditor.getText().isEmpty()) {
 					e.consume();
@@ -449,7 +441,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 								break;
 						
 						
-						case SYSTEM : listPlayerModel.removeAllElements();  listPlayerModel.addAll(((UsersTechnicalMessage)s).getPlayers()); break;
+						case SYSTEM : 
+									var tm = (TechnicalMessage)s;
+									listPlayerModel.removeAllElements();  
+									listPlayerModel.addAll(tm.getPlayers()); 
+									break;
 							  
 						case SEARCH: 
 							var msgs = (SearchMessage)s;
