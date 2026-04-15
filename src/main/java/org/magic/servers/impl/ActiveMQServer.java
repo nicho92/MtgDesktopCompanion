@@ -209,7 +209,9 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	}
 	
 	private void updateOnlines(Player author) {
-		onlines.put(String.valueOf(author.getId()), author);
+		
+		if(!author.isAdmin())
+			onlines.put(String.valueOf(author.getId()), author);
 	}
 
 
