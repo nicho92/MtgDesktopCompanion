@@ -8,17 +8,17 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
-import org.magic.gui.components.renderer.JsonMessagePanel;
+import org.magic.gui.components.renderer.MessageRendererPanel;
 
 public class MessageRenderer extends JPanel implements ListCellRenderer<AbstractMessage> {
 	
 	private static final long serialVersionUID = 1L;
-	private JsonMessagePanel pane;
+	private MessageRendererPanel pane;
 	
 	public MessageRenderer() {
-		pane = new JsonMessagePanel();
+		pane = new MessageRendererPanel();
 		setLayout(new BorderLayout());
-		add(new JPanel(),BorderLayout.NORTH);
+		add(new JPanel(),BorderLayout.NORTH);//little space between each entry
 		add(pane,BorderLayout.CENTER);
 	}
 	

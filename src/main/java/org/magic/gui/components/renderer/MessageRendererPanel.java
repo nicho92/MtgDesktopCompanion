@@ -31,7 +31,7 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.ocpsoft.prettytime.PrettyTime;
 
-public class JsonMessagePanel extends JPanel {
+public class MessageRendererPanel extends JPanel {
 	
 	/**
 	 * 
@@ -46,7 +46,7 @@ public class JsonMessagePanel extends JPanel {
 	private JPanel separator;
 	private PrettyTime prettyTime;
 	
-	public JsonMessagePanel() {
+	public MessageRendererPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{10, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
