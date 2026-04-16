@@ -25,7 +25,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -79,12 +78,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JButton btnImage;
 	private JButton btnUrl;
 	private JButton btnWallpaper;
-	
-	private JSlider sldZoom;
-	private JSlider sldX;
-	private JSlider sldY;
-	
-	private JCheckBox chkWhiteText;
 	private JCheckBox chkMatureContent;
 
 	private JComboBox<String> cboColorAccent;
@@ -147,10 +140,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		var model = new DefaultListCheckModel();
 		powerJTextField = new JTextField(2);
 		toughnessJTextField = new JTextField(2);
-		sldZoom = new JSlider(100,400);
-		sldX = new JSlider(-300,300);
-		sldY = new JSlider(-300,300);
-		chkWhiteText = new JCheckBox("White text");
 	
 		
 		cboSuperType.setModel(modelSt);
@@ -164,9 +153,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboReversedCards.setVisible(false);
 		scrollPane.setPreferredSize(new Dimension(textEditorPanel.getWidth(), 60));
 		textEditorPanel.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
-		sldZoom.setValue(100);
-		sldX.setValue(0);
-		sldY.setValue(0);
 		pictureEditorPanel.setLayout(new GridLayout(6, 1));
 		
 		
@@ -180,7 +166,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(new JLangLabel("CARD_LAYOUT",true), UITools.createGridBagConstraints(null, null, 0, 8));
 		add(new JLabel(capitalize("CARD_POWER") + "/" + capitalize("CARD_TOUGHNESS") + ":"), UITools.createGridBagConstraints(null, null, 2, 8));		
 		add(new JLangLabel("CARD_NUMBER",true), UITools.createGridBagConstraints(null, null, 0, 9));
-		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 11));
+		add(new JLangLabel("PICTURE",true), UITools.createGridBagConstraints( GridBagConstraints.NORTH,null, 0, 11));
 		add(new JLangLabel("COLOR_INDICATOR",true), UITools.createGridBagConstraints(null, null, 2, 10));
 		add(new JLangLabel("BORDER",true), UITools.createGridBagConstraints(null, null, 2, 11));
 		
@@ -210,12 +196,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		textEditorPanel.add(scrollPane,BorderLayout.SOUTH);
 		pictureEditorPanel.add(UITools.createFlowPanel(btnUrl,btnImage,btnWallpaper));
 		pictureEditorPanel.add(UITools.createFlowPanel(new JLangLabel("SIZE",true), spinnerTextSize));
-		pictureEditorPanel.add(chkWhiteText);
-		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("Z:"), sldZoom));
-		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("X:"), sldX));
-		pictureEditorPanel.add(UITools.createFlowPanel(new JLabel("Y:"), sldY));
 	
-		
 		
 	
 		for (var s : new String[] { "W", "U", "B", "R", "G", "C", "T", "E" }) 
@@ -354,7 +335,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			
 		spinnerTextSize.setValue(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.SIZE)):30);
 		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)!=null?magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT):"");
-		chkWhiteText.setSelected(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR)!=null && magicCard.getCustomMetadata().get(EnumExtraCardMetaData.TEXT_COLOR).equals("#ffffff"));
 		chkMatureContent.setSelected(magicCard.isHasContentWarning());
 		cboSuperType.setSelectedElements(magicCard.getSupertypes());
 		cboTypes.setSelectedElements(magicCard.getTypes());
@@ -367,16 +347,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			cboFrameEffects.setSelectedItem(EnumFrameEffects.NONE);
 
 		
-		if(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)!=null)
-			sldZoom.setValue(Integer.parseInt(magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ZOOM)));
-		
-		
 		spinnerTextSize.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SIZE, spinnerTextSize.getValue().toString() ));
 		cboColorAccent.addItemListener(_-> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
-		sldZoom.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ZOOM, String.valueOf(sldZoom.getValue()) ));
-		sldX.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.X, String.valueOf(sldX.getValue()) ));
-		sldY.addChangeListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.Y, String.valueOf(sldY.getValue()) ));
-		chkWhiteText.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.TEXT_COLOR, chkWhiteText.isSelected()?"#ffffff":"#000000"));
 		chkMatureContent.addItemListener(_->magicCard.setHasContentWarning(chkMatureContent.isSelected()));
 		
 		BeanProperty<MTGCard, String> artistProperty = BeanProperty.create("artist");
