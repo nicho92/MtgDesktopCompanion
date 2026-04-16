@@ -26,6 +26,7 @@ import org.apache.activemq.artemis.core.transaction.Transaction;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.messages.TechnicalMessage;
@@ -127,7 +128,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 			}
 			
 		try {
-			plug.getClient().join(new Player("Admin",true), getArray(LISTENERS_TCP)[0], DEFAULT_TOPIC);
+			plug.getClient().join(new Player("ActiveBot",true), getArray(LISTENERS_TCP)[0], DEFAULT_TOPIC);
 			plug.getClient().disableConsummer();
 			
 		}catch(Exception e)
@@ -193,6 +194,11 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		return onlines;
 	}
 	
+	public List<Player> getOnlinesPlayers(){
+		return getOnlines().values().stream().filter(p->!p.isAdmin()).toList();
+	}
+	
+	
 	@Override
 	public void afterCreateSession(ServerSession session) throws ActiveMQException {
 		logger.info("new connection from user={},  IP={}", session.getUsername(), session.getRemotingConnection().getRemoteAddress());
@@ -212,6 +218,9 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		
 		if(!author.isAdmin())
 			onlines.put(String.valueOf(author.getId()), author);
+		
+		if(author.getState()==EnumPlayerStatus.DISCONNECTED)
+			onlines.remove(String.valueOf(author.getId()));
 	}
 
 
@@ -221,7 +230,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		onlines.remove(session.getRemotingConnection().getClientID());
 			try {
 				var msg = new TechnicalMessage();
-				msg.setPlayers(getOnlines().values().stream().toList());
+				msg.setPlayers(getOnlinesPlayers());
 				msg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
 				client.sendMessage(msg);
 			} catch (IOException _) {
@@ -244,7 +253,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 				logger.info("{} : {}", session.getUsername(),jmsg.getMessage());
 				
 				var onlineMsgs = new TechnicalMessage();
-					 onlineMsgs.setPlayers(getOnlines().values().stream().filter(p->!p.isAdmin()).toList());
+					 onlineMsgs.setPlayers(getOnlinesPlayers());
 					 onlineMsgs.setChannels(List.of(getArray("ADRESSES")));
 				client.sendMessage(onlineMsgs);
 			} catch (IOException e) {

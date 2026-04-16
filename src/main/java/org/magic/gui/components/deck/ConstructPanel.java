@@ -91,8 +91,6 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.DeckImportWorker;
-
-import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 public class ConstructPanel extends MTGUIComponent {
 
 

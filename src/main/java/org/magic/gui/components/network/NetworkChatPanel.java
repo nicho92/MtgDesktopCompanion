@@ -3,7 +3,6 @@ package org.magic.gui.components.network;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
@@ -39,8 +38,8 @@ import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.DeckMessage;
-import org.magic.api.beans.messages.SendStockMessage;
 import org.magic.api.beans.messages.SearchMessage;
+import org.magic.api.beans.messages.SendStockMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TechnicalMessage;
 import org.magic.api.interfaces.MTGDao;
