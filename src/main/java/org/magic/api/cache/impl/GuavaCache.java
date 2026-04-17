@@ -2,8 +2,8 @@ package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
@@ -22,7 +22,7 @@ public class GuavaCache extends AbstractCacheProvider {
 	public GuavaCache() {
 		 cache = CacheBuilder.newBuilder()
 								 			.maximumSize(getInt("MAX_ITEM"))
-								 			.expireAfterAccess(getInt("EXPIRATION_MINUTE"), TimeUnit.MINUTES)
+								 			.expireAfterAccess(Duration.ofMinutes(getInt("EXPIRATION_MINUTE")))
 								 			.build();
 	}
 

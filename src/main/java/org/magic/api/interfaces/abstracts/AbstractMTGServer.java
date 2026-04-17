@@ -1,6 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -69,7 +70,7 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 
 		cache = new AbstractEmbeddedCacheProvider<>() {
 			Cache<String, Object> guava = CacheBuilder.newBuilder()
-									  .expireAfterWrite(cacheTime, TimeUnit.MINUTES)
+									  .expireAfterWrite(Duration.ofMinutes(cacheTime))
 									  .removalListener((RemovalNotification<String, Object> notification)->
 											logger.debug("{} is removed {}",notification.getKey(),notification.getCause())
 									  )
