@@ -43,6 +43,7 @@ import org.magic.gui.components.deck.JDeckChooserDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
+import org.magic.services.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -107,7 +108,12 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panelBattleField.setPlayer(p1);
 		panelLibrary.setPlayer(p1);
 		exilPanel.setPlayer(p1);
-
+		try {
+			lblPlayer.setIcon(new ImageIcon(ImageTools.resize(p1.getAvatar(), 60,60)));
+		}catch(Exception _)
+		{
+			lblPlayer.setIcon(MTGConstants.ICON_GAME_PLANESWALKER);
+		}
 	}
 
 	private GamePanelGUI() {
