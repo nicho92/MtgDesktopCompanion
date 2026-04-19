@@ -1,5 +1,12 @@
 # Magic The Gathering Desktop Companion
 
+[![GitHub stars](https://img.shields.io/badge/download-latest-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+[![GitHub issues](https://img.shields.io/github/issues/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/issues)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=org.magic%3Amagic-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.magic%3Amagic-api)
+[![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
+[![GitHub stars](https://img.shields.io/github/stars/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/stargazers)
+[![GitHub stars](https://img.shields.io/twitter/url/https/shields.io.svg?style=social)](https://twitter.com/mtgdesktopcomp1)
+
 Magic The Gathering Desktop Companion is an open-source Java application to manage your MTG collection, build decks, and analyze prices across multiple providers.
 
 ## Highlights
@@ -17,6 +24,10 @@ Magic The Gathering Desktop Companion is an open-source Java application to mana
 - Wiki: <https://github.com/nicho92/MtgDesktopCompanion/wiki>
 - Issues: <https://github.com/nicho92/MtgDesktopCompanion/issues>
 - Security policy: [SECURITY.md](SECURITY.md)
+
+## Help
+MTGCompanion is developped with many contributors, and is and will remain open source. Online service ( like Discord bot, Websites) are hosted on my own server, and DNS are paid on my a personnal funds.
+Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=PayPal&message=Support%20MTGCompanion&color=Blue&logo=paypal)](https://www.paypal.com/donate/?business=ZXJKNZZQ2S7US&no_recurring=0&item_name=Help+me+to+continue+MTGCompanion+developpement%2C+and+online+service+like+Discord+bot+&currency_code=EUR)
 
 ## Requirements
 
