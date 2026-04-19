@@ -82,64 +82,64 @@ mvn test
 
 ## Portfolio
 
+
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/1.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/2.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/2.png](https://www.mtgcompanion.org/img/portfolio/fullsize/2.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/3.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/3.png](https://www.mtgcompanion.org/img/portfolio/fullsize/3.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/4.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/4.png](https://www.mtgcompanion.org/img/portfolio/fullsize/4.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/5.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/5.png](https://www.mtgcompanion.org/img/portfolio/fullsize/5.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/6.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/6.png](https://www.mtgcompanion.org/img/portfolio/fullsize/6.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/7.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/7.png](https://www.mtgcompanion.org/img/portfolio/fullsize/7.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/8.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/8.png](https://www.mtgcompanion.org/img/portfolio/fullsize/8.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/9.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/9.png](https://www.mtgcompanion.org/img/portfolio/fullsize/9.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/10.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/10.png](https://www.mtgcompanion.org/img/portfolio/fullsize/10.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/11.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/11.png](https://www.mtgcompanion.org/img/portfolio/fullsize/11.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/12.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/12.png](https://www.mtgcompanion.org/img/portfolio/fullsize/12.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/13.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/13.png](https://www.mtgcompanion.org/img/portfolio/fullsize/13.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/14.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/14.png](https://www.mtgcompanion.org/img/portfolio/fullsize/14.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/15.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/15.png](https://www.mtgcompanion.org/img/portfolio/fullsize/15.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/16.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/16.png](https://www.mtgcompanion.org/img/portfolio/fullsize/16.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/17.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/17.png](https://www.mtgcompanion.org/img/portfolio/fullsize/17.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/18.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/18.png](https://www.mtgcompanion.org/img/portfolio/fullsize/18.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/19.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/19.png](https://www.mtgcompanion.org/img/portfolio/fullsize/19.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/20.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/20.png](https://www.mtgcompanion.org/img/portfolio/fullsize/20.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/21.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/21.png](https://www.mtgcompanion.org/img/portfolio/fullsize/21.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/22.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/22.png](https://www.mtgcompanion.org/img/portfolio/fullsize/22.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/23.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/23.png](https://www.mtgcompanion.org/img/portfolio/fullsize/23.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/24.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/24.png](https://www.mtgcompanion.org/img/portfolio/fullsize/24.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/25.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/25.png](https://www.mtgcompanion.org/img/portfolio/fullsize/25.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/26.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/26.png](https://www.mtgcompanion.org/img/portfolio/fullsize/26.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/27.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/27.png](https://www.mtgcompanion.org/img/portfolio/fullsize/27.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/28.png)
+![https://www.mtgcompanion.org/img/portfolio/fullsize/28.png](https://www.mtgcompanion.org/img/portfolio/fullsize/28.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/29.png)
-
+![https://www.mtgcompanion.org/img/portfolio/fullsize/29.png](https://www.mtgcompanion.org/img/portfolio/fullsize/29.png)
 
 
 
