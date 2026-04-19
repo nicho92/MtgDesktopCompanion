@@ -241,7 +241,7 @@ public class MTGHttpClient implements AutoCloseable {
 	@Override
 	public void close() throws IOException {
 		httpclient.close();
-		connectionManager.close();
+		connectionManager.shutdown();
 	}
 
 }
