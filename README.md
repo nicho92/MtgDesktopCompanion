@@ -129,15 +129,7 @@ mvn test
 
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/23.png](https://www.mtgcompanion.org/img/portfolio/fullsize/23.png)
 
-![https://www.mtgcompanion.org/img/portfolio/fullsize/24.png](https://www.mtgcompanion.org/img/portfolio/fullsize/24.png)
-
-![https://www.mtgcompanion.org/img/portfolio/fullsize/25.png](https://www.mtgcompanion.org/img/portfolio/fullsize/25.png)
-
-![https://www.mtgcompanion.org/img/portfolio/fullsize/26.png](https://www.mtgcompanion.org/img/portfolio/fullsize/26.png)
-
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/27.png](https://www.mtgcompanion.org/img/portfolio/fullsize/27.png)
-
-![https://www.mtgcompanion.org/img/portfolio/fullsize/28.png](https://www.mtgcompanion.org/img/portfolio/fullsize/28.png)
 
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/29.png](https://www.mtgcompanion.org/img/portfolio/fullsize/29.png)
 
