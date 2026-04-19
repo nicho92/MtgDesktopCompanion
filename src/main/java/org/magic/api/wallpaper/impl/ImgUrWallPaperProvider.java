@@ -25,17 +25,18 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
 
 		var ret = new ArrayList<MTGWallpaper>();
-		var c = URLTools.newClient();
 		var h = new HashMap<String,String>();
 		var e = new HashMap<String,String>();
 
 		if(getAuthenticator().get(CLIENTID)==null)
 		{
-			logger.error("please fill CLIENTID attribute in config panel");
-			return ret;
+		logger.error("please fill CLIENTID attribute in config panel");
+		return ret;
 		}
 
-		try {
+
+		try(var c = URLTools.newClient())
+		{
 
 			String query=search.trim().replace(" ", " AND ");
 

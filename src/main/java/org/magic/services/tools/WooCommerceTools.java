@@ -60,14 +60,30 @@ public class WooCommerceTools {
 		    private static final String API_URL_ONE_ENTITY_FORMAT = "%s/wp-json/wc/%s/%s/%d";
 		    private static final String URL_SECURED_FORMAT = "%s?%s";
 			private final String contentType=URLTools.HEADER_JSON +"; charset="+MTGConstants.DEFAULT_ENCODING.name();
-
-
+			
+			
+			public MTGHttpClient createClient()
+			{
+				try(var c = URLTools.newClient())
+				{
+					return c;
+				} catch (IOException e) {
+					logger.error(e);
+					return null;
+				}
+			}
+			
+			
 			@Override
 			public Map<String,JsonElement> update(String endpointBase, int id, Map<String, Object> object) {
 				Map<String,JsonElement> map = new HashMap<>();
 				try {
 					var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase,id);
-					MTGHttpClient c = URLTools.newClient();
+					var c = createClient();
+					
+					if(c==null)
+						return map;		
+					
 					Map<String,String> header = new HashMap<>();
 									   header.put(URLTools.CONTENT_TYPE, contentType);
 
@@ -96,9 +112,12 @@ public class WooCommerceTools {
 				Map<String,JsonElement> map = new HashMap<>();
 				try {
 					var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
-					var c = URLTools.newClient();
+					var c = createClient();
+					if(c==null)
+						return map;				   
+									
 					Map<String,String> header = new HashMap<>();
-									   header.put(URLTools.CONTENT_TYPE, contentType);
+					   header.put(URLTools.CONTENT_TYPE, contentType);
 
 					HttpResponse resp = null;
 					
@@ -172,7 +191,7 @@ public class WooCommerceTools {
 				var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase, id);
 				var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET);
 				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
-		        Map<String,JsonElement> map = new HashMap<>();
+		        var map = new HashMap<String,JsonElement>();
 				
 					var el = URLTools.extractAsJson(securedUrl).getAsJsonObject();
 					el.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
@@ -189,11 +208,16 @@ public class WooCommerceTools {
 			@Override
 			public Map<String,JsonElement> batch(String endpointBase, Map<String, Object> object) {
 				var url = String.format(API_URL_BATCH_FORMAT, config.getUrl(), apiVersion, endpointBase);
-				MTGHttpClient c = URLTools.newClient();
+				var c = createClient();
+				Map<String,JsonElement> ret = new HashMap<>();
+				
+				if(c==null)
+					return ret;
+				
 				Map<String,String> header = new HashMap<>();
 				  				   header.put(URLTools.CONTENT_TYPE, contentType);
 
-				Map<String,JsonElement> ret = new HashMap<>();
+				
 				try {
 					var resp = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					var str = c.toString(resp);

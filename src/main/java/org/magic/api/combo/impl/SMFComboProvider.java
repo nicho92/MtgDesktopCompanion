@@ -20,7 +20,10 @@ public class SMFComboProvider extends AbstractComboProvider {
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 
 		List<MTGCombo> cbos = new ArrayList<>();
-		MTGHttpClient c = URLTools.newClient();
+		try(var c = URLTools.newClient())
+		{
+			
+		
 		String cardId="";
 		try {
 			var cardString = RequestBuilder.build().url(BASE_URL+"/index.php?objet=carte&action=searchCardTypeAhead").post().setClient(c)
@@ -83,6 +86,11 @@ public class SMFComboProvider extends AbstractComboProvider {
 						cbos.add(cbo);
 
 			});
+			
+		} catch (IOException e1) {
+			logger.error(e1);
+		}
+			
 		return cbos;
 	}
 
