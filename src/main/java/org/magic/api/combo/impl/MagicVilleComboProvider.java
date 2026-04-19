@@ -21,10 +21,7 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 		var ret = new ArrayList<MTGCombo>();
 
-		try(var c = URLTools.newClient())
-		{
-			
-		
+		var c = URLTools.newClient();
 
 		String id;
 		try {
@@ -63,10 +60,7 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 
 			});
 
-		} catch (IOException e1) {
-			logger.error(e1);
-		}
-		
+
 		return ret;
 	}
 

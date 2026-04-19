@@ -39,7 +39,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
 
-public class MTGHttpClient implements AutoCloseable {
+public class MTGHttpClient  {
 
 	private CloseableHttpClient httpclient;
 	private HttpClientContext httpContext;
@@ -236,12 +236,6 @@ public class MTGHttpClient implements AutoCloseable {
 
 	public List<Cookie> getCookies() {
 		return cookieStore.getCookies();
-	}
-
-	@Override
-	public void close() throws IOException {
-		httpclient.close();
-		connectionManager.shutdown();
 	}
 
 }

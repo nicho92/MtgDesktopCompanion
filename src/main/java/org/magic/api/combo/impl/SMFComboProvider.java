@@ -8,7 +8,6 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
-import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
@@ -20,10 +19,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 
 		List<MTGCombo> cbos = new ArrayList<>();
-		try(var c = URLTools.newClient())
-		{
-			
-		
+		var c = URLTools.newClient();
 		String cardId="";
 		try {
 			var cardString = RequestBuilder.build().url(BASE_URL+"/index.php?objet=carte&action=searchCardTypeAhead").post().setClient(c)
@@ -86,11 +82,6 @@ public class SMFComboProvider extends AbstractComboProvider {
 						cbos.add(cbo);
 
 			});
-			
-		} catch (IOException e1) {
-			logger.error(e1);
-		}
-			
 		return cbos;
 	}
 

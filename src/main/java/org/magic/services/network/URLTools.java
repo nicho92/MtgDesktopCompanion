@@ -131,17 +131,15 @@ public class URLTools {
 	}
 
 	public static org.w3c.dom.Document extractAsXml(String url) throws IOException {
-		try(var client = URLTools.newClient())
-		{
-			return RequestBuilder.build().setClient(client).url(url).get().toXml();
-		}
+				return RequestBuilder.build().newClient().url(url).get().toXml();
+		
 	}
 
 	public static JsonElement extractAsJson(String url) 	{
-		try(var client = URLTools.newClient())
+		try
 		{
-			return RequestBuilder.build().setClient(client).url(url).get().addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
-		} catch (IOException e) {
+			return RequestBuilder.build().newClient().url(url).get().addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
+		} catch (Exception e) {
 			logger.error("error while extracting json from {}",url,e);
 			var ret = new JsonObject();
 			ret.addProperty("error", e.getMessage());
@@ -150,32 +148,24 @@ public class URLTools {
 	}
 
 	public static Document extractAsHtml(String url) throws IOException 	{
-		try(var client = URLTools.newClient())
-		{
-			return RequestBuilder.build().setClient(client).url(url).get().toHtml();
-		}
+			return RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().toHtml();
+		
 	}
 
 	public static InputStream extractAsInputStream(String url) throws IOException 	{
-		try(var client = URLTools.newClient())
-		{
-			var content = RequestBuilder.build().setClient(client).url(url).get().execute().getEntity().getContent().readAllBytes();
+			var content = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent().readAllBytes();
 			return new ByteArrayInputStream(content);
-		}
+		
 	}
 
 	public static String extractAsString(String url) throws IOException	{
-		try(var client = URLTools.newClient())
-		{
-			return RequestBuilder.build().setClient(client).url(url).get().toContentString();
-		}
+			return RequestBuilder.build().newClient().url(url).get().toContentString();
 	}
 
 	public static void download(String url,File to) throws IOException {
-		try(var client = URLTools.newClient())
-		{
-			RequestBuilder.build().setClient(client).url(url).get().download(to);
-		}
+		
+			RequestBuilder.build().newClient().url(url).get().download(to);
+		
 	}
 
 
@@ -193,18 +183,18 @@ public class URLTools {
 	
 		if(url.startsWith("//"))
 			url="https:"+url;
-		
-		try(var client = URLTools.newClient())
-		{
-			return RequestBuilder.build().setClient(client).url(url).get().toImage();
-		}
+
+		var client = URLTools.newClient();
+		return RequestBuilder.build().setClient(client).url(url).get().toImage();
+
 	}
 
 
 	public static boolean isCorrectConnection(String url)
 	{
 		int resp;
-		try(var client = URLTools.newClient()) {
+		try {
+			var client = URLTools.newClient();
 			resp = RequestBuilder.build().setClient(client).url(url).get().execute().getStatusLine().getStatusCode();
 			return resp >= 200 && resp < 300;
 		} catch (IOException e) {
@@ -218,20 +208,20 @@ public class URLTools {
 	}
 
 	public static String getLocation(String url) {
-		try(var c = URLTools.newClient()) {
-			RequestBuilder.build().setClient(c).url(url).get().execute();
-			return c.getHttpContext().getRedirectLocations().get(0).toASCIIString();
-
-		} catch (Exception _) {
-			return url;
-		}
+		var c = URLTools.newClient();
+			try {
+				RequestBuilder.build().setClient(c).url(url).get().execute();
+				return c.getHttpContext().getRedirectLocations().get(0).toASCIIString();
+			} catch (IOException e) {
+				logger.error(e);
+				return url;
+			}
+			
 	}
 
 	public static byte[] readAsBinary(String url) throws IOException {
-		try(var client = URLTools.newClient();
-			var is = RequestBuilder.build().setClient(client).url(url).get().execute().getEntity().getContent()){
+			var is = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent();
 			return IOUtils.toByteArray(is);
-		}
 	}
 
 	public static String getInternalIP() {
