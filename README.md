@@ -50,7 +50,7 @@ mvn test
 
 - User guide: [docs/USER_GUIDE.md](docs/USER_GUIDE.md)
 - Developer guide: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
-- Changelog: [CHANGELOG.md](CHANGELOG.md)
+
 
 ## Repository structure
 
