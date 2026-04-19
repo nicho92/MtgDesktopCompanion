@@ -36,6 +36,8 @@ mvn clean test
   - Core service layer, managers, jobs, adapters, tools, and network utilities
 - `src/main/java/org/magic/servers`
   - Embedded server components and timers
+- `src/main/java/org/magic/game`
+  - Game components and logics
 - `src/test/java`
   - Test suites for APIs, providers, analysis, and networking
 
