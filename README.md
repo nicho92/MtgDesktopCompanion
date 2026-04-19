@@ -61,8 +61,8 @@ mvn test
 
 ## Documentation
 
-- User guide: [docs/USER_GUIDE.md](docs/USER_GUIDE.md)
-- Developer guide: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)
+- User guide: <https://github.com/nicho92/MtgDesktopCompanion/wiki>
+- Developer guide: <https://github.com/nicho92/MtgDesktopCompanion/wiki/Development>
 
 
 ## Repository structure
@@ -70,6 +70,8 @@ mvn test
 - `src/main/java/org/magic/api`: provider APIs and plugin implementations
 - `src/main/java/org/magic/services`: core services (business logic, jobs, tools, networking)
 - `src/main/java/org/magic/servers`: embedded server implementations
+- `src/main/java/org/magic/gui`: application gui components and frames
+- `src/main/java/org/magic/game`: simulator game components and logics
 - `src/test/java`: unit and integration tests
 
 ## Contributing
