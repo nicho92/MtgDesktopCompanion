@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.core.Logger;
 import org.magic.api.beans.CardShake;
@@ -200,25 +202,22 @@ public class CollectionEvaluator extends Observable
 				logger.trace("{} is not found for {}: {}",fich,ed.getId(),ed.getSet());
 				list= new EditionsShakers();
 			}
+			var shakesByName = list.getShakes()
+									.stream()
+									.collect(Collectors.toMap(CardShake::getName, Function.identity(), (left, right) -> left));
 			var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
 			for(MTGCard mc : cards)
 			{
-					var cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
-					if(cs.isPresent())
+					var shak = shakesByName.get(mc.getName());
+					if(shak == null)
 					{
-						var shak = cs.get();
-						if(shak.getPrice().doubleValue()>=minPrice)
-							ret.put(mc, shak);
+						shak = new CardShake();
+						shak.setName(mc.getName());
+						shak.setPrice(0.0);
 					}
-					else
-					{
-						var csn = new CardShake();
-						csn.setName(mc.getName());
-						csn.setPrice(0.0);
 
-						if(csn.getPrice().doubleValue()>=minPrice)
-							ret.put(mc, csn);
-					}
+					if(shak.getPrice().doubleValue()>=minPrice)
+						ret.put(mc, shak);
 			}
 			setChanged();
 			notifyObservers(ed);

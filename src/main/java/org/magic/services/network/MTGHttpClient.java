@@ -26,6 +26,7 @@ import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -38,9 +39,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
 
-public class MTGHttpClient {
+public class MTGHttpClient implements AutoCloseable {
 
-	private HttpClient httpclient;
+	private CloseableHttpClient httpclient;
 	private HttpClientContext httpContext;
 	private BasicCookieStore cookieStore;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
@@ -237,8 +238,13 @@ public class MTGHttpClient {
 		return cookieStore.getCookies();
 	}
 
-}
+	@Override
+	public void close() throws IOException {
+		httpclient.close();
+		connectionManager.close();
+	}
 
+}
 
 
 

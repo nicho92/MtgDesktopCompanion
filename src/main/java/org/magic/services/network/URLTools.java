@@ -1,6 +1,7 @@
 package org.magic.services.network;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,12 +32,16 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 
 public class URLTools {
 
 	private static Logger logger = MTGLogger.getLogger(URLTools.class);
+	private static final List<Extension> MARKDOWN_EXTENSIONS = List.of(TablesExtension.create());
+	private static final Parser MARKDOWN_PARSER = Parser.builder().extensions(MARKDOWN_EXTENSIONS).build();
+	private static final HtmlRenderer MARKDOWN_RENDERER = HtmlRenderer.builder().extensions(MARKDOWN_EXTENSIONS).build();
 
 	public static final String HEADER_JSON="application/json";
 	public static final String HEADER_HTML="text/html";
@@ -121,34 +126,56 @@ public class URLTools {
 
 	public static String toHtmlFromMarkdown(String c)
 	{
-		List<Extension> extensions = List.of(TablesExtension.create());
-		var parser = Parser.builder().extensions(extensions).build();
-		var document = parser.parse(c);
-		return HtmlRenderer.builder().extensions(extensions).build().render(document);
+		var document = MARKDOWN_PARSER.parse(c);
+		return MARKDOWN_RENDERER.render(document);
 	}
 
 	public static org.w3c.dom.Document extractAsXml(String url) throws IOException {
-		return RequestBuilder.build().newClient().url(url).get().toXml();
+		try(var client = URLTools.newClient())
+		{
+			return RequestBuilder.build().setClient(client).url(url).get().toXml();
+		}
 	}
 
 	public static JsonElement extractAsJson(String url) 	{
-		return RequestBuilder.build().newClient().url(url).get().addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
+		try(var client = URLTools.newClient())
+		{
+			return RequestBuilder.build().setClient(client).url(url).get().addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
+		} catch (IOException e) {
+			logger.error("error while extracting json from {}",url,e);
+			var ret = new JsonObject();
+			ret.addProperty("error", e.getMessage());
+			return ret;
+		}
 	}
 
 	public static Document extractAsHtml(String url) throws IOException 	{
-		return RequestBuilder.build().newClient().url(url).get().toHtml();
+		try(var client = URLTools.newClient())
+		{
+			return RequestBuilder.build().setClient(client).url(url).get().toHtml();
+		}
 	}
 
 	public static InputStream extractAsInputStream(String url) throws IOException 	{
-		return RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent();
+		try(var client = URLTools.newClient())
+		{
+			var content = RequestBuilder.build().setClient(client).url(url).get().execute().getEntity().getContent().readAllBytes();
+			return new ByteArrayInputStream(content);
+		}
 	}
 
 	public static String extractAsString(String url) throws IOException	{
-		return RequestBuilder.build().newClient().url(url).get().toContentString();
+		try(var client = URLTools.newClient())
+		{
+			return RequestBuilder.build().setClient(client).url(url).get().toContentString();
+		}
 	}
 
 	public static void download(String url,File to) throws IOException {
-		RequestBuilder.build().newClient().url(url).get().download(to);
+		try(var client = URLTools.newClient())
+		{
+			RequestBuilder.build().setClient(client).url(url).get().download(to);
+		}
 	}
 
 
@@ -167,15 +194,18 @@ public class URLTools {
 		if(url.startsWith("//"))
 			url="https:"+url;
 		
-		return RequestBuilder.build().newClient().url(url).get().toImage();
+		try(var client = URLTools.newClient())
+		{
+			return RequestBuilder.build().setClient(client).url(url).get().toImage();
+		}
 	}
 
 
 	public static boolean isCorrectConnection(String url)
 	{
 		int resp;
-		try {
-			resp = RequestBuilder.build().newClient().url(url).get().execute().getStatusLine().getStatusCode();
+		try(var client = URLTools.newClient()) {
+			resp = RequestBuilder.build().setClient(client).url(url).get().execute().getStatusLine().getStatusCode();
 			return resp >= 200 && resp < 300;
 		} catch (IOException e) {
 			logger.error(e);
@@ -188,8 +218,7 @@ public class URLTools {
 	}
 
 	public static String getLocation(String url) {
-		try {
-			var c = URLTools.newClient();
+		try(var c = URLTools.newClient()) {
 			RequestBuilder.build().setClient(c).url(url).get().execute();
 			return c.getHttpContext().getRedirectLocations().get(0).toASCIIString();
 
@@ -199,8 +228,10 @@ public class URLTools {
 	}
 
 	public static byte[] readAsBinary(String url) throws IOException {
-			var is = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent();
+		try(var client = URLTools.newClient();
+			var is = RequestBuilder.build().setClient(client).url(url).get().execute().getEntity().getContent()){
 			return IOUtils.toByteArray(is);
+		}
 	}
 
 	public static String getInternalIP() {
