@@ -22,20 +22,22 @@
 			<name>Nicolas Pihen</name>
 			<email>nicolas.pihen@gmail.com</email>
 			<url>https://github.com/nicho92/</url>
+			<roles>
+				<role>owner</role>
+				<role>developer</role>
+			</roles>
 		</developer>
 	</developers>
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git
-		</connection>
-		<developerConnection>
-			scm:git:https://github.com/nicho92/MtgDesktopCompanion.git
-		</developerConnection>
+		<connection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</connection>
+		<developerConnection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</developerConnection>
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
 		<tag>HEAD</tag>
 	</scm>
@@ -216,11 +218,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-nop</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
