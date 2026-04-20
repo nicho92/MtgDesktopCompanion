@@ -57,6 +57,12 @@
       "sizes": "96x96",
       "purpose": "any"
     },
+	{
+	      "src": "dist/img/128.png",
+	      "type": "image/png",
+	      "sizes": "128x128",
+	      "purpose": "any"
+	},
     {
       "src": "dist/img/256.png",
       "type": "image/png",
