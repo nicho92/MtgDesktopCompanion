@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGCard;

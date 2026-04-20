@@ -38,18 +38,15 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.DAOInfo;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
-import org.magic.services.tools.MTG;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
