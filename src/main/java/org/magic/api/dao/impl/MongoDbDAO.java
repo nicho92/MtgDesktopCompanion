@@ -38,15 +38,18 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.DAOInfo;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
@@ -96,6 +99,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbTypeNewsField = "typeNews";
 	private String dbStockColField = dbStockField+".magicCollection.name";
 	private String dbStockSetField = dbStockField+".edition.id";
+
 
 	private MongoClient client;
 	private JsonWriterSettings setts;
@@ -565,17 +569,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MTGCollection> listCollectionFromCards(MTGCard mc) throws SQLException {
 
 		var ret = new ArrayList<MTGCollection>();
-		db.getCollection(colStocks, BasicDBObject.class).distinct(dbStockColField, Filters.eq(dbIDField, mc.getScryfallId()), String.class)
-				.forEach((Consumer<String>) result -> {
-					try {
-						logger.trace("found {} in {} ",mc,result);
-						ret.add(getCollection(result));
-					} catch (SQLException e) {
-						logger.error("Error", e);
-					}
-
-				});
-
+		
+		
+		db.getCollection(colStocks, BasicDBObject.class).find(Filters.and(Filters.eq(dbStockField+".product.scryfallId",mc.getScryfallId()))).forEach((Consumer<BasicDBObject>) result -> 
+			{
+				var mcs = deserialize(result.get(dbStockField).toString(), MTGCardStock.class);
+				ret.add(mcs.getMagicCollection());
+			});
+		
 		return ret;
 	}
 
@@ -594,7 +595,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException {
 		var ret = new ArrayList<MTGCardStock>();
 		db.getCollection(colStocks, BasicDBObject.class)
-				.find(Filters.and(Filters.eq(dbIDField,mc.getScryfallId()),Filters.eq(dbStockField+".magicCollection.name",col.getName())))
+				.find(Filters.and(Filters.eq(dbStockField+".product.scryfallId",mc.getScryfallId()),Filters.eq(dbStockField+".magicCollection.name",col.getName())))
 				.forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get(dbStockField).toString(), MTGCardStock.class)));
 
 		return ret;

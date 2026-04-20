@@ -1,7 +1,7 @@
  {
  	"name": "MTG Chrome Companion",
  	"manifest_version": 3,
-	"version": "2.58",
+	"version": "2.60",
 	"author": "Nicolas Pihen",
 	"description": "Get your MTG Desktop Companion embedded in your chrome browser !",
 	"permissions": [
@@ -36,11 +36,18 @@
 	"action": {
 		"default_popup": "html/popup.html",
 		"default_icon": {
-			"32": "img/logo.png"
+			"16": "img/16.png",
+		"24": "img/24.png",
+		"32": "img/32.png",
+		"64": "img/64.png",
+		"128": "img/128.png"
 		}
 	},
 	"icons": {
-		"32": "img/logo.png",
-		"48": "img/logo.png"
+		"16": "img/16.png",
+		"24": "img/24.png",
+		"32": "img/32.png",
+		"64": "img/64.png",
+		"128": "img/128.png"
 	}
 }
