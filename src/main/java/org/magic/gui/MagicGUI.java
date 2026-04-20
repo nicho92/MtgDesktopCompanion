@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
@@ -151,8 +152,9 @@ public class MagicGUI extends JFrame {
 		mnuAbout.add(mntmThreadItem);
 		mnuAbout.add(mntmHelp);
 		mnuAbout.add(mntmDonate);
-		mnuAbout.add(mntmAboutMagicDesktop);
 		mnuAbout.add(mntmReportBug);
+		mnuAbout.add(new JSeparator());
+		mnuAbout.add(mntmAboutMagicDesktop);
 
 
 		mntmFileChromePlugin.addActionListener(_->{

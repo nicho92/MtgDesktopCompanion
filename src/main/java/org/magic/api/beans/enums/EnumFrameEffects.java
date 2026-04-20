@@ -13,6 +13,7 @@ public enum EnumFrameEffects implements MTGEnumeration{
 	COMPANION,
 	COMPASSLANDDFC,
 	CONVERTDFC,
+	DAZZLEFOIL,
 	DEVOID,
 	DRAFT,
 	ENCHANTMENT,
