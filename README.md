@@ -62,7 +62,7 @@ mvn test
 ## Documentation
 
 - User guide: <https://github.com/nicho92/MtgDesktopCompanion/wiki>
-- Developer guide: <https://github.com/nicho92/MtgDesktopCompanion/wiki/Development>
+- Developer guide: <https://github.com/nicho92/MtgDesktopCompanion/wiki/Developer-Guide>
 
 
 ## Repository structure
