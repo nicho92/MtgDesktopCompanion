@@ -44,7 +44,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		try {
 			if(trayNotifier==null)
 			{
-				trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+				trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO_32.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 				tray = SystemTray.getSystemTray();
 				if (SystemTray.isSupported()) {
 					tray.add(trayNotifier);

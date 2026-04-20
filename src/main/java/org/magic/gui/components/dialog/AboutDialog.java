@@ -49,7 +49,7 @@ public class AboutDialog extends MTGUIComponent {
 			developper.append("<br/>Download count : ").append(GithubUtils.inst().downloadCount());
 			developper.append("</center></html>");
 
-			var icon = new JLabel(new ImageIcon(MTGConstants.IMAGE_LOGO));
+			var icon = new JLabel(new ImageIcon(MTGConstants.IMAGE_LOGO_128));
 				icon.setFont(new Font("Tahoma", Font.BOLD, 16));
 				icon.setVerticalTextPosition(SwingConstants.BOTTOM);
 				icon.setHorizontalTextPosition(SwingConstants.CENTER);

@@ -16,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -114,7 +115,12 @@ public class MagicGUI extends JFrame {
 		
 		setSize(new Dimension(1620, 1024));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
-
+		
+		
+		setIconImages(List.of(MTGConstants.IMAGE_LOGO_32, MTGConstants.IMAGE_LOGO_64, MTGConstants.IMAGE_LOGO_128));
+		
+		
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -123,7 +129,7 @@ public class MagicGUI extends JFrame {
 		});
 
 
-		setIconImage(MTGConstants.IMAGE_LOGO);
+		
 		getContentPane().setLayout(new BorderLayout());
 
 		mtgMnuBar = new JMenuBar();
@@ -138,7 +144,7 @@ public class MagicGUI extends JFrame {
 		var mntmHelp = new JMenuItem(capitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
 		var mntmDonate = new JMenuItem(capitalize("DONATE"),MTGConstants.ICON_EURO);
 		var mntmThreadItem = new JMenuItem(capitalize("TECHNICAL"),MTGConstants.ICON_CONFIG);
-		var mntmAboutMagicDesktop = new JMenuItem(capitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO));
+		var mntmAboutMagicDesktop = new JMenuItem(capitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO_32));
 		var mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
 		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
 		var mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);

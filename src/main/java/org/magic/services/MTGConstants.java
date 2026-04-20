@@ -144,9 +144,15 @@ public class MTGConstants {
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
 	public static final ImageIcon ICON_MANA_GOLD = getManaSymbol("gold");
 	public static final ImageIcon ICON_MANA_INCOLOR = getManaSymbol("uncolor");
-	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource(ICON_DIR+"/logo.png"));
-	public static final ImageIcon ICON_LOGO = new ImageIcon(IMAGE_LOGO.getScaledInstance(32, 32, Image.SCALE_SMOOTH));
+	private static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource(ICON_DIR+"/logo.png"));
+	public static final Image IMAGE_LOGO_32 = IMAGE_LOGO.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+	public static final Image IMAGE_LOGO_64 = IMAGE_LOGO.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+	public static final Image IMAGE_LOGO_128 = IMAGE_LOGO.getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+	
+	
+	public static final ImageIcon ICON_LOGO = new ImageIcon(IMAGE_LOGO_32);
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/splash.png"));
+	
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 	public static final URL ANNIVERSARY_BACK_CARD = MTGConstants.class.getResource("/icons/back30.jpg");
 	public static final URL COLLECTOR_BACK_CARD = MTGConstants.class.getResource("/icons/backCE.jpg");
