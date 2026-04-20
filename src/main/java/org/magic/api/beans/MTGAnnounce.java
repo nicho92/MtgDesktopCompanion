@@ -12,6 +12,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.extra.MTGSerializable;
 
@@ -191,6 +192,12 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 	public Double getTotalPrice() {
 		return totalPrice;
 	}
+	
+	public MoneyValue getMoneyValue() {
+		return new MoneyValue(getTotalPrice(), getCurrency());
+	}
+	
+	
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
