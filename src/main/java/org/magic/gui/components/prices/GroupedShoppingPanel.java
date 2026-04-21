@@ -7,13 +7,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;
@@ -44,24 +42,21 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent buzy;
 	private JLabel lblitems;
 
-
-
 	public void initList(List<MTGAlert> d) {
 		this.cards = d.stream().map(MTGAlert::getCard).toList();
 
-		lblitems.setText(capitalize("X_ITEMS_IMPORTED",cards.size()));
+		lblitems.setText(capitalize("X_ITEMS_IMPORTED", cards.size()));
 		enableControle(true);
 	}
 
 	public void init(List<MTGCard> d) {
 		this.cards = d;
-		lblitems.setText(capitalize("X_ITEMS_IMPORTED",cards.size()));
+		lblitems.setText(capitalize("X_ITEMS_IMPORTED", cards.size()));
 
 		enableControle(true);
 	}
 
-	public void enableControle(boolean b)
-	{
+	public void enableControle(boolean b) {
 		cboPricers.setEnabled(b);
 		btnCheckPrice.setEnabled(b);
 	}
@@ -69,7 +64,6 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 	public JButton getBtnCheckPrice() {
 		return btnCheckPrice;
 	}
-
 
 	public GroupedShoppingPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -79,9 +73,8 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 
 		add(panel, BorderLayout.NORTH);
 
-		cboPricers = UITools.createComboboxPlugins(MTGPricesProvider.class,false);
+		cboPricers = UITools.createComboboxPlugins(MTGPricesProvider.class, false);
 		panel.add(cboPricers);
-
 
 		enableControle(false);
 
@@ -104,30 +97,27 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 
 		add(new JScrollPane(tree), BorderLayout.CENTER);
 
-
 		tree.addMouseListener(new MouseAdapter() {
 
-			 @Override
+			@Override
 			public void mouseClicked(MouseEvent e) {
-				 if (e.getClickCount() == 2)
-				 {
+				if (e.getClickCount() == 2) {
 
 					Object o = UITools.getTableSelection(tree, 0);
 
-					if(o instanceof MTGPrice mp)
-					{
+					if (o instanceof MTGPrice mp) {
 						UITools.browse(mp.getSellerUrl());
 					}
 
-
-			     }
+				}
 			}
 
 		});
 
 		btnCheckPrice.addActionListener(_ -> {
 
-			AbstractObservableWorker<Map<String, List<MTGPrice>>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(buzy,(MTGPricesProvider)cboPricers.getSelectedItem(),cards.size()) {
+			AbstractObservableWorker<Map<String, List<MTGPrice>>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(
+					buzy, (MTGPricesProvider) cboPricers.getSelectedItem(), cards.size()) {
 
 				@Override
 				protected Map<String, List<MTGPrice>> doInBackground() throws Exception {
@@ -139,13 +129,10 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 					super.done();
 					try {
 						treetModel.init(get());
-						}
-					catch(InterruptedException _)
-					{
+					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
-					}
-					catch (Exception e) {
-						logger.error("error",e);
+					} catch (Exception e) {
+						logger.error("error", e);
 					}
 				}
 

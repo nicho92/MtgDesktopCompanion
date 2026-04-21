@@ -6,13 +6,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
-
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.network.URLTools;
-
 
 public class TelegramNotifier extends AbstractMTGNotifier {
 
@@ -29,15 +27,15 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 
-		var urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode="+getFormat().name().toLowerCase()+"&chat_id=%s&text=%s";
+		var urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode=" + getFormat().name().toLowerCase()
+				+ "&chat_id=%s&text=%s";
 
 		var apiToken = getAuthenticator().get("TOKEN");
 		var chatId = getString("CHANNEL");
 		var msg = URLTools.encode(notification.getMessage());
 
-		if(msg.length()>4096)
-		{
-			logger.error("Message is too long : {}>4096. Will truncate it",msg.length());
+		if (msg.length() > 4096) {
+			logger.error("Message is too long : {}>4096. Will truncate it", msg.length());
 			msg = msg.substring(0, 4096);
 
 		}
@@ -51,10 +49,10 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		while ((inputLine = br.readLine()) != null) {
 			sb.append(inputLine);
 		}
-		
+
 		logger.debug(sb);
 		br.close();
-		
+
 	}
 
 	@Override
@@ -68,10 +66,10 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 	}
 
-
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("CHANNEL", new MTGProperty("","ID of the channel where notification is send. See https://neliosoftware.com/content/help/how-do-i-get-the-channel-id-in-telegram/ to get this information"));
+		return Map.of("CHANNEL", new MTGProperty("",
+				"ID of the channel where notification is send. See https://neliosoftware.com/content/help/how-do-i-get-the-channel-id-in-telegram/ to get this information"));
 	}
 
 }

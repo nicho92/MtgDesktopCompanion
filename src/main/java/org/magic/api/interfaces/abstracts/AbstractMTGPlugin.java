@@ -10,12 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGDocumentation;
@@ -41,16 +39,14 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	private boolean loaded = false;
 
 	protected PluginsAliasesProvider aliases = PluginsAliasesProvider.inst();
-	
-	
+
 	@Override
 	public boolean needAuthenticator() {
 		return !listAuthenticationAttributes().isEmpty();
 	}
-	
+
 	@Override
-	public boolean isPartner()
-	{
+	public boolean isPartner() {
 		return false;
 	}
 
@@ -59,11 +55,10 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return new ArrayList<>();
 	}
 
-
 	@Override
 	public ObjectName getObjectName() {
 		try {
-			return new ObjectName("org.magic.api:type="+getType().name().toLowerCase()+",name="+getName());
+			return new ObjectName("org.magic.api:type=" + getType().name().toLowerCase() + ",name=" + getName());
 		} catch (MalformedObjectNameException _) {
 			return null;
 		}
@@ -72,10 +67,9 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(URI.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/plugins/"+getType()+"-"+getName().replace(" ", "_")+".md").toURL(),FORMAT_NOTIFICATION.MARKDOWN);
-		}
-		catch(Exception _)
-		{
+			return new MTGDocumentation(URI.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL + "/plugins/" + getType() + "-"
+					+ getName().replace(" ", "_") + ".md").toURL(), FORMAT_NOTIFICATION.MARKDOWN);
+		} catch (Exception _) {
 			return null;
 		}
 	}
@@ -99,7 +93,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		props = new Properties();
 		load();
 
-
 		confdir = new File(MTGConstants.CONF_DIR, getType().name().toLowerCase());
 		if (!confdir.exists())
 			confdir.mkdir();
@@ -115,9 +108,8 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	public String getProperty(String k, String defaultVal) {
 
-		if(props.getProperty(k)==null || props.getProperty(k).isEmpty())
+		if (props.getProperty(k) == null || props.getProperty(k).isEmpty())
 			return defaultVal;
-
 
 		return props.getProperty(k, defaultVal);
 	}
@@ -133,16 +125,15 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	@Override
 	public void load() {
-			confFile = new File(confdir, getName() + ".conf");
-			if (confFile.exists())
-			{
-				try {
-					FileTools.loadProperties(confFile, props);
-				} catch (IOException e) {
-					logger.error("error loading file {} : {}",confFile, e);
-				}
+		confFile = new File(confdir, getName() + ".conf");
+		if (confFile.exists()) {
+			try {
+				FileTools.loadProperties(confFile, props);
+			} catch (IOException e) {
+				logger.error("error loading file {} : {}", confFile, e);
 			}
-		loaded=true;
+		}
+		loaded = true;
 	}
 
 	@Override
@@ -150,7 +141,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		try {
 			FileTools.saveProperties(confFile, props);
 		} catch (Exception e) {
-			logger.error("error writing file {} : {}",confFile, e.getMessage());
+			logger.error("error writing file {} : {}", confFile, e.getMessage());
 		}
 	}
 
@@ -161,7 +152,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	@Override
 	public void setProperty(String k, Object value) {
-		logger.debug("setProperty {}={}",k,value);
+		logger.debug("setProperty {}={}", k, value);
 		if (value == null)
 			value = "";
 
@@ -185,27 +176,24 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		}
 	}
 
-
 	public double getDouble(String k) {
 		return UITools.parseDouble(getString(k));
 	}
 
 	public boolean getBoolean(String k) {
-		if(StringUtils.isEmpty(getString(k)))
+		if (StringUtils.isEmpty(getString(k)))
 			return false;
 
-
-		return getString(k).equalsIgnoreCase("true")||getString(k).equalsIgnoreCase("yes");
+		return getString(k).equalsIgnoreCase("true") || getString(k).equalsIgnoreCase("yes");
 	}
 
 	public String[] getArray(String k) {
 		return getString(k).split(",");
 	}
-	
+
 	public List<String> getList(String k) {
 		return List.of(getString(k).split(","));
 	}
-	
 
 	public File getFile(String k) {
 		return new File(getString(k));
@@ -215,7 +203,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public String getString(String k) {
 
 		if (props.getProperty(k) == null) {
-			logger.error("{} is not found in {}",k,getName());
+			logger.error("{} is not found in {}", k, getName());
 			props.put(k, getDefaultAttributes().get(k).getDefaultValue());
 			save();
 			load();
@@ -223,16 +211,14 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 		return getProperty(k, "").trim();
 	}
-	
-	
-	public char getChar(String k)
-	{
+
+	public char getChar(String k) {
 		return getString(k).charAt(0);
 	}
 
 	@Override
 	public boolean isEnable() {
-		if(isPartner())
+		if (isPartner())
 			return true;
 
 		return enable;
@@ -268,39 +254,37 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 
 	protected void initDefault() {
-		getDefaultAttributes().entrySet().forEach(e->setProperty(e.getKey(), e.getValue().getDefaultValue()));
+		getDefaultAttributes().entrySet().forEach(e -> setProperty(e.getKey(), e.getValue().getDefaultValue()));
 	}
-
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return new HashMap<>();
 	}
 
-
-
 	@Override
 	public void unload() {
-		logger.trace("Unloading {}",getName());
+		logger.trace("Unloading {}", getName());
 
 	}
 
 	@Override
 	public Icon getIcon() {
 		try {
-			return new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
-		}
-		catch(Exception _)
-		{
+			return new ImageIcon(new ImageIcon(
+					AbstractMTGPlugin.class.getResource("/icons/plugins/" + getName().toLowerCase() + ".png"))
+					.getImage()
+					.getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
+		} catch (Exception _) {
 			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}
 
 	@Override
 	public String termsAndCondition() {
-		return "Copyright" + '\u00A9' + " "+ Calendar.getInstance().get(Calendar.YEAR) + ", All data are property of "+ getName();
+		return "Copyright" + '\u00A9' + " " + Calendar.getInstance().get(Calendar.YEAR) + ", All data are property of "
+				+ getName();
 
 	}
-
 
 }

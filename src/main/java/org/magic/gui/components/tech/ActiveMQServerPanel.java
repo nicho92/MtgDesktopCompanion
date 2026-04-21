@@ -1,13 +1,11 @@
 package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 import org.magic.api.beans.game.Player;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -21,7 +19,7 @@ public class ActiveMQServerPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
-	private JList<Player> listPlayers; 
+	private JList<Player> listPlayers;
 	private ActiveMQMessageTableModel model;
 	private DefaultListModel<Player> listModel;
 
@@ -30,27 +28,24 @@ public class ActiveMQServerPanel extends MTGUIComponent {
 		model = new ActiveMQMessageTableModel();
 		listModel = new DefaultListModel<>();
 		listPlayers = new JList<>(listModel);
-		table = UITools.createNewTable(model,true);
+		table = UITools.createNewTable(model, true);
 		listPlayers.setCellRenderer(new PlayerRenderer());
-		
-		add(new JScrollPane(table),BorderLayout.CENTER);
-		add(new JScrollPane(listPlayers),BorderLayout.WEST);
+
+		add(new JScrollPane(table), BorderLayout.CENTER);
+		add(new JScrollPane(listPlayers), BorderLayout.WEST);
 
 		model.bind(AbstractTechnicalServiceManager.inst().getJsonMessages());
-		
-		
+
 	}
 
 	public ActiveMQMessageTableModel getModel() {
 		return model;
 	}
-	
+
 	public JTable getTable() {
 		return table;
 	}
-	
-	
-	
+
 	@Override
 	public String getTitle() {
 		return "ActiveMQ";
@@ -64,10 +59,8 @@ public class ActiveMQServerPanel extends MTGUIComponent {
 	public void init(ActiveMQServer serv) {
 		listModel.removeAllElements();
 		listModel.addAll(serv.getPlug().getOnlines().values());
-		
+
 		model.fireTableDataChanged();
 	}
 
-
 }
-

@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -19,7 +18,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -50,7 +48,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	private JButton btnCompare;
 	private AbstractBuzyIndicatorComponent buzyLabel;
 	private DeckPricePanel pricesPan;
-	private JCheckBox chkEditionStrict ;
+	private JCheckBox chkEditionStrict;
 	private JExportButton btnExportMissing;
 
 	public void setCurrentDeck(MTGDeck c) {
@@ -61,8 +59,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		initGUI();
 		initActions();
 	}
-	
-	
+
 	@Override
 	public void onVisible() {
 		try {
@@ -78,10 +75,9 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	private void initGUI() {
 
 		setLayout(new BorderLayout(0, 0));
-		btnCompare = UITools.createBindableJButton("Compare",MTGConstants.ICON_STOCK,KeyEvent.VK_C,"compare");
+		btnCompare = UITools.createBindableJButton("Compare", MTGConstants.ICON_STOCK, KeyEvent.VK_C, "compare");
 		var panneauHaut = new JPanel();
-		
-		
+
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		model = new DeckStockComparisonModel();
 		btnExportMissing = new JExportButton(MODS.EXPORT);
@@ -95,11 +91,11 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		pan.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		pricesPan = new DeckPricePanel();
 
-		JXTable table = UITools.createNewTable(model,false);
-		UITools.initCardToolTipTable(table, 0,1,null,null);
+		JXTable table = UITools.createNewTable(model, false);
+		UITools.initCardToolTipTable(table, 0, 1, null, null);
 
 		add(panneauHaut, BorderLayout.NORTH);
-		cboCollections =new JCheckableListBox<>();
+		cboCollections = new JCheckableListBox<>();
 		chkEditionStrict = new JCheckBox(capitalize("EDITION_STRICT"));
 		btnExportMissing.setEnabled(false);
 		btnExportMissing.initCardsExport(new Callable<MTGDeck>() {
@@ -110,51 +106,45 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 				var d = new MTGDeck();
 				d.setName(currentDeck.getName());
 				d.setDescription("Missing cards for deck " + d.getName());
-				model.getItems().forEach(l->d.getMain().put(l.getMc(), l.getResult()));
+				model.getItems().forEach(l -> d.getMain().put(l.getMc(), l.getResult()));
 
 				return d;
 			}
 		}, buzyLabel);
 
-	
-		
 		panneauHaut.add(cboCollections);
 		panneauHaut.add(chkEditionStrict);
 		panneauHaut.add(btnCompare);
 		panneauHaut.add(btnExportMissing);
 		panneauHaut.add(buzyLabel);
 
-
-
-		
 		pan.setLeftComponent(new JScrollPane(table));
 		pan.setRightComponent(pricesPan);
 
-		add(pan,BorderLayout.CENTER);
+		add(pan, BorderLayout.CENTER);
 
-		table.setDefaultRenderer(Integer.class, (JTable _, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
-			var val = (Integer)value;
-				if(column==4)
-				{
-					var c = new JLabel(value.toString(),SwingConstants.CENTER);
-					c.setOpaque(true);
-					if(val==0)
-					{
-						c.setBackground(Color.GREEN);
-						c.setForeground(Color.BLACK);
+		table.setDefaultRenderer(Integer.class,
+				(JTable _, Object value, boolean isSelected, boolean hasFocus, int row, int column) -> {
+					var val = (Integer) value;
+					if (column == 4) {
+						var c = new JLabel(value.toString(), SwingConstants.CENTER);
+						c.setOpaque(true);
+						if (val == 0) {
+							c.setBackground(Color.GREEN);
+							c.setForeground(Color.BLACK);
+						}
+
+				else {
+							c.setBackground(Color.RED);
+							c.setForeground(Color.WHITE);
+						}
+
+						return c;
+
 					}
-
-					else
-					{
-						c.setBackground(Color.RED);
-						c.setForeground(Color.WHITE);
-					}
-
-					return c;
-
-				}
-				return new NumberCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,row,column);
-		});
+					return new NumberCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected,
+							hasFocus, row, column);
+				});
 
 		table.packAll();
 
@@ -162,57 +152,53 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 
 	private void initActions() {
 
-		btnCompare.addActionListener(_-> {
+		btnCompare.addActionListener(_ -> {
 			model.clear();
-			if(currentDeck!=null)
-			{
+			if (currentDeck != null) {
 				buzyLabel.start(currentDeck.getMain().entrySet().size());
-				SwingWorker<Void, MTGCard> sw = new SwingWorker<>()
-						{
-						@Override
-						protected Void doInBackground() throws Exception {
-							currentDeck.getMain().entrySet().forEach(entry->
-							{
-								try {
-									var stocks = new ArrayList<MTGCardStock>();
-								
-									for(var c : cboCollections.getSelectedElements())
-										stocks.addAll(MTG.getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), c,chkEditionStrict.isSelected()));
-									
-									var qty = currentDeck.getMain().get(entry.getKey());
-									model.addItem(entry.getKey(),qty,stocks);
-									publish(entry.getKey());
-								} catch (SQLException e) {
-									logger.error("Error SQL",e);
-								}
-							});
+				SwingWorker<Void, MTGCard> sw = new SwingWorker<>() {
+					@Override
+					protected Void doInBackground() throws Exception {
+						currentDeck.getMain().entrySet().forEach(entry -> {
+							try {
+								var stocks = new ArrayList<MTGCardStock>();
 
-							return null;
-						}
+								for (var c : cboCollections.getSelectedElements())
+									stocks.addAll(MTG.getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), c,
+											chkEditionStrict.isSelected()));
 
-						@Override
-						protected void done() {
-							buzyLabel.end();
-							
-							var pricList = new ArrayList<MTGCard>();
-							model.getItems().stream().filter(l->l.getResult()>0).forEach(l->{
-								for(var i=0;i<l.getResult();i++)
-									pricList.add(l.getMc());
-							});
-							
-							pricesPan.init(MTGDeck.toDeck(pricList));
-							btnExportMissing.setEnabled(!model.isEmpty());
-						}
+								var qty = currentDeck.getMain().get(entry.getKey());
+								model.addItem(entry.getKey(), qty, stocks);
+								publish(entry.getKey());
+							} catch (SQLException e) {
+								logger.error("Error SQL", e);
+							}
+						});
 
-						@Override
-						protected void process(List<MTGCard> chunks) {
-							buzyLabel.progressSmooth(chunks.size());
-						}
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						buzyLabel.end();
+
+						var pricList = new ArrayList<MTGCard>();
+						model.getItems().stream().filter(l -> l.getResult() > 0).forEach(l -> {
+							for (var i = 0; i < l.getResult(); i++)
+								pricList.add(l.getMc());
+						});
+
+						pricesPan.init(MTGDeck.toDeck(pricList));
+						btnExportMissing.setEnabled(!model.isEmpty());
+					}
+
+					@Override
+					protected void process(List<MTGCard> chunks) {
+						buzyLabel.progressSmooth(chunks.size());
+					}
 				};
 
-
 				ThreadManager.getInstance().runInEdt(sw, "compare deck and stock");
-
 
 			}
 		});
@@ -223,6 +209,5 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	public String getTitle() {
 		return "Stock Comparison";
 	}
-
 
 }

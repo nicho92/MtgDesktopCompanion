@@ -1,17 +1,18 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
-
 import org.apache.commons.lang3.StringUtils;
 
-public class MTGFormat implements Serializable , Comparable<MTGFormat>{
+public class MTGFormat implements Serializable, Comparable<MTGFormat> {
 
-	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER, BRAWL, FRONTIER}
-	public enum AUTHORIZATION {LEGAL, RESTRICTED, BANNED,  NOT_LEGAL}
+	public enum FORMATS {
+		STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER, BRAWL, FRONTIER
+	}
+	public enum AUTHORIZATION {
+		LEGAL, RESTRICTED, BANNED, NOT_LEGAL
+	}
 
-
-	public static String toString(FORMATS f)
-	{
+	public static String toString(FORMATS f) {
 		return StringUtils.capitalize(f.name().toLowerCase());
 	}
 
@@ -24,10 +25,9 @@ public class MTGFormat implements Serializable , Comparable<MTGFormat>{
 
 	}
 
-	public MTGFormat(String format, AUTHORIZATION legality)
-	{
-		this.format=format;
-		formatLegality=legality;
+	public MTGFormat(String format, AUTHORIZATION legality) {
+		this.format = format;
+		formatLegality = legality;
 	}
 
 	public AUTHORIZATION getFormatLegality() {
@@ -37,7 +37,6 @@ public class MTGFormat implements Serializable , Comparable<MTGFormat>{
 	public void setFormatLegality(AUTHORIZATION formatLegality) {
 		this.formatLegality = formatLegality;
 	}
-
 
 	public String getFormat() {
 		return format;

@@ -1,10 +1,9 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
-
 import org.apache.commons.lang3.StringUtils;
 
-public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord>{
+public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,31 +20,28 @@ public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord>{
 	private EVENT event;
 	private TYPE type;
 	private String reminder;
-	private boolean evergreen=false;
+	private boolean evergreen = false;
 
 	public MTGKeyWord() {
 
 	}
 
 	public MTGKeyWord(String keyword, TYPE type) {
-			this.keyword=keyword;
-			this.type=type;
+		this.keyword = keyword;
+		this.type = type;
 	}
-
 
 	@Override
 	public int hashCode() {
 		return getKeyword().hashCode();
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof MTGKeyWord k )
+		if (obj instanceof MTGKeyWord k)
 			return k.getKeyword().equalsIgnoreCase(getKeyword());
-			
-			return false;
 
+		return false;
 
 	}
 
@@ -64,7 +60,6 @@ public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord>{
 	public String getReminder() {
 		return reminder;
 	}
-
 
 	public EVENT getEvent() {
 		return event;
@@ -105,12 +100,11 @@ public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord>{
 
 	@Override
 	public int compareTo(MTGKeyWord o) {
-		
-		if(o==null)
+
+		if (o == null)
 			return -1;
-		
+
 		return getKeyword().compareTo(o.getKeyword());
 	}
-	
 
 }

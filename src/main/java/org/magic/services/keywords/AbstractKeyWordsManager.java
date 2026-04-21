@@ -1,11 +1,12 @@
 package org.magic.services.keywords;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGKeyWord;
@@ -13,13 +14,9 @@ import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.services.logging.MTGLogger;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 public abstract class AbstractKeyWordsManager {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-
 
 	public abstract List<MTGKeyWord> getStaticsAbilities();
 	public abstract List<MTGKeyWord> getActivatedAbilities();
@@ -30,10 +27,8 @@ public abstract class AbstractKeyWordsManager {
 
 	private JsonObject ret;
 
-
-	public static AbstractKeyWordsManager getInstance()
-	{
-		if(inst ==null)
+	public static AbstractKeyWordsManager getInstance() {
+		if (inst == null)
 			inst = new MTGJsonKeyWordsProvider();
 
 		return inst;
@@ -49,7 +44,6 @@ public abstract class AbstractKeyWordsManager {
 		return keys;
 	}
 
-
 	public MTGKeyWord generateFromKeyString(String key) {
 		for (MTGKeyWord k : getList())
 			if (key.equalsIgnoreCase(k.getKeyword()))
@@ -63,40 +57,34 @@ public abstract class AbstractKeyWordsManager {
 	}
 
 	public Set<MTGKeyWord> getKeywordsFrom(String cardContent) {
-		if(cardContent==null)
+		if (cardContent == null)
 			return new HashSet<>();
-		
+
 		return getList().stream()
-				   .filter(kw->String.valueOf(cardContent.toLowerCase()).contains(kw.getKeyword().toLowerCase()))
-				   .distinct()
-				   .collect(Collectors.toSet());
+				.filter(kw -> String.valueOf(cardContent.toLowerCase()).contains(kw.getKeyword().toLowerCase()))
+				.distinct().collect(Collectors.toSet());
 	}
 
-	public Set<MTGKeyWord> getKeywordsFrom(MTGCard mc,EVENT t) {
-		return getKeywordsFrom(mc).stream()
-				   .filter(l->l.getEvent()==t)
-				   .distinct()
-				   .collect(Collectors.toSet());
+	public Set<MTGKeyWord> getKeywordsFrom(MTGCard mc, EVENT t) {
+		return getKeywordsFrom(mc).stream().filter(l -> l.getEvent() == t).distinct().collect(Collectors.toSet());
 	}
 
-	public JsonObject toJson()
-	{
-		if(ret!=null)
+	public JsonObject toJson() {
+		if (ret != null)
 			return ret;
 
 		ret = new JsonObject();
 
-		for(TYPE t : TYPE.values())
-		{
+		for (TYPE t : TYPE.values()) {
 			var arr = new JsonArray();
 
-			getList().stream().filter(k->k.getType()==t).forEach(kw->{
+			getList().stream().filter(k -> k.getType() == t).forEach(kw -> {
 				var o = new JsonObject();
-						   o.addProperty("name", kw.getKeyword());
-						   o.addProperty("reminder", kw.getReminder());
-						   o.addProperty("description", kw.getDescription());
-						   if(kw.getEvent()!=null)
-							   o.addProperty("event", kw.getEvent().name());
+				o.addProperty("name", kw.getKeyword());
+				o.addProperty("reminder", kw.getReminder());
+				o.addProperty("description", kw.getDescription());
+				if (kw.getEvent() != null)
+					o.addProperty("event", kw.getEvent().name());
 
 				arr.add(o);
 			});

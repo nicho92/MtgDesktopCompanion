@@ -1,7 +1,6 @@
 package org.magic.main;
 
 import java.sql.SQLException;
-
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.network.NetworkChatPanel;
 import org.magic.services.MTGControler;
@@ -19,7 +18,7 @@ public class NetworkClient {
 				MTGUIComponent.createJFrame(new NetworkChatPanel(), true, true).setVisible(true);
 
 			}
-		},"Loading Network Client");
+		}, "Loading Network Client");
 	}
 
 }

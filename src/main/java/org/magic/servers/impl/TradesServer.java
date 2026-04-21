@@ -1,7 +1,6 @@
 package org.magic.servers.impl;
 
 import javax.swing.Icon;
-
 import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
 import org.magic.services.MTGConstants;
 
@@ -15,8 +14,6 @@ public class TradesServer extends AbstractWebServer {
 	public String getName() {
 		return "WebTraders";
 	}
-
-
 
 	@Override
 	protected String getWebLocation() {

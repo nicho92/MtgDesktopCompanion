@@ -4,11 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
-
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.TransactionBalanceChartPanel;
@@ -20,8 +18,6 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
 	private TransactionBalanceChartPanel chart;
-
-
 
 	@Override
 	public String getCategory() {
@@ -37,15 +33,11 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 
 		chart = new TransactionBalanceChartPanel();
 
-
-		getContentPane().add(chart,BorderLayout.CENTER);
-
+		getContentPane().add(chart, BorderLayout.CENTER);
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")),
-					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
-					(int) Double.parseDouble(getString("h")));
-
+			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);
 		}
@@ -54,7 +46,7 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		
+
 		var sw = new SwingWorker<List<Transaction>, Void>() {
 			@Override
 			protected List<Transaction> doInBackground() throws Exception {
@@ -70,11 +62,10 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 					logger.error(e);
 				}
 			}
-			
-			
+
 		};
-		
-		ThreadManager.getInstance().runInEdt(sw, "Loading "+getName());
+
+		ThreadManager.getInstance().runInEdt(sw, "Loading " + getName());
 	}
 
 	@Override
@@ -86,6 +77,5 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 	public String getName() {
 		return "Balance";
 	}
-
 
 }

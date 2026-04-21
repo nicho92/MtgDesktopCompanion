@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 @SuppressWarnings("unchecked")
 public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 
 	protected Map<Class, MTGCriteriaConverter> registry;
-
 
 	protected AbstractQueryBuilder() {
 		registry = new HashMap<>();
@@ -23,20 +21,17 @@ public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 		registry.put(clazz, mtgCriteriaConverter);
 	}
 
-
 	@Override
 	public T build(List<MTGCrit> crits) {
 		return build(crits.stream().toArray(MTGCrit[]::new));
 	}
 
 	@Override
-	public <U> Object getValueFor(U object)
-	{
-		if (object==null)
+	public <U> Object getValueFor(U object) {
+		if (object == null)
 			return null;
-		
-		
-		if(registry.get(object.getClass())!=null)
+
+		if (registry.get(object.getClass()) != null)
 			return registry.get(object.getClass()).marshal(object);
 
 		else
@@ -44,15 +39,12 @@ public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 
 	}
 
-	public <U> Collection<Object> getValueFor(Collection<U> l)
-	{
-		return l.stream().map(o->registry.get(o.getClass()).marshal(o)).collect(Collectors.toList());
+	public <U> Collection<Object> getValueFor(Collection<U> l) {
+		return l.stream().map(o -> registry.get(o.getClass()).marshal(o)).collect(Collectors.toList());
 	}
 
-	public <U> Collection<Object> getValueFor(U[] objects)
-	{
+	public <U> Collection<Object> getValueFor(U[] objects) {
 		return getValueFor(Arrays.asList(objects));
 	}
-
 
 }

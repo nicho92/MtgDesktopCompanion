@@ -1,7 +1,6 @@
 package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -17,7 +16,7 @@ public class ItemCounterActions extends AbstractCardAction {
 	private transient ItemCounter itemCounter;
 
 	public ItemCounterActions(DisplayableCard displayableCard, ItemCounter itemCounter) {
-		super(displayableCard,"put a " + itemCounter.describe());
+		super(displayableCard, "put a " + itemCounter.describe());
 		this.itemCounter = itemCounter;
 		putValue(SHORT_DESCRIPTION, "put a " + itemCounter.describe());
 	}

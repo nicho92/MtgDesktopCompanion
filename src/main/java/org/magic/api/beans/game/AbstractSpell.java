@@ -2,12 +2,11 @@ package org.magic.api.beans.game;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.game.model.costs.Cost;
 import org.magic.game.model.effects.AbstractEffect;
 
-public abstract class AbstractSpell implements Spell  {
+public abstract class AbstractSpell implements Spell {
 
 	/**
 	 *
@@ -19,36 +18,30 @@ public abstract class AbstractSpell implements Spell  {
 	protected boolean resolved;
 	protected AbstractSpell target;
 
-
 	public void setTarget(AbstractSpell target) {
 		this.target = target;
 	}
 
-	public AbstractSpell getTarget(){
+	public AbstractSpell getTarget() {
 		return target;
 	}
-
-
 
 	public boolean isResolved() {
 		return resolved;
 	}
 
-
-	public String getTitle()
-	{
+	public String getTitle() {
 		return getCard().getName();
 	}
 
 	@Override
 	public void resolve() {
-		resolved=true;
+		resolved = true;
 	}
 
-	protected AbstractSpell()
-	{
-		costs=new ArrayList<>();
-		effects=new ArrayList<>();
+	protected AbstractSpell() {
+		costs = new ArrayList<>();
+		effects = new ArrayList<>();
 
 	}
 
@@ -66,7 +59,6 @@ public abstract class AbstractSpell implements Spell  {
 		this.costs = costs;
 	}
 
-
 	@Override
 	public List<AbstractEffect> getEffects() {
 		return effects;
@@ -80,9 +72,8 @@ public abstract class AbstractSpell implements Spell  {
 		this.effects = effects;
 	}
 
-	public Cost getCost()
-	{
-		if(!costs.isEmpty())
+	public Cost getCost() {
+		if (!costs.isEmpty())
 			return getCosts().get(0);
 		else
 			return null;
@@ -92,7 +83,6 @@ public abstract class AbstractSpell implements Spell  {
 	public List<Cost> getCosts() {
 		return costs;
 	}
-
 
 	public MTGCard getCard() {
 		return card;

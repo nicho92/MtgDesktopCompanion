@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
-
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;

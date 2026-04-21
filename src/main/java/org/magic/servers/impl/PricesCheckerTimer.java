@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.Icon;
-
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MTGNotification;
@@ -25,7 +23,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class PricesCheckerTimer extends AbstractMTGServer {
-
 
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
 	private Timer timer;
@@ -51,48 +48,49 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 					for (var alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						alert.getOffers().clear();
 
-						for (var prov : listEnabledPlugins(MTGPricesProvider.class))
-						{
+						for (var prov : listEnabledPlugins(MTGPricesProvider.class)) {
 							var okz = new ArrayList<MTGPrice>();
 							try {
-								var stream = prov.getPrice(alert.getCard()).stream().filter(p->p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")));
+								var stream = prov.getPrice(alert.getCard()).stream()
+										.filter(p -> p.getValue() <= alert.getPrice() && p.getValue() > Double
+												.parseDouble(MTGControler.getInstance().get("min-price-alert")));
 
-								if(alert.isFoil())
-									stream=stream.filter(MTGPrice::isFoil);
+								if (alert.isFoil())
+									stream = stream.filter(MTGPrice::isFoil);
 
-								var res= stream.toList();
+								var res = stream.toList();
 
 								alert.getOffers().addAll(res);
 								okz.addAll(res);
 								prov.alertDetected(okz);
 								alert.orderDesc();
 							} catch (Exception e) {
-								logger.error("error loading price {}",prov, e);
+								logger.error("error loading price {}", prov, e);
 							}
 						}
 					}
 
 				var notif = new MTGNotification();
-					notif.setTitle("New offers");
-					notif.setType(MESSAGE_TYPE.INFO);
-					for(var not : getArray("NOTIFIER"))
-					{
-						try {
+				notif.setTitle("New offers");
+				notif.setType(MESSAGE_TYPE.INFO);
+				for (var not : getArray("NOTIFIER")) {
+					try {
 
-							var notifier = getPlugin(not, MTGNotifier.class);
-							notif.setMessage(notifFormater.generate(notifier.getFormat(), getEnabledPlugin(MTGDao.class).listAlerts(), MTGAlert.class));
-							notifier.send(notif);
-						} catch (IOException e) {
-							logger.error(e);
-						}
+						var notifier = getPlugin(not, MTGNotifier.class);
+						notif.setMessage(notifFormater.generate(notifier.getFormat(),
+								getEnabledPlugin(MTGDao.class).listAlerts(), MTGAlert.class));
+						notifier.send(notif);
+					} catch (IOException e) {
+						logger.error(e);
 					}
 				}
+			}
 
 		};
 
 		var t = getLong(TIMEOUT_MINUTE);
 		timer.scheduleAtFixedRate(tache, 0, t * 60000);
-		logger.info("Server start with {}min timeout",t);
+		logger.info("Server start with {}min timeout", t);
 
 	}
 
@@ -119,14 +117,13 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		return getBoolean("AUTOSTART");
 	}
 
-
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
-								TIMEOUT_MINUTE, MTGProperty.newIntegerProperty("120","Timeout in minute where server will do the job",1,-1),
-								"NOTIFIER", new MTGProperty("Tray","select the notifiers where you wan't to send the information. Separated by comma. See [plugins](Plugins#notifier)"));
-		
-		
+		return Map.of("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"), TIMEOUT_MINUTE,
+				MTGProperty.newIntegerProperty("120", "Timeout in minute where server will do the job", 1, -1),
+				"NOTIFIER", new MTGProperty("Tray",
+						"select the notifiers where you wan't to send the information. Separated by comma. See [plugins](Plugins#notifier)"));
+
 	}
 
 	@Override

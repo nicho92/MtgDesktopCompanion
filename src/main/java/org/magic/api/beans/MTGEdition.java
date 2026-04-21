@@ -3,17 +3,14 @@ package org.magic.api.beans;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.tools.UITools;
-
 
 public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	public static final long serialVersionUID = 1L;
 
 	private String set;
-
 
 	private String url;
 	private String id;
@@ -34,7 +31,7 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	private List<EnumExtra> booster;
 
 	private boolean foreignOnly;
-	
+
 	@Override
 	public String getStoreId() {
 		return getId();
@@ -46,16 +43,15 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	public void setParentCode(String parentCode) {
 		this.parentCode = parentCode;
 	}
-	
-	
+
 	public void setCardCountPhysical(int cardCountPhysical) {
 		this.cardCountPhysical = cardCountPhysical;
 	}
-	
+
 	public int getCardCountPhysical() {
 		return cardCountPhysical;
 	}
-	
+
 	public boolean isPreview() {
 		return preview;
 	}
@@ -96,7 +92,6 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		this.mkmname = mkmname;
 	}
 
-
 	public boolean isOnlineOnly() {
 		return onlineOnly;
 	}
@@ -105,14 +100,12 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		this.onlineOnly = onlineOnly;
 	}
 
-	public MTGEdition(String idMe)
-	{
+	public MTGEdition(String idMe) {
 		super();
 		setId(idMe);
 	}
 
-	public MTGEdition(String idMe,String name)
-	{
+	public MTGEdition(String idMe, String name) {
 		super();
 		setId(idMe);
 		setSet(name);
@@ -130,12 +123,10 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	public String getReleaseDate() {
 		return releaseDate;
 	}
-	
+
 	public Date getReleaseAsDate() {
 		return UITools.parseDate(releaseDate, "yyyy-MM-dd");
 	}
-	
-	
 
 	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
@@ -167,10 +158,10 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 
 	@Override
 	public boolean equals(Object obj) {
-		
-		if(obj instanceof MTGEdition ed)
+
+		if (obj instanceof MTGEdition ed)
 			return getId().equalsIgnoreCase(ed.getId());
-		
+
 		return false;
 	}
 
@@ -205,7 +196,7 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 
 	public int compare(MTGEdition o1, MTGEdition o2) {
 
-		if(o1==null || o2==null || o1.getSet()==null || o2.getSet()==null)
+		if (o1 == null || o2 == null || o1.getSet() == null || o2.getSet() == null)
 			return -1;
 
 		return o1.getSet().compareTo(o2.getSet());
@@ -225,7 +216,7 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	}
 
 	public void setKeyRuneCode(String r) {
-		keyRuneCode=r;
+		keyRuneCode = r;
 
 	}
 
@@ -242,13 +233,12 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	}
 
 	public void setForeignOnly(boolean fo) {
-		this.foreignOnly=fo;
-		
+		this.foreignOnly = fo;
+
 	}
 
 	public boolean isForeignOnly() {
 		return foreignOnly;
 	}
-	
 
 }

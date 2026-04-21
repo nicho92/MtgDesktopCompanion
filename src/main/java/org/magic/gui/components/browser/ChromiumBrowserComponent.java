@@ -2,7 +2,6 @@ package org.magic.gui.components.browser;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
-
 import org.cef.browser.CefBrowser;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
@@ -17,22 +16,20 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 	private transient CefBrowser browser;
 	private String currentUrl;
 
-
 	public ChromiumBrowserComponent() throws IOException {
 		setLayout(new BorderLayout());
-
 
 		try {
 			client = UITools.getPandomiumInstance().createClient();
 			browser = client.loadURL(MTGConstants.MTG_DESKTOP_WEBSITE);
-			add(browser.getUIComponent(),BorderLayout.CENTER);
+			add(browser.getUIComponent(), BorderLayout.CENTER);
 
 			client.getCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
 
 				@Override
-				public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
-					if(!isLoading)
-					{
+				public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack,
+						boolean canGoForward) {
+					if (!isLoading) {
 						observable.setChanged();
 						observable.notifyObservers(browser.getURL());
 					}
@@ -40,16 +37,12 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 
 			});
 
-
 		} catch (UnsatisfiedLinkError e) {
-			logger.error("maybe add : -Djava.library.path=\"{}\" at jvm startup args",MTGConstants.NATIVE_DIR);
+			logger.error("maybe add : -Djava.library.path=\"{}\" at jvm startup args", MTGConstants.NATIVE_DIR);
 			throw new IOException(e);
 		}
 
 	}
-
-
-
 
 	@Override
 	public String getCurrentURL() {
@@ -59,10 +52,8 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 
 	@Override
 	public void loadURL(String url) {
-		logger.debug("browse to {}",url);
+		logger.debug("browse to {}", url);
 		browser.loadURL(url);
 	}
-
-
 
 }

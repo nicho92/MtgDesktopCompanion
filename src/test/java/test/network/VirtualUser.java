@@ -2,9 +2,7 @@ package test.network;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MTGCard;
@@ -22,31 +20,26 @@ import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.MTG;
 
 public class VirtualUser {
-	
+
 	private MTGCardsProvider prov;
 	private ArrayList<MTGCardStock> stock;
 
-
-
-
 	@Before
-	public void initTest() throws IOException
-	{
+	public void initTest() throws IOException {
 		MTGControler.getInstance();
 		prov = MTG.getEnabledPlugin(MTGCardsProvider.class);
 		prov.init();
-		
+
 		initStock();
-		
+
 	}
-	
-	public void initStock() throws IOException
-	{
-		
+
+	public void initStock() throws IOException {
+
 		stock = new ArrayList<MTGCardStock>();
-		
-		for(var card : prov.searchCardByName(JOptionPane.showInputDialog("card name for stock initialization"), null, false))
-		{
+
+		for (var card : prov.searchCardByName(JOptionPane.showInputDialog("card name for stock initialization"), null,
+				false)) {
 			var mcs = MTGControler.getInstance().getDefaultStock();
 			mcs.setProduct(card);
 			mcs.setQte(CryptoUtils.randomInt(20));
@@ -54,40 +47,32 @@ public class VirtualUser {
 			mcs.setFoil(CryptoUtils.randomBoolean());
 			mcs.setAltered(CryptoUtils.randomBoolean());
 			mcs.setSigned(CryptoUtils.randomBoolean());
-			mcs.setCondition(EnumCondition.values()[CryptoUtils.randomInt(EnumCondition.values().length-1)]);
-			
-			
+			mcs.setCondition(EnumCondition.values()[CryptoUtils.randomInt(EnumCondition.values().length - 1)]);
+
 			stock.add(mcs);
 		}
-		
+
 	}
-	
-	
-	
-	
+
 	@Test
-	public void join() throws IOException
-	{
+	public void join() throws IOException {
 		var client = new ActiveMQNetworkClient();
 		var p = new Player(CryptoUtils.randomString(10));
-		client.join(p,MTGConstants.MTG_CHAT_DEFAULT_URI,ActiveMQServer.DEFAULT_TOPIC);
-		while(client.isActive())
-		{
+		client.join(p, MTGConstants.MTG_CHAT_DEFAULT_URI, ActiveMQServer.DEFAULT_TOPIC);
+		while (client.isActive()) {
 			var msg = client.consume();
-			
+
 			System.out.println(p.getName() + " read " + msg);
-			
-			if(msg instanceof SearchMessage search)
-			{
-				var c = (MTGCard)search.getAttachement();
-				var ret = stock.stream().filter(mcs->mcs.getProduct().getId().equals(c.getId())).toList();
-				if(!ret.isEmpty())
-				{
+
+			if (msg instanceof SearchMessage search) {
+				var c = (MTGCard) search.getAttachement();
+				var ret = stock.stream().filter(mcs -> mcs.getProduct().getId().equals(c.getId())).toList();
+				if (!ret.isEmpty()) {
 					client.sendMessage(new SendStockMessage(search, ret));
 				}
-				
+
 			}
 		}
 	}
-	
+
 }

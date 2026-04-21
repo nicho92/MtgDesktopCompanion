@@ -1,10 +1,8 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
-
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.shops.ContactsManagementPanel;
 import org.magic.gui.components.shops.TransactionsPanel;
@@ -26,7 +24,7 @@ public class ShopGUI extends MTGUIComponent {
 
 		pane = new JTabbedPane();
 		subPane = new JTabbedPane();
-		add(pane,BorderLayout.CENTER);
+		add(pane, BorderLayout.CENTER);
 
 		UITools.addTab(pane, new TransactionsPanel());
 		UITools.addTab(pane, new ContactsManagementPanel());
@@ -35,12 +33,11 @@ public class ShopGUI extends MTGUIComponent {
 		UITools.addTab(subPane, new TransactionCreatorComponent());
 		UITools.addTab(subPane, new StockShopperComponent());
 
-		UITools.addTab(pane, MTGUIComponent.build(subPane,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));
+		UITools.addTab(pane, MTGUIComponent.build(subPane, "External Shop", MTGConstants.ICON_TAB_EXT_SHOP));
 
-		UITools.addTab(pane,new WebShopConfigPanel());
+		UITools.addTab(pane, new WebShopConfigPanel());
 
 	}
-
 
 	@Override
 	public String getTitle() {
@@ -51,7 +48,5 @@ public class ShopGUI extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_SHOP;
 	}
-
-
 
 }

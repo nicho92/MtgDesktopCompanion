@@ -5,7 +5,6 @@ import org.magic.api.interfaces.extra.MTGComparator;
 
 public class CardNameSorter implements MTGComparator<MTGCard> {
 
-
 	@Override
 	public String toString() {
 		return "Name Sorter";

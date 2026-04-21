@@ -10,12 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -44,8 +42,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	private Document document;
 	private XPath xPath;
 
-	private void init()
-	{
+	private void init() {
 		try {
 			document = URLTools.extractAsXml(getString("URL"));
 			xPath = XPathFactory.newInstance().newXPath();
@@ -54,15 +51,14 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 
-
 	@Override
 	public boolean isTokenizer(MTGCard mc) {
 
-		if(xPath==null)
+		if (xPath == null)
 			init();
 
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'Emblem'))]";
-		logger.trace("looking for token : {}",expression);
+		logger.trace("looking for token : {}", expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
@@ -74,16 +70,15 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public boolean isEmblemizer(MTGCard mc) {
 
-		if(mc.isEmblem())
+		if (mc.isEmblem())
 			return false;
 
-
-		if(xPath==null)
+		if (xPath == null)
 			init();
 
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 
-		logger.trace("looking for emblem : {}",expression);
+		logger.trace("looking for emblem : {}", expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
@@ -92,46 +87,41 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 
-
 	@Override
 	public List<MTGCard> listTokensFor(MTGEdition ed) throws IOException {
 
-		if(xPath==null)
+		if (xPath == null)
 			init();
 
-
 		String expression = "//card[set=\'" + ed.getId() + "']";
-		logger.debug("Expression ={}",expression);
+		logger.debug("Expression ={}", expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 
 			var ret = new ArrayList<MTGCard>();
 
-			for(var i = 0; i<nodeList.getLength();i++)
-				ret.add(build((Element)nodeList.item(i), ed));
+			for (var i = 0; i < nodeList.getLength(); i++)
+				ret.add(build((Element) nodeList.item(i), ed));
 
 			return ret;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			logger.error(e);
 		}
 
 		return new ArrayList<>();
 	}
 
-
 	@Override
 	public MTGCard generateEmblemFor(MTGCard mc) throws IOException {
 
-		if(xPath==null)
+		if (xPath == null)
 			init();
 
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 		logger.debug(expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			return build( ((Element)nodeList.item(0)),mc.getEdition());
+			return build(((Element) nodeList.item(0)), mc.getEdition());
 
 		} catch (XPathExpressionException e) {
 			logger.error("Erreur XPath", e);
@@ -139,13 +129,11 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 
-
 	@Override
 	public MTGCard generateTokenFor(MTGCard mc) {
 
-		if(xPath==null)
+		if (xPath == null)
 			init();
-
 
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
 		try {
@@ -153,7 +141,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			var value = (Element) nodeList.item(0);
 			return build(value, mc.getEdition());
 		} catch (XPathExpressionException e) {
-			logger.error("erreur generate token for {}",mc, e);
+			logger.error("erreur generate token for {}", mc, e);
 			return null;
 		} catch (IOException e) {
 			logger.error("getSetById error {}", mc, e);
@@ -161,18 +149,16 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 
-
 	private MTGCard build(Element value, MTGEdition ed) throws IOException {
-
 
 		var tok = new MTGCard();
 
 		tok.setCmc(0);
-		tok.setName(value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(Emblem\\)", "").replaceAll("\\(Token\\)", "").trim());
+		tok.setName(value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(Emblem\\)", "")
+				.replaceAll("\\(Token\\)", "").trim());
 		String types = value.getElementsByTagName("type").item(0).getTextContent();
 
-
-		EnumLayout layout = types.startsWith("Emblem")?EnumLayout.EMBLEM:EnumLayout.TOKEN;
+		EnumLayout layout = types.startsWith("Emblem") ? EnumLayout.EMBLEM : EnumLayout.TOKEN;
 
 		tok.getSupertypes().add(layout.toPrettyString());
 
@@ -181,7 +167,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		tok.setLayout(layout);
 		tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
 
-		if(layout==EnumLayout.EMBLEM)
+		if (layout == EnumLayout.EMBLEM)
 			tok.setNumber("E");
 		else
 			tok.setNumber("T");
@@ -202,15 +188,16 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.getTypes().add("Creature");
 
 		if (value.getElementsByTagName("pt").item(0) != null) {
-			tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent().substring(0, value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/')).trim());
-			tok.setToughness(value.getElementsByTagName("pt").item(0).getTextContent().substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/') + 1).trim());
+			tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent()
+					.substring(0, value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/')).trim());
+			tok.setToughness(value.getElementsByTagName("pt").item(0).getTextContent()
+					.substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/') + 1).trim());
 		}
 
 		if (value.getElementsByTagName("text").item(0) != null)
 			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 
 		NodeList sets = value.getElementsByTagName("set");
-
 
 		tok.getEditions().add(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
 		for (var s = 0; s < sets.getLength(); s++) {
@@ -229,16 +216,15 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public BufferedImage getPictures(MTGCard tok) throws IOException {
 
-		if(xPath==null)
+		if (xPath == null)
 			init();
-
 
 		String expression = "//card[name=\"" + tok.getName() + "\"]";
 
-		if (tok.getLayout()==EnumLayout.EMBLEM)
+		if (tok.getLayout() == EnumLayout.EMBLEM)
 			expression = "//card[name=\"" + tok.getName() + " (Emblem)\"]";
 
-		logger.trace("{} for {}",expression, tok);
+		logger.trace("{} for {}", expression, tok);
 
 		NodeList nodeList;
 		try {
@@ -266,11 +252,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 
 		try {
-			if (map == null)
-				{
-				logger.error("no pics found for {}",tok);
+			if (map == null) {
+				logger.error("no pics found for {}", tok);
 				return null;
-				}
+			}
 
 			URL u = null;
 			if (map.get(tok.getEdition().getId()) != null) // error on
@@ -278,10 +263,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			else
 				u = map.get(map.keySet().iterator().next());
 
-			logger.debug("Load token pics : {}",u);
+			logger.debug("Load token pics : {}", u);
 			return URLTools.extractAsImage(u.toString());
 		} catch (Exception e) {
-			logger.error("error pics reading for {}",tok, e);
+			logger.error("error pics reading for {}", tok, e);
 			return getEnabledPlugin(MTGPictureProvider.class).getBackPicture(tok);
 		}
 	}
@@ -293,10 +278,11 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("URL", new MTGProperty("https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml", "The url where the cockatrice tokens file is stored"));
+		return Map.of("URL",
+				new MTGProperty("https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml",
+						"The url where the cockatrice tokens file is stored"));
 
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -306,12 +292,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
-
-
 
 }

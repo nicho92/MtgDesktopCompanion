@@ -10,8 +10,7 @@ import org.jfree.chart3d.plot.Plot3D;
 import org.jfree.chart3d.style.ChartStyle;
 import org.jfree.chart3d.table.TextElement;
 
-public abstract class Abstract3DPieChart<B,C extends Comparable<C>> extends MTGUI3DChartComponent<B,PieDataset3D<C>> {
-
+public abstract class Abstract3DPieChart<B, C extends Comparable<C>> extends MTGUI3DChartComponent<B, PieDataset3D<C>> {
 
 	protected Abstract3DPieChart(boolean displayPanel) {
 		super(displayPanel);
@@ -23,41 +22,33 @@ public abstract class Abstract3DPieChart<B,C extends Comparable<C>> extends MTGU
 	@Override
 	public void refresh() {
 		initPlot();
-        plot.setDataset(getDataSet());
-    	chartPanel.zoomToFit();
+		plot.setDataset(getDataSet());
+		chartPanel.zoomToFit();
 	}
 
 	@Override
-	protected void initPlot()
-	{
+	protected void initPlot() {
 		plot.setSectionColors(Colors.createPastelColors());
 	}
 
 	@Override
 	@SuppressWarnings("rawtypes")
 	protected void createNewChart() {
-		chart= Chart3DFactory.createPieChart(
-                getTitle(),
-                "",
-                getDataSet());
+		chart = Chart3DFactory.createPieChart(getTitle(), "", getDataSet());
 
 		plot = (PiePlot3D) chart.getPlot();
 
+		if (!showLegend())
+			chart.setLegendBuilder((Plot3D _, Anchor2D _, Orientation _, ChartStyle _) -> new TextElement(""));
 
-		if(!showLegend())
-			chart.setLegendBuilder((Plot3D _, Anchor2D _, Orientation _, ChartStyle _)->new TextElement(""));
-
-		if(showLabel())
-			plot.setSectionLabelGenerator((  PieDataset3D _, Comparable<?> key)->key.toString());
+		if (showLabel())
+			plot.setSectionLabelGenerator((PieDataset3D _, Comparable<?> key) -> key.toString());
 		else
-			plot.setSectionLabelGenerator(( PieDataset3D _, Comparable<?> _)->"");
+			plot.setSectionLabelGenerator((PieDataset3D _, Comparable<?> _) -> "");
 
-
-		plot.setToolTipGenerator(( PieDataset3D dataset, Comparable<?> key)->key.toString() + " : " + dataset.getValue(key));
+		plot.setToolTipGenerator(
+				(PieDataset3D dataset, Comparable<?> key) -> key.toString() + " : " + dataset.getValue(key));
 
 	}
-
-
-
 
 }

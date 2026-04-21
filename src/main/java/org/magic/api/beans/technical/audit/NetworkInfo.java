@@ -1,8 +1,8 @@
 package org.magic.api.beans.technical.audit;
 
+import com.google.gson.JsonObject;
 import java.net.URI;
 import java.time.Instant;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
@@ -11,20 +11,16 @@ import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.message.BasicHttpResponse;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 
-import com.google.gson.JsonObject;
-
-public class NetworkInfo extends AbstractAuditableItem{
+public class NetworkInfo extends AbstractAuditableItem {
 
 	private static final String REPONSES_MESSAGE = "reponsesMessage";
 	private static final String CONTENT_TYPE = "contentType";
 	private static final String SERVER_TYPE = "serverType";
 
-
 	private static final long serialVersionUID = 1L;
 
 	private transient HttpResponse response;
 	private transient HttpRequestBase request;
-
 
 	public HttpResponse getResponse() {
 		return response;
@@ -34,20 +30,18 @@ public class NetworkInfo extends AbstractAuditableItem{
 	}
 
 	public void setRequest(HttpRequestBase req) {
-		this.request=req;
+		this.request = req;
 	}
 
 	public HttpRequestBase getRequest() {
 		return request;
 	}
 
-	public String getServer()
-	{
+	public String getServer() {
 		return toJson().get(SERVER_TYPE).getAsString();
 	}
 
-	public String getContentType()
-	{
+	public String getContentType() {
 		return toJson().get(CONTENT_TYPE).getAsString();
 	}
 
@@ -64,7 +58,7 @@ public class NetworkInfo extends AbstractAuditableItem{
 			request.setURI(URI.create(o.get("url").getAsString()));
 
 		} catch (Exception _) {
-			//do nothing
+			// do nothing
 		}
 
 		var sl = new StatusLine() {
@@ -77,7 +71,7 @@ public class NetworkInfo extends AbstractAuditableItem{
 			@Override
 			public String getReasonPhrase() {
 
-				if(o.get(REPONSES_MESSAGE)!=null)
+				if (o.get(REPONSES_MESSAGE) != null)
 					return o.get(REPONSES_MESSAGE).getAsString();
 
 				return "";
@@ -85,25 +79,22 @@ public class NetworkInfo extends AbstractAuditableItem{
 
 			@Override
 			public ProtocolVersion getProtocolVersion() {
-				return new ProtocolVersion(o.get("protocol").getAsString(),1,1);
+				return new ProtocolVersion(o.get("protocol").getAsString(), 1, 1);
 			}
 		};
 
+		response = new BasicHttpResponse(sl);
 
-		 response = new BasicHttpResponse(sl);
+		var entity = new BasicHttpEntity();
+		entity.setContentType(o.get(CONTENT_TYPE).getAsString());
 
-		 var entity = new BasicHttpEntity();
-		 				 entity.setContentType(o.get(CONTENT_TYPE).getAsString());
+		response.setEntity(entity);
+		response.setHeader("Server", o.get(SERVER_TYPE).getAsString());
 
-		 response.setEntity(entity);
-		 response.setHeader("Server", o.get(SERVER_TYPE).getAsString());
-
-
-		 start = Instant.ofEpochMilli(o.get("start").getAsLong());
-		 end = Instant.ofEpochMilli(o.get("end").getAsLong());
-		 duration = o.get("duration").getAsLong();
+		start = Instant.ofEpochMilli(o.get("start").getAsLong());
+		end = Instant.ofEpochMilli(o.get("end").getAsLong());
+		duration = o.get("duration").getAsLong();
 	}
-
 
 	public JsonObject toJson() {
 		var jo = new JsonObject();
@@ -116,21 +107,18 @@ public class NetworkInfo extends AbstractAuditableItem{
 		jo.addProperty("protocol", getRequest().getRequestLine().getProtocolVersion().toString());
 		jo.addProperty("host", getRequest().getURI().getHost());
 
-		if(getResponse()!=null) {
+		if (getResponse() != null) {
 
-			var servT =getResponse().getFirstHeader("Server");
+			var servT = getResponse().getFirstHeader("Server");
 
-			if(getResponse().getEntity()!=null)
-			{
+			if (getResponse().getEntity() != null) {
 				var contentT = getResponse().getEntity().getContentType();
-				jo.addProperty(CONTENT_TYPE, contentT!=null?contentT.getValue():"");
-			}
-			else
-			{
+				jo.addProperty(CONTENT_TYPE, contentT != null ? contentT.getValue() : "");
+			} else {
 				jo.addProperty(CONTENT_TYPE, "");
 			}
 
-			jo.addProperty(SERVER_TYPE, servT!=null?servT.getValue():"");
+			jo.addProperty(SERVER_TYPE, servT != null ? servT.getValue() : "");
 			jo.addProperty(REPONSES_MESSAGE, getResponse().getStatusLine().getReasonPhrase());
 			jo.addProperty("reponsesCode", getResponse().getStatusLine().getStatusCode());
 		}

@@ -3,10 +3,8 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -17,16 +15,15 @@ import org.magic.services.tools.FileTools;
 public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
 	@Override
-	public MTGDeck importDeck(String f,String dname) throws IOException {
+	public MTGDeck importDeck(String f, String dname) throws IOException {
 
 		var deck = new MTGDeck();
 		deck.setName(dname);
 
-		matches(f,true).forEach(m->{
+		matches(f, true).forEach(m -> {
 			var qty = Integer.parseInt(m.group(1));
-			var mc = parseMatcherWithGroup(m, 2, 3, false, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
-			if(mc!=null)
-			{
+			var mc = parseMatcherWithGroup(m, 2, 3, false, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
+			if (mc != null) {
 				deck.getMain().put(mc, qty);
 				notify(mc);
 			}
@@ -35,58 +32,53 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
 	}
 
-
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
 		var temp = new StringBuilder();
 
-			for (MTGCard mc : deck.getMain().keySet()) {
-				if (mc.getEdition().getMkmName() != null)
-					temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getEdition().getMkmName());
-				else
-					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getEdition().getSet());
+		for (MTGCard mc : deck.getMain().keySet()) {
+			if (mc.getEdition().getMkmName() != null)
+				temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator())
+						.append("(").append(mc.getEdition().getMkmName());
+			else
+				temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName())
+						.append(getSeparator()).append("(").append(mc.getEdition().getSet());
 
-				try {
+			try {
 
-					if(mc.isPromoCard())
-					{
-						temp.append(": Promos");
-					}
-					else
-					{
-						if(mc.isExtraCard())
-							temp.append(": Extras");
-					}
-				}catch (Exception _) {
-					//do nothing
+				if (mc.isPromoCard()) {
+					temp.append(": Promos");
+				} else {
+					if (mc.isExtraCard())
+						temp.append(": Extras");
 				}
-
-				temp.append(")\n");
-
-
-				notify(mc);
+			} catch (Exception _) {
+				// do nothing
 			}
 
-			for (MTGCard mc : deck.getSideBoard().keySet())
-			{
-				if (mc.getEdition().getMkmName() != null)
-					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getEdition().getMkmName()).append(")\n");
-				else
-					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getEdition().getSet()).append(")\n");
-				notify(mc);
-			}
-			FileTools.saveFile(dest, temp.toString());
+			temp.append(")\n");
+
+			notify(mc);
+		}
+
+		for (MTGCard mc : deck.getSideBoard().keySet()) {
+			if (mc.getEdition().getMkmName() != null)
+				temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName())
+						.append(getSeparator()).append("(").append(mc.getEdition().getMkmName()).append(")\n");
+			else
+				temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName())
+						.append(getSeparator()).append("(").append(mc.getEdition().getSet()).append(")\n");
+			notify(mc);
+		}
+		FileTools.saveFile(dest, temp.toString());
 
 	}
-
-
 
 	@Override
 	public String getStockFileExtension() {
 		return ".txt";
 	}
-
 
 	@Override
 	public String getName() {
@@ -107,13 +99,12 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	protected String[] skipLinesStartWith() {
 		return new String[0];
 	}
-	
+
 	@Override
 	protected String getSeparator() {
 		return " ";
 	}
 
-	
 	@Override
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
@@ -126,6 +117,5 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 		m.get("SEPARATOR").setDefaultValue(" ");
 		return m;
 	}
-
 
 }

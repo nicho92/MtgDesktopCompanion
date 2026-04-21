@@ -1,4 +1,4 @@
- package org.magic.api.beans;
+package org.magic.api.beans;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,7 +6,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionDirection;
@@ -18,16 +17,18 @@ import org.magic.api.interfaces.extra.MTGSerializable;
 
 public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 
-	public enum STATUS { ACTIVE, SOON, SOLD, EXPIRED }
+	public enum STATUS {
+		ACTIVE, SOON, SOLD, EXPIRED
+	}
 
 	private static final long serialVersionUID = 1L;
-	
-	private int id=-1;
+
+	private int id = -1;
 	private Contact contact;
 	private Date creationDate;
 	private Date startDate;
 	private Date endDate;
-	private Double totalPrice=0.0;
+	private Double totalPrice = 0.0;
 	private Currency currency;
 	private String currencySymbol;
 	private String title;
@@ -35,12 +36,11 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 	private List<MTGStockItem> items;
 	private EnumTransactionDirection type;
 	private EnumCondition condition;
-	private boolean updated=false;
+	private boolean updated = false;
 	private Double percentReduction;
-	private GedEntry<MTGAnnounce> mainImage ;
+	private GedEntry<MTGAnnounce> mainImage;
 	private EnumItems categorie;
 	private STATUS status;
-
 
 	public MTGAnnounce() {
 
@@ -52,14 +52,13 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 		c.setTime(startDate);
 		c.add(Calendar.DAY_OF_MONTH, 15);
 		endDate = c.getTime();
-		totalPrice=0.0;
-		percentReduction=0.0;
+		totalPrice = 0.0;
+		percentReduction = 0.0;
 		currency = Currency.getInstance(Locale.getDefault());
 		condition = EnumCondition.NEAR_MINT;
 		status = STATUS.ACTIVE;
 
 	}
-
 
 	public EnumCondition getCondition() {
 		return condition;
@@ -89,7 +88,6 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 		return currencySymbol;
 	}
 
-
 	public GedEntry<MTGAnnounce> getMainImage() {
 		return mainImage;
 	}
@@ -98,17 +96,13 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 		this.mainImage = mainImage;
 	}
 
-
-
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
-
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-
 
 	public Double getPercentReduction() {
 		return percentReduction;
@@ -122,7 +116,6 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 		return type;
 	}
 
-
 	@Override
 	public int hashCode() {
 		return getId();
@@ -131,9 +124,8 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj instanceof MTGAnnounce b)
-		{
-			return b.getId()==this.getId();
+		if (obj instanceof MTGAnnounce b) {
+			return b.getId() == this.getId();
 		}
 
 		return false;
@@ -166,7 +158,6 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 		return String.valueOf(getId());
 	}
 
-
 	public int getId() {
 		return id;
 	}
@@ -192,12 +183,11 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 	public Double getTotalPrice() {
 		return totalPrice;
 	}
-	
+
 	public MoneyValue getMoneyValue() {
 		return new MoneyValue(getTotalPrice(), getCurrency());
 	}
-	
-	
+
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
@@ -227,20 +217,16 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 		this.items = items;
 	}
 
-
 	@Override
 	public int compareTo(MTGAnnounce o) {
-		if( o.getId()>getId())
+		if (o.getId() > getId())
 			return 1;
 
-		if( o.getId()<getId())
+		if (o.getId() < getId())
 			return -1;
 
 		return 0;
 
-
 	}
-
-
 
 }

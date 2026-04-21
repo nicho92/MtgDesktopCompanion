@@ -11,8 +11,6 @@ public abstract class AbstractEffect extends AbstractSpell {
 	private String effectDescription;
 	private AbstractEffect childEffect;
 
-
-
 	@Override
 	public boolean isStackable() {
 		return true;
@@ -26,7 +24,6 @@ public abstract class AbstractEffect extends AbstractSpell {
 		this.childEffect = childEffect;
 	}
 
-
 	public String getEffectDescription() {
 		return effectDescription;
 	}
@@ -39,12 +36,11 @@ public abstract class AbstractEffect extends AbstractSpell {
 	public String toString() {
 		var build = new StringBuilder();
 		build.append(getEffectDescription());
-		if(childEffect!=null)
+		if (childEffect != null)
 			build.append("\nAND ").append(getChildEffect());
 
 		return build.toString();
 
 	}
-
 
 }

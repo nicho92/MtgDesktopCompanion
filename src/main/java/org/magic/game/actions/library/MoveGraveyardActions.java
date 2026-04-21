@@ -3,10 +3,8 @@ package org.magic.game.actions.library;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
-
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
@@ -33,8 +31,8 @@ public class MoveGraveyardActions extends AbstractAction {
 			List<MTGCard> disc = GamePanelGUI.getInstance().getPlayer().discardCardFromLibrary(c);
 
 			for (MTGCard mc : disc) {
-				GamePanelGUI.getInstance().getPanelGrave()
-						.addComponent(new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true));
+				GamePanelGUI.getInstance().getPanelGrave().addComponent(
+						new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true));
 			}
 			GamePanelGUI.getInstance().getPanelGrave().postTreatment(null);
 		}

@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.messages.TalkMessage;
@@ -30,10 +28,10 @@ import org.magic.services.threads.ThreadManager;
 
 public abstract class AbstractTechnicalServiceManager {
 
-	private boolean enable =true;
+	private boolean enable = true;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected  JsonExport serializer;
-	
+	protected JsonExport serializer;
+
 	private List<JsonQueryInfo> jsonInfo;
 	private List<DAOInfo> daoInfos;
 	private List<NetworkInfo> networkInfos;
@@ -41,189 +39,160 @@ public abstract class AbstractTechnicalServiceManager {
 	private List<DiscordInfo> discordInfos;
 	private List<FileAccessInfo> fileInfos;
 	private List<TalkMessage> jsonMessages;
-	
-	private static final int SCHEDULE_TIMER_MINS=2;
-	
-	
+
+	private static final int SCHEDULE_TIMER_MINS = 2;
+
 	private static AbstractTechnicalServiceManager inst;
-	
-	public static AbstractTechnicalServiceManager inst()
-	{
-		if(inst==null)
+
+	public static AbstractTechnicalServiceManager inst() {
+		if (inst == null)
 			inst = new FileStorageTechnicalServiceManager();
 
 		return inst;
 	}
 
-	protected abstract <T extends AbstractAuditableItem> void store(Class<T> c, List<T> list)  throws IOException;
-	protected abstract <T extends AbstractAuditableItem> List<T> restore(Class<T> c, Instant start ,Instant end)  throws IOException;
+	protected abstract <T extends AbstractAuditableItem> void store(Class<T> c, List<T> list) throws IOException;
+	protected abstract <T extends AbstractAuditableItem> List<T> restore(Class<T> c, Instant start, Instant end)
+			throws IOException;
 
+	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) {
 
-	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) 
-	{
-		
-		if(items.isEmpty())
+		if (items.isEmpty())
 			return;
-		
+
 		try {
-			store(classe,items);
-			items.stream().forEach(a->a.setStored(true));
-			logger.debug("Persist {} new  items for {}",items.size(),classe.getSimpleName());
+			store(classe, items);
+			items.stream().forEach(a -> a.setStored(true));
+			logger.debug("Persist {} new  items for {}", items.size(), classe.getSimpleName());
 		} catch (Exception e) {
 			logger.error(e);
 		}
 	}
-	
-	
-	private <T extends AbstractAuditableItem> List<T> readItems(Class<T> c, Instant start ,Instant end) throws IOException 
-	{
-		return restore(c,start,end).stream().map(o->{
+
+	private <T extends AbstractAuditableItem> List<T> readItems(Class<T> c, Instant start, Instant end)
+			throws IOException {
+		return restore(c, start, end).stream().map(o -> {
 			o.setStored(true);
 			return o;
 		}).toList();
 	}
-	
-	public void restoreData(long start,long end) throws IOException
-	{
+
+	public void restoreData(long start, long end) throws IOException {
 		restoreData(Instant.ofEpochMilli(start), Instant.ofEpochMilli(end));
 	}
-		
-	public void restoreData(Instant start,Instant end) throws IOException
-	{
-			persist();
-			
-			jsonInfo.clear();
-			getJsonInfo().addAll(readItems(JsonQueryInfo.class,start,end));
-			
-			daoInfos.clear();
-			getDaoInfos().addAll(readItems(DAOInfo.class,start,end));
-			
-			tasksInfos.clear();
-			getTasksInfos().addAll(readItems(TaskInfo.class,start,end));
-			
-			networkInfos.clear();
-			getNetworkInfos().addAll(readItems(NetworkInfo.class,start,end));
-			
-			discordInfos.clear();
-			getDiscordInfos().addAll(readItems(DiscordInfo.class,start,end));
-			
-			fileInfos.clear();
-			getFileInfos().addAll(readItems(FileAccessInfo.class,start,end));
-			
-			jsonMessages.clear();
-			getJsonMessages().addAll(readItems(TalkMessage.class,start,end));
-				
-			logger.info("Technical data are loaded");
+
+	public void restoreData(Instant start, Instant end) throws IOException {
+		persist();
+
+		jsonInfo.clear();
+		getJsonInfo().addAll(readItems(JsonQueryInfo.class, start, end));
+
+		daoInfos.clear();
+		getDaoInfos().addAll(readItems(DAOInfo.class, start, end));
+
+		tasksInfos.clear();
+		getTasksInfos().addAll(readItems(TaskInfo.class, start, end));
+
+		networkInfos.clear();
+		getNetworkInfos().addAll(readItems(NetworkInfo.class, start, end));
+
+		discordInfos.clear();
+		getDiscordInfos().addAll(readItems(DiscordInfo.class, start, end));
+
+		fileInfos.clear();
+		getFileInfos().addAll(readItems(FileAccessInfo.class, start, end));
+
+		jsonMessages.clear();
+		getJsonMessages().addAll(readItems(TalkMessage.class, start, end));
+
+		logger.info("Technical data are loaded");
 	}
-	
-	
 
 	protected AbstractTechnicalServiceManager() {
-		jsonInfo= new ArrayList<>();
+		jsonInfo = new ArrayList<>();
 		networkInfos = new ArrayList<>();
 		daoInfos = new ArrayList<>();
 		tasksInfos = new ArrayList<>();
 		fileInfos = new ArrayList<>();
 		discordInfos = new ArrayList<>();
-		jsonMessages=new ArrayList<>();
-		 
-		
-		if(isEnable())
-		{	
+		jsonMessages = new ArrayList<>();
+
+		if (isEnable()) {
 			ThreadManager.getInstance().timer(new MTGRunnable() {
-	
+
 				@Override
 				protected void auditedRun() {
 					persist();
 				}
-			},"TechnicalService Timer",SCHEDULE_TIMER_MINS,TimeUnit.MINUTES);
-			
-		}
-		else
-		{
+			}, "TechnicalService Timer", SCHEDULE_TIMER_MINS, TimeUnit.MINUTES);
+
+		} else {
 			logger.warn("TechnicalService is disabled");
 		}
 
-		
 	}
-	
-	public void persist()
-	{
 
-		if(isEnable())
-		{
-				try {
-					
-					if(persisteEnableFor(JsonQueryInfo.class))
-						storeItems(JsonQueryInfo.class,getJsonInfo().stream().filter(it->!it.isStored()).toList());
-					
-					if(persisteEnableFor(DAOInfo.class))
-						storeItems(DAOInfo.class,getDaoInfos().stream().filter(it->!it.isStored()).toList());
-					
-					if(persisteEnableFor(NetworkInfo.class))
-						storeItems(NetworkInfo.class,getNetworkInfos().stream().filter(it->!it.isStored()).toList());
-					
-					if(persisteEnableFor(TaskInfo.class))
-						storeItems(TaskInfo.class,getTasksInfos().stream().filter(it->!it.isStored()).toList());
-					
-					if(persisteEnableFor(DiscordInfo.class))
-						storeItems(DiscordInfo.class,getDiscordInfos().stream().filter(it->!it.isStored()).toList());
-					
-					if(persisteEnableFor(FileAccessInfo.class))
-						storeItems(FileAccessInfo.class,getFileInfos().stream().filter(it->!it.isStored()).toList());
-					
-					if(persisteEnableFor(TalkMessage.class))
-						storeItems(TalkMessage.class,getJsonMessages().stream().filter(it->!it.isStored()).toList());
-				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
+	public void persist() {
+
+		if (isEnable()) {
+			try {
+
+				if (persisteEnableFor(JsonQueryInfo.class))
+					storeItems(JsonQueryInfo.class, getJsonInfo().stream().filter(it -> !it.isStored()).toList());
+
+				if (persisteEnableFor(DAOInfo.class))
+					storeItems(DAOInfo.class, getDaoInfos().stream().filter(it -> !it.isStored()).toList());
+
+				if (persisteEnableFor(NetworkInfo.class))
+					storeItems(NetworkInfo.class, getNetworkInfos().stream().filter(it -> !it.isStored()).toList());
+
+				if (persisteEnableFor(TaskInfo.class))
+					storeItems(TaskInfo.class, getTasksInfos().stream().filter(it -> !it.isStored()).toList());
+
+				if (persisteEnableFor(DiscordInfo.class))
+					storeItems(DiscordInfo.class, getDiscordInfos().stream().filter(it -> !it.isStored()).toList());
+
+				if (persisteEnableFor(FileAccessInfo.class))
+					storeItems(FileAccessInfo.class, getFileInfos().stream().filter(it -> !it.isStored()).toList());
+
+				if (persisteEnableFor(TalkMessage.class))
+					storeItems(TalkMessage.class, getJsonMessages().stream().filter(it -> !it.isStored()).toList());
+			} catch (Exception e) {
+				logger.error(e);
+			}
 		}
 
 	}
 
-	private <T extends AbstractAuditableItem>boolean persisteEnableFor(Class<T> c) {
-		
-		return MTGControler.getInstance().get("technical-log/conf/"+c.getSimpleName().toLowerCase(),"true").equals("true");
+	private <T extends AbstractAuditableItem> boolean persisteEnableFor(Class<T> c) {
+
+		return MTGControler.getInstance().get("technical-log/conf/" + c.getSimpleName().toLowerCase(), "true")
+				.equals("true");
 	}
 
 	public void store(AbstractAuditableItem item) {
-		
+
 		item.setStored(false);
-		
-		if(item instanceof JsonQueryInfo info)
-		{
+
+		if (item instanceof JsonQueryInfo info) {
 			info.setLocation(IPTranslator.getInstance().getLocationFor(info.getIp()));
 			getJsonInfo().add(info);
-		}
-		else if (item instanceof DiscordInfo info)
-		{
+		} else if (item instanceof DiscordInfo info) {
 			getDiscordInfos().add(info);
-		}
-		else if (item instanceof FileAccessInfo info)
-		{
+		} else if (item instanceof FileAccessInfo info) {
 			getFileInfos().add(info);
-		}
-		else if (item instanceof NetworkInfo info)
-		{
+		} else if (item instanceof NetworkInfo info) {
 			getNetworkInfos().add(info);
-		}
-		else if (item instanceof TaskInfo info)
-		{
+		} else if (item instanceof TaskInfo info) {
 			getTasksInfos().add(info);
-		}
-		else if (item instanceof DAOInfo info)
-		{
+		} else if (item instanceof DAOInfo info) {
 			getDaoInfos().add(info);
-		}
-		else if (item instanceof TalkMessage info)
-		{
+		} else if (item instanceof TalkMessage info) {
 			info.setLocation(IPTranslator.getInstance().getLocationFor(info.getIp()));
 			getJsonMessages().add(info);
 		}
 	}
-	
+
 	public Set<Entry<Object, Object>> getSystemInfo() {
 		return System.getProperties().entrySet();
 	}
@@ -231,11 +200,11 @@ public abstract class AbstractTechnicalServiceManager {
 	public ThreadInfo[] getThreadsInfos() {
 		return ManagementFactory.getThreadMXBean().dumpAllThreads(true, true);
 	}
-	
+
 	public List<FileAccessInfo> getFileInfos() {
 		return fileInfos;
 	}
-	
+
 	public List<DiscordInfo> getDiscordInfos() {
 		return discordInfos;
 	}
@@ -243,7 +212,7 @@ public abstract class AbstractTechnicalServiceManager {
 	public List<JsonQueryInfo> getJsonInfo() {
 		return jsonInfo;
 	}
-	
+
 	public List<NetworkInfo> getNetworkInfos() {
 		return networkInfos;
 	}
@@ -259,16 +228,13 @@ public abstract class AbstractTechnicalServiceManager {
 	public List<TalkMessage> getJsonMessages() {
 		return jsonMessages;
 	}
-	
+
 	public boolean isEnable() {
 		return enable;
 	}
 
-	public void enable(boolean enable)
-	{
-		this.enable =enable;
+	public void enable(boolean enable) {
+		this.enable = enable;
 	}
 
-
-	
 }

@@ -2,7 +2,6 @@ package org.magic.api.tracking.impl;
 
 import java.io.IOException;
 import java.util.Date;
-
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
@@ -14,9 +13,9 @@ public class UPSTrackingService extends AbstractTrackingService {
 	public Tracking track(String number, Contact c) throws IOException {
 		var t = new Tracking(number);
 
-		t.setTrackingUri("https://www.ups.com/track?loc=fr_FR&tracknum="+number);
+		t.setTrackingUri("https://www.ups.com/track?loc=fr_FR&tracknum=" + number);
 		t.setProductName("UPS");
-		t.addStep(new TrackingStep(new Date(),"no detail",""));
+		t.addStep(new TrackingStep(new Date(), "no detail", ""));
 		return t;
 	}
 

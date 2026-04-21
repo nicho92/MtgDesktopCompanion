@@ -4,14 +4,12 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
@@ -23,7 +21,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 
-public class PackagesBrowserPanel extends MTGUIComponent{
+public class PackagesBrowserPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private DefaultTreeModel model;
@@ -32,90 +30,74 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private boolean view;
 	private DefaultMutableTreeNode firstItem;
 
-
 	public PackagesBrowserPanel(boolean viewThumbnail) {
 		this.view = viewThumbnail;
 		initGUI();
 
 	}
 
-
 	public JXTree getTree() {
 		return tree;
 	}
 
-	public ImagePanel2 getThumbnailPanel()
-	{
+	public ImagePanel2 getThumbnailPanel() {
 		return panelDraw;
 	}
 
-
-	public void init(MTGEdition ed)
-	{
-		var root = (DefaultMutableTreeNode)model.getRoot();
+	public void init(MTGEdition ed) {
+		var root = (DefaultMutableTreeNode) model.getRoot();
 		root.setUserObject(ed);
 		root.removeAllChildren();
-		
-		
-		
-		
-		Arrays.asList(EnumItems.values()).forEach(t->{
+
+		Arrays.asList(EnumItems.values()).forEach(t -> {
 			List<MTGSealedProduct> pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
-			if(!pks.isEmpty())
-			{
+			if (!pks.isEmpty()) {
 				var dir = new DefaultMutableTreeNode(t);
-				pks.forEach(p->dir.add(new DefaultMutableTreeNode(p)));
+				pks.forEach(p -> dir.add(new DefaultMutableTreeNode(p)));
 				root.add(dir);
 			}
 		});
 		model.reload();
 		for (var i = 0; i < tree.getRowCount(); i++) {
-		    tree.expandRow(i);
+			tree.expandRow(i);
 		}
 
-		if(view)
+		if (view)
 			panelDraw.setImg(null);
 
 	}
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-		firstItem =new DefaultMutableTreeNode("Loading...");
+		firstItem = new DefaultMutableTreeNode("Loading...");
 		model = new DefaultTreeModel(firstItem);
-		panelDraw = new ImagePanel2(true, false, true,false);
+		panelDraw = new ImagePanel2(true, false, true, false);
 
-		if(view) {
+		if (view) {
 			add(panelDraw, BorderLayout.CENTER);
 		}
 
 		var panel = new JPanel();
 		panel.setLayout(new BorderLayout(0, 0));
-		if(!view)
-		{
+		if (!view) {
 			add(panel, BorderLayout.CENTER);
-		}
-		else
-		{
+		} else {
 			add(panel, BorderLayout.WEST);
 		}
 
 		tree = new JXTree(model);
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
 
-		panel.add(new JScrollPane(tree),BorderLayout.CENTER);
+		panel.add(new JScrollPane(tree), BorderLayout.CENTER);
 
+		tree.addTreeSelectionListener(_ -> {
+			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
+			if (selectedNode != null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
+				load(msp);
+		});
 
-		tree.addTreeSelectionListener(_-> {
-				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-
-				if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
-					load(msp);
-			});
-		
-
-
-		SwingWorker<Void, Void> sw  = new SwingWorker<>(){
+		SwingWorker<Void, Void> sw = new SwingWorker<>() {
 			@Override
 			protected Void doInBackground() throws Exception {
 				initTree();
@@ -123,87 +105,72 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			}
 			@Override
 			protected void done() {
-			
+
 				reload();
 			}
 		};
 		ThreadManager.getInstance().runInEdt(sw, "Loading sealed tree");
 	}
-	
 
-	public void load(MTGSealedProduct p)
-	{
-			panelDraw.setImg(MTG.getEnabledPlugin(MTGSealedProvider.class).getPictureFor(p));
-			panelDraw.revalidate();
-			panelDraw.repaint();
+	public void load(MTGSealedProduct p) {
+		panelDraw.setImg(MTG.getEnabledPlugin(MTGSealedProvider.class).getPictureFor(p));
+		panelDraw.revalidate();
+		panelDraw.repaint();
 	}
-
-
 
 	public List<MTGSealedProduct> getSelecteds() {
-		
+
 		var ret = new ArrayList<MTGSealedProduct>();
-		
-		
-		for(var p : tree.getSelectionPaths()) {
-			var selectedNode = (DefaultMutableTreeNode)p.getLastPathComponent();
-			
-			if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
-			{
+
+		for (var p : tree.getSelectionPaths()) {
+			var selectedNode = (DefaultMutableTreeNode) p.getLastPathComponent();
+
+			if (selectedNode != null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp)) {
 				ret.add(msp);
 			}
-			
+
 		}
-		
+
 		return ret;
 	}
-	
-	
-	public void initTree()
-	{
-		var root = (DefaultMutableTreeNode)model.getRoot();
+
+	public void initTree() {
+		var root = (DefaultMutableTreeNode) model.getRoot();
 		root.removeAllChildren();
 
-		MTG.getEnabledPlugin(MTGSealedProvider.class).listSets().stream().sorted().forEach(ed->{
+		MTG.getEnabledPlugin(MTGSealedProvider.class).listSets().stream().sorted().forEach(ed -> {
 
 			var edNode = new DefaultMutableTreeNode(ed);
 
-			Arrays.asList(EnumItems.values()).forEach(t->{
+			Arrays.asList(EnumItems.values()).forEach(t -> {
 				var pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
-				if(!pks.isEmpty() )
-				{
+				if (!pks.isEmpty()) {
 					var dir = new DefaultMutableTreeNode(t);
-					pks.forEach(p->dir.add(new DefaultMutableTreeNode(p)));
+					pks.forEach(p -> dir.add(new DefaultMutableTreeNode(p)));
 					edNode.add(dir);
 				}
 			});
-			
-			if(!edNode.isLeaf())
+
+			if (!edNode.isLeaf())
 				root.add(edNode);
 		});
 
-
-
-		if(view)
+		if (view)
 			panelDraw.setImg(null);
-		
-		
+
 		firstItem.setUserObject("Package");
-		
+
 	}
 
-	public void reload()
-	{
+	public void reload() {
 		model.reload();
 		tree.expandRow(0);
 	}
-
 
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_PACKAGE;
 	}
-
 
 	@Override
 	public String getTitle() {

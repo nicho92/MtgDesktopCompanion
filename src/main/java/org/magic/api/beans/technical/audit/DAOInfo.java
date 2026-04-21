@@ -2,7 +2,7 @@ package org.magic.api.beans.technical.audit;
 
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 
-public class DAOInfo extends AbstractAuditableItem{
+public class DAOInfo extends AbstractAuditableItem {
 
 	private static final long serialVersionUID = 1L;
 	private String query;
@@ -11,12 +11,11 @@ public class DAOInfo extends AbstractAuditableItem{
 	private String connectionName;
 	private String daoName;
 
-	
 	@Override
 	public String toString() {
 		return "DAO Audit : " + query;
 	}
-	
+
 	public String getConnectionName() {
 		return connectionName;
 	}
@@ -42,7 +41,7 @@ public class DAOInfo extends AbstractAuditableItem{
 	}
 
 	public void setClasseName(String canonicalName) {
-		this.canonicalName=canonicalName;
+		this.canonicalName = canonicalName;
 	}
 
 	public String getClasseName() {
@@ -50,12 +49,11 @@ public class DAOInfo extends AbstractAuditableItem{
 	}
 
 	public void setMessage(String message) {
-		this.message=message;
+		this.message = message;
 	}
 
 	public String getMessage() {
 		return message;
 	}
-
 
 }

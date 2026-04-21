@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -27,7 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
-
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGBooster;
@@ -83,10 +81,9 @@ public class SealedDeckBuildPanel extends JPanel {
 	private MagicCardDetailPanel panelDetail;
 	private JProgressBar progressBar;
 
-
 	private transient MTGDeckManager deckManager;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	int column=0;
+	int column = 0;
 	public SealedDeckBuildPanel() {
 		deckManager = new MTGDeckManager();
 		initGUI();
@@ -130,16 +127,16 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		panelControl = new JPanel();
 		panelWest.add(panelControl, BorderLayout.NORTH);
-		table = UITools.createNewTable(model,false);
+		table = UITools.createNewTable(model, false);
 		panelControl.setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();
 		panelControl.add(panel, BorderLayout.NORTH);
 		var gblpanel = new GridBagLayout();
-		gblpanel.columnWidths = new int[] { 105, 65, 0, 0, 0 };
-		gblpanel.rowHeights = new int[] { 41, 0, 0 };
-		gblpanel.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gblpanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gblpanel.columnWidths = new int[]{105, 65, 0, 0, 0};
+		gblpanel.rowHeights = new int[]{41, 0, 0};
+		gblpanel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gblpanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gblpanel);
 		cboEditions = UITools.createComboboxEditions();
 		var gbccboEditions = new GridBagConstraints();
@@ -208,8 +205,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		rdioraritySort = new JRadioButton(capitalize(SORT_BY, "rarity"));
 		rdioraritySort.addActionListener(_ -> sort(new RaritySorter()));
 		panelSorters.add(rdioraritySort);
-		
-	
+
 		var groupSorter = new ButtonGroup();
 		groupSorter.add(rdioCmcSortButton);
 		groupSorter.add(rdiocolorSort);
@@ -234,8 +230,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		var groupAnalyser = new ButtonGroup();
 		groupAnalyser.add(rdioBoosterAnalyse);
 		groupAnalyser.add(rdioDeckAnalyse);
-		
-		
+
 		progressBar = new JProgressBar();
 		progressBar.setMaximum(MTGConstants.PROGRESS_BAR_SEALED_SIZE);
 		progressBar.setStringPainted(true);
@@ -244,7 +239,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		cmcChartPanel = new CmcChartPanel();
 		panelAnalyse.add(cmcChartPanel);
 
-		manaRepartitionPanel = new ManaRepartitionPanel(false) ;
+		manaRepartitionPanel = new ManaRepartitionPanel(false);
 		panelAnalyse.add(manaRepartitionPanel);
 
 		typeRepartitionPanel = new TypeRepartitionPanel(false);
@@ -292,9 +287,11 @@ public class SealedDeckBuildPanel extends JPanel {
 		};
 
 		panelEast.add(new JScrollPane(panelDeck));
-		panelDeck.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth() + 5,(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
+		panelDeck
+				.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth() + 5,
+						(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
 
-		panelEast.add(new JLangLabel("DROP_HERE"),BorderLayout.NORTH);
+		panelEast.add(new JLangLabel("DROP_HERE"), BorderLayout.NORTH);
 
 		panelLands = new JPanel();
 		panelEast.add(panelLands, BorderLayout.SOUTH);
@@ -303,7 +300,8 @@ public class SealedDeckBuildPanel extends JPanel {
 		panelLands.add(txtNumberLand);
 		txtNumberLand.setColumns(2);
 
-		cboLands = new JComboBox<>(new DefaultComboBoxModel<>(new String[] { "Plains", "Island", "Swamp", "Mountain", "Forest" }));
+		cboLands = new JComboBox<>(
+				new DefaultComboBoxModel<>(new String[]{"Plains", "Island", "Swamp", "Mountain", "Forest"}));
 		panelLands.add(cboLands);
 
 		var btnAddLands = new JButton("+");
@@ -315,29 +313,30 @@ public class SealedDeckBuildPanel extends JPanel {
 	private void addLands() {
 		var qte = Integer.parseInt(txtNumberLand.getText());
 		var land = cboLands.getSelectedItem().toString();
-		
-			var wk = new AbstractObservableWorker<MTGCard, Void,MTGCardsProvider>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
 
-						@Override
-						protected MTGCard doInBackground() throws Exception {
-							return  plug.searchCardByName( land, (MTGEdition) cboEditions.getSelectedItem(), true).get(0);
-						}
-						
-						@Override
-						protected void notifyEnd() {
-							
-							var	mc = getResult();
-								for (var i = 0; i < qte; i++) {
-									deck.add(mc);
-									var c = createCard(mc);
-									panelDeck.addComponent(c);
-									panelDeck.postTreatment(c);
-								}
-								refreshStats();
-						}
-			};
-			
-			ThreadManager.getInstance().runInEdt(wk,"adding lands");
+		var wk = new AbstractObservableWorker<MTGCard, Void, MTGCardsProvider>(lblLoading,
+				getEnabledPlugin(MTGCardsProvider.class)) {
+
+			@Override
+			protected MTGCard doInBackground() throws Exception {
+				return plug.searchCardByName(land, (MTGEdition) cboEditions.getSelectedItem(), true).get(0);
+			}
+
+			@Override
+			protected void notifyEnd() {
+
+				var mc = getResult();
+				for (var i = 0; i < qte; i++) {
+					deck.add(mc);
+					var c = createCard(mc);
+					panelDeck.addComponent(c);
+					panelDeck.postTreatment(c);
+				}
+				refreshStats();
+			}
+		};
+
+		ThreadManager.getInstance().runInEdt(wk, "adding lands");
 
 	}
 
@@ -363,15 +362,14 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		lblLoading.start();
 		list = new ArrayList<>();
-		SwingWorker<Void, MTGBooster> sw = new SwingWorker<>()
-		{
+		SwingWorker<Void, MTGBooster> sw = new SwingWorker<>() {
 
 			@Override
 			protected void process(List<MTGBooster> chunks) {
-				
-				chunks.forEach(e->{
+
+				chunks.forEach(e -> {
 					column++;
-					for(MTGCard mc : e.getCards()) {
+					for (MTGCard mc : e.getCards()) {
 						list.add(mc);
 						panelOpenedBooster.addComponent(createCard(mc), column);
 					}
@@ -389,13 +387,14 @@ public class SealedDeckBuildPanel extends JPanel {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				column=0;
+				column = 0;
 				for (var entry : model.getItems()) {
 					try {
-							var b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(entry.getLeft(),entry.getMiddle(), entry.getRight());
-							for(var booster : b)
-								publish(booster);
-						
+						var b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(entry.getLeft(),
+								entry.getMiddle(), entry.getRight());
+						for (var booster : b)
+							publish(booster);
+
 					} catch (IOException e) {
 						logger.error(e);
 						lblLoading.end();
@@ -407,7 +406,7 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		};
 
-		ThreadManager.getInstance().runInEdt(sw,"opening boosters");
+		ThreadManager.getInstance().runInEdt(sw, "opening boosters");
 	}
 
 	private DisplayableCard createCard(MTGCard mc) {
@@ -419,7 +418,7 @@ public class SealedDeckBuildPanel extends JPanel {
 
 	public void sort(MTGComparator<MTGCard> sorter) {
 
-		if(list==null)
+		if (list == null)
 			return;
 
 		Collections.sort(list, sorter);
@@ -450,8 +449,7 @@ public class SealedDeckBuildPanel extends JPanel {
 	protected void save() {
 
 		try {
-			String name = JOptionPane.showInputDialog(
-					capitalize("DECK_NAME") + " ?", deck.getName());
+			String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", deck.getName());
 			deck.setName(name);
 			deckManager.saveDeck(deck);
 		} catch (IOException ex) {

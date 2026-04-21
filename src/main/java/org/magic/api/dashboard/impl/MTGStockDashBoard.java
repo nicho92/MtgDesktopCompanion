@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.api.mtgstock.modele.CardSet;
 import org.api.mtgstock.modele.Interest;
@@ -62,17 +61,16 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		pricesService = new PriceService();
 		analyticService = new AnalyticsService();
 
-		URLCallListener urlNotifier = (URLCallInfo callInfo)->{
+		URLCallListener urlNotifier = (URLCallInfo callInfo) -> {
 
-				var netinfo = new NetworkInfo();
-				netinfo.setStart(callInfo.getStart());
-				netinfo.setEnd(callInfo.getEnd());
-				netinfo.setRequest(callInfo.getRequest());
-				netinfo.setReponse(callInfo.getResponse());
+			var netinfo = new NetworkInfo();
+			netinfo.setStart(callInfo.getStart());
+			netinfo.setEnd(callInfo.getEnd());
+			netinfo.setRequest(callInfo.getRequest());
+			netinfo.setReponse(callInfo.getResponse());
 
-				AbstractTechnicalServiceManager.inst().store(netinfo);
+			AbstractTechnicalServiceManager.inst().store(netinfo);
 		};
-
 
 		cardService.setListener(urlNotifier);
 		interestService.setListener(urlNotifier);
@@ -80,17 +78,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		analyticService.setListener(urlNotifier);
 
 	}
-	
-	
-	
-	
 
 	@Override
 	public List<MTGDominance> getBestCards(FORMATS f, String filter) throws IOException {
 		List<MTGDominance> ret = new ArrayList<>();
 
-		var i=1;
-		for(Played p : analyticService.getMostPlayedCard(FORMAT.valueOf(f.name()))) {
+		var i = 1;
+		for (Played p : analyticService.getMostPlayedCard(FORMAT.valueOf(f.name()))) {
 			var cd = new MTGDominance();
 			cd.setCardName(p.getName());
 			cd.setPlayers(p.getQuantity());
@@ -100,60 +94,80 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return ret;
 	}
 
-	private SealedProduct guess(List<SealedProduct> products,MTGSealedProduct packaging)
-	{
+	private SealedProduct guess(List<SealedProduct> products, MTGSealedProduct packaging) {
 		List<SealedProduct> ret = new ArrayList<>();
 
-		switch(packaging.getTypeProduct())
-		{
-			case BOOSTER: ret.addAll(products.stream().filter(SealedProduct::isBooster).toList()); break;
-			case BOX: 	  ret.addAll(products.stream().filter(cs->cs.isBox() && !cs.isCase()).toList()); break;
-			case BUNDLE:  ret.addAll(products.stream().filter(SealedProduct::isBundle).toList()); break;
-			case FATPACK: ret.addAll(products.stream().filter(SealedProduct::isFatPack).toList()); break;
-			case STARTER: ret.addAll(products.stream().filter(SealedProduct::isStarter).toList()); break;
-			case PRERELEASEPACK:ret.addAll(products.stream().filter(SealedProduct::isPrerelease).toList()); break;
-			case CONSTRUCTPACK:ret.addAll(products.stream().filter(sp-> sp.isIntroPack()|| sp.isPlaneswalkerDeck()).toList()); break;
-			case CHALLENGERDECK : ret.addAll(products.stream().filter(SealedProduct::isChallengerDeck).toList()); break;
-			default:break;
+		switch (packaging.getTypeProduct()) {
+			case BOOSTER :
+				ret.addAll(products.stream().filter(SealedProduct::isBooster).toList());
+				break;
+			case BOX :
+				ret.addAll(products.stream().filter(cs -> cs.isBox() && !cs.isCase()).toList());
+				break;
+			case BUNDLE :
+				ret.addAll(products.stream().filter(SealedProduct::isBundle).toList());
+				break;
+			case FATPACK :
+				ret.addAll(products.stream().filter(SealedProduct::isFatPack).toList());
+				break;
+			case STARTER :
+				ret.addAll(products.stream().filter(SealedProduct::isStarter).toList());
+				break;
+			case PRERELEASEPACK :
+				ret.addAll(products.stream().filter(SealedProduct::isPrerelease).toList());
+				break;
+			case CONSTRUCTPACK :
+				ret.addAll(products.stream().filter(sp -> sp.isIntroPack() || sp.isPlaneswalkerDeck()).toList());
+				break;
+			case CHALLENGERDECK :
+				ret.addAll(products.stream().filter(SealedProduct::isChallengerDeck).toList());
+				break;
+			default :
+				break;
 		}
 
-		logger.debug("found {}",ret);
+		logger.debug("found {}", ret);
 
-		if(packaging.getExtra()!=null)
-		{
-			switch(packaging.getExtra())
-			{
-				case COLLECTOR: return ret.stream().filter(SealedProduct::isCollector).findFirst().orElse(ret.get(0));
-				case DRAFT: 	return ret.stream().filter(SealedProduct::isDraft).findFirst().orElse(ret.get(0));
-				case GIFT:		return ret.stream().filter(SealedProduct::isGift).findFirst().orElse(ret.get(0));
-				case SET:		return ret.stream().filter(SealedProduct::isSet).findFirst().orElse(ret.get(0));
-				case THEME:		return ret.stream().filter(SealedProduct::isTheme).findFirst().orElse(ret.get(0));
-				case VIP:		return ret.stream().filter(SealedProduct::isVIP).findFirst().orElse(ret.get(0));
-				default:		return ret.stream().filter(t->!t.isCollector() && !t.isDraft() && !t.isGift() && !t.isSet() && !t.isTheme() && !t.isVIP()).findFirst().orElse(ret.get(0));
+		if (packaging.getExtra() != null) {
+			switch (packaging.getExtra()) {
+				case COLLECTOR :
+					return ret.stream().filter(SealedProduct::isCollector).findFirst().orElse(ret.get(0));
+				case DRAFT :
+					return ret.stream().filter(SealedProduct::isDraft).findFirst().orElse(ret.get(0));
+				case GIFT :
+					return ret.stream().filter(SealedProduct::isGift).findFirst().orElse(ret.get(0));
+				case SET :
+					return ret.stream().filter(SealedProduct::isSet).findFirst().orElse(ret.get(0));
+				case THEME :
+					return ret.stream().filter(SealedProduct::isTheme).findFirst().orElse(ret.get(0));
+				case VIP :
+					return ret.stream().filter(SealedProduct::isVIP).findFirst().orElse(ret.get(0));
+				default :
+					return ret.stream().filter(t -> !t.isCollector() && !t.isDraft() && !t.isGift() && !t.isSet()
+							&& !t.isTheme() && !t.isVIP()).findFirst().orElse(ret.get(0));
 			}
 		}
 
-		return ret.stream().filter(t->!t.isCollector() && !t.isDraft() && !t.isGift() && !t.isSet() && !t.isTheme() && !t.isVIP()).findFirst().orElse(ret.get(0));
-
+		return ret.stream().filter(
+				t -> !t.isCollector() && !t.isDraft() && !t.isGift() && !t.isSet() && !t.isTheme() && !t.isVIP())
+				.findFirst().orElse(ret.get(0));
 
 	}
-
 
 	@Override
 	protected HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
 
 		HistoryPrice<MTGSealedProduct> ret = new HistoryPrice<>(packaging);
 		CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
-		var product = guess(cardService.getSealedProduct(cs),packaging);
-		PRICES p =  PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
+		var product = guess(cardService.getSealedProduct(cs), packaging);
+		PRICES p = PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
 
-		if(product!=null)
-		{
+		if (product != null) {
 			ret.setFoil(false);
 			ret.setCurrency(getCurrency());
-			new PriceService().getSealedPrices(product).getPrices().get(p).forEach(c->ret.put(c.getKey(), c.getValue()));
+			new PriceService().getSealedPrices(product).getPrices().get(p)
+					.forEach(c -> ret.put(c.getKey(), c.getValue()));
 		}
-
 
 		return ret;
 	}
@@ -164,82 +178,69 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		FORMAT mtgstockformat = null;
 
-		if(f!=null)
+		if (f != null)
 			mtgstockformat = FORMAT.valueOf(f.name());
 
+		var p = INTEREST.valueOf(getString(PRICE_VALUE).toUpperCase());
 
-
-		var p=INTEREST.valueOf(getString(PRICE_VALUE).toUpperCase());
-
-
-		logger.debug("Parsing shakers for {} {} ",f,p);
+		logger.debug("Parsing shakers for {} {} ", f, p);
 
 		List<Interest> st;
 
-
-		if(getBoolean(GET_FOIL))
-			st = interestService.getInterestFor(p,mtgstockformat);
+		if (getBoolean(GET_FOIL))
+			st = interestService.getInterestFor(p, mtgstockformat);
 		else
-			st = interestService.getInterestFor(p,false,mtgstockformat);
+			st = interestService.getInterestFor(p, false, mtgstockformat);
 
-		st.stream().filter(inte->inte.getInterestType().equalsIgnoreCase(getString(INTEREST_TYPE))).forEach(i->{
+		st.stream().filter(inte -> inte.getInterestType().equalsIgnoreCase(getString(INTEREST_TYPE))).forEach(i -> {
 			CardShake cs = initFromPrint(i.getPrint());
-						cs.setDateUpdate(i.getDate());
-						cs.setPrice(i.getPricePresent());
-						cs.setPercentDayChange(i.getPercentage()/100);
-						cs.setPriceDayChange(i.getPriceDayChange());
-						cs.setFoil(i.isFoil());
-
+			cs.setDateUpdate(i.getDate());
+			cs.setPrice(i.getPricePresent());
+			cs.setPercentDayChange(i.getPercentage() / 100);
+			cs.setPriceDayChange(i.getPriceDayChange());
+			cs.setFoil(i.isFoil());
 
 			ret.add(cs);
 		});
 
-
-
 		return ret;
 	}
-
 
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MTGEdition ed) throws IOException {
 
 		var es = new EditionsShakers();
-						es.setProviderName(getName());
-						es.setDate(new Date());
-						es.setEdition(ed);
+		es.setProviderName(getName());
+		es.setDate(new Date());
+		es.setEdition(ed);
 
 		var c = PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
 
-		fillEditionShaker(c,ed,es,false);
+		fillEditionShaker(c, ed, es, false);
 
-		if(getBoolean(GET_FOIL))
-			fillEditionShaker(c,ed,es,true);
+		if (getBoolean(GET_FOIL))
+			fillEditionShaker(c, ed, es, true);
 
 		return es;
 	}
 
-	private void fillEditionShaker(PRICES c,MTGEdition ed, EditionsShakers es, boolean b) {
+	private void fillEditionShaker(PRICES c, MTGEdition ed, EditionsShakers es, boolean b) {
 
-		logger.debug("Parsing shakers for {} {}",ed,c);
+		logger.debug("Parsing shakers for {} {}", ed, c);
 
-		cardService.getPrintsBySetCode(ed.getId()).forEach(p->{
-					CardShake cs = initFromPrint(p);
-					cs.setEd(ed.getId());
-					try {
-						cs.init(p.getLatestPrices().get(c.name()), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
+		cardService.getPrintsBySetCode(ed.getId()).forEach(p -> {
+			CardShake cs = initFromPrint(p);
+			cs.setEd(ed.getId());
+			try {
+				cs.init(p.getLatestPrices().get(c.name()), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
 
+			} catch (NullPointerException e) {
+				logger.error("{} : {}", p, e);
+			}
+			cs.setFoil(b);
 
-					}
-					catch(NullPointerException e)
-					{
-						logger.error("{} : {}",p,e);
-					}
-					cs.setFoil(b);
-
-
-					es.getShakes().add(cs);
-			});
-
+			es.getShakes().add(cs);
+		});
 
 	}
 
@@ -248,45 +249,39 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return null;
 	}
 
-
 	@Override
-	protected HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil)throws IOException {
+	protected HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 		HistoryPrice<MTGCard> hp = new HistoryPrice<>(mc);
-		if(mc==null)
-		{
+		if (mc == null) {
 			logger.error("couldn't calculate edition only");
 			return hp;
 		}
 
-		MTGEdition ed=mc.getEdition();
-
+		MTGEdition ed = mc.getEdition();
 
 		Integer id = mc.getMtgstocksId();
 
-		if(id==null)
-		{
+		if (id == null) {
 			logger.debug("id is null. Looking throught api");
 			var rs = cardService.getBestResult(mc.getName());
 			var fp = cardService.getCard(rs);
 			var set = cardService.getSetByCode(ed.getId());
 			var fpSet = fp.getPrintForSetId(set.getId());
 
-			if(fpSet==null)
-			{
+			if (fpSet == null) {
 				logger.warn("fpSet is null for {} so return", set.getId());
 				return hp;
 			}
-			logger.debug("mtgstock = {} {} {} ",fpSet,fpSet.getSetName(),fpSet.getId());
+			logger.debug("mtgstock = {} {} {} ", fpSet, fpSet.getSetName(), fpSet.getId());
 			id = fpSet.getId();
 		}
-			
+
 		var p = PRICES.AVG;
-		
-		if(foil || ed.isFoilOnly())
+
+		if (foil || ed.isFoilOnly())
 			p = PRICES.FOIL;
-		
-		
-		pricesService.getPricesFor(id,p).forEach(e->{
+
+		pricesService.getPricesFor(id, p).forEach(e -> {
 
 			hp.setCurrency(getCurrency());
 			hp.setFoil(foil);
@@ -294,33 +289,29 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			hp.setSerieName(hp.toString());
 		});
 
-
 		return hp;
 
 	}
 
-	private CardShake initFromPrint(Print p)
-	{
+	private CardShake initFromPrint(Print p) {
 		var cs = new CardShake();
-				cs.setCurrency(getCurrency());
-				cs.setName(p.getCleanName());
-				cs.setFoil(p.isFoil());
-				cs.setLink(p.getWebPage());
+		cs.setCurrency(getCurrency());
+		cs.setName(p.getCleanName());
+		cs.setFoil(p.isFoil());
+		cs.setLink(p.getWebPage());
 
-				if(p.isExtendedArt())
-					cs.setCardVariation(EnumCardVariation.EXTENDEDART);
-				else if(p.isShowcase())
-					cs.setCardVariation(EnumCardVariation.SHOWCASE);
-				else if(p.isBorderless())
-					cs.setCardVariation(EnumCardVariation.BORDERLESS);
-				else if(p.isJapanese())
-					cs.setCardVariation(EnumCardVariation.JAPANESEALT);
+		if (p.isExtendedArt())
+			cs.setCardVariation(EnumCardVariation.EXTENDEDART);
+		else if (p.isShowcase())
+			cs.setCardVariation(EnumCardVariation.SHOWCASE);
+		else if (p.isBorderless())
+			cs.setCardVariation(EnumCardVariation.BORDERLESS);
+		else if (p.isJapanese())
+			cs.setCardVariation(EnumCardVariation.JAPANESEALT);
 
-
-				cs.setEd(String.valueOf(cardService.getSetById(p.getSetId()).getAbbrevation()).toUpperCase());
+		cs.setEd(String.valueOf(cardService.getSetById(p.getSetId()).getAbbrevation()).toUpperCase());
 		return cs;
 	}
-
 
 	@Override
 	public Date getUpdatedDate() {
@@ -332,17 +323,17 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return "MTGStocks";
 	}
 
-
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
-		
-		m.put(PRICE_VALUE, new MTGProperty("MARKET", "select if you want price from market or average", ArrayUtils.toStringArray(MTGStockConstants.PRICES.values())));
+
+		m.put(PRICE_VALUE, new MTGProperty("MARKET", "select if you want price from market or average",
+				ArrayUtils.toStringArray(MTGStockConstants.PRICES.values())));
 		m.put(GET_FOIL, MTGProperty.newBooleanProperty("false", "load foil prices"));
-		m.put(INTEREST_TYPE, new MTGProperty("week", "select if you want price from market or average", ArrayUtils.toStringArray(MTGStockConstants.INTEREST.values())));
+		m.put(INTEREST_TYPE, new MTGProperty("week", "select if you want price from market or average",
+				ArrayUtils.toStringArray(MTGStockConstants.INTEREST.values())));
 		return m;
 	}
-
 
 }

@@ -2,10 +2,8 @@ package org.magic.game.gui.components.dialog;
 
 import java.awt.Dimension;
 import java.util.List;
-
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.game.ZoneEnum;
@@ -36,17 +34,17 @@ public class SearchCardFrame extends JDialog {
 			@Override
 			public void moveCard(DisplayableCard mc, ZoneEnum to) {
 				switch (source) {
-				case LIBRARY:
-					GamePanelGUI.getInstance().getPanelLibrary().moveCard(mc, to);
-					break;
-				case EXIL:
-					GamePanelGUI.getInstance().getExilPanel().moveCard(mc, to);
-					break;
-				case GRAVEYARD:
-					GamePanelGUI.getInstance().getPanelGrave().moveCard(mc, to);
-					break;
-				default:
-					break;
+					case LIBRARY :
+						GamePanelGUI.getInstance().getPanelLibrary().moveCard(mc, to);
+						break;
+					case EXIL :
+						GamePanelGUI.getInstance().getExilPanel().moveCard(mc, to);
+						break;
+					case GRAVEYARD :
+						GamePanelGUI.getInstance().getPanelGrave().moveCard(mc, to);
+						break;
+					default :
+						break;
 				}
 			}
 
@@ -62,20 +60,20 @@ public class SearchCardFrame extends JDialog {
 		pane.setThumbnailSize(MTGControler.getInstance().getCardsGameDimension());
 
 		switch (source) {
-		case GRAVEYARD:
-			pane.initThumbnails(p.getGraveyard().getCards(), true, true);
-			break;
-		case LIBRARY:
-			pane.initThumbnails(p.getLibrary().getCards(), true, true);
-			break;
-		case BATTLEFIELD:
-			pane.initThumbnails(p.getBattlefield().getCards(), true, true);
-			break;
-		case EXIL:
-			pane.initThumbnails(p.getExil().getCards(), true, true);
-			break;
-		default:
-			break;
+			case GRAVEYARD :
+				pane.initThumbnails(p.getGraveyard().getCards(), true, true);
+				break;
+			case LIBRARY :
+				pane.initThumbnails(p.getLibrary().getCards(), true, true);
+				break;
+			case BATTLEFIELD :
+				pane.initThumbnails(p.getBattlefield().getCards(), true, true);
+				break;
+			case EXIL :
+				pane.initThumbnails(p.getExil().getCards(), true, true);
+				break;
+			default :
+				break;
 		}
 	}
 

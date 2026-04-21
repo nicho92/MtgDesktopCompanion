@@ -13,13 +13,10 @@ public abstract class NumberCost implements Cost {
 		return value;
 	}
 
-
 	@Override
-	public boolean isNumberCost()
-	{
+	public boolean isNumberCost() {
 		return true;
 	}
-
 
 	protected NumberCost(int value) {
 		super();
@@ -28,12 +25,11 @@ public abstract class NumberCost implements Cost {
 
 	protected NumberCost(String value) {
 		super();
-		modifier=value.substring(0, 1);
+		modifier = value.substring(0, 1);
 	}
 
-	public void setX(Integer x)
-	{
-		if(modifier.equals("-"))
+	public void setX(Integer x) {
+		if (modifier.equals("-"))
 			setValue(-x);
 		else
 			setValue(x);
@@ -42,17 +38,15 @@ public abstract class NumberCost implements Cost {
 	public void setValue(Integer value) {
 		this.value = value;
 
-		if(value>0)
-			modifier="+";
-		else if(value<0)
-			modifier="-";
-		else if(value==0)
-			modifier="";
+		if (value > 0)
+			modifier = "+";
+		else if (value < 0)
+			modifier = "-";
+		else if (value == 0)
+			modifier = "";
 	}
 	public String getModifier() {
 		return modifier;
 	}
-
-
 
 }

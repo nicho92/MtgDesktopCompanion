@@ -1,12 +1,10 @@
 package org.magic.api.beans.technical.audit;
 
-import org.magic.api.beans.abstracts.AbstractAuditableItem;
-
 import com.google.gson.JsonObject;
-
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import org.magic.api.beans.abstracts.AbstractAuditableItem;
 
 public class DiscordInfo extends AbstractAuditableItem {
 
@@ -40,7 +38,6 @@ public class DiscordInfo extends AbstractAuditableItem {
 	public void setUser(JsonObject user) {
 		this.user = user;
 	}
-
 
 	public String getMessage() {
 		return message;
@@ -76,12 +73,12 @@ public class DiscordInfo extends AbstractAuditableItem {
 	}
 
 	public void setMessage(String contentRaw) {
-		this.message=contentRaw;
+		this.message = contentRaw;
 
 	}
 
 	public void setError(String message2) {
-		this.error=message2;
+		this.error = message2;
 	}
 
 	public String getError() {

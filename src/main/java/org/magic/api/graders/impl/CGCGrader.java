@@ -1,7 +1,6 @@
 package org.magic.api.graders.impl;
 
 import java.io.IOException;
-
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
@@ -12,7 +11,7 @@ public class CGCGrader extends AbstractGradersProvider {
 
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
-		Document d = URLTools.extractAsHtml(getWebSite()+"/certlookup/"+identifier+"/");
+		Document d = URLTools.extractAsHtml(getWebSite() + "/certlookup/" + identifier + "/");
 		var g = new MTGGrading();
 		g.setNumberID(identifier);
 		g.setGraderName(getName());

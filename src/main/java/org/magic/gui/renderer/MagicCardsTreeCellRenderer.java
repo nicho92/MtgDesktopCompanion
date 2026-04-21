@@ -4,14 +4,12 @@ import java.awt.Component;
 import java.awt.Image;
 import java.util.EnumMap;
 import java.util.Map;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
@@ -26,12 +24,18 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 	public MagicCardsTreeCellRenderer() {
 		try {
 			map = new EnumMap<>(EnumColors.class);
-			map.put(EnumColors.WHITE, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.WHITE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.BLUE, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.BLUE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.BLACK, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.BLACK.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.RED, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.RED.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.GREEN, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.GREEN.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-			map.put(EnumColors.UNCOLOR, new ImageIcon(IconsProvider.getInstance().getManaSymbol("X").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.WHITE, new ImageIcon(IconsProvider.getInstance()
+					.getManaSymbol(EnumColors.WHITE.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.BLUE, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.BLUE.getCode())
+					.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.BLACK, new ImageIcon(IconsProvider.getInstance()
+					.getManaSymbol(EnumColors.BLACK.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.RED, new ImageIcon(IconsProvider.getInstance().getManaSymbol(EnumColors.RED.getCode())
+					.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.GREEN, new ImageIcon(IconsProvider.getInstance()
+					.getManaSymbol(EnumColors.GREEN.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+			map.put(EnumColors.UNCOLOR, new ImageIcon(
+					IconsProvider.getInstance().getManaSymbol("X").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 		} catch (Exception _) {
 			// do nothing
 		}
@@ -39,8 +43,10 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 	}
 
 	@Override
-	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
-		JLabel c = (JLabel)new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
+	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
+			boolean isLeaf, int row, boolean focused) {
+		JLabel c = (JLabel) new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded,
+				isLeaf, row, focused);
 		try {
 			if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGEdition ed) {
 				c.setIcon(IconsProvider.getInstance().get16(ed.getId()));
@@ -51,18 +57,16 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 
 				if (mc.isArtifact()) {
 					c.setIcon(map.get(EnumColors.UNCOLOR));
-				}else if (mc.isLand()) {
+				} else if (mc.isLand()) {
 					c.setIcon(MTGConstants.ICON_MANA_INCOLOR);
-				}else if (mc.getColors().size() == 1) {
+				} else if (mc.getColors().size() == 1) {
 					c.setIcon(map.get(mc.getColors().get(0)));
-				}else if (mc.isMultiColor()) {
+				} else if (mc.isMultiColor()) {
 					c.setIcon(MTGConstants.ICON_MANA_GOLD);
 				}
-			}
-			else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGSealedProduct ) {
+			} else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGSealedProduct) {
 				c.setIcon(MTGConstants.ICON_TAB_PACKAGE);
-			}
-			else {
+			} else {
 				c.setIcon(MTGConstants.ICON_TAB_BACK);
 			}
 			return c;

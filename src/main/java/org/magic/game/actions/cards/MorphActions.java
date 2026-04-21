@@ -6,9 +6,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
-
 import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.game.ZoneEnum;
@@ -27,7 +25,7 @@ public class MorphActions extends AbstractCardAction {
 	private static String k = "Morph";
 
 	public MorphActions(DisplayableCard card) {
-		super(card,k);
+		super(card, k);
 		putValue(SHORT_DESCRIPTION, k);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
 		parse();
@@ -64,7 +62,7 @@ public class MorphActions extends AbstractCardAction {
 			mc.setEditions(card.getMagicCard().getEditions());
 			mc.setRotatedCard(card.getMagicCard());
 			var r = new MTGRuling();
-					r.setText(AbstractKeyWordsManager.getInstance().generateFromKeyString(k).toString());
+			r.setText(AbstractKeyWordsManager.getInstance().generateFromKeyString(k).toString());
 			mc.getRulings().add(r);
 			mc.setText(k + " " + cost);
 			mc.setLayout(card.getMagicCard().getLayout());

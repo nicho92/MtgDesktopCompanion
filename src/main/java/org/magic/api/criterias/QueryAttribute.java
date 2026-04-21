@@ -1,13 +1,11 @@
 package org.magic.api.criterias;
 
 import java.io.Serializable;
-
 import javax.swing.Icon;
-
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.services.MTGConstants;
 
-public class QueryAttribute implements Serializable, Comparable<QueryAttribute>, MTGIconable{
+public class QueryAttribute implements Serializable, Comparable<QueryAttribute>, MTGIconable {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -31,7 +29,7 @@ public class QueryAttribute implements Serializable, Comparable<QueryAttribute>,
 		this.type = type;
 	}
 
-	 @Override
+	@Override
 	public String toString() {
 		return getName();
 

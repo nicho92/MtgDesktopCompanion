@@ -1,11 +1,9 @@
 package org.magic.services.adapters;
 
 import java.beans.PropertyChangeEvent;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableColumnModelEvent;
-
 import org.jdesktop.swingx.event.TableColumnModelExtListener;
 
 public class TableColumnModelExtListenerAdapter implements TableColumnModelExtListener {

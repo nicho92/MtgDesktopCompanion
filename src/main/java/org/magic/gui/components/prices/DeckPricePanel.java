@@ -6,14 +6,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGPrice;
@@ -40,7 +38,6 @@ public class DeckPricePanel extends MTGUIComponent {
 	private double total = 0;
 	private JButton btnCheckPrice;
 
-
 	public void init(MTGDeck d) {
 		this.deck = d;
 		model.clear();
@@ -50,11 +47,10 @@ public class DeckPricePanel extends MTGUIComponent {
 		} catch (Exception _) {
 			lblPrice.setText("");
 		}
-		
+
 	}
 
-	public void enableControle(boolean b)
-	{
+	public void enableControle(boolean b) {
 		cboPricers.setEnabled(b);
 		btnCheckPrice.setEnabled(b);
 	}
@@ -63,12 +59,10 @@ public class DeckPricePanel extends MTGUIComponent {
 		return btnCheckPrice;
 	}
 
-
-	public void updatePrice()
-	{
-		lblPrice.setText(String.valueOf(UITools.formatDouble(total)) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
+	public void updatePrice() {
+		lblPrice.setText(String.valueOf(UITools.formatDouble(total)) + " "
+				+ MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 	}
-
 
 	public DeckPricePanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -78,17 +72,16 @@ public class DeckPricePanel extends MTGUIComponent {
 
 		add(panel, BorderLayout.NORTH);
 
-		cboPricers = UITools.createComboboxPlugins(MTGPricesProvider.class,false);
+		cboPricers = UITools.createComboboxPlugins(MTGPricesProvider.class, false);
 		panel.add(cboPricers);
-
 
 		enableControle(false);
 
-
 		btnCheckPrice.addActionListener(_ -> {
 			model.clear();
-			
-			AbstractObservableWorker<List<MTGPrice>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>((MTGPricesProvider)cboPricers.getSelectedItem()) {
+
+			AbstractObservableWorker<List<MTGPrice>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(
+					(MTGPricesProvider) cboPricers.getSelectedItem()) {
 
 				@Override
 				protected List<MTGPrice> doInBackground() throws Exception {
@@ -98,16 +91,16 @@ public class DeckPricePanel extends MTGUIComponent {
 				@Override
 				protected void done() {
 
-						try {
-							total = get().stream().mapToDouble(MTGPrice::getValue).sum();
-						} catch (InterruptedException _) {
-							Thread.currentThread().interrupt();
-							logger.error("Interruption");
-						} catch (ExecutionException e) {
-							logger.error("error getting prices",e);
-						}
+					try {
+						total = get().stream().mapToDouble(MTGPrice::getValue).sum();
+					} catch (InterruptedException _) {
+						Thread.currentThread().interrupt();
+						logger.error("Interruption");
+					} catch (ExecutionException e) {
+						logger.error("error getting prices", e);
+					}
 
-						deck.setAveragePrice(total);
+					deck.setAveragePrice(total);
 
 					updatePrice();
 				}
@@ -126,11 +119,10 @@ public class DeckPricePanel extends MTGUIComponent {
 
 		lblPrice = new JLabel();
 		panel.add(lblPrice);
-		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont( Font.BOLD, 13));
-
+		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 13));
 
 		model = new CardsPriceTableModel();
-		tablePrice = UITools.createNewTable(model,false);
+		tablePrice = UITools.createNewTable(model, false);
 		tablePrice.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
@@ -156,11 +148,10 @@ public class DeckPricePanel extends MTGUIComponent {
 	public String getTitle() {
 		return "SHOPPING";
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_SHOP;
 	}
-	
 
 }

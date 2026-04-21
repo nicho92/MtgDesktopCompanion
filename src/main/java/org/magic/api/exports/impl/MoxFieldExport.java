@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -24,15 +23,13 @@ import org.magic.services.tools.UITools;
 
 public class MoxFieldExport extends AbstractFormattedFileCardExport {
 
-	
-	String columns = "\"Count\",\"Tradelist Count\",\"Name\",\"Edition\",\"Condition\",\"Language\",\"Foil\",\"Tags\",\"Last Modified\",\"Collector Number\",\"Alter\",\"Proxy\",\"Purchase Price\""; 
-			
-			
+	String columns = "\"Count\",\"Tradelist Count\",\"Name\",\"Edition\",\"Condition\",\"Language\",\"Foil\",\"Tags\",\"Last Modified\",\"Collector Number\",\"Alter\",\"Proxy\",\"Purchase Price\"";
+
 	@Override
 	public String getStockFileExtension() {
-		return ".csv"; 
+		return ".csv";
 	}
-	
+
 	@Override
 	public String getDeckFileExtension() {
 		return ".txt";
@@ -42,189 +39,169 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 	public String getName() {
 		return "MoxField";
 	}
-	
+
 	@Override
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
 
-	
-	private void write(StringBuilder builder, Map.Entry<MTGCard, Integer> e)
-	{
+	private void write(StringBuilder builder, Map.Entry<MTGCard, Integer> e) {
 		builder.append(e.getValue()).append(" ");
 		builder.append(e.getKey().getName()).append(" ");
 		builder.append("(").append(e.getKey().getEdition().getId()).append(") ");
 		builder.append(e.getKey().getNumber()).append(System.lineSeparator());
 	}
-	
-	
+
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		
+
 		var builder = new StringBuilder();
-		
-		for(var e : deck.getMain().entrySet())
-			write(builder,e);
-		
-		if(!deck.getSideBoard().isEmpty())
-		{
+
+		for (var e : deck.getMain().entrySet())
+			write(builder, e);
+
+		if (!deck.getSideBoard().isEmpty()) {
 			builder.append(System.lineSeparator()).append("SIDEBOARD:").append(System.lineSeparator());
-			
-			for(var e : deck.getSideBoard().entrySet())
-				write(builder,e);
+
+			for (var e : deck.getSideBoard().entrySet())
+				write(builder, e);
 		}
-				
+
 		FileTools.saveFile(dest, builder.toString());
 	}
-		
+
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-	
+
 		var d = new MTGDeck();
 		d.setName(name);
-		
-		var sideboard=false;
-		
-		for(var m : matches(f, true, aliases.getRegexFor(this, "deck")))
-		{
-			if(m.group().equals("SIDEBOARD"))
-			{
-				sideboard=true;
-			}
-			else if(!m.group().isBlank())
-			{
+
+		var sideboard = false;
+
+		for (var m : matches(f, true, aliases.getRegexFor(this, "deck"))) {
+			if (m.group().equals("SIDEBOARD")) {
+				sideboard = true;
+			} else if (!m.group().isBlank()) {
 				var qty = Integer.parseInt(m.group(1));
-				var setId=m.group(3);
+				var setId = m.group(3);
 				var number = m.group(4);
-			
+
 				try {
 					var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, setId);
 					notify(card);
-					if(!sideboard)
+					if (!sideboard)
 						d.getMain().put(card, qty);
 					else
 						d.getSideBoard().put(card, qty);
-					
+
 				} catch (Exception _) {
-					logger.error("No card found for {}/{}",setId,number);
+					logger.error("No card found for {}/{}", setId, number);
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		return d;
 	}
-	
-	
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		var list = new ArrayList<MTGCardStock>();
-		matches(content,true).forEach(m->{
+		matches(content, true).forEach(m -> {
 
 			MTGEdition ed = null;
 
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
-			}
-			catch(Exception _)
-			{
-				logger.error("Edition not found for {}",m.group(4));
+			} catch (Exception _) {
+				logger.error("Edition not found for {}", m.group(4));
 			}
 
 			String cname = cleanName(m.group(3));
 
-			String number=null;
+			String number = null;
 			try {
 				number = m.group(10);
-			}
-			catch(IndexOutOfBoundsException _)
-			{
-				//do nothing
+			} catch (IndexOutOfBoundsException _) {
+				// do nothing
 			}
 
-			MTGCard mc=null;
+			MTGCard mc = null;
 
-			if(number!=null && ed !=null)
-			{
+			if (number != null && ed != null) {
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
 				} catch (Exception _) {
-					logger.error("no card found with number {}/{}",number,ed);
+					logger.error("no card found with number {}/{}", number, ed);
 				}
 			}
 
-			if(mc==null)
-			{
+			if (mc == null) {
 				try {
-					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME);
+					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				} catch (Exception _) {
-					logger.error("no card found for {}/{}",cname,ed);
+					logger.error("no card found for {}/{}", cname, ed);
 				}
 			}
 
-			if(mc!=null) {
-				  var mcs = MTGControler.getInstance().getDefaultStock();
-					   mcs.setQte(Integer.parseInt(m.group(1)));
-					   mcs.setProduct(mc);
-					   mcs.setCondition(aliases.getReversedConditionFor(this,m.group(5),null));
-					   
-					   if(!m.group(6).isEmpty())
-						   mcs.setLanguage(m.group(6));
+			if (mc != null) {
+				var mcs = MTGControler.getInstance().getDefaultStock();
+				mcs.setQte(Integer.parseInt(m.group(1)));
+				mcs.setProduct(mc);
+				mcs.setCondition(aliases.getReversedConditionFor(this, m.group(5), null));
 
-					   mcs.setFoil(m.group(7).equals("foil"));
-					   mcs.setSigned(m.group(9).equalsIgnoreCase("true"));
-					   mcs.setAltered(m.group(11).equalsIgnoreCase("true"));
+				if (!m.group(6).isEmpty())
+					mcs.setLanguage(m.group(6));
 
-					   if(!m.group(13).isEmpty())
-						   mcs.setPrice(UITools.parseDouble(m.group(13)));
+				mcs.setFoil(m.group(7).equals("foil"));
+				mcs.setSigned(m.group(9).equalsIgnoreCase("true"));
+				mcs.setAltered(m.group(11).equalsIgnoreCase("true"));
 
-					   notify(mcs.getProduct());
-			   list.add(mcs);
+				if (!m.group(13).isEmpty())
+					mcs.setPrice(UITools.parseDouble(m.group(13)));
+
+				notify(mcs.getProduct());
+				list.add(mcs);
+			} else {
+				logger.error("No cards found for {}", cname);
 			}
-			else
-			{
-				logger.error("No cards found for {}",cname);
-			}
-
 
 		});
-		
+
 		return list;
-		
+
 	}
-	
-	
+
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		var sb = new StringBuilder(columns);
-			 sb.append(System.lineSeparator());
-			 
-			 
-			 for(var mcs : stock)
-			 {
-				 sb.append("\"").append(mcs.getQte()).append("\"").append(getSeparator());
-				 sb.append("\"1\"").append(getSeparator());
-				 sb.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
-				 sb.append("\"").append(mcs.getProduct().getEdition().getId()).append("\"").append(getSeparator());
-				 sb.append("\"").append(aliases.getConditionFor(this, mcs.getCondition())).append("\"").append(getSeparator());
-				 sb.append("\"").append(mcs.getLanguage()).append("\"").append(getSeparator());
-				 sb.append("\"").append(mcs.isFoil()?"foil":"").append("\"").append(getSeparator());
-				 sb.append("\"").append("").append("\"").append(getSeparator());
-				 sb.append("\"").append(UITools.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss.SSS")).append("\"").append(getSeparator());
-				 sb.append("\"").append(mcs.getProduct().getNumber()).append("\"").append(getSeparator());
-				 
-				 sb.append("\"").append(mcs.isAltered()?"True":"False").append("\"").append(getSeparator());
-				 sb.append("\"").append(mcs.getCondition() == EnumCondition.PROXY?"True":"False").append("\"").append(getSeparator());
-				 sb.append("\"").append(mcs.getValue().doubleValue()).append("\"");
-				 sb.append(System.lineSeparator());
-				 
-				 notify(mcs.getProduct());
-			 }
-			 FileTools.saveFile(f, sb.toString());
+		sb.append(System.lineSeparator());
+
+		for (var mcs : stock) {
+			sb.append("\"").append(mcs.getQte()).append("\"").append(getSeparator());
+			sb.append("\"1\"").append(getSeparator());
+			sb.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
+			sb.append("\"").append(mcs.getProduct().getEdition().getId()).append("\"").append(getSeparator());
+			sb.append("\"").append(aliases.getConditionFor(this, mcs.getCondition())).append("\"")
+					.append(getSeparator());
+			sb.append("\"").append(mcs.getLanguage()).append("\"").append(getSeparator());
+			sb.append("\"").append(mcs.isFoil() ? "foil" : "").append("\"").append(getSeparator());
+			sb.append("\"").append("").append("\"").append(getSeparator());
+			sb.append("\"").append(UITools.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss.SSS")).append("\"")
+					.append(getSeparator());
+			sb.append("\"").append(mcs.getProduct().getNumber()).append("\"").append(getSeparator());
+
+			sb.append("\"").append(mcs.isAltered() ? "True" : "False").append("\"").append(getSeparator());
+			sb.append("\"").append(mcs.getCondition() == EnumCondition.PROXY ? "True" : "False").append("\"")
+					.append(getSeparator());
+			sb.append("\"").append(mcs.getValue().doubleValue()).append("\"");
+			sb.append(System.lineSeparator());
+
+			notify(mcs.getProduct());
+		}
+		FileTools.saveFile(f, sb.toString());
 	}
-	
 
 	@Override
 	protected boolean skipFirstLine() {

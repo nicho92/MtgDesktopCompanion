@@ -7,20 +7,17 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
-
 import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
-
 
 public class ProductRendererComponent extends JPanel {
 
@@ -30,12 +27,11 @@ public class ProductRendererComponent extends JPanel {
 	private JLabel lblProductType;
 	private JLabel lblImage;
 
-	
 	private transient Map<MTGProduct, BufferedImage> loadedImages;
 
 	public ProductRendererComponent() {
-		loadedImages =  new ConcurrentHashMap<>();
-		
+		loadedImages = new ConcurrentHashMap<>();
+
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{90, 267, 0};
@@ -45,79 +41,67 @@ public class ProductRendererComponent extends JPanel {
 		setLayout(gridBagLayout);
 
 		lblImage = new JLabel(MTGConstants.ICON_LOADING);
-		add(lblImage, UITools.createGridBagConstraints(null,null,0, 0,null,3));
+		add(lblImage, UITools.createGridBagConstraints(null, null, 0, 0, null, 3));
 
 		lblProductName = new JLabel("");
-		add(lblProductName, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 0));
+		add(lblProductName, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 0));
 
 		lblProductSet = new JLabel("");
-		add(lblProductSet, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 1));
+		add(lblProductSet, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 1));
 
 		lblProductType = new JLabel();
-		add(lblProductType, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 2));
+		add(lblProductType, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 2));
 	}
-	
+
 	public void init(MTGProduct p) {
 
-		if(p==null)
+		if (p == null)
 			return;
-		
+
 		lblProductName.setText(p.getName());
-		
-		if(p.getEdition()!=null)
-		{
+
+		if (p.getEdition() != null) {
 			lblProductSet.setText(p.getEdition().getSet());
 			lblProductSet.setIcon(IconsProvider.getInstance().get16(p.getEdition().getId()));
-		}
-		else
-		{
+		} else {
 			lblProductSet.setText("");
 			lblProductSet.setIcon(null);
 		}
 
-		if(p.getCategory()!=null)
-			lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
+		if (p.getCategory() != null)
+			lblProductType.setText(p.getCategory().getCategoryName() + " (" + p.getProductId() + ")");
 		else
 			lblProductType.setText("");
-		
+
 		var image = loadedImages.get(p);
-        if (image == null)
-        {
-        	var sw = new SwingWorker<BufferedImage, Void>()
-        	{
-        	        @Override
-        	        protected BufferedImage doInBackground() throws Exception
-        	        {
-        	            try
-        	            {
-        	                var image = URLTools.extractAsImage(p.getUrl());
-        	                loadedImages.put(p, image);
-        	                 return image;
-        	            }
-        	            catch (Exception _)
-        	            {
-        	               
-        	                return null;
-        	            }
-        	        }
-        	        
-        	        @Override
-        	        protected void done() {
-        	        	revalidate();
-        	        	repaint();
-        	        }
-        	        
-        	};
-        	
-        	ThreadManager.getInstance().runInEdt(sw, "loading");
-        	lblImage.setIcon(MTGConstants.ICON_LOADING);
-        }
-        else
-        {
-        	   	lblImage.setIcon(new ImageIcon(image.getScaledInstance(110, 150, Image.SCALE_FAST)));
-        }
-	
-		
+		if (image == null) {
+			var sw = new SwingWorker<BufferedImage, Void>() {
+				@Override
+				protected BufferedImage doInBackground() throws Exception {
+					try {
+						var image = URLTools.extractAsImage(p.getUrl());
+						loadedImages.put(p, image);
+						return image;
+					} catch (Exception _) {
+
+						return null;
+					}
+				}
+
+				@Override
+				protected void done() {
+					revalidate();
+					repaint();
+				}
+
+			};
+
+			ThreadManager.getInstance().runInEdt(sw, "loading");
+			lblImage.setIcon(MTGConstants.ICON_LOADING);
+		} else {
+			lblImage.setIcon(new ImageIcon(image.getScaledInstance(110, 150, Image.SCALE_FAST)));
+		}
+
 	}
-	
+
 }

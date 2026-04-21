@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
@@ -39,15 +38,14 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
 
-public class MTGHttpClient  {
+public class MTGHttpClient {
 
 	private CloseableHttpClient httpclient;
 	private HttpClientContext httpContext;
 	private BasicCookieStore cookieStore;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
-	private HttpClientConnectionManager connectionManager ;
-
+	private HttpClientConnectionManager connectionManager;
 
 	public HttpClient getHttpclient() {
 		return httpclient;
@@ -66,45 +64,35 @@ public class MTGHttpClient  {
 		connectionManager = new PoolingHttpClientConnectionManager();
 		connectionManager.closeExpiredConnections();
 
-
-		httpclient = HttpClients.custom()
-					 .setUserAgent(MTGConstants.USER_AGENT)
-					 .setRedirectStrategy(LaxRedirectStrategy.INSTANCE)
-					 .setConnectionManager(connectionManager)
-					 .setDefaultRequestConfig(RequestConfig.custom()
-							 							   .setCookieSpec(CookieSpecs.STANDARD)
-							 							   .setConnectTimeout(MTGConstants.CONNECTION_TIMEOUT)
-							 							   .setSocketTimeout(MTGConstants.CONNECTION_TIMEOUT)
-							 							   .setConnectionRequestTimeout(MTGConstants.CONNECTION_TIMEOUT)
-							 							   .build())
-					 .build();
-
+		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
+				.setRedirectStrategy(LaxRedirectStrategy.INSTANCE).setConnectionManager(connectionManager)
+				.setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD)
+						.setConnectTimeout(MTGConstants.CONNECTION_TIMEOUT)
+						.setSocketTimeout(MTGConstants.CONNECTION_TIMEOUT)
+						.setConnectionRequestTimeout(MTGConstants.CONNECTION_TIMEOUT).build())
+				.build();
 
 		httpContext = new HttpClientContext();
 		cookieStore = new BasicCookieStore();
 		httpContext.setCookieStore(cookieStore);
 	}
 
-	public String toString(HttpResponse response) throws IOException
-	{
+	public String toString(HttpResponse response) throws IOException {
 		var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
 		return ret;
 	}
 
-	private HttpResponse execute(HttpRequestBase req) throws IOException
-	{
+	private HttpResponse execute(HttpRequestBase req) throws IOException {
 		var info = new NetworkInfo();
 		info.setRequest(req);
 		info.setStart(Instant.now());
-		try{
-			logger.debug("execute {}",req);
-			response = httpclient.execute(req,httpContext);
+		try {
+			logger.debug("execute {}", req);
+			response = httpclient.execute(req, httpContext);
 			info.setReponse(response);
-		}
-		catch(Exception e)
-		{
-			logger.error( "uri={}",req.getURI(),e);
+		} catch (Exception e) {
+			logger.error("uri={}", req.getURI(), e);
 			info.setReponse(DefaultHttpResponseFactory.INSTANCE.newHttpResponse(new StatusLine() {
 
 				@Override
@@ -128,36 +116,36 @@ public class MTGHttpClient  {
 		return response;
 	}
 
+	public HttpResponse execute(RequestBuilder builder) throws IOException {
 
-	public HttpResponse execute(RequestBuilder builder) throws IOException
-	{
+		if (builder.getMethod() == METHOD.GET)
+			return doGet(builder.getUrl(), builder.getHeaders(), builder.getContent());
 
-		if(builder.getMethod()== METHOD.GET)
-			return doGet(builder.getUrl(),builder.getHeaders(),builder.getContent());
-
-		if(builder.getMethod()== METHOD.POST)
+		if (builder.getMethod() == METHOD.POST)
 			return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
 
-		if(builder.getMethod()== METHOD.PUT)
+		if (builder.getMethod() == METHOD.PUT)
 			return doPut(builder.getUrl(), builder.getContent(), builder.getHeaders());
-
 
 		throw new IOException("choose a method with METHOD.POST/GET/PUT");
 
 	}
 
-	public HttpResponse doPut(String url, Map<String, String> entities, Map<String, String> headers) throws IOException {
-		return doPut(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),headers);
+	public HttpResponse doPut(String url, Map<String, String> entities, Map<String, String> headers)
+			throws IOException {
+		return doPut(url, new UrlEncodedFormEntity(
+				entities.entrySet().stream().map(e -> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),
+				headers);
 	}
 
 	public HttpResponse doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
 		var putReq = new HttpPut(string);
 		try {
-			if(entities!=null)
+			if (entities != null)
 				putReq.setEntity(entities);
 
-			if(headers!=null)
-				headers.entrySet().forEach(e->putReq.addHeader(e.getKey(), e.getValue()));
+			if (headers != null)
+				headers.entrySet().forEach(e -> putReq.addHeader(e.getKey(), e.getValue()));
 
 			return execute(putReq);
 		} catch (UnsupportedEncodingException e1) {
@@ -165,61 +153,56 @@ public class MTGHttpClient  {
 		}
 	}
 
-	public HttpResponse doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
-	{
-		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),headers);
+	public HttpResponse doPost(String url, Map<String, String> entities, Map<String, String> headers)
+			throws IOException {
+		return doPost(url, new UrlEncodedFormEntity(
+				entities.entrySet().stream().map(e -> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),
+				headers);
 	}
 
-
-	public HttpResponse doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
-	{
+	public HttpResponse doPost(String url, HttpEntity entities, Map<String, String> headers) throws IOException {
 		var postReq = new HttpPost(url);
-			try {
-				if(entities!=null)
-					postReq.setEntity(entities);
+		try {
+			if (entities != null)
+				postReq.setEntity(entities);
 
-				if(headers!=null)
-					headers.entrySet().forEach(e->postReq.addHeader(e.getKey(), e.getValue()));
+			if (headers != null)
+				headers.entrySet().forEach(e -> postReq.addHeader(e.getKey(), e.getValue()));
 
-				return execute(postReq);
+			return execute(postReq);
 
-			} catch (UnsupportedEncodingException e1) {
-				throw new IOException(e1);
-			}
+		} catch (UnsupportedEncodingException e1) {
+			throw new IOException(e1);
+		}
 
 	}
 
-	public HttpResponse doGet(String url, Map<String,String> headers,Map<String,String> entities) throws IOException
-	{
+	public HttpResponse doGet(String url, Map<String, String> headers, Map<String, String> entities)
+			throws IOException {
 		var getReq = new HttpGet(url);
 
-		if(entities!=null && !entities.isEmpty())
-		{
+		if (entities != null && !entities.isEmpty()) {
 			try {
 				var builder = new URIBuilder(url);
-				entities.entrySet().forEach(e->builder.addParameter(e.getKey(),e.getValue()));
+				entities.entrySet().forEach(e -> builder.addParameter(e.getKey(), e.getValue()));
 				getReq = new HttpGet(builder.build());
 			} catch (URISyntaxException e1) {
 				throw new IOException(e1);
 			}
 		}
 
-
-		if(headers!=null && !headers.isEmpty())
-		{
-			for(Entry<String, String> e : headers.entrySet())
+		if (headers != null && !headers.isEmpty()) {
+			for (Entry<String, String> e : headers.entrySet())
 				getReq.addHeader(e.getKey(), e.getValue());
 
 		}
 
-
-		return  execute(getReq);
+		return execute(getReq);
 
 	}
 
-	public HttpResponse doGet(String url) throws IOException
-	{
-		return doGet(url,null,null);
+	public HttpResponse doGet(String url) throws IOException {
+		return doGet(url, null, null);
 	}
 
 	public String getCookieValue(String cookieName) {
@@ -239,7 +222,3 @@ public class MTGHttpClient  {
 	}
 
 }
-
-
-
-

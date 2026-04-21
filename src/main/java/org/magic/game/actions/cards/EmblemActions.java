@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;
@@ -19,9 +18,8 @@ public class EmblemActions extends AbstractCardAction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-
 	public EmblemActions(DisplayableCard card) {
-		super(card,"Generate a emblem");
+		super(card, "Generate a emblem");
 		putValue(SHORT_DESCRIPTION, "Generate a emblem");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}
@@ -37,7 +35,7 @@ public class EmblemActions extends AbstractCardAction {
 			GamePanelGUI.getInstance().getPanelBattleField().repaint();
 			GamePanelGUI.getInstance().getPlayer().logAction("generate " + tok + " emblem");
 		} catch (Exception ex) {
-			logger.error("error",ex);
+			logger.error("error", ex);
 		}
 
 	}

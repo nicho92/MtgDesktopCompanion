@@ -1,10 +1,8 @@
 package org.magic.gui.components.dialog.importer;
 
 import java.util.List;
-
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.interfaces.MTGDao;
@@ -26,29 +24,26 @@ public class SealedStockChooseDialog extends AbstractDelegatedImporterDialog<MTG
 		var model = new SealedStockTableModel();
 		table = UITools.createNewTable(model, true);
 		var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		
-		
-		var sw2 = new AbstractObservableWorker<List<MTGSealedStock>, MTGSealedStock, MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class))
-		{
+
+		var sw2 = new AbstractObservableWorker<List<MTGSealedStock>, MTGSealedStock, MTGDao>(buzy,
+				MTG.getEnabledPlugin(MTGDao.class)) {
 
 			@Override
 			protected List<MTGSealedStock> doInBackground() throws Exception {
 				return plug.listSealedStocks();
 			}
-			
+
 			@Override
 			protected void done() {
 				super.done();
 				model.init(getResult());
 			}
 		};
-		
+
 		commandePanel.add(buzy);
-		
-		ThreadManager.getInstance().runInEdt(sw2,"loading sealed stocks");
-	
-		
-		
+
+		ThreadManager.getInstance().runInEdt(sw2, "loading sealed stocks");
+
 		return new JScrollPane(table);
 	}
 	@Override

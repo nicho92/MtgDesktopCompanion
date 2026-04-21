@@ -10,8 +10,6 @@ public class AdminWebDashboardServer extends AbstractWebServer {
 		return MTGConstants.ADMINUI_LOCATION;
 	}
 
-
-
 	@Override
 	public String description() {
 		return "Web server administration dashboard";

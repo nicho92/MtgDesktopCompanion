@@ -8,7 +8,6 @@ public class CardsDeckSorter implements MTGComparator<MTGCard> {
 
 	private MTGDeck deck;
 
-
 	@Override
 	public String toString() {
 		return "Deck Sorter";
@@ -16,26 +15,21 @@ public class CardsDeckSorter implements MTGComparator<MTGCard> {
 
 	@Override
 	public int compare(MTGCard o1, MTGCard o2) {
-		var ret =0;
-		try
-		{
+		var ret = 0;
+		try {
 			ret = test(o1, o2);
 			if (ret == 0)
 				ret = name(o1, o2);
-		}
-		catch(Exception _)
-		{
+		} catch (Exception _) {
 			ret = 0;
 		}
 
 		return ret;
 	}
 
-	public CardsDeckSorter(MTGDeck d)
-	{
-		this.deck=d;
+	public CardsDeckSorter(MTGDeck d) {
+		this.deck = d;
 	}
-
 
 	private int test(MTGCard o1, MTGCard o2) {
 
@@ -72,38 +66,32 @@ public class CardsDeckSorter implements MTGComparator<MTGCard> {
 	@Override
 	public int getWeight(MTGCard mc) {
 
-
-
-		if(deck.getCommander()==mc)
+		if (deck.getCommander() == mc)
 			return 0;
 
-		if(mc.isPlaneswalker())
+		if (mc.isPlaneswalker())
 			return 1;
 
-		if(mc.isCreature() && !mc.isArtifact())
+		if (mc.isCreature() && !mc.isArtifact())
 			return 2;
 
-		if(mc.isArtifact())
+		if (mc.isArtifact())
 			return 3;
 
-		if(mc.isRitual())
+		if (mc.isRitual())
 			return 4;
 
-		if(mc.isInstant())
+		if (mc.isInstant())
 			return 5;
 
-
-		if(mc.isEnchantment())
+		if (mc.isEnchantment())
 			return 6;
 
-
-
-		if(mc.isLand() && !mc.isBasicLand())
+		if (mc.isLand() && !mc.isBasicLand())
 			return 7;
 
-		if(mc.isBasicLand())
+		if (mc.isBasicLand())
 			return land(mc);
-
 
 		return 100;
 	}

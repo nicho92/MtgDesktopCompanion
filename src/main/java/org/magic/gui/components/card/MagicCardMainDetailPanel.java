@@ -12,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,7 +26,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;
@@ -49,12 +47,8 @@ import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
+public class MagicCardMainDetailPanel extends JPanel implements Observer {
 
-
-public class MagicCardMainDetailPanel extends JPanel  implements Observer {
-	
-	
-	
 	private static final long serialVersionUID = 1L;
 	private JTextField txtName;
 	private JTextField txtTypes;
@@ -74,30 +68,28 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	private JLabel lblNumber;
 	private boolean thumbnail = false;
 	private JList<MTGFormat> lstFormats;
-	private boolean enableCollectionLookup=true;
+	private boolean enableCollectionLookup = true;
 	private JList<MTGCollection> lstCollections;
 	private transient Logger logger = MTGLogger.getLogger(MagicCardMainDetailPanel.class);
 	private MTGCard magicCard;
 	private JCheckBox chkRetro;
 	private JLabel lblAuthor;
-	private boolean face=false;
-	
+	private boolean face = false;
+
 	public String getTitle() {
 		return "DETAILS";
 	}
-	
-	
+
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_DETAILS;
 	}
-	
-	
+
 	public void enableThumbnail(boolean val) {
 		thumbnail = val;
 	}
-	
+
 	private void setEditable(boolean b) {
-		
+
 		txtName.setEditable(b);
 		txtTypes.setEditable(b);
 		txtPower.setEditable(b);
@@ -105,160 +97,139 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtRarity.setEditable(b);
 		txtText.setEditable(b);
 	}
-	
-	
 
-	public void init(MTGCard mc)
-	{
+	public void init(MTGCard mc) {
 		lblThumbnail.setCursor(Cursor.getDefaultCursor());
-	
-		for(var l : lblThumbnail.getMouseListeners())
+
+		for (var l : lblThumbnail.getMouseListeners())
 			lblThumbnail.removeMouseListener(l);
-		
-		
-		if(mc==null)
+
+		if (mc == null)
 			return;
-		
-		
-		this.magicCard=mc;
-		
+
+		this.magicCard = mc;
+
 		fillField(mc);
-		
+
 		((DefaultListModel<MTGFormat>) lstFormats.getModel()).removeAllElements();
 		mc.getLegalities().forEach(((DefaultListModel<MTGFormat>) lstFormats.getModel())::addElement);
-		
-		if(thumbnail)
-		{
+
+		if (thumbnail) {
 			loadPics(mc);
 			lblAuthor.setText(mc.getArtist());
-			
-			
-			if(mc.isDoubleFaced()) 
-			{
-					lblThumbnail.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					lblThumbnail.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							if(face)
-							{
-								loadPics(mc);
-								fillField(mc);
-							}
-							else
-							{
-								loadPics(mc.getRotatedCard());
-								fillField(mc.getRotatedCard());
-							}
-							face=!face;
+
+			if (mc.isDoubleFaced()) {
+				lblThumbnail.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				lblThumbnail.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if (face) {
+							loadPics(mc);
+							fillField(mc);
+						} else {
+							loadPics(mc.getRotatedCard());
+							fillField(mc.getRotatedCard());
 						}
-						
-					});
+						face = !face;
+					}
+
+				});
 			}
 		}
-		
-		
-		if (enableCollectionLookup && !mc.getEditions().isEmpty()){
-			var sw = new SwingWorker<List<MTGCollection>, Void>(){
-							@Override
-							protected List<MTGCollection> doInBackground() throws Exception {
-								return getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
-							}
 
-							@Override
-							protected void done() {
-								((DefaultListModel<MTGCollection>)lstCollections.getModel()).removeAllElements();
-								try {
-									get().forEach(((DefaultListModel<MTGCollection>)lstCollections.getModel())::addElement);
-								} catch (InterruptedException _) {
-									Thread.currentThread().interrupt();
-								} catch (Exception e) {
-									logger.error(e);
-								}
-							}
+		if (enableCollectionLookup && !mc.getEditions().isEmpty()) {
+			var sw = new SwingWorker<List<MTGCollection>, Void>() {
+				@Override
+				protected List<MTGCollection> doInBackground() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
+				}
 
-					};
+				@Override
+				protected void done() {
+					((DefaultListModel<MTGCollection>) lstCollections.getModel()).removeAllElements();
+					try {
+						get().forEach(((DefaultListModel<MTGCollection>) lstCollections.getModel())::addElement);
+					} catch (InterruptedException _) {
+						Thread.currentThread().interrupt();
+					} catch (Exception e) {
+						logger.error(e);
+					}
+				}
+
+			};
 			ThreadManager.getInstance().runInEdt(sw, "loadCollections");
 		}
 
 		if (enableCollectionLookup) {
-			var sw = new SwingWorker<Boolean, Void>()
-					{
+			var sw = new SwingWorker<Boolean, Void>() {
 
-						@Override
-						protected Boolean doInBackground() throws Exception {
-							return getEnabledPlugin(MTGDao.class).hasAlert(mc)!=null;
+				@Override
+				protected Boolean doInBackground() throws Exception {
+					return getEnabledPlugin(MTGDao.class).hasAlert(mc) != null;
+				}
+
+				@Override
+				protected void done() {
+
+					try {
+						if (get().booleanValue()) {
+							btnAlert.setToolTipText(capitalize("HAD_ALERT"));
+							btnAlert.setEnabled(false);
+						} else {
+							btnAlert.setToolTipText(capitalize("ADD_ALERT_FOR", mc.getName()));
+							btnAlert.setEnabled(true);
 						}
+					} catch (InterruptedException _) {
+						Thread.currentThread().interrupt();
+					} catch (Exception e) {
+						logger.error(e);
+					}
 
-						@Override
-						protected void done() {
+				}
 
-							try {
-								if (get().booleanValue()) {
-									btnAlert.setToolTipText(capitalize("HAD_ALERT"));
-									btnAlert.setEnabled(false);
-								} else {
-									btnAlert.setToolTipText(capitalize("ADD_ALERT_FOR",mc.getName()));
-									btnAlert.setEnabled(true);
-								}
-							} catch (InterruptedException _) {
-								Thread.currentThread().interrupt();
-							} catch (Exception e) {
-								logger.error(e);
-							}
-
-						}
-
-					};
+			};
 			ThreadManager.getInstance().runInEdt(sw, "Get alerts for " + mc);
 		}
 	}
-	
-	
-	
-	
-	
+
 	private void fillField(MTGCard mc) {
 		txtName.setText(mc.getName());
 		txtTypes.setText(mc.getFullType());
 		txtFlavor.setText(mc.getFlavor());
 		txtRarity.setText(mc.getRarity().toPrettyString());
 		txtText.setText(mc.getText());
-		
+
 		chkReserved.setSelected(mc.isReserved());
 		chkBorderless.setSelected(mc.isBorderLess());
 		chkExtended.setSelected(mc.isExtendedArt());
 		chkShowcase.setSelected(mc.isShowCase());
 		chkRetro.setSelected(mc.isRetro());
-		
-		
-		if(mc.isCreature() || mc.isVehicule())
-			txtPower.setText(mc.getPower()+"/"+mc.getToughness());
+
+		if (mc.isCreature() || mc.isVehicule())
+			txtPower.setText(mc.getPower() + "/" + mc.getToughness());
 		else if (mc.isPlaneswalker())
-			txtPower.setText(""+mc.getLoyalty());
+			txtPower.setText("" + mc.getLoyalty());
 		else if (mc.isSiege())
-			txtPower.setText(""+mc.getDefense());
+			txtPower.setText("" + mc.getDefense());
 		else
 			txtPower.setText("");
-		
-		manaCostPanel.setManaCost(mc.getCost());
-		
-		int showCount = mc.getEdition().getCardCountOfficial();
-		if(showCount<=0)
-				showCount=mc.getEdition().getCardCount();
 
-		lblNumber.setText(mc.getNumber() + "/"+ showCount);
+		manaCostPanel.setManaCost(mc.getCost());
+
+		int showCount = mc.getEdition().getCardCountOfficial();
+		if (showCount <= 0)
+			showCount = mc.getEdition().getCardCount();
+
+		lblNumber.setText(mc.getNumber() + "/" + showCount);
 		txtText.updateTextWithIcons();
 
 	}
 
-
 	protected void loadPics(MTGCard mc) {
 
 		var d = MTGControler.getInstance().getPictureProviderDimension().getDimension();
-		
-		
-		var sw = new SwingWorker<ImageIcon, Void>()
-		{
+
+		var sw = new SwingWorker<ImageIcon, Void>() {
 			@Override
 			protected ImageIcon doInBackground() throws Exception {
 				return new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getPicture(mc));
@@ -267,33 +238,30 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 			@Override
 			protected void done() {
 				try {
-						lblThumbnail.setIcon(ImageTools.resize(get(),d));
-				}
-				catch(InterruptedException _)
-				{
+					lblThumbnail.setIcon(ImageTools.resize(get(), d));
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
 				} catch (Exception e) {
-					lblThumbnail.setIcon(ImageTools.resize(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc)),d));
+					lblThumbnail.setIcon(ImageTools
+							.resize(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc)), d));
 					logger.error(e);
 				}
 
 			}
 		};
 
-		ThreadManager.getInstance().runInEdt(sw,"loading " + mc + " picture");
+		ThreadManager.getInstance().runInEdt(sw, "loading " + mc + " picture");
 	}
 
-	
-	
 	public MagicCardMainDetailPanel() {
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 127, 159, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 40, 90, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
+
 		txtName = new JTextField();
 		txtName.setToolTipText("Name");
 		var gbctxtName = new GridBagConstraints();
@@ -303,7 +271,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbctxtName.gridy = 0;
 		add(txtName, gbctxtName);
 		txtName.setColumns(10);
-		
+
 		manaCostPanel = new ManaPanel();
 		manaCostPanel.setToolTipText("Mana");
 		var gbcmanaCostPanel = new GridBagConstraints();
@@ -315,15 +283,14 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		btnAlert = new JButton(MTGConstants.ICON_ALERT);
 		btnCopy = new JButton(MTGConstants.ICON_COPY);
 		btnStock = new JButton(MTGConstants.ICON_STOCK);
-		
-		
+
 		var gbcpanelActions = new GridBagConstraints();
 		gbcpanelActions.insets = new Insets(0, 0, 5, 5);
 		gbcpanelActions.fill = GridBagConstraints.BOTH;
 		gbcpanelActions.gridx = 2;
 		gbcpanelActions.gridy = 0;
-		add(UITools.createFlowCenterPanel(btnAlert,btnCopy,btnStock),gbcpanelActions);
-				
+		add(UITools.createFlowCenterPanel(btnAlert, btnCopy, btnStock), gbcpanelActions);
+
 		txtTypes = new JTextField();
 		txtTypes.setToolTipText("Type");
 		var gbctxtTypes = new GridBagConstraints();
@@ -333,7 +300,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbctxtTypes.gridy = 1;
 		add(txtTypes, gbctxtTypes);
 		txtTypes.setColumns(10);
-		
+
 		txtRarity = new JTextField();
 		txtRarity.setToolTipText("Rarity");
 		txtRarity.setColumns(10);
@@ -343,7 +310,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbctxtRarity.gridx = 1;
 		gbctxtRarity.gridy = 1;
 		add(txtRarity, gbctxtRarity);
-		
+
 		lblThumbnail = new JLabel("");
 		var gbclblThumbnail = new GridBagConstraints();
 		gbclblThumbnail.fill = GridBagConstraints.HORIZONTAL;
@@ -352,7 +319,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbclblThumbnail.gridx = 2;
 		gbclblThumbnail.gridy = 1;
 		add(lblThumbnail, gbclblThumbnail);
-		
+
 		txtText = new MagicTextPane();
 		var gbctxtCardText = new GridBagConstraints();
 		gbctxtCardText.gridwidth = 2;
@@ -361,7 +328,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbctxtCardText.gridx = 0;
 		gbctxtCardText.gridy = 2;
 		add(txtText, gbctxtCardText);
-		
+
 		txtFlavor = new JTextArea();
 		txtFlavor.setFont(txtFlavor.getFont().deriveFont(Font.ITALIC));
 		txtFlavor.setLineWrap(true);
@@ -371,7 +338,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbctxtFlavour.gridx = 0;
 		gbctxtFlavour.gridy = 3;
 		add(txtFlavor, gbctxtFlavour);
-		
+
 		txtPower = new JTextField(10);
 		txtPower.setHorizontalAlignment(SwingConstants.CENTER);
 		txtPower.setToolTipText("Power");
@@ -381,58 +348,59 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbctxtPower.gridx = 1;
 		gbctxtPower.gridy = 3;
 		add(txtPower, gbctxtPower);
-		
-		
+
 		chkReserved = new JCheckBox("(Reserved)");
 		chkReserved.setToolTipText("Reserved");
 		chkBorderless = new JCheckBox("(Borderless)");
 		chkBorderless.setToolTipText("Borderless");
 		chkShowcase = new JCheckBox("(Showcase)");
 		chkShowcase.setToolTipText("Showcase");
-		chkExtended= new JCheckBox("(Extended)");
+		chkExtended = new JCheckBox("(Extended)");
 		chkExtended.setToolTipText("Extended");
 		chkRetro = new JCheckBox("(Retro)");
 		chkRetro.setToolTipText("Retro");
-		
-			 
+
 		var gbcchkReserved = new GridBagConstraints();
 		gbcchkReserved.anchor = GridBagConstraints.WEST;
 		gbcchkReserved.insets = new Insets(0, 0, 0, 5);
 		gbcchkReserved.gridx = 0;
 		gbcchkReserved.gridy = 6;
-		add(UITools.createFlowPanel(chkReserved,new JSeparator(),chkBorderless,chkShowcase,chkExtended), gbcchkReserved);
-		
-		
+		add(UITools.createFlowPanel(chkReserved, new JSeparator(), chkBorderless, chkShowcase, chkExtended),
+				gbcchkReserved);
+
 		lblNumber = new JLabel("");
 		GridBagConstraints gbclblNumber = new GridBagConstraints();
 		gbclblNumber.insets = new Insets(0, 0, 5, 5);
 		gbclblNumber.gridx = 1;
 		gbclblNumber.gridy = 4;
 		add(lblNumber, gbclblNumber);
-		
+
 		lstFormats = new JList<>(new DefaultListModel<>());
 		lstFormats.setVisibleRowCount(4);
-		lstFormats.setCellRenderer((JList<? extends MTGFormat> _, MTGFormat obj, int _,boolean _, boolean _)->{
-		var l = new JLabel(obj.getFormat());
-					if(obj.getFormatLegality()!=null)
-					{
-						switch (obj.getFormatLegality()) 
-						{
-							case BANNED: l.setIcon(MTGConstants.ICON_SMALL_DELETE);break;
-							case LEGAL:l.setIcon(MTGConstants.ICON_SMALL_CHECK);break;
-							case NOT_LEGAL:l.setIcon(MTGConstants.ICON_SMALL_DELETE);break;
-							case RESTRICTED:l.setIcon(MTGConstants.ICON_SMALL_EQUALS);break;
-							default: break;
-						}
-						l.setToolTipText(obj.getFormat() + ":" + obj.getFormatLegality().name());
-					}
-				return l;
+		lstFormats.setCellRenderer((JList<? extends MTGFormat> _, MTGFormat obj, int _, boolean _, boolean _) -> {
+			var l = new JLabel(obj.getFormat());
+			if (obj.getFormatLegality() != null) {
+				switch (obj.getFormatLegality()) {
+					case BANNED :
+						l.setIcon(MTGConstants.ICON_SMALL_DELETE);
+						break;
+					case LEGAL :
+						l.setIcon(MTGConstants.ICON_SMALL_CHECK);
+						break;
+					case NOT_LEGAL :
+						l.setIcon(MTGConstants.ICON_SMALL_DELETE);
+						break;
+					case RESTRICTED :
+						l.setIcon(MTGConstants.ICON_SMALL_EQUALS);
+						break;
+					default :
+						break;
+				}
+				l.setToolTipText(obj.getFormat() + ":" + obj.getFormatLegality().name());
+			}
+			return l;
 		});
-		
-		
-		
-		
-		
+
 		var gbclstFormats = new GridBagConstraints();
 		gbclstFormats.gridheight = 2;
 		gbclstFormats.insets = new Insets(0, 0, 5, 5);
@@ -440,9 +408,10 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbclstFormats.gridx = 0;
 		gbclstFormats.gridy = 4;
 		add(new JScrollPane(lstFormats), gbclstFormats);
-		
+
 		lstCollections = new JList<>(new DefaultListModel<>());
-		lstCollections.setCellRenderer((JList<? extends MTGCollection> _, MTGCollection obj, int _,boolean _, boolean _)->new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT));
+		lstCollections.setCellRenderer((JList<? extends MTGCollection> _, MTGCollection obj, int _, boolean _,
+				boolean _) -> new JLabel(obj.getName(), MTGConstants.ICON_COLLECTION, SwingConstants.LEFT));
 
 		var gbclstCollections = new GridBagConstraints();
 		gbclstCollections.insets = new Insets(0, 0, 5, 5);
@@ -450,10 +419,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbclstCollections.gridx = 1;
 		gbclstCollections.gridy = 5;
 		add(new JScrollPane(lstCollections), gbclstCollections);
-		
-		
+
 		txtText.setBorder(txtName.getBorder());
-		
+
 		lblAuthor = new JLabel();
 		lblAuthor.setHorizontalAlignment(SwingConstants.CENTER);
 		var gbclblAuthor = new GridBagConstraints();
@@ -461,15 +429,12 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbclblAuthor.gridx = 2;
 		gbclblAuthor.gridy = 6;
 		add(lblAuthor, gbclblAuthor);
-		
-		
+
 		btnAlert.addActionListener(_ -> {
 			var alert = new MTGAlert();
 			alert.setCard(magicCard);
-			String price = JOptionPane.showInputDialog(null,
-					capitalize("SELECT_MAXIMUM_PRICE"),
-					capitalize("ADD_ALERT_FOR", magicCard),
-					JOptionPane.QUESTION_MESSAGE);
+			String price = JOptionPane.showInputDialog(null, capitalize("SELECT_MAXIMUM_PRICE"),
+					capitalize("ADD_ALERT_FOR", magicCard), JOptionPane.QUESTION_MESSAGE);
 			alert.setPrice(UITools.parseDouble(price));
 
 			try {
@@ -480,21 +445,22 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 				MTGControler.getInstance().notify(e);
 			}
 		});
-		
+
 		btnCopy.addActionListener(_ -> {
 			try {
-				MTG.getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).exportDeck(MTGDeck.toDeck(Arrays.asList(magicCard)),null);
-				
+				MTG.getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME, MTGCardsExport.class)
+						.exportDeck(MTGDeck.toDeck(Arrays.asList(magicCard)), null);
+
 			} catch (Exception e) {
 				logger.error(e);
 				MTGControler.getInstance().notify(e);
 			}
 		});
-		
+
 		btnStock.addActionListener(_ -> {
-			if(magicCard==null)
-				return ;
-			
+			if (magicCard == null)
+				return;
+
 			var st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(magicCard);
 			try {
@@ -507,7 +473,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		});
 		setEditable(false);
 	}
-	
 
 	@Override
 	public void update(Observable o, Object ob) {
@@ -517,9 +482,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	public void enableCollectionLookup(boolean b) {
 		enableCollectionLookup = b;
 		lstCollections.setVisible(b);
-		
-		
-	}
-	
-}
 
+	}
+
+}

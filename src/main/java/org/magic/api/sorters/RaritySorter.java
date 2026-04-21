@@ -24,18 +24,24 @@ public class RaritySorter implements MTGComparator<MTGCard> {
 
 	@Override
 	public int getWeight(MTGCard mc) {
-		switch(mc.getRarity())
-		{
+		switch (mc.getRarity()) {
 
-		case COMMON: return 1;
-		case UNCOMMON:return 2;
-		case RARE: return 3;
-		case MYTHIC: return 4;
-		case SPECIAL: return 5;
-		case BONUS: return 6;
-		default : return 1;
+			case COMMON :
+				return 1;
+			case UNCOMMON :
+				return 2;
+			case RARE :
+				return 3;
+			case MYTHIC :
+				return 4;
+			case SPECIAL :
+				return 5;
+			case BONUS :
+				return 6;
+			default :
+				return 1;
 		}
-		
+
 	}
 
 }

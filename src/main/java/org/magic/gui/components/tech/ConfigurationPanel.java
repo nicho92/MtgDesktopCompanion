@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,7 +38,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
@@ -115,8 +113,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JCheckBox chckbxScript;
 
 	public void loading(boolean show, String text) {
-		if (show) 
-		{
+		if (show) {
 			lblLoading.start();
 			lblLoading.setText(text);
 		} else {
@@ -124,8 +121,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		}
 	}
 
-	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager2 layout,boolean collapsed)
-	{
+	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager2 layout, boolean collapsed) {
 		var pane = new JXTaskPane();
 		pane.setTitle(capitalize(keyName));
 		pane.setIcon(ic);
@@ -134,75 +130,71 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		return pane;
 	}
 
-
-
 	public ConfigurationPanel() {
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 
-///CONFIG PANEL BOX
+		///CONFIG PANEL BOX
 
+		var daoPanelLayout = new GridBagLayout();
+		daoPanelLayout.columnWidths = new int[]{172, 130, 0, 0};
+		daoPanelLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		daoPanelLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		daoPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 
-					var daoPanelLayout = new GridBagLayout();
-					daoPanelLayout.columnWidths = new int[] { 172, 130, 0, 0 };
-					daoPanelLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-					daoPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-					daoPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		var configPanelLayout = new GridBagLayout();
+		configPanelLayout.columnWidths = new int[]{0, 0, 0, 0};
+		configPanelLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		configPanelLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		configPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 
-					var configPanelLayout = new GridBagLayout();
-					configPanelLayout.columnWidths = new int[] { 0, 0, 0, 0 };
-					configPanelLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-					configPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-					configPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		var websitePanelLayout = new GridBagLayout();
+		websitePanelLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
+		websitePanelLayout.rowHeights = new int[]{0, 0, 0};
+		websitePanelLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		websitePanelLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 
-					var websitePanelLayout = new GridBagLayout();
-					websitePanelLayout.columnWidths = new int[] { 0, 0, 0, 0, 0 };
-					websitePanelLayout.rowHeights = new int[] { 0, 0, 0 };
-					websitePanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-					websitePanelLayout.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		var gameProfilPanelLayout = new GridBagLayout();
+		gameProfilPanelLayout.columnWidths = new int[]{0, 71, 0, 0};
+		gameProfilPanelLayout.rowHeights = new int[]{0, 0, 29, 0, 0};
+		gameProfilPanelLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gameProfilPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 
-					var gameProfilPanelLayout = new GridBagLayout();
-					gameProfilPanelLayout.columnWidths = new int[] { 0, 71, 0, 0 };
-					gameProfilPanelLayout.rowHeights = new int[] { 0, 0, 29, 0, 0 };
-					gameProfilPanelLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-					gameProfilPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		var modulesPanelLayout = new GridBagLayout();
+		modulesPanelLayout.columnWidths = new int[]{0, 0, 0, 103, 0, 121, 0, 0};
+		modulesPanelLayout.rowHeights = new int[]{0, 0, 0, 0,};
+		modulesPanelLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		modulesPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 
-					var modulesPanelLayout = new GridBagLayout();
-					modulesPanelLayout.columnWidths = new int[] { 0, 0, 0, 103, 0, 121, 0, 0 };
-					modulesPanelLayout.rowHeights = new int[] { 0, 0, 0, 0,  };
-					modulesPanelLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-					modulesPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		var currencyPanelLayout = new GridBagLayout();
+		currencyPanelLayout.columnWidths = new int[]{106, 67, 0, 0};
+		currencyPanelLayout.rowHeights = new int[]{23, 0, 0, 0};
+		currencyPanelLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		currencyPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 
-					var currencyPanelLayout = new GridBagLayout();
-					currencyPanelLayout.columnWidths = new int[] { 106, 67, 0, 0 };
-					currencyPanelLayout.rowHeights = new int[] { 23, 0, 0, 0 };
-					currencyPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-					currencyPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		var guiPanelLayout = new GridBagLayout();
+		guiPanelLayout.columnWidths = new int[]{188, 38, 0, 0};
+		guiPanelLayout.rowHeights = new int[]{23, 0, 0, 0, 0, 0, 0, 0};
+		guiPanelLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
+		guiPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 
-					var guiPanelLayout = new GridBagLayout();
-					guiPanelLayout.columnWidths = new int[] { 188, 38, 0, 0 };
-					guiPanelLayout.rowHeights = new int[] { 23, 0, 0, 0, 0, 0, 0, 0 };
-					guiPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
-					guiPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-					
-					var networkPanelLayout = new GridBagLayout();
-					networkPanelLayout.columnWidths = new int[] { 188, 38, 0, 0 };
-					networkPanelLayout.rowHeights = new int[] { 23, 0, 0, 0, 0, 0, 0, 0 };
-					networkPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
-					networkPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		var networkPanelLayout = new GridBagLayout();
+		networkPanelLayout.columnWidths = new int[]{188, 38, 0, 0};
+		networkPanelLayout.rowHeights = new int[]{23, 0, 0, 0, 0, 0, 0, 0};
+		networkPanelLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
+		networkPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 
-		var panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout,true);
-		var panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout,false);
-		var panelLogs = createBoxPanel("LOG",MTGConstants.ICON_TAB_RULES,new BorderLayout(),true);
-		var panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE_24,websitePanelLayout,true);
-		var panelGameProfil = createBoxPanel("GAME",MTGConstants.ICON_TAB_GAME,gameProfilPanelLayout,true);
-		var panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout,true);
-		var panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout,true);
-		var panelGUI = createBoxPanel("GUI",MTGConstants.ICON_TAB_PICTURE,guiPanelLayout,true);
-		var panelAccounts = createBoxPanel("ACCOUNTS",MTGConstants.ICON_TAB_LOCK,new BorderLayout(),true);
-		var panelNetworks = createBoxPanel("NETWORKS",MTGConstants.ICON_TAB_NETWORK,networkPanelLayout,true);
-
+		var panelDAO = createBoxPanel("DATABASES", MTGConstants.ICON_TAB_DAO, daoPanelLayout, true);
+		var panelConfig = createBoxPanel("CONFIGURATION", MTGConstants.ICON_TAB_ADMIN, configPanelLayout, false);
+		var panelLogs = createBoxPanel("LOG", MTGConstants.ICON_TAB_RULES, new BorderLayout(), true);
+		var panelWebSite = createBoxPanel("WEBSITE", MTGConstants.ICON_WEBSITE_24, websitePanelLayout, true);
+		var panelGameProfil = createBoxPanel("GAME", MTGConstants.ICON_TAB_GAME, gameProfilPanelLayout, true);
+		var panelModule = createBoxPanel("Modules", MTGConstants.ICON_TAB_PLUGIN, modulesPanelLayout, true);
+		var panelCurrency = createBoxPanel("CURRENCY", MTGConstants.ICON_TAB_PRICES, currencyPanelLayout, true);
+		var panelGUI = createBoxPanel("GUI", MTGConstants.ICON_TAB_PICTURE, guiPanelLayout, true);
+		var panelAccounts = createBoxPanel("ACCOUNTS", MTGConstants.ICON_TAB_LOCK, new BorderLayout(), true);
+		var panelNetworks = createBoxPanel("NETWORKS", MTGConstants.ICON_TAB_NETWORK, networkPanelLayout, true);
 
 		add(panelConfig);
 		add(panelGUI);
@@ -215,35 +207,30 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		add(panelCurrency);
 		add(panelLogs);
 
-
-		var gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 4);
+		var gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 4);
 		gbclblLoading.gridwidth = 2;
-		add(lblLoading,gbclblLoading);
+		add(lblLoading, gbclblLoading);
 
+		///ACCOUNT BOX
+		panelAccounts.add(new MTGAuthenticatorEditor(), BorderLayout.CENTER);
 
-
-///ACCOUNT BOX
-		panelAccounts.add(new MTGAuthenticatorEditor(),BorderLayout.CENTER);
-
-
-
-///LOG BOX
+		///LOG BOX
 		cboLogLevels = UITools.createCombobox(MTGLogger.getLevels());
 
 		var panelMainLogger = new JPanel();
-			  panelMainLogger.add(new JLangLabel("LOG_LEVEL"));
-			  panelMainLogger.add(cboLogLevels);
+		panelMainLogger.add(new JLangLabel("LOG_LEVEL"));
+		panelMainLogger.add(cboLogLevels);
 
-			var model = new MapTableModel<String,Level>() {
+		var model = new MapTableModel<String, Level>() {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void setValueAt(Object aValue, int row, int column) {
-				MTGLogger.changeLevel(MTGLogger.getLogger(items.get(row).getKey()),aValue.toString());
+				MTGLogger.changeLevel(MTGLogger.getLogger(items.get(row).getKey()), aValue.toString());
 				items.get(row).setValue(Level.toLevel(aValue.toString()));
 			}
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
-				if(columnIndex==1)
+				if (columnIndex == 1)
 					return Level.class;
 
 				return super.getColumnClass(columnIndex);
@@ -253,161 +240,168 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		model.setWritable(true);
 
-		for( var g : MTGLogger.getLoggers().stream().filter(l->!l.getName().startsWith("org.magic.")).toList())
+		for (var g : MTGLogger.getLoggers().stream().filter(l -> !l.getName().startsWith("org.magic.")).toList())
 			model.addRow(g.getName(), g.getLevel());
 
-		var tableLoggers = UITools.createNewTable(model,true);
-		panelLogs.add(panelMainLogger,BorderLayout.NORTH);
-		panelLogs.add(new JScrollPane(tableLoggers),BorderLayout.CENTER);
+		var tableLoggers = UITools.createNewTable(model, true);
+		panelLogs.add(panelMainLogger, BorderLayout.NORTH);
+		panelLogs.add(new JScrollPane(tableLoggers), BorderLayout.CENTER);
 
-
-///DAO BOX
-		var lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
+		///DAO BOX
+		var lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO", getEnabledPlugin(MTGDao.class)));
 		var btnDuplicate = new JButton((capitalize(EXPORT)));
-		var lblLocation = new JLangLabel("LOCATION",true);
+		var lblLocation = new JLangLabel("LOCATION", true);
 		var lbldbLocationValue = new JLabel(getEnabledPlugin(MTGDao.class).getDBLocation());
-		var lblSize = new JLangLabel("SIZE",true);
-		var lblSizeValue  = new JLabel();
+		var lblSize = new JLangLabel("SIZE", true);
+		var lblSizeValue = new JLabel();
 		var lblIndexation = new JLabel("Indexation : ");
 		var lblIndexSize = new JLabel(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
 		var btnIndexation = new JButton("Reindexation");
 		cboTargetDAO = UITools.createComboboxPlugins(MTGDao.class, true);
 		cboTargetDAO.removeItem(getEnabledPlugin(MTGDao.class));
 
-		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
-		panelDAO.add(cboTargetDAO, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
+		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 1));
+		panelDAO.add(cboTargetDAO, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 		panelDAO.add(btnDuplicate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 1));
-		panelDAO.add(lblLocation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
-		panelDAO.add(lbldbLocationValue, UITools.createGridBagConstraints(null, null,  1, 2));
-		panelDAO.add(lblSize, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
-		panelDAO.add(lblSizeValue, UITools.createGridBagConstraints(null, null,  1, 3));
+		panelDAO.add(lblLocation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 2));
+		panelDAO.add(lbldbLocationValue, UITools.createGridBagConstraints(null, null, 1, 2));
+		panelDAO.add(lblSize, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
+		panelDAO.add(lblSizeValue, UITools.createGridBagConstraints(null, null, 1, 3));
 		panelDAO.add(lblIndexation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 4));
 		panelDAO.add(lblIndexSize, UITools.createGridBagConstraints(null, null, 1, 4));
 		panelDAO.add(btnIndexation, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 4));
 
+		var sw = new SwingWorker<String, Void>() {
+			@Override
+			protected String doInBackground() throws Exception {
+				return UITools.humanReadableSize(
+						getEnabledPlugin(MTGDao.class).getDBSize().values().stream().mapToLong(Long::longValue).sum());
+			}
 
-		var sw = new SwingWorker<String, Void>()
-				{
-						@Override
-						protected String doInBackground() throws Exception {
-							return UITools.humanReadableSize(getEnabledPlugin(MTGDao.class).getDBSize().values().stream().mapToLong(Long::longValue).sum());
-						}
+			@Override
+			protected void done() {
+				try {
+					lblSizeValue.setText(get());
+				} catch (InterruptedException _) {
+					Thread.currentThread().interrupt();
+				} catch (ExecutionException e) {
+					logger.error(e);
+				}
 
-						@Override
-						protected void done() {
-							try {
-								lblSizeValue.setText(get());
-							} catch (InterruptedException _) {
-								Thread.currentThread().interrupt();
-							} catch (ExecutionException e) {
-								logger.error(e);
-							}
-
-						}
-				};
+			}
+		};
 		ThreadManager.getInstance().runInEdt(sw, "getting DB size");
 
-///CONFIG BOX
+		///CONFIG BOX
 		cboCollections = UITools.createComboboxCollection();
 
-		txtMinPrice = new JTextField(MTGControler.getInstance().get("min-price-alert"),25);
+		txtMinPrice = new JTextField(MTGControler.getInstance().get("min-price-alert"), 25);
 		var btnSavePrice = new JButton(capitalize("SAVE"));
 		var lblCleancache = new JLabel(capitalize("CLEAN_CACHE") + " :");
 		var btnClean = new JButton(capitalize("CLEAN"));
 		var btnAuditLog = new JButton(capitalize("LOG_CONFIG"));
-		
+
 		chckbxIconset = new JCheckBox(capitalize("IMG_SET"));
 		chckbxIconcards = new JCheckBox(capitalize("IMG_CARD"));
-		
+
 		var btnDefaultStock = new JButton(MTGConstants.ICON_TAB_STOCK);
 		var chkboxPrerelease = new JCheckBox();
 		var chkTechnicalLog = new JCheckBox();
 		var chknsfw = new JCheckBox();
-		
+
 		var btnExportConfig = new JButton(capitalize(EXPORT));
 		var btnImportConfig = new JButton(capitalize("IMPORT"));
 
-
 		chckbxIconset.setSelected(true);
 		chckbxIconcards.setSelected(true);
-		
 
-		chkboxPrerelease.getModel().setSelected( MTG.readPropertyAsBoolean("notifyPrerelease"));
+		chkboxPrerelease.getModel().setSelected(MTG.readPropertyAsBoolean("notifyPrerelease"));
 		chkTechnicalLog.setSelected(MTG.readPropertyAsBoolean("technical-log/enable"));
 		chknsfw.setSelected(MTG.readPropertyAsBoolean("allow-nsfw"));
 
-		panelConfig.add(new JLangLabel("MAIN_COLLECTION",true), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
-		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
-		panelConfig.add(new JLangLabel("SHOW_LOW_PRICES",true), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
-		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
+		panelConfig.add(new JLangLabel("MAIN_COLLECTION", true),
+				UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 0));
+		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
+		panelConfig.add(new JLangLabel("SHOW_LOW_PRICES", true),
+				UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
+		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 		panelConfig.add(btnSavePrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 3));
-		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 4));
-		panelConfig.add(UITools.createFlowPanel(chckbxIconset,chckbxIconcards), UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL,  1, 4));
+		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 4));
+		panelConfig.add(UITools.createFlowPanel(chckbxIconset, chckbxIconcards),
+				UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 1, 4));
 		panelConfig.add(btnClean, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 4));
-		panelConfig.add(new JLangLabel("DEFAULT_STOCK",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,0, 5));
-		
-		panelConfig.add(UITools.createFlowPanel(btnDefaultStock), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,1, 5));
-		panelConfig.add(new JLangLabel("CONFIG_BACKUP",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
-		panelConfig.add(UITools.createFlowPanel(btnExportConfig,btnImportConfig), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
+		panelConfig.add(new JLangLabel("DEFAULT_STOCK", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
 
-		panelConfig.add(new JLangLabel("UPDATE_PRERELEASE",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
+		panelConfig.add(UITools.createFlowPanel(btnDefaultStock),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
+		panelConfig.add(new JLangLabel("CONFIG_BACKUP", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
+		panelConfig.add(UITools.createFlowPanel(btnExportConfig, btnImportConfig),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
+
+		panelConfig.add(new JLangLabel("UPDATE_PRERELEASE", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
 		panelConfig.add(chkboxPrerelease, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 7));
 
-		panelConfig.add(new JLangLabel("TECHNICAL_SERVICE_LOG",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 8));
+		panelConfig.add(new JLangLabel("TECHNICAL_SERVICE_LOG", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 8));
 		panelConfig.add(chkTechnicalLog, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 8));
 		panelConfig.add(btnAuditLog, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 2, 8));
-		
-		
-		panelConfig.add(new JLangLabel("ALLOW_NSFW",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 9));
+
+		panelConfig.add(new JLangLabel("ALLOW_NSFW", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 9));
 		panelConfig.add(chknsfw, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 9));
 
+		///WEBSITE BOX
 
+		var txtdirWebsserver = new JTextFieldFileChooser(10, JFileChooser.DIRECTORIES_ONLY);
 
-///WEBSITE BOX
-
-		
-		var txtdirWebsserver = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY);
-		
 		var btnWebServerExport = new JButton(capitalize(EXPORT));
-		cboServers = UITools.createCombobox(MTG.listEnabledPlugins(MTGServer.class).stream().filter(AbstractWebServer.class::isInstance).toList());
+		cboServers = UITools.createCombobox(
+				MTG.listEnabledPlugins(MTGServer.class).stream().filter(AbstractWebServer.class::isInstance).toList());
 
-		panelWebSite.add(new JLangLabel("WEB_SERVER_UI",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 2));
-		panelWebSite.add(cboServers, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
-		panelWebSite.add(txtdirWebsserver, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
-		panelWebSite.add(btnWebServerExport, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 2));
+		panelWebSite.add(new JLangLabel("WEB_SERVER_UI", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
+		panelWebSite.add(cboServers, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 2));
+		panelWebSite.add(txtdirWebsserver, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
+		panelWebSite.add(btnWebServerExport,
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 2));
 
-
-///NETWORK BOX
+		///NETWORK BOX
 		var chkOnlineValidation = new JCheckBox();
 		chkOnlineValidation.setSelected(MTG.readPropertyAsBoolean("network-config/online-query"));
-		panelNetworks.add(new JLangLabel("NETWORK_VALIDATION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
+		panelNetworks.add(new JLangLabel("NETWORK_VALIDATION", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
 		panelNetworks.add(chkOnlineValidation, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 1));
-		
+
 		var chkOnlineAutoConnect = new JCheckBox();
 		chkOnlineAutoConnect.setSelected(MTG.readPropertyAsBoolean("network-config/online-autoconnect"));
-		panelNetworks.add(new JLangLabel("NETWORK_AUTOCONNECT",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
+		panelNetworks.add(new JLangLabel("NETWORK_AUTOCONNECT", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
 		panelNetworks.add(chkOnlineAutoConnect, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 2));
 
-///PROFIL BOX
+		///PROFIL BOX
 
-		var lblName = new JLangLabel("NAME",true);
-		txtName = new JTextField(MTGControler.getInstance().get("/game/player-profil/name"),10);
+		var lblName = new JLangLabel("NAME", true);
+		txtName = new JTextField(MTGControler.getInstance().get("/game/player-profil/name"), 10);
 		var lblAvatar = new JLabel("Avatar :");
 		lblIconAvatar = new JLabel();
 		lblIconAvatar.setBorder(new LineBorder(Color.RED, 1, true));
 		var gamePicsResizerPanel = new JResizerPanel(MTGControler.getInstance().getCardsGameDimension());
 		var btnSaveProfilGame = new JButton(capitalize("SAVE"));
 
-		panelGameProfil.add(lblName, UITools.createGridBagConstraints(GridBagConstraints.EAST, null,  0, 0));
-		panelGameProfil.add(txtName, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
-		panelGameProfil.add(lblAvatar, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 1));
-		panelGameProfil.add(lblIconAvatar, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  1, 1));
-		panelGameProfil.add(gamePicsResizerPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  2, 0));
-		panelGameProfil.add(btnSaveProfilGame,UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  3, 0));
+		panelGameProfil.add(lblName, UITools.createGridBagConstraints(GridBagConstraints.EAST, null, 0, 0));
+		panelGameProfil.add(txtName, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
+		panelGameProfil.add(lblAvatar, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
+		panelGameProfil.add(lblIconAvatar, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1));
+		panelGameProfil.add(gamePicsResizerPanel,
+				UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 0));
+		panelGameProfil.add(btnSaveProfilGame, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 0));
 
 		loadIcon();
 
-///MODULES BOX
+		///MODULES BOX
 
 		chckbxSearch = new JCheckBox(capitalize("SEARCH_MODULE"));
 		chckbxCollection = new JCheckBox("Collection");
@@ -424,11 +418,10 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxWallpaper = new JCheckBox(capitalize("WALLPAPER"));
 		chckbxSealed = new JCheckBox(capitalize("PACKAGES"));
 		chckbxShopping = new JCheckBox(capitalize("SHOP"));
-		chckbxAnnounce=  new JCheckBox(capitalize("ANNOUNCE"));
-		chckbxNetwork=  new JCheckBox(capitalize("NETWORK"));
-		chckbxScript=  new JCheckBox(capitalize("SCRIPTS"));
+		chckbxAnnounce = new JCheckBox(capitalize("ANNOUNCE"));
+		chckbxNetwork = new JCheckBox(capitalize("NETWORK"));
+		chckbxScript = new JCheckBox(capitalize("SCRIPTS"));
 
-		
 		chckbxStock.setSelected(MTG.readPropertyAsBoolean("modules/stock"));
 		chckbxAlert.setSelected(MTG.readPropertyAsBoolean("modules/alarm"));
 		chckbxGame.setSelected(MTG.readPropertyAsBoolean("modules/game"));
@@ -441,95 +434,107 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxAnnounce.setSelected(MTG.readPropertyAsBoolean("modules/announce"));
 		chckbxNetwork.setSelected(MTG.readPropertyAsBoolean("modules/network"));
 		chckbxScript.setSelected(MTG.readPropertyAsBoolean("modules/scripts"));
-		
-		
-		chckbxDashboard.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/dashboard", chckbxDashboard.isSelected()));
-		chckbxStock.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
-		chckbxAlert.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/alarm", chckbxAlert.isSelected()));
-		chckbxGame.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/game", chckbxGame.isSelected()));
-		chckbxDeckBuilder.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/deckbuilder", chckbxDeckBuilder.isSelected()));
+
+		chckbxDashboard.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/dashboard", chckbxDashboard.isSelected()));
+		chckbxStock.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
+		chckbxAlert.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/alarm", chckbxAlert.isSelected()));
+		chckbxGame
+				.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/game", chckbxGame.isSelected()));
+		chckbxDeckBuilder.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/deckbuilder", chckbxDeckBuilder.isSelected()));
 		chckbxRss.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/rss", chckbxRss.isSelected()));
-		chckbxWallpaper.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/wallpaper", chckbxWallpaper.isSelected()));
-		chckbxCardBuilder.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/cardbuilder", chckbxCardBuilder.isSelected()));
-		chckbxCollection.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/collection", chckbxCollection.isSelected()));
-		chckbxSearch.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
-		chckbxSealed.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/sealed",chckbxSealed.isSelected()));
-		chckbxShopping.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/webshop",chckbxShopping.isSelected()));
-		chckbxAnnounce.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/announce",chckbxAnnounce.isSelected()));
-		chckbxNetwork.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/network",chckbxNetwork.isSelected()));
-		chckbxScript.addItemListener(_ -> MTGControler.getInstance().setProperty("modules/scripts",chckbxScript.isSelected()));
+		chckbxWallpaper.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/wallpaper", chckbxWallpaper.isSelected()));
+		chckbxCardBuilder.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/cardbuilder", chckbxCardBuilder.isSelected()));
+		chckbxCollection.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/collection", chckbxCollection.isSelected()));
+		chckbxSearch.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
+		chckbxSealed.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/sealed", chckbxSealed.isSelected()));
+		chckbxShopping.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/webshop", chckbxShopping.isSelected()));
+		chckbxAnnounce.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/announce", chckbxAnnounce.isSelected()));
+		chckbxNetwork.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/network", chckbxNetwork.isSelected()));
+		chckbxScript.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("modules/scripts", chckbxScript.isSelected()));
 
-		panelModule.add(chckbxSearch, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 0));
-		panelModule.add(chckbxCollection, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 0));
-		panelModule.add(chckbxStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 0));
-		panelModule.add(chckbxAlert, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 0));
-		panelModule.add(chckbxDashboard, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 1));
-		panelModule.add(chckbxGame, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 1));
-		panelModule.add(chckbxRss, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 1));
-		panelModule.add(chckbxNetwork, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 2));
-		panelModule.add(chckbxWallpaper, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 1));
-		panelModule.add(chckbxDeckBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 2));
-		panelModule.add(chckbxCardBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 2));
-		panelModule.add(chckbxSealed, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 3));
-		panelModule.add(chckbxShopping, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 3));
-		panelModule.add(chckbxAnnounce, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 3));
-		panelModule.add(chckbxScript, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 3));
-		
+		panelModule.add(chckbxSearch, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 0));
+		panelModule.add(chckbxCollection, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 3, 0));
+		panelModule.add(chckbxStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 5, 0));
+		panelModule.add(chckbxAlert, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 6, 0));
+		panelModule.add(chckbxDashboard, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 1));
+		panelModule.add(chckbxGame, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 3, 1));
+		panelModule.add(chckbxRss, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 5, 1));
+		panelModule.add(chckbxNetwork, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 5, 2));
+		panelModule.add(chckbxWallpaper, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 6, 1));
+		panelModule.add(chckbxDeckBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 2));
+		panelModule.add(chckbxCardBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 3, 2));
+		panelModule.add(chckbxSealed, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 3));
+		panelModule.add(chckbxShopping, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 3, 3));
+		panelModule.add(chckbxAnnounce, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 5, 3));
+		panelModule.add(chckbxScript, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 6, 3));
 
+		///CURRENCY BOX
 
-///CURRENCY BOX
-
-		var lblCurrency = new JLangLabel("CURRENCY",true);
+		var lblCurrency = new JLangLabel("CURRENCY", true);
 		JComboBox<Currency> cboCurrency = UITools.createCombobox(new ArrayList<>(Currency.getAvailableCurrencies()));
 		var lclCodeCurrency = new JLabel("CurrencyLayer API code :");
-		var txtCurrencyFieldApiCode = new JTextField(MTGControler.getInstance().get("/currencylayer-access-api"),10);
+		var txtCurrencyFieldApiCode = new JTextField(MTGControler.getInstance().get("/currencylayer-access-api"), 10);
 		var btnSaveCode = new JButton(capitalize("SAVE"));
 		var btnUpdateCurrency = new JButton("Update Currency");
 		var chkEnablePriceConversion = new JCheckBox(capitalize("ENABLED"));
-		dateCurrencyCache = new JLabel(UITools.formatDate(MTGControler.getInstance().getCurrencyService().getCurrencyDateCache()));
+		dateCurrencyCache = new JLabel(
+				UITools.formatDate(MTGControler.getInstance().getCurrencyService().getCurrencyDateCache()));
 
 		if (MTGControler.getInstance().get(CURRENCY).isEmpty())
 			cboCurrency.setSelectedItem(Currency.getInstance(Locale.getDefault()));
 		else
 			cboCurrency.setSelectedItem(Currency.getInstance(MTGControler.getInstance().get(CURRENCY)));
 
-		panelCurrency.add(chkEnablePriceConversion, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
-		panelCurrency.add(lblCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 0));
-		panelCurrency.add(cboCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 0));
-		panelCurrency.add(lclCodeCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
-		panelCurrency.add(txtCurrencyFieldApiCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
-		panelCurrency.add(btnSaveCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 1));
-		panelCurrency.add(btnUpdateCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
-		panelCurrency.add(dateCurrencyCache, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
+		panelCurrency.add(chkEnablePriceConversion,
+				UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 0));
+		panelCurrency.add(lblCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 0));
+		panelCurrency.add(cboCurrency, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 0));
+		panelCurrency.add(lclCodeCurrency, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 1));
+		panelCurrency.add(txtCurrencyFieldApiCode,
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
+		panelCurrency.add(btnSaveCode, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 1));
+		panelCurrency.add(btnUpdateCurrency,
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 2));
+		panelCurrency.add(dateCurrencyCache,
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 
-
-
-///GUI BOX
+		///GUI BOX
 
 		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		var cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
-		
-		cboLocales.setRenderer((JList<? extends Locale> _, Locale value, int _, boolean _, boolean _)->
-			new JLabel(StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale())))
-		);
 
+		cboLocales.setRenderer((JList<? extends Locale> _, Locale value, int _, boolean _, boolean _) -> new JLabel(
+				StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale()))));
 
-		var lblCardsLanguage = new JLangLabel("CARD_LANGUAGE",true);
+		var lblCardsLanguage = new JLangLabel("CARD_LANGUAGE", true);
 		var cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
-		var lblLook = new JLangLabel("LOOK",true);
+		var lblLook = new JLangLabel("LOOK", true);
 		var cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
-		var lblPicsSize = new JLangLabel("THUMBNAIL_SIZE",true);
+		var lblPicsSize = new JLangLabel("THUMBNAIL_SIZE", true);
 		var btnSavePicSize = new JButton(capitalize("SAVE"));
 		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension().getDimension());
-		var lblShowJsonPanel = new JLangLabel("SHOW_OBJECT_PANEL",true);
+		var lblShowJsonPanel = new JLangLabel("SHOW_OBJECT_PANEL", true);
 		cbojsonView = new JCheckBox();
-		var lblShowTooltip = new JLangLabel("SHOW_TOOLTIP",true);
+		var lblShowTooltip = new JLangLabel("SHOW_TOOLTIP", true);
 		chkToolTip = new JCheckBox("");
-		var lblToolPosition = new JLangLabel("TAB_POSITION",true);
-		var cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
-		
-		var lblFont = new JLangLabel("FONT",true);
-		
+		var lblToolPosition = new JLangLabel("TAB_POSITION", true);
+		var cboToolPosition = UITools.createCombobox(new String[]{"TOP", "LEFT", "RIGHT", "BOTTOM"});
+
+		var lblFont = new JLangLabel("FONT", true);
+
 		var btnFontChoose = new JButton(MTGControler.getInstance().getFont().getFontName());
 		var chkEnabledAutocomplete = new JCheckBox();
 		var chkEnabledChrome = new JCheckBox();
@@ -539,49 +544,51 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkToolTip.getModel().setSelected(MTG.readPropertyAsBoolean("tooltip"));
 		cboLocales.getModel().setSelectedItem(MTGControler.getInstance().getLocale());
 		cboToolPosition.getModel().setSelectedItem(MTGControler.getInstance().get("ui/moduleTabPosition", "LEFT"));
-		chkEnabledAutocomplete.getModel().setSelected( MTG.readPropertyAsBoolean("autocompletion"));
-		chkEnabledChrome.getModel().setSelected( MTG.readPropertyAsBoolean("ui/chromedisabled"));
+		chkEnabledAutocomplete.getModel().setSelected(MTG.readPropertyAsBoolean("autocompletion"));
+		chkEnabledChrome.getModel().setSelected(MTG.readPropertyAsBoolean("ui/chromedisabled"));
 		chkEnablePriceConversion.getModel().setSelected(MTG.readPropertyAsBoolean("/currencylayer-converter-enable"));
 
-		panelGUI.add(lblGuiLocal, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
-		panelGUI.add(cboLocales, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
-		panelGUI.add(lblCardsLanguage, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
-		panelGUI.add(cboLanguages, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
-		panelGUI.add(lblLook,  UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
-		panelGUI.add(cboLook,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
-		panelGUI.add(lblPicsSize, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
-		panelGUI.add(resizerPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
-		panelGUI.add(btnSavePicSize, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 3));
-		panelGUI.add(lblShowJsonPanel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 4));
-		panelGUI.add(cbojsonView, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 4));
-		panelGUI.add(lblShowTooltip, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 5));
-		panelGUI.add(chkToolTip, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 5));
-		panelGUI.add(lblToolPosition, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 6));
-		panelGUI.add(cboToolPosition, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 6));
-		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 7));
-		panelGUI.add(UITools.createFlowPanel(btnFontChoose), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
-		panelGUI.add(new JLangLabel("ENABLE_AUTOCOMPLETION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
-		panelGUI.add(chkEnabledAutocomplete, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 8));
-		panelGUI.add(new JLangLabel("DISABLE_CHROME_RENDERING",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
-		panelGUI.add(chkEnabledChrome, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 9));
+		panelGUI.add(lblGuiLocal, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 0));
+		panelGUI.add(cboLocales, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
+		panelGUI.add(lblCardsLanguage, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 1));
+		panelGUI.add(cboLanguages, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
+		panelGUI.add(lblLook, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 2));
+		panelGUI.add(cboLook, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
+		panelGUI.add(lblPicsSize, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
+		panelGUI.add(resizerPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
+		panelGUI.add(btnSavePicSize, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 3));
+		panelGUI.add(lblShowJsonPanel, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 4));
+		panelGUI.add(cbojsonView, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
+		panelGUI.add(lblShowTooltip, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 5));
+		panelGUI.add(chkToolTip, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
+		panelGUI.add(lblToolPosition, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 6));
+		panelGUI.add(cboToolPosition, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
+		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 7));
+		panelGUI.add(UITools.createFlowPanel(btnFontChoose),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
+		panelGUI.add(new JLangLabel("ENABLE_AUTOCOMPLETION", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 8));
+		panelGUI.add(chkEnabledAutocomplete,
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
+		panelGUI.add(new JLangLabel("DISABLE_CHROME_RENDERING", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 9));
+		panelGUI.add(chkEnabledChrome, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 
-		panelGUI.add(new JLangLabel("SHORTKEYS_CONFIGURATION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
-		panelGUI.add(UITools.createFlowPanel(btnShortKeys), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 10));
+		panelGUI.add(new JLangLabel("SHORTKEYS_CONFIGURATION", true),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 10));
+		panelGUI.add(UITools.createFlowPanel(btnShortKeys),
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 
-
-		for(int i =0;i<cboLook.getItemCount();i++)
-		{
-			if(cboLook.getItemAt(i).getClassName().equals(MTGControler.getInstance().get("lookAndFeel")))
-			{
+		for (int i = 0; i < cboLook.getItemCount(); i++) {
+			if (cboLook.getItemAt(i).getClassName().equals(MTGControler.getInstance().get("lookAndFeel"))) {
 				cboLook.setSelectedIndex(i);
 				break;
 			}
 		}
 
-
-///EVENTS
-		btnShortKeys.addActionListener(_->MTGUIComponent.createJDialog(new ShortKeyManagerUI(),true,false).setVisible(true));
-
+		///EVENTS
+		btnShortKeys.addActionListener(
+				_ -> MTGUIComponent.createJDialog(new ShortKeyManagerUI(), true, false).setVisible(true));
 
 		cboToolPosition.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
@@ -594,7 +601,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem());
 		});
 
-
 		cboLocales.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().setProperty("locale", cboLocales.getSelectedItem());
@@ -605,9 +611,11 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				MTGControler.getInstance().setProperty(LANGAGE, cboLanguages.getSelectedItem().toString());
 		});
 
-		cboLook.addItemListener(ie ->{
+		cboLook.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
-				MTGControler.getInstance().getLafService().setLookAndFeel(SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem(),true);
+				MTGControler.getInstance().getLafService().setLookAndFeel(
+						SwingUtilities.getAncestorOfClass(JFrame.class, this),
+						(LookAndFeelInfo) cboLook.getSelectedItem(), true);
 		});
 
 		cboLogLevels.addItemListener(ie -> {
@@ -617,92 +625,100 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 
-		cbojsonView.addItemListener(_ -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
+		cbojsonView.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("debug-json-panel", cbojsonView.isSelected()));
 
-
-		btnExportConfig.addActionListener(_->{
+		btnExportConfig.addActionListener(_ -> {
 			try {
-				var f =  new File(MTGConstants.DATA_DIR,"config.backup.zip");
+				var f = new File(MTGConstants.DATA_DIR, "config.backup.zip");
 
 				FileTools.extractConfig(f);
 
-				MTGControler.getInstance().notify(new MTGNotification(EXPORT, "Export "+f, MESSAGE_TYPE.INFO));
+				MTGControler.getInstance().notify(new MTGNotification(EXPORT, "Export " + f, MESSAGE_TYPE.INFO));
 			} catch (IOException e2) {
 				MTGControler.getInstance().notify(e2);
 			}
 		});
 
-		
-		btnAuditLog.addActionListener(_->{
-			
+		btnAuditLog.addActionListener(_ -> {
+
 			var diag = new AuditLogDialog();
-			
+
 			diag.setVisible(true);
-			
+
 		});
-		
-		
-		btnImportConfig.addActionListener(_->{
+
+		btnImportConfig.addActionListener(_ -> {
 
 			var chooser = new JFileChooser(MTGConstants.DATA_DIR);
-				int res = chooser.showOpenDialog(null);
-				chooser.setFileFilter(new FileFilter() {
+			int res = chooser.showOpenDialog(null);
+			chooser.setFileFilter(new FileFilter() {
 
-					@Override
-					public String getDescription() {
-						return "Zip File";
-					}
-
-					@Override
-					public boolean accept(File f) {
-						return FilenameUtils.isExtension(f.getName(), "zip");
-					}
-				});
-
-				if(res == JFileChooser.APPROVE_OPTION)
-				{
-					try {
-						FileTools.unzip(chooser.getSelectedFile(),MTGConstants.CONF_DIR);
-						MTGControler.getInstance().notify(new MTGNotification("IMPORT", "Import config done", MESSAGE_TYPE.INFO));
-					} catch (IOException e1) {
-						MTGControler.getInstance().notify(e1);
-					}
+				@Override
+				public String getDescription() {
+					return "Zip File";
 				}
+
+				@Override
+				public boolean accept(File f) {
+					return FilenameUtils.isExtension(f.getName(), "zip");
+				}
+			});
+
+			if (res == JFileChooser.APPROVE_OPTION) {
+				try {
+					FileTools.unzip(chooser.getSelectedFile(), MTGConstants.CONF_DIR);
+					MTGControler.getInstance()
+							.notify(new MTGNotification("IMPORT", "Import config done", MESSAGE_TYPE.INFO));
+				} catch (IOException e1) {
+					MTGControler.getInstance().notify(e1);
+				}
+			}
 		});
 
 		cboCollections.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
-				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,cboCollections.getSelectedItem());
+				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY, cboCollections.getSelectedItem());
 		});
 
-
-		btnSavePrice.addActionListener(_ -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
+		btnSavePrice.addActionListener(
+				_ -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
 
 		btnSavePicSize.addActionListener(_ -> {
-			MTGControler.getInstance().setProperty("/card-pictures-dimension/width",(int) resizerPanel.getDimension().getWidth());
-			MTGControler.getInstance().setProperty("/card-pictures-dimension/height",(int) resizerPanel.getDimension().getHeight());
+			MTGControler.getInstance().setProperty("/card-pictures-dimension/width",
+					(int) resizerPanel.getDimension().getWidth());
+			MTGControler.getInstance().setProperty("/card-pictures-dimension/height",
+					(int) resizerPanel.getDimension().getHeight());
 			resizerPanel.setValue(0);
 			getEnabledPlugin(MTGPictureProvider.class).setSize(resizerPanel.getDimension());
 		});
 
-
-		chkEnablePriceConversion.addItemListener(_ -> MTGControler.getInstance().setProperty("currencylayer-converter-enable", chkEnablePriceConversion.isSelected()));
+		chkEnablePriceConversion.addItemListener(_ -> MTGControler.getInstance()
+				.setProperty("currencylayer-converter-enable", chkEnablePriceConversion.isSelected()));
 
 		chkToolTip.addItemListener(_ -> MTGControler.getInstance().setProperty("tooltip", chkToolTip.isSelected()));
-		chkEnabledAutocomplete.addItemListener(_ -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
-		chkEnabledChrome.addItemListener(_ -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
-		chkboxPrerelease.addItemListener(_ -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
-		chkTechnicalLog.addItemListener(_ -> MTGControler.getInstance().setProperty("technical-log/enable", chkTechnicalLog.isSelected()));
-		chkOnlineValidation.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-query", chkOnlineValidation.isSelected()));
-		chkOnlineAutoConnect.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-autoconnect", chkOnlineAutoConnect.isSelected()));
+		chkEnabledAutocomplete.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
+		chkEnabledChrome.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
+		chkboxPrerelease.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
+		chkTechnicalLog.addItemListener(
+				_ -> MTGControler.getInstance().setProperty("technical-log/enable", chkTechnicalLog.isSelected()));
+		chkOnlineValidation.addItemListener(_ -> MTGControler.getInstance().setProperty("network-config/online-query",
+				chkOnlineValidation.isSelected()));
+		chkOnlineAutoConnect.addItemListener(_ -> MTGControler.getInstance()
+				.setProperty("network-config/online-autoconnect", chkOnlineAutoConnect.isSelected()));
 		chknsfw.addItemListener(_ -> MTGControler.getInstance().setProperty("allow-nsfw", chknsfw.isSelected()));
-		
-		btnSaveCode.addActionListener(_ -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
+
+		btnSaveCode.addActionListener(_ -> MTGControler.getInstance().setProperty("currencylayer-access-api",
+				txtCurrencyFieldApiCode.getText()));
 		btnUpdateCurrency.addActionListener(_ -> {
 			try {
 				MTGControler.getInstance().getCurrencyService().clean();
 				MTGControler.getInstance().getCurrencyService().init();
-				dateCurrencyCache.setText(UITools.formatDate(MTGControler.getInstance().getCurrencyService().getCurrencyDateCache()));
+				dateCurrencyCache.setText(
+						UITools.formatDate(MTGControler.getInstance().getCurrencyService().getCurrencyDateCache()));
 			} catch (IOException e) {
 				logger.error(e);
 			}
@@ -719,7 +735,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			GamePanelGUI.getInstance().getHandPanel().setSize(gamePicsResizerPanel.getDimension());
 		});
 
-
 		btnFontChoose.addActionListener(_ -> {
 			var dialog = new FontDialog((Frame) null, "Font Change", true);
 			dialog.setSelectedFont(MTGControler.getInstance().getFont());
@@ -728,24 +743,21 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			dialog.setVisible(true);
 			if (!dialog.isCancelSelected()) {
 				var font = dialog.getSelectedFont();
-			  	MTGControler.getInstance().setProperty("/ui/font/family", font.getFamily());
-				MTGControler.getInstance().setProperty("/ui/font/style",font.getStyle());
-				MTGControler.getInstance().setProperty("/ui/font/size",font.getSize());
-			}       
+				MTGControler.getInstance().setProperty("/ui/font/family", font.getFamily());
+				MTGControler.getInstance().setProperty("/ui/font/style", font.getStyle());
+				MTGControler.getInstance().setProperty("/ui/font/size", font.getSize());
+			}
 		});
-
-
-
 
 		btnClean.addActionListener(_ -> {
 
 			try {
 				loading(true, capitalize("CLEAN"));
 
-				if(chckbxIconset.isSelected())
+				if (chckbxIconset.isSelected())
 					IconsProvider.getInstance().clean();
 
-				if(chckbxIconcards.isSelected())
+				if (chckbxIconcards.isSelected())
 					getEnabledPlugin(MTGPictureCache.class).clear();
 
 				loading(false, "");
@@ -755,75 +767,67 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 
-		btnIndexation.addActionListener(_ ->{
+		btnIndexation.addActionListener(_ -> {
 
-				loading(true, "Indexation");
-				btnIndexation.setEnabled(false);
-				var swIndex = new SwingWorker<Void, Void>()
-				{
-					@Override
-					protected Void doInBackground() throws Exception {
-						getEnabledPlugin(MTGCardsIndexer.class).initIndex(true);
-						return null;
+			loading(true, "Indexation");
+			btnIndexation.setEnabled(false);
+			var swIndex = new SwingWorker<Void, Void>() {
+				@Override
+				protected Void doInBackground() throws Exception {
+					getEnabledPlugin(MTGCardsIndexer.class).initIndex(true);
+					return null;
+				}
+
+				@Override
+				protected void done() {
+					try {
+						get();
+						lblIndexSize
+								.setText(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
+					} catch (InterruptedException _) {
+						Thread.currentThread().interrupt();
+					} catch (Exception e) {
+						logger.error("error indexation", e);
+						MTGControler.getInstance().notify(e);
+					} finally {
+						loading(false, "");
+						btnIndexation.setEnabled(true);
 					}
+				}
+			};
 
-					@Override
-					protected void done()
-					{
-						try
-						{
-							get();
-							lblIndexSize.setText(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
-						}
-						catch(InterruptedException _) {
-							Thread.currentThread().interrupt();
-						}
-						catch (Exception e) {
-							logger.error("error indexation", e);
-							MTGControler.getInstance().notify(e);
-						}
-						finally {
-							loading(false, "");
-							btnIndexation.setEnabled(true);
-						}
-					}
-				};
-
-				ThreadManager.getInstance().runInEdt(swIndex,"Indexation");
-
+			ThreadManager.getInstance().runInEdt(swIndex, "Indexation");
 
 		});
 
-		btnDuplicate.addActionListener(_ ->{
+		btnDuplicate.addActionListener(_ -> {
 			btnDuplicate.setEnabled(false);
 			MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
-			loading(true, capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)) + " " + dao);
-				var swDuplicate = new SwingWorker<Void, Void>()
-						{
-							@Override
-							protected Void doInBackground() throws Exception {
-								getEnabledPlugin(MTGDao.class).duplicateTo(dao);
-								return null;
-							}
+			loading(true, capitalize("DUPLICATE_TO", getEnabledPlugin(MTGDao.class)) + " " + dao);
+			var swDuplicate = new SwingWorker<Void, Void>() {
+				@Override
+				protected Void doInBackground() throws Exception {
+					getEnabledPlugin(MTGDao.class).duplicateTo(dao);
+					return null;
+				}
 
-							@Override
-							protected void done()
-							{
-								try {
-									get();
-								}catch (InterruptedException _) {
-									Thread.currentThread().interrupt();
-								} catch (Exception e) {
-									logger.error(e);
-								}
-								finally {
-									loading(false, "");
-									btnDuplicate.setEnabled(true);
-									dao.unload();
-								}
-							}
-						};
-				ThreadManager.getInstance().runInEdt(swDuplicate, "duplicate " + getEnabledPlugin(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem());
+				@Override
+				protected void done() {
+					try {
+						get();
+					} catch (InterruptedException _) {
+						Thread.currentThread().interrupt();
+					} catch (Exception e) {
+						logger.error(e);
+					} finally {
+						loading(false, "");
+						btnDuplicate.setEnabled(true);
+						dao.unload();
+					}
+				}
+			};
+			ThreadManager.getInstance().runInEdt(swDuplicate,
+					"duplicate " + getEnabledPlugin(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem());
 		}
 
 		);
@@ -849,23 +853,22 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 
-
-		btnWebServerExport.addActionListener(_->{
+		btnWebServerExport.addActionListener(_ -> {
 			try {
-				((AbstractWebServer)cboServers.getSelectedItem()).exportWeb(txtdirWebsserver.getFile());
-				MTGControler.getInstance().notify(new MTGNotification(EXPORT, "Export ok : " + txtdirWebsserver.getFile(), MESSAGE_TYPE.INFO));
+				((AbstractWebServer) cboServers.getSelectedItem()).exportWeb(txtdirWebsserver.getFile());
+				MTGControler.getInstance().notify(
+						new MTGNotification(EXPORT, "Export ok : " + txtdirWebsserver.getFile(), MESSAGE_TYPE.INFO));
 			} catch (Exception e1) {
 
-				logger.error("error copy ",e1);
+				logger.error("error copy ", e1);
 				MTGControler.getInstance().notify(e1);
 			}
 		});
 
-
 		lclCodeCurrency.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-					UITools.browse(MTGConstants.CURRENCY_API);
+				UITools.browse(MTGConstants.CURRENCY_API);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -886,7 +889,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			cboCollections.setSelectedItem(new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY)));
 		}
 
-
 		for (var i = 0; i < cboLogLevels.getItemCount(); i++) {
 			if (cboLogLevels.getItemAt(i).toString().equals(MTGControler.getInstance().get("loglevel")))
 				cboLogLevels.setSelectedIndex(i);
@@ -894,8 +896,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		}
 
 	}
-
-
 
 	private void loadIcon() {
 		try {

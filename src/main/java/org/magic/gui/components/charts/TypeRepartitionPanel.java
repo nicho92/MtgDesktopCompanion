@@ -1,21 +1,18 @@
 package org.magic.gui.components.charts;
 
 import java.util.Map.Entry;
-
 import javax.swing.ImageIcon;
-
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.MTGConstants;
 
-public class TypeRepartitionPanel extends Abstract3DPieChart<MTGCard,String> {
+public class TypeRepartitionPanel extends Abstract3DPieChart<MTGCard, String> {
 
 	public TypeRepartitionPanel(boolean displayPanel) {
 		super(displayPanel);
 	}
-
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,16 +25,14 @@ public class TypeRepartitionPanel extends Abstract3DPieChart<MTGCard,String> {
 		return dataset;
 	}
 
-
 	@Override
 	public String getTitle() {
 		return "Type";
 	}
 
-	
 	@Override
 	public ImageIcon getIcon() {
-		 return MTGConstants.ICON_TAB_TYPE;
+		return MTGConstants.ICON_TAB_TYPE;
 	}
-	
+
 }

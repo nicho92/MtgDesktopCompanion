@@ -4,7 +4,6 @@ import org.magic.game.model.effects.AbstractEffect;
 
 public class SagaAbilities extends ActivatedAbilities {
 
-
 	/**
 	 *
 	 */
@@ -32,12 +31,8 @@ public class SagaAbilities extends ActivatedAbilities {
 		return getCost() + ":" + getEffects();
 	}
 
-
-	public AbstractEffect getEffect()
-	{
+	public AbstractEffect getEffect() {
 		return getEffects().get(0);
 	}
-
-
 
 }

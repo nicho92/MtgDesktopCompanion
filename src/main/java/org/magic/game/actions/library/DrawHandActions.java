@@ -2,9 +2,7 @@ package org.magic.game.actions.library;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import javax.swing.AbstractAction;
-
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.tools.MTG;
 
@@ -35,7 +33,8 @@ public class DrawHandActions extends AbstractAction {
 		} catch (IndexOutOfBoundsException _) {
 			MTG.notifyError("Not enougth cards in library");
 		}
-		GamePanelGUI.getInstance().getHandPanel().initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand().getCards(), true,true);
+		GamePanelGUI.getInstance().getHandPanel()
+				.initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand().getCards(), true, true);
 
 	}
 

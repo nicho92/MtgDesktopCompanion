@@ -17,7 +17,6 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,7 +26,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-
 import org.apache.logging.log4j.Logger;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.jdesktop.swingx.JXStatusBar;
@@ -67,18 +65,14 @@ public class MagicGUI extends JFrame {
 	private JTabbedPane tabbedPane;
 	private transient OSTrayNotifier osNotifier;
 	private CardSearchPanel searchPanel;
-	
-	
+
 	public MagicGUI() {
 
-
 		try {
-			osNotifier = (OSTrayNotifier)getPlugin("Tray",MTGNotifier.class);
-		}
-		catch(Exception e)
-		{
-			logger.error("error loading osNotifier",e);
-			osNotifier=new OSTrayNotifier();
+			osNotifier = (OSTrayNotifier) getPlugin("Tray", MTGNotifier.class);
+		} catch (Exception e) {
+			logger.error("error loading osNotifier", e);
+			osNotifier = new OSTrayNotifier();
 		}
 
 		try {
@@ -97,14 +91,10 @@ public class MagicGUI extends JFrame {
 		tabbedPane.setSelectedIndex(id);
 	}
 
-
 	public CardSearchPanel getSearchPanel() {
 		return searchPanel;
 	}
 
-
-	
-	
 	private void initGUI() throws ClassNotFoundException, IOException, SQLException {
 		JMenuBar mtgMnuBar;
 		JMenu mnFile;
@@ -112,15 +102,13 @@ public class MagicGUI extends JFrame {
 		JMenuItem mntmExit;
 
 		var barStatus = new JXStatusBar();
-		
+
 		setSize(new Dimension(1620, 1024));
-		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
-		
-		
+		setTitle(
+				MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
+
 		setIconImages(List.of(MTGConstants.IMAGE_LOGO_32, MTGConstants.IMAGE_LOGO_64, MTGConstants.IMAGE_LOGO_128));
-		
-		
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -128,8 +116,6 @@ public class MagicGUI extends JFrame {
 			}
 		});
 
-
-		
 		getContentPane().setLayout(new BorderLayout());
 
 		mtgMnuBar = new JMenuBar();
@@ -137,18 +123,18 @@ public class MagicGUI extends JFrame {
 
 		mnFile = new JMenu(capitalize("FILE"));
 		mnuAbout = new JMenu("?");
-		mntmExit = new JMenuItem(capitalize("EXIT"),MTGConstants.ICON_EXIT);
-		
+		mntmExit = new JMenuItem(capitalize("EXIT"), MTGConstants.ICON_EXIT);
+
 		searchPanel = new CardSearchPanel();
-		
-		var mntmHelp = new JMenuItem(capitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
-		var mntmDonate = new JMenuItem(capitalize("DONATE"),MTGConstants.ICON_EURO);
-		var mntmThreadItem = new JMenuItem(capitalize("TECHNICAL"),MTGConstants.ICON_CONFIG);
-		var mntmAboutMagicDesktop = new JMenuItem(capitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO_32));
-		var mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
-		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
-		var mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
-	
+
+		var mntmHelp = new JMenuItem(capitalize("READ_MANUAL"), MTGConstants.ICON_HELP);
+		var mntmDonate = new JMenuItem(capitalize("DONATE"), MTGConstants.ICON_EURO);
+		var mntmThreadItem = new JMenuItem(capitalize("TECHNICAL"), MTGConstants.ICON_CONFIG);
+		var mntmAboutMagicDesktop = new JMenuItem(capitalize("ABOUT"), new ImageIcon(MTGConstants.IMAGE_LOGO_32));
+		var mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"), MTGConstants.ICON_BUG);
+		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"), MTGConstants.ICON_BINDERS);
+		var mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"), MTGConstants.ICON_CHROME);
+
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileTagEditor);
 		mnFile.add(mntmFileChromePlugin);
@@ -162,8 +148,7 @@ public class MagicGUI extends JFrame {
 		mnuAbout.add(new JSeparator());
 		mnuAbout.add(mntmAboutMagicDesktop);
 
-
-		mntmFileChromePlugin.addActionListener(_->{
+		mntmFileChromePlugin.addActionListener(_ -> {
 			var dow = new ChromeDownloader();
 			dow.setVisible(true);
 		});
@@ -177,7 +162,7 @@ public class MagicGUI extends JFrame {
 			}
 		}, "loading Tags dialog"));
 
-		mntmThreadItem.addActionListener(_ ->ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+		mntmThreadItem.addActionListener(_ -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 
 			@Override
 			protected void auditedRun() {
@@ -192,36 +177,41 @@ public class MagicGUI extends JFrame {
 
 		mntmDonate.addActionListener(_ -> UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL_PAYPAL));
 
-		mntmAboutMagicDesktop.addActionListener(_ -> MTGUIComponent.createJDialog(new AboutDialog(), false,true).setVisible(true));
+		mntmAboutMagicDesktop
+				.addActionListener(_ -> MTGUIComponent.createJDialog(new AboutDialog(), false, true).setVisible(true));
 
 		mntmReportBug.addActionListener(_ -> UITools.browse(MTGConstants.MTG_DESKTOP_ISSUES_URL));
 
-		boolean update=MTGControler.getInstance().getVersionChecker().hasNewVersion();
+		boolean update = MTGControler.getInstance().getVersionChecker().hasNewVersion();
 
-		if (update)
-		{
-			var newversion = new JMenuItem(capitalize("DOWNLOAD_LAST_VERSION") + " : "+ MTGControler.getInstance().getVersionChecker().getOnlineVersion());
+		if (update) {
+			var newversion = new JMenuItem(capitalize("DOWNLOAD_LAST_VERSION") + " : "
+					+ MTGControler.getInstance().getVersionChecker().getOnlineVersion());
 			newversion.addActionListener(_ -> UITools.browse(GithubUtils.inst().getReleaseURL()));
 			mnuAbout.add(newversion);
 		}
 
-
 		String pos = MTGControler.getInstance().get("ui/moduleTabPosition");
-		var position=0;
-		switch(pos)
-		{
-			case "TOP": position = SwingConstants.TOP;break;
-			case "LEFT": position = SwingConstants.LEFT;break;
-			case "RIGHT": position = SwingConstants.RIGHT;break;
-			case "BOTTOM": position = SwingConstants.BOTTOM;break;
-			default : position=SwingConstants.LEFT;break;
+		var position = 0;
+		switch (pos) {
+			case "TOP" :
+				position = SwingConstants.TOP;
+				break;
+			case "LEFT" :
+				position = SwingConstants.LEFT;
+				break;
+			case "RIGHT" :
+				position = SwingConstants.RIGHT;
+				break;
+			case "BOTTOM" :
+				position = SwingConstants.BOTTOM;
+				break;
+			default :
+				position = SwingConstants.LEFT;
+				break;
 		}
 
 		tabbedPane = new JTabbedPane(position);
-		
-
-
-
 
 		if (MTG.readPropertyAsBoolean("modules/search"))
 			addTab(searchPanel);
@@ -268,96 +258,87 @@ public class MagicGUI extends JFrame {
 		if (MTG.readPropertyAsBoolean("modules/scripts"))
 			addTab(new ScriptPanel());
 
-
-		if (MTG.readPropertyAsBoolean("modules/mkm"))
-		{
+		if (MTG.readPropertyAsBoolean("modules/mkm")) {
 			try {
 
-			MkmAPIConfig.getInstance().init(AccountsManager.inst().getAuthenticator(new MagicCardMarketPricer2()).getTokensAsProperties());
-			}
-			catch(Exception e)
-			{
+				MkmAPIConfig.getInstance().init(
+						AccountsManager.inst().getAuthenticator(new MagicCardMarketPricer2()).getTokensAsProperties());
+			} catch (Exception e) {
 				logger.error(e);
 			}
-			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", new ImageIcon(new ImageIcon(MagicGUI.class.getResource("/icons/plugins/magiccardmarket.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH))));
+			addTab(MTGUIComponent.build(new MkmPanel(), "MKM",
+					new ImageIcon(new ImageIcon(MagicGUI.class.getResource("/icons/plugins/magiccardmarket.png"))
+							.getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE,
+									Image.SCALE_SMOOTH))));
 		}
 
-
-
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		getContentPane().add(barStatus,BorderLayout.SOUTH);
-		
-		
-		
-		
+		getContentPane().add(barStatus, BorderLayout.SOUTH);
+
 		var lblSupport = new JLabel("Help me with a tip :) ");
 		lblSupport.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
 		lblSupport.addMouseListener(new MouseAdapter() {
-		    @Override
-            public void mouseClicked(MouseEvent e) {
-		    	UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL_PAYPAL);
-            }
-		    @Override
-		    public void mouseEntered(MouseEvent e) {
-		    	lblSupport.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		    }
-		    @Override
-		    public void mouseExited(MouseEvent e) {
-		    	lblSupport.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-		    }
-
-        });
-		
-		barStatus.add(lblSupport);
-		
-
-			if(osNotifier!=null)
-			{
-				osNotifier.getTrayNotifier().addActionListener(_ -> setVisible(!isVisible()));
-
-				var menuTray = new PopupMenu();
-				for (var index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
-					final int index = index_tab;
-					var it = new MenuItem(tabbedPane.getTitleAt(index_tab));
-					it.addActionListener(_ -> {
-						setVisible(true);
-						setSelectedTab(index);
-					});
-					menuTray.add(it);
-				}
-
-				osNotifier.getTrayNotifier().setPopupMenu(menuTray);
-				osNotifier.getTrayNotifier().setToolTip(MTGConstants.MTG_APP_NAME);
-
-				if (update)
-				{
-					String msg=(capitalize("NEW_VERSION") + " "
-									+ MTGControler.getInstance().getVersionChecker().getOnlineVersion() + " "
-									+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
-					var notif = new MTGNotification(getTitle(),msg,MESSAGE_TYPE.INFO);
-					osNotifier.send(notif);
-				}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL_PAYPAL);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblSupport.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblSupport.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
 
-			ShortKeyManager.inst().load();
+		});
 
+		barStatus.add(lblSupport);
 
-			ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+		if (osNotifier != null) {
+			osNotifier.getTrayNotifier().addActionListener(_ -> setVisible(!isVisible()));
 
-				@Override
-				protected void auditedRun() {
-					try {
-						new TipsOfTheDayDialog().shows();
-					} catch (IOException e) {
-						logger.error(e);
-					}
+			var menuTray = new PopupMenu();
+			for (var index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
+				final int index = index_tab;
+				var it = new MenuItem(tabbedPane.getTitleAt(index_tab));
+				it.addActionListener(_ -> {
+					setVisible(true);
+					setSelectedTab(index);
+				});
+				menuTray.add(it);
+			}
 
-				}
-			}, "Loading TipsOfTheDay dialog");
+			osNotifier.getTrayNotifier().setPopupMenu(menuTray);
+			osNotifier.getTrayNotifier().setToolTip(MTGConstants.MTG_APP_NAME);
+
+			if (update) {
+				String msg = (capitalize("NEW_VERSION") + " "
+						+ MTGControler.getInstance().getVersionChecker().getOnlineVersion() + " "
+						+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
+				var notif = new MTGNotification(getTitle(), msg, MESSAGE_TYPE.INFO);
+				osNotifier.send(notif);
+			}
 		}
 
+		ShortKeyManager.inst().load();
+
+		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+
+			@Override
+			protected void auditedRun() {
+				try {
+					new TipsOfTheDayDialog().shows();
+				} catch (IOException e) {
+					logger.error(e);
+				}
+
+			}
+		}, "Loading TipsOfTheDay dialog");
+	}
+
 	private void addTab(MTGUIComponent instance) {
-		tabbedPane.addTab(instance.getTitle(),ImageTools.resize(instance.getIcon(), 24,24), instance, null);
+		tabbedPane.addTab(instance.getTitle(), ImageTools.resize(instance.getIcon(), 24, 24), instance, null);
 	}
 
 }

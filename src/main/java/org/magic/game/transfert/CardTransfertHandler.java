@@ -6,7 +6,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DragSource;
 import java.io.IOException;
-
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataHandler;
 import javax.swing.JComponent;
@@ -14,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.Draggable;
@@ -35,7 +33,8 @@ public class CardTransfertHandler extends TransferHandler {
 
 	public CardTransfertHandler() {
 
-		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType,"DisplayableCard");
+		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType,
+				"DisplayableCard");
 		window.add(dragLab);
 		window.setBackground(new Color(0, true));
 
@@ -104,8 +103,8 @@ public class CardTransfertHandler extends TransferHandler {
 				target.updatePanel();
 				src.getParent().repaint();
 
-
-				logger.debug("move {} from {} to {}",src.getMagicCard().getName(),((Draggable) src.getParent()).getOrigine() ,target.getOrigine());
+				logger.debug("move {} from {} to {}", src.getMagicCard().getName(),
+						((Draggable) src.getParent()).getOrigine(), target.getOrigine());
 				((Draggable) src.getParent()).moveCard(src, target.getOrigine());
 				target.addComponent(src);
 

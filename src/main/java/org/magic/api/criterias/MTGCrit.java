@@ -2,14 +2,15 @@ package org.magic.api.criterias;
 
 import java.util.Arrays;
 
-
 public class MTGCrit<T> {
 
 	private String att;
 	private OPERATOR operator;
 	private T[] val;
 
-	public enum OPERATOR { EQ,START_WITH,END_WITH, LIKE,GREATER,LOWER,GREATER_EQ,LOWER_EQ, IN, NOT }
+	public enum OPERATOR {
+		EQ, START_WITH, END_WITH, LIKE, GREATER, LOWER, GREATER_EQ, LOWER_EQ, IN, NOT
+	}
 
 	@SafeVarargs
 	public MTGCrit(String att, OPERATOR operator, T... val) {
@@ -25,8 +26,7 @@ public class MTGCrit<T> {
 		this.val = val;
 	}
 
-	public Class getType()
-	{
+	public Class getType() {
 		return val[0].getClass();
 	}
 
@@ -54,23 +54,21 @@ public class MTGCrit<T> {
 		return val;
 	}
 
-	public T getFirst()
-	{
+	public T getFirst() {
 		return val[0];
 	}
 
-	public boolean isList()
-	{
-		return val.length>1;
+	public boolean isList() {
+		return val.length > 1;
 	}
 
 	@Override
 	public String toString() {
 
-		if(!isList())
-			return att + " " + operator +" " +getFirst();
+		if (!isList())
+			return att + " " + operator + " " + getFirst();
 
-		return att + " " + operator +" " +Arrays.toString(val);
+		return att + " " + operator + " " + Arrays.toString(val);
 	}
 
 }

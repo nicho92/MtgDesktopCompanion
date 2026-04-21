@@ -2,7 +2,6 @@ package org.magic.services;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import org.apache.commons.lang3.StringUtils;
 
 public class LanguageService {
@@ -45,9 +44,10 @@ public class LanguageService {
 	public Locale getDefault() {
 		return Locale.ENGLISH;
 	}
-	
+
 	public Locale[] getAvailableLocale() {
-		return new Locale[] { Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE, Locale.of("pt", "br"), Locale.of("nl", "be")};
+		return new Locale[]{Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE, Locale.of("pt", "br"),
+				Locale.of("nl", "be")};
 	}
 
 	public void changeLocal(Locale l) {
@@ -60,9 +60,7 @@ public class LanguageService {
 	public String get(String key) {
 		try {
 			return rbundle.getString(key);
-		}
-		catch(Exception _)
-		{
+		} catch (Exception _) {
 			return key.toLowerCase();
 		}
 	}

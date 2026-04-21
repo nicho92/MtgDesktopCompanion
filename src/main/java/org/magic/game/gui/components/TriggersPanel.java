@@ -3,12 +3,10 @@ package org.magic.game.gui.components;
 import java.awt.BorderLayout;
 import java.util.List;
 import java.util.Map.Entry;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import org.magic.api.beans.game.AbstractSpell;
 import org.magic.api.beans.game.GameManager;
 import org.magic.api.beans.game.TriggerManager.TRIGGERS;
@@ -30,20 +28,17 @@ public class TriggersPanel extends JPanel implements Observer {
 		listStack = new JList<>(model);
 		setLayout(new BorderLayout(0, 0));
 		listStack.setCellRenderer(new StackItemRenderer());
-		add(new JScrollPane(listStack ), BorderLayout.CENTER);
+		add(new JScrollPane(listStack), BorderLayout.CENTER);
 
 	}
 
-
-	public void updateElements()
-	{
+	public void updateElements() {
 		model.clear();
-		for(Entry<TRIGGERS, List<AbstractSpell>> e : GameManager.getInstance().getTriggers().list())
-			for(AbstractSpell sp : e.getValue())
+		for (Entry<TRIGGERS, List<AbstractSpell>> e : GameManager.getInstance().getTriggers().list())
+			for (AbstractSpell sp : e.getValue())
 				model.addElement(sp);
 
 	}
-
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -52,7 +47,3 @@ public class TriggersPanel extends JPanel implements Observer {
 	}
 
 }
-
-
-
-

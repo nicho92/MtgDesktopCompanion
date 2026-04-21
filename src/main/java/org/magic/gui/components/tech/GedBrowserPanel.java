@@ -2,7 +2,6 @@ package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGGedStorage;
@@ -35,41 +33,39 @@ public class GedBrowserPanel extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent buzy;
 	private JButton btnDelete;
 
-
 	private transient AbstractObservableWorker<List<GedEntry<MTGSerializable>>, GedEntry<MTGSerializable>, MTGGedStorage> sw;
 
 	public GedBrowserPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new GedEntryTableModel();
-		cboGed = UITools.createComboboxPlugins(MTGGedStorage.class,true);
+		cboGed = UITools.createComboboxPlugins(MTGGedStorage.class, true);
 		var panneauHaut = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		cboGed.setSelectedItem(MTG.getEnabledPlugin(MTGGedStorage.class));
-		cboGed.addItemListener(_->reload());
+		cboGed.addItemListener(_ -> reload());
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnDelete.setEnabled(false);
-		table = UITools.createNewTable(model,true);
+		table = UITools.createNewTable(model, true);
 
-		table.setDefaultRenderer(Long.class, (JTable _, Object value, boolean _, boolean _,int _, int _)->{
-				var lab = new DefaultTableCellRenderer();
-				lab.setText(UITools.humanReadableSize((Long)value));
-				return lab;
+		table.setDefaultRenderer(Long.class, (JTable _, Object value, boolean _, boolean _, int _, int _) -> {
+			var lab = new DefaultTableCellRenderer();
+			lab.setText(UITools.humanReadableSize((Long) value));
+			return lab;
 		});
 
 		panneauHaut.add(cboGed);
 		panneauHaut.add(btnDelete);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
-		add(new JScrollPane(table),BorderLayout.CENTER);
+		add(new JScrollPane(table), BorderLayout.CENTER);
 
+		table.getSelectionModel()
+				.addListSelectionListener(_ -> btnDelete.setEnabled(UITools.getTableSelection(table, 0) != null));
 
-		table.getSelectionModel().addListSelectionListener(_->btnDelete.setEnabled(UITools.getTableSelection(table, 0)!=null));
-
-		btnDelete.addActionListener(_->{
+		btnDelete.addActionListener(_ -> {
 			GedEntry<MTGSerializable> select = UITools.getTableSelection(table, 0);
-			var confirm = JOptionPane.showConfirmDialog(this, MTG.capitalize("CONFIRM_DELETE",select));
-			if(confirm==JOptionPane.YES_OPTION)
-			{
+			var confirm = JOptionPane.showConfirmDialog(this, MTG.capitalize("CONFIRM_DELETE", select));
+			if (confirm == JOptionPane.YES_OPTION) {
 				try {
 					MTG.getEnabledPlugin(MTGDao.class).deleteEntry(select);
 					model.removeItem(select);
@@ -79,11 +75,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 				}
 			}
 
-
-
 		});
-
-
 
 	}
 
@@ -94,24 +86,23 @@ public class GedBrowserPanel extends MTGUIComponent {
 
 	private void reload() {
 
-		if(sw!=null && !sw.isDone())
+		if (sw != null && !sw.isDone())
 			sw.cancel(true);
 
+		sw = new AbstractObservableWorker<>(buzy, (MTGGedStorage) cboGed.getSelectedItem()) {
+			@Override
+			protected List<GedEntry<MTGSerializable>> doInBackground() throws Exception {
+				return plug.listAll();
+			}
 
-		sw = new AbstractObservableWorker<>(buzy,(MTGGedStorage)cboGed.getSelectedItem()) {
-					@Override
-					protected List<GedEntry<MTGSerializable>> doInBackground() throws Exception {
-						return plug.listAll();
-					}
+			@Override
+			protected void notifyEnd() {
+				model.bind(getResult());
+			}
 
-					@Override
-					protected void notifyEnd() {
-						model.bind(getResult());
-					}
+		};
 
-				};
-
-				ThreadManager.getInstance().runInEdt(sw, "Loading Geds files");
+		ThreadManager.getInstance().runInEdt(sw, "Loading Geds files");
 
 	}
 
@@ -125,7 +116,4 @@ public class GedBrowserPanel extends MTGUIComponent {
 		return MTGConstants.ICON_GED;
 	}
 
-
-
 }
-

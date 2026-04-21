@@ -1,15 +1,13 @@
 
 package org.magic.services.tools;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import org.magic.services.MTGConstants;
-import org.magic.services.network.URLTools;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 
 public class GithubUtils {
 
@@ -17,23 +15,19 @@ public class GithubUtils {
 	private JsonObject selectedRelease;
 	private JsonArray releases;
 	private static GithubUtils inst;
-	private boolean updatetoprerelease=false;
+	private boolean updatetoprerelease = false;
 
-
-	public static GithubUtils inst() 
-	{
-		if(inst==null)
+	public static GithubUtils inst() {
+		if (inst == null)
 			inst = new GithubUtils();
 
 		return inst;
 	}
 
-	public void setUpdateToPreRelease(boolean b)
-	{
-		updatetoprerelease=b;
+	public void setUpdateToPreRelease(boolean b) {
+		updatetoprerelease = b;
 		update();
 	}
-
 
 	private GithubUtils() {
 		releases = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
@@ -42,12 +36,11 @@ public class GithubUtils {
 
 	private void update() {
 
-		var selected=0;
+		var selected = 0;
 
-		if(!updatetoprerelease)
-			while(releases.get(selected).getAsJsonObject().get("prerelease").getAsBoolean())
+		if (!updatetoprerelease)
+			while (releases.get(selected).getAsJsonObject().get("prerelease").getAsBoolean())
 				selected++;
-
 
 		setSelectedRelease(selected);
 
@@ -61,53 +54,45 @@ public class GithubUtils {
 		return selectedRelease;
 	}
 
-	public void setSelectedRelease(int index)
-	{
+	public void setSelectedRelease(int index) {
 		selectedRelease = releases.get(index).getAsJsonObject();
 	}
 
-	public String getReleaseURL()
-	{
+	public String getReleaseURL() {
 		return selectedRelease.get("html_url").getAsString();
 	}
 
-	public String getReleaseContent()
-	{
+	public String getReleaseContent() {
 		return selectedRelease.get("body").getAsString();
 	}
 
-
-	public String getAuthor()
-	{
+	public String getAuthor() {
 		return selectedRelease.get("author").getAsJsonObject().get("login").getAsString();
 	}
 
-	public String getVersion()
-	{
+	public String getVersion() {
 		return selectedRelease.get("tag_name").getAsString();
 	}
 
-	public String getVersionName()
-	{
+	public String getVersionName() {
 		return selectedRelease.get("name").getAsString();
 	}
 
-	public BufferedImage getAvatar()
-	{
+	public BufferedImage getAvatar() {
 		try {
-			return URLTools.extractAsImage(selectedRelease.get("author").getAsJsonObject().get("avatar_url").getAsString());
+			return URLTools
+					.extractAsImage(selectedRelease.get("author").getAsJsonObject().get("avatar_url").getAsString());
 		} catch (IOException _) {
 			return null;
 		}
 	}
 
-	public int downloadCount()
-	{
-		var count=0;
-		for(JsonElement obj : releases)
-		{
-			if(obj.getAsJsonObject().get(ASSETS).getAsJsonArray().size()>0)
-				count += obj.getAsJsonObject().get(ASSETS).getAsJsonArray().get(0).getAsJsonObject().get("download_count").getAsInt();
+	public int downloadCount() {
+		var count = 0;
+		for (JsonElement obj : releases) {
+			if (obj.getAsJsonObject().get(ASSETS).getAsJsonArray().size() > 0)
+				count += obj.getAsJsonObject().get(ASSETS).getAsJsonArray().get(0).getAsJsonObject()
+						.get("download_count").getAsInt();
 		}
 		return count;
 	}

@@ -5,39 +5,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import org.utils.patterns.observer.Observable;
 
 public class TriggerManager extends Observable {
 
 	public enum TRIGGERS {
-		  CREATURE_CAST,
-		  CRANK,
-		  SPELL_CAST,
-		  CREATURE_DEALS_DAMAGE,
-		  CREATURE_DIES,
-		  CREATURE_ATTACKS,
-		  BECOME_BLOCKED,
-		  AURA_ATTACH,
-		  ENCOUNTER,
-		  TAPPED}
-
-
-
-	private Map<TRIGGERS,List<AbstractSpell>> triggers;
-
-	public TriggerManager() {
-		triggers=new EnumMap<>(TRIGGERS.class);
+		CREATURE_CAST, CRANK, SPELL_CAST, CREATURE_DEALS_DAMAGE, CREATURE_DIES, CREATURE_ATTACKS, BECOME_BLOCKED, AURA_ATTACH, ENCOUNTER, TAPPED
 	}
 
-	public void register(TRIGGERS t,List<AbstractSpell> a)
-	{
-		a.forEach(_->register(t, a));
+	private Map<TRIGGERS, List<AbstractSpell>> triggers;
+
+	public TriggerManager() {
+		triggers = new EnumMap<>(TRIGGERS.class);
+	}
+
+	public void register(TRIGGERS t, List<AbstractSpell> a) {
+		a.forEach(_ -> register(t, a));
 	}
 
 	public Set<Entry<TRIGGERS, List<AbstractSpell>>> list() {
 		return triggers.entrySet();
 	}
-
 
 }

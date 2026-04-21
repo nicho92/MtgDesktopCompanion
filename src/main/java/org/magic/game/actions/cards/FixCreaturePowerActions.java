@@ -1,9 +1,7 @@
 package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
-
 import javax.swing.JOptionPane;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -17,7 +15,7 @@ public class FixCreaturePowerActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public FixCreaturePowerActions(DisplayableCard displayableCard) {
-		super(displayableCard,"Fix creature's power/toughness ");
+		super(displayableCard, "Fix creature's power/toughness ");
 		putValue(SHORT_DESCRIPTION, "Fix creature's power/toughness ");
 	}
 

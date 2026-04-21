@@ -1,8 +1,4 @@
 package org.magic.services.webcam;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamCompositeDriver;
 import com.github.sarxos.webcam.ds.buildin.WebcamDefaultDriver;
@@ -10,31 +6,29 @@ import com.github.sarxos.webcam.ds.ipcam.IpCamDevice;
 import com.github.sarxos.webcam.ds.ipcam.IpCamDeviceRegistry;
 import com.github.sarxos.webcam.ds.ipcam.IpCamDriver;
 import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class WebcamUtils
-{
+public class WebcamUtils {
 
 	private static WebcamUtils inst;
 
-	public static WebcamUtils inst()
-	{
-		if(inst==null)
-			inst=new WebcamUtils();
+	public static WebcamUtils inst() {
+		if (inst == null)
+			inst = new WebcamUtils();
 
 		return inst;
 	}
 
-
-	private WebcamUtils()
-	{
+	private WebcamUtils() {
 		Webcam.setDriver(new CompositeDriver());
 	}
 
-	public List<Webcam> listWebcam()
-	{
+	public List<Webcam> listWebcam() {
 
-		List<Webcam> pcams= new ArrayList<>();
-		for(Webcam cam:Webcam.getWebcams())
+		List<Webcam> pcams = new ArrayList<>();
+		for (Webcam cam : Webcam.getWebcams())
 			pcams.add(cam);
 
 		pcams.add(new SimulatedWebcam());
@@ -42,16 +36,14 @@ public class WebcamUtils
 		return pcams;
 	}
 
-	public boolean registerIPCam(String name, String address, IpCamMode mode)
-	{
+	public boolean registerIPCam(String name, String address, IpCamMode mode) {
 		try {
-				IpCamDeviceRegistry.register(new IpCamDevice(name,address,mode));
-				return true;
+			IpCamDeviceRegistry.register(new IpCamDevice(name, address, mode));
+			return true;
 		} catch (MalformedURLException _) {
 			return false;
 		}
 	}
-
 
 	private class CompositeDriver extends WebcamCompositeDriver {
 		public CompositeDriver() {

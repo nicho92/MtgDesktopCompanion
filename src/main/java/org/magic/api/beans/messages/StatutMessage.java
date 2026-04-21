@@ -10,14 +10,14 @@ public class StatutMessage extends AbstractMessage {
 
 	public StatutMessage(EnumPlayerStatus statut) {
 		setTypeMessage(MSG_TYPE.CHANGESTATUS);
-		this.statut=statut;
-		setMessage("change status to "+ statut);
+		this.statut = statut;
+		setMessage("change status to " + statut);
 	}
-	
+
 	public void setStatut(EnumPlayerStatus statut) {
 		this.statut = statut;
 	}
-	
+
 	public EnumPlayerStatus getStatut() {
 		return statut;
 	}

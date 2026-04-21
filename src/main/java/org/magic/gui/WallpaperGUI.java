@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingWorker;
-
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -30,7 +28,6 @@ import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-
 
 public class WallpaperGUI extends MTGUIComponent {
 
@@ -54,83 +51,77 @@ public class WallpaperGUI extends MTGUIComponent {
 	public WallpaperGUI() {
 
 		setLayout(new BorderLayout(0, 0));
-		
-		
-		panelThumnail = new ImageGalleryPanel(true,true);
+
+		panelThumnail = new ImageGalleryPanel(true, true);
 		var panelNorthh = new JPanel();
 		chkSelectAll = new JCheckBox("Select All");
 		txtSearch = UITools.createSearchField();
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var panelSouth = new JPanel();
-		
-		var scroll = new JScrollPane(panelThumnail,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+		var scroll = new JScrollPane(panelThumnail, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
-		
-		
+
 		add(scroll, BorderLayout.CENTER);
 		add(panelNorthh, BorderLayout.NORTH);
 		add(panelSouth, BorderLayout.SOUTH);
 
 		panelNorthh.add(txtSearch);
 		txtSearch.setColumns(20);
-		txtSearch.addActionListener(_ ->{
+		txtSearch.addActionListener(_ -> {
 			lblLoad.start();
 
 			var sw = new SwingWorker<List<MTGWallpaper>, MTGWallpaper>() {
 
 				@Override
 				protected List<MTGWallpaper> doInBackground() throws Exception {
-					return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p->p.search(txtSearch.getText()).stream()).collect(Collectors.toList());
+					return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream()
+							.flatMap(p -> p.search(txtSearch.getText()).stream()).collect(Collectors.toList());
 				}
 
 				@Override
 				protected void done() {
 					lblLoad.end();
-					
+
 					try {
 						panelThumnail.init(get());
 					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
-						logger.error("error in execution",e);
+						logger.error("error in execution", e);
 					}
-					
+
 				}
 			};
-			ThreadManager.getInstance().runInEdt(sw,"searching " + txtSearch.getText());
+			ThreadManager.getInstance().runInEdt(sw, "searching " + txtSearch.getText());
 		});
 
-		
 		panelNorthh.add(lblLoad);
 
-		
-		
-
-		btnImport = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"wallpaper import");
+		btnImport = UITools.createBindableJButton(null, MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "wallpaper import");
 		btnImport.setToolTipText(capitalize("IMPORT"));
 		panelSouth.add(chkSelectAll);
 		panelSouth.add(btnImport);
 
+		btnImport.addActionListener(_ -> {
 
-		btnImport.addActionListener(_ ->{
-			
 			lblLoad.start();
-			var sw =  new SwingWorker<Void, Void>()
-			{
+			var sw = new SwingWorker<Void, Void>() {
 				@Override
 				protected Void doInBackground() throws Exception {
-					for (var comp : panelThumnail.getComponents()) 
-					{
+					for (var comp : panelThumnail.getComponents()) {
 						var th = (JWallThumb) comp;
 
-						if (th.isSelected() || chkSelectAll.isSelected()) 
-						{
+						if (th.isSelected() || chkSelectAll.isSelected()) {
 							try {
 
-									if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
-										MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
-											
-								URLTools.download(th.getWallpaper().getUrl().toASCIIString(), new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, th.getWallpaper().getName() + "." + th.getWallpaper().getFormat()));
+								if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
+									MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
+
+								URLTools.download(th.getWallpaper().getUrl().toASCIIString(),
+										new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,
+												th.getWallpaper().getName() + "." + th.getWallpaper().getFormat()));
 
 								th.selected(false);
 							} catch (IOException e1) {
@@ -146,11 +137,9 @@ public class WallpaperGUI extends MTGUIComponent {
 					lblLoad.end();
 				}
 			};
-			
+
 			ThreadManager.getInstance().runInEdt(sw, "Saving wallpapers");
 		});
 	}
 
 }
-
-

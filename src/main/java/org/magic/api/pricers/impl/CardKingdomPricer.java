@@ -4,13 +4,13 @@ import static com.jayway.jsonpath.Criteria.where;
 import static com.jayway.jsonpath.Filter.filter;
 import static com.jayway.jsonpath.JsonPath.parse;
 
+import com.jayway.jsonpath.DocumentContext;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
@@ -25,12 +25,10 @@ import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
-import com.jayway.jsonpath.DocumentContext;
-
 public class CardKingdomPricer extends AbstractPricesProvider {
 
-	private static final String API_URI="https://api.cardkingdom.com/api/pricelist";
-	private static final String WEB_URI="https://www.cardkingdom.com";
+	private static final String API_URI = "https://api.cardkingdom.com/api/pricelist";
+	private static final String WEB_URI = "https://www.cardkingdom.com";
 	private File jsonFile;
 	private DocumentContext cont;
 
@@ -39,85 +37,72 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		return STATUT.BETA;
 	}
 
-	private void init() throws IOException
-	{
+	private void init() throws IOException {
 		var c = new Chrono();
 		c.start();
 		cont = parse(jsonFile);
-		logger.debug("Init {} dataFile in {}s",jsonFile,c.stop());
+		logger.debug("Init {} dataFile in {}s", jsonFile, c.stop());
 	}
 
-
-	private String getUrlFor(MTGCard mc,boolean foil) throws IOException
-	{
-		if(!jsonFile.exists()|| FileTools.daysBetween(jsonFile)>1) {
-			logger.debug("{} is not present or out of date. Downloading new one",jsonFile);
+	private String getUrlFor(MTGCard mc, boolean foil) throws IOException {
+		if (!jsonFile.exists() || FileTools.daysBetween(jsonFile) > 1) {
+			logger.debug("{} is not present or out of date. Downloading new one", jsonFile);
 			FileTools.saveFile(jsonFile, URLTools.extractAsJson(API_URI).toString());
 		}
 
-		if(cont==null)
+		if (cont == null)
 			init();
 
+		var name = CardKingdomTools.getCKFormattedName(mc);
+		var ed = CardKingdomTools.getCKFormattedSet(mc);
 
-        var name = CardKingdomTools.getCKFormattedName(mc);
-        var ed = CardKingdomTools.getCKFormattedSet(mc);
-		
-		var filtres =where("scryfall_id").is(mc.getScryfallId()).and("is_foil").is(String.valueOf(foil));
+		var filtres = where("scryfall_id").is(mc.getScryfallId()).and("is_foil").is(String.valueOf(foil));
 
-		if(mc.isToken())
-		{
+		if (mc.isToken()) {
 			name = name + " Token";
 			ed = ed.replace(" Tokens", "");
-			ed = aliases.getSetNameFor(new CardKingdomCardExport() , ed);
-			filtres = where("name").is(name)
-					  .and("edition").is(ed)
-					  .and("is_foil").is(String.valueOf(foil));
+			ed = aliases.getSetNameFor(new CardKingdomCardExport(), ed);
+			filtres = where("name").is(name).and("edition").is(ed).and("is_foil").is(String.valueOf(foil));
 		}
 
-
 		var cardFilter = filter(filtres);
-		logger.debug("Reading file {} with {} ",jsonFile,cardFilter );
-		List<Map<String, Object>> arr = cont.read("$.data[?]",cardFilter);
+		logger.debug("Reading file {} with {} ", jsonFile, cardFilter);
+		List<Map<String, Object>> arr = cont.read("$.data[?]", cardFilter);
 
 		try {
 
-			if(arr.size()>1) {
-				logger.warn(" found multiples values for {} : {}", mc,arr);
+			if (arr.size() > 1) {
+				logger.warn(" found multiples values for {} : {}", mc, arr);
 			}
 			return arr.get(0).get("url").toString();
-		}
-		catch(Exception _)
-		{
-			logger.error("No product found for {} foil={}",mc,foil) ;
+		} catch (Exception _) {
+			logger.error("No product found for {} foil={}", mc, foil);
 		}
 		return null;
 	}
 
-
 	public CardKingdomPricer() {
-		jsonFile=new File(MTGConstants.DATA_DIR,"mtgkingdom.json");
+		jsonFile = new File(MTGConstants.DATA_DIR, "mtgkingdom.json");
 	}
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		var ret = getPrices(card,false);
+		var ret = getPrices(card, false);
 		ret.addAll(getPrices(card, true));
 		return ret;
 
 	}
 
-
-
-	public List<MTGPrice> getPrices(MTGCard card,boolean foil) throws IOException {
+	public List<MTGPrice> getPrices(MTGCard card, boolean foil) throws IOException {
 
 		List<MTGPrice> list = new ArrayList<>();
-		var productUri =getUrlFor(card,foil);
+		var productUri = getUrlFor(card, foil);
 
-		if(productUri==null)
+		if (productUri == null)
 			return list;
 
-		var url = WEB_URI+ "/"+productUri;
+		var url = WEB_URI + "/" + productUri;
 		Elements prices = null;
 		Elements qualities = null;
 
@@ -127,7 +112,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			prices = doc.select(".stylePrice");
 
 		} catch (Exception e) {
-			logger.info("{} no item : {}",getName(),e.getMessage());
+			logger.info("{} no item : {}", getName(), e.getMessage());
 			return list;
 		}
 
@@ -142,15 +127,18 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
 			mp.setSeller(getName());
 			mp.setSite(getName());
-			mp.setUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
-			mp.setSellerUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
-			mp.setQuality(aliases.getReversedConditionFor(this, qualities.get(i).html().trim(), EnumCondition.NEAR_MINT));
+			mp.setUrl(url
+					+ "?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
+			mp.setSellerUrl(url
+					+ "?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
+			mp.setQuality(
+					aliases.getReversedConditionFor(this, qualities.get(i).html().trim(), EnumCondition.NEAR_MINT));
 			mp.setLanguage("English");
 			mp.setFoil(foil);
 			if (!qualities.get(i).hasClass("disabled"))
 				lstPrices.add(mp);
 		}
-		logger.info("{} found {} offers",getName(), lstPrices.size());
+		logger.info("{} found {} offers", getName(), lstPrices.size());
 		return lstPrices;
 	}
 
@@ -167,10 +155,10 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
 
 	@Override

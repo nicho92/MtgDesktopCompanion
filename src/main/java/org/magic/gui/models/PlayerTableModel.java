@@ -12,10 +12,9 @@ public class PlayerTableModel extends GenericTableModel<Player> {
 		setWritable(false);
 	}
 
-
 	@Override
 	public Class<?> getColumnClass(int c) {
-		if(c==0)
+		if (c == 0)
 			return Player.class;
 
 		return super.getColumnClass(c);

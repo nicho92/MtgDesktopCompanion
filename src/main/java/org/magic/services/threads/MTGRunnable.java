@@ -1,18 +1,16 @@
 package org.magic.services.threads;
 
 import java.time.Instant;
-
 import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.beans.technical.audit.TaskInfo.STATE;
 
-public abstract class MTGRunnable implements Runnable{
+public abstract class MTGRunnable implements Runnable {
 
 	private TaskInfo info;
 
 	protected MTGRunnable() {
 		info = new TaskInfo(this);
 	}
-
 
 	public TaskInfo getInfo() {
 		return info;
@@ -28,9 +26,7 @@ public abstract class MTGRunnable implements Runnable{
 		info.setStatus(STATE.FINISHED);
 	}
 
-
 	protected abstract void auditedRun();
-
 
 	@Override
 	public void run() {

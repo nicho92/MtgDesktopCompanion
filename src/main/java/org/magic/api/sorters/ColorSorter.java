@@ -5,7 +5,6 @@ import org.magic.api.interfaces.extra.MTGComparator;
 
 public class ColorSorter implements MTGComparator<MTGCard> {
 
-
 	@Override
 	public String toString() {
 		return "Color Sorter";

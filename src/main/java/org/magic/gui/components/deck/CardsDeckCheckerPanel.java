@@ -5,12 +5,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -39,9 +37,8 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 		var panel = new JPanel();
 		manager = new MTGDeckManager();
 		model = new DeckSelectionTableModel();
-		table = UITools.createNewTable(model,false);
+		table = UITools.createNewTable(model, false);
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
-
 
 		add(panel, BorderLayout.NORTH);
 		panel.add(buzyLabel);
@@ -55,51 +52,46 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 		});
 	}
 
-	
 	@Override
 	public String getTitle() {
 		return "DECK_MODULE";
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_DECK;
 	}
-	
-	public void init(MTGCard mc)
-	{
-		this.selectedCard=mc;
+
+	public void init(MTGCard mc) {
+		this.selectedCard = mc;
 		init();
 	}
 
 	private void init() {
-		if(isVisible() && selectedCard!=null)
-		{
+		if (isVisible() && selectedCard != null) {
 			buzyLabel.start();
 			buzyLabel.setText("looking for decks with " + selectedCard);
-			var sw = new SwingWorker<List<MTGDeck>,Void>()
-					{
+			var sw = new SwingWorker<List<MTGDeck>, Void>() {
 
-						@Override
-						protected List<MTGDeck> doInBackground() throws Exception {
-							return manager.listDecksWith(selectedCard,false);
-						}
-						@Override
-						protected void done() {
-							try {
-								model.init(get());
-							} catch (InterruptedException _) {
-								Thread.currentThread().interrupt();
-							} catch (ExecutionException e) {
-								MTGControler.getInstance().notify(e);
-							}
-							buzyLabel.end();
-						}
+				@Override
+				protected List<MTGDeck> doInBackground() throws Exception {
+					return manager.listDecksWith(selectedCard, false);
+				}
+				@Override
+				protected void done() {
+					try {
+						model.init(get());
+					} catch (InterruptedException _) {
+						Thread.currentThread().interrupt();
+					} catch (ExecutionException e) {
+						MTGControler.getInstance().notify(e);
+					}
+					buzyLabel.end();
+				}
 
-					};
+			};
 
-
-			ThreadManager.getInstance().runInEdt(sw, "search " + selectedCard +" in decks");
+			ThreadManager.getInstance().runInEdt(sw, "search " + selectedCard + " in decks");
 
 		}
 

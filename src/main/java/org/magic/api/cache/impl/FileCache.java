@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -20,7 +19,6 @@ public class FileCache extends AbstractCacheProvider {
 
 	private static final String DIRECTORY = "DIRECTORY";
 	private static final String FORMAT = "FORMAT";
-
 
 	public FileCache() {
 		super();
@@ -39,7 +37,7 @@ public class FileCache extends AbstractCacheProvider {
 	public BufferedImage getItem(MTGCard mc) {
 		try {
 
-			logger.trace("search in cache : {} {}",mc,mc.getEdition());
+			logger.trace("search in cache : {} {}", mc, mc.getEdition());
 
 			var save = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());
 			if (!save.exists())
@@ -51,16 +49,15 @@ public class FileCache extends AbstractCacheProvider {
 
 			return ImageTools.read(new File(save, generateIdIndex(mc) + "." + getString(FORMAT)));
 		} catch (IOException e) {
-			logger.trace("search in cache : {} {} not found : {}",mc,mc.getEdition(),e);
+			logger.trace("search in cache : {} {} not found : {}", mc, mc.getEdition(), e);
 
 			return null;
 		}
 	}
 
-
 	@Override
 	public void put(BufferedImage im, MTGCard mc) throws IOException {
-		logger.debug("save in cache : {} {} ",mc,mc.getEdition());
+		logger.debug("save in cache : {} {} ", mc, mc.getEdition());
 
 		var f = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());
 		if (!f.exists())
@@ -85,16 +82,16 @@ public class FileCache extends AbstractCacheProvider {
 		try {
 			FileTools.cleanDirectory(getFile(DIRECTORY));
 		} catch (IOException e) {
-			logger.error("Couldn't clean {}",getFile(DIRECTORY), e);
+			logger.error("Couldn't clean {}", getFile(DIRECTORY), e);
 		}
 
 	}
 
-
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of(DIRECTORY, MTGProperty.newFileProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"cachePics")),   
-							 FORMAT, new MTGProperty("png", "File format where image are saved","PNG","JPG","BMP"));
+		return Map.of(DIRECTORY,
+				MTGProperty.newFileProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "cachePics")), FORMAT,
+				new MTGProperty("png", "File format where image are saved", "PNG", "JPG", "BMP"));
 	}
 
 	@Override
@@ -105,13 +102,11 @@ public class FileCache extends AbstractCacheProvider {
 	@Override
 	public long size() {
 
-		if(getFile(DIRECTORY)!=null)
+		if (getFile(DIRECTORY) != null)
 			return FileTools.sizeOfDirectory(getFile(DIRECTORY));
-
 
 		return 0;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -121,11 +116,10 @@ public class FileCache extends AbstractCacheProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
-
 
 }

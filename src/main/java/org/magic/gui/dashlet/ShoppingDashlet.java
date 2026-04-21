@@ -5,14 +5,12 @@ import static org.magic.services.tools.MTG.getPlugin;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.stream.IntStream;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -53,21 +51,17 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		getContentPane().add(new JScrollPane(list), BorderLayout.CENTER);
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		btnClear.addActionListener(_->model.removeAllElements());
+		btnClear.addActionListener(_ -> model.removeAllElements());
 
-
-
-		btnPast.addActionListener(_->{
+		btnPast.addActionListener(_ -> {
 
 			try {
-				MTGDeck d = getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).importDeck(null,null);
+				MTGDeck d = getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME, MTGCardsExport.class).importDeck(null, null);
 				d.getMain().keySet().forEach(model::addElement);
-
 
 				groupedShoppingPanel.enableControle(!model.isEmpty());
 
-				groupedShoppingPanel.init(IntStream.range(0,model.size()).mapToObj(model::get).toList());
-
+				groupedShoppingPanel.init(IntStream.range(0, model.size()).mapToObj(model::get).toList());
 
 			} catch (Exception e) {
 				logger.error(e);
@@ -76,13 +70,11 @@ public class ShoppingDashlet extends AbstractJDashlet {
 
 		});
 
-	getContentPane().add(groupedShoppingPanel, BorderLayout.EAST);
-
+		getContentPane().add(groupedShoppingPanel, BorderLayout.EAST);
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")),
-					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
-					(int) Double.parseDouble(getString("h")));
+			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);
 		}
@@ -93,12 +85,10 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		return "Shopping";
 	}
 
-
 	@Override
 	public void init() {
 		// do nothing
 
 	}
-
 
 }

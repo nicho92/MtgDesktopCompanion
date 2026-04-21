@@ -2,17 +2,18 @@ package org.magic.services.threads;
 
 public class ThreadPoolConfig {
 
-	public enum THREADPOOL {SCHEDULE,FIXED,CACHED,SINGLE}
+	public enum THREADPOOL {
+		SCHEDULE, FIXED, CACHED, SINGLE
+	}
 
 	private THREADPOOL threadPool;
 	private int corePool;
 	private boolean daemon;
 	private String nameFormat;
 
-
 	@Override
 	public String toString() {
-		return threadPool + " CorePool=" + corePool + " daemon="+daemon;
+		return threadPool + " CorePool=" + corePool + " daemon=" + daemon;
 	}
 
 	public String getNameFormat() {
@@ -36,11 +37,9 @@ public class ThreadPoolConfig {
 		this.corePool = corePool;
 	}
 
-
 	public boolean isDaemon() {
 		return daemon;
 	}
-
 
 	public void setDaemon(boolean daemon) {
 		this.daemon = daemon;

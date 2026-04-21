@@ -7,10 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-
 import org.magic.api.beans.game.CardSpell;
 import org.magic.api.beans.game.GameManager;
 import org.magic.api.beans.game.ZoneEnum;
@@ -67,10 +65,11 @@ public class BattleFieldPanel extends DraggablePanel {
 
 		if (MTGControler.getInstance().get("/game/player-profil/background") != null)
 			try {
-				BufferedImage im = ImageTools.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
+				BufferedImage im = ImageTools
+						.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
 				setBackgroundPicture(im);
 			} catch (IOException _) {
-				//do nothing
+				// do nothing
 			}
 
 		battlefieldMenu.removeAll();
@@ -89,7 +88,8 @@ public class BattleFieldPanel extends DraggablePanel {
 		c.setPosition(getOrigine());
 		c.initActions();
 		GameManager.getInstance().getStack().put(new CardSpell(c));
-		AbilitiesFactory.getInstance().getTriggeredAbility(c.getMagicCard()).forEach(ta->GameManager.getInstance().getStack().put(ta));
+		AbilitiesFactory.getInstance().getTriggeredAbility(c.getMagicCard())
+				.forEach(ta -> GameManager.getInstance().getStack().put(ta));
 	}
 
 	@Override
@@ -100,20 +100,20 @@ public class BattleFieldPanel extends DraggablePanel {
 	@Override
 	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 		switch (to) {
-		case GRAVEYARD:
-			player.discardCardFromBattleField(mc.getMagicCard());
-			break;
-		case EXIL:
-			player.exileCardFromBattleField(mc.getMagicCard());
-			break;
-		case HAND:
-			player.returnCardFromBattleField(mc.getMagicCard());
-			break;
-		case LIBRARY:
-			player.putCardInLibraryFromBattlefield(mc.getMagicCard(), true);
-			break;
-		default:
-			break;
+			case GRAVEYARD :
+				player.discardCardFromBattleField(mc.getMagicCard());
+				break;
+			case EXIL :
+				player.exileCardFromBattleField(mc.getMagicCard());
+				break;
+			case HAND :
+				player.returnCardFromBattleField(mc.getMagicCard());
+				break;
+			case LIBRARY :
+				player.putCardInLibraryFromBattlefield(mc.getMagicCard(), true);
+				break;
+			default :
+				break;
 		}
 
 	}

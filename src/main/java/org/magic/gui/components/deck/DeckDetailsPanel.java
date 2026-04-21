@@ -9,7 +9,6 @@ import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.text.DateFormat;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -19,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
-
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -61,40 +59,40 @@ public class DeckDetailsPanel extends JComponent {
 
 	public DeckDetailsPanel() {
 		var gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 0, 132, 31, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
+		gridBagLayout.columnWidths = new int[]{0, 140, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{28, 30, 35, 0, 132, 31, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0E-4};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4};
 		setLayout(gridBagLayout);
 
-		add(new JLangLabel("DECK_NAME",true), UITools.createGridBagConstraints(null, null, 1, 0));
+		add(new JLangLabel("DECK_NAME", true), UITools.createGridBagConstraints(null, null, 1, 0));
 		nameJTextField = new JTextField();
 		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 0));
 
-		add(new JLangLabel("CARD_LEGALITIES",true), UITools.createGridBagConstraints(null, null, 1, 1));
+		add(new JLangLabel("CARD_LEGALITIES", true), UITools.createGridBagConstraints(null, null, 1, 1));
 		panelLegalities = new JPanel();
 		var flowLayout = (FlowLayout) panelLegalities.getLayout();
 		flowLayout.setHgap(10);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panelLegalities, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 1));
 
-		add(new JLangLabel("CARD_COLOR",true), UITools.createGridBagConstraints(null, null, 1, 2));
+		add(new JLangLabel("CARD_COLOR", true), UITools.createGridBagConstraints(null, null, 1, 2));
 		manaPanel = new ManaPanel();
 		add(manaPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 2));
 
-		lblDate = new JLangLabel("DATE",true);
+		lblDate = new JLangLabel("DATE", true);
 		add(lblDate, UITools.createGridBagConstraints(null, null, 1, 3));
 
 		lblDateInformation = new JLabel("");
 		add(lblDateInformation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 3));
 
-		add(new JLangLabel("DESCRIPTION",true), UITools.createGridBagConstraints(null, null, 1, 4));
+		add(new JLangLabel("DESCRIPTION", true), UITools.createGridBagConstraints(null, null, 1, 4));
 
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 
-		add(new JLangLabel("QTY",true), UITools.createGridBagConstraints(null, null, 1, 5));
+		add(new JLangLabel("QTY", true), UITools.createGridBagConstraints(null, null, 1, 5));
 		nbCardsProgress = new JProgressBar();
 		nbCardsProgress.setStringPainted(true);
 		add(nbCardsProgress, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
@@ -121,7 +119,7 @@ public class DeckDetailsPanel extends JComponent {
 		panelLegalities.add(lbmnd);
 		panelLegalities.add(lbcmd);
 
-		add(new JLangLabel("SIDEBOARD",true), UITools.createGridBagConstraints(null, null, 1, 6));
+		add(new JLangLabel("SIDEBOARD", true), UITools.createGridBagConstraints(null, null, 1, 6));
 
 		nbSideProgress = new JProgressBar();
 		nbSideProgress.setMaximum(15);
@@ -130,13 +128,13 @@ public class DeckDetailsPanel extends JComponent {
 
 		add(new JScrollPane(textArea), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 4));
 
-		add(new JLangLabel("TAGS",true), UITools.createGridBagConstraints(null, null, 1, 7));
+		add(new JLangLabel("TAGS", true), UITools.createGridBagConstraints(null, null, 1, 7));
 
 		tagsPanel = new JTagsPanel();
 		add(tagsPanel, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 2, 7));
 
 		panelDeckPictures = new JPanel();
-		
+
 		add(panelDeckPictures, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 8));
 
 		if (magicDeck != null) {
@@ -149,33 +147,33 @@ public class DeckDetailsPanel extends JComponent {
 	}
 
 	public void init(MTGDeck newMagicDeck) {
-		if(newMagicDeck!=null)
+		if (newMagicDeck != null)
 			setMagicDeck(newMagicDeck, true);
 	}
 
 	public void setLegalities() {
 
-		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.STANDARD))
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.STANDARD))
 			lbstd.setBackground(Color.RED);
 		else
 			lbstd.setBackground(Color.GREEN);
 
-		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.MODERN))
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.MODERN))
 			lbmnd.setBackground(Color.RED);
 		else
 			lbmnd.setBackground(Color.GREEN);
 
-		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.LEGACY))
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.LEGACY))
 			lbLeg.setBackground(Color.RED);
 		else
 			lbLeg.setBackground(Color.GREEN);
 
-		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.VINTAGE))
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.VINTAGE))
 			lbvin.setBackground(Color.RED);
 		else
 			lbvin.setBackground(Color.GREEN);
 
-		if (!MTGDeckManager.isLegal(magicDeck,FORMATS.COMMANDER))
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.COMMANDER))
 			lbcmd.setBackground(Color.RED);
 		else
 			lbcmd.setBackground(Color.GREEN);
@@ -197,29 +195,27 @@ public class DeckDetailsPanel extends JComponent {
 
 	public void updatePicture() {
 
-		if(magicDeck==null || magicDeck.getMain().isEmpty())
-				return;
+		if (magicDeck == null || magicDeck.getMain().isEmpty())
+			return;
 
 		panelDeckPictures.removeAll();
-		SwingWorker<Void, BufferedImage> sw = new SwingWorker<>()
-		{
+		SwingWorker<Void, BufferedImage> sw = new SwingWorker<>() {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				
-				for(var e : magicDeck.getMain().keySet().stream().skip(0).limit(4).toList())
+
+				for (var e : magicDeck.getMain().keySet().stream().skip(0).limit(4).toList())
 					publish(getEnabledPlugin(MTGPictureProvider.class).extractPicture(e));
 
 				return null;
-				
+
 			}
-			
+
 			@Override
 			protected void process(List<BufferedImage> chunks) {
-				for(var b : chunks)
+				for (var b : chunks)
 					panelDeckPictures.add(new JLabel(new ImageIcon(ImageTools.resize(b, 150, 220))));
 			}
-			
 
 			@Override
 			protected void done() {
@@ -229,20 +225,22 @@ public class DeckDetailsPanel extends JComponent {
 
 		};
 
-		ThreadManager.getInstance().runInEdt(sw,"extract deck pictures");
+		ThreadManager.getInstance().runInEdt(sw, "extract deck pictures");
 
 	}
 
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MTGDeck, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
-		AutoBinding<MTGDeck, String, JTextField, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, nameProperty, nameJTextField, textProperty1);
+		AutoBinding<MTGDeck, String, JTextField, String> autoBinding1 = Bindings
+				.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, nameProperty, nameJTextField, textProperty1);
 		autoBinding1.bind();
 		//
 
 		BeanProperty<MTGDeck, Integer> nbCardsProperty = BeanProperty.create("nbCards");
 		BeanProperty<JProgressBar, Integer> textProperty4 = BeanProperty.create("value");
-		AutoBinding<MTGDeck, Integer, JProgressBar, Integer> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, nbCardsProperty, nbCardsProgress, textProperty4);
+		AutoBinding<MTGDeck, Integer, JProgressBar, Integer> autoBinding2 = Bindings
+				.createAutoBinding(UpdateStrategy.READ, magicDeck, nbCardsProperty, nbCardsProgress, textProperty4);
 		autoBinding2.bind();
 		nbCardsProgress.setString("" + magicDeck.getNbCards());
 		nbSideProgress.setValue(magicDeck.getSideAsList().size());
@@ -257,15 +255,16 @@ public class DeckDetailsPanel extends JComponent {
 		//
 		BeanProperty<MTGDeck, String> colorIdentityProperty = BeanProperty.create("colors");
 		BeanProperty<ManaPanel, String> manaCostProperty3 = BeanProperty.create("manaCost");
-		AutoBinding<MTGDeck, String, ManaPanel, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, colorIdentityProperty, manaPanel, manaCostProperty3);
+		AutoBinding<MTGDeck, String, ManaPanel, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ,
+				magicDeck, colorIdentityProperty, manaPanel, manaCostProperty3);
 		autoBinding4.bind();
 		//
 
 		var bindingGroup = new BindingGroup();
-			bindingGroup.addBinding(autoBinding1);
-			bindingGroup.addBinding(autoBinding2);
-			bindingGroup.addBinding(autoBinding3);
-			bindingGroup.addBinding(autoBinding4);
+		bindingGroup.addBinding(autoBinding1);
+		bindingGroup.addBinding(autoBinding2);
+		bindingGroup.addBinding(autoBinding3);
+		bindingGroup.addBinding(autoBinding4);
 
 		if (magicDeck != null && magicDeck.getDateCreation() != null) {
 			var df = DateFormat.getDateInstance(DateFormat.SHORT, MTGControler.getInstance().getLocale());

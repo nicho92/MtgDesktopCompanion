@@ -30,11 +30,8 @@ public interface MTGProduct extends MTGSerializable {
 
 	public Category getCategory();
 
-	default boolean isSealed()
-	{
-		return getTypeProduct()!=EnumItems.CARD;
+	default boolean isSealed() {
+		return getTypeProduct() != EnumItems.CARD;
 	}
-
-
 
 }

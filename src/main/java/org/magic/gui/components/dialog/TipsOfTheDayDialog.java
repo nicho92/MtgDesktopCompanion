@@ -3,7 +3,6 @@ package org.magic.gui.components.dialog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
 import org.jdesktop.swingx.JXTipOfTheDay;
 import org.jdesktop.swingx.tips.TipLoader;
 import org.magic.services.MTGConstants;
@@ -16,8 +15,7 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 	public TipsOfTheDayDialog() throws IOException {
 		var tips = new Properties();
 
-		try(InputStream st = MTGConstants.TOOLTIPS_FILE.openStream())
-		{
+		try (InputStream st = MTGConstants.TOOLTIPS_FILE.openStream()) {
 			tips.load(st);
 		}
 		setModel(TipLoader.load(tips));
@@ -41,6 +39,5 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 			}
 		});
 	}
-
 
 }

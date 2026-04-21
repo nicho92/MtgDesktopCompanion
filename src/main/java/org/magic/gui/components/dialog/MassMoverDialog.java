@@ -8,14 +8,12 @@ import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
-
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
@@ -31,7 +29,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
-
 
 public class MassMoverDialog extends JDialog {
 	/**
@@ -60,7 +57,6 @@ public class MassMoverDialog extends JDialog {
 		cboCollections = UITools.createComboboxCollection();
 		dao = getEnabledPlugin(MTGDao.class);
 
-
 		this.toSaveCol = col;
 		this.toSaveEd = ed;
 
@@ -73,10 +69,8 @@ public class MassMoverDialog extends JDialog {
 		panel.add(cboCollections);
 		panel.add(lblWaiting);
 
-
 		model = new MagicCardTableModel();
-		
-		
+
 		try {
 			if (ed == null)
 				model.init(dao.listCardsFromCollection(col));
@@ -86,23 +80,19 @@ public class MassMoverDialog extends JDialog {
 			logger.error(e);
 		}
 
-		tableCards = UITools.createNewTable(model,true);
+		tableCards = UITools.createNewTable(model, true);
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		
+
 		getContentPane().add(new JScrollPane(tableCards), BorderLayout.CENTER);
-		
+
 		tableCards.packAll();
-		
+
 		UITools.initTableVisibility(tableCards, model);
-		
-			
-		
-		
+
 		UITools.setSorter(tableCards, 6, new NumberSorter());
-		
+
 		btnMove.addActionListener(_ -> {
 			btnMove.setEnabled(false);
-
 
 			var sw = new SwingWorker<Void, MTGCard>() {
 
@@ -137,9 +127,9 @@ public class MassMoverDialog extends JDialog {
 				}
 
 				@Override
-				protected Void doInBackground(){
+				protected Void doInBackground() {
 					List<MTGCard> list = UITools.getTableSelections(tableCards, 0);
-					for(MTGCard mc : list) {
+					for (MTGCard mc : list) {
 						try {
 							dao.moveCard(mc, toSaveCol, (MTGCollection) cboCollections.getSelectedItem());
 							publish(mc);
@@ -151,8 +141,6 @@ public class MassMoverDialog extends JDialog {
 					return null;
 				}
 			};
-
-
 
 			if (tableCards.getSelectedRowCount() > 0) {
 				lblWaiting.start(tableCards.getSelectedRowCount());

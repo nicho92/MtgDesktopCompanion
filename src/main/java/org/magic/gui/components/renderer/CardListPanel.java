@@ -4,11 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.components.card.ManaPanel;
 import org.magic.services.MTGControler;
@@ -35,10 +33,10 @@ public class CardListPanel extends JPanel {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
 		var gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 137, 129, 0 };
-		gridBagLayout.rowHeights = new int[] { 12, 12, 12, 12, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[]{0, 137, 129, 0};
+		gridBagLayout.rowHeights = new int[]{12, 12, 12, 12, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		lblName = new JLabel();
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
@@ -61,14 +59,14 @@ public class CardListPanel extends JPanel {
 
 	public void setMagicCard(MTGCard mc) {
 
-		if(mc==null)
+		if (mc == null)
 			return;
 
 		lblName.setText(mc.getName());
 		lblType.setText(mc.getFullType());
 		lblEdition.setText(mc.getEdition().toString());
 		lblEdition.setIcon(IconsProvider.getInstance().get24(mc.getEdition().getId()));
-		if(mc.getRarity()!=null)
+		if (mc.getRarity() != null)
 			lblRarity.setText(mc.getRarity().toPrettyString());
 
 		manaPanel.setManaCost(mc.getCost());

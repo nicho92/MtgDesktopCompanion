@@ -1,4 +1,4 @@
- package org.magic.gui;
+package org.magic.gui;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
@@ -17,7 +17,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,7 +30,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;
@@ -65,7 +63,6 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 
-
 public class AlarmGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -93,7 +90,6 @@ public class AlarmGUI extends MTGUIComponent {
 		initActions();
 	}
 
-
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_ALERT;
@@ -103,7 +99,6 @@ public class AlarmGUI extends MTGUIComponent {
 	public String getTitle() {
 		return capitalize("ALERT_MODULE");
 	}
-
 
 	public void initGUI() {
 		splitPanel = new JSplitPane();
@@ -122,15 +117,16 @@ public class AlarmGUI extends MTGUIComponent {
 		btnRefresh = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh Alarm");
 		btnImport = UITools.createBindableJButton(null, MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "import Alarm");
 		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "delete Alarm");
-		btnSuggestPrice = UITools.createBindableJButton(null, MTGConstants.ICON_EURO, KeyEvent.VK_S, "suggestPrices Alarm");
+		btnSuggestPrice = UITools.createBindableJButton(null, MTGConstants.ICON_EURO, KeyEvent.VK_S,
+				"suggestPrices Alarm");
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var serversPanel = new JPanel();
-		var oversightPanel = new ServerStatePanel(false,getPlugin("Alert Trend Server", MTGServer.class));
-		var serverPricePanel = new ServerStatePanel(false,getPlugin("Alert Price Checker", MTGServer.class));
-		table = UITools.createNewTable(model,true);
+		var oversightPanel = new ServerStatePanel(false, getPlugin("Alert Trend Server", MTGServer.class));
+		var serverPricePanel = new ServerStatePanel(false, getPlugin("Alert Price Checker", MTGServer.class));
+		table = UITools.createNewTable(model, true);
 		pricesTablePanel = new PricesTablePanel();
-		
-///CONFIG
+
+		///CONFIG
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		magicCardDetailPanel.enableThumbnail(true);
@@ -146,7 +142,7 @@ public class AlarmGUI extends MTGUIComponent {
 		groupShopPanel.enableControle(true);
 		panelRight.setLayout(new BorderLayout());
 
-///ADDS
+		///ADDS
 		splitPanel.setLeftComponent(new JScrollPane(table));
 		add(splitPanel, BorderLayout.CENTER);
 		splitPanel.setRightComponent(getContextTabbedPane());
@@ -154,19 +150,19 @@ public class AlarmGUI extends MTGUIComponent {
 		serversPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		serversPanel.add(oversightPanel);
 		serversPanel.add(serverPricePanel);
-		panelRight.add(serversPanel,BorderLayout.SOUTH);
-		
+		panelRight.add(serversPanel, BorderLayout.SOUTH);
+
 		addContextComponent(magicCardDetailPanel);
 		addContextComponent(variationPanel);
 		addContextComponent(globalSearchPanel);
 		addContextComponent(groupShopPanel);
 		addContextComponent(pricesTablePanel);
-		
-		if(MTG.readPropertyAsBoolean("debug-json-panel"))
+
+		if (MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(jsonPanel);
-		
+
 		add(panelRight, BorderLayout.EAST);
-		panelRight.add(new JScrollPane(list),BorderLayout.CENTER);
+		panelRight.add(new JScrollPane(list), BorderLayout.CENTER);
 		add(panel, BorderLayout.NORTH);
 		panel.add(btnDelete);
 		panel.add(btnImport);
@@ -177,71 +173,63 @@ public class AlarmGUI extends MTGUIComponent {
 
 	}
 
-
 	@Override
 	public void onFirstShowing() {
 		splitPanel.setDividerLocation(.5);
 		loaddata();
 	}
 
-
 	private void loaddata() {
-		var sw = new SwingWorker<List<MTGAlert>, Void>()
-		{
+		var sw = new SwingWorker<List<MTGAlert>, Void>() {
 
-				@Override
-				protected List<MTGAlert> doInBackground() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listAlerts();
+			@Override
+			protected List<MTGAlert> doInBackground() throws Exception {
+				return getEnabledPlugin(MTGDao.class).listAlerts();
+			}
+
+			@Override
+			protected void done() {
+
+				try {
+					model.bind(get());
+					table.packAll();
+				} catch (InterruptedException _) {
+					Thread.currentThread().interrupt();
+				} catch (ExecutionException e) {
+					MTGControler.getInstance().notify(e);
 				}
 
-				@Override
-				protected void done() {
-
-					try {
-						model.bind(get());
-						table.packAll();
-					} catch (InterruptedException _) {
-						Thread.currentThread().interrupt();
-					} catch (ExecutionException e) {
-						MTGControler.getInstance().notify(e);
-					}
-
-
-				}
+			}
 		};
 
 		ThreadManager.getInstance().runInEdt(sw, "Loading alerts");
 
 	}
 
-
 	private void initActions() {
 
-		groupShopPanel.getBtnCheckPrice().addActionListener(_->{
-		List<MTGAlert> selectList = UITools.getTableSelections(table, 0);
+		groupShopPanel.getBtnCheckPrice().addActionListener(_ -> {
+			List<MTGAlert> selectList = UITools.getTableSelections(table, 0);
 
-			if(!selectList.isEmpty())
+			if (!selectList.isEmpty())
 				groupShopPanel.initList(selectList);
 			else
 				groupShopPanel.initList(model.getItems());
 
 		});
 
-
-		globalSearchPanel.getBtnCheckPrice().addActionListener(_->{
+		globalSearchPanel.getBtnCheckPrice().addActionListener(_ -> {
 			var tdek = new MTGDeck();
-			model.getItems().forEach(e->tdek.getMain().put(e.getCard(),e.getQty()));
+			model.getItems().forEach(e -> tdek.getMain().put(e.getCard(), e.getQty()));
 			globalSearchPanel.init(tdek);
 		});
-
 
 		btnExport.initAlertsExport(new Callable<List<MTGAlert>>() {
 			@Override
 			public List<MTGAlert> call() throws Exception {
 				return model.getItems();
 			}
-		},lblLoading);
-
+		}, lblLoading);
 
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -273,84 +261,76 @@ public class AlarmGUI extends MTGUIComponent {
 			}
 		});
 
-		btnRefresh.addActionListener(_->loaddata());
+		btnRefresh.addActionListener(_ -> loaddata());
 
-		btnSuggestPrice.addActionListener(_->{
+		btnSuggestPrice.addActionListener(_ -> {
 
-			if(table.getSelectedRows().length<=0)
+			if (table.getSelectedRows().length <= 0)
 				return;
 
 			var comp = new PriceSuggesterComponent();
 			var jd = MTGUIComponent.createJDialog(comp, false, true);
-			comp.getBtnValidate().addActionListener(_->jd.dispose());
+			comp.getBtnValidate().addActionListener(_ -> jd.dispose());
 
 			jd.setVisible(true);
 
 			MTGPriceSuggester suggester = comp.getSelectedPlugin();
-			
-			
+
 			lblLoading.start(table.getSelectedRows().length);
-			
-			var sw = new SwingWorker<Void, MTGAlert>()
-					{
-						@Override
-						protected void done() {
-							lblLoading.end();
-							model.fireTableDataChanged();
+
+			var sw = new SwingWorker<Void, MTGAlert>() {
+				@Override
+				protected void done() {
+					lblLoading.end();
+					model.fireTableDataChanged();
+				}
+
+				@Override
+				protected void process(List<MTGAlert> chunks) {
+					lblLoading.progressSmooth(chunks.size());
+
+					chunks.forEach(mca -> mca.getOffers().forEach(resultListModel::addElement));
+
+				}
+
+				@Override
+				protected Void doInBackground() {
+					List<MTGAlert> alerts = UITools.getTableSelections(table, 0);
+					for (MTGAlert alert : alerts) {
+
+						var price = suggester.getSuggestedPrice(alert.getCard(), alert.isFoil());
+						alert.setPrice(price);
+						try {
+							getEnabledPlugin(MTGDao.class).updateAlert(alert);
+						} catch (SQLException e) {
+							logger.error("error updating {}", alert, e);
 						}
 
-						@Override
-						protected void process(List<MTGAlert> chunks) {
-							lblLoading.progressSmooth(chunks.size());
+						publish(alert);
+					}
+					return null;
+				}
 
-							chunks.forEach(mca->mca.getOffers().forEach(resultListModel::addElement));
+			};
 
-
-						}
-
-						@Override
-						protected Void doInBackground(){
-							List<MTGAlert> alerts = UITools.getTableSelections(table,0);
-							for (MTGAlert alert : alerts)
-							{
-								
-								var price = suggester.getSuggestedPrice(alert.getCard(), alert.isFoil());
-								  	alert.setPrice(price);
-									try {
-										getEnabledPlugin(MTGDao.class).updateAlert(alert);
-									} catch (SQLException e) {
-										logger.error("error updating {}",alert,e);
-									}
-								
-								publish(alert);
-							}
-							return null;
-						}
-
-					};
-
-					ThreadManager.getInstance().runInEdt(sw,"suggest prices");
+			ThreadManager.getInstance().runInEdt(sw, "suggest prices");
 		});
 
-
 		btnDelete.addActionListener(_ -> {
-			int res = JOptionPane.showConfirmDialog(null,capitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
-					capitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
+			int res = JOptionPane.showConfirmDialog(null,
+					capitalize("CONFIRM_DELETE", table.getSelectedRows().length + " item(s)"),
+					capitalize("DELETE") + " ?", JOptionPane.YES_NO_OPTION);
 
-			if (res == JOptionPane.YES_OPTION)
-			{
+			if (res == JOptionPane.YES_OPTION) {
 				int[] selected = table.getSelectedRows();
 				lblLoading.start(selected.length);
 
-
-				SwingWorker<List<MTGAlert>, MTGAlert> sw = new SwingWorker<>()
-				{
+				SwingWorker<List<MTGAlert>, MTGAlert> sw = new SwingWorker<>() {
 
 					@Override
 					protected List<MTGAlert> doInBackground() throws Exception {
-						List<MTGAlert> alerts = UITools.getTableSelections(table,0);
-						for (MTGAlert alert : alerts)
-						{
+						List<MTGAlert> alerts = UITools.getTableSelections(table, 0);
+						for (MTGAlert alert : alerts) {
 							getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 							publish(alert);
 						}
@@ -361,13 +341,9 @@ public class AlarmGUI extends MTGUIComponent {
 					protected void done() {
 						try {
 							model.removeItem(get());
-						}
-						catch(InterruptedException _)
-						{
+						} catch (InterruptedException _) {
 							Thread.currentThread().interrupt();
-						}
-						catch(Exception e)
-						{
+						} catch (Exception e) {
 							MTGControler.getInstance().notify(e);
 						}
 						model.fireTableDataChanged();
@@ -385,11 +361,11 @@ public class AlarmGUI extends MTGUIComponent {
 			}
 		});
 
-
 		btnImport.addActionListener(ae -> {
 			var menu = new JPopupMenu();
 
-			var mnuImportSearch = new JMenuItem(capitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+			var mnuImportSearch = new JMenuItem(
+					capitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
 			mnuImportSearch.addActionListener(_ -> {
@@ -437,10 +413,10 @@ public class AlarmGUI extends MTGUIComponent {
 
 						}
 
-						if (res == JFileChooser.APPROVE_OPTION)
-						{
+						if (res == JFileChooser.APPROVE_OPTION) {
 
-							AbstractObservableWorker<MTGDeck, MTGCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp) {
+							AbstractObservableWorker<MTGDeck, MTGCard, MTGCardsExport> sw = new AbstractObservableWorker<>(
+									lblLoading, exp) {
 
 								@Override
 								protected MTGDeck doInBackground() throws Exception {
@@ -451,16 +427,16 @@ public class AlarmGUI extends MTGUIComponent {
 								protected void done() {
 									super.done();
 
-									if(getResult()!=null)
+									if (getResult() != null)
 										for (MTGCard mc : getResult().getMain().keySet())
 											addCard(mc);
 								}
 							};
-							ThreadManager.getInstance().runInEdt(sw,"import alarms");
+							ThreadManager.getInstance().runInEdt(sw, "import alarms");
 						}
 					});
 
-					UITools.buildCategorizedMenu(menu,it,exp);
+					UITools.buildCategorizedMenu(menu, it, exp);
 				}
 			}
 
@@ -471,9 +447,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 		});
 
-
 	}
-
 
 	private void updateInfo(MTGAlert selected) {
 		magicCardDetailPanel.init(selected.getCard());
@@ -494,6 +468,5 @@ public class AlarmGUI extends MTGUIComponent {
 		model.fireTableDataChanged();
 
 	}
-
 
 }

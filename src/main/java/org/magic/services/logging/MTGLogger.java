@@ -1,9 +1,7 @@
 package org.magic.services.logging;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Appender;
@@ -16,10 +14,10 @@ public class MTGLogger {
 
 	private static final Level[] LEVELS = Level.values();
 
-	private MTGLogger() {}
+	private MTGLogger() {
+	}
 
-	public static Level[] getLevels()
-	{
+	public static Level[] getLevels() {
 		return LEVELS;
 	}
 
@@ -36,26 +34,22 @@ public class MTGLogger {
 	}
 
 	public static void changeLevel(Logger logger, String l) {
-		
+
 		try {
 			Configurator.setLevel(logger, Level.toLevel(l));
-			getContext().getLogger(MTGLogger.class).info("change {} to level {}", logger.getName(),l);
-		}
-		catch(Exception _)
-		{
-			getContext().getLogger(MTGLogger.class).error("Error setting logger level to {}",l);
+			getContext().getLogger(MTGLogger.class).info("change {} to level {}", logger.getName(), l);
+		} catch (Exception _) {
+			getContext().getLogger(MTGLogger.class).error("Error setting logger level to {}", l);
 		}
 	}
 
 	public static void changeLevel(Level l) {
 		Configurator.setRootLevel(l);
 	}
-	
-	public static LoggerContext getContext()
-	{
+
+	public static LoggerContext getContext() {
 		return (LoggerContext) LogManager.getContext(false);
 	}
-	
 
 	public static Appender getAppender(String name) {
 		return getContext().getConfiguration().getAppender(name);
@@ -66,7 +60,7 @@ public class MTGLogger {
 	}
 
 	public static MTGAppender getMTGAppender() {
-		
+
 		return (MTGAppender) getAppender("APPS");
 	}
 

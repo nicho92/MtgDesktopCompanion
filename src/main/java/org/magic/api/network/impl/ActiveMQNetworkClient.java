@@ -1,7 +1,6 @@
 package org.magic.api.network.impl;
 import java.io.IOException;
 import java.sql.SQLException;
-
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
 import org.apache.activemq.artemis.api.core.RoutingType;
@@ -32,39 +31,38 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	private ClientConsumer consumer;
 	private ClientSessionFactory factory;
 	private ServerLocator locator;
-	
-	
+
 	@Override
 	protected void createConnection(String url) throws IOException {
-		
+
 		try {
 			locator = ActiveMQClient.createServerLocator(url);
 		} catch (Exception e) {
-			throw new IOException(e); 
+			throw new IOException(e);
 		}
-		
+
 		try {
-			
-			factory=  locator.createSessionFactory();
+
+			factory = locator.createSessionFactory();
 		} catch (Exception e) {
-			throw new IOException(e); 
+			throw new IOException(e);
 		}
-		
+
 		try {
-			session = factory.createSession(player.getName(),"password",false,true,true,true, 0, String.valueOf(player.getId()));
-			
+			session = factory.createSession(player.getName(), "password", false, true, true, true, 0,
+					String.valueOf(player.getId()));
+
 		} catch (ActiveMQException e) {
-			throw new IOException(e); 
+			throw new IOException(e);
 		}
-		
+
 		try {
 			session.start();
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
 	}
-	
-	
+
 	@Override
 	public void switchAddress(String adress) throws IOException {
 		try {
@@ -81,32 +79,26 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 			throw new IOException(e);
 		}
 	}
-	
 
 	private QueueConfiguration createQueueConf(String adress) {
-		return QueueConfiguration.of("queue-"+player.getName()+"-"+player.getId())
-						.setAddress(adress)
-						.setDurable(false)
-						.setAutoCreated(true)
-						.setConfigurationManaged(true)
-						.setRoutingType(RoutingType.MULTICAST)
-						.setAutoCreateAddress(true);
+		return QueueConfiguration.of("queue-" + player.getName() + "-" + player.getId()).setAddress(adress)
+				.setDurable(false).setAutoCreated(true).setConfigurationManaged(true)
+				.setRoutingType(RoutingType.MULTICAST).setAutoCreateAddress(true);
 	}
 
 	@Override
 	public void sendMessage(AbstractMessage obj) throws IOException {
 		obj.setAuthor(player);
-		
-		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
-		     message.getBodyBuffer().writeString(toJson(obj));
+
+		var message = session.createMessage(obj.getTypeMessage() == MSG_TYPE.TALK);
+		message.getBodyBuffer().writeString(toJson(obj));
 		try {
 			producer.send(message);
-			logger.debug("{} send {} : {}", obj.getAuthor().getName(), obj.getTypeMessage(),obj.getMessage());
+			logger.debug("{} send {} : {}", obj.getAuthor().getName(), obj.getTypeMessage(), obj.getMessage());
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
-		}		
+		}
 	}
-	
 
 	@Override
 	public void disableConsummer() {
@@ -116,27 +108,25 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 			logger.error(e);
 		}
 	}
-	
 
 	@Override
 	protected String read() throws IOException {
-		ClientMessage msg=null;
+		ClientMessage msg = null;
 		try {
-			
-			if(!consumer.isClosed()) {
+
+			if (!consumer.isClosed()) {
 				msg = consumer.receive();
-				logger.debug("consume {}",msg);
+				logger.debug("consume {}", msg);
 			}
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
-		
-		if(msg==null)
+
+		if (msg == null)
 			return null;
-		
+
 		return msg.getBodyBuffer().readString();
 	}
-	
 
 	@Override
 	public void logout() throws IOException {
@@ -148,7 +138,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		}
 		locator.close();
 		factory.close();
-	
+
 		try {
 			producer.close();
 		} catch (ActiveMQException e) {
@@ -159,15 +149,14 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
-		
+
 	}
 
 	@Override
 	public boolean isActive() {
-		return session!=null && !session.isClosed();
+		return session != null && !session.isClosed();
 	}
 
-	
 	@Override
 	public String getName() {
 		return "ArtemisMQ";
@@ -177,31 +166,26 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	public boolean isEnable() {
 		return true;
 	}
-	
-	
+
 	@Override
 	public String getVersion() {
-		return POMReader.readVersionFromPom(ActiveMQClient.class, "/META-INF/maven/org.apache.activemq/artemis-core-client/pom.properties");
+		return POMReader.readVersionFromPom(ActiveMQClient.class,
+				"/META-INF/maven/org.apache.activemq/artemis-core-client/pom.properties");
 	}
-
 
 	@Override
 	public void searchStock(SearchMessage s) throws IOException {
 		try {
-			logger.info("Getting a search stock query {}",s);
-			
-			if(s.getAttachement().getTypeProduct()==EnumItems.CARD)
-			{
-				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)s.getAttachement());
+			logger.info("Getting a search stock query {}", s);
+
+			if (s.getAttachement().getTypeProduct() == EnumItems.CARD) {
+				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard) s.getAttachement());
 				sendMessage(new SendStockMessage(s, ret));
 			}
 		} catch (SQLException e) {
 			logger.error(e);
 		}
-		
-		
+
 	}
-
-
 
 }

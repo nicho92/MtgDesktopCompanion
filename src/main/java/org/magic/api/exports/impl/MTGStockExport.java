@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -20,20 +19,17 @@ import org.magic.services.tools.FileTools;
 
 public class MTGStockExport extends AbstractFormattedFileCardExport {
 
-
-	private String columns="\"Card\",\"Set\",\"Quantity\",\"Price\",\"Condition\",\"Language\",\"Foil\",\"Signed\"";
+	private String columns = "\"Card\",\"Set\",\"Quantity\",\"Price\",\"Condition\",\"Language\",\"Foil\",\"Signed\"";
 
 	@Override
 	public String getStockFileExtension() {
 		return ".mtgstock";
 	}
-	
+
 	@Override
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
-	
-
 
 	@Override
 	public STATUT getStatut() {
@@ -44,49 +40,44 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var temp = new StringBuilder();
-					  temp.append(columns).append("\n");
+		temp.append(columns).append("\n");
 
-		stock.forEach(st->{
+		stock.forEach(st -> {
 			temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getProduct().getEdition().getSet()).append("\"").append(getSeparator());
 			temp.append(st.getQte()).append(getSeparator());
 			temp.append(st.getValue().doubleValue()).append(getSeparator());
-			temp.append( aliases.getConditionFor(this,st.getCondition())).append(getSeparator());
+			temp.append(aliases.getConditionFor(this, st.getCondition())).append(getSeparator());
 			temp.append(st.getLanguage()).append(getSeparator());
-			temp.append(st.isFoil()?"Yes":"No").append(getSeparator());
-			temp.append(st.isSigned()?"Yes":"No").append("\n");
+			temp.append(st.isFoil() ? "Yes" : "No").append(getSeparator());
+			temp.append(st.isSigned() ? "Yes" : "No").append("\n");
 			notify(st.getProduct());
 		});
 		FileTools.saveFile(f, temp.toString());
 	}
-
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
 		List<MTGCardStock> ret = new ArrayList<>();
 
-		matches(content,true).forEach(m->{
+		matches(content, true).forEach(m -> {
 			String cname = cleanName(m.group(1));
 			MTGEdition ed = null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
-			}
-			catch(Exception _)
-			{
-				logger.error("Edition not found for {}",m.group(2));
+			} catch (Exception _) {
+				logger.error("Edition not found for {}", m.group(2));
 			}
 
-			MTGCard card=null;
+			MTGCard card = null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
 			} catch (IOException _) {
-				logger.error("no card found for {}/{}",cname,ed);
+				logger.error("no card found for {}/{}", cname, ed);
 			}
 
-
-			if(card!=null)
-			{
+			if (card != null) {
 				Integer qty = Integer.parseInt(m.group(3));
 				MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 				st.setProduct(card);
@@ -95,7 +86,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 				st.setLanguage(m.group(6));
 				st.setFoil(m.group(7).equalsIgnoreCase("yes"));
 				st.setSigned(m.group(8).equalsIgnoreCase("yes"));
-				st.setCondition(aliases.getReversedConditionFor(this,m.group(5),EnumCondition.NEAR_MINT));
+				st.setCondition(aliases.getReversedConditionFor(this, m.group(5), EnumCondition.NEAR_MINT));
 				ret.add(st);
 				notify(card);
 			}
@@ -104,35 +95,29 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		return ret;
 	}
 
-
 	@Override
-	public MTGDeck importDeck(String f,String dname) throws IOException
-	{
+	public MTGDeck importDeck(String f, String dname) throws IOException {
 
 		var deck = new MTGDeck();
 		deck.setName(dname);
 
-		matches(f,true).forEach(m->{
+		matches(f, true).forEach(m -> {
 			String cname = cleanName(m.group(1));
 			MTGEdition ed = null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
-			}
-			catch(Exception _)
-			{
-				logger.error("Edition not found for {}",m.group(2));
+			} catch (Exception _) {
+				logger.error("Edition not found for {}", m.group(2));
 			}
 
-			MTGCard card=null;
+			MTGCard card = null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
 			} catch (IOException _) {
-				logger.error("no card found for {}/{}",cname,ed);
+				logger.error("no card found for {}/{}", cname, ed);
 			}
 
-
-			if(card!=null)
-			{
+			if (card != null) {
 				Integer qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(card, qty);
 				notify(card);
@@ -148,12 +133,10 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		return "MTGStocks";
 	}
 
-
 	@Override
 	protected boolean skipFirstLine() {
 		return true;
 	}
-
 
 	@Override
 	protected String[] skipLinesStartWith() {
@@ -164,8 +147,5 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return ",";
 	}
-
-
-
 
 }

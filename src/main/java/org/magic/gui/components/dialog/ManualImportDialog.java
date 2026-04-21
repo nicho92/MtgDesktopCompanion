@@ -12,7 +12,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -20,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -33,7 +31,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.DeckImportWorker;
 public class ManualImportDialog extends JDialog {
 
-
 	private static final long serialVersionUID = 1L;
 	private JTextPane editorPane;
 	private JTagsPanel tagsPanel;
@@ -42,8 +39,6 @@ public class ManualImportDialog extends JDialog {
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private MTGDeck importedDeck;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
-
 
 	public String getStringDeck() {
 		return editorPane.getText();
@@ -83,9 +78,6 @@ public class ManualImportDialog extends JDialog {
 		panelCenter.setLayout(new BorderLayout(0, 0));
 		editorPane = new JTextPane();
 
-
-
-
 		editorPane.setPreferredSize(new Dimension(106, 300));
 		panelCenter.add(new JScrollPane(editorPane));
 		panelCenter.add(tagsPanel, BorderLayout.SOUTH);
@@ -98,17 +90,17 @@ public class ManualImportDialog extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				var name = tagsPanel.getTagAt(e.getPoint());
 				try {
-					editorPane.getDocument().remove(start,position-start);
-					editorPane.getDocument().insertString(start, " "+name, null);
+					editorPane.getDocument().remove(start, position - start);
+					editorPane.getDocument().insertString(start, " " + name, null);
 					editorPane.requestFocus();
 					var r = new Robot();
 					r.keyPress(KeyEvent.VK_ENTER);
-					start=0;
+					start = 0;
 
 				} catch (BadLocationException e1) {
-					logger.error("error editing at s:{} e:{}",start,(position-start),e1);
+					logger.error("error editing at s:{} e:{}", start, (position - start), e1);
 				} catch (AWTException e1) {
-					logger.error("Error loading key enter",e1);
+					logger.error("Error loading key enter", e1);
 				}
 
 			}
@@ -120,63 +112,54 @@ public class ManualImportDialog extends JDialog {
 				position = editorPane.getCaretPosition();
 				try {
 
-					if(ke.getKeyCode()==KeyEvent.VK_SPACE && start<=0)
-						start=position-1;
+					if (ke.getKeyCode() == KeyEvent.VK_SPACE && start <= 0)
+						start = position - 1;
 
-					if(ke.getKeyCode()==KeyEvent.VK_ENTER)
-						start=0;
+					if (ke.getKeyCode() == KeyEvent.VK_ENTER)
+						start = 0;
 
-
-
-					if(start>=0)
-					{
-						String currentName=editorPane.getText(start, (position-start)).trim();
-						if(currentName.length()>=3)
-						{
+					if (start >= 0) {
+						String currentName = editorPane.getText(start, (position - start)).trim();
+						if (currentName.length() >= 3) {
 							tagsPanel.bind(getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(currentName));
 						}
 
 					}
-				}
-				catch(Exception e)
-				{
-					logger.error("error",e);
+				} catch (Exception e) {
+					logger.error("error", e);
 				}
 
 			}
 		});
 
-		btnImport.addActionListener(_ ->{
+		btnImport.addActionListener(_ -> {
 
-			DeckImportWorker sw = new DeckImportWorker(getPlugin(MTGConstants.DEFAULT_MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading,null)
-										{
+			DeckImportWorker sw = new DeckImportWorker(
+					getPlugin(MTGConstants.DEFAULT_MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading, null) {
 
-											@Override
-											protected MTGDeck doInBackground() {
+				@Override
+				protected MTGDeck doInBackground() {
 
-												try {
-													importedDeck= exp.importDeck(editorPane.getText(),"manual");
-												} catch (Exception e) {
-													err=e;
-													logger.error("error export with {}",exp,e);
-												}
-												return importedDeck;
-											}
+					try {
+						importedDeck = exp.importDeck(editorPane.getText(), "manual");
+					} catch (Exception e) {
+						err = e;
+						logger.error("error export with {}", exp, e);
+					}
+					return importedDeck;
+				}
 
-											@Override
-											protected void done()
-											{
-												super.done();
-												dispose();
-											}
+				@Override
+				protected void done() {
+					super.done();
+					dispose();
+				}
 
-										};
-									lblLoading.start();
-			
-									ThreadManager.getInstance().runInEdt(sw,"import decks");
-	});
+			};
+			lblLoading.start();
 
-
+			ThreadManager.getInstance().runInEdt(sw, "import decks");
+		});
 
 	}
 

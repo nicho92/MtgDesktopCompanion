@@ -1,7 +1,6 @@
 package org.magic.api.beans;
 
 import javax.swing.Icon;
-
 import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.api.interfaces.extra.MTGSerializable;
@@ -38,11 +37,10 @@ public class MTGCollection implements MTGSerializable, MTGIconable {
 	}
 
 	@Override
-	@BsonIgnore 
+	@BsonIgnore
 	public Icon getIcon() {
 		return MTGConstants.ICON_TAB_BACK;
 	}
-	
 
 	@Override
 	public int hashCode() {
@@ -54,17 +52,13 @@ public class MTGCollection implements MTGSerializable, MTGIconable {
 		return getName();
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 
-		if(!(obj instanceof MTGCollection))
+		if (!(obj instanceof MTGCollection))
 			return false;
 
-		return ((MTGCollection)obj).getName().equalsIgnoreCase(getName());
+		return ((MTGCollection) obj).getName().equalsIgnoreCase(getName());
 	}
-	
-
-	
 
 }

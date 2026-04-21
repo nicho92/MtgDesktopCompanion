@@ -2,7 +2,6 @@ package org.magic.game.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -12,7 +11,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.game.gui.components.LightDescribeCardPanel;
@@ -48,7 +46,6 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 
 		init();
 
-
 		listMain = new JList<>(modMain);
 
 		listMain.setCellRenderer(new MagicCardListRenderer());
@@ -56,7 +53,6 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		listSide = new JList<>(modSide);
 		listSide.setCellRenderer(new MagicCardListRenderer());
 		getContentPane().add(new JScrollPane(listSide), BorderLayout.EAST);
-
 
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -127,19 +123,15 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		});
 		panel1.add(btnCancel);
 
-
 		initDescribe(listMain);
 		initDescribe(listSide);
 
 		pack();
 	}
 
-
-	private void initDescribe(JList<MTGCard> list)
-	{
-		list.addListSelectionListener(_->lightDescribeCardPanel.setCard(list.getSelectedValue()));
+	private void initDescribe(JList<MTGCard> list) {
+		list.addListSelectionListener(_ -> lightDescribeCardPanel.setCard(list.getSelectedValue()));
 	}
-
 
 	private void refresh() {
 		lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());

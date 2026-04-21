@@ -3,14 +3,12 @@ package org.magic.gui.components.shops;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.SQLException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -47,10 +45,10 @@ public class ContactPanel extends MTGUIComponent {
 
 	public ContactPanel(boolean enableSaveButton) {
 		var gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 82, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.columnWidths = new int[]{0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 82, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0E-4};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4};
 		setLayout(gridBagLayout);
 
 		add(new JLangLabel("LASTNAME"), UITools.createGridBagConstraints(null, null, 0, 0));
@@ -102,15 +100,15 @@ public class ContactPanel extends MTGUIComponent {
 		activeCheckBox = new JCheckBox();
 		add(activeCheckBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
 
-		if(enableSaveButton) {
+		if (enableSaveButton) {
 			var btnUpdate = new JButton(MTGConstants.ICON_SAVE);
 			add(btnUpdate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 12));
-			btnUpdate.addActionListener(_->{
+			btnUpdate.addActionListener(_ -> {
 
 				try {
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateContact(getContact());
 				} catch (SQLException e) {
-					logger.error("error saving contact ",e);
+					logger.error("error saving contact ", e);
 					MTGControler.getInstance().notify(e);
 				}
 
@@ -120,14 +118,12 @@ public class ContactPanel extends MTGUIComponent {
 			mbindingGroup = initDataBindings();
 		}
 
-
-
-		passwordJPasswordBtn.addActionListener(_->{
+		passwordJPasswordBtn.addActionListener(_ -> {
 			String content = JOptionPane.showInputDialog("Type new password");
 			try {
-				MTG.getEnabledPlugin(MTGDao.class).changePassword(getContact(),content);
+				MTG.getEnabledPlugin(MTGDao.class).changePassword(getContact(), content);
 			} catch (SQLException e) {
-				logger.error("error updating password",e);
+				logger.error("error updating password", e);
 				MTGControler.getInstance().notify(e);
 			}
 		});
@@ -158,59 +154,69 @@ public class ContactPanel extends MTGUIComponent {
 	protected BindingGroup initDataBindings() {
 		var addressProperty = BeanProperty.create("address");
 		var textProperty = BeanProperty.create("text");
-		var autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, addressProperty, addressJTextArea, textProperty);
+		var autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, addressProperty,
+				addressJTextArea, textProperty);
 		autoBinding.bind();
 		//
 		var countryProperty = BeanProperty.create("country");
 		var textProperty1 = BeanProperty.create("text");
-		var autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, countryProperty, countryJTextField, textProperty1);
+		var autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, countryProperty,
+				countryJTextField, textProperty1);
 		autoBinding1.bind();
 		//
 		var emailProperty = BeanProperty.create("email");
 		var textProperty2 = BeanProperty.create("text");
-		var autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, emailProperty, emailJTextField, textProperty2);
+		var autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, emailProperty,
+				emailJTextField, textProperty2);
 		autoBinding2.bind();
 		//
 		var lastNameProperty = BeanProperty.create("lastName");
 		var textProperty3 = BeanProperty.create("text");
-		var autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, lastNameProperty, lastNameJTextField, textProperty3);
+		var autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, lastNameProperty,
+				lastNameJTextField, textProperty3);
 		autoBinding4.bind();
 		//
 		var nameProperty = BeanProperty.create("name");
 		var textProperty4 = BeanProperty.create("text");
-		var autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, nameProperty, nameJTextField, textProperty4);
+		var autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, nameProperty, nameJTextField,
+				textProperty4);
 		autoBinding5.bind();
 		//
 		var telephoneProperty = BeanProperty.create("telephone");
 		var textProperty6 = BeanProperty.create("text");
-		var autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, telephoneProperty, telephoneJTextField, textProperty6);
+		var autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, telephoneProperty,
+				telephoneJTextField, textProperty6);
 		autoBinding7.bind();
 		//
 		var websiteProperty = BeanProperty.create("website");
 		var textProperty7 = BeanProperty.create("text");
-		var autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, websiteProperty, websiteJTextField, textProperty7);
+		var autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, websiteProperty,
+				websiteJTextField, textProperty7);
 		autoBinding8.bind();
 
 		var mailAcceptProperty = BeanProperty.create("emailAccept");
 		var boolProperty8 = BeanProperty.create("selected");
-		var autoBinding9 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, mailAcceptProperty, emailAcceptationCheckBox,boolProperty8);
+		var autoBinding9 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, mailAcceptProperty,
+				emailAcceptationCheckBox, boolProperty8);
 		autoBinding9.bind();
 
 		var zipProperty = BeanProperty.create("zipCode");
 		var textProperty9 = BeanProperty.create("text");
-		var autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, zipProperty, zipCodeJTextField, textProperty9);
+		var autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, zipProperty,
+				zipCodeJTextField, textProperty9);
 		autoBinding10.bind();
 
 		var cityProperty = BeanProperty.create("city");
 		var textProperty10 = BeanProperty.create("text");
-		var autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, cityProperty, cityJTextField, textProperty10);
+		var autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, cityProperty, cityJTextField,
+				textProperty10);
 		autoBinding11.bind();
 
 		var activeProperty = BeanProperty.create("active");
 		var boolProperty11 = BeanProperty.create("selected");
-		var autoBinding12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, activeProperty, activeCheckBox,boolProperty11);
+		var autoBinding12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, contact, activeProperty,
+				activeCheckBox, boolProperty11);
 		autoBinding12.bind();
-
 
 		//
 		var bindingGroup = new BindingGroup();

@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
@@ -25,7 +24,7 @@ import org.mozilla.javascript.ast.AstNode;
 
 public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
-	private Map<String,Integer> mapCodes;
+	private Map<String, Integer> mapCodes;
 
 	public MTGSalvationDeckSniffer() {
 		super();
@@ -40,7 +39,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		mapCodes.put("Modern", 1);
 
 	}
-
 
 	@Override
 	public String[] listFilter() {
@@ -75,7 +73,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					var qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
 					cardName = s.substring(s.indexOf(' '), s.length()).trim();
 
-					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
+					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
 					if (!sideboard) {
 						deck.getMain().put(mc, qte);
 					} else {
@@ -84,7 +82,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					notify(mc);
 
 				} catch (Exception e) {
-					logger.error("error getting {} : {}",cardName,e);
+					logger.error("error getting {} : {}", cardName, e);
 				}
 			}
 		}
@@ -95,18 +93,18 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
-		var baseUrl="https://www.mtgsalvation.com/";
-		
-		String url = baseUrl + "/decks?filter-format=" + getFormatCode(filter)+ "&filter-deck-time-frame=" + getString("FILTER");
+		var baseUrl = "https://www.mtgsalvation.com/";
+
+		String url = baseUrl + "/decks?filter-format=" + getFormatCode(filter) + "&filter-deck-time-frame="
+				+ getString("FILTER");
 
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		var nbPage = 1;
 
-
 		for (var i = 1; i <= getInt("MAX_PAGE"); i++) {
 			String link = url + "&page=" + nbPage;
-			logger.debug("sniff url :  {}",link);
+			logger.debug("sniff url :  {}", link);
 
 			var d = URLTools.extractAsHtml(link);
 
@@ -152,7 +150,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 				if (tab.get(j).getAsInt() > 0)
 					hascolor = true;
 			}
-			if (hascolor && c!=null) {
+			if (hascolor && c != null) {
 				build.append(c.toManaCode());
 			}
 		}
@@ -164,7 +162,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		return mapCodes.get(property);
 	}
 
-
 	@Override
 	public String getName() {
 		return "MTGSalvation";
@@ -172,10 +169,10 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
 		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
-		m.put("FILTER", MTGProperty.newIntegerProperty("1", "HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5",1,5));
+		m.put("FILTER", MTGProperty.newIntegerProperty("1", "HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5", 1, 5));
 		return m;
 	}
 

@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,7 +30,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
@@ -82,199 +80,183 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private transient MTGNetworkClient client;
 	private CardStockTableModel stockResultModel;
 	private JTabbedPane tabbedPane;
-	
+
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
-		
-		client = MTG.getEnabledPlugin(MTGNetworkClient.class);
-		var server = MTGControler.getInstance().get("network-config/network-last-server", MTGConstants.MTG_CHAT_DEFAULT_URI);
 
-		
-		
+		client = MTG.getEnabledPlugin(MTGNetworkClient.class);
+		var server = MTGControler.getInstance().get("network-config/network-last-server",
+				MTGConstants.MTG_CHAT_DEFAULT_URI);
+
 		btnLogout = new JButton(capitalize("LOGOUT"));
 		btnConnect = new JButton(capitalize("CONNECT"));
-		txtServer = new JTextField(server,25);
+		txtServer = new JTextField(server, 25);
 		tabbedPane = new JTabbedPane();
 		listMsgModel = new DefaultListModel<>();
-		listPlayerModel= new DefaultListModel<>();
+		listPlayerModel = new DefaultListModel<>();
 		stockResultModel = new CardStockTableModel();
 		listMsg = new JList<>(listMsgModel);
 		listPlayers = new JList<>(listPlayerModel);
 		txtChatMessageEditor = new JTextArea();
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
-		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream().filter(s->s!=EnumPlayerStatus.DISCONNECTED).toList());
-		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"searchquery");
-		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK,KeyEvent.VK_F,"sharedeck");
-		btnIa = UITools.createBindableJButton("", MTGConstants.ICON_IA,KeyEvent.VK_I,"callAssistant");
-	
-		
-		var lblIp = new JLangLabel("HOST",true);
-		
+		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream()
+				.filter(s -> s != EnumPlayerStatus.DISCONNECTED).toList());
+		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_S, "searchquery");
+		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK, KeyEvent.VK_F, "sharedeck");
+		btnIa = UITools.createBindableJButton("", MTGConstants.ICON_IA, KeyEvent.VK_I, "callAssistant");
+
+		var lblIp = new JLangLabel("HOST", true);
+
 		var panelChat = new JPanel();
 		var panelChatBox = new JPanel();
 		var panelSearch = new JScrollPane();
-		var tableResult = UITools.createNewTable(stockResultModel, true );
-		
-		
+		var tableResult = UITools.createNewTable(stockResultModel, true);
+
 		listMsg.setBorder(new TitledBorder(null, "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		listPlayers.setBorder(new TitledBorder(null, "Online", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				
-		
-		
+
 		btnLogout.setEnabled(false);
-		
+
 		panelChat.setLayout(new BorderLayout());
 		panelChatBox.setLayout(new BorderLayout());
-		
+
 		listPlayers.setCellRenderer(new PlayerRenderer());
 		listMsg.setCellRenderer(new MessageRenderer());
-	 	
+
 		txtChatMessageEditor.setText(capitalize("CHAT_INTRO_TEXT"));
 		txtChatMessageEditor.setLineWrap(true);
 		txtChatMessageEditor.setWrapStyleWord(true);
 		txtChatMessageEditor.setRows(3);
 		txtChatMessageEditor.setEditable(false);
-		
+
 		stockResultModel.setWritable(false);
-		
-		
-		tabbedPane.addTab(capitalize("CHAT"),MTGConstants.ICON_TAB_CHAT,panelChat);
+
+		tabbedPane.addTab(capitalize("CHAT"), MTGConstants.ICON_TAB_CHAT, panelChat);
 		tabbedPane.addTab(capitalize("SEARCH"), MTGConstants.ICON_SEARCH, panelSearch, null);
-		
-		add(UITools.createFlowCenterPanel(lblIp,txtServer,btnConnect,btnLogout,btnIa), BorderLayout.NORTH);
+
+		add(UITools.createFlowCenterPanel(lblIp, txtServer, btnConnect, btnLogout, btnIa), BorderLayout.NORTH);
 		add(new JScrollPane(listPlayers), BorderLayout.EAST);
 		add(tabbedPane, BorderLayout.CENTER);
-		
+
 		panelChat.add(new JScrollPane(listMsg), BorderLayout.CENTER);
 		panelChat.add(panelChatBox, BorderLayout.SOUTH);
 		panelChatBox.add(txtChatMessageEditor, BorderLayout.CENTER);
-		panelChatBox.add(UITools.createFlowCenterPanel(cboStates,btnColorChoose,btnSearch,btnDeck), BorderLayout.NORTH);
+		panelChatBox.add(UITools.createFlowCenterPanel(cboStates, btnColorChoose, btnSearch, btnDeck),
+				BorderLayout.NORTH);
 		panelSearch.setViewportView(tableResult);
-		
-		
-		
-		
+
 		initActions();
-		
-		if(MTG.readPropertyAsBoolean("network-config/online-autoconnect"))
+
+		if (MTG.readPropertyAsBoolean("network-config/online-autoconnect"))
 			btnConnect.doClick();
-		
+
 	}
 
 	private void initActions() {
 
-		listMsg.addMouseListener( new MouseAdapter()
-		{
+		listMsg.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				 if ( SwingUtilities.isRightMouseButton(e) ) {
-					 listMsg.setSelectedIndex(listMsg.locationToIndex(e.getPoint()));
-					    var menu = new JPopupMenu();
-			            var selected = listMsg.getSelectedValue();
-			            
-			            if(selected.getTypeMessage()==MSG_TYPE.DECK) 
-			            {
-			            	var deck = ((DeckMessage)selected).getAttachement();
-			        		deck.setId(-1);
-			        		
-				            var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
-				            itemImport.addActionListener(_->{
-				            		try {
-										new MTGDeckManager().saveDeck(deck);
-									} catch (IOException _) {
-										logger.error(e);
-									}
-				            });
-				            menu.add(itemImport);
-				            
-				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
-				            itemOpen.addActionListener(_->{
-				            		var deckV = new ConstructPanel();
-				            			deckV.hideSearchComponent(true);
-				            			deckV.setDeck(deck);
-				            			
-										MTGUIComponent.createJDialog(deckV, true, true).setVisible(true);
-									
-				            });
-				            menu.add(itemOpen);
-			            }
-			            
-			            if(selected.getTypeMessage()==MSG_TYPE.ANSWER) {
-			            	var items = ((SendStockMessage)selected).getResultItems();
-			        		
-				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
-				            itemOpen.addActionListener(_->{
-				            		
-				            	var panel = new StockPanelGUI();
-				            	
-				            	for(var mc : items)
-				            		panel.addStock(mc);
-				            	
-				            	MTGUIComponent.createJDialog(panel, true, true).setVisible(true);
-									
-				            });
-				            menu.add(itemOpen);
-			            }
-			            menu.show(listMsg, e.getPoint().x, e.getPoint().y);            
-			        }
-	        }
+				if (SwingUtilities.isRightMouseButton(e)) {
+					listMsg.setSelectedIndex(listMsg.locationToIndex(e.getPoint()));
+					var menu = new JPopupMenu();
+					var selected = listMsg.getSelectedValue();
+
+					if (selected.getTypeMessage() == MSG_TYPE.DECK) {
+						var deck = ((DeckMessage) selected).getAttachement();
+						deck.setId(-1);
+
+						var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
+						itemImport.addActionListener(_ -> {
+							try {
+								new MTGDeckManager().saveDeck(deck);
+							} catch (IOException _) {
+								logger.error(e);
+							}
+						});
+						menu.add(itemImport);
+
+						var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
+						itemOpen.addActionListener(_ -> {
+							var deckV = new ConstructPanel();
+							deckV.hideSearchComponent(true);
+							deckV.setDeck(deck);
+
+							MTGUIComponent.createJDialog(deckV, true, true).setVisible(true);
+
+						});
+						menu.add(itemOpen);
+					}
+
+					if (selected.getTypeMessage() == MSG_TYPE.ANSWER) {
+						var items = ((SendStockMessage) selected).getResultItems();
+
+						var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
+						itemOpen.addActionListener(_ -> {
+
+							var panel = new StockPanelGUI();
+
+							for (var mc : items)
+								panel.addStock(mc);
+
+							MTGUIComponent.createJDialog(panel, true, true).setVisible(true);
+
+						});
+						menu.add(itemOpen);
+					}
+					menu.show(listMsg, e.getPoint().x, e.getPoint().y);
+				}
+			}
 		});
-		
-	
+
 		btnConnect.addActionListener(_ -> {
-			
-			var swConnect = new SwingWorker<Void, Void>(){
-				
+
+			var swConnect = new SwingWorker<Void, Void>() {
+
 				@Override
 				protected Void doInBackground() throws Exception {
-					client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_TOPIC);
+					client.join(MTGControler.getInstance().getProfilPlayer(), txtServer.getText(),
+							ActiveMQServer.DEFAULT_TOPIC);
 					return null;
 				}
-				
+
 				@Override
 				protected void done() {
-					
-					try 
-					{
+
+					try {
 						get();
-						
+
 						txtServer.setEnabled(!client.isActive());
 						btnConnect.setEnabled(!client.isActive());
 						btnLogout.setEnabled(client.isActive());
 						txtChatMessageEditor.setEditable(client.isActive());
-						MTGControler.getInstance().setProperty("network-config/network-last-server",txtServer.getText());
-					} 
-					catch(InterruptedException ie)
-					{
+						MTGControler.getInstance().setProperty("network-config/network-last-server",
+								txtServer.getText());
+					} catch (InterruptedException ie) {
 						Thread.currentThread().interrupt();
 						logger.error(ie);
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						MTGControler.getInstance().notify(e);
 					}
-				
-					if(client.isActive())
-						runningDaemon();
-					
-				}
-				
-			};
-			
-			ThreadManager.getInstance().runInEdt(swConnect, "Connection to Server");
-			
 
-			
-			
+					if (client.isActive())
+						runningDaemon();
+
+				}
+
+			};
+
+			ThreadManager.getInstance().runInEdt(swConnect, "Connection to Server");
+
 		});
 
-		
-		btnIa.addActionListener(_->{
-			btnIa.setEnabled(false);			
+		btnIa.addActionListener(_ -> {
+			btnIa.setEnabled(false);
 			ThreadManager.getInstance().executeThread(new MTGRunnable() {
-				
+
 				@Override
 				protected void auditedRun() {
-					
+
 					try {
 						IAVirtualUser.init(txtServer.getText());
 
@@ -285,7 +267,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 				}
 			}, "MTGAssistant Agent");
 		});
-		
 
 		btnLogout.addActionListener(_ -> {
 			try {
@@ -297,7 +278,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		btnColorChoose.addActionListener(_ -> {
 			var c = JColorChooser.showDialog(null, "Choose Text Color", client.getPlayer().getColor());
-			if(c!=null) {
+			if (c != null) {
 				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
 				client.getPlayer().setColor(c);
 			}
@@ -314,7 +295,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		txtChatMessageEditor.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				
+
 				if (e.getKeyCode() == KeyEvent.VK_ENTER && !txtChatMessageEditor.getText().isEmpty()) {
 					e.consume();
 					try {
@@ -327,45 +308,40 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 			}
 		});
-		
-		
-		btnSearch.addActionListener(_->{
-			try 
-			{
+
+		btnSearch.addActionListener(_ -> {
+			try {
 				var diag = new CardImporterDialog();
 				diag.setVisible(true);
-				
-				if(diag.hasSelected())
-				{
+
+				if (diag.hasSelected()) {
 					var msg = new SearchMessage(diag.getSelectedItem());
 					client.sendMessage(msg);
 				}
-				
+
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
 			tabbedPane.setSelectedIndex(1);
-			
+
 		});
-		
-		btnDeck.addActionListener(_->{
-			try 
-			{
+
+		btnDeck.addActionListener(_ -> {
+			try {
 				var diag = new JDeckChooserDialog();
 				diag.setVisible(true);
-				
-				if(diag.getSelectedDeck()!=null)
-				{
+
+				if (diag.getSelectedDeck() != null) {
 					client.sendMessage(new DeckMessage(diag.getSelectedDeck()));
 				}
-				
+
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
 		});
 
 		cboStates.addItemListener(ie -> {
-			if(ie.getStateChange()==ItemEvent.SELECTED)
+			if (ie.getStateChange() == ItemEvent.SELECTED)
 				try {
 					client.changeStatus((EnumPlayerStatus) cboStates.getSelectedItem());
 				} catch (IOException e1) {
@@ -376,36 +352,30 @@ public class NetworkChatPanel extends MTGUIComponent {
 	}
 
 	private void runningDaemon() {
-		var sw = new SwingWorker<Void, AbstractMessage>(){
+		var sw = new SwingWorker<Void, AbstractMessage>() {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				while(client.isActive())
-				{
+				while (client.isActive()) {
 					var s = client.consume();
-					if(s!=null)
+					if (s != null)
 						publish(s);
 				}
 				return null;
 			}
-			
+
 			@Override
 			protected void done() {
-				
+
 				try {
 					get();
-				}
-				catch(InterruptedException e)
-				{
+				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 					logger.error(e);
-				}
-				catch(Exception e)
-				{
+				} catch (Exception e) {
 					logger.error(e);
 				}
-				
-				
+
 				txtServer.setEnabled(true);
 				btnConnect.setEnabled(true);
 				btnLogout.setEnabled(false);
@@ -414,78 +384,78 @@ public class NetworkChatPanel extends MTGUIComponent {
 				listMsgModel.removeAllElements();
 			}
 
-
-
 			@Override
 			protected void process(List<AbstractMessage> chunks) {
-				
+
 				txtServer.setEnabled(false);
 				btnConnect.setEnabled(false);
 				btnLogout.setEnabled(true);
 				txtChatMessageEditor.setEditable(true);
-				
-			
-				for(var s : chunks)
-				{
-					switch(s.getTypeMessage())
-					{
-						case CHANGESTATUS: 
-								var msg = (StatutMessage)s;
-								switch(msg.getStatut())
-								{
-									case ONLINE : listPlayerModel.addElement(s.getAuthor());break;
-									case DISCONNECTED:listPlayerModel.removeElement(s.getAuthor());break;
-									default: Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(msg.getStatut()));break;
-								}
-								break;
-						
-						
-						case SYSTEM : 
-									var tm = (TechnicalMessage)s;
-									listPlayerModel.removeAllElements();  
-									listPlayerModel.addAll(tm.getPlayers()); 
+
+				for (var s : chunks) {
+					switch (s.getTypeMessage()) {
+						case CHANGESTATUS :
+							var msg = (StatutMessage) s;
+							switch (msg.getStatut()) {
+								case ONLINE :
+									listPlayerModel.addElement(s.getAuthor());
 									break;
-							  
-						case SEARCH: 
-							var msgs = (SearchMessage)s;
+								case DISCONNECTED :
+									listPlayerModel.removeElement(s.getAuthor());
+									break;
+								default :
+									Collections.list(listPlayerModel.elements()).stream()
+											.filter(p -> p.getId().equals(s.getAuthor().getId()))
+											.forEach(p -> p.setState(msg.getStatut()));
+									break;
+							}
+							break;
+
+						case SYSTEM :
+							var tm = (TechnicalMessage) s;
+							listPlayerModel.removeAllElements();
+							listPlayerModel.addAll(tm.getPlayers());
+							break;
+
+						case SEARCH :
+							var msgs = (SearchMessage) s;
 							listMsgModel.addElement(msgs);
-							
-							if(!MTG.readPropertyAsBoolean("network-config/online-query"))
+
+							if (!MTG.readPropertyAsBoolean("network-config/online-query"))
 								break;
-							
+
 							try {
-									if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) 
-									{
-											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)msgs.getAttachement()).stream().filter(mcs->mcs.getQte()>0).toList();
-											if(!ret.isEmpty())
-												client.sendMessage(new SendStockMessage(msgs, ret));
-									} 
+								if (!msgs.getAuthor().getId().equals(client.getPlayer().getId())) {
+									var ret = MTG.getEnabledPlugin(MTGDao.class)
+											.listStocks((MTGCard) msgs.getAttachement()).stream()
+											.filter(mcs -> mcs.getQte() > 0).toList();
+									if (!ret.isEmpty())
+										client.sendMessage(new SendStockMessage(msgs, ret));
 								}
-								catch (Exception e) { 
-									logger.error(e);
-								}
-								break;
-								
-						case ANSWER: 
-							var ret = ((SendStockMessage)s).getResultItems();
-							
-							for(var c : ret)
-							{
+							} catch (Exception e) {
+								logger.error(e);
+							}
+							break;
+
+						case ANSWER :
+							var ret = ((SendStockMessage) s).getResultItems();
+
+							for (var c : ret) {
 								c.setComment(s.getAuthor().getName());
 								stockResultModel.addItem(c);
 								stockResultModel.fireTableDataChanged();
 							}
-							
-							
+
 							break;
-								
-							
-						default:listMsgModel.addElement(s);break;
-						
+
+						default :
+							listMsgModel.addElement(s);
+							break;
+
 					}
-				
+
 				}
-				listMsg.ensureIndexIsVisible( listMsg.getModel().getSize() - 1);
+				listMsg.ensureIndexIsVisible(listMsg.getModel().getSize() - 1);
 			}
 		};
 		ThreadManager.getInstance().runInEdt(sw, "NetworkClient listening");
@@ -496,12 +466,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 		return "Network";
 	}
 
-
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_CHAT;
 	}
 
 }
-
-

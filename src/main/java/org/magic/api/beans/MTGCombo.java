@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.interfaces.MTGComboProvider;
 
@@ -14,7 +13,6 @@ public class MTGCombo {
 	private String name;
 	private String comment;
 	private MTGComboProvider plugin;
-
 
 	public void setPlugin(MTGComboProvider plugin) {
 		this.plugin = plugin;
@@ -56,7 +54,6 @@ public class MTGCombo {
 		}
 		return cmap.toString();
 	}
-
 
 	@Override
 	public String toString() {

@@ -2,7 +2,7 @@ package org.magic.api.interfaces;
 
 import java.io.IOException;
 
-public interface MTGCache<U,V> extends MTGPlugin{
+public interface MTGCache<U, V> extends MTGPlugin {
 
 	public V getItem(U k);
 
@@ -11,6 +11,5 @@ public interface MTGCache<U,V> extends MTGPlugin{
 	public void clear();
 
 	public long size();
-
 
 }

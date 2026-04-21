@@ -5,12 +5,10 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.MapTableModel;
@@ -37,7 +35,6 @@ public class IndexationDashlet extends AbstractJDashlet {
 		return "Tools";
 	}
 
-
 	@Override
 	public void initGUI() {
 
@@ -45,17 +42,15 @@ public class IndexationDashlet extends AbstractJDashlet {
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		try {
-		cboField = UITools.createCombobox(getEnabledPlugin(MTGCardsIndexer.class).listFields());
-		}
-		catch(Exception _)
-		{
+			cboField = UITools.createCombobox(getEnabledPlugin(MTGCardsIndexer.class).listFields());
+		} catch (Exception _) {
 			cboField.addItem("NO INDEXER FILE FOUND");
 		}
 
 		panneauHaut.add(cboField);
 		indexModel = new MapTableModel<>();
 		indexModel.setColumns("Term", "Occurences");
-		var table = UITools.createNewTable(indexModel,false);
+		var table = UITools.createNewTable(indexModel, false);
 
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
@@ -66,9 +61,8 @@ public class IndexationDashlet extends AbstractJDashlet {
 		});
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")),
-					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
-					(int) Double.parseDouble(getString("h")));
+			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);
 		}
@@ -80,8 +74,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		try {
 			indexModel.init(getEnabledPlugin(MTGCardsIndexer.class).terms(cboField.getSelectedItem().toString()));
 			indexModel.fireTableDataChanged();
-		}catch(Exception _)
-		{
+		} catch (Exception _) {
 			MTGControler.getInstance().notify(new NullPointerException("Indexation is not initied"));
 		}
 	}

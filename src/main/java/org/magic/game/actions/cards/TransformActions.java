@@ -2,7 +2,6 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -16,7 +15,7 @@ public class TransformActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public TransformActions(DisplayableCard card) {
-		super(card,"Transform");
+		super(card, "Transform");
 		putValue(SHORT_DESCRIPTION, "Transform the card");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	}

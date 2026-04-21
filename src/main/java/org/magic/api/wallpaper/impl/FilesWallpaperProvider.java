@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -25,8 +24,10 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 	public List<MTGWallpaper> search(String search) {
 		List<MTGWallpaper> list = new ArrayList<>();
 		try {
-			
-			Collection<File> res = FileTools.listFiles(getFile("DIRECTORY"),WildcardFileFilter.builder().setWildcards("*"+search+"*").setIoCase(IOCase.INSENSITIVE).get(),TrueFileFilter.INSTANCE);
+
+			Collection<File> res = FileTools.listFiles(getFile("DIRECTORY"),
+					WildcardFileFilter.builder().setWildcards("*" + search + "*").setIoCase(IOCase.INSENSITIVE).get(),
+					TrueFileFilter.INSTANCE);
 
 			for (File f : res) {
 				var w = new MTGWallpaper();
@@ -39,7 +40,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 				list.add(w);
 				notify(w);
 			}
-			
+
 			logger.info("{} return {} results", getName(), list.size());
 			return list;
 		} catch (Exception e) {
@@ -63,7 +64,6 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 	public String getName() {
 		return "File";
 	}
-
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.shop.Transaction;
@@ -12,8 +11,7 @@ import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.UITools;
 
-
-public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String> {
+public class TransactionChartPanel extends Abstract3DPieChart<Transaction, String> {
 
 	public TransactionChartPanel(boolean displayPanel) {
 		super(displayPanel);
@@ -22,7 +20,6 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 	private static final long serialVersionUID = 1L;
 	private String property;
 	private boolean count;
-
 
 	@Override
 	public boolean showLegend() {
@@ -39,39 +36,30 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 		return dataset;
 	}
 
-
 	@Override
 	public String getTitle() {
 		return "Transactions";
 	}
 
-
 	public void init(List<Transaction> listOrders, String p, boolean count) {
-		this.property=p;
-		this.count=count;
+		this.property = p;
+		this.count = count;
 		init(listOrders);
 	}
 
 	private Map<Object, Double> groupOrdersBy() {
 
 		Map<Object, Double> ret = new HashMap<>();
-		
-		
-		items.forEach(o->{
-			try
-			{
+
+		items.forEach(o -> {
+			try {
 				Object val = BeanTools.readProperty(o, property);
-				if(count)
-				{
-					ret.put(val, ret.get(val)==null? 1 : ret.get(val)+1);
+				if (count) {
+					ret.put(val, ret.get(val) == null ? 1 : ret.get(val) + 1);
+				} else {
+					ret.put(val, ret.get(val) == null ? o.total() : UITools.roundDouble(ret.get(val) + o.total()));
 				}
-				else
-				{
-					ret.put(val, ret.get(val)==null? o.total() : UITools.roundDouble(ret.get(val)+o.total()));
-				}
-				
-				
-				
+
 			} catch (Exception e) {
 				logger.error(e);
 			}
@@ -79,7 +67,5 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 		});
 		return ret;
 	}
-
-
 
 }

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
@@ -46,7 +45,7 @@ public class ManaPool extends Observable implements Serializable {
 		try {
 			setMana(color, pool.get(color) - number);
 		} catch (Exception _) {
-			logger.error("error using {} {}. Pool={}",number,color,pool);
+			logger.error("error using {} {}. Pool={}", number, color, pool);
 		}
 	}
 

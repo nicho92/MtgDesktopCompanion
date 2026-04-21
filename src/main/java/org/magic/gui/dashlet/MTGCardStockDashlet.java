@@ -1,5 +1,6 @@
 package org.magic.gui.dashlet;
 
+import com.google.common.collect.Lists;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
@@ -7,7 +8,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -15,7 +15,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
@@ -37,10 +36,7 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 
-import com.google.common.collect.Lists;
-
 public class MTGCardStockDashlet extends AbstractJDashlet {
-	
 
 	private static final String COLLECTIONS = "COLLECTIONS";
 	private static final long serialVersionUID = 1L;
@@ -48,31 +44,29 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 	private JCheckBox chkSumOrTotal;
 	private JComboBox<String> cboProperty;
 	private AbstractChartComponent<MTGCardStock> chart;
-	private MapTableModel<String,Double> tableModel;
+	private MapTableModel<String, Double> tableModel;
 	private JCheckableListBox<MTGCollection> lstCollections;
-	
-	private transient TCache<MTGCardStock> cache= new TCache<>("stocks");
 
-	
+	private transient TCache<MTGCardStock> cache = new TCache<>("stocks");
+
 	@Override
 	public String getCategory() {
 		return "Stock";
 	}
 
-	
-	private Map<String,Double> calculate(List<MTGCardStock> items, String property) {
+	private Map<String, Double> calculate(List<MTGCardStock> items, String property) {
 		var res = new HashMap<String, Double>();
-		
-		
-		if(chkSumOrTotal.isSelected())
-			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (_,v)->(v==null)?mcs.getQte():v+mcs.getQte()));
+
+		if (chkSumOrTotal.isSelected())
+			items.forEach(mcs -> res.compute(BeanTools.readProperty(mcs, property).toString(),
+					(_, v) -> (v == null) ? mcs.getQte() : v + mcs.getQte()));
 		else
-			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (_,v)->UITools.roundDouble((v==null)?mcs.getValue().doubleValue():v+mcs.getValue().doubleValue())));
-		
+			items.forEach(mcs -> res.compute(BeanTools.readProperty(mcs, property).toString(), (_, v) -> UITools
+					.roundDouble((v == null) ? mcs.getValue().doubleValue() : v + mcs.getValue().doubleValue())));
+
 		return res;
 	}
 
-	
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -81,131 +75,114 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		var panelMenu = new JPanel();
 		var pane = new JTabbedPane();
 		tableModel = new MapTableModel<>();
-		var table = UITools.createNewTable(tableModel,true);
+		var table = UITools.createNewTable(tableModel, true);
 		var btnReload = new JButton(MTGConstants.ICON_REFRESH);
-		cboProperty = UITools.createCombobox(Lists.newArrayList("product.edition",
-				"product.rarity",
-				"product.types[0]",
-				"condition",
-				"language",
-				"comment",
-				"foil"));
-		
-		
+		cboProperty = UITools.createCombobox(Lists.newArrayList("product.edition", "product.rarity", "product.types[0]",
+				"condition", "language", "comment", "foil"));
+
 		try {
-			
-			for(var col : MTG.getEnabledPlugin(MTGDao.class).listCollections())
-				lstCollections.addElement(col, ArrayUtils.contains(getProperty(COLLECTIONS,"Library").split("/"), col.getName()));
-			
+
+			for (var col : MTG.getEnabledPlugin(MTGDao.class).listCollections())
+				lstCollections.addElement(col,
+						ArrayUtils.contains(getProperty(COLLECTIONS, "Library").split("/"), col.getName()));
+
 		} catch (SQLException e) {
-			logger.error("Error loading collections",e);
+			logger.error("Error loading collections", e);
 		}
-		
+
 		panelMenu.add(lstCollections);
 		panelMenu.add(cboProperty);
 		panelMenu.add(chkSumOrTotal);
 		panelMenu.add(btnReload);
 		panelMenu.add(buzy);
-		
-	
-		
+
 		chart = new Abstract3DPieChart<MTGCardStock, String>(true) {
 
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public PieDataset3D<String> getDataSet() {
 				var dataset = new StandardPieDataset3D<String>();
-				calculate(items,cboProperty.getSelectedItem().toString()).entrySet().forEach(e->dataset.add(e.getKey(),e.getValue()));
+				calculate(items, cboProperty.getSelectedItem().toString()).entrySet()
+						.forEach(e -> dataset.add(e.getKey(), e.getValue()));
 				return dataset;
 			}
-		
+
 			@Override
 			public boolean showLegend() {
 				return false;
 			}
-			
-			
+
 			@Override
 			public String getTitle() {
 				return "Cards Stock";
 			}
-		}; 
-		
+		};
+
 		UITools.addTab(pane, chart);
 		UITools.addTab(pane, MTGUIComponent.build(new JScrollPane(table), "Table", MTGConstants.ICON_TAB_STOCK));
-		
-		
-		getContentPane().add(panelMenu, BorderLayout.NORTH);			
-		getContentPane().add(pane,BorderLayout.CENTER);
-		
-		
-		btnReload.addActionListener(_->{
-				cache.clean();
-				init();
+
+		getContentPane().add(panelMenu, BorderLayout.NORTH);
+		getContentPane().add(pane, BorderLayout.CENTER);
+
+		btnReload.addActionListener(_ -> {
+			cache.clean();
+			init();
 		});
-		
+
 		cboProperty.addItemListener(ie -> {
-			if(ie.getStateChange()==ItemEvent.SELECTED)
+			if (ie.getStateChange() == ItemEvent.SELECTED)
 				init();
 		});
-		
+
 		chkSumOrTotal.addItemListener(_ -> init());
-		
+
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")),
-					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
-					(int) Double.parseDouble(getString("h")));
+			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
-			if(!getString(PROPERTY).isEmpty())
+			if (!getString(PROPERTY).isEmpty())
 				cboProperty.setSelectedItem(getString(PROPERTY));
-
-			
-			
-			
 
 			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
 			setBounds(r);
 		}
 
-		
 	}
-	
-	
-	
+
 	@Override
 	public void init() {
 		setProperty(PROPERTY, String.valueOf(cboProperty.getSelectedItem()));
 		setProperty("COUNT", String.valueOf(chkSumOrTotal.isSelected()));
-		setProperty(COLLECTIONS,String.join("/",lstCollections.getSelectedElements().stream().map(MTGCollection::getName).toList()));
-		
-		
-		
+		setProperty(COLLECTIONS,
+				String.join("/", lstCollections.getSelectedElements().stream().map(MTGCollection::getName).toList()));
+
 		buzy.start();
-		var sw = new AbstractObservableWorker<List<MTGCardStock>, MTGCard,MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class)) {
+		var sw = new AbstractObservableWorker<List<MTGCardStock>, MTGCard, MTGDao>(buzy,
+				MTG.getEnabledPlugin(MTGDao.class)) {
 
 			@Override
 			protected List<MTGCardStock> doInBackground() throws Exception {
-				
-				if(cache.isEmpty())
-					plug.listStocks(lstCollections.getSelectedElements()).forEach(mcs->cache.put(mcs.getId().toString(), mcs));
-				
+
+				if (cache.isEmpty())
+					plug.listStocks(lstCollections.getSelectedElements())
+							.forEach(mcs -> cache.put(mcs.getId().toString(), mcs));
+
 				return cache.values();
-				
+
 			}
-					
+
 			@Override
 			protected void notifyEnd() {
 				chart.init(getResult());
-				tableModel.init(calculate(getResult(),cboProperty.getSelectedItem().toString()));
+				tableModel.init(calculate(getResult(), cboProperty.getSelectedItem().toString()));
 				tableModel.fireTableDataChanged();
 			}
-			
+
 		};
-		
+
 		ThreadManager.getInstance().runInEdt(sw, "Refresh " + getName());
-		
-		
+
 	}
 
 	@Override
@@ -217,6 +194,5 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 	public String getName() {
 		return "Card Stock";
 	}
-
 
 }

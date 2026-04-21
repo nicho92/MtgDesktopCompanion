@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -21,19 +20,18 @@ import org.magic.services.network.URLTools;
 
 public class LotusNoirDecks extends AbstractDeckSniffer {
 
-
 	private static final String MAX_PAGE = "MAX_PAGE";
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "derniers-decks", "decks-du-moment", "decks-populaires" };
+		return new String[]{"derniers-decks", "decks-du-moment", "decks-populaires"};
 	}
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		MTGDeck deck = info.toBaseDeck();
 
-		logger.debug("get deck at {}",info.getUrl());
+		logger.debug("get deck at {}", info.getUrl());
 
 		var d = URLTools.extractAsHtml(info.getUrl().toString());
 		var e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
@@ -61,9 +59,8 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 						deck.getMain().put(mc, qte);
 					else
 						deck.getSideBoard().put(mc, qte);
-				}catch(Exception ex)
-				{
-					logger.error("Error loading card {}",cont,ex);
+				} catch (Exception ex) {
+					logger.error("Error loading card {}", cont, ex);
 				}
 
 			}
@@ -74,12 +71,11 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
-		var baseUrl="http://www.lotusnoir.info/magic/decks/";
-		
-		
+		var baseUrl = "http://www.lotusnoir.info/magic/decks/";
+
 		String decksUrl = baseUrl + "?dpage=" + getString(MAX_PAGE) + "&action=" + filter;
 
-		logger.debug("snif decks : {} ",decksUrl);
+		logger.debug("snif decks : {} ", decksUrl);
 
 		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
@@ -96,27 +92,25 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				var auteur = cont.select("small").select("a").text();
 				var value = URLTools.extractAsHtml(url).select("span.card_title_us");
 				var deckColor = new StringBuilder();
-				for (Element element : value)
-				{
+				for (Element element : value) {
 					var land = element.text().split(" ")[1];
-					switch (land)
-					{
-						case "Plain","Plains":
+					switch (land) {
+						case "Plain", "Plains" :
 							deckColor.append("{W}");
 							break;
-						case "Island","Islands":
+						case "Island", "Islands" :
 							deckColor.append("{U}");
 							break;
-						case "Swamp","Swamps":
+						case "Swamp", "Swamps" :
 							deckColor.append("{B}");
 							break;
-						case "Mountain","Mountains":
+						case "Mountain", "Mountains" :
 							deckColor.append("{R}");
 							break;
-						case "Forest","Forests":
+						case "Forest", "Forests" :
 							deckColor.append("{G}");
 							break;
-						default:
+						default :
 							break;
 					}
 				}
@@ -135,7 +129,6 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		return list;
 	}
 
-
 	@Override
 	public String getName() {
 		return "LotusNoir";
@@ -146,13 +139,11 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		return getName();
 	}
 
-
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
 		return m;
 	}
-
 
 }

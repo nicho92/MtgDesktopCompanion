@@ -8,19 +8,16 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class SystemClipBoardExport extends AbstractCardExport {
 
-	
 	Clipboard clipboard;
-	
+
 	@Override
 	public String getStockFileExtension() {
 		return "";
@@ -41,7 +38,6 @@ public class SystemClipBoardExport extends AbstractCardExport {
 		return false;
 	}
 
-
 	@Override
 	public boolean needFile() {
 		return false;
@@ -54,10 +50,11 @@ public class SystemClipBoardExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		clipboard=Toolkit.getDefaultToolkit().getSystemClipboard();
-		
-		var strse1 = new StringSelection(deck.getMain().entrySet().stream().map(e->e.getValue() + " " + e.getKey()).collect(Collectors.joining(System.lineSeparator())));
-	    clipboard.setContents(strse1, strse1);
+		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+
+		var strse1 = new StringSelection(deck.getMain().entrySet().stream().map(e -> e.getValue() + " " + e.getKey())
+				.collect(Collectors.joining(System.lineSeparator())));
+		clipboard.setContents(strse1, strse1);
 
 	}
 
@@ -65,14 +62,13 @@ public class SystemClipBoardExport extends AbstractCardExport {
 	public MTGDeck importDeck(String f, String name) throws IOException {
 		var d = new MTGDeck();
 		d.setName("ClipBoard");
-		clipboard=Toolkit.getDefaultToolkit().getSystemClipboard();
+		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
 			var data = clipboard.getData(DataFlavor.stringFlavor).toString();
-			
+
 			MTGODeckExport expo = new MTGODeckExport();
 			return expo.importDeck(data, "ClipBoard");
-			
-			
+
 		} catch (UnsupportedFlavorException e) {
 			throw new IOException(e);
 		}
@@ -87,6 +83,5 @@ public class SystemClipBoardExport extends AbstractCardExport {
 	public Icon getIcon() {
 		return new ImageIcon(SystemClipBoardExport.class.getResource("/icons/plugins/clipboard.png"));
 	}
-
 
 }

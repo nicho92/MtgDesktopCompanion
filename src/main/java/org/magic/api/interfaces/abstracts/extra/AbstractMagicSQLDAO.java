@@ -3,6 +3,8 @@ package org.magic.api.interfaces.abstracts.extra;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.getPlugin;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,7 +23,6 @@ import java.util.TreeMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
 import org.jooq.SQLDialect;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGAnnounce;
@@ -62,9 +63,6 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.SQLTools;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	protected int generatedKey = Statement.RETURN_GENERATED_KEYS;
@@ -80,26 +78,24 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected abstract String getdbSizeQuery();
 
 	protected abstract SQLDialect getDialect();
-	
+
 	private SQLTools hlper;
-	
-	
+
 	protected AbstractMagicSQLDAO() {
 		super();
-		 hlper = new SQLTools(getDialect());
+		hlper = new SQLTools(getDialect());
 	}
-	
-	private List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
-		try{
+
+	private List<MTGStockItem> readStockItemFrom(ResultSet rs, String field) throws SQLException {
+		try {
 			return serialiser.fromJsonList(rs.getString(field), MTGStockItem.class);
-		}
-		catch(Exception _)
-		{
+		} catch (Exception _) {
 			return new ArrayList<>();
 		}
 	}
 
-	protected void storeTransactionItems(PreparedStatement pst, int position, List<MTGStockItem> grd) throws SQLException {
+	protected void storeTransactionItems(PreparedStatement pst, int position, List<MTGStockItem> grd)
+			throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 
 	}
@@ -108,7 +104,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return serialiser.fromJson(rs.getString("grading"), MTGGrading.class);
 	}
 
-
 	protected void storeGrade(PreparedStatement pst, int position, MTGGrading grd) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 	}
@@ -116,7 +111,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected Map<MTGCard, Integer> readDeckBoard(ResultSet rs, String field) throws SQLException {
 
 		Map<MTGCard, Integer> ret = new HashMap<>();
-		serialiser.fromJson(rs.getString(field), JsonArray.class).forEach(je->{
+		serialiser.fromJson(rs.getString(field), JsonArray.class).forEach(je -> {
 			var mc = serialiser.fromJson(je.getAsJsonObject().get("card").toString(), MTGCard.class);
 			var qte = je.getAsJsonObject().get("qty").getAsInt();
 			ret.put(mc, qte);
@@ -129,7 +124,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		var arr = new JsonArray();
 
-		board.entrySet().forEach(e->{
+		board.entrySet().forEach(e -> {
 
 			var obj = new JsonObject();
 			obj.addProperty("qty", e.getValue());
@@ -154,38 +149,33 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
 	}
 
-	protected MTGCard readCard(ResultSet rs,String field) throws SQLException {
-		
-		try{
-			return serialiser.fromJson( rs.getString(field), MTGCard.class);
-		}
-		catch(NullPointerException _)
-		{
+	protected MTGCard readCard(ResultSet rs, String field) throws SQLException {
+
+		try {
+			return serialiser.fromJson(rs.getString(field), MTGCard.class);
+		} catch (NullPointerException _) {
 			return null;
 		}
 	}
 
-	protected boolean enablePooling()
-	{
+	protected boolean enablePooling() {
 		return true;
 	}
 
-
 	private boolean createDB() throws SQLException {
-		
-		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
-			
-			
-			stat.executeUpdate(hlper.createCustomCards());			
+
+		try (var cont = pool.getConnection(); Statement stat = cont.createStatement()) {
+
+			stat.executeUpdate(hlper.createCustomCards());
 			stat.executeUpdate(hlper.createCustomSets());
 			logger.debug("Create tables customs");
-			
+
 			stat.executeUpdate(hlper.createTableCollections());
 			logger.debug("Create table collections");
 
 			stat.executeUpdate(hlper.createTableStocks());
 			logger.debug("Create table stocks");
-			
+
 			stat.executeUpdate(hlper.createTableGed());
 			logger.debug("Create table ged");
 
@@ -197,7 +187,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			stat.executeUpdate(hlper.createTableContacts());
 			logger.debug("Create table contacts");
-				
+
 			stat.executeUpdate(hlper.createTableAlerts());
 			logger.debug("Create table alerts");
 
@@ -212,21 +202,16 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			stat.executeUpdate(hlper.createTableTechnicalAudit());
 			logger.debug("Create table technicalAuditLog");
-			
-			
+
 			postCreation(stat);
 
-		
-
 			createIndex(stat);
-
 
 			return true;
 		} catch (SQLIntegrityConstraintViolationException _) {
 			logger.debug("database already created");
 			return false;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger.trace("Error in createDB : {}", e.getMessage());
 			return false;
 		}
@@ -234,55 +219,52 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public <T extends MTGSerializable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException {
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent,fileName, md5) VALUES (?, ?, ?, ?,?,?)"))
-		{
-				pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
-				pst.setString(2, gedItem.getClasse().getCanonicalName());
-				pst.setString(3, gedItem.getId());
-				pst.setString(4, CryptoUtils.toBase64(gedItem.getContent()));
-				pst.setString(5, gedItem.getName());
-				pst.setString(6, CryptoUtils.getMD5(gedItem.getContent()));
-				executeUpdate(pst,false);
-				return true;
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"INSERT INTO ged (creationDate, className, idInstance, fileContent,fileName, md5) VALUES (?, ?, ?, ?,?,?)")) {
+			pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
+			pst.setString(2, gedItem.getClasse().getCanonicalName());
+			pst.setString(3, gedItem.getId());
+			pst.setString(4, CryptoUtils.toBase64(gedItem.getContent()));
+			pst.setString(5, gedItem.getName());
+			pst.setString(6, CryptoUtils.getMD5(gedItem.getContent()));
+			executeUpdate(pst, false);
+			return true;
 
 		}
 	}
 
 	@Override
 	public <T extends MTGSerializable> List<GedEntry<T>> listAllEntries() throws SQLException {
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT className,idInstance,fileName from ged"))
-		{
-				var rs = executeQuery(pst);
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("SELECT className,idInstance,fileName from ged")) {
+			var rs = executeQuery(pst);
 
-				var arr = new ArrayList<GedEntry<T>>();
-					while(rs.next())
-					{
-						arr.add(readEntry(rs.getString("className"),rs.getString("idInstance"),rs.getString("fileName")));
-					}
-				return arr;
+			var arr = new ArrayList<GedEntry<T>>();
+			while (rs.next()) {
+				arr.add(readEntry(rs.getString("className"), rs.getString("idInstance"), rs.getString("fileName")));
+			}
+			return arr;
 		}
 	}
 
-
-
 	@Override
 	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String id) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT fileName from ged where className = ? and IdInstance = ?"))
-		{
-				pst.setString(1, classename);
-				pst.setString(2,id);
-				var rs = executeQuery(pst);
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("SELECT fileName from ged where className = ? and IdInstance = ?")) {
+			pst.setString(1, classename);
+			pst.setString(2, id);
+			var rs = executeQuery(pst);
 
-				var arr = new ArrayList<GedEntry<T>>();
+			var arr = new ArrayList<GedEntry<T>>();
 
-					while(rs.next())
-					{
-						var entry = new GedEntry<T>();
-						entry.setId(id);
-						entry.setClasse(PluginRegistry.inst().loadClass(classename));
-						entry.setName(rs.getString("fileName"));
-						arr.add(entry);
-					}
+			while (rs.next()) {
+				var entry = new GedEntry<T>();
+				entry.setId(id);
+				entry.setClasse(PluginRegistry.inst().loadClass(classename));
+				entry.setName(rs.getString("fileName"));
+				arr.add(entry);
+			}
 			return arr;
 		} catch (ClassNotFoundException e) {
 			logger.error(e);
@@ -292,355 +274,334 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends MTGSerializable> GedEntry<T> readEntry(String classename, String idInstance, String fileName) throws SQLException {
+	public <T extends MTGSerializable> GedEntry<T> readEntry(String classename, String idInstance, String fileName)
+			throws SQLException {
 		var ged = new GedEntry<T>();
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?"))
-		{
-				pst.setString(1, classename);
-				pst.setString(2,idInstance);
-				pst.setString(3,fileName);
-				var rs = executeQuery(pst);
-				rs.next();
-				ged.setId(idInstance);
-				ged.setName(fileName);
-				ged.setContent(CryptoUtils.fromBase64(rs.getString("fileContent")));
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?")) {
+			pst.setString(1, classename);
+			pst.setString(2, idInstance);
+			pst.setString(3, fileName);
+			var rs = executeQuery(pst);
+			rs.next();
+			ged.setId(idInstance);
+			ged.setName(fileName);
+			ged.setContent(CryptoUtils.fromBase64(rs.getString("fileContent")));
 
-				if(rs.getString("md5")!=null && !CryptoUtils.getMD5(ged.getContent()).equals(rs.getString("md5")))
-					throw new SQLException("MD5 Error for " + fileName +" : " + CryptoUtils.getMD5(ged.getContent()) + " " + rs.getString("md5"));
+			if (rs.getString("md5") != null && !CryptoUtils.getMD5(ged.getContent()).equals(rs.getString("md5")))
+				throw new SQLException("MD5 Error for " + fileName + " : " + CryptoUtils.getMD5(ged.getContent()) + " "
+						+ rs.getString("md5"));
 
-				ged.setIsImage(ImageTools.isImage(ged.getContent()));
+			ged.setIsImage(ImageTools.isImage(ged.getContent()));
 		}
 
 		try {
-				ged.setClasse(PluginRegistry.inst().loadClass(classename));
-			} catch (ClassNotFoundException e) {
-				logger.error(e);
-			}
+			ged.setClasse(PluginRegistry.inst().loadClass(classename));
+		} catch (ClassNotFoundException e) {
+			logger.error(e);
+		}
 
-			notify(ged);
+		notify(ged);
 
-			return ged;
+		return ged;
 
 	}
-	
-	private boolean exist(String table, String id)
-	{
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT 1 FROM "+table+" WHERE id=?"))
-		{
+
+	private boolean exist(String table, String id) {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT 1 FROM " + table + " WHERE id=?")) {
 			pst.setString(1, id);
 			return executeQuery(pst).next();
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			logger.error(e);
 			return false;
 		}
 	}
-	
 
 	@Override
-	public void saveCustomCard(MTGCard card) throws SQLException
-	{
-		if(!exist("customcards",card.getId()))
-		{
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO customcards (id,idSet, name, mcard,side) VALUES (?,?,?,?,?)"))
-			{
+	public void saveCustomCard(MTGCard card) throws SQLException {
+		if (!exist("customcards", card.getId())) {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"INSERT INTO customcards (id,idSet, name, mcard,side) VALUES (?,?,?,?,?)")) {
 				pst.setString(1, card.getId());
 				pst.setString(2, card.getEdition().getId());
 				pst.setString(3, card.getName());
 				storeCard(pst, 4, card);
 				pst.setString(5, card.getSide());
-				
-				executeUpdate(pst,false);
+
+				executeUpdate(pst, false);
 			}
-		}
-		else
-		{
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE customcards SET idSet=?, name=?, mcard=?,side=? WHERE id=?"))
-			{
+		} else {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement("UPDATE customcards SET idSet=?, name=?, mcard=?,side=? WHERE id=?")) {
 				pst.setString(1, card.getEdition().getId());
 				pst.setString(2, card.getName());
 				storeCard(pst, 3, card);
 				pst.setString(4, card.getSide());
 				pst.setString(5, card.getId());
-				
-				executeUpdate(pst,false);
+
+				executeUpdate(pst, false);
 			}
 		}
 	}
-	
+
 	@Override
 	public void saveCustomSet(MTGEdition ed) throws SQLException {
 
-		if(!exist("customsets",ed.getId())) 
-		{ 
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO customsets (id,name, type, block, releasedate, onlineonly) VALUES (?,?,?,?,?,?)"))
-			{
+		if (!exist("customsets", ed.getId())) {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"INSERT INTO customsets (id,name, type, block, releasedate, onlineonly) VALUES (?,?,?,?,?,?)")) {
 				pst.setString(1, ed.getId());
 				pst.setString(2, ed.getSet());
 				pst.setString(3, ed.getType());
 				pst.setString(4, ed.getBlock());
 				pst.setString(5, ed.getReleaseDate());
 				pst.setBoolean(6, ed.isOnlineOnly());
-				
-				executeUpdate(pst,false);
+
+				executeUpdate(pst, false);
 			}
-		}
-		else
-		{
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE customsets SET name=?, type=?,block=?,releasedate=?,onlineonly=? WHERE id=?"))
-			{
-				
+		} else {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"UPDATE customsets SET name=?, type=?,block=?,releasedate=?,onlineonly=? WHERE id=?")) {
+
 				pst.setString(1, ed.getSet());
 				pst.setString(2, ed.getType());
 				pst.setString(3, ed.getBlock());
 				pst.setString(4, ed.getReleaseDate());
 				pst.setBoolean(5, ed.isOnlineOnly());
 				pst.setString(6, ed.getId());
-				
-				executeUpdate(pst,false);
+
+				executeUpdate(pst, false);
 			}
 		}
-			
-			
+
 	}
-	
+
 	@Override
 	public void deleteCustomCard(MTGCard card) throws SQLException {
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customcards where id=?")) {
-				pst.setString(1, card.getId());
-				executeUpdate(pst,false);
-			}
-		
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customcards where id=?")) {
+			pst.setString(1, card.getId());
+			executeUpdate(pst, false);
+		}
+
 	}
-	
+
 	@Override
 	public void deleteCustomSet(MTGEdition ed) throws SQLException {
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customsets where id=?")) {
 			pst.setString(1, ed.getId());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
-		
+
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customcards where idSet=?")) {
 			pst.setString(1, ed.getId());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
-		
+
 	}
-	
+
 	@Override
 	public MTGEdition getCustomSetById(String id) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from customsets where id=?"))
-		{
-				pst.setString(1, id);
-				var rs = executeQuery(pst);
-				if(rs.next())
-					return readCustomSet(rs);
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * from customsets where id=?")) {
+			pst.setString(1, id);
+			var rs = executeQuery(pst);
+			if (rs.next())
+				return readCustomSet(rs);
 		}
-		
+
 		return null;
 	}
-	
-	
+
 	@Override
 	public List<MTGEdition> listCustomSets() throws SQLException {
-		
+
 		var ret = new ArrayList<MTGEdition>();
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from customsets"))
-		{
-				var rs = executeQuery(pst);
-				while(rs.next())
-					ret.add(readCustomSet(rs));
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * from customsets")) {
+			var rs = executeQuery(pst);
+			while (rs.next())
+				ret.add(readCustomSet(rs));
 		}
 		return ret;
 	}
-	
-	
+
 	@Override
 	public List<MTGCard> listCustomCards(MTGEdition ed) throws SQLException {
 		var ret = new ArrayList<MTGCard>();
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from customcards where idSet=?"))
-		{
-				pst.setString(1, ed.getId());
-				ResultSet rs = executeQuery(pst);
-				while(rs.next())
-					ret.add(readCard(rs,MCARD));
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * from customcards where idSet=?")) {
+			pst.setString(1, ed.getId());
+			ResultSet rs = executeQuery(pst);
+			while (rs.next())
+				ret.add(readCard(rs, MCARD));
 		}
-		
+
 		return ret;
 	}
-	
-	
+
 	@Override
 	public <T extends MTGSerializable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("DELETE FROM ged where className = ? and IdInstance = ? and fileName= ?"))
-		{
-				pst.setString(1, gedItem.getClasse().getCanonicalName());
-				pst.setString(2,gedItem.getId());
-				pst.setString(3,gedItem.getName());
-				executeUpdate(pst,false);
-				return true;
+		try (var c = pool.getConnection();
+				var pst = c
+						.prepareStatement("DELETE FROM ged where className = ? and IdInstance = ? and fileName= ?")) {
+			pst.setString(1, gedItem.getClasse().getCanonicalName());
+			pst.setString(2, gedItem.getId());
+			pst.setString(3, gedItem.getName());
+			executeUpdate(pst, false);
+			return true;
 		}
 	}
-
-
-
-
 
 	@Override
 	public MTGAnnounce getAnnounceById(int id) throws SQLException {
 
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from announces where id=?"))
-		{
-				pst.setInt(1, id);
-				var rs = executeQuery(pst);
-				rs.next();
-				return readAnnounce(rs);
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * from announces where id=?")) {
+			pst.setInt(1, id);
+			var rs = executeQuery(pst);
+			rs.next();
+			return readAnnounce(rs);
 
 		}
 	}
 
 	@Override
-	public List<MTGAnnounce> listAnnounces(int max,STATUS stat) throws SQLException {
+	public List<MTGAnnounce> listAnnounces(int max, STATUS stat) throws SQLException {
 		var colls = new ArrayList<MTGAnnounce>();
 
 		var sql = "SELECT * from announces where statusAnnounce=?  ORDER BY id DESC";
 
-		if(stat==null)
+		if (stat == null)
 			sql = "SELECT * from announces ORDER BY id DESC";
 
-		try (var c = pool.getConnection();var pst = c.prepareStatement(sql))
-		{
+		try (var c = pool.getConnection(); var pst = c.prepareStatement(sql)) {
 
-			if(stat!=null)
+			if (stat != null)
 				pst.setString(1, stat.name());
 
+			if (max > 0)
+				pst.setMaxRows(max);
 
-				if(max>0)
-					pst.setMaxRows(max);
+			var rs = executeQuery(pst);
 
-				var rs = executeQuery(pst);
-
-				while (rs.next()) {
-					MTGAnnounce d = readAnnounce(rs);
-					colls.add(d);
-					notify(d);
-				}
+			while (rs.next()) {
+				MTGAnnounce d = readAnnounce(rs);
+				colls.add(d);
+				notify(d);
+			}
 		}
 		return colls;
 	}
 
 	@Override
 	public int saveOrUpdateAnnounce(MTGAnnounce n) throws SQLException {
-		if (n.getId() < 0)
-		{
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,statusAnnounce) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",generatedKey))
-				{
-					pst.setTimestamp(1,new Timestamp(Instant.now().toEpochMilli()));
-					pst.setTimestamp(2,new Timestamp(n.getStartDate().getTime()));
-					pst.setTimestamp(3,new Timestamp(n.getEndDate().getTime()));
-					pst.setString(4, n.getTitle());
-					pst.setString(5, n.getDescription());
-					pst.setDouble(6, n.getTotalPrice());
-					pst.setString(7, n.getCurrency().getCurrencyCode());
-					storeTransactionItems(pst,8, n.getItems());
-					pst.setString(9, n.getType().name());
-					pst.setInt(10, n.getContact().getId());
-					pst.setString(11, n.getCategorie().name());
-					pst.setDouble(12, n.getPercentReduction());
-					pst.setString(13, n.getCondition().name());
-					pst.setString(14, n.getStatus().name());
-					executeUpdate(pst,false);
-					n.setId(getGeneratedKey(pst));
-					logger.debug("{} created",n);
+		if (n.getId() < 0) {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,statusAnnounce) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+							generatedKey)) {
+				pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
+				pst.setTimestamp(2, new Timestamp(n.getStartDate().getTime()));
+				pst.setTimestamp(3, new Timestamp(n.getEndDate().getTime()));
+				pst.setString(4, n.getTitle());
+				pst.setString(5, n.getDescription());
+				pst.setDouble(6, n.getTotalPrice());
+				pst.setString(7, n.getCurrency().getCurrencyCode());
+				storeTransactionItems(pst, 8, n.getItems());
+				pst.setString(9, n.getType().name());
+				pst.setInt(10, n.getContact().getId());
+				pst.setString(11, n.getCategorie().name());
+				pst.setDouble(12, n.getPercentReduction());
+				pst.setString(13, n.getCondition().name());
+				pst.setString(14, n.getStatus().name());
+				executeUpdate(pst, false);
+				n.setId(getGeneratedKey(pst));
+				logger.debug("{} created", n);
 
-				}
-		}
-		else
-		{
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions=?, statusAnnounce=? WHERE id = ?"))
-				{
-					pst.setTimestamp(1, new Timestamp(n.getStartDate().getTime()));
-					pst.setTimestamp(2,new Timestamp(n.getEndDate().getTime()));
-					pst.setString(3, n.getTitle());
-					pst.setString(4, n.getDescription());
-					pst.setDouble(5, n.getTotalPrice());
-					pst.setString(6, n.getCurrency().getCurrencyCode());
-					storeTransactionItems(pst,7, n.getItems());
-					pst.setString(8, n.getType().name());
-					pst.setInt(9, n.getContact().getId());
-					pst.setString(10, n.getCategorie().name());
-					pst.setDouble(11, n.getPercentReduction());
-					pst.setString(12, n.getCondition().name());
-					pst.setString(13, n.getStatus().name());
-					pst.setInt(14, n.getId());
-					executeUpdate(pst,false);
-					logger.debug(UPDATED,n);
-				}
+			}
+		} else {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions=?, statusAnnounce=? WHERE id = ?")) {
+				pst.setTimestamp(1, new Timestamp(n.getStartDate().getTime()));
+				pst.setTimestamp(2, new Timestamp(n.getEndDate().getTime()));
+				pst.setString(3, n.getTitle());
+				pst.setString(4, n.getDescription());
+				pst.setDouble(5, n.getTotalPrice());
+				pst.setString(6, n.getCurrency().getCurrencyCode());
+				storeTransactionItems(pst, 7, n.getItems());
+				pst.setString(8, n.getType().name());
+				pst.setInt(9, n.getContact().getId());
+				pst.setString(10, n.getCategorie().name());
+				pst.setDouble(11, n.getPercentReduction());
+				pst.setString(12, n.getCondition().name());
+				pst.setString(13, n.getStatus().name());
+				pst.setInt(14, n.getId());
+				executeUpdate(pst, false);
+				logger.debug(UPDATED, n);
+			}
 
 		}
 		n.setUpdated(false);
 		return n.getId();
 
-
 	}
-	
+
 	@Override
 	public void deleteAnnounceById(int id) throws SQLException {
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM announces where id=?")) {
 			pst.setInt(1, id);
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
 	}
-	
-	protected void postCreation(Statement stat) throws SQLException
-	{
+
+	protected void postCreation(Statement stat) throws SQLException {
 		logger.debug("populate default datas");
-		stat.executeUpdate(hlper.insertDefaultCollections());	
+		stat.executeUpdate(hlper.insertDefaultCollections());
 		stat.executeUpdate(hlper.insertMainContact());
 	}
 
-
 	private void createIndex(Statement stat) throws SQLException {
-		
-		for(var c : new String[] {"id","idSet","name","side"})
-			stat.executeUpdate(hlper.createIndex("customcards",c));
-		
-		for(var c : new String[] {"id","name","type","block","releasedate","onlineonly"})
-			stat.executeUpdate(hlper.createIndex("customsets",c));
-		
-		for(var c : new String[] {"id","name",COLLECTION,"comments","conditions","langage","name"})
-			stat.executeUpdate(hlper.createIndex("stocks",c));
-		
-		for(var c : new String[] {"name","url","categorie","typeNews"})
-			stat.executeUpdate(hlper.createIndex("news",c));
 
-		for(var c : new String[] {EDITION,"comment","lang","typeProduct","conditionProduct",EXTRATYPE})
-			stat.executeUpdate(hlper.createIndex("sealed",c));
+		for (var c : new String[]{"id", "idSet", "name", "side"})
+			stat.executeUpdate(hlper.createIndex("customcards", c));
 
-		for(var c : new String[] {"statut","message","transporter"})
-			stat.executeUpdate(hlper.createIndex("transactions",c));
-		
-		for(var c : new String[] {"contact_name","contact_lastname","contact_country","contact_address","contact_zipcode","contact_city","contact_website","contact_email"})
-			stat.executeUpdate(hlper.createIndex("contacts",c));
+		for (var c : new String[]{"id", "name", "type", "block", "releasedate", "onlineonly"})
+			stat.executeUpdate(hlper.createIndex("customsets", c));
 
-		for(var c : new String[] {"name","tags"})
-			stat.executeUpdate(hlper.createIndex("decks",c));
+		for (var c : new String[]{"id", "name", COLLECTION, "comments", "conditions", "langage", "name"})
+			stat.executeUpdate(hlper.createIndex("stocks", c));
 
-		for(var c : new String[] {"creationDate","startDate","endDate","title","currency","typeAnnounce","category","conditions","statusAnnounce"})
-			stat.executeUpdate(hlper.createIndex("announces",c));
+		for (var c : new String[]{"name", "url", "categorie", "typeNews"})
+			stat.executeUpdate(hlper.createIndex("news", c));
 
-		
-		stat.executeUpdate(hlper.createIndex("alerts","id"));
-		
-		stat.executeUpdate(hlper.createIndex("technicalauditlog","classname"));
-				
+		for (var c : new String[]{EDITION, "comment", "lang", "typeProduct", "conditionProduct", EXTRATYPE})
+			stat.executeUpdate(hlper.createIndex("sealed", c));
+
+		for (var c : new String[]{"statut", "message", "transporter"})
+			stat.executeUpdate(hlper.createIndex("transactions", c));
+
+		for (var c : new String[]{"contact_name", "contact_lastname", "contact_country", "contact_address",
+				"contact_zipcode", "contact_city", "contact_website", "contact_email"})
+			stat.executeUpdate(hlper.createIndex("contacts", c));
+
+		for (var c : new String[]{"name", "tags"})
+			stat.executeUpdate(hlper.createIndex("decks", c));
+
+		for (var c : new String[]{"creationDate", "startDate", "endDate", "title", "currency", "typeAnnounce",
+				"category", "conditions", "statusAnnounce"})
+			stat.executeUpdate(hlper.createIndex("announces", c));
+
+		stat.executeUpdate(hlper.createIndex("alerts", "id"));
+
+		stat.executeUpdate(hlper.createIndex("technicalauditlog", "classname"));
+
 	}
 
 	@Override
 	public void unload() {
 		super.unload();
-		if(pool!=null)
+		if (pool != null)
 			try {
 				pool.close();
 			} catch (SQLException e) {
@@ -650,14 +611,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = new HashMap<String,MTGProperty>();
+		var map = new HashMap<String, MTGProperty>();
 
-		map.put(SERVERNAME,   new MTGProperty("localhost","server name or ip where database is stored"));
-		map.put(SERVERPORT, MTGProperty.newIntegerProperty("", "listening port of the database",1024,65535));
-		map.put(DB_NAME, new MTGProperty("mtgdesktopclient","database name"));
-		map.put(LOGIN, new MTGProperty("login","user allowed to connect to the database"));
-		map.put(PASS, new MTGProperty("pass","password of the connected user"));
-		map.put(PARAMS, new MTGProperty("","JDBC parameters append to the url"));
+		map.put(SERVERNAME, new MTGProperty("localhost", "server name or ip where database is stored"));
+		map.put(SERVERPORT, MTGProperty.newIntegerProperty("", "listening port of the database", 1024, 65535));
+		map.put(DB_NAME, new MTGProperty("mtgdesktopclient", "database name"));
+		map.put(LOGIN, new MTGProperty("login", "user allowed to connect to the database"));
+		map.put(PASS, new MTGProperty("pass", "password of the connected user"));
+		map.put(PARAMS, new MTGProperty("", "JDBC parameters append to the url"));
 		return map;
 	}
 
@@ -666,30 +627,27 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return getString(SERVERNAME) + "/" + getString(DB_NAME);
 	}
 
-
 	@Override
 	public String getVersion() {
 		try {
 			var d = DriverManager.getDriver(getjdbcUrl());
-			return d.getMajorVersion()+"."+d.getMinorVersion();
+			return d.getMajorVersion() + "." + d.getMinorVersion();
 		} catch (SQLException _) {
 			return "1.0";
 		}
 	}
 
 	@Override
-	public Map<String,Long> getDBSize() {
+	public Map<String, Long> getDBSize() {
 		String sql = getdbSizeQuery();
-		var map = new HashMap<String,Long>();
+		var map = new HashMap<String, Long>();
 
-		if(sql==null)
+		if (sql == null)
 			return map;
-
 
 		try (var c = pool.getConnection(); var pst = c.prepareStatement(sql); var rs = executeQuery(pst);) {
 
-			while(rs.next())
-			{
+			while (rs.next()) {
 				map.put(rs.getString(1), rs.getLong(2));
 			}
 			return map;
@@ -700,118 +658,107 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 
-
-	protected String getjdbcUrl()
-	{
+	protected String getjdbcUrl() {
 		var url = new StringBuilder();
-					  url.append("jdbc:").append(getjdbcnamedb()).append("://").append(getString(SERVERNAME));
+		url.append("jdbc:").append(getjdbcnamedb()).append("://").append(getString(SERVERNAME));
 
-		if(!getString(SERVERPORT).isEmpty())
+		if (!getString(SERVERPORT).isEmpty())
 			url.append(":").append(getString(SERVERPORT));
 
-		if(!getString(DB_NAME).isEmpty())
+		if (!getString(DB_NAME).isEmpty())
 			url.append("/").append(getString(DB_NAME));
 
-		if(!getString(PARAMS).isEmpty())
+		if (!getString(PARAMS).isEmpty())
 			url.append(getString(PARAMS));
 
 		return url.toString();
 	}
 
-
-
 	@Override
 	public void init(MTGPool p) throws SQLException {
 		pool = p;
-		if(pool==null || !enablePooling())
-		{
-			pool=new NoPool();
-			logger.error("Use default pool : {}",pool);
+		if (pool == null || !enablePooling()) {
+			pool = new NoPool();
+			logger.error("Use default pool : {}", pool);
 		}
-		logger.info("Loading SQL connection to : {} with pool : {}",getjdbcUrl(),pool);
-		pool.init(getjdbcUrl(),getString(LOGIN), getString(PASS));
+		logger.info("Loading SQL connection to : {} with pool : {}", getjdbcUrl(), pool);
+		pool.init(getjdbcUrl(), getString(LOGIN), getString(PASS));
 		createDB();
 	}
 
-
-
 	@Override
 	public void init() throws SQLException {
-		logger.info("init {}",getName());
+		logger.info("init {}", getName());
 		init(getEnabledPlugin(MTGPool.class));
 	}
-
 
 	@Override
 	public List<MTGDeck> listDecks() throws SQLException {
 		var colls = new ArrayList<MTGDeck>();
 
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from decks order by ID DESC"))
-		{
-				var rs = executeQuery(pst);
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * from decks order by ID DESC")) {
+			var rs = executeQuery(pst);
 
-				while (rs.next()) {
+			while (rs.next()) {
 
-						MTGDeck d = readDeck(rs);
-						colls.add(d);
-						notify(d);
+				MTGDeck d = readDeck(rs);
+				colls.add(d);
+				notify(d);
 
-				}
+			}
 		}
 		return colls;
 	}
 
 	@Override
 	public MTGDeck getDeckById(Integer id) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from decks where id=?"))
-		{
-				pst.setInt(1, id);
-				ResultSet rs = executeQuery(pst);
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * from decks where id=?")) {
+			pst.setInt(1, id);
+			ResultSet rs = executeQuery(pst);
 
-				rs.next();
-				return readDeck(rs);
+			rs.next();
+			return readDeck(rs);
 
 		}
 	}
 
-
 	@Override
 	public Integer saveOrUpdateDeck(MTGDeck d) throws SQLException {
-		if (d.getId() < 0)
-		{
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO decks (description, name, dateCreation, dateUpdate, tags, commander, main, sideboard, averagePrice) VALUES (?,?,?,?,?,?,?,?,?)",generatedKey))
-				{
-					pst.setString(1, d.getDescription());
-					pst.setString(2, d.getName());
-					pst.setDate(3,  new Date(System.currentTimeMillis()));
-					pst.setDate(4, new Date(System.currentTimeMillis()));
-					pst.setString(5, d.getTags().stream().collect(Collectors.joining("|")));
-					storeCard(pst,6,d.getCommander());
-					storeDeckBoard(pst,7,d.getMain());
-					storeDeckBoard(pst,8,d.getSideBoard());
-					pst.setDouble(9, d.getAveragePrice());
-					executeUpdate(pst,false);
-					d.setId(getGeneratedKey(pst));
-				}
-				logger.debug("{} saved with id={}",d.getName(),d.getId());
-
-		}
-		else
-		{
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE decks SET description = ?, name = ?, dateUpdate=?, tags= ?, commander= ?, main= ?, sideboard= ?, averagePrice= ? WHERE id= ?"))
-			{
+		if (d.getId() < 0) {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"INSERT INTO decks (description, name, dateCreation, dateUpdate, tags, commander, main, sideboard, averagePrice) VALUES (?,?,?,?,?,?,?,?,?)",
+							generatedKey)) {
 				pst.setString(1, d.getDescription());
 				pst.setString(2, d.getName());
-				pst.setDate(3,  new Date(System.currentTimeMillis()));
-				pst.setString(4, d.getTags().stream().collect(Collectors.joining("|")));
-				storeCard(pst,5,d.getCommander());
-				storeDeckBoard(pst,6,d.getMain());
-				storeDeckBoard(pst,7,d.getSideBoard());
-				pst.setDouble(8, d.getAveragePrice());
-				pst.setInt(9,d.getId());
-				executeUpdate(pst,false);
+				pst.setDate(3, new Date(System.currentTimeMillis()));
+				pst.setDate(4, new Date(System.currentTimeMillis()));
+				pst.setString(5, d.getTags().stream().collect(Collectors.joining("|")));
+				storeCard(pst, 6, d.getCommander());
+				storeDeckBoard(pst, 7, d.getMain());
+				storeDeckBoard(pst, 8, d.getSideBoard());
+				pst.setDouble(9, d.getAveragePrice());
+				executeUpdate(pst, false);
+				d.setId(getGeneratedKey(pst));
 			}
-			logger.debug(UPDATED,d.getName());
+			logger.debug("{} saved with id={}", d.getName(), d.getId());
+
+		} else {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"UPDATE decks SET description = ?, name = ?, dateUpdate=?, tags= ?, commander= ?, main= ?, sideboard= ?, averagePrice= ? WHERE id= ?")) {
+				pst.setString(1, d.getDescription());
+				pst.setString(2, d.getName());
+				pst.setDate(3, new Date(System.currentTimeMillis()));
+				pst.setString(4, d.getTags().stream().collect(Collectors.joining("|")));
+				storeCard(pst, 5, d.getCommander());
+				storeDeckBoard(pst, 6, d.getMain());
+				storeDeckBoard(pst, 7, d.getSideBoard());
+				pst.setDouble(8, d.getAveragePrice());
+				pst.setInt(9, d.getId());
+				executeUpdate(pst, false);
+			}
+			logger.debug(UPDATED, d.getName());
 		}
 
 		return d.getId();
@@ -821,53 +768,45 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void deleteDeck(MTGDeck d) throws SQLException {
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM decks where id=?")) {
 			pst.setInt(1, d.getId());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
-		logger.debug("Deck {} deleted",d.getName());
+		logger.debug("Deck {} deleted", d.getName());
 	}
-
-
-
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_active=?"))
-		{
-				pst.setString(1, email);
-				pst.setBoolean(2, true);
-				ResultSet rs = executeQuery(pst);
-				var res = rs.next();
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_active=?")) {
+			pst.setString(1, email);
+			pst.setBoolean(2, true);
+			ResultSet rs = executeQuery(pst);
+			var res = rs.next();
 
-				if(!res)
-					throw new SQLException("No result Found");
+			if (!res)
+				throw new SQLException("No result Found");
 
-				
-				if(CryptoUtils.verifyPassword(password, rs.getString("contact_password")))
-						return readContact(rs);
-				else
-						throw new SQLException("Password doesn't match");
+			if (CryptoUtils.verifyPassword(password, rs.getString("contact_password")))
+				return readContact(rs);
+			else
+				throw new SQLException("Password doesn't match");
 		}
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_active=?"))
-		{
-				pst.setString(1, email);
-				pst.setBoolean(2, true);
-				ResultSet rs = executeQuery(pst);
-				rs.next();
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_active=?")) {
+			pst.setString(1, email);
+			pst.setBoolean(2, true);
+			ResultSet rs = executeQuery(pst);
+			rs.next();
 
-				return readContact(rs);
-		}
-		catch(SQLException _)
-		{
+			return readContact(rs);
+		} catch (SQLException _) {
 			return null;
 		}
 
 	}
-
-
 
 	@Override
 	public Contact getContactById(int id) throws SQLException {
@@ -877,12 +816,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 				@Override
 				public Contact call() throws Exception {
-					try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts where contact_id=?"))
-					{
-							pst.setInt(1, id);
-							ResultSet rsC = executeQuery(pst);
-							rsC.next();
-							return readContact(rsC);
+					try (var c = pool.getConnection();
+							var pst = c.prepareStatement("SELECT * from contacts where contact_id=?")) {
+						pst.setInt(1, id);
+						ResultSet rsC = executeQuery(pst);
+						rsC.next();
+						return readContact(rsC);
 					}
 				}
 			});
@@ -894,70 +833,66 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<Contact> listContacts() throws SQLException {
 		List<Contact> cts = new ArrayList<>();
-		try (var c = pool.getConnection();var pst = c.prepareStatement(hlper.selectAll("contacts")))
-		{
-				var rs = executeQuery(pst);
+		try (var c = pool.getConnection(); var pst = c.prepareStatement(hlper.selectAll("contacts"))) {
+			var rs = executeQuery(pst);
 
-				while(rs.next())
-				{
-					cts.add(readContact(rs));
-				}
+			while (rs.next()) {
+				cts.add(readContact(rs));
+			}
 		}
 
 		return cts;
 
 	}
 
-
-
 	@Override
 	public Transaction getTransaction(Long id) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from transactions,contacts where id=? and transactions.fk_idcontact = contacts.contact_id"))
-		{
-				pst.setLong(1, id);
-				var rs = executeQuery(pst);
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"SELECT * from transactions,contacts where id=? and transactions.fk_idcontact = contacts.contact_id")) {
+			pst.setLong(1, id);
+			var rs = executeQuery(pst);
 
-				rs.next();
-				return readTransaction(rs);
-
+			rs.next();
+			return readTransaction(rs);
 
 		}
 
 	}
 
 	@Override
-	public List<Transaction> listTransactions(Contact idct)  throws SQLException {
+	public List<Transaction> listTransactions(Contact idct) throws SQLException {
 		List<Transaction> ctx = new ArrayList<>();
 
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from transactions,contacts where fk_idcontact=?  and transactions.fk_idcontact = contacts.contact_id"))
-		{
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"SELECT * from transactions,contacts where fk_idcontact=?  and transactions.fk_idcontact = contacts.contact_id")) {
 			pst.setInt(1, idct.getId());
 			var rs = executeQuery(pst);
 
-				while (rs.next()) {
-					ctx.add(readTransaction(rs));
-				}
+			while (rs.next()) {
+				ctx.add(readTransaction(rs));
+			}
 		}
 		return ctx;
 	}
-
 
 	@Override
-	public List<Transaction> listTransactions()  throws SQLException {
-		List<Transaction> ctx  = new ArrayList<>();
+	public List<Transaction> listTransactions() throws SQLException {
+		List<Transaction> ctx = new ArrayList<>();
 
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from transactions, contacts where fk_idcontact=contacts.contact_id");ResultSet rs = executeQuery(pst))
-		{
-				while (rs.next()) {
-					ctx.add(readTransaction(rs));
-				}
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"SELECT * from transactions, contacts where fk_idcontact=contacts.contact_id");
+				ResultSet rs = executeQuery(pst)) {
+			while (rs.next()) {
+				ctx.add(readTransaction(rs));
+			}
 		}
 		return ctx;
 	}
 
-
-	private Contact readContact(ResultSet rs) throws SQLException
-	{
+	private Contact readContact(ResultSet rs) throws SQLException {
 
 		var contact = new Contact();
 		contact.setId(rs.getInt("contact_id"));
@@ -978,15 +913,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 
-
-	private MTGDeck readDeck(ResultSet rs) throws SQLException{
+	private MTGDeck readDeck(ResultSet rs) throws SQLException {
 
 		var deck = new MTGDeck();
 
 		deck.setId(rs.getInt("id"));
 		deck.setName(rs.getString("name"));
 		deck.setAveragePrice(rs.getDouble("averagePrice"));
-		deck.setCommander(readCard(rs,"commander"));
+		deck.setCommander(readCard(rs, "commander"));
 		deck.setCreationDate(rs.getDate("dateCreation"));
 		deck.setDateUpdate(rs.getDate("dateUpdate"));
 		deck.setDescription(rs.getString("description"));
@@ -994,37 +928,31 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		deck.setMain(readDeckBoard(rs, "main"));
 		deck.setSideBoard(readDeckBoard(rs, "sideboard"));
 
-		if(rs.getString("tags")!=null && !rs.getString("tags").isEmpty())
-		{
-			for(var t : rs.getString("tags").split("\\|"))
-					deck.getTags().add(t);
+		if (rs.getString("tags") != null && !rs.getString("tags").isEmpty()) {
+			for (var t : rs.getString("tags").split("\\|"))
+				deck.getTags().add(t);
 		}
 
 		return deck;
 
 	}
-	
-
-
 
 	private MTGEdition readCustomSet(ResultSet rs) throws SQLException {
 		var set = new MTGEdition();
-			  set.setId(rs.getString("id"));
-			  set.setSet(rs.getString("name"));
-			  set.setType(rs.getString("type"));
-			  set.setBlock(rs.getString("block"));
-			  set.setReleaseDate(rs.getString("releasedate"));
-			  
-			  var cards = listCustomCards(set);
-			  
-				set.setCardCount(cards.size());
-				set.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a")).count());
-				set.setCardCountPhysical(set.getCardCountOfficial());
-			
-			  
+		set.setId(rs.getString("id"));
+		set.setSet(rs.getString("name"));
+		set.setType(rs.getString("type"));
+		set.setBlock(rs.getString("block"));
+		set.setReleaseDate(rs.getString("releasedate"));
+
+		var cards = listCustomCards(set);
+
+		set.setCardCount(cards.size());
+		set.setCardCountOfficial((int) cards.stream().filter(mc -> mc.getSide().equals("a")).count());
+		set.setCardCountPhysical(set.getCardCountOfficial());
+
 		return set;
 	}
-	
 
 	private Transaction readTransaction(ResultSet rs) throws SQLException {
 		var state = new Transaction();
@@ -1035,7 +963,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setSourceShopName(rs.getString("sourceShopName"));
 		state.setSourceShopId(rs.getString("sourceShopId"));
 		state.setStatut(EnumTransactionStatus.valueOf(rs.getString("statut")));
-		state.setItems(readStockItemFrom(rs,"stocksItem"));
+		state.setItems(readStockItemFrom(rs, "stocksItem"));
 		state.setTransporter(rs.getString("transporter"));
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
 		state.setCurrency(rs.getString("currency"));
@@ -1044,95 +972,88 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setDatePayment(rs.getTimestamp("datePayment"));
 		state.setDateSend(rs.getTimestamp("dateSend"));
 		state.setReduction(rs.getDouble("reduction"));
-		
-		if(rs.getString("typeTransaction")!=null)
+
+		if (rs.getString("typeTransaction") != null)
 			state.setTypeTransaction(EnumTransactionDirection.valueOf(rs.getString("typeTransaction")));
-		
+
 		var pp = rs.getString("paymentProvider");
-		if(pp!=null)
+		if (pp != null)
 			state.setPaymentProvider(EnumPaymentProvider.valueOf(pp));
-
-
 
 		return state;
 	}
 
-
 	@Override
 	public boolean enableContact(String token) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts where temporaryToken=? and contact_active=?"))
-		{
-				pst.setString(1, token);
-				pst.setBoolean(2, false);
-				ResultSet rs = executeQuery(pst);
-				rs.next();
-				var ct= readContact(rs);
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("SELECT * from contacts where temporaryToken=? and contact_active=?")) {
+			pst.setString(1, token);
+			pst.setBoolean(2, false);
+			ResultSet rs = executeQuery(pst);
+			rs.next();
+			var ct = readContact(rs);
 
-				ct.setActive(true);
-				ct.setTemporaryToken(null);
+			ct.setActive(true);
+			ct.setTemporaryToken(null);
 
-				saveOrUpdateContact(ct);
+			saveOrUpdateContact(ct);
 
-				return true;
+			return true;
 
-		}
-		catch(Exception sqlde)
-		{
+		} catch (Exception sqlde) {
 			logger.error(sqlde);
 			return false;
 		}
 	}
 
-
-
 	@Override
 	public void deleteContact(Contact t) throws SQLException {
-		logger.debug("delete Contact {}",t );
+		logger.debug("delete Contact {}", t);
 
-		if(listTransactions(t).isEmpty()) {
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM contacts where contact_id=?")) {
+		if (listTransactions(t).isEmpty()) {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement("DELETE FROM contacts where contact_id=?")) {
 				pst.setInt(1, t.getId());
-				executeUpdate(pst,false);
+				executeUpdate(pst, false);
 			}
-		}
-		else
-		{
+		} else {
 			throw new SQLException(t + "{} has transactions and can't be removed ");
 		}
 
 	}
 
-
 	@Override
 	public int saveOrUpdateContact(Contact ct) throws SQLException {
-		if (ct.getId() < 0)
-		{
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active,temporaryToken ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)",generatedKey))
-				{
-					pst.setString(1, ct.getName());
-					pst.setString(2, ct.getLastName());
-					pst.setString(3, CryptoUtils.generatePasswordHash(ct.getPassword()));
-					pst.setString(4, ct.getTelephone());
-					pst.setString(5, ct.getCountry());
-					pst.setString(6, ct.getAddress());
-					pst.setString(7, ct.getZipCode());
-					pst.setString(8, ct.getCity());
-					pst.setString(9, ct.getWebsite());
-					pst.setString(10, ct.getEmail());
-					pst.setBoolean(11,ct.isEmailAccept());
-					pst.setBoolean(12,ct.isActive());
-					pst.setString(13,ct.getTemporaryToken());
-					executeUpdate(pst,false);
-					ct.setId(getGeneratedKey(pst));
-					logger.debug("save Contact with id={}",ct.getId());
-					return ct.getId();
-				}
-		}
-		else
-		{
-			logger.debug("update Contact {}",ct.getId());
+		if (ct.getId() < 0) {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active,temporaryToken ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?)",
+							generatedKey)) {
+				pst.setString(1, ct.getName());
+				pst.setString(2, ct.getLastName());
+				pst.setString(3, CryptoUtils.generatePasswordHash(ct.getPassword()));
+				pst.setString(4, ct.getTelephone());
+				pst.setString(5, ct.getCountry());
+				pst.setString(6, ct.getAddress());
+				pst.setString(7, ct.getZipCode());
+				pst.setString(8, ct.getCity());
+				pst.setString(9, ct.getWebsite());
+				pst.setString(10, ct.getEmail());
+				pst.setBoolean(11, ct.isEmailAccept());
+				pst.setBoolean(12, ct.isActive());
+				pst.setString(13, ct.getTemporaryToken());
+				executeUpdate(pst, false);
+				ct.setId(getGeneratedKey(pst));
+				logger.debug("save Contact with id={}", ct.getId());
+				return ct.getId();
+			}
+		} else {
+			logger.debug("update Contact {}", ct.getId());
 
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=?, temporaryToken=? WHERE contacts.contact_id = ?",generatedKey)) {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=?, temporaryToken=? WHERE contacts.contact_id = ?",
+							generatedKey)) {
 				pst.setString(1, ct.getName());
 				pst.setString(2, ct.getLastName());
 				pst.setString(3, ct.getTelephone());
@@ -1147,100 +1068,100 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(12, ct.getTemporaryToken());
 				pst.setInt(13, ct.getId());
 
-				executeUpdate(pst,false);
+				executeUpdate(pst, false);
 				return ct.getId();
 			}
 		}
 
 	}
 
-	
-
 	@Override
 	public void changePassword(Contact ct, String newPassword) throws SQLException {
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE contacts SET contact_password = ? WHERE contacts.contact_id = ?;")) {
-			logger.debug("Changing password for {}",ct);
+		try (var c = pool.getConnection();
+				var pst = c
+						.prepareStatement("UPDATE contacts SET contact_password = ? WHERE contacts.contact_id = ?;")) {
+			logger.debug("Changing password for {}", ct);
 			pst.setString(1, CryptoUtils.generatePasswordHash(newPassword));
 			pst.setInt(2, ct.getId());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
 
 	}
 
-
-
 	@Override
 	public Long saveOrUpdateTransaction(Transaction t) {
-		if (t.getId() < 0)
-		{
+		if (t.getId() < 0) {
 
-				logger.debug("saving transaction ");
+			logger.debug("saving transaction ");
 
-				try (var c = pool.getConnection(); var pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",generatedKey)) {
-					pst.setTimestamp(1, new Timestamp(t.getDateCreation().getTime()));
-					pst.setString(2, t.getMessage());
-					storeTransactionItems(pst,3, t.getItems());
-					pst.setString(4, t.getStatut().name());
-					pst.setString(5, t.getTransporter());
-					pst.setDouble(6, t.getShippingPrice());
-					pst.setString(7, t.getTransporterShippingCode());
-					pst.setString(8, t.getCurrency().getCurrencyCode());
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+							generatedKey)) {
+				pst.setTimestamp(1, new Timestamp(t.getDateCreation().getTime()));
+				pst.setString(2, t.getMessage());
+				storeTransactionItems(pst, 3, t.getItems());
+				pst.setString(4, t.getStatut().name());
+				pst.setString(5, t.getTransporter());
+				pst.setDouble(6, t.getShippingPrice());
+				pst.setString(7, t.getTransporterShippingCode());
+				pst.setString(8, t.getCurrency().getCurrencyCode());
 
-					if(t.getDatePayment()!=null)
-						pst.setTimestamp(9, new Timestamp(t.getDatePayment().getTime()));
-					else
-						pst.setTimestamp(9, null);
+				if (t.getDatePayment() != null)
+					pst.setTimestamp(9, new Timestamp(t.getDatePayment().getTime()));
+				else
+					pst.setTimestamp(9, null);
 
-					if(t.getDateSend()!=null)
-						pst.setTimestamp(10, new Timestamp(t.getDateSend().getTime()));
-					else
-						pst.setTimestamp(10, null);
+				if (t.getDateSend() != null)
+					pst.setTimestamp(10, new Timestamp(t.getDateSend().getTime()));
+				else
+					pst.setTimestamp(10, null);
 
-					if(t.getPaymentProvider()!=null)
-						pst.setString(11, t.getPaymentProvider().name());
-					else
-						pst.setString(11, null);
+				if (t.getPaymentProvider() != null)
+					pst.setString(11, t.getPaymentProvider().name());
+				else
+					pst.setString(11, null);
 
-					pst.setInt(12, t.getContact().getId());
-					pst.setString(13, t.getSourceShopId());
-					pst.setString(14, t.getSourceShopName());
-					pst.setString(15, t.getTypeTransaction().name());
-					pst.setDouble(16, t.getReduction());
-					executeUpdate(pst,false);
-					t.setId(getGeneratedKey(pst));
+				pst.setInt(12, t.getContact().getId());
+				pst.setString(13, t.getSourceShopId());
+				pst.setString(14, t.getSourceShopName());
+				pst.setString(15, t.getTypeTransaction().name());
+				pst.setDouble(16, t.getReduction());
+				executeUpdate(pst, false);
+				t.setId(getGeneratedKey(pst));
 
-					return t.getId();
+				return t.getId();
 
-				} catch (Exception e) {
-					logger.error("error insert", e);
-					return -1L;
-				}
+			} catch (Exception e) {
+				logger.error("error insert", e);
+				return -1L;
+			}
 
-		}
-		else
-		{
+		} else {
 
-			logger.debug("update transaction {}",t.getId());
+			logger.debug("update transaction {}", t.getId());
 
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=?, sourceShopId=?, sourceShopName=?, reduction=?, typeTransaction=? ,fk_idcontact=?,dateTransaction=? WHERE id = ?",generatedKey)) {
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=?, sourceShopId=?, sourceShopName=?, reduction=?, typeTransaction=? ,fk_idcontact=?,dateTransaction=? WHERE id = ?",
+							generatedKey)) {
 				pst.setString(1, t.getStatut().name());
 				pst.setString(2, t.getTransporter());
 				pst.setDouble(3, t.getShippingPrice());
 				pst.setString(4, t.getTransporterShippingCode());
-				storeTransactionItems(pst,5, t.getItems());
+				storeTransactionItems(pst, 5, t.getItems());
 
-				if(t.getDatePayment()!=null)
-					pst.setTimestamp(6,  new Timestamp(t.getDatePayment().getTime()));
+				if (t.getDatePayment() != null)
+					pst.setTimestamp(6, new Timestamp(t.getDatePayment().getTime()));
 				else
 					pst.setTimestamp(6, null);
 
-				if(t.getDateSend()!=null)
+				if (t.getDateSend() != null)
 					pst.setTimestamp(7, new Timestamp(t.getDateSend().getTime()));
 				else
 					pst.setTimestamp(7, null);
 
-
-				if(t.getPaymentProvider()!=null)
+				if (t.getPaymentProvider() != null)
 					pst.setString(8, t.getPaymentProvider().name());
 				else
 					pst.setString(8, null);
@@ -1248,22 +1169,19 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(9, t.getSourceShopId());
 				pst.setString(10, t.getSourceShopName());
 				pst.setDouble(11, t.getReduction());
-				
-				pst.setString(12,t.getTypeTransaction().name());
-				
+
+				pst.setString(12, t.getTypeTransaction().name());
+
 				pst.setInt(13, t.getContact().getId());
-				
-				
-				if(t.getDateCreation()!=null)
+
+				if (t.getDateCreation() != null)
 					pst.setTimestamp(14, new Timestamp(t.getDateCreation().getTime()));
 				else
 					pst.setTimestamp(14, null);
-			
+
 				pst.setLong(15, t.getId());
-				
-				
-				
-				executeUpdate(pst,false);
+
+				executeUpdate(pst, false);
 				return t.getId();
 
 			} catch (Exception e) {
@@ -1273,23 +1191,20 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 
-
-
 	@Override
 	public void deleteTransaction(Transaction t) throws SQLException {
-		logger.debug("delete Transaction {}",t );
+		logger.debug("delete Transaction {}", t);
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM transactions where id=?")) {
 			pst.setLong(1, t.getId());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
 
 	}
 
-
 	@Override
 	public void deleteTransaction(List<Transaction> state) throws SQLException {
-		logger.debug("remove transactions : {} items ",state.size());
-		try (var c = pool.getConnection();var pst = c.prepareStatement("DELETE FROM transactions where id = ?")) {
+		logger.debug("remove transactions : {} items ", state.size());
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM transactions where id = ?")) {
 			for (Transaction sto : state) {
 				pst.setLong(1, sto.getId());
 				pst.addBatch();
@@ -1299,16 +1214,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 
-
-
 	@Override
 	public void deleteStock(MTGSealedStock state) throws SQLException {
-		logger.debug("delete {} in sealed stock",state.getId());
+		logger.debug("delete {} in sealed stock", state.getId());
 		var sql = "DELETE FROM sealed WHERE id=?";
-		try (var c = pool.getConnection(); var pst = c.prepareStatement(sql))
-		{
+		try (var c = pool.getConnection(); var pst = c.prepareStatement(sql)) {
 			pst.setLong(1, state.getId());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 			notify(state);
 		}
 
@@ -1316,26 +1228,25 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public MTGSealedStock getSealedStockById(Long id) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from sealed where id=?"))
-		{
-				pst.setLong(1, id);
-				ResultSet rsC = executeQuery(pst);
-				rsC.next();
-				return readSealed(rsC);
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * from sealed where id=?")) {
+			pst.setLong(1, id);
+			ResultSet rsC = executeQuery(pst);
+			rsC.next();
+			return readSealed(rsC);
 		}
 	}
-
 
 	@Override
 	public List<MTGSealedStock> listSealedStocks() throws SQLException {
 		List<MTGSealedStock> colls = new ArrayList<>();
 
-		try (var c = pool.getConnection();var pst = c.prepareStatement(hlper.selectAll("sealed"));ResultSet rs = executeQuery(pst))
-		{
-				while (rs.next()) {
-					var state = readSealed(rs);
-					colls.add(state);
-				}
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(hlper.selectAll("sealed"));
+				ResultSet rs = executeQuery(pst)) {
+			while (rs.next()) {
+				var state = readSealed(rs);
+				colls.add(state);
+			}
 		}
 		return colls;
 	}
@@ -1345,9 +1256,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if (state.getId() < 0) {
 
-			logger.debug("save sealed {}",state);
-			try (var c = pool.getConnection(); var pst = c.prepareStatement(
-					"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection,price,tiersAppIds,numversion ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",generatedKey)) {
+			logger.debug("save sealed {}", state);
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"INSERT INTO sealed (edition, qte, comment, lang, typeProduct, conditionProduct,extra,collection,price,tiersAppIds,numversion ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+							generatedKey)) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
@@ -1355,94 +1268,101 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(5, state.getProduct().getTypeProduct().name());
 				pst.setString(6, state.getCondition().name());
 
-				if(state.getProduct().getExtra()!=null)
+				if (state.getProduct().getExtra() != null)
 					pst.setString(7, state.getProduct().getExtra().name());
 				else
 					pst.setString(7, null);
 
-				pst.setString(8, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());
+				pst.setString(8,
+						(state.getMagicCollection() == null)
+								? MTGControler.getInstance().get(DEFAULT_LIBRARY)
+								: state.getMagicCollection().getName());
 				pst.setDouble(9, state.getValue().doubleValue());
-				storeTiersApps(pst,10,state.getTiersAppIds());
+				storeTiersApps(pst, 10, state.getTiersAppIds());
 				pst.setInt(11, state.getProduct().getNum());
 
-				executeUpdate(pst,false);
+				executeUpdate(pst, false);
 				state.setId(getGeneratedKey(pst));
 			} catch (Exception e) {
 				logger.error("error insert", e);
 			}
 		} else {
-			logger.debug("update Sealed {}",state);
-			try (var c = pool.getConnection(); var pst = c.prepareStatement(
-					"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=?, collection=?, price=?, tiersAppIds=? where id=?")) {
+			logger.debug("update Sealed {}", state);
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=?, collection=?, price=?, tiersAppIds=? where id=?")) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
 				pst.setString(4, state.getLanguage());
 				pst.setString(5, state.getProduct().getTypeProduct().name());
 				pst.setString(6, state.getCondition().name());
-				pst.setString(7, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());
+				pst.setString(7,
+						(state.getMagicCollection() == null)
+								? MTGControler.getInstance().get(DEFAULT_LIBRARY)
+								: state.getMagicCollection().getName());
 				pst.setDouble(8, state.getValue().doubleValue());
-				storeTiersApps(pst,9,state.getTiersAppIds());
+				storeTiersApps(pst, 9, state.getTiersAppIds());
 				pst.setLong(10, state.getId());
-				executeUpdate(pst,false);
+				executeUpdate(pst, false);
 
 				state.setUpdated(false);
 			} catch (Exception e) {
-				logger.error("error update",e);
+				logger.error("error update", e);
 			}
 		}
 		notify(state);
 
 	}
 
-
 	@Override
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM stocks where idmc=? and idMe=? and collection=?")) {
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("DELETE FROM stocks where idmc=? and idMe=? and collection=?")) {
 			pst.setString(1, mc.getScryfallId());
 			pst.setString(2, mc.getEdition().getId());
 			pst.setString(3, collection.getName());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
 	}
 
 	@Override
 	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException {
-		logger.debug("move {} from {} to {}",mc,from,to);
+		logger.debug("move {} from {} to {}", mc, from, to);
 
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("update stocks set collection= ? where idmc=? and collection=?"))
-		{
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("update stocks set collection= ? where idmc=? and collection=?")) {
 			pst.setString(1, to.getName());
 			pst.setString(2, mc.getScryfallId());
 			pst.setString(3, from.getName());
-			int res = executeUpdate(pst,false);
+			int res = executeUpdate(pst, false);
 
-			logger.debug("move result:{}={}",mc, res);
+			logger.debug("move result:{}={}", mc, res);
 		}
 	}
 
 	@Override
 	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException {
-		logger.debug("move {} from {} to {}",ed,from,to);
+		logger.debug("move {} from {} to {}", ed, from, to);
 
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("update stocks set collection= ? where idMe=? and collection=?"))
-		{
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("update stocks set collection= ? where idMe=? and collection=?")) {
 			pst.setString(1, to.getName());
 			pst.setString(2, ed.getId());
 			pst.setString(3, from.getName());
-			int res = executeUpdate(pst,false);
+			int res = executeUpdate(pst, false);
 
-			logger.debug("move result:{}={}",ed, res);
+			logger.debug("move result:{}={}", ed, res);
 		}
 
-
 	}
-	
+
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection col) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT idMe, count(distinct(idmc)) FROM stocks where collection=? and qte>0 group by idMe");) 
-		{
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"SELECT idMe, count(distinct(idmc)) FROM stocks where collection=? and qte>0 group by idMe");) {
 			pst.setString(1, col.getName());
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next())
@@ -1474,8 +1394,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		return ret;
 	}
-	
-	
+
 	@Override
 	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
 		var sql = "SELECT distinct(idMe) FROM stocks WHERE qte > 0 AND collection=?";
@@ -1509,10 +1428,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveCollection(MTGCollection col) throws SQLException {
-		listCollections.put(col.getName(),col);
+		listCollections.put(col.getName(), col);
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into collections values (?)")) {
 			pst.setString(1, col.getName().replace("'", "\'"));
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
 	}
 
@@ -1526,51 +1445,45 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM collections where name = ?")) {
 			pst.setString(1, col.getName());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
 
 		try (var c = pool.getConnection(); var pst2 = c.prepareStatement("DELETE FROM stocks where collection = ?")) {
 			pst2.setString(1, col.getName());
-			executeUpdate(pst2,false);
+			executeUpdate(pst2, false);
 		}
 	}
-	
-	
-	
 
-	
 	@Override
 	public void loadAlerts() {
-		
+
 		try (var c = pool.getConnection(); var pst = c.prepareStatement(hlper.selectAll("alerts"))) {
 			try (var rs = executeQuery(pst)) {
 				while (rs.next()) {
 					var alert = new MTGAlert();
-					alert.setCard(readCard(rs,MCARD));
+					alert.setCard(readCard(rs, MCARD));
 					alert.setQty(rs.getInt("qte"));
 					alert.setPrice(rs.getDouble("amount"));
 					alert.setFoil(rs.getBoolean("foil"));
-					
-					alerts.put(alert.getId(),alert);
+
+					alerts.put(alert.getId(), alert);
 				}
 			}
 		} catch (Exception e) {
-			logger.error("error get alert",e);
+			logger.error("error get alert", e);
 		}
 	}
 
 	@Override
 	public List<MTGCollection> listCollections() throws SQLException {
 
-		if(!listCollections.isEmpty())
+		if (!listCollections.isEmpty())
 			return listCollections.values();
 
-
-		try (var c =  pool.getConnection();var pst = c.prepareStatement(hlper.selectAll("collections")))
-		{
+		try (var c = pool.getConnection(); var pst = c.prepareStatement(hlper.selectAll("collections"))) {
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {
-					listCollections.put(rs.getString(1),new MTGCollection(rs.getString(1)));
+					listCollections.put(rs.getString(1), new MTGCollection(rs.getString(1)));
 				}
 			}
 		}
@@ -1579,11 +1492,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeEdition(MTGEdition me, MTGCollection col) throws SQLException {
-		logger.debug("delete {} from {}",me,col);
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM stocks where idMe=? and collection=?")) {
+		logger.debug("delete {} from {}", me, col);
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("DELETE FROM stocks where idMe=? and collection=?")) {
 			pst.setString(1, me.getId());
 			pst.setString(2, col.getName());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
 	}
 
@@ -1594,7 +1508,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		if (mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
 
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT DISTINCT(collection) FROM stocks WHERE qte > 0 AND idmc=? and idMe=?")) {
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"SELECT DISTINCT(collection) FROM stocks WHERE qte > 0 AND idmc=? and idMe=?")) {
 			pst.setString(1, mc.getScryfallId());
 			pst.setString(2, mc.getEdition().getId());
 			try (ResultSet rs = executeQuery(pst)) {
@@ -1609,7 +1525,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteStock(List<MTGCardStock> state) throws SQLException {
-		logger.debug("remove {} items in stock",state.size());
+		logger.debug("remove {} items in stock", state.size());
 		var st = new StringBuilder();
 		st.append("DELETE FROM stocks where idstock IN (");
 		for (MTGCardStock sto : state) {
@@ -1618,16 +1534,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		st.append(")");
 		String sql = st.toString().replace(",)", ")");
-		try (var c = pool.getConnection();var pst = c.prepareStatement(sql)) {
-			executeUpdate(pst,false);
+		try (var c = pool.getConnection(); var pst = c.prepareStatement(sql)) {
+			executeUpdate(pst, false);
 		}
 	}
 
-
-
 	@Override
 	public List<MTGCardStock> listStocks(MTGCard mc) throws SQLException {
-		var sql ="SELECT * FROM stocks where idmc=?";
+		var sql = "SELECT * FROM stocks where idmc=?";
 
 		List<MTGCardStock> colls = new ArrayList<>();
 		try (var c = pool.getConnection(); var pst = c.prepareStatement(sql)) {
@@ -1638,7 +1552,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					var state = readStock(rs);
 					colls.add(state);
 				}
-				logger.trace("loading {} items FROM stock for {}",colls.size(),mc);
+				logger.trace("loading {} items FROM stock for {}", colls.size(), mc);
 
 			}
 
@@ -1646,25 +1560,23 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return colls;
 
 	}
-	
-	
 
 	@Override
-	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException {
-		String sql ="SELECT * FROM stocks where collection=? and name like ?";
+	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col, boolean editionStrict) throws SQLException {
+		String sql = "SELECT * FROM stocks where collection=? and name like ?";
 
-		if(editionStrict)
-			sql ="SELECT * FROM stocks where collection=? and idmc=?";
+		if (editionStrict)
+			sql = "SELECT * FROM stocks where collection=? and idmc=?";
 
-		logger.trace("sql={}",sql);
+		logger.trace("sql={}", sql);
 
 		List<MTGCardStock> colls = new ArrayList<>();
 		try (var c = pool.getConnection(); var pst = c.prepareStatement(sql)) {
 			pst.setString(1, col.getName());
 
-			if(editionStrict)
+			if (editionStrict)
 				pst.setString(2, mc.getScryfallId());
-			else 
+			else
 				pst.setString(2, mc.getName());
 
 			try (ResultSet rs = executeQuery(pst)) {
@@ -1673,7 +1585,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					var state = readStock(rs);
 					colls.add(state);
 				}
-				logger.trace("loading {} items FROM stock for {}",colls.size(),mc);
+				logger.trace("loading {} items FROM stock for {}", colls.size(), mc);
 
 			}
 
@@ -1686,8 +1598,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<MTGCardStock> listStocks(List<MTGCollection> cols) throws SQLException {
 		List<MTGCardStock> colls = new ArrayList<>();
 
-		var stmt = String.format("SELECT * FROM stocks where collection in  (%s)",cols.stream().map(c->"'"+c.getName()+"'").collect(Collectors.joining(", ")));
-		logger.trace("loading stock with SQL={}",stmt);
+		var stmt = String.format("SELECT * FROM stocks where collection in  (%s)",
+				cols.stream().map(c -> "'" + c.getName() + "'").collect(Collectors.joining(", ")));
+		logger.trace("loading stock with SQL={}", stmt);
 		try (var c = pool.getConnection(); var pst = c.prepareStatement(stmt); ResultSet rs = executeQuery(pst);) {
 			while (rs.next()) {
 				var state = readStock(rs);
@@ -1697,10 +1610,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return colls;
 	}
 
-
 	@Override
 	public MTGCardStock getStockById(Long id) throws SQLException {
-
 
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT * FROM stocks where idstock=?")) {
 			pst.setLong(1, id);
@@ -1712,19 +1623,18 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 
-
-
-
 	@Override
 	public List<MTGCardStock> listStocks() throws SQLException {
 		List<MTGCardStock> colls = new ArrayList<>();
-		try (var c = pool.getConnection(); var pst = c.prepareStatement(hlper.selectAll("stocks")); ResultSet rs = executeQuery(pst);) {
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(hlper.selectAll("stocks"));
+				ResultSet rs = executeQuery(pst);) {
 			while (rs.next()) {
 				var state = readStock(rs);
 				colls.add(state);
 
 			}
-			logger.debug("load {} item(s) from stock",colls.size());
+			logger.debug("load {} item(s) from stock", colls.size());
 		}
 		return colls;
 	}
@@ -1733,10 +1643,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		try (ResultSet rs = pst.getGeneratedKeys()) {
 			rs.next();
-				return rs.getInt(1);
+			return rs.getInt(1);
 
 		} catch (Exception e) {
-			logger.error("couldn't retrieve id : {}",e.getMessage());
+			logger.error("couldn't retrieve id : {}", e.getMessage());
 		}
 		return -1;
 
@@ -1746,8 +1656,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveOrUpdateCardStock(MTGCardStock state) throws SQLException {
 
 		if (state.getId() < 0) {
-			logger.debug("save stock {}",state);
-			try (var c = pool.getConnection(); var pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate,name,digital) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", generatedKey)) {
+			logger.debug("save stock {}", state);
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate,name,digital) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+							generatedKey)) {
 				pst.setString(1, state.getCondition().name());
 				pst.setBoolean(2, state.isFoil());
 				pst.setBoolean(3, state.isSigned());
@@ -1759,23 +1672,24 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				storeCard(pst, 9, state.getProduct());
 				pst.setBoolean(10, state.isAltered());
 				pst.setDouble(11, state.getValue().doubleValue());
-				storeGrade(pst,12, state.getGrade());
-				storeTiersApps(pst,13, state.getTiersAppIds());
+				storeGrade(pst, 12, state.getGrade());
+				storeTiersApps(pst, 13, state.getTiersAppIds());
 				pst.setBoolean(14, state.isEtched());
 				pst.setString(15, state.getProduct().getEdition().getId());
 				pst.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));
 				pst.setString(17, state.getProduct().getName());
 				pst.setBoolean(18, state.isDigital());
-				executeUpdate(pst,false);
+				executeUpdate(pst, false);
 				state.setId(getGeneratedKey(pst));
 				state.setDateUpdate(new java.util.Date());
 			} catch (Exception e) {
 				logger.error(e);
 			}
 		} else {
-			logger.debug("update Stock {}",state);
-			try (var c = pool.getConnection(); var pst = c.prepareStatement(
-					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=?, dateUpdate=?, name=?, digital=? where idstock=?")) {
+			logger.debug("update Stock {}", state);
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement(
+							"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=?, dateUpdate=?, name=?, digital=? where idstock=?")) {
 				pst.setString(1, state.getComment());
 				pst.setString(2, state.getCondition().name());
 				pst.setBoolean(3, state.isFoil());
@@ -1786,8 +1700,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setDouble(8, state.getValue().doubleValue());
 				pst.setString(9, state.getProduct().getScryfallId());
 				pst.setString(10, state.getMagicCollection().getName());
-				storeGrade(pst, 11,state.getGrade());
-				storeTiersApps(pst, 12,state.getTiersAppIds());
+				storeGrade(pst, 11, state.getGrade());
+				storeTiersApps(pst, 12, state.getTiersAppIds());
 				pst.setBoolean(13, state.isEtched());
 				storeCard(pst, 14, state.getProduct());
 				pst.setString(15, state.getProduct().getEdition().getId());
@@ -1795,7 +1709,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(17, state.getProduct().getName());
 				pst.setBoolean(18, state.isDigital());
 				pst.setLong(19, state.getId());
-				executeUpdate(pst,false);
+				executeUpdate(pst, false);
 				state.setDateUpdate(new java.util.Date());
 			} catch (Exception e) {
 				logger.error(e);
@@ -1804,44 +1718,43 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		notify(state);
 	}
 
-
-
 	@Override
 	public void saveAlert(MTGAlert alert) throws SQLException {
 
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into alerts ( id,mcard,amount,qte) values (?,?,?,?)")) {
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("insert into alerts ( id,mcard,amount,qte) values (?,?,?,?)")) {
 			pst.setString(1, alert.getId());
 			storeCard(pst, 2, alert.getCard());
 			pst.setDouble(3, alert.getPrice());
 			pst.setInt(4, alert.getQty());
-			executeUpdate(pst,false);
-			logger.debug("save alert for {} ({})",alert.getCard(),alert.getCard().getEdition());
+			executeUpdate(pst, false);
+			logger.debug("save alert for {} ({})", alert.getCard(), alert.getCard().getEdition());
 			alerts.put(alert.getId(), alert);
 		}
 	}
 
 	@Override
 	public void updateAlert(MTGAlert alert) throws SQLException {
-		logger.debug("update alert {}",alert);
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("update alerts set amount=?,mcard=?,foil=?, qte=? where id=?")) {
+		logger.debug("update alert {}", alert);
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("update alerts set amount=?,mcard=?,foil=?, qte=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
 			storeCard(pst, 2, alert.getCard());
 			pst.setBoolean(3, alert.isFoil());
 			pst.setInt(4, alert.getQty());
 			pst.setString(5, alert.getId());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 			alerts.put(alert.getId(), alert);
 		}
 
 	}
 
 	@Override
-	public void deleteAlert(MTGAlert alert) throws SQLException
-	{
+	public void deleteAlert(MTGAlert alert) throws SQLException {
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM alerts where id=?")) {
 			pst.setString(1, alert.getId());
-			int res = executeUpdate(pst,false);
-			logger.debug("delete alert {} = {}", alert,res);
+			int res = executeUpdate(pst, false);
+			logger.debug("delete alert {} = {}", alert, res);
 		}
 	}
 
@@ -1856,7 +1769,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					n.setName(rs.getString("name"));
 					n.setUrl(rs.getString("url"));
 					n.setId(rs.getInt("id"));
-					n.setProvider(getPlugin(rs.getString("typeNews"),MTGNewsProvider.class));
+					n.setProvider(getPlugin(rs.getString("typeNews"), MTGNewsProvider.class));
 					news.add(n);
 				}
 			}
@@ -1869,10 +1782,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteNews(MTGNews n) throws SQLException {
-		logger.debug("delete news {}",n);
+		logger.debug("delete news {}", n);
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM news where id=?")) {
 			pst.setInt(1, n.getId());
-			executeUpdate(pst,false);
+			executeUpdate(pst, false);
 		}
 	}
 
@@ -1880,97 +1793,92 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveOrUpdateNews(MTGNews n) throws SQLException {
 		if (n.getId() < 0) {
 
-			logger.debug("save {}",n);
-			try (var c = pool.getConnection(); var pst = c.prepareStatement(
-					"insert into news  ( name,categorie,url,typeNews) values (?,?,?,?)",
-					generatedKey)) {
+			logger.debug("save {}", n);
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement("insert into news  ( name,categorie,url,typeNews) values (?,?,?,?)",
+							generatedKey)) {
 				pst.setString(1, n.getName());
 				pst.setString(2, n.getCategorie());
 				pst.setString(3, n.getUrl());
 				pst.setString(4, n.getProvider().getName());
-				executeUpdate(pst,false);
+				executeUpdate(pst, false);
 				n.setId(getGeneratedKey(pst));
 			}
 
 		} else {
-			logger.debug("update {}",n);
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("update news set name=?, categorie=?, url=?,typeNews=? where id=?")) {
+			logger.debug("update {}", n);
+			try (var c = pool.getConnection();
+					var pst = c.prepareStatement("update news set name=?, categorie=?, url=?,typeNews=? where id=?")) {
 				pst.setString(1, n.getName());
 				pst.setString(2, n.getCategorie());
 				pst.setString(3, n.getUrl());
 				pst.setString(4, n.getProvider().getName());
 				pst.setInt(5, n.getId());
-				executeUpdate(pst,false);
+				executeUpdate(pst, false);
 			} catch (Exception e) {
 				logger.error(e);
 			}
 		}
 
 	}
-	
-	
-	
+
 	@Override
-	public void updateCard(MTGCard card,MTGCard newC, MTGCollection col) throws SQLException {
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("UPDATE stocks SET mcard= ?, dateUpdate=? WHERE idmc = ? and collection = ?"))
-		{
-			
+	public void updateCard(MTGCard card, MTGCard newC, MTGCollection col) throws SQLException {
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"UPDATE stocks SET mcard= ?, dateUpdate=? WHERE idmc = ? and collection = ?")) {
+
 			storeCard(pst, 1, newC);
 			pst.setString(3, card.getScryfallId());
 			pst.setString(4, col.getName());
-			pst.setDate(2,  new Date(System.currentTimeMillis()));
-			executeUpdate(pst,false);
+			pst.setDate(2, new Date(System.currentTimeMillis()));
+			executeUpdate(pst, false);
 		}
 
 	}
-	
+
 	@Override
-	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> classe, List<T> list) throws SQLException {
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into technicalauditlog  (classname ,techObject,startTime) values (?,?,?)")) {
-			
-			for(var it : list)
-			{
+	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> classe, List<T> list)
+			throws SQLException {
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement(
+						"insert into technicalauditlog  (classname ,techObject,startTime) values (?,?,?)")) {
+
+			for (var it : list) {
 				pst.setString(1, classe.getSimpleName());
 				pst.setString(2, serialiser.toJsonElement(it).toString());
 				pst.setTime(3, new java.sql.Time(it.getStart().toEpochMilli()));
 				pst.addBatch();
 			}
 			executeUpdate(pst, true);
-			
+
 		}
-		
+
 	}
-	
+
 	@Override
-	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> classe,Instant start,Instant end) throws SQLException {
-			List<T> trans = new ArrayList<>();
-			//TODO add instants filters
-			try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT techobject FROM technicalauditlog where classname=?")) 
-			{
-				pst.setString(1, classe.getSimpleName());
-				try (ResultSet rs = executeQuery(pst)) {
-					while (rs.next()) {
-						trans.add(readTechnical(rs,classe));
-					}
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> classe, Instant start, Instant end)
+			throws SQLException {
+		List<T> trans = new ArrayList<>();
+		// TODO add instants filters
+		try (var c = pool.getConnection();
+				var pst = c.prepareStatement("SELECT techobject FROM technicalauditlog where classname=?")) {
+			pst.setString(1, classe.getSimpleName());
+			try (ResultSet rs = executeQuery(pst)) {
+				while (rs.next()) {
+					trans.add(readTechnical(rs, classe));
 				}
 			}
-			return trans;
+		}
+		return trans;
 	}
-	
-	
-	
 
-
-	protected <T extends AbstractAuditableItem> T readTechnical(ResultSet rs, Class<T> classe) throws SQLException
-	{
+	protected <T extends AbstractAuditableItem> T readTechnical(ResultSet rs, Class<T> classe) throws SQLException {
 		return serialiser.fromJson(rs.getString("techobject"), classe);
 	}
-	
-	
-	
-	protected DAOInfo buildInfo(Statement pst)
-	{
-		var start=Instant.now();
+
+	protected DAOInfo buildInfo(Statement pst) {
+		var start = Instant.now();
 		var daoInfo = new DAOInfo();
 
 		AbstractTechnicalServiceManager.inst().store(daoInfo);
@@ -1982,50 +1890,45 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			logger.error(e);
 		}
 
-
 		var index = 0;
 
-		if(pst.toString().toUpperCase().indexOf("SELECT")>-1)
-			index=pst.toString().toUpperCase().indexOf("SELECT");
+		if (pst.toString().toUpperCase().indexOf("SELECT") > -1)
+			index = pst.toString().toUpperCase().indexOf("SELECT");
 
-		if(pst.toString().toUpperCase().indexOf("UPDATE")>-1)
-			index=pst.toString().toUpperCase().indexOf("UPDATE");
+		if (pst.toString().toUpperCase().indexOf("UPDATE") > -1)
+			index = pst.toString().toUpperCase().indexOf("UPDATE");
 
-		if(pst.toString().toUpperCase().indexOf("INSERT")>-1)
-			index=pst.toString().toUpperCase().indexOf("INSERT");
+		if (pst.toString().toUpperCase().indexOf("INSERT") > -1)
+			index = pst.toString().toUpperCase().indexOf("INSERT");
 
-		if(pst.toString().toUpperCase().indexOf("DELETE")>-1)
-			index=pst.toString().toUpperCase().indexOf("DELETE");
+		if (pst.toString().toUpperCase().indexOf("DELETE") > -1)
+			index = pst.toString().toUpperCase().indexOf("DELETE");
 
 		daoInfo.setQuery(pst.toString().substring(index));
 		daoInfo.setClasseName(pst.getClass().getCanonicalName());
 		daoInfo.setDaoName(this.getName());
-	
+
 		return daoInfo;
 	}
 
 	private int executeUpdate(PreparedStatement pst, boolean batch) throws SQLException {
-		var daoInfo=buildInfo(pst);
+		var daoInfo = buildInfo(pst);
 
 		try {
-			
-			int results=0;
-			
-			if(batch)
-			{
+
+			int results = 0;
+
+			if (batch) {
 				results = pst.executeBatch().length;
-			}
-			else
-			{
+			} else {
 				results = pst.executeUpdate();
 			}
-				
-			
+
 			daoInfo.setEnd(Instant.now());
-			
-			if(results<=0)
+
+			if (results <= 0)
 				logger.warn("query has update {} line", results);
-			
+
 			return results;
 		} catch (SQLException e) {
 			daoInfo.setMessage(e.getMessage());
@@ -2035,8 +1938,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	protected ResultSet executeQuery(PreparedStatement pst) throws SQLException {
-		var daoInfo=buildInfo(pst);
-		logger.trace("Executing {}",daoInfo);
+		var daoInfo = buildInfo(pst);
+		logger.trace("Executing {}", daoInfo);
 		try {
 			ResultSet rs = pst.executeQuery();
 			daoInfo.setEnd(Instant.now());
@@ -2048,18 +1951,15 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			throw e;
 		}
 
-
-
 	}
 
 	@Override
 	public boolean executeQuery(String query) throws SQLException {
-		try (var c = pool.getConnection(); Statement pst = c.createStatement())
-		{
-			var daoInfo=buildInfo(pst);
-			var ret =  pst.execute(query);
+		try (var c = pool.getConnection(); Statement pst = c.createStatement()) {
+			var daoInfo = buildInfo(pst);
+			var ret = pst.execute(query);
 			daoInfo.setEnd(Instant.now());
-			
+
 			return ret;
 		}
 	}
@@ -2072,98 +1972,95 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
 
 	@Override
 	public int hashCode() {
-		return (getType()+getName()).hashCode();
+		return (getType() + getName()).hashCode();
 	}
 
 	private MTGAnnounce readAnnounce(ResultSet rs) throws SQLException {
 		var a = new MTGAnnounce();
-			  a.setId(rs.getInt("id"));
-			  a.setStartDate(rs.getTimestamp("startDate"));
-			  a.setEndDate(rs.getTimestamp("endDate"));
-			  a.setTitle(rs.getString("title"));
-			  a.setDescription(rs.getString("description"));
-			  a.setTotalPrice(rs.getDouble("total"));
-			  a.setCurrency(Currency.getInstance(rs.getString("currency")));
-			  a.setContact(getContactById(rs.getInt("fk_idcontact")));
-			  a.setCreationDate(rs.getTimestamp("creationDate"));
-			  a.setType(EnumTransactionDirection.valueOf(rs.getString("typeAnnounce")));
-			  a.setCategorie(EnumItems.valueOf(rs.getString("category")));
-			  a.setPercentReduction(rs.getDouble("percentReduction"));
-			  a.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
-			  a.setStatus(STATUS.valueOf(rs.getString("statusAnnounce")));
-			  a.setItems(readStockItemFrom(rs,"stocksItem"));
+		a.setId(rs.getInt("id"));
+		a.setStartDate(rs.getTimestamp("startDate"));
+		a.setEndDate(rs.getTimestamp("endDate"));
+		a.setTitle(rs.getString("title"));
+		a.setDescription(rs.getString("description"));
+		a.setTotalPrice(rs.getDouble("total"));
+		a.setCurrency(Currency.getInstance(rs.getString("currency")));
+		a.setContact(getContactById(rs.getInt("fk_idcontact")));
+		a.setCreationDate(rs.getTimestamp("creationDate"));
+		a.setType(EnumTransactionDirection.valueOf(rs.getString("typeAnnounce")));
+		a.setCategorie(EnumItems.valueOf(rs.getString("category")));
+		a.setPercentReduction(rs.getDouble("percentReduction"));
+		a.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
+		a.setStatus(STATUS.valueOf(rs.getString("statusAnnounce")));
+		a.setItems(readStockItemFrom(rs, "stocksItem"));
 
 		return a;
 	}
 
 	private MTGSealedStock readSealed(ResultSet rs) throws SQLException {
 		int ref = rs.getInt("numversion");
-		  try
-		  {
-			var list = MTG.getEnabledPlugin(MTGSealedProvider.class).get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRATYPE)==null) ? null : EnumExtra.valueOf(rs.getString(EXTRATYPE)));
-			var product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
-			var state =  new MTGSealedStock(product);
-			 state.setComment(rs.getString("comment"));
-			 state.setId(rs.getInt("id"));
-			 state.setQte(rs.getInt("qte"));
-			 state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
-			 state.setMagicCollection(new MTGCollection(rs.getString(COLLECTION)));
-			 state.setPrice(rs.getDouble("price"));
-			 state.setTiersAppIds(readTiersApps(rs));
-			 state.setLanguage(rs.getString("lang"));
-			 return state;
-		  }
-		  catch (Exception e)
-		  {
-			logger.error("Error loading Packaging for {} {} {} : {}",rs.getString("typeProduct"),rs.getString(EXTRATYPE),rs.getString(EDITION),e);
+		try {
+			var list = MTG.getEnabledPlugin(MTGSealedProvider.class).get(
+					getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),
+					EnumItems.valueOf(rs.getString("typeProduct")),
+					(rs.getString(EXTRATYPE) == null) ? null : EnumExtra.valueOf(rs.getString(EXTRATYPE)));
+			var product = list.stream().filter(p -> p.getNum() == ref).findFirst().orElse(list.get(0));
+			var state = new MTGSealedStock(product);
+			state.setComment(rs.getString("comment"));
+			state.setId(rs.getInt("id"));
+			state.setQte(rs.getInt("qte"));
+			state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
+			state.setMagicCollection(new MTGCollection(rs.getString(COLLECTION)));
+			state.setPrice(rs.getDouble("price"));
+			state.setTiersAppIds(readTiersApps(rs));
+			state.setLanguage(rs.getString("lang"));
+			return state;
+		} catch (Exception e) {
+			logger.error("Error loading Packaging for {} {} {} : {}", rs.getString("typeProduct"),
+					rs.getString(EXTRATYPE), rs.getString(EDITION), e);
 			return null;
-		  }
-		
-		 
+		}
+
 	}
 
-	private MTGCardStock readStock(ResultSet rs) throws SQLException
-	{
-		var state = new MTGCardStock(readCard(rs,MCARD));
-			state.setComment(rs.getString("comments"));
-			state.setId(rs.getInt("idstock"));
-			state.setMagicCollection(new MTGCollection(rs.getString(COLLECTION)));
-			try {
-				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
-			} catch (Exception _) {
-				state.setCondition(null);
-			}
-			state.setFoil(rs.getBoolean("foil"));
-			state.setSigned(rs.getBoolean("signedcard"));
-			state.setLanguage(rs.getString("langage"));
-			state.setQte(rs.getInt("qte"));
-			state.setAltered(rs.getBoolean("altered"));
-			state.setPrice(rs.getDouble("price"));
-			state.setGrade(readGrading(rs));
-			state.setTiersAppIds(readTiersApps(rs));
-			state.setEtched(rs.getBoolean("etched"));
-			state.setDigital(rs.getBoolean("digital"));
-			if(state.getTiersAppIds()==null)
-				state.setTiersAppIds(new HashMap<>());
-			
-			try {
-				state.setDateUpdate(rs.getDate("dateUpdate"));
-			} catch (Exception _) {
-				//do nothing
-			}
+	private MTGCardStock readStock(ResultSet rs) throws SQLException {
+		var state = new MTGCardStock(readCard(rs, MCARD));
+		state.setComment(rs.getString("comments"));
+		state.setId(rs.getInt("idstock"));
+		state.setMagicCollection(new MTGCollection(rs.getString(COLLECTION)));
+		try {
+			state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
+		} catch (Exception _) {
+			state.setCondition(null);
+		}
+		state.setFoil(rs.getBoolean("foil"));
+		state.setSigned(rs.getBoolean("signedcard"));
+		state.setLanguage(rs.getString("langage"));
+		state.setQte(rs.getInt("qte"));
+		state.setAltered(rs.getBoolean("altered"));
+		state.setPrice(rs.getDouble("price"));
+		state.setGrade(readGrading(rs));
+		state.setTiersAppIds(readTiersApps(rs));
+		state.setEtched(rs.getBoolean("etched"));
+		state.setDigital(rs.getBoolean("digital"));
+		if (state.getTiersAppIds() == null)
+			state.setTiersAppIds(new HashMap<>());
 
+		try {
+			state.setDateUpdate(rs.getDate("dateUpdate"));
+		} catch (Exception _) {
+			// do nothing
+		}
 
 		return state;
 
 	}
-
 
 }

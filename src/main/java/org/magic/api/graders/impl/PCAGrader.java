@@ -3,7 +3,6 @@ package org.magic.api.graders.impl;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
@@ -20,18 +19,13 @@ public class PCAGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		var url=getWebSite()+"/resumeBdd/"+identifier+"/1";
-		var d = RequestBuilder.build().get()
-				   .newClient()
-				   .url(url)
-				   .toHtml();
-
+		var url = getWebSite() + "/resumeBdd/" + identifier + "/1";
+		var d = RequestBuilder.build().get().newClient().url(url).toHtml();
 
 		Elements els = d.select("li.mb-1");
 
-		if(els.isEmpty())
-		{
-			logger.debug("{} is not found for {}",identifier,getName());
+		if (els.isEmpty()) {
+			logger.debug("{} is not found for {}", identifier, getName());
 			return null;
 		}
 

@@ -3,7 +3,6 @@ package org.magic.game.actions.cards;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -19,7 +18,7 @@ public class MadnessActions extends AbstractCardAction {
 	private String k = "Madness";
 
 	public MadnessActions(DisplayableCard card) {
-		super(card,"Madness");
+		super(card, "Madness");
 		putValue(SHORT_DESCRIPTION, k);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
 	}

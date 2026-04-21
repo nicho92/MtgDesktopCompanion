@@ -1,7 +1,6 @@
 package org.magic.gui.models.conf;
 
 import java.util.Date;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.LogEvent;
 import org.magic.gui.abstracts.GenericTableModel;
@@ -15,22 +14,20 @@ public class LogTableModel extends GenericTableModel<LogEvent> {
 
 	public LogTableModel() {
 		app = (MTGAppender) MTGLogger.getAppender("APPS");
-		setColumns("LEVEL", "THREAD", "TIME", "CLASS", "MESSAGE" );
+		setColumns("LEVEL", "THREAD", "TIME", "CLASS", "MESSAGE");
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 
-		if(columnIndex==0)
+		if (columnIndex == 0)
 			return Level.class;
 
-		if(columnIndex==2)
+		if (columnIndex == 2)
 			return Date.class;
-
 
 		return super.getColumnClass(columnIndex);
 	}
-
 
 	@Override
 	public Object getValueAt(int row, int column) {

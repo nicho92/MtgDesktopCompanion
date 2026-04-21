@@ -1,11 +1,5 @@
 package org.magic.services.adapters;
 
-import java.lang.reflect.Type;
-import java.util.Date;
-
-import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGDeck;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -15,6 +9,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import java.lang.reflect.Type;
+import java.util.Date;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 
 public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSerializer<MTGDeck> {
 
@@ -28,19 +26,19 @@ public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSeriali
 	private static final String TAGS = "tags";
 	private static final String DESCRIPTION = "description";
 	private Gson serializer;
-	
-	
+
 	public DeckAdapter() {
 		serializer = new Gson();
 	}
-	
-    @Override
-	public MTGDeck deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context) throws JsonParseException {
-    	var root = elem.getAsJsonObject();
+
+	@Override
+	public MTGDeck deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context)
+			throws JsonParseException {
+		var root = elem.getAsJsonObject();
 
 		var deck = new MTGDeck();
-		
-		if (root.get(ID)!=null)
+
+		if (root.get(ID) != null)
 			deck.setId(root.get(ID).getAsInt());
 
 		if (!root.get(NAME).isJsonNull())
@@ -48,37 +46,31 @@ public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSeriali
 		else
 			deck.setName("No Name");
 
-		if (root.get(DESCRIPTION)!=null && !root.get(DESCRIPTION).isJsonNull())
+		if (root.get(DESCRIPTION) != null && !root.get(DESCRIPTION).isJsonNull())
 			deck.setDescription(root.get(DESCRIPTION).getAsString());
 
-		if (!root.get(CREATION_DATE).isJsonNull())
-		{
+		if (!root.get(CREATION_DATE).isJsonNull()) {
 			try {
 				deck.setCreationDate(new Date(root.get(CREATION_DATE).getAsLong()));
-			}
-			catch(Exception _)
-			{
-				//do nothing
+			} catch (Exception _) {
+				// do nothing
 			}
 		}
 
-		if (!root.get(UPDATE_DATE).isJsonNull())
-		{
+		if (!root.get(UPDATE_DATE).isJsonNull()) {
 			try {
 				deck.setDateUpdate(new Date(root.get(UPDATE_DATE).getAsLong()));
-			}catch(Exception _)
-			{
-				//do nothing
+			} catch (Exception _) {
+				// do nothing
 			}
 
 		}
 
-		if (root.get(COMMANDER)!=null)
+		if (root.get(COMMANDER) != null)
 			deck.setCommander(serializer.fromJson(root.get(COMMANDER), MTGCard.class));
 
-		if (root.get(AVERAGE_PRICE)!=null)
+		if (root.get(AVERAGE_PRICE) != null)
 			deck.setAveragePrice(root.get(AVERAGE_PRICE).getAsDouble());
-
 
 		if (!root.get(TAGS).isJsonNull()) {
 			var arr = root.get(TAGS).getAsJsonArray();
@@ -106,9 +98,8 @@ public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSeriali
 		}
 
 		return deck;
-    
-    	
-    }
+
+	}
 
 	@Override
 	public JsonElement serialize(MTGDeck deck, Type typeOfSrc, JsonSerializationContext context) {
@@ -118,7 +109,7 @@ public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSeriali
 		json.addProperty(DESCRIPTION, deck.getDescription());
 		json.addProperty(COLORS, deck.getColors());
 		json.addProperty(AVERAGE_PRICE, deck.getAveragePrice());
-		json.add(COMMANDER,serializer.toJsonTree(deck.getCommander()));
+		json.add(COMMANDER, serializer.toJsonTree(deck.getCommander()));
 		json.addProperty(CREATION_DATE, deck.getDateCreation().getTime());
 		json.addProperty(UPDATE_DATE, deck.getDateUpdate().getTime());
 		var tags = new JsonArray();

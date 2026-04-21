@@ -2,7 +2,6 @@ package org.magic.gui.renderer.standard;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -11,8 +10,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-public class BooleanCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
-
+public class BooleanCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
 
 	/**
 	 *
@@ -21,18 +19,15 @@ public class BooleanCellEditorRenderer extends AbstractCellEditor implements Tab
 	private JCheckBox cbox;
 	private JPanel p;
 
-
 	public BooleanCellEditorRenderer() {
 		cbox = new JCheckBox();
 		cbox.setHorizontalAlignment(SwingConstants.CENTER);
 		p = new JPanel();
 		p.setOpaque(true);
 		p.setLayout(new BorderLayout());
-		p.add(cbox,BorderLayout.CENTER);
+		p.add(cbox, BorderLayout.CENTER);
 		cbox.setOpaque(false);
-		
-		
-		
+
 	}
 
 	@Override
@@ -41,19 +36,20 @@ public class BooleanCellEditorRenderer extends AbstractCellEditor implements Tab
 	}
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		
-			if(value==null)
-				return p;
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
 
-			cbox.setSelected(Boolean.parseBoolean(value.toString()));
-			
-			if(isSelected)
-				p.setBackground(table.getSelectionBackground());
-			else
-				p.setBackground(table.getBackground());
-
+		if (value == null)
 			return p;
+
+		cbox.setSelected(Boolean.parseBoolean(value.toString()));
+
+		if (isSelected)
+			p.setBackground(table.getSelectionBackground());
+		else
+			p.setBackground(table.getBackground());
+
+		return p;
 	}
 
 	@Override
@@ -62,6 +58,5 @@ public class BooleanCellEditorRenderer extends AbstractCellEditor implements Tab
 
 		return cbox;
 	}
-
 
 }

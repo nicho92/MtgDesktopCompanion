@@ -2,7 +2,6 @@ package org.magic.services.logging;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Core;
 import org.apache.logging.log4j.core.Filter;
@@ -16,7 +15,7 @@ import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
 @Plugin(name = "MTGAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
-public class MTGAppender extends AbstractAppender  {
+public class MTGAppender extends AbstractAppender {
 
 	private List<LogEvent> events;
 	private Observable obs;
@@ -34,16 +33,16 @@ public class MTGAppender extends AbstractAppender  {
 	}
 
 	@PluginFactory
-    public static MTGAppender createAppender(@PluginAttribute("name") String name,@PluginElement("Filter") Filter filter) {
-        return new MTGAppender(name, filter);
-    }
+	public static MTGAppender createAppender(@PluginAttribute("name") String name,
+			@PluginElement("Filter") Filter filter) {
+		return new MTGAppender(name, filter);
+	}
 
 	public MTGAppender(String name, Filter filter) {
-		super(name,filter,null,false,null);
+		super(name, filter, null, false, null);
 		events = new ArrayList<>();
 		obs = new Observable();
 	}
-	
 
 	@Override
 	public void append(LogEvent event) {

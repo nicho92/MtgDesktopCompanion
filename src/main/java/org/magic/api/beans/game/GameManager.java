@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameManager{
+public class GameManager {
 
 	private List<Player> players;
 
@@ -13,7 +13,6 @@ public class GameManager{
 
 	private SpellStack stack;
 	private TriggerManager triggers;
-
 
 	private GameManager() {
 		turns = new ArrayList<>();
@@ -93,6 +92,5 @@ public class GameManager{
 	public SpellStack getStack() {
 		return stack;
 	}
-
 
 }

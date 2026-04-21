@@ -6,36 +6,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MoneyValue;
 
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
-	private String[] columnsNames = { capitalize("NAME"),capitalize("QTY"),capitalize("VALUE"),capitalize("LANG"),capitalize("QUALITY"),capitalize("FOIL") };
+	private String[] columnsNames = {capitalize("NAME"), capitalize("QTY"), capitalize("VALUE"), capitalize("LANG"),
+			capitalize("QUALITY"), capitalize("FOIL")};
 	private Map<String, List<MTGPrice>> listElements;
-
 
 	public GroupedPriceTreeTableModel() {
 		super(new Object());
 		listElements = new HashMap<>();
 	}
 
-	public void init(Map<String, List<MTGPrice>> map)
-	{
-		listElements= map;
+	public void init(Map<String, List<MTGPrice>> map) {
+		listElements = map;
 		modelSupport.fireNewRoot();
 	}
 
-
-
 	@Override
 	public Class<?> getColumnClass(int column) {
-		if(column==5)
+		if (column == 5)
 			return Boolean.class;
 
-		if(column==2)
+		if (column == 2)
 			return MoneyValue.class;
 
 		return super.getColumnClass(column);
@@ -57,7 +53,6 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 		return new ArrayList<>(listElements.keySet()).get(index);
 	}
 
-
 	@Override
 	public int getChildCount(Object parent) {
 		if (parent instanceof String) {
@@ -69,31 +64,29 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	@Override
 	public Object getValueAt(Object node, int column) {
 		if (node instanceof String) {
-			switch (column)
-			{
-			case 0:
-				return node;
-			case 1:
-				return listElements.get(node).size();
-			case 2:
-				return listElements.get(node).stream().mapToDouble(MTGPrice::getValue).sum();
-			default:
-				return "";
-			}
-		}
-		else if (node instanceof MTGPrice emp) {
-			
 			switch (column) {
-				
-				case 2:
+				case 0 :
+					return node;
+				case 1 :
+					return listElements.get(node).size();
+				case 2 :
+					return listElements.get(node).stream().mapToDouble(MTGPrice::getValue).sum();
+				default :
+					return "";
+			}
+		} else if (node instanceof MTGPrice emp) {
+
+			switch (column) {
+
+				case 2 :
 					return emp.getPriceValue();
-				case 3:
+				case 3 :
 					return emp.getLanguage();
-				case 4:
+				case 4 :
 					return emp.getQuality();
-				case 5:
+				case 5 :
 					return emp.isFoil();
-				default:
+				default :
 					return "";
 			}
 		}
@@ -102,14 +95,12 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-			try {
-				MTGPrice k = (MTGPrice) child;
-				return getPosition(k, listElements.get(parent));
-			}
-			catch(ClassCastException _)
-			{
-				return 0;
-			}
+		try {
+			MTGPrice k = (MTGPrice) child;
+			return getPosition(k, listElements.get(parent));
+		} catch (ClassCastException _) {
+			return 0;
+		}
 	}
 
 	@Override
@@ -126,7 +117,6 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	public boolean isLeaf(Object node) {
 		return node instanceof MTGPrice;
 	}
-
 
 	@Override
 	public boolean isCellEditable(Object node, int column) {

@@ -2,7 +2,6 @@ package org.magic.api.scripts.impl;
 
 import org.magic.api.interfaces.abstracts.extra.AbstractJSR223MTGScript;
 
-
 public class JavaScript extends AbstractJSR223MTGScript {
 
 	@Override

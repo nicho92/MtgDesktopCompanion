@@ -1,9 +1,18 @@
 package org.magic.api.exports.impl;
 
+import com.google.gson.internal.LinkedTreeMap;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.converters.extended.NamedMapConverter;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGCardStock;
@@ -15,17 +24,6 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.POMReader;
-
-import com.google.gson.internal.LinkedTreeMap;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.converters.extended.NamedMapConverter;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class XMLExport extends AbstractCardExport {
 
@@ -41,13 +39,14 @@ public class XMLExport extends AbstractCardExport {
 		xstream.alias("deck", MTGDeck.class);
 		xstream.alias("rarity", EnumRarity.class);
 		xstream.alias("color", EnumColors.class);
-		xstream.alias("stock",MTGCardStock.class);
+		xstream.alias("stock", MTGCardStock.class);
 		xstream.alias("set", MTGEdition.class);
 		xstream.alias("foreigneData", MTGCardNames.class);
 		xstream.alias("legality", MTGFormat.class);
-		xstream .addPermission(AnyTypePermission.ANY); 
-		xstream.registerConverter(new NamedMapConverter(xstream.getMapper(), "entry", "card", MTGCard.class, "qty", Integer.class));
-	
+		xstream.addPermission(AnyTypePermission.ANY);
+		xstream.registerConverter(
+				new NamedMapConverter(xstream.getMapper(), "entry", "card", MTGCard.class, "qty", Integer.class));
+
 		xstream.registerConverter(new Converter() {
 
 			@Override
@@ -62,13 +61,12 @@ public class XMLExport extends AbstractCardExport {
 
 			@Override
 			public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
-				var map= (LinkedTreeMap<Object, Object>)source;
+				var map = (LinkedTreeMap<Object, Object>) source;
 				for (var entry : map.entrySet()) {
-		            writer.startNode(entry.getKey().toString());
-		            writer.setValue(entry.getValue().toString());
-		            writer.endNode();
-		        }
-
+					writer.startNode(entry.getKey().toString());
+					writer.setValue(entry.getValue().toString());
+					writer.endNode();
+				}
 
 			}
 		});
@@ -85,20 +83,19 @@ public class XMLExport extends AbstractCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		return (MTGDeck)xstream.fromXML(f);
+		return (MTGDeck) xstream.fromXML(f);
 	}
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		FileTools.saveFile(f,  xstream.toXML(stock));
+		FileTools.saveFile(f, xstream.toXML(stock));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		return (List<MTGCardStock>)xstream.fromXML(content);
+		return (List<MTGCardStock>) xstream.fromXML(content);
 	}
-
 
 	@Override
 	public String getName() {
@@ -107,7 +104,8 @@ public class XMLExport extends AbstractCardExport {
 
 	@Override
 	public String getVersion() {
-		return POMReader.readVersionFromPom(XStream.class, "/META-INF/maven/com.thoughtworks.xstream/xstream/pom.properties");
+		return POMReader.readVersionFromPom(XStream.class,
+				"/META-INF/maven/com.thoughtworks.xstream/xstream/pom.properties");
 	}
 
 }

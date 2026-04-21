@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -22,7 +21,7 @@ public class Player extends Observable implements Serializable {
 	private static final String PLAY_TERM = "Play ";
 	private static final String EXIL_TERM = "Exil ";
 	private static final String DISCARD_TERM = "Discard ";
-	
+
 	/**
 	 *
 	 */
@@ -42,29 +41,25 @@ public class Player extends Observable implements Serializable {
 	private byte[] avatar;
 	private transient int poisonCounter;
 	private long onlineConnectionTimeStamp;
-	private boolean admin=false;
+	private boolean admin = false;
 	private Color color;
-	
-
 
 	public Color getColor() {
 		return color;
 	}
-	
+
 	public void setColor(Color color) {
 		this.color = color;
 	}
-		
 
-	
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
-	
+
 	public boolean isAdmin() {
 		return admin;
 	}
-	
+
 	public EnumPlayerStatus getState() {
 		return state;
 	}
@@ -96,28 +91,28 @@ public class Player extends Observable implements Serializable {
 	public void init() {
 		graveyard = new Zone(ZoneEnum.GRAVEYARD);
 		battlefield = new Zone(ZoneEnum.BATTLEFIELD);
-		library = new Zone(deck.getMainAsList(),ZoneEnum.LIBRARY);
+		library = new Zone(deck.getMainAsList(), ZoneEnum.LIBRARY);
 		exil = new Zone(ZoneEnum.EXIL);
 		hand = new Zone(ZoneEnum.HAND);
 		manaPool = new ManaPool();
 		local = Locale.getDefault();
 
-		onlineConnectionTimeStamp= Instant.now().toEpochMilli();
+		onlineConnectionTimeStamp = Instant.now().toEpochMilli();
 		state = EnumPlayerStatus.DISCONNECTED;
 		setId(CryptoUtils.randomLong());
-		
+
 		mixHandAndLibrary();
 		shuffleLibrary();
 	}
 
 	public Player(String name) {
-		this(name,false);
+		this(name, false);
 	}
 
 	public Player(String name, boolean admin) {
 		super();
 		this.name = name;
-		this.admin=admin;
+		this.admin = admin;
 		deck = new MTGDeck();
 		init();
 	}
@@ -478,17 +473,13 @@ public class Player extends Observable implements Serializable {
 	public void setOnlineConnectionTimeStamp(long onlineConnectionTimeStamp) {
 		this.onlineConnectionTimeStamp = onlineConnectionTimeStamp;
 	}
-	
+
 	public long getOnlineConnectionTimeStamp() {
 		return onlineConnectionTimeStamp;
 	}
-	
-	public Date getOnlineConnectionDate()
-	{
+
+	public Date getOnlineConnectionDate() {
 		return new Date(onlineConnectionTimeStamp);
 	}
-	
-	
-	
-	
+
 }

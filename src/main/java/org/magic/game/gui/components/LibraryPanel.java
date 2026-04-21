@@ -5,9 +5,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
-
 import javax.swing.JMenuItem;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.cards.ScryActions;
@@ -56,23 +54,23 @@ public class LibraryPanel extends DraggablePanel {
 	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 
 		switch (to) {
-		case BATTLEFIELD:
-			player.playCardFromLibrary(mc.getMagicCard());
-			break;
-		case EXIL:
-			player.exileCardFromLibrary(mc.getMagicCard());
-			break;
-		case HAND:
-			player.searchCardFromLibrary(mc.getMagicCard());
-			break;
-		case LIBRARY:
-			player.reoderCardInLibrary(mc.getMagicCard(), true);
-			break;
-		case GRAVEYARD:
-			player.discardCardFromLibrary(mc.getMagicCard());
-			break;
-		default:
-			break;
+			case BATTLEFIELD :
+				player.playCardFromLibrary(mc.getMagicCard());
+				break;
+			case EXIL :
+				player.exileCardFromLibrary(mc.getMagicCard());
+				break;
+			case HAND :
+				player.searchCardFromLibrary(mc.getMagicCard());
+				break;
+			case LIBRARY :
+				player.reoderCardInLibrary(mc.getMagicCard(), true);
+				break;
+			case GRAVEYARD :
+				player.discardCardFromLibrary(mc.getMagicCard());
+				break;
+			default :
+				break;
 		}
 
 	}

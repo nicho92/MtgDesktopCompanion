@@ -1,7 +1,6 @@
 package org.magic.api.sorters;
 
 import java.util.Comparator;
-
 import org.magic.api.beans.MTGPrice;
 
 public class MagicPricesComparator implements Comparator<MTGPrice> {

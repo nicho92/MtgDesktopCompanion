@@ -2,10 +2,9 @@ package org.magic.api.interfaces;
 
 import java.io.File;
 import java.io.Writer;
-
 import javax.script.ScriptException;
 
-public interface MTGScript extends MTGPlugin{
+public interface MTGScript extends MTGPlugin {
 
 	public String getExtension();
 
@@ -19,7 +18,7 @@ public interface MTGScript extends MTGPlugin{
 
 	public void setOutput(Writer w);
 
-	public void addVariable(String k,Object o);
+	public void addVariable(String k, Object o);
 
 	public String getContentType();
 

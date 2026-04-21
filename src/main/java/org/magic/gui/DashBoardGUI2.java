@@ -3,6 +3,9 @@ package org.magic.gui;
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.listPlugins;
 
+import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.swing.TabEditingEvent;
+import com.jidesoft.swing.TabEditingListener;
 import java.awt.BorderLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -15,7 +18,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
-
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -28,7 +30,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
-
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -36,10 +37,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.FileTools;
-
-import com.jidesoft.swing.JideTabbedPane;
-import com.jidesoft.swing.TabEditingEvent;
-import com.jidesoft.swing.TabEditingListener;
 
 public class DashBoardGUI2 extends MTGUIComponent {
 
@@ -59,14 +56,11 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		return capitalize("DASHBOARD_MODULE");
 	}
 
-
-	private void initNewDashBoardContainer(String name)
-	{
+	private void initNewDashBoardContainer(String name) {
 		JMenuItem mntmSaveDisplay;
 		var desktop = new JDesktopPane();
 
-
-		tabbedPane.addTab(name,desktop);
+		tabbedPane.addTab(name, desktop);
 		var menuBar = new JMenuBar();
 		var mnNewMenu = new JMenu(capitalize("ADD"));
 		var mnWindow = new JMenu(capitalize("WINDOW"));
@@ -78,61 +72,58 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		mnWindow.add(mntmSaveDisplay);
 		desktop.add(menuBar);
 
+		initNewDashletAction(mnNewMenu, desktop);
+		initSaveDisplayAction(mntmSaveDisplay, desktop, name);
 
-		initNewDashletAction(mnNewMenu,desktop);
-		initSaveDisplayAction(mntmSaveDisplay,desktop,name);
-
-		SwingWorker<Void, File> sw = new SwingWorker<>()
-		{
+		SwingWorker<Void, File> sw = new SwingWorker<>() {
 			protected Void doInBackground() throws Exception {
-				publish(new File(AbstractJDashlet.confdir,name).listFiles(File::isFile));
+				publish(new File(AbstractJDashlet.confdir, name).listFiles(File::isFile));
 				return null;
 			}
 
 			@Override
 			protected void process(List<File> chunks) {
 				for (File f : chunks) {
-					try (var fis = new FileInputStream(f)){
+					try (var fis = new FileInputStream(f)) {
 						var p = new Properties();
 						p.load(fis);
 						AbstractJDashlet dash = PluginRegistry.inst().newInstance(p.get("class").toString());
 						dash.setProperties(p);
-						addDash(desktop,dash);
+						addDash(desktop, dash);
 
 					} catch (Exception e) {
-						logger.error("Could not add {}",f, e);
+						logger.error("Could not add {}", f, e);
 					}
 				}
 			}
-			
+
 			@Override
 			protected void done() {
 				logger.debug("Init initNewDashBoardContainer done");
 			}
-			
+
 		};
-		
+
 		ThreadManager.getInstance().runInEdt(sw, "Loading dashlets");
 	}
 
-	private void initNewDashletAction(JMenu mnNewMenu,JDesktopPane desktop) {
+	private void initNewDashletAction(JMenu mnNewMenu, JDesktopPane desktop) {
 		try {
 
 			List<AbstractJDashlet> dashs = listPlugins(AbstractJDashlet.class);
 
-			dashs.stream().map(AbstractJDashlet::getCategory).distinct().forEach(n->{
+			dashs.stream().map(AbstractJDashlet::getCategory).distinct().forEach(n -> {
 				var mntmCategory = new JMenu(n);
 
-				for (AbstractJDashlet dash : dashs.stream().filter(d->d.getCategory().equalsIgnoreCase(n)).toList())
-				{
-					var mntmNewMenuItem = new JMenuItem(dash.getName(),dash.getIcon());
-						mntmNewMenuItem.addActionListener(_ -> {
-							try {
-								addDash(desktop,PluginRegistry.inst().newInstance(dash.getClass()));
-							} catch (Exception ex) {
-								logger.error("Error Loading {}", dash, ex);
-							}
-						});
+				for (AbstractJDashlet dash : dashs.stream().filter(d -> d.getCategory().equalsIgnoreCase(n)).toList()) {
+					var mntmNewMenuItem = new JMenuItem(dash.getName(), dash.getIcon());
+					mntmNewMenuItem.addActionListener(_ -> {
+						try {
+							addDash(desktop, PluginRegistry.inst().newInstance(dash.getClass()));
+						} catch (Exception ex) {
+							logger.error("Error Loading {}", dash, ex);
+						}
+					});
 					mntmCategory.add(mntmNewMenuItem);
 
 				}
@@ -152,13 +143,12 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		tabbedPane.setShowCloseButtonOnTab(true);
 		tabbedPane.setTabEditingAllowed(true);
 
-
 		var popup = new JPopupMenu();
-		var mnuAdd = new JMenuItem("New dashboard",MTGConstants.ICON_NEW);
+		var mnuAdd = new JMenuItem("New dashboard", MTGConstants.ICON_NEW);
 
-		mnuAdd.addActionListener(_->{
-			var defaultName="DashBoard-" + (tabbedPane.getTabCount()+1);
-			var dir = new File(AbstractJDashlet.confdir,defaultName);
+		mnuAdd.addActionListener(_ -> {
+			var defaultName = "DashBoard-" + (tabbedPane.getTabCount() + 1);
+			var dir = new File(AbstractJDashlet.confdir, defaultName);
 
 			try {
 				FileTools.forceMkdir(dir);
@@ -168,18 +158,15 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			}
 		});
 
-
 		popup.add(mnuAdd);
-
 
 		tabbedPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent mev) {
-				if(SwingUtilities.isRightMouseButton(mev))
-					popup.show(mev.getComponent(), mev.getX(),mev.getY());
+				if (SwingUtilities.isRightMouseButton(mev))
+					popup.show(mev.getComponent(), mev.getX(), mev.getY());
 			}
 		});
-
 
 		tabbedPane.setCloseAction(new AbstractAction("Close") {
 
@@ -191,9 +178,9 @@ public class DashBoardGUI2 extends MTGUIComponent {
 				tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
 
 				try {
-					FileTools.deleteDirectory(new File(AbstractJDashlet.confdir,name));
+					FileTools.deleteDirectory(new File(AbstractJDashlet.confdir, name));
 				} catch (IOException e1) {
-					logger.error("Error delete directory {}",name,e1);
+					logger.error("Error delete directory {}", name, e1);
 				}
 
 			}
@@ -203,24 +190,23 @@ public class DashBoardGUI2 extends MTGUIComponent {
 
 			@Override
 			public void editingStopped(TabEditingEvent e) {
-				var f = new File(AbstractJDashlet.confdir,e.getOldTitle());
-				boolean res = f.renameTo(new File(AbstractJDashlet.confdir,e.getNewTitle()));
-				logger.debug("Renaming dashbord {} to {} : {} ",e.getOldTitle(),e.getNewTitle(),res);
+				var f = new File(AbstractJDashlet.confdir, e.getOldTitle());
+				boolean res = f.renameTo(new File(AbstractJDashlet.confdir, e.getNewTitle()));
+				logger.debug("Renaming dashbord {} to {} : {} ", e.getOldTitle(), e.getNewTitle(), res);
 			}
 
 			@Override
 			public void editingStarted(TabEditingEvent e) {
-				//do nothing
+				// do nothing
 			}
 
 			@Override
 			public void editingCanceled(TabEditingEvent e) {
-				//do nothing
+				// do nothing
 			}
 		});
 
-
-		add(tabbedPane,BorderLayout.CENTER);
+		add(tabbedPane, BorderLayout.CENTER);
 
 	}
 
@@ -228,31 +214,28 @@ public class DashBoardGUI2 extends MTGUIComponent {
 	public void onFirstShowing() {
 		File[] dirs = AbstractJDashlet.confdir.listFiles(File::isDirectory);
 
-		if(dirs.length>0)
-		{
-			for(File dir : dirs)
+		if (dirs.length > 0) {
+			for (File dir : dirs)
 				initNewDashBoardContainer(dir.getName());
 		}
 
 	}
 
-	private void initSaveDisplayAction(JMenuItem mntmSaveDisplay, JDesktopPane desktop,String name) {
+	private void initSaveDisplayAction(JMenuItem mntmSaveDisplay, JDesktopPane desktop, String name) {
 		mntmSaveDisplay.addActionListener(_ -> {
 			var i = 0;
 
-			var dir = new File(AbstractJDashlet.confdir,name);
+			var dir = new File(AbstractJDashlet.confdir, name);
 
 			try {
-				
-				if(!dir.exists())
+
+				if (!dir.exists())
 					FileTools.forceMkdir(dir);
-				
-				
+
 				FileTools.cleanDirectory(dir);
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
-
 
 			for (JInternalFrame jif : desktop.getAllFrames()) {
 				i++;
@@ -266,53 +249,51 @@ public class DashBoardGUI2 extends MTGUIComponent {
 				var f = new File(dir, i + ".conf");
 
 				try (var fos = new FileOutputStream(f)) {
-					
-				
-					
+
 					dash.getProperties().store(fos, "");
-					logger.trace("saving {}:{}",f,dash.getProperties());
+					logger.trace("saving {}:{}", f, dash.getProperties());
 
 				} catch (IOException e) {
 					logger.error(e);
 				}
 			}
 
-	});
+		});
 
 	}
 
 	private void addDash(JDesktopPane desktop, AbstractJDashlet dash) {
-			try {
-				logger.debug("loading {}",dash.getName());
-				dash.initGUI();
-				desktop.add(dash);
-				dash.init();
-				dash.setVisible(true);
-				dash.addInternalFrameListener(new InternalFrameAdapter() {
-					@Override
-					public void internalFrameClosed(InternalFrameEvent e) {
-						AbstractJDashlet dash = (AbstractJDashlet) e.getInternalFrame();
+		try {
+			logger.debug("loading {}", dash.getName());
+			dash.initGUI();
+			desktop.add(dash);
+			dash.init();
+			dash.setVisible(true);
+			dash.addInternalFrameListener(new InternalFrameAdapter() {
+				@Override
+				public void internalFrameClosed(InternalFrameEvent e) {
+					AbstractJDashlet dash = (AbstractJDashlet) e.getInternalFrame();
 
-						dash.onDestroy();
-						if (dash.getProperties().get("id") != null)
-						{
+					dash.onDestroy();
+					if (dash.getProperties().get("id") != null) {
 
-							var tab= tabbedPane.getTitleAt(tabbedPane.getSelectedIndex());
+						var tab = tabbedPane.getTitleAt(tabbedPane.getSelectedIndex());
 
-							var conf = Paths.get(AbstractJDashlet.confdir.getAbsolutePath(),tab, dash.getProperties().get("id") + ".conf").toFile();
-							try {
-								FileTools.deleteFile(conf);
-							} catch (IOException _) {
-								logger.error("error removing {}",conf);
-							}
+						var conf = Paths.get(AbstractJDashlet.confdir.getAbsolutePath(), tab,
+								dash.getProperties().get("id") + ".conf").toFile();
+						try {
+							FileTools.deleteFile(conf);
+						} catch (IOException _) {
+							logger.error("error removing {}", conf);
 						}
 					}
-				});
+				}
+			});
 
-			} catch (Exception e) {
-				logger.error("error adding {}",dash,e);
-				MTGControler.getInstance().notify(e);
-			}
+		} catch (Exception e) {
+			logger.error("error adding {}", dash, e);
+			MTGControler.getInstance().notify(e);
+		}
 	}
 
 }

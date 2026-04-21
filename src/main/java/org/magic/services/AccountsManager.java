@@ -1,11 +1,11 @@
 package org.magic.services;
 
+import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
@@ -13,8 +13,6 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.FileTools;
-
-import com.google.gson.JsonObject;
 
 public class AccountsManager {
 
@@ -24,9 +22,8 @@ public class AccountsManager {
 
 	public String getKey() throws IOException {
 
-		var key=FileTools.readFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"key"));
-		if(key.isEmpty())
-		{
+		var key = FileTools.readFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(), "key"));
+		if (key.isEmpty()) {
 			throw new IOException("Please create a keypass");
 		}
 
@@ -34,14 +31,12 @@ public class AccountsManager {
 
 	}
 
-	public void setKey(String pass) throws IOException
-	{
-		FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),"key"), pass);
+	public void setKey(String pass) throws IOException {
+		FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(), "key"), pass);
 	}
 
-	public static AccountsManager inst()
-	{
-		if(inst==null)
+	public static AccountsManager inst() {
+		if (inst == null)
 			inst = new AccountsManager();
 
 		return inst;
@@ -51,44 +46,37 @@ public class AccountsManager {
 		keys = new HashMap<>();
 	}
 
-
-	public void addAuthentication(MTGPlugin plug, AccountAuthenticator token)
-	{
+	public void addAuthentication(MTGPlugin plug, AccountAuthenticator token) {
 		keys.put(plug, token);
 	}
 
-	public AccountAuthenticator getAuthenticator(MTGPlugin plug)
-	{
+	public AccountAuthenticator getAuthenticator(MTGPlugin plug) {
 		var auth = keys.get(plug);
 
-		if(auth==null)
-		{
-			logger.warn("No Authentifcator found for {}. Please fill it in config",plug );
+		if (auth == null) {
+			logger.warn("No Authentifcator found for {}. Please fill it in config", plug);
 			auth = new AccountAuthenticator();
 		}
 
 		return auth;
 	}
-	
-	public JsonObject toJson()
-	{
+
+	public JsonObject toJson() {
 		var obj = new JsonObject();
-		
-		keys.entrySet().forEach(e->{
-			
+
+		keys.entrySet().forEach(e -> {
+
 			var plugEntry = new JsonObject();
 			var tokens = new JsonObject();
-			
-			e.getValue().getTokens().entrySet().forEach(t->tokens.addProperty(t.getKey(), t.getValue()));
-			plugEntry.add("tokens",tokens);
-			
+
+			e.getValue().getTokens().entrySet().forEach(t -> tokens.addProperty(t.getKey(), t.getValue()));
+			plugEntry.add("tokens", tokens);
+
 			obj.add(e.getKey().getName(), plugEntry);
 		});
 		return obj;
 	}
-	
-	
-	
+
 	public Map<MTGPlugin, AccountAuthenticator> listAuthEntries() {
 		return keys;
 	}
@@ -97,64 +85,56 @@ public class AccountsManager {
 		keys.remove(selectedValue);
 	}
 
-	public MTGPlugin loadAuthenticator(String name)
-	{
-		return listAvailablePlugins().stream().filter(p->name.equalsIgnoreCase(p.getName())).findFirst().orElse(null);
+	public MTGPlugin loadAuthenticator(String name) {
+		return listAvailablePlugins().stream().filter(p -> name.equalsIgnoreCase(p.getName())).findFirst().orElse(null);
 	}
 
-	public List<MTGPlugin> listAvailablePlugins()
-	{
-		return PluginRegistry.inst().listPlugins().stream().filter(p->!p.listAuthenticationAttributes().isEmpty()).sorted().distinct().toList();
+	public List<MTGPlugin> listAvailablePlugins() {
+		return PluginRegistry.inst().listPlugins().stream().filter(p -> !p.listAuthenticationAttributes().isEmpty())
+				.sorted().distinct().toList();
 	}
 
-	public void saveConfig()
-	{
+	public void saveConfig() {
 		MTGControler.getInstance().saveAccounts();
 
 	}
 
 	public String exportConfig() {
 		try {
-			return CryptoUtils.encrypt(toJson().toString(),getKey());
+			return CryptoUtils.encrypt(toJson().toString(), getKey());
 		} catch (IOException e) {
-			logger.error("Error getting keypass : {}",e.getMessage());
+			logger.error("Error getting keypass : {}", e.getMessage());
 			return "";
 		}
 
 	}
 
 	public void loadConfig(String content) {
-		if((content!=null) && !content.isEmpty())
-		{
+		if ((content != null) && !content.isEmpty()) {
 			try {
-				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(content,getKey()), JsonObject.class));
+				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(content, getKey()), JsonObject.class));
 			} catch (Exception _) {
 				logger.error("Error while decryptions");
 			}
-		}
-		else
-		{
-			logger.warn("content ={}",content);
+		} else {
+			logger.warn("content ={}", content);
 		}
 	}
 
 	private void loadConfig(JsonObject o) {
-		if(o!=null && !o.isJsonNull())
-			o.keySet().forEach(name->{
+		if (o != null && !o.isJsonNull())
+			o.keySet().forEach(name -> {
 				var tokens = o.get(name).getAsJsonObject().get("tokens").getAsJsonObject();
 				var tok = new AccountAuthenticator();
-				tokens.entrySet().forEach(e->tok.addToken(e.getKey(), e.getValue().getAsString()));
+				tokens.entrySet().forEach(e -> tok.addToken(e.getKey(), e.getValue().getAsString()));
 				var plug = loadAuthenticator(name);
-				if(plug!=null)
+				if (plug != null)
 					keys.put(plug, tok);
 			});
 	}
 
-
 	public static List<String> generateLoginPasswordsKeys() {
-		return List.of(AccountAuthenticator.LOGIN,AccountAuthenticator.PASSWORD);
+		return List.of(AccountAuthenticator.LOGIN, AccountAuthenticator.PASSWORD);
 	}
-
-
 
 }

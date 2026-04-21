@@ -3,7 +3,6 @@ package org.magic.api.externalshop.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.api.cardtrader.modele.Categorie;
 import org.api.cardtrader.modele.MarketProduct;
 import org.api.cardtrader.modele.Order;
@@ -33,72 +32,62 @@ import org.magic.services.tools.MTG;
 
 public class CardTraderWebShop extends AbstractExternalShop {
 
-
 	private static final String TOKEN = "TOKEN";
 	private CardTraderService service;
-
 
 	@Override
 	public String getVersion() {
 		return CardTraderConstants.CARDTRADER_JAVA_API_VERSION;
 	}
 
-	private void init()
-	{
+	private void init() {
 		try {
-		if(service==null)
-			service = new CardTraderService(getAuthenticator().get(TOKEN));
+			if (service == null)
+				service = new CardTraderService(getAuthenticator().get(TOKEN));
 
+			service.setForceExpansionLoadingIfNotFound(false);
 
-		service.setForceExpansionLoadingIfNotFound(false);
+			service.setListener((URLCallInfo callInfo) -> {
 
-		service.setListener((URLCallInfo callInfo)-> {
+				var ni = new NetworkInfo();
+				ni.setStart(callInfo.getStart());
+				ni.setEnd(callInfo.getEnd());
+				ni.setReponse(callInfo.getResponse());
+				ni.setRequest(callInfo.getRequest());
 
-			var ni = new NetworkInfo();
-			ni.setStart(callInfo.getStart());
-			ni.setEnd(callInfo.getEnd());
-			ni.setReponse(callInfo.getResponse());
-			ni.setRequest(callInfo.getRequest());
+				AbstractTechnicalServiceManager.inst().store(ni);
 
-			AbstractTechnicalServiceManager.inst().store(ni);
+			});
 
-
-		});
-
-		}
-		catch(Exception e)
-		{
-			logger.error("No authenticator",e);
+		} catch (Exception e) {
+			logger.error("No authenticator", e);
 		}
 	}
 
-
-	private MTGStockItem  toItem(MarketProduct mp) {
-		var prod = ProductFactory.createDefaultProduct(mp.getCategorie().getId()==1?EnumItems.CARD:EnumItems.SEALED);
+	private MTGStockItem toItem(MarketProduct mp) {
+		var prod = ProductFactory
+				.createDefaultProduct(mp.getCategorie().getId() == 1 ? EnumItems.CARD : EnumItems.SEALED);
 		prod.setProductId(mp.getIdBlueprint().longValue());
 		prod.setName(mp.getName());
 		prod.setEdition(toExpansion(mp.getExpansion()));
 		prod.setCategory(toCategory(mp.getCategorie()));
-	
-	
-	var it = ProductFactory.generateStockItem(prod);
-						    it.setId(mp.getId());
-						    it.setAltered(mp.isAltered());
-						    it.setComment("");
-						    it.setFoil(mp.isFoil());
-						    it.setSigned(mp.isSigned());
-						    it.setLanguage(mp.getLanguage());
-						    it.setQte(mp.getQty());
-						    it.setPrice(mp.getPrice().getValue());
-						    
-						    if(mp.getCondition()!=null)
-						    	it.setCondition(aliases.getReversedConditionFor(this, mp.getCondition().name(),EnumCondition.NEAR_MINT));
-					
+
+		var it = ProductFactory.generateStockItem(prod);
+		it.setId(mp.getId());
+		it.setAltered(mp.isAltered());
+		it.setComment("");
+		it.setFoil(mp.isFoil());
+		it.setSigned(mp.isSigned());
+		it.setLanguage(mp.getLanguage());
+		it.setQte(mp.getQty());
+		it.setPrice(mp.getPrice().getValue());
+
+		if (mp.getCondition() != null)
+			it.setCondition(aliases.getReversedConditionFor(this, mp.getCondition().name(), EnumCondition.NEAR_MINT));
+
 		return it;
 	}
 
-	
-	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 		init();
@@ -106,28 +95,27 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		return service.listStock(search).stream().map(this::toItem).toList();
 	}
 
-
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
 
 		init();
-		return service.listBluePrints(name,null).stream().map(bp->{
+		return service.listBluePrints(name, null).stream().map(bp -> {
 
-			var product = ProductFactory.createDefaultProduct(bp.isCard()?EnumItems.CARD:EnumItems.SEALED);
-				product.setName(bp.getName());
-				product.setUrl(bp.getImageUrl());
-				product.setProductId(bp.getId().longValue());
-				product.setCategory(toCategory(bp.getCategorie()));
-				product.setEdition(toExpansion(bp.getExpansion()));
-				notify(product);
+			var product = ProductFactory.createDefaultProduct(bp.isCard() ? EnumItems.CARD : EnumItems.SEALED);
+			product.setName(bp.getName());
+			product.setUrl(bp.getImageUrl());
+			product.setProductId(bp.getId().longValue());
+			product.setCategory(toCategory(bp.getCategorie()));
+			product.setEdition(toExpansion(bp.getExpansion()));
+			notify(product);
 			return product;
 		}).toList();
 	}
 
 	private MTGEdition toExpansion(org.api.cardtrader.modele.Expansion expansion) {
-		if(expansion==null)
+		if (expansion == null)
 			return null;
-		
+
 		var exp = new MTGEdition();
 		try {
 			exp = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(expansion.getCode());
@@ -135,13 +123,13 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			logger.error(e);
 			exp.setId(expansion.getCode());
 			exp.setSet(expansion.getName());
-		} 
-		
+		}
+
 		return exp;
 	}
 
 	private Category toCategory(Categorie categorie) {
-		if(categorie==null)
+		if (categorie == null)
 			return null;
 
 		var cat = new Category();
@@ -155,10 +143,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	public List<Category> listCategories() throws IOException {
 		init();
 		try {
-		return service.listCategories().stream().map(this::toCategory).toList();
-		}
-		catch(Exception _)
-		{
+			return service.listCategories().stream().map(this::toCategory).toList();
+		} catch (Exception _) {
 			return new ArrayList<>();
 		}
 	}
@@ -167,7 +153,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	public String getName() {
 		return CardTraderConstants.CARDTRADER_NAME;
 	}
-
 
 	private Transaction toTransaction(Order o) {
 		var trans = new Transaction();
@@ -178,79 +163,71 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		trans.setDatePayment(o.getDatePaid());
 		trans.setDateCreation(o.getDateCreation());
 
-		if(o.getDatePaid()!=null)
+		if (o.getDatePaid() != null)
 			trans.setStatut(EnumTransactionStatus.PAID);
 
-		if(o.getDateSend()!=null)
+		if (o.getDateSend() != null)
 			trans.setStatut(EnumTransactionStatus.SENT);
 
-		if(o.getDateCancel()!=null)
+		if (o.getDateCancel() != null)
 			trans.setStatut(EnumTransactionStatus.CANCELED);
 
 		trans.setPaymentProvider(EnumPaymentProvider.SHOP_PLATEFORM);
 		trans.setShippingPrice(o.getShippingMethod().getSellerPrice().getValue());
 		trans.setTransporter(o.getShippingMethod().getName());
 		trans.setTransporterShippingCode(o.getShippingMethod().getTrackedCode());
-		
-		
-		o.getOrderItems().forEach(oi->trans.getItems().add(toItem(oi)));
+
+		o.getOrderItems().forEach(oi -> trans.getItems().add(toItem(oi)));
 
 		User u = o.getBuyer();
 
-		if(u==null)
-			u=o.getSeller();
-
+		if (u == null)
+			u = o.getSeller();
 
 		var c = new Contact();
-				c.setName(u.getUsername());
-				c.setAddress(o.getBillingAddress().getStreet());
-				c.setZipCode(o.getBillingAddress().getZip());
-				c.setCity(o.getBillingAddress().getCity());
-				c.setCountry(o.getBillingAddress().getCountry());
-				c.setEmail(u.getEmail());
-				c.setTelephone(u.getPhone());
+		c.setName(u.getUsername());
+		c.setAddress(o.getBillingAddress().getStreet());
+		c.setZipCode(o.getBillingAddress().getZip());
+		c.setCity(o.getBillingAddress().getCity());
+		c.setCountry(o.getBillingAddress().getCountry());
+		c.setEmail(u.getEmail());
+		c.setTelephone(u.getPhone());
 
 		trans.setContact(c);
 		return trans;
-		
+
 	}
 
-	
 	private AbstractStockItem<? extends AbstractProduct> toItem(OrderItem oi) {
 		AbstractStockItem<? extends AbstractProduct> item;
-		if(oi.getScryfallId()!=null && !oi.getScryfallId().isEmpty()) 
-		{
-				try {
-					var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
-					prod.setEdition(prod.getEdition());
-					item  = ProductFactory.generateStockItem(prod);
-				} 
-				catch (Exception e)
-				{
-					logger.error(e);
-					var prod = ProductFactory.createDefaultProduct(EnumItems.CARD);
-					prod.setName(oi.getName());
-					item  = ProductFactory.generateStockItem(prod);
-				}
-		}
-		else
-		{
+		if (oi.getScryfallId() != null && !oi.getScryfallId().isEmpty()) {
+			try {
+				var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
+				prod.setEdition(prod.getEdition());
+				item = ProductFactory.generateStockItem(prod);
+			} catch (Exception e) {
+				logger.error(e);
+				var prod = ProductFactory.createDefaultProduct(EnumItems.CARD);
+				prod.setName(oi.getName());
+				item = ProductFactory.generateStockItem(prod);
+			}
+		} else {
 			var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 			prod.setProductId(Long.valueOf(oi.getBluePrintId()));
 			prod.setName(oi.getName());
 			prod.setEdition(toExpansion(oi.getExpansionProduct()));
-			item  = ProductFactory.generateStockItem(prod);
+			item = ProductFactory.generateStockItem(prod);
 		}
-		item.getTiersAppIds().put(getName(), ""+oi.getId());
+		item.getTiersAppIds().put(getName(), "" + oi.getId());
 		item.setQte(oi.getQuantity());
 		item.setId(oi.getId());
 		item.setPrice(oi.getPrice().getValue());
 		item.setFoil(oi.isFoil());
 		item.setAltered(oi.isAltered());
 		item.setSigned(oi.isSigned());
-		item.setCondition(aliases.getReversedConditionFor(this, oi.getCondition().name(),EnumCondition.NEAR_MINT));
+		item.setCondition(aliases.getReversedConditionFor(this, oi.getCondition().name(), EnumCondition.NEAR_MINT));
 		item.setLanguage(oi.getLang());
-		
+
 		return item;
 	}
 
@@ -283,13 +260,13 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
-		var opt = service.listStock().stream().filter(item-> item.getId()==Integer.parseInt(id)).findFirst();
-		
-		if(opt.isPresent())
+		var opt = service.listStock().stream().filter(item -> item.getId() == Integer.parseInt(id)).findFirst();
+
+		if (opt.isPresent())
 			return toItem(opt.get());
 		else
 			return null;
-		
+
 	}
 
 	@Override
@@ -305,7 +282,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
-		throw new IOException("Can't delete contact "+ contact);
+		throw new IOException("Can't delete contact " + contact);
 
 	}
 
@@ -327,13 +304,12 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
-		return listTransaction().stream().filter(t->t.getContact().getId()==c.getId()).toList();
+		return listTransaction().stream().filter(t -> t.getContact().getId() == c.getId()).toList();
 	}
 
 	@Override
 	public boolean enableContact(String token) throws IOException {
 		throw new IOException("Can't enable contact ");
 	}
-
 
 }

@@ -1,7 +1,6 @@
 package org.magic.gui.abstracts;
 
 import javax.swing.ImageIcon;
-
 import org.magic.gui.components.browser.ChromiumBrowserComponent;
 import org.magic.gui.components.browser.JEditorPaneBrowser;
 import org.magic.services.MTGConstants;
@@ -11,9 +10,7 @@ import org.utils.patterns.observer.Observer;
 
 public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 
-
 	private static final long serialVersionUID = 1L;
-
 
 	public abstract void loadURL(String url);
 	public abstract String getCurrentURL();
@@ -23,8 +20,7 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 		observable = new Observable();
 	}
 
-	public void addObserver(Observer o)
-	{
+	public void addObserver(Observer o) {
 		observable.addObserver(o);
 	}
 
@@ -38,23 +34,15 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 		return "Browser";
 	}
 
-
-	public static MTGUIBrowserComponent createBrowser()
-	{
-		if(MTGControler.getInstance().get("ui/chromedisabled").equals("true"))
+	public static MTGUIBrowserComponent createBrowser() {
+		if (MTGControler.getInstance().get("ui/chromedisabled").equals("true"))
 			return new JEditorPaneBrowser();
 
 		try {
 			return new ChromiumBrowserComponent();
-		}
-		catch(Exception _)
-		{
+		} catch (Exception _) {
 			return new JEditorPaneBrowser();
 		}
 	}
-
-
-
-
 
 }

@@ -10,12 +10,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.management.ObjectName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
@@ -27,21 +25,20 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 import org.utils.patterns.observer.Observer;
 
-public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet{
+public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet {
 
 	private static final long serialVersionUID = 1L;
-	public static final File confdir= new File(MTGConstants.DATA_DIR, "dashlets");
+	public static final File confdir = new File(MTGConstants.DATA_DIR, "dashlets");
 	private Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private boolean loaded=false;
+	private boolean loaded = false;
 	public abstract ImageIcon getDashletIcon();
 	protected AbstractBuzyIndicatorComponent buzy;
-	
-	
+
 	@Override
 	public ObjectName getObjectName() {
 		try {
-			return new ObjectName("org.magic.api:type="+getType()+",name="+getName());
+			return new ObjectName("org.magic.api:type=" + getType() + ",name=" + getName());
 		} catch (Exception _) {
 			return null;
 		}
@@ -51,8 +48,6 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public boolean needAuthenticator() {
 		return !listAuthenticationAttributes().isEmpty();
 	}
-	
-	
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
@@ -67,9 +62,9 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	@Override
 	public Icon getIcon() {
 		try {
-			return new ImageIcon(getDashletIcon().getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
-		}
-		catch(Exception _) {
+			return new ImageIcon(getDashletIcon().getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE,
+					MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
+		} catch (Exception _) {
 			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}
@@ -95,45 +90,38 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		return loaded;
 	}
 
-
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(URI.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replace(" ", "-")+".md").toURL(),FORMAT_NOTIFICATION.MARKDOWN);
-		}
-		catch(Exception _)
-		{
+			return new MTGDocumentation(URI
+					.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL + "/" + getName().replace(" ", "-") + ".md").toURL(),
+					FORMAT_NOTIFICATION.MARKDOWN);
+		} catch (Exception _) {
 			return null;
 		}
 
 	}
 
-
 	protected AbstractJDashlet() {
 		props = new Properties();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		if (!confdir.exists())
-		{
-			 try {
+		if (!confdir.exists()) {
+			try {
 				FileTools.forceMkdir(confdir);
 			} catch (IOException e) {
-				logger.error("Error creating {}",confdir,e);
+				logger.error("Error creating {}", confdir, e);
 			}
 		}
 
-
-
-		loaded=true;
+		loaded = true;
 		setFrameIcon(getIcon());
 		setTitle(getName());
 		setResizable(true);
 		setClosable(true);
 		setIconifiable(true);
 		setMaximizable(true);
-		setBounds(new Rectangle(5,5, 536,346));
+		setBounds(new Rectangle(5, 5, 536, 346));
 	}
-
-
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
@@ -141,9 +129,8 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	}
 
 	public void onDestroy() {
-		//do nothing
+		// do nothing
 	}
-
 
 	@Override
 	public String getVersion() {
@@ -163,7 +150,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		return props.getProperty(k, d);
 	}
 
-	public void setProperty(String k,String v) {
+	public void setProperty(String k, String v) {
 		props.put(k, v);
 	}
 
@@ -172,12 +159,10 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		return props.getProperty(k);
 	}
 
-
 	@Override
 	public Properties getProperties() {
 		return props;
 	}
-
 
 	@Override
 	public String toString() {
@@ -189,8 +174,6 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		props.put(k, value);
 
 	}
-
-
 
 	@Override
 	public void save() {

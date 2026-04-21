@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -22,7 +21,6 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
@@ -56,7 +54,6 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	private JCheckBox boxPioneer;
 	private JComboBox<PricesCardsShakeSorter.SORT> cboSorter;
 
-
 	@Override
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_UP;
@@ -75,9 +72,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 
-
-		SwingWorker<List<CardShake>, Void> sw = new SwingWorker<>()
-		{
+		SwingWorker<List<CardShake>, Void> sw = new SwingWorker<>() {
 
 			@Override
 			protected List<CardShake> doInBackground() {
@@ -93,15 +88,14 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.LEGACY));
 					if (boxV.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.VINTAGE));
-					if(boxPioneer.isSelected())
+					if (boxPioneer.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PIONEER));
 					if (boxP.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PAUPER));
 
-					if(!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected() && !boxP.isSelected())
+					if (!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected()
+							&& !boxP.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(null));
-
-
 
 					int val = (Integer) spinner.getValue();
 					setProperty("LIMIT", String.valueOf(val));
@@ -110,9 +104,8 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					setProperty("LEG", String.valueOf(boxL.isSelected()));
 					setProperty("VIN", String.valueOf(boxV.isSelected()));
 					setProperty("PAU", String.valueOf(boxP.isSelected()));
-					setProperty("PIO",String.valueOf(boxPioneer.isSelected()));
-					setProperty("SORT",String.valueOf(cboSorter.getSelectedItem()));
-
+					setProperty("PIO", String.valueOf(boxPioneer.isSelected()));
+					setProperty("SORT", String.valueOf(cboSorter.getSelectedItem()));
 
 					ret.addAll(shakes.subList(0, val));
 					ret.addAll(shakes.subList(shakes.size() - (val + 1), shakes.size())); // x last
@@ -131,21 +124,20 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				try {
 					ret = get();
 
-					Collections.sort(ret, new PricesCardsShakeSorter((SORT)cboSorter.getSelectedItem(),false));
+					Collections.sort(ret, new PricesCardsShakeSorter((SORT) cboSorter.getSelectedItem(), false));
 					modStandard.init(ret);
 					table.setRowSorter(new TableRowSorter<>(modStandard));
 					table.packAll();
-				} catch(InterruptedException _)
-				{
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
-				}catch (Exception e) {
+				} catch (Exception e) {
 					logger.error(e);
 				}
 
 			}
 
 		};
-		ThreadManager.getInstance().runInEdt(sw,"update best trending");
+		ThreadManager.getInstance().runInEdt(sw, "update best trending");
 	}
 
 	@Override
@@ -182,14 +174,12 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		boxPioneer.setAction(a);
 		boxPioneer.setText("PIO");
 
-
 		spinner = new JSpinner();
 		spinner.addChangeListener(_ -> init());
 		cboSorter.addItemListener(ie -> {
-			if(ie.getStateChange()==ItemEvent.SELECTED)
+			if (ie.getStateChange() == ItemEvent.SELECTED)
 				init();
 		});
-
 
 		spinner.setModel(new SpinnerNumberModel(5, 1, null, 1));
 		panneauHaut.add(spinner);
@@ -202,8 +192,8 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		panneauHaut.add(cboSorter);
 
 		modStandard = new CardShakerTableModel();
-		table = UITools.createNewTable(modStandard,true);
-		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true,true));
+		table = UITools.createNewTable(modStandard, true);
+		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true, true));
 		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
@@ -211,24 +201,22 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
 
-
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
-		UITools.initCardToolTipTable(table, 0, 1, 8,new Callable<Void>() {
+		UITools.initCardToolTipTable(table, 0, 1, 8, new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
-				CardShake cs=null;
-					cs = UITools.getTableSelection(table, 0);
-					UITools.browse(cs.getLink());
+				CardShake cs = null;
+				cs = UITools.getTableSelection(table, 0);
+				UITools.browse(cs.getLink());
 
 				return null;
 			}
 		});
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")),
-					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
-					(int) Double.parseDouble(getString("h")));
+			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			try {
 				spinner.setValue(Integer.parseInt(getProperty("LIMIT", "5")));
@@ -241,7 +229,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				boxM.setSelected(Boolean.parseBoolean(getProperty("MDN", TRUE)));
 				boxL.setSelected(Boolean.parseBoolean(getProperty("LEG", FALSE)));
 				boxV.setSelected(Boolean.parseBoolean(getProperty("VIN", FALSE)));
-				cboSorter.setSelectedItem(SORT.valueOf(getProperty("SORT","DAY_PRICE_CHANGE")));
+				cboSorter.setSelectedItem(SORT.valueOf(getProperty("SORT", "DAY_PRICE_CHANGE")));
 			} catch (Exception e) {
 				logger.error("can't get boxs values", e);
 			}

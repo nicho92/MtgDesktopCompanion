@@ -24,5 +24,4 @@ public class WebManagerServer extends AbstractWebServer {
 		return "Web UI Server";
 	}
 
-
 }

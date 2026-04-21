@@ -6,10 +6,8 @@ import java.awt.Insets;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.services.MTGControler;
@@ -28,23 +26,22 @@ public class HandPanel extends DraggablePanel {
 	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 
 		switch (to) {
-		case BATTLEFIELD:
-			player.playCard(mc.getMagicCard());
-			break;
-		case EXIL:
-			player.exileCardFromHand(mc.getMagicCard());
-			break;
-		case GRAVEYARD:
-			player.discardCardFromHand(mc.getMagicCard());
-			break;
-		case LIBRARY:
-			player.putCardInLibraryFromHand(mc.getMagicCard(), true);
-			break;
-		default:
-			break;
+			case BATTLEFIELD :
+				player.playCard(mc.getMagicCard());
+				break;
+			case EXIL :
+				player.exileCardFromHand(mc.getMagicCard());
+				break;
+			case GRAVEYARD :
+				player.discardCardFromHand(mc.getMagicCard());
+				break;
+			case LIBRARY :
+				player.putCardInLibraryFromHand(mc.getMagicCard(), true);
+				break;
+			default :
+				break;
 		}
 	}
-
 
 	public void setRupture(int val) {
 		this.val = val;
@@ -78,10 +75,9 @@ public class HandPanel extends DraggablePanel {
 
 	public void initThumbnails(final List<MTGCard> cards, final boolean activateCards, final boolean rightClick) {
 
-		if (sw != null && !sw.isDone())
-		{
+		if (sw != null && !sw.isDone()) {
 			boolean ret = sw.cancel(true);
-			logger.debug("Closing initThumbnails SwingWorker : {}",ret);
+			logger.debug("Closing initThumbnails SwingWorker : {}", ret);
 		}
 
 		c.weightx = 1;
@@ -94,19 +90,17 @@ public class HandPanel extends DraggablePanel {
 		this.removeAll();
 		index = 0;
 
+		if (d == null)
+			d = MTGControler.getInstance().getCardsGameDimension();
 
-		if(d==null)
-			d=MTGControler.getInstance().getCardsGameDimension();
-
-		sw = new SwingWorker<>()
-		{
+		sw = new SwingWorker<>() {
 
 			@Override
 			protected void process(List<MTGCard> cards) {
-				for(MTGCard mc : cards) {
+				for (MTGCard mc : cards) {
 					var lab = new DisplayableCard(mc, d, activateCards, rightClick);
-						lab.setTappable(activateCards);
-						addComponent(lab);
+					lab.setTappable(activateCards);
+					addComponent(lab);
 				}
 				revalidate();
 			}
@@ -123,23 +117,19 @@ public class HandPanel extends DraggablePanel {
 				try {
 					get();
 
-				}catch(CancellationException _)
-				{
+				} catch (CancellationException _) {
 
-					logger.info("{} is canceled",this);
-				}
-				catch(InterruptedException | ExecutionException _)
-				{
+					logger.info("{} is canceled", this);
+				} catch (InterruptedException | ExecutionException _) {
 					Thread.currentThread().interrupt();
 				}
-
 
 				revalidate();
 				repaint();
 			}
 		};
 
-		ThreadManager.getInstance().runInEdt(sw, "thumbnail " + cards.size() +" items");
+		ThreadManager.getInstance().runInEdt(sw, "thumbnail " + cards.size() + " items");
 	}
 
 	@Override

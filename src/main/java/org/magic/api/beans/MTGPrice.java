@@ -1,7 +1,6 @@
 package org.magic.api.beans;
 
 import java.util.Currency;
-
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MoneyValue;
 
@@ -19,11 +18,10 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	private int qty = 1;
 	private String sellerUrl;
 	private MoneyValue priceValue;
-	
+
 	public MTGPrice() {
 		priceValue = new MoneyValue();
 	}
-	
 
 	public String getSellerUrl() {
 		return sellerUrl;
@@ -44,15 +42,14 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	public String getCardName() {
 		return cardName;
 	}
-	
 
 	public String getScryfallId() {
 		return scryfallId;
 	}
-	
+
 	public void setCardData(MTGCard magicCard) {
 		this.scryfallId = magicCard.getScryfallId();
-		this.cardName=magicCard.getName();
+		this.cardName = magicCard.getName();
 	}
 
 	public Object getShopItem() {
@@ -101,13 +98,10 @@ public class MTGPrice implements Comparable<MTGPrice> {
 		return priceValue.getCurrency();
 	}
 
-
-	public void setCurrency(String currencyCode)
-	{
-		if(!currencyCode.isEmpty())
+	public void setCurrency(String currencyCode) {
+		if (!currencyCode.isEmpty())
 			priceValue.setCurrency(Currency.getInstance(currencyCode.toUpperCase()));
 	}
-
 
 	public void setCurrency(Currency currency) {
 		priceValue.setCurrency(currency);
@@ -128,8 +122,7 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-	
+
 	public MoneyValue getPriceValue() {
 		return priceValue;
 	}
@@ -154,21 +147,17 @@ public class MTGPrice implements Comparable<MTGPrice> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof MTGPrice p)
-		{
-			return p.getValue()==this.getValue();
+		if (obj instanceof MTGPrice p) {
+			return p.getValue() == this.getValue();
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getValue().hashCode();
 	}
-	
-	
-	
-	
+
 	public void setCountry(String c) {
 		country = c;
 

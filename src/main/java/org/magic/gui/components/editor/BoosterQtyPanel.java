@@ -1,12 +1,10 @@
 package org.magic.gui.components.editor;
 
 import java.awt.FlowLayout;
-
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
 import org.magic.api.beans.MTGEdition;
 import org.magic.services.tools.UITools;
 

@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.models.conf.LogTableModel;
 import org.magic.services.MTGConstants;
@@ -42,42 +40,36 @@ public class ServerStatePanel extends JPanel {
 		return server;
 	}
 
-
 	public ServerStatePanel(boolean b, MTGServer plugin) {
-		init(b,plugin);
+		init(b, plugin);
 	}
 
-
-
 	public ServerStatePanel(MTGServer s) {
-		init(true,s);
+		init(true, s);
 	}
 
 	private void init(boolean b, MTGServer s) {
 
 		setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
 
-		if(s==null)
+		if (s == null)
 			return;
 
 		this.server = s;
-
-
 
 		icons = new HashMap<>();
 
 		icons.put(false, MTGConstants.ICON_DELETE);
 		icons.put(true, MTGConstants.ICON_CHECK);
 
-
 		var gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 36, 229, 47, 42, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 48, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[]{36, 229, 47, 42, 0, 0};
+		gridBagLayout.rowHeights = new int[]{48, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
-		var lblName = new JLabel(server.getName(),ImageTools.resize(server.getIcon(), 32, 32),SwingConstants.LEFT);
+		var lblName = new JLabel(server.getName(), ImageTools.resize(server.getIcon(), 32, 32), SwingConstants.LEFT);
 		lblName.setToolTipText(server.description());
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblName, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 0));
@@ -88,12 +80,11 @@ public class ServerStatePanel extends JPanel {
 		btnStartStop = new JButton((server.isAlive() ? "Stop" : "Start"));
 		add(btnStartStop, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 3, 0));
 
-		if(b)
-		{
+		if (b) {
 			model = new LogTableModel();
-			var table = UITools.createNewTable(model,false);
+			var table = UITools.createNewTable(model, false);
 
-			for(int i: new int[] {0,1,2,3})
+			for (int i : new int[]{0, 1, 2, 3})
 				table.getColumnExt(model.getColumnName(i)).setVisible(false);
 
 			table.setRowFilter(RowFilter.regexFilter(server.getClass().getName(), 3));
@@ -109,23 +100,19 @@ public class ServerStatePanel extends JPanel {
 				lblName.setEnabled(server.isEnable());
 				lblalive.setEnabled(server.isEnable());
 
-				if (server.isAlive())
-				{
+				if (server.isAlive()) {
 					btnStartStop.setText(capitalize("STOP"));
 
-					if(b)
-					{
+					if (b) {
 						model.fireTableDataChanged();
 					}
-				}
-				else
-				{
+				} else {
 					btnStartStop.setText(capitalize("START"));
 				}
 
 				lblalive.setIcon(icons.get(server.isAlive()));
 
-				}
+			}
 
 		};
 		var timer = new Timer("Timer-" + server.getName());
@@ -143,11 +130,10 @@ public class ServerStatePanel extends JPanel {
 				MTGControler.getInstance().notify(e1);
 			}
 
-			if(b)
+			if (b)
 				model.fireTableDataChanged();
 		});
 
 	}
-
 
 }

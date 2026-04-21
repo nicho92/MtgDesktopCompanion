@@ -7,14 +7,12 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
@@ -32,9 +30,9 @@ import org.magic.services.tools.UITools;
 import org.ocpsoft.prettytime.PrettyTime;
 
 public class MessageRendererPanel extends JPanel {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblTime;
@@ -42,10 +40,10 @@ public class MessageRendererPanel extends JPanel {
 	private JLabel lblAvatar;
 	private JLabel lblIcon;
 	private JTextPane textArea;
-	private int iconSize=25;
+	private int iconSize = 25;
 	private JPanel separator;
 	private PrettyTime prettyTime;
-	
+
 	public MessageRendererPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{10, 0, 0, 0};
@@ -59,99 +57,92 @@ public class MessageRendererPanel extends JPanel {
 		textArea.setEditable(false);
 		textArea.setFont(MTGControler.getInstance().getFont());
 		textArea.setOpaque(false);
-		
+
 		lblAvatar = new JLabel();
 		lblAuthor = new JLabel();
 		lblTime = new JLabel();
 		lblIcon = new JLabel();
 		separator = new JPanel();
-		
+
 		prettyTime = new PrettyTime(MTGControler.getInstance().getLocale());
-		
+
 		separator.add(lblIcon);
-		
+
 		lblTime.setFont(MTGControler.getInstance().getFont().deriveFont(Font.ITALIC));
 		lblTime.setHorizontalAlignment(SwingConstants.RIGHT);
-		
+
 		add(lblAvatar, UITools.createGridBagConstraints(null, null, 1, 0));
 		add(lblAuthor, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 0));
-		
+
 		var gbcseparator = UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 0, 0);
 		gbcseparator.gridheight = 3;
-		gbcseparator	.insets = new Insets(0, 0, 0, 5);
+		gbcseparator.insets = new Insets(0, 0, 0, 5);
 		add(separator, gbcseparator);
-		
-		var gbctextArea = UITools.createGridBagConstraints(null,GridBagConstraints.BOTH,1,1);
+
+		var gbctextArea = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1);
 		gbctextArea.gridwidth = 2;
 		add(textArea, gbctextArea);
 
-		var gbclblTime = UITools.createGridBagConstraints(GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,1,2);
+		var gbclblTime = UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 1,
+				2);
 		gbclblTime.gridwidth = 2;
 		add(lblTime, gbclblTime);
-		
+
 		setOpaque(true);
-		
+
 	}
-	
-	
-	
-	public void setMessage(AbstractMessage value)
-	{
-	
-		setBorder(new LineBorder(value.getAuthor().getColor(),2,true));
-		
-		
-		
+
+	public void setMessage(AbstractMessage value) {
+
+		setBorder(new LineBorder(value.getAuthor().getColor(), 2, true));
+
 		textArea.setText(URLTools.toHtmlFromMarkdown(value.getMessage()));
 		lblAuthor.setText(value.getAuthor().getName());
 		separator.setBackground(value.getAuthor().getColor());
 		lblIcon.setIcon(null);
-		lblTime.setText("("+prettyTime.format(new Date(value.getStart().toEpochMilli()))+")");		
-		
-		if(value.getAuthor().getAvatar()!=null)	 
+		lblTime.setText("(" + prettyTime.format(new Date(value.getStart().toEpochMilli())) + ")");
+
+		if (value.getAuthor().getAvatar() != null)
 			lblAvatar.setIcon(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize)));
 		else
 			lblAvatar.setIcon(null);
-		
-		if(value.getTypeMessage()==MSG_TYPE.SEARCH)
-		{
-			var item = ((SearchMessage)value).getAttachement();
+
+		if (value.getTypeMessage() == MSG_TYPE.SEARCH) {
+			var item = ((SearchMessage) value).getAttachement();
 			try {
 				lblIcon.setIcon(read(item));
 			} catch (IOException _) {
-				//do nothing
+				// do nothing
 			}
 		}
 
-		if(value.getTypeMessage()==MSG_TYPE.TALK)
-		{
-			var item = ((TalkMessage)value).getAttachement();
-			if(item!=null)
+		if (value.getTypeMessage() == MSG_TYPE.TALK) {
+			var item = ((TalkMessage) value).getAttachement();
+			if (item != null)
 				try {
 					lblIcon.setIcon(read(item));
 				} catch (IOException _) {
-					//do nothing
+					// do nothing
 				}
 		}
-		
-		if(value.getTypeMessage()==MSG_TYPE.DECK)
-				lblIcon.setIcon(MTGConstants.ICON_DECK);
-		
+
+		if (value.getTypeMessage() == MSG_TYPE.DECK)
+			lblIcon.setIcon(MTGConstants.ICON_DECK);
+
 	}
 
-	private ImageIcon read(MTGProduct item) throws IOException 
-	{
-		
-		BufferedImage bi = null; 
-		
-		if(item.getTypeProduct()==EnumItems.CARD)
-			bi=MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture((MTGCard)item);
+	private ImageIcon read(MTGProduct item) throws IOException {
+
+		BufferedImage bi = null;
+
+		if (item.getTypeProduct() == EnumItems.CARD)
+			bi = MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture((MTGCard) item);
 		else
 			bi = URLTools.extractAsImage(item.getUrl());
-		
-		bi=ImageTools.scaleResize(bi, iconSize*2);
+
+		bi = ImageTools.scaleResize(bi, iconSize * 2);
 		return new ImageIcon(bi);
-	
+
 	}
-	
+
 }

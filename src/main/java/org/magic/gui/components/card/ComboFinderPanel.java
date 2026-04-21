@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
@@ -16,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.MTGComboProvider;
@@ -45,14 +43,10 @@ public class ComboFinderPanel extends MTGUIComponent {
 		return MTGConstants.ICON_TAB_COMBO;
 	}
 
-
-
 	@Override
 	public void onVisible() {
 		init(mc);
 	}
-
-
 
 	public ComboFinderPanel() {
 		initGUI();
@@ -63,21 +57,18 @@ public class ComboFinderPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		JList<MTGCombo> list = new JList<>(model);
 		var textArea = new JEditorPane();
-			 textArea.setContentType(URLTools.HEADER_HTML);
+		textArea.setContentType(URLTools.HEADER_HTML);
 		var panneauCenter = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var panneauHaut = new JPanel();
 		var panneauBas = new HandPanel();
 
-
 		panneauCenter.setLayout(new BorderLayout());
-		
-
 
 		panneauCenter.add(new JScrollPane(textArea), BorderLayout.CENTER);
 		add(new JScrollPane(list), BorderLayout.WEST);
-		panneauHaut.add(buzy,BorderLayout.NORTH);
-		add(panneauCenter,BorderLayout.CENTER);
+		panneauHaut.add(buzy, BorderLayout.NORTH);
+		add(panneauCenter, BorderLayout.CENTER);
 		panneauCenter.add(panneauHaut, BorderLayout.NORTH);
 
 		panneauBas.enableDragging(false);
@@ -89,65 +80,55 @@ public class ComboFinderPanel extends MTGUIComponent {
 		panneauCenter.add(panneauHaut, BorderLayout.NORTH);
 		panneauCenter.add(panneauBas, BorderLayout.SOUTH);
 
-		list.addListSelectionListener(_->{
+		list.addListSelectionListener(_ -> {
 			var cb = list.getSelectedValue();
-			if(cb!=null)
-			{
+			if (cb != null) {
 				textArea.setText(cb.getComment());
 				panneauBas.initThumbnails(cb.getCards(), false, false);
 			}
 		});
 
+		list.setCellRenderer((JList<? extends MTGCombo> lst, MTGCombo cbo, int _, boolean isSelected, boolean _) -> {
+			var l = new JLabel(cbo.getName(), cbo.getPlugin().getIcon(), SwingConstants.LEFT);
+			l.setOpaque(true);
 
-		list.setCellRenderer((JList<? extends MTGCombo> lst, MTGCombo cbo, int _, boolean isSelected,boolean _)->{
-			var l= new JLabel(cbo.getName(),cbo.getPlugin().getIcon(),SwingConstants.LEFT);
-				l.setOpaque(true);
-				
-				if(isSelected)
-				{
-					l.setBackground(lst.getSelectionBackground());
-					l.setForeground(lst.getSelectionForeground());
-				}
-				else
-				{
-					l.setBackground(lst.getBackground());
-					l.setForeground(lst.getForeground());
-				}
-				
-				
-				return l;
+			if (isSelected) {
+				l.setBackground(lst.getSelectionBackground());
+				l.setForeground(lst.getSelectionForeground());
+			} else {
+				l.setBackground(lst.getBackground());
+				l.setForeground(lst.getForeground());
+			}
+
+			return l;
 		});
-
 
 	}
 
-	public void init(MTGCard mc)
-	{
-		this.mc=mc;
+	public void init(MTGCard mc) {
+		this.mc = mc;
 
-		if(!isVisible() || (mc==null))
+		if (!isVisible() || (mc == null))
 			return;
 
-		if(sw!=null && !sw.isDone())
+		if (sw != null && !sw.isDone())
 			sw.cancel(true);
 
 		buzy.start();
 		sw = new SwingWorker<>() {
 
 			@Override
-			protected List<MTGCombo> doInBackground() throws Exception
-			{
+			protected List<MTGCombo> doInBackground() throws Exception {
 				model.removeAllElements();
 				List<MTGCombo> ret = new ArrayList<>();
-				for(MTGComboProvider plug : listEnabledPlugins(MTGComboProvider.class))
-				{
+				for (MTGComboProvider plug : listEnabledPlugins(MTGComboProvider.class)) {
 					try {
-						plug.getComboWith(mc).forEach(cbo->{
+						plug.getComboWith(mc).forEach(cbo -> {
 							ret.add(cbo);
 							publish(cbo);
 						});
 					} catch (Exception e) {
-						logger.error("error getting combo",e);
+						logger.error("error getting combo", e);
 					}
 				}
 				return ret;

@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -33,7 +32,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileFilter;
-
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.sealedprovider.impl.MTGCompanionSealedProvider.LOGO;
@@ -53,7 +51,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 	private JComboBox<LOGO> cboLogo;
 	private JCheckBox chckbxBorder;
 	private JCheckBox chckbxAddHeader;
-	private JButton btnBackgroundColor ;
+	private JButton btnBackgroundColor;
 	private JButton btnSave;
 	private JPanel panel1;
 	private JPanel leftPanel;
@@ -76,32 +74,27 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		previewPanel.repaint();
 	}
 
-	private void init()
-	{
-		var d = new Dimension(567,2173);
+	private void init() {
+		var d = new Dimension(567, 2173);
 		double mmW = ImageTools.toMM(d.getWidth());
- 		double mmH = ImageTools.toMM(d.getHeight());
- 		String res = JOptionPane.showInputDialog("Dimension in mm", mmW+"x"+mmH);
- 		String[] result = res.split("x");
+		double mmH = ImageTools.toMM(d.getHeight());
+		String res = JOptionPane.showInputDialog("Dimension in mm", mmW + "x" + mmH);
+		String[] result = res.split("x");
 
- 		d = new Dimension((int)ImageTools.toPX(Double.parseDouble(result[0])), (int)ImageTools.toPX(Double.parseDouble(result[1])));
+		d = new Dimension((int) ImageTools.toPX(Double.parseDouble(result[0])),
+				(int) ImageTools.toPX(Double.parseDouble(result[1])));
 		tagMaker = new BinderTagsManager(d);
 	}
-
 
 	@Override
 	public String getTitle() {
 		return capitalize("BINDER_TAG_EDITOR");
 	}
 
-
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_BINDERS;
 	}
-
-
-
 
 	public BinderTagsEditorComponent() {
 
@@ -120,7 +113,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 			List<MTGEdition> lst = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(lst);
-			for(MTGEdition ed : lst)
+			for (MTGEdition ed : lst)
 				model.addElement(ed);
 
 		} catch (IOException e2) {
@@ -133,7 +126,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				if(img!=null)
+				if (img != null)
 					g.drawImage(img, 0, 0, null);
 
 				this.revalidate();
@@ -142,7 +135,6 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		previewPanel.setPreferredSize(new Dimension(576, 2173));
 
 		previewPanel.setBackground(Color.white);
-
 
 		var scrollPane = new JScrollPane(previewPanel);
 		scrollPane.setPreferredSize(new Dimension(250, 250));
@@ -155,8 +147,6 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		panneauBas = new JPanel();
 		editorPanel.add(panneauBas, BorderLayout.SOUTH);
 		panneauBas.setLayout(new BoxLayout(panneauBas, BoxLayout.Y_AXIS));
-
-
 
 		panel1 = new JPanel();
 		panneauBas.add(panel1);
@@ -194,8 +184,8 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		listEditions = new JList<>(model);
 		listEditions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		var deco = JListFilterDecorator.decorate(listEditions,(MTGEdition t, String u)->t.getSet().toLowerCase().contains(u.toLowerCase()));
-
+		var deco = JListFilterDecorator.decorate(listEditions,
+				(MTGEdition t, String u) -> t.getSet().toLowerCase().contains(u.toLowerCase()));
 
 		listEditions.setCellRenderer(new MagicEditionIconListRenderer());
 		panel.add(new JScrollPane(deco.getContentPanel()));
@@ -221,56 +211,51 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 	}
 
-
 	private void initActions() {
 
-		btnRefresh.addActionListener(_-> {
+		btnRefresh.addActionListener(_ -> {
 			tagMaker.setEditions(Collections.list(modelSelect.elements()));
 			updateInfo();
 		});
 
-
-		btnBackgroundColor.addActionListener(_->{
+		btnBackgroundColor.addActionListener(_ -> {
 			var selected = JColorChooser.showDialog(null, "Color Selection", Color.WHITE);
 			tagMaker.setBackColor(selected);
 			updateInfo();
 		});
 
-		chckbxAddHeader.addActionListener(_->{
-			if(!chckbxAddHeader.isSelected())
-			{
+		chckbxAddHeader.addActionListener(_ -> {
+			if (!chckbxAddHeader.isSelected()) {
 				tagMaker.setLogo(null);
-			}
-			else
-			{
-				tagMaker.setLogo((LOGO)cboLogo.getSelectedItem());
+			} else {
+				tagMaker.setLogo((LOGO) cboLogo.getSelectedItem());
 			}
 
 		});
 
-		cboLogo.addItemListener(_-> {
-				if(chckbxAddHeader.isSelected())
-					tagMaker.setLogo((LOGO)cboLogo.getSelectedItem());
+		cboLogo.addItemListener(_ -> {
+			if (chckbxAddHeader.isSelected())
+				tagMaker.setLogo((LOGO) cboLogo.getSelectedItem());
 
-				updateInfo();
+			updateInfo();
 		});
 
-		chckbxBorder.addActionListener(_->{
+		chckbxBorder.addActionListener(_ -> {
 			tagMaker.setBorder(chckbxBorder.isSelected());
 			updateInfo();
 		});
 
-		btnNew.addActionListener(_->{
+		btnNew.addActionListener(_ -> {
 			tagMaker.clear();
 			updateInfo();
 		});
 
-		spinSpace.addChangeListener(_ ->{
-			tagMaker.setSpace((int)spinSpace.getValue());
+		spinSpace.addChangeListener(_ -> {
+			tagMaker.setSpace((int) spinSpace.getValue());
 			updateInfo();
 		});
 
-		btnSave.addActionListener(_->{
+		btnSave.addActionListener(_ -> {
 			var choose = new JFileChooser(MTGConstants.DATA_DIR);
 
 			choose.setFileFilter(new FileFilter() {
@@ -286,16 +271,14 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 				}
 			});
 
+			int res = choose.showSaveDialog(null);
 
-
-			int res= choose.showSaveDialog(null);
-
-			if(res==JFileChooser.APPROVE_OPTION) {
+			if (res == JFileChooser.APPROVE_OPTION) {
 				var f = choose.getSelectedFile();
 				try {
 					ImageTools.saveImageInPng(img, f);
 				} catch (Exception e1) {
-					logger.error("error",e1);
+					logger.error("error", e1);
 					MTGControler.getInstance().notify(e1);
 				}
 			}
@@ -305,11 +288,9 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount()==2)
-				{
+				if (e.getClickCount() == 2) {
 					modelSelect.addElement(listEditions.getSelectedValue());
 				}
-
 
 			}
 		});
@@ -317,14 +298,12 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		listSelected.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount()==2)
-				{
+				if (e.getClickCount() == 2) {
 					modelSelect.removeElementAt(listSelected.getSelectedIndex());
 				}
 			}
 		});
 
 	}
-
 
 }

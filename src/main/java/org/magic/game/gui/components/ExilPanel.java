@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-
 import javax.swing.JMenuItem;
 import javax.swing.border.LineBorder;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.player.SearchActions;
 import org.magic.services.MTGConstants;
@@ -31,7 +29,7 @@ public class ExilPanel extends DraggablePanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		g.drawImage(MTGConstants.ICON_GAME_EXILE,0,0,null);
+		g.drawImage(MTGConstants.ICON_GAME_EXILE, 0, 0, null);
 		if (GamePanelGUI.getInstance().getPlayer() != null) {
 			g.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 12));
 			g.drawString(GamePanelGUI.getInstance().getPlayer().getExil().size() + " exiled cards", 15, 15);
@@ -54,20 +52,20 @@ public class ExilPanel extends DraggablePanel {
 	@Override
 	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 		switch (to) {
-		case BATTLEFIELD:
-			player.playCardFromExile(mc.getMagicCard());
-			break;
-		case HAND:
-			player.returnCardFromExile(mc.getMagicCard());
-			break;
-		case GRAVEYARD:
-			player.discardCardFromExile(mc.getMagicCard());
-			break;
-		case LIBRARY:
-			player.putCardInLibraryFromExile(mc.getMagicCard(), true);
-			break;
-		default:
-			break;
+			case BATTLEFIELD :
+				player.playCardFromExile(mc.getMagicCard());
+				break;
+			case HAND :
+				player.returnCardFromExile(mc.getMagicCard());
+				break;
+			case GRAVEYARD :
+				player.discardCardFromExile(mc.getMagicCard());
+				break;
+			case LIBRARY :
+				player.putCardInLibraryFromExile(mc.getMagicCard(), true);
+				break;
+			default :
+				break;
 		}
 	}
 

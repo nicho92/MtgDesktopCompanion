@@ -1,9 +1,7 @@
 package org.magic.gui.components.charts;
 
 import java.util.Map.Entry;
-
 import javax.swing.ImageIcon;
-
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.jfree.chart3d.plot.StandardColorSource;
@@ -12,7 +10,7 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.MTGConstants;
 
-public class ManaRepartitionPanel extends Abstract3DPieChart<MTGCard,EnumColors> {
+public class ManaRepartitionPanel extends Abstract3DPieChart<MTGCard, EnumColors> {
 
 	public ManaRepartitionPanel(boolean displayPanel) {
 		super(displayPanel);
@@ -29,9 +27,8 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MTGCard,EnumColors>
 	protected void initPlot() {
 		var source = new StandardColorSource<EnumColors>();
 
-		for(EnumColors c : EnumColors.values())
-			source.setColor(c,c.toColor());
-
+		for (EnumColors c : EnumColors.values())
+			source.setColor(c, c.toColor());
 
 		plot.setSectionColorSource(source);
 
@@ -46,11 +43,9 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MTGCard,EnumColors>
 		return dataset;
 	}
 
-	
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_MANA;
 	}
-
 
 }

@@ -1,7 +1,6 @@
 package org.magic.gui.models;
 
 import java.util.List;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGEdition;
@@ -15,47 +14,39 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 	private static final long serialVersionUID = 1L;
 
 	public MagicCardTableModel() {
-		setColumns(
-				"CARD_NAME",
-				"CARD_LANGUAGE",
-				"CARD_MANA",
-				"CARD_TYPES",
-				"CARD_POWER",
-				"CARD_RARITY",
-				"CARD_NUMBER",
-				"CARD_EDITION",
-				"CARD_COLOR",
-				"RESERVED LIST",
-				"LAYOUT",
-				"SHOWCASE",
-				"EXTENDED ART",
-				"BORDERLESS",
-				"TIMESHIFTED",
-				"RETRO",
-				"SIDE");
+		setColumns("CARD_NAME", "CARD_LANGUAGE", "CARD_MANA", "CARD_TYPES", "CARD_POWER", "CARD_RARITY", "CARD_NUMBER",
+				"CARD_EDITION", "CARD_COLOR", "RESERVED LIST", "LAYOUT", "SHOWCASE", "EXTENDED ART", "BORDERLESS",
+				"TIMESHIFTED", "RETRO", "SIDE");
 
-		
-		
-		setDefaultHiddenComlumns(1,8,9,10,11,12,13,14,15,16);
+		setDefaultHiddenComlumns(1, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 
 	}
 
 	@Override
-	public Class<?> getColumnClass(int columnIndex)
-	{
-		switch(columnIndex)
-		{
-			case 0: return MTGCard.class;
-			case 5 : return EnumRarity.class;
-			case 7: return MTGEdition.class;
-			case 8: return EnumColors.class;
-			case 9: return Boolean.class;
-			case 11: return Boolean.class;
-			case 12: return Boolean.class;
-			case 13: return Boolean.class;
-			case 14: return Boolean.class;
-			case 15: return Boolean.class;
-			default:return String.class;
+	public Class<?> getColumnClass(int columnIndex) {
+		switch (columnIndex) {
+			case 0 :
+				return MTGCard.class;
+			case 5 :
+				return EnumRarity.class;
+			case 7 :
+				return MTGEdition.class;
+			case 8 :
+				return EnumColors.class;
+			case 9 :
+				return Boolean.class;
+			case 11 :
+				return Boolean.class;
+			case 12 :
+				return Boolean.class;
+			case 13 :
+				return Boolean.class;
+			case 14 :
+				return Boolean.class;
+			case 15 :
+				return Boolean.class;
+			default :
+				return String.class;
 		}
 	}
 
@@ -64,42 +55,42 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 		try {
 			MTGCard mc = items.get(row);
 			switch (column) {
-			case 0:
-				return mc;
-			case 1:
-				return getName(mc.getForeignNames());
-			case 2:
-				return mc.getCost();
-			case 3:
-				return mc.getFullType();
-			case 4:
-				return powerorloyalty(mc);
-			case 5:
-				return mc.getRarity();
-			case 6:
-				return mc.getNumber();
-			case 7:
-				return mc.getEdition();
-			case 8:
-				return EnumColors.determine(mc.getColors());
-			case 9:
-				return mc.isReserved();
-			case 10:
-				return mc.getLayout().toPrettyString();
-			case 11:
-				return mc.isShowCase();
-			case 12:
-				return mc.isExtendedArt();
-			case 13:
-				return mc.isBorderLess();
-			case 14:
-				return mc.isTimeshifted();
-			case 15:
-				return mc.isRetro();
-			case 16:
-				return mc.getSide();
-			default:
-				return mc;
+				case 0 :
+					return mc;
+				case 1 :
+					return getName(mc.getForeignNames());
+				case 2 :
+					return mc.getCost();
+				case 3 :
+					return mc.getFullType();
+				case 4 :
+					return powerorloyalty(mc);
+				case 5 :
+					return mc.getRarity();
+				case 6 :
+					return mc.getNumber();
+				case 7 :
+					return mc.getEdition();
+				case 8 :
+					return EnumColors.determine(mc.getColors());
+				case 9 :
+					return mc.isReserved();
+				case 10 :
+					return mc.getLayout().toPrettyString();
+				case 11 :
+					return mc.isShowCase();
+				case 12 :
+					return mc.isExtendedArt();
+				case 13 :
+					return mc.isBorderLess();
+				case 14 :
+					return mc.isTimeshifted();
+				case 15 :
+					return mc.isRetro();
+				case 16 :
+					return mc.getSide();
+				default :
+					return mc;
 			}
 		} catch (Exception _) {
 			return null;
@@ -109,9 +100,9 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 
 	private String powerorloyalty(MTGCard mc) {
 
-		if(mc.isCreature() || mc.isVehicule())
+		if (mc.isCreature() || mc.isVehicule())
 			return mc.getPower() + "/" + mc.getToughness();
-		else if(mc.isPlaneswalker())
+		else if (mc.isPlaneswalker())
 			return String.valueOf(mc.getLoyalty());
 
 		return "";

@@ -3,7 +3,6 @@ package org.magic.api.beans.game;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
-
 import org.utils.patterns.observer.Observable;
 
 public class SpellStack extends Observable {
@@ -21,8 +20,7 @@ public class SpellStack extends Observable {
 	}
 
 	public void put(AbstractSpell a) {
-		if (a.isStackable())
-		{
+		if (a.isStackable()) {
 			stack.push(a);
 			setChanged();
 			notifyObservers(a);
@@ -44,8 +42,7 @@ public class SpellStack extends Observable {
 	}
 
 	public void unstack() {
-		while(!stack.isEmpty())
-		{
+		while (!stack.isEmpty()) {
 			AbstractSpell sp = pop();
 			sp.resolve();
 			setChanged();

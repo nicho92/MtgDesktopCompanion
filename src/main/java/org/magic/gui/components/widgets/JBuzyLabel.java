@@ -1,11 +1,9 @@
 package org.magic.gui.components.widgets;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
 
@@ -19,7 +17,6 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 	private int max;
 	private int currentVal;
 
-
 	@Override
 	public JComponent getBuzyComponent() {
 		return label;
@@ -29,10 +26,10 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 		super();
 		label = new JLabel(MTGConstants.ICON_LOADING);
 		label.setHorizontalAlignment(SwingConstants.LEFT);
-		add(label,BorderLayout.CENTER);
+		add(label, BorderLayout.CENTER);
 
 		setValue(0);
-		max=-1;
+		max = -1;
 
 	}
 
@@ -43,14 +40,14 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 
 	@Override
 	public void setValue(int i) {
-		currentVal=i;
-		if(max>-1)
-			setText(currentVal+"/"+max);
+		currentVal = i;
+		if (max > -1)
+			setText(currentVal + "/" + max);
 	}
 
 	@Override
 	public void start(int max) {
-		this.max=max;
+		this.max = max;
 		setValue(0);
 		setVisible(true);
 		setText(null);
@@ -61,7 +58,7 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 		setVisible(true);
 		setText(null);
 		setValue(0);
-		max=-1;
+		max = -1;
 	}
 
 	@Override
@@ -69,13 +66,13 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 		setVisible(false);
 		setText(null);
 		setValue(-1);
-		max=-1;
+		max = -1;
 	}
 
 	@Override
 	public int getValue() {
 
-		if(currentVal>=max)
+		if (currentVal >= max)
 			return max;
 
 		return currentVal;

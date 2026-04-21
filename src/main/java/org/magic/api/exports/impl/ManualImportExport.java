@@ -3,9 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import javax.swing.Icon;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -37,7 +35,6 @@ public class ManualImportExport extends AbstractCardExport {
 		return EnumExportCategory.MANUAL;
 	}
 
-
 	@Override
 	public boolean needFile() {
 		return false;
@@ -53,9 +50,8 @@ public class ManualImportExport extends AbstractCardExport {
 		return true;
 	}
 
-
 	@Override
-	public MTGDeck importDeck(String name,String f) throws IOException {
+	public MTGDeck importDeck(String name, String f) throws IOException {
 		return importDeckFromFile(null);
 
 	}
@@ -66,7 +62,6 @@ public class ManualImportExport extends AbstractCardExport {
 		diag.setVisible(true);
 		return importFromDeck(diag.getSelectedItem());
 	}
-
 
 	@Override
 	public MTGDeck importDeckFromFile(File f) throws IOException {
@@ -81,8 +76,6 @@ public class ManualImportExport extends AbstractCardExport {
 
 	}
 
-
-
 	@Override
 	public Icon getIcon() {
 		return MTGConstants.ICON_MANUAL;
@@ -92,7 +85,5 @@ public class ManualImportExport extends AbstractCardExport {
 	public String getName() {
 		return "Manual";
 	}
-
-
 
 }

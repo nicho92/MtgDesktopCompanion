@@ -2,7 +2,7 @@ package org.magic.api.beans.shop;
 
 import java.io.Serializable;
 
-public class Category implements Serializable{
+public class Category implements Serializable {
 	/**
 	 *
 	 */
@@ -14,14 +14,11 @@ public class Category implements Serializable{
 
 	}
 
-
-
 	public Category(int idCategory, String categoryName) {
 		super();
 		this.idCategory = idCategory;
 		this.categoryName = categoryName;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -31,13 +28,12 @@ public class Category implements Serializable{
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj==null)
+		if (obj == null)
 			return false;
 
-		return obj.hashCode()==hashCode();
+		return obj.hashCode() == hashCode();
 
 	}
-
 
 	public int getIdCategory() {
 		return idCategory;

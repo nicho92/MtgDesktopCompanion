@@ -1,8 +1,6 @@
 package org.magic.api.interfaces.abstracts.extra;
 
-
 import java.sql.SQLException;
-
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCardStock;
@@ -30,95 +28,78 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	protected static final String KEY_DECK = "decks";
 	protected static final String KEY_STOCKS = "stocks";
 	protected static final String KEY_SEALED = "sealeds";
-	protected static final String KEY_TRANSACTIONS ="transactions";
-	protected static final String KEY_CONTACTS ="contacts";
-	protected static final String KEY_ALERTS ="alerts";
-	protected static final String KEY_ANNOUNCES ="announces";
-	protected static final String KEY_NEWS ="news";
-	protected static final String KEY_GED ="ged";
-	
-	
+	protected static final String KEY_TRANSACTIONS = "transactions";
+	protected static final String KEY_CONTACTS = "contacts";
+	protected static final String KEY_ALERTS = "alerts";
+	protected static final String KEY_ANNOUNCES = "announces";
+	protected static final String KEY_NEWS = "news";
+	protected static final String KEY_GED = "ged";
+
 	@Override
 	public void init() throws SQLException {
 		initDefaultData();
-		
-	}
-	
 
-	protected void initDefaultData() throws SQLException
-	{
-		
-		if(listCollections().isEmpty()) {
-			for(String s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)	
+	}
+
+	protected void initDefaultData() throws SQLException {
+
+		if (listCollections().isEmpty()) {
+			for (String s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)
 				saveCollection(s);
 		}
-		
-		if(getContactById(1)==null)
+
+		if (getContactById(1) == null)
 			saveOrUpdateContact(MTGConstants.DEFAULT_CONTACT);
-			
+
 	}
-	
-	
+
 	protected <T extends MTGSerializable> String key(GedEntry<T> gedItem) {
-		return KEY_GED+SEPARATOR+gedItem.getClasse().getName()+SEPARATOR+gedItem.getId();
+		return KEY_GED + SEPARATOR + gedItem.getClasse().getName() + SEPARATOR + gedItem.getId();
 	}
-	
-	protected String key(MTGAnnounce c)
-	{
-		return KEY_ANNOUNCES+SEPARATOR+c.getId();
+
+	protected String key(MTGAnnounce c) {
+		return KEY_ANNOUNCES + SEPARATOR + c.getId();
 	}
-	
-	protected String key(MTGNews c)
-	{
-		return KEY_NEWS+SEPARATOR+c.getId();
+
+	protected String key(MTGNews c) {
+		return KEY_NEWS + SEPARATOR + c.getId();
 	}
-	
-	protected String key(MTGAlert c)
-	{
-		return KEY_ALERTS+SEPARATOR+c.getId();
+
+	protected String key(MTGAlert c) {
+		return KEY_ALERTS + SEPARATOR + c.getId();
 	}
-	
-	protected String key(MTGCollection c)
-	{
-		return KEY_STOCKS+SEPARATOR+c.getName();
+
+	protected String key(MTGCollection c) {
+		return KEY_STOCKS + SEPARATOR + c.getName();
 	}
-	
-	protected String key(Contact c)
-	{
-		return KEY_CONTACTS+SEPARATOR+c.getId();
+
+	protected String key(Contact c) {
+		return KEY_CONTACTS + SEPARATOR + c.getId();
 	}
-	
-	protected String key(Transaction c)
-	{
-		return KEY_TRANSACTIONS+SEPARATOR+c.getId();
+
+	protected String key(Transaction c) {
+		return KEY_TRANSACTIONS + SEPARATOR + c.getId();
 	}
-	
-	protected String key(MTGCardStock c)
-	{
-		return key(c.getMagicCollection(),c.getProduct().getEdition())+SEPARATOR+c.getId();
+
+	protected String key(MTGCardStock c) {
+		return key(c.getMagicCollection(), c.getProduct().getEdition()) + SEPARATOR + c.getId();
 	}
-	
-	protected String key(MTGSealedStock c)
-	{
-		return KEY_SEALED+SEPARATOR+c.getId();
+
+	protected String key(MTGSealedStock c) {
+		return KEY_SEALED + SEPARATOR + c.getId();
 	}
-	
+
 	public abstract Long incr(Class<?> c);
-	
-	protected String key(MTGCollection c , MTGEdition ed)
-	{
-		if(ed==null)
+
+	protected String key(MTGCollection c, MTGEdition ed) {
+		if (ed == null)
 			return key(c);
-		
-		return  key(c)+SEPARATOR+ed.getId();
+
+		return key(c) + SEPARATOR + ed.getId();
 	}
-	
-	protected String key(MTGDeck c)
-	{
-		return  KEY_DECK+SEPARATOR+c.getId();
+
+	protected String key(MTGDeck c) {
+		return KEY_DECK + SEPARATOR + c.getId();
 	}
-	
-	
-	
-	
+
 }

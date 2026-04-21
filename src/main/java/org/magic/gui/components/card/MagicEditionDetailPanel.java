@@ -3,13 +3,11 @@ package org.magic.gui.components.card;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -20,7 +18,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
-
 
 public class MagicEditionDetailPanel extends MTGUIComponent {
 
@@ -52,50 +49,50 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 
 		setLayout(new BorderLayout(0, 0));
 		var gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 104, 333 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
+		gridBagLayout.columnWidths = new int[]{104, 333};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		panneauHaut.setLayout(gridBagLayout);
 
-		panneauHaut.add(new JLangLabel("NAME",true), UITools.createGridBagConstraints(null, null, 0, 0));
+		panneauHaut.add(new JLangLabel("NAME", true), UITools.createGridBagConstraints(null, null, 0, 0));
 		setJTextField = new JTextField();
 		panneauHaut.add(setJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
-		panneauHaut.add(new JLangLabel("EDITION_TYPE",true), UITools.createGridBagConstraints(null, null, 0, 1));
+		panneauHaut.add(new JLangLabel("EDITION_TYPE", true), UITools.createGridBagConstraints(null, null, 0, 1));
 		typeJTextField = new JTextField();
 		panneauHaut.add(typeJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 
-		panneauHaut.add(new JLangLabel("DATE_RELEASE",true), UITools.createGridBagConstraints(null, null, 0, 2));
+		panneauHaut.add(new JLangLabel("DATE_RELEASE", true), UITools.createGridBagConstraints(null, null, 0, 2));
 		releaseDateJTextField = new JTextField();
-		panneauHaut.add(releaseDateJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
+		panneauHaut.add(releaseDateJTextField,
+				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 
-		panneauHaut.add(new JLangLabel("EDITION_CARD_COUNT",true), UITools.createGridBagConstraints(null, null, 0, 4));
-		
+		panneauHaut.add(new JLangLabel("EDITION_CARD_COUNT", true), UITools.createGridBagConstraints(null, null, 0, 4));
+
 		cardCountTextField = new JTextField();
 		cardOfficialCountTextField = new JTextField();
 		cardPhysicalCountTextField = new JTextField();
-		
-		var pane = UITools.createFlowPanel(new JLabel("Total : "),cardCountTextField,new JLabel("Official :"),cardOfficialCountTextField,new JLabel("Physical:"),cardPhysicalCountTextField);
-		
+
+		var pane = UITools.createFlowPanel(new JLabel("Total : "), cardCountTextField, new JLabel("Official :"),
+				cardOfficialCountTextField, new JLabel("Physical:"), cardPhysicalCountTextField);
+
 		panneauHaut.add(pane, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
 
-	
-		panneauHaut.add(new JLangLabel("EDITION_BLOCK",true), UITools.createGridBagConstraints(null, null, 0, 5));
+		panneauHaut.add(new JLangLabel("EDITION_BLOCK", true), UITools.createGridBagConstraints(null, null, 0, 5));
 		blockJTextField = new JTextField(10);
 		panneauHaut.add(blockJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
 
-		panneauHaut.add(new JLangLabel("ID",true), UITools.createGridBagConstraints(null, null, 0, 6));
+		panneauHaut.add(new JLangLabel("ID", true), UITools.createGridBagConstraints(null, null, 0, 6));
 		idJtextField = new JTextField(10);
 		panneauHaut.add(idJtextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
-		panneauHaut.add(new JLangLabel("EDITION_ONLINE",true), UITools.createGridBagConstraints(null, null, 0, 7));
+		panneauHaut.add(new JLangLabel("EDITION_ONLINE", true), UITools.createGridBagConstraints(null, null, 0, 7));
 		chkOnline = new JCheckBox("");
-		panneauHaut.add(chkOnline, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 7));
+		panneauHaut.add(chkOnline, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 7));
 
+		add(panneauHaut, BorderLayout.CENTER);
 
-		add(panneauHaut,BorderLayout.CENTER);
-	
 		if (magicEdition != null) {
 			mBindingGroup = initDataBindings();
 		}
@@ -126,19 +123,16 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 	public void setMagicEdition(MTGEdition newMagicEdition, boolean update) {
 		magicEdition = newMagicEdition;
 
+		if (isVisible() && update) {
 
-		if(isVisible() && update) {
-
-				if (mBindingGroup != null) {
-					mBindingGroup.unbind();
-					mBindingGroup = null;
-				}
-				if (magicEdition != null) {
-					mBindingGroup = initDataBindings();
-				}
+			if (mBindingGroup != null) {
+				mBindingGroup.unbind();
+				mBindingGroup = null;
 			}
-
-
+			if (magicEdition != null) {
+				mBindingGroup = initDataBindings();
+			}
+		}
 
 	}
 
@@ -153,47 +147,55 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		}
 	}
 
-
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MTGEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
 		BeanProperty<JTextField, String> valueProperty = BeanProperty.create("text");
 		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, cardCountProperty, cardCountTextField, valueProperty);
 		autoBinding3.bind();
-		
+
 		BeanProperty<MTGEdition, Integer> cardCountOfficialProperty = BeanProperty.create("cardCountOfficial");
-		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, cardCountOfficialProperty, cardOfficialCountTextField, valueProperty);
+		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(
+				UpdateStrategy.READ_WRITE, magicEdition, cardCountOfficialProperty, cardOfficialCountTextField,
+				valueProperty);
 		autoBinding4.bind();
-		
+
 		BeanProperty<MTGEdition, Integer> cardCountPhysicialProperty = BeanProperty.create("cardCountPhysical");
-		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, cardCountPhysicialProperty, cardPhysicalCountTextField, valueProperty);
+		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding5 = Bindings.createAutoBinding(
+				UpdateStrategy.READ_WRITE, magicEdition, cardCountPhysicialProperty, cardPhysicalCountTextField,
+				valueProperty);
 		autoBinding5.bind();
-		
-		
+
 		//
 		BeanProperty<MTGEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, valueProperty);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(
+				UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, valueProperty);
 		autoBinding7.bind();
 		//
 		BeanProperty<MTGEdition, String> setProperty = BeanProperty.create("set");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, valueProperty);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding8 = Bindings
+				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, valueProperty);
 		autoBinding8.bind();
 		//
 		BeanProperty<MTGEdition, String> typeProperty = BeanProperty.create("type");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, valueProperty);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(
+				UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, valueProperty);
 		autoBinding11.bind();
 
 		BeanProperty<MTGEdition, String> blockProperty = BeanProperty.create("block");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, valueProperty);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(
+				UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, valueProperty);
 		autoBinding12.bind();
 
 		BeanProperty<MTGEdition, String> idProperty = BeanProperty.create("id");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, valueProperty);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding13 = Bindings
+				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, valueProperty);
 		autoBinding13.bind();
 
 		BeanProperty<MTGEdition, Boolean> onlineProperty = BeanProperty.create("onlineOnly");
 		BeanProperty<JCheckBox, Boolean> chkProperty13 = BeanProperty.create("selected");
-		AutoBinding<MTGEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
+		AutoBinding<MTGEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings
+				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
 		autoBinding14.bind();
 
 		//
@@ -220,8 +222,5 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_BACK;
 	}
-
-
-
 
 }

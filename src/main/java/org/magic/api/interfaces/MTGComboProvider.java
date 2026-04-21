@@ -1,7 +1,6 @@
 package org.magic.api.interfaces;
 
 import java.util.List;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
 

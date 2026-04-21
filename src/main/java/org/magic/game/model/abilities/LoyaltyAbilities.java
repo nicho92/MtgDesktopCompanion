@@ -4,7 +4,6 @@ import org.magic.game.model.effects.AbstractEffect;
 
 public class LoyaltyAbilities extends ActivatedAbilities {
 
-
 	/**
 	 *
 	 */
@@ -18,7 +17,8 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 	@Override
 	public String toString() {
 		var build = new StringBuilder();
-		build.append("\nLOYALTY: WHEN ").append("PUT ").append(getCosts()).append(" COUNTER DO ").append(getEffects().get(0)).append(" END");
+		build.append("\nLOYALTY: WHEN ").append("PUT ").append(getCosts()).append(" COUNTER DO ")
+				.append(getEffects().get(0)).append(" END");
 		return build.toString();
 	}
 
@@ -32,12 +32,8 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 		return getCost() + ":" + getEffects();
 	}
 
-
-	public AbstractEffect getEffect()
-	{
+	public AbstractEffect getEffect() {
 		return getEffects().get(0);
 	}
-
-
 
 }

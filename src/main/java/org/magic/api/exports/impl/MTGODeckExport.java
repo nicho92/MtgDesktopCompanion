@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
@@ -16,7 +15,6 @@ import org.magic.services.tools.FileTools;
 
 public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
-
 	@Override
 	public String getName() {
 		return "MTGO";
@@ -26,7 +24,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.APPLICATION;
 	}
-	
+
 	@Override
 	public String getStockFileExtension() {
 		return ".dek";
@@ -54,53 +52,40 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 	@Override
 	public MTGDeck importDeck(String f, String deckName) throws IOException {
 		var deck = new MTGDeck();
-			deck.setName(deckName);
-			var side=false;
+		deck.setName(deckName);
+		var side = false;
 
-			for(Matcher m : matches(f,false))
-			{
-				if(m.group().isEmpty())
-				{
-					side=true;
+		for (Matcher m : matches(f, false)) {
+			if (m.group().isEmpty()) {
+				side = true;
+			} else {
+				String cname = m.group(2);
+
+				MTGEdition ed = null;
+				try {
+					if (m.group(4) != null)
+						ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
+				} catch (Exception _) {
+					logger.error("{} isn't a valid set", m.group(4));
 				}
-				else
-				{
-					String cname = m.group(2);
 
-					MTGEdition ed = null;
-					try {
-					if(m.group(4)!=null)
-							ed=getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
-					}
-					catch(Exception _)
-					{
-						logger.error("{} isn't a valid set",m.group(4));
+				try {
+					var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname.trim(), ed, true).get(0);
+					var qty = Integer.parseInt(m.group(1));
+
+					if (side) {
+						deck.getSideBoard().put(mc, qty);
+					} else {
+						deck.getMain().put(mc, qty);
 					}
 
-
-					try{
-						var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname.trim(), ed, true).get(0);
-						var qty = Integer.parseInt(m.group(1));
-
-						if(side)
-						{
-							deck.getSideBoard().put(mc, qty);
-						}
-						else
-						{
-							deck.getMain().put(mc, qty);
-						}
-
-						notify(mc);
-					}
-					catch(Exception e)
-					{
-						logger.error("{} is not found : {}",cname,e.getMessage());
-					}
+					notify(mc);
+				} catch (Exception e) {
+					logger.error("{} is not found : {}", cname, e.getMessage());
 				}
 			}
-			return deck;
-
+		}
+		return deck;
 
 	}
 
@@ -111,14 +96,12 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String[] skipLinesStartWith() {
-		return new String[] {"//"};
+		return new String[]{"//"};
 	}
-	
+
 	@Override
 	protected String getSeparator() {
 		return " ";
 	}
-
-
 
 }

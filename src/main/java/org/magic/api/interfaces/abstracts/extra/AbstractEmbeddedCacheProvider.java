@@ -1,7 +1,6 @@
 package org.magic.api.interfaces.abstracts.extra;
 
 import java.util.Map;
-
 import org.magic.api.interfaces.MTGCache;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 
@@ -14,6 +13,6 @@ public abstract class AbstractEmbeddedCacheProvider<U, V> extends AbstractMTGPlu
 
 	public abstract Map<U, V> entries();
 
-	public abstract Object getStat() ;
+	public abstract Object getStat();
 
 }

@@ -2,7 +2,6 @@ package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
@@ -38,7 +37,8 @@ public class JVMemoryPanel extends JPanel {
 
 	public void refresh() {
 		progressBar.setValue(toMB((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())));
-		tooltip = toMB((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())) + "/"+ toMB((Runtime.getRuntime().totalMemory())) + " MB";
+		tooltip = toMB((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())) + "/"
+				+ toMB((Runtime.getRuntime().totalMemory())) + " MB";
 		progressBar.setToolTipText(tooltip);
 
 		double pc = ((progressBar.getValue() * 100) / progressBar.getMaximum());

@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
@@ -47,7 +46,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -93,7 +91,6 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.DeckImportWorker;
 public class ConstructPanel extends MTGUIComponent {
 
-
 	private static final long serialVersionUID = 1L;
 	private static final String UPDATED_DECK = "UPDATED_DECK";
 	private static final String FINISHED = "FINISHED";
@@ -138,10 +135,8 @@ public class ConstructPanel extends MTGUIComponent {
 		initGUI();
 		setDeck(deck);
 	}
-	
-	
-	public void hideSearchComponent(boolean hidecomponent)
-	{
+
+	public void hideSearchComponent(boolean hidecomponent) {
 		searchComponent.setVisible(!hidecomponent);
 		panneauGauche.setVisible(!hidecomponent);
 		btnNewDeck.setVisible(!hidecomponent);
@@ -149,11 +144,10 @@ public class ConstructPanel extends MTGUIComponent {
 		btnImport.setVisible(!hidecomponent);
 		btnPin.setVisible(!hidecomponent);
 	}
-	
-	
+
 	protected void updatePanels() {
 
-		if(deck==null)
+		if (deck == null)
 			return;
 
 		deckDetailsPanel.init(deck);
@@ -168,11 +162,10 @@ public class ConstructPanel extends MTGUIComponent {
 
 	}
 
-
 	public void setDeck(MTGDeck deck) {
-		if(deck==null)
+		if (deck == null)
 			deck = new MTGDeck();
-		
+
 		this.deck = deck;
 		deckDetailsPanel.init(deck);
 		deckDetailsPanel.updatePicture();
@@ -182,7 +175,7 @@ public class ConstructPanel extends MTGUIComponent {
 		objectviewerPanel.init(deck);
 		tableDeck.packAll();
 		tableSide.packAll();
-	
+
 	}
 
 	@Override
@@ -190,15 +183,14 @@ public class ConstructPanel extends MTGUIComponent {
 		SwingUtilities.getRootPane(this).setDefaultButton(defaultEnterButton);
 	}
 
-
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		var p = MTGControler.getInstance().getProfilPlayer();
 		rulesPanel = new RulesPanel();
 		var panneauHaut = new JPanel();
 		JButton btnUpdate;
-		var btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
-		var btnIA= UITools.createBindableJButton("", MTGConstants.ICON_IA, KeyEvent.VK_I, "IA");
+		var btnRandom = UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
+		var btnIA = UITools.createBindableJButton("", MTGConstants.ICON_IA, KeyEvent.VK_I, "IA");
 		HandPanel thumbnail;
 		searchComponent = new CriteriaComponent(false);
 		JTabbedPane tabbedPaneHaut;
@@ -206,7 +198,7 @@ public class ConstructPanel extends MTGUIComponent {
 		var buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		deckmodel = new DeckCardsTableModel(BOARD.MAIN);
 		deckSidemodel = new DeckCardsTableModel(BOARD.SIDE);
-		
+
 		deckDetailsPanel = new DeckDetailsPanel();
 		thumbnail = new HandPanel();
 		var flowLayout = (FlowLayout) panneauHaut.getLayout();
@@ -220,19 +212,19 @@ public class ConstructPanel extends MTGUIComponent {
 		var btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "Save");
 		btnImport = UITools.createBindableJButton("", MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "Import");
 		btnPin = UITools.createBindableJButton("", MTGConstants.ICON_PIN, KeyEvent.VK_P, "Pin");
-		
+
 		btnExports = new JExportButton(MODS.EXPORT);
 		stockPanel = new DeckStockComparatorPanel();
-		objectviewerPanel= new ObjectViewerPanel();
+		objectviewerPanel = new ObjectViewerPanel();
 		var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var panneauBas = new JPanel();
 		tabbedPaneHaut = new JTabbedPane(SwingConstants.TOP);
 		var panneauDeck = new JSplitPane();
 		magicCardDetailPanel = new MagicCardDetailPanel(false);
 		cardDrawProbaPanel = new DrawProbabilityPanel();
-		tableDeck = UITools.createNewTable(deckmodel,false);
-		tableSide = UITools.createNewTable(deckSidemodel,false);
-		
+		tableDeck = UITools.createNewTable(deckmodel, false);
+		tableSide = UITools.createNewTable(deckSidemodel, false);
+
 		final var tabbedDeckSide = new JTabbedPane(SwingConstants.RIGHT);
 		var panelInfoDeck = new JPanel();
 		cmcChartPanel = new CmcChartPanel();
@@ -287,7 +279,7 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauDeck.setResizeWeight(0.5);
 		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		magicCardDetailPanel.enableThumbnail(true);
-		
+
 		panelInfoDeck.setLayout(new BorderLayout(0, 0));
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		statPanel.setLayout(new GridLayout(3, 2, 0, 0));
@@ -302,8 +294,6 @@ public class ConstructPanel extends MTGUIComponent {
 		tglbtnVin.setActionCommand("Vintage");
 		tglbtnCmd.setActionCommand("Commander");
 
-
-
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(searchComponent);
 		panneauHaut.add(buzy);
@@ -317,34 +307,31 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauHaut.add(btnRandom);
 		panneauHaut.add(btnIA);
 		panneauHaut.add(btnPin);
-		
+
 		panneauHaut.add(buzyLabel);
 		panneauDeck.setRightComponent(getContextTabbedPane());
 		add(panneauBas, BorderLayout.SOUTH);
 		add(tabbedPaneHaut, BorderLayout.CENTER);
-		
-		
-		addContextComponent(magicCardDetailPanel);		
+
+		addContextComponent(magicCardDetailPanel);
 		addContextComponent(comboPanel);
 		addContextComponent(cardDrawProbaPanel);
 		addContextComponent(rulesPanel);
 		addContextComponent(stockDetailPanel);
 		addContextComponent(importLogPanel);
-		
-		if(MTG.readPropertyAsBoolean("debug-json-panel"))
+
+		if (MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(objectviewerPanel);
-		
+
 		panneauDeck.setLeftComponent(tabbedDeckSide);
 		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
 		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
-		
-		tabbedPaneHaut.addTab(capitalize("DECK"), MTGConstants.ICON_TAB_DECK,panneauDeck, null);
-		tabbedPaneHaut.addTab(capitalize("INFORMATIONS"),MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
-		tabbedPaneHaut.addTab(capitalize("STATS"),MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
-		tabbedPaneHaut.addTab(capitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
+
+		tabbedPaneHaut.addTab(capitalize("DECK"), MTGConstants.ICON_TAB_DECK, panneauDeck, null);
+		tabbedPaneHaut.addTab(capitalize("INFORMATIONS"), MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
+		tabbedPaneHaut.addTab(capitalize("STATS"), MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
+		tabbedPaneHaut.addTab(capitalize("SAMPLE_HAND"), MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
 		UITools.addTab(tabbedPaneHaut, stockPanel);
-
-
 
 		panelInfoDeck.add(deckDetailsPanel, BorderLayout.NORTH);
 		randomHandPanel.add(thumbnail, BorderLayout.CENTER);
@@ -369,45 +356,42 @@ public class ConstructPanel extends MTGUIComponent {
 		groupsFilterResult.add(tglbtnCmd);
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
-		
-		listResult.setModel(resultListModel);
-		
 
-		initTables(tableDeck,BOARD.MAIN,deckmodel);
-		initTables(tableSide,BOARD.SIDE,deckSidemodel);
-		
+		listResult.setModel(resultListModel);
+
+		initTables(tableDeck, BOARD.MAIN, deckmodel);
+		initTables(tableSide, BOARD.SIDE, deckSidemodel);
+
 		deckDetailsPanel.init(deck);
 
-///ACTIONS
+		///ACTIONS
 		btnNewDeck.addActionListener(_ -> {
 			var newDeck = new MTGDeck();
 			setDeck(newDeck);
 		});
-		
+
 		tabbedDeckSide.addChangeListener(_ -> selectedIndex = tabbedDeckSide.getSelectedIndex());
-		
-		
-		btnPin.addActionListener(_->{
-			
+
+		btnPin.addActionListener(_ -> {
+
 			var tree = new DeckTree();
 			tree.enableThumbnail();
 			tree.setDeck(deck);
-			
-			MTGUIComponent.createJDialog(MTGUIComponent.build(new JScrollPane(tree), "Deck", MTGConstants.ICON_DECK),true,false).setVisible(true);
-			
+
+			MTGUIComponent.createJDialog(MTGUIComponent.build(new JScrollPane(tree), "Deck", MTGConstants.ICON_DECK),
+					true, false).setVisible(true);
+
 		});
-		
-		
-		btnIA.addActionListener(_->{
-			
+
+		btnIA.addActionListener(_ -> {
+
 			var description = JOptionPane.showInputDialog("Description of your deck ?");
-			
-			if(description.isEmpty())
+
+			if (description.isEmpty())
 				return;
-			
+
 			buzyLabel.start();
-			SwingWorker<MTGDeck, Void> sw = new SwingWorker<>()
-			{
+			SwingWorker<MTGDeck, Void> sw = new SwingWorker<>() {
 
 				@Override
 				protected MTGDeck doInBackground() throws Exception {
@@ -423,59 +407,51 @@ public class ConstructPanel extends MTGUIComponent {
 						deckSidemodel.init(deck);
 						setDeck(deck);
 						updatePanels();
-					}catch (InterruptedException e) {
+					} catch (InterruptedException e) {
 						Thread.currentThread().interrupt();
 						MTGControler.getInstance().notify(e);
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						MTGControler.getInstance().notify(e);
 					}
 					buzyLabel.end();
 
 				}
 
-
 			};
 			ThreadManager.getInstance().runInEdt(sw, "generate deck with ia");
 		});
-		
-		
-		
-		btnRandom.addActionListener(_->{
-				buzyLabel.start();
-				SwingWorker<MTGDeck, Void> sw = new SwingWorker<>()
-				{
 
-					@Override
-					protected MTGDeck doInBackground() throws Exception {
-						return deckManager.generateRandomDeck();
+		btnRandom.addActionListener(_ -> {
+			buzyLabel.start();
+			SwingWorker<MTGDeck, Void> sw = new SwingWorker<>() {
+
+				@Override
+				protected MTGDeck doInBackground() throws Exception {
+					return deckManager.generateRandomDeck();
+				}
+
+				@Override
+				protected void done() {
+					try {
+						deck = get();
+						deckDetailsPanel.init(deck);
+						deckmodel.init(deck);
+						deckSidemodel.init(deck);
+						setDeck(deck);
+						updatePanels();
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						MTGControler.getInstance().notify(e);
+					} catch (Exception e) {
+						MTGControler.getInstance().notify(e);
 					}
+					buzyLabel.end();
 
-					@Override
-					protected void done() {
-						try {
-							deck = get();
-							deckDetailsPanel.init(deck);
-							deckmodel.init(deck);
-							deckSidemodel.init(deck);
-							setDeck(deck);
-							updatePanels();
-						}catch (InterruptedException e) {
-							Thread.currentThread().interrupt();
-							MTGControler.getInstance().notify(e);
-						}
-						catch (Exception e) {
-							MTGControler.getInstance().notify(e);
-						}
-						buzyLabel.end();
+				}
 
-					}
-
-
-				};
-				ThreadManager.getInstance().runInEdt(sw, "random deck");
+			};
+			ThreadManager.getInstance().runInEdt(sw, "random deck");
 		});
-
 
 		btnOpen.addActionListener(_ -> {
 			try {
@@ -493,103 +469,97 @@ public class ConstructPanel extends MTGUIComponent {
 
 		});
 
-		btnUpdate.addActionListener(_ ->  {
-			if(deck==null)
+		btnUpdate.addActionListener(_ -> {
+			if (deck == null)
 				return;
-			
+
 			Map<MTGCard, Integer> updateM = new HashMap<>();
 			Map<MTGCard, Integer> updateS = new HashMap<>();
 			btnUpdate.setEnabled(false);
-			
-			
+
 			buzyLabel.start(deck.getMain().size() + deck.getSideBoard().size());
-			SwingWorker<Void, MTGCard> sw = new SwingWorker<>()
-					{
-						@Override
-						protected void done() {
-							buzyLabel.end();
-							btnUpdate.setEnabled(true);
+			SwingWorker<Void, MTGCard> sw = new SwingWorker<>() {
+				@Override
+				protected void done() {
+					buzyLabel.end();
+					btnUpdate.setEnabled(true);
 
-							deck.getMain().clear();
-							deck.setMain(updateM);
+					deck.getMain().clear();
+					deck.setMain(updateM);
 
-							deck.getSideBoard().clear();
-							deck.setSideBoard(updateS);
-							
-							updatePanels();
+					deck.getSideBoard().clear();
+					deck.setSideBoard(updateS);
 
-							btnUpdate.setEnabled(true);
-							buzyLabel.end();
-							MTGControler.getInstance()
-									.notify(new MTGNotification(capitalize(FINISHED),
-											capitalize(UPDATED_DECK),
-											MESSAGE_TYPE.INFO));
+					updatePanels();
+
+					btnUpdate.setEnabled(true);
+					buzyLabel.end();
+					MTGControler.getInstance().notify(
+							new MTGNotification(capitalize(FINISHED), capitalize(UPDATED_DECK), MESSAGE_TYPE.INFO));
+				}
+
+				@Override
+				protected void process(List<MTGCard> chunks) {
+					buzyLabel.progressSmooth(chunks.size());
+				}
+
+				@Override
+				protected Void doInBackground() throws Exception {
+					for (MTGCard mc : deck.getMain().keySet()) {
+						try {
+
+							var newMc = getEnabledPlugin(MTGCardsProvider.class)
+									.getCardByScryfallId(mc.getScryfallId());
+							if (newMc == null)
+								newMc = mc;
+							updateM.put(newMc, deck.getMain().get(mc));
+							publish(mc);
+						} catch (Exception e) {
+							logger.error("error update {}", mc, e);
 						}
+					}
+					for (MTGCard mc : deck.getSideBoard().keySet()) {
+						try {
+							var newMc = getEnabledPlugin(MTGCardsProvider.class)
+									.getCardByScryfallId(mc.getScryfallId());
+							if (newMc == null)
+								newMc = mc;
+							updateS.put(newMc, deck.getSideBoard().get(mc));
+							publish(mc);
+						} catch (Exception e) {
+							logger.error("error update {}", mc, e);
 
-						@Override
-						protected void process(List<MTGCard> chunks) {
-							buzyLabel.progressSmooth(chunks.size());
 						}
+					}
 
-						@Override
-						protected Void doInBackground() throws Exception {
-							for (MTGCard mc : deck.getMain().keySet()) {
-								try {
+					return null;
+				}
 
-									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(mc.getScryfallId());
-									if(newMc==null)
-										newMc=mc;
-									updateM.put(newMc,deck.getMain().get(mc));
-									publish(mc);
-								} catch (Exception e) {
-									logger.error("error update {}",mc,e);
-								}
-							}
-							for (MTGCard mc : deck.getSideBoard().keySet()) {
-								try {
-									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(mc.getScryfallId());
-									if(newMc==null)
-										newMc=mc;
-									updateS.put(newMc,deck.getSideBoard().get(mc));
-									publish(mc);
-								} catch (Exception e) {
-									logger.error("error update {}",mc,e);
-
-								}
-							}
-						
-							return null;
-						}
-
-					};
-			ThreadManager.getInstance().runInEdt(sw,"updating "+deck);
+			};
+			ThreadManager.getInstance().runInEdt(sw, "updating " + deck);
 		});
 
 		btnSave.addActionListener(_ -> {
-			if(deck==null)
-			{
+			if (deck == null) {
 				MTGControler.getInstance().notify(new NullPointerException("Deck is Null"));
 				return;
 			}
 
-
 			buzyLabel.start();
 
 			String dname = deck.getName();
-			if(deck.getId()<0 && dname.isEmpty())
-			{
+			if (deck.getId() < 0 && dname.isEmpty()) {
 				String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", dname);
-				if(name!=null && !name.isEmpty())
+				if (name != null && !name.isEmpty())
 					deck.setName(name);
 
 			}
 
-
-			var sw = new SwingWorker<Void, Void>(){
+			var sw = new SwingWorker<Void, Void>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					logger.debug("saving {}",deck);
+					logger.debug("saving {}", deck);
 					deckManager.saveDeck(deck);
 					p.setDeck(deck);
 					return null;
@@ -601,11 +571,9 @@ public class ConstructPanel extends MTGUIComponent {
 
 					try {
 						get();
-					}
-					catch(InterruptedException _)
-					{
+					} catch (InterruptedException _) {
 						Thread.currentThread().interrupt();
-					}catch(Exception ex) {
+					} catch (Exception ex) {
 
 						logger.error("error saving", ex);
 						MTGControler.getInstance().notify(ex);
@@ -613,23 +581,17 @@ public class ConstructPanel extends MTGUIComponent {
 
 				}
 
-
-
-
 			};
 
 			ThreadManager.getInstance().runInEdt(sw, "saving deck");
 
 		});
 
+		btnDrawAHand.addActionListener(_ -> {
 
-
-
-	btnDrawAHand.addActionListener(_ -> {
-		
-			if(deck==null || deck.isEmpty())
+			if (deck == null || deck.isEmpty())
 				return;
-		
+
 			thumbnail.removeAll();
 			p.setDeck(deck);
 			p.mixHandAndLibrary();
@@ -639,22 +601,19 @@ public class ConstructPanel extends MTGUIComponent {
 
 		});
 
-		listResult.getSelectionModel().addListSelectionListener(lsl->{
+		listResult.getSelectionModel().addListSelectionListener(lsl -> {
 
-			if(!lsl.getValueIsAdjusting())
-			{
+			if (!lsl.getValueIsAdjusting()) {
 				var mc = listResult.getSelectedValue();
-				
-				if(mc==null)
+
+				if (mc == null)
 					return;
-				
+
 				magicCardDetailPanel.init(mc);
-				stockDetailPanel.init(mc,null);
+				stockDetailPanel.init(mc, null);
 			}
 
 		});
-
-
 
 		listResult.addMouseListener(new MouseAdapter() {
 			@Override
@@ -664,11 +623,10 @@ public class ConstructPanel extends MTGUIComponent {
 					ev.consume();
 
 					MTGCard mc = listResult.getSelectedValue();
-					
-					if(mc==null)
+
+					if (mc == null)
 						return;
-					
-					
+
 					if (getSelectedMap().get(mc) != null) {
 						getSelectedMap().put(mc, deck.getMain().get(mc) + 1);
 					} else {
@@ -680,14 +638,13 @@ public class ConstructPanel extends MTGUIComponent {
 				}
 			}
 		});
-	
+
 		btnImport.addActionListener(ae -> {
 			var menu = new JPopupMenu();
-			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class))
-			{
+			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
-					var it = new JMenuItem(exp.getName(),exp.getIcon());
+					var it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(_ -> {
 
 						var jf = new JFileChooser(MTGConstants.DATA_DIR);
@@ -695,7 +652,7 @@ public class ConstructPanel extends MTGUIComponent {
 						jf.setFileFilter(new FileFilter() {
 							@Override
 							public String getDescription() {
-								return exp.getName() +" ("+exp.getDeckFileExtension()+")" ;
+								return exp.getName() + " (" + exp.getDeckFileExtension() + ")";
 							}
 
 							@Override
@@ -710,14 +667,10 @@ public class ConstructPanel extends MTGUIComponent {
 						if (!exp.needDialogForDeck(MODS.IMPORT) && exp.needFile()) {
 							res = jf.showOpenDialog(null);
 							f = jf.getSelectedFile();
-						}
-						else if(!exp.needFile() && !exp.needDialogForDeck(MODS.IMPORT))
-						{
-							logger.trace("{} need no file. Skip",exp);
+						} else if (!exp.needFile() && !exp.needDialogForDeck(MODS.IMPORT)) {
+							logger.trace("{} need no file. Skip", exp);
 							res = JFileChooser.APPROVE_OPTION;
-						}
-						else
-						{
+						} else {
 							try {
 								setDeck(exp.importDeckFromFile(null));
 								updatePanels();
@@ -727,8 +680,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 						}
 
-						if (res == JFileChooser.APPROVE_OPTION)
-						{
+						if (res == JFileChooser.APPROVE_OPTION) {
 							buzyLabel.start();
 							var importWork = new DeckImportWorker(exp, buzyLabel, f) {
 								@Override
@@ -740,17 +692,16 @@ public class ConstructPanel extends MTGUIComponent {
 									} catch (InterruptedException e) {
 										Thread.currentThread().interrupt();
 										MTGControler.getInstance().notify(e);
-									}catch (Exception e) {
+									} catch (Exception e) {
 										logger.error(e);
 									}
 								}
 							};
-							ThreadManager.getInstance().runInEdt(importWork,"Deck imports from "+f);
+							ThreadManager.getInstance().runInEdt(importWork, "Deck imports from " + f);
 						}
 					});
 
-					UITools.buildCategorizedMenu(menu,it,exp);
-
+					UITools.buildCategorizedMenu(menu, it, exp);
 
 				}
 			}
@@ -762,7 +713,6 @@ public class ConstructPanel extends MTGUIComponent {
 
 		});
 
-
 		btnExports.initCardsExport(new Callable<MTGDeck>() {
 			@Override
 			public MTGDeck call() throws Exception {
@@ -771,76 +721,79 @@ public class ConstructPanel extends MTGUIComponent {
 		}, buzyLabel);
 
 		defaultEnterButton.addActionListener(_ -> {
-			
+
 			resultListModel.clear();
 
-			var sw = new AbstractObservableWorker<List<MTGCard>,MTGCard,MTGCardsProvider>(buzy,getEnabledPlugin(MTGCardsProvider.class))
-			{
+			var sw = new AbstractObservableWorker<List<MTGCard>, MTGCard, MTGCardsProvider>(buzy,
+					getEnabledPlugin(MTGCardsProvider.class)) {
 				@Override
 				protected List<MTGCard> doInBackground() throws Exception {
-						return plug.searchCardByCriteria(searchComponent.getMTGCriteria().getAtt(), plug.getMTGQueryManager().getValueFor(searchComponent.getMTGCriteria().getFirst()).toString(), null, false);
+					return plug
+							.searchCardByCriteria(
+									searchComponent.getMTGCriteria().getAtt(), plug.getMTGQueryManager()
+											.getValueFor(searchComponent.getMTGCriteria().getFirst()).toString(),
+									null, false);
 				}
 
 				@Override
 				protected void process(List<MTGCard> chunks) {
 					super.process(chunks);
 					var form = new MTGFormat();
-					for (MTGCard m : chunks) 
-					{
-						if (groupsFilterResult.getSelection() != null) 
-						{
+					for (MTGCard m : chunks) {
+						if (groupsFilterResult.getSelection() != null) {
 							form.setFormat(groupsFilterResult.getSelection().getActionCommand());
 							if (m.getLegalities().contains(form))
 								resultListModel.addElement(m);
-							
-						} 
-						else 
-						{
+
+						} else {
 							resultListModel.addElement(m);
 						}
 					}
 				}
-	
+
 				@Override
 				protected void notifyEnd() {
-					lblCards.setText(resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
+					lblCards.setText(
+							resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
 					listResult.updateUI();
 				}
 			};
 
-			ThreadManager.getInstance().runInEdt(sw,"search cards for deck");
+			ThreadManager.getInstance().runInEdt(sw, "search cards for deck");
 
 		});
 	}
 
 	private void initTables(JXTable table, BOARD f, DeckCardsTableModel model) {
-		
+
 		table.setRowSorter(new TableRowSorter<>(model));
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxCellEditor());
 		table.getColumnModel().getColumn(4).setCellEditor(new NumberCellEditorRenderer());
-		table.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus,int row, int column)-> {
-			
-			if(value==null)
-				return new JLabel();
-			
-			var comp = (JLabel)new DefaultTableCellRenderer().getTableCellRendererComponent(table2, value, isSelected, hasFocus, row, column);
-			comp.setText(((MTGCard)value).getName());
+		table.getColumnModel().getColumn(0).setCellRenderer(
+				(JTable table2, Object value, boolean isSelected, boolean hasFocus, int row, int column) -> {
 
-			try {
-				if(deck!=null && value!=null && deck.getCommander()!=null && ((MTGCard)value).getName().equals(deck.getCommander().getName()))
-					comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
-				}
-				catch(Exception e){
-					logger.error("error applying font {}  {}",value,deck,e);
-				}
+					if (value == null)
+						return new JLabel();
 
-			if(((MTGCard)value).isCompanion())
-				comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
+					var comp = (JLabel) new DefaultTableCellRenderer().getTableCellRendererComponent(table2, value,
+							isSelected, hasFocus, row, column);
+					comp.setText(((MTGCard) value).getName());
 
-			return comp;
-		});
+					try {
+						if (deck != null && value != null && deck.getCommander() != null
+								&& ((MTGCard) value).getName().equals(deck.getCommander().getName()))
+							comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
+					} catch (Exception e) {
+						logger.error("error applying font {}  {}", value, deck, e);
+					}
+
+					if (((MTGCard) value).isCompanion())
+						comp.setFont(comp.getFont().deriveFont(Font.ITALIC));
+
+					return comp;
+				});
 
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
@@ -848,11 +801,10 @@ public class ConstructPanel extends MTGUIComponent {
 					MTGCard mc = UITools.getTableSelection(table, 0);
 					magicCardDetailPanel.init(mc);
 					comboPanel.init(mc);
-					stockDetailPanel.init(mc,null);
+					stockDetailPanel.init(mc, null);
 					rulesPanel.init(mc);
-					if(f==BOARD.MAIN)
+					if (f == BOARD.MAIN)
 						cardDrawProbaPanel.init(deck, mc);
-
 
 				} catch (Exception e) {
 					logger.error(e);
@@ -864,65 +816,56 @@ public class ConstructPanel extends MTGUIComponent {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
 
-				if(UITools.getTableSelections(table, 0).isEmpty())
+				if (UITools.getTableSelections(table, 0).isEmpty())
 					return;
 
 				MTGCard mc = UITools.getTableSelection(table, 0);
 
-				if(f==BOARD.MAIN)
+				if (f == BOARD.MAIN)
 					cardDrawProbaPanel.init(deck, mc);
 
-				if(SwingUtilities.isRightMouseButton(ev))
-				{
+				if (SwingUtilities.isRightMouseButton(ev)) {
 					var menu = new JPopupMenu();
 
 					var itemDel = new JMenuItem(capitalize("DELETE"));
 					menu.add(itemDel);
-					itemDel.addActionListener(_->{
+					itemDel.addActionListener(_ -> {
 
-						deck.delete(mc ,f);
+						deck.delete(mc, f);
 						model.fireTableDataChanged();
 
 					});
 
+					if (mc.isLegendary() && (mc.isCreature() || mc.isPlaneswalker())) {
 
-					if(mc.isLegendary() && (mc.isCreature()||mc.isPlaneswalker())) {
-
-							if((deck.getCommander()!=null) && mc.getName().equals(deck.getCommander().getName()))
-							{
-								var itemRemoveCommander = new JMenuItem(capitalize("REMOVE_COMMANDER"));
-								menu.add(itemRemoveCommander);
-								itemRemoveCommander.addActionListener(_->deck.setCommander(null));
-							}
-							else
-							{
-								var itemSelCommander = new JMenuItem(capitalize("SELECT_COMMANDER"));
-								menu.add(itemSelCommander);
-								itemSelCommander.addActionListener(_->deck.setCommander(mc));
-							}
+						if ((deck.getCommander() != null) && mc.getName().equals(deck.getCommander().getName())) {
+							var itemRemoveCommander = new JMenuItem(capitalize("REMOVE_COMMANDER"));
+							menu.add(itemRemoveCommander);
+							itemRemoveCommander.addActionListener(_ -> deck.setCommander(null));
+						} else {
+							var itemSelCommander = new JMenuItem(capitalize("SELECT_COMMANDER"));
+							menu.add(itemSelCommander);
+							itemSelCommander.addActionListener(_ -> deck.setCommander(mc));
+						}
 					}
 
-					var itemMove = new JMenuItem(capitalize("MOVE_CARD_TO") + ((f==BOARD.MAIN)? " Side":" Main"));
+					var itemMove = new JMenuItem(capitalize("MOVE_CARD_TO") + ((f == BOARD.MAIN) ? " Side" : " Main"));
 					menu.add(itemMove);
 
-
-					itemMove.addActionListener(_->{
-						if(f==BOARD.MAIN)
-						{
+					itemMove.addActionListener(_ -> {
+						if (f == BOARD.MAIN) {
 							List<MTGCard> list = UITools.getTableSelections(tableDeck, 0);
 
-							for(MTGCard card : list) {
+							for (MTGCard card : list) {
 								int qty = deck.getMain().get(card);
 								deck.getSideBoard().put(card, qty);
 								deck.getMain().remove(card);
 							}
-						}
-						else
-						{
+						} else {
 
 							List<MTGCard> list = UITools.getTableSelections(tableSide, 0);
 
-							for(MTGCard card : list) {
+							for (MTGCard card : list) {
 								int qty = deck.getSideBoard().get(card);
 								deck.getMain().put(card, qty);
 								deck.getSideBoard().remove(card);
@@ -932,17 +875,17 @@ public class ConstructPanel extends MTGUIComponent {
 
 					});
 
-
 					var item = new JMenuItem(capitalize("MORE_LIKE_THIS"));
 					menu.add(item);
-					item.addActionListener(_->{
+					item.addActionListener(_ -> {
 
 						resultListModel.removeAllElements();
 						try {
-							for(MTGCard card : getEnabledPlugin(MTGCardsIndexer.class).similarity(mc).keySet())
+							for (MTGCard card : getEnabledPlugin(MTGCardsIndexer.class).similarity(mc).keySet())
 								resultListModel.addElement(card);
 
-							lblCards.setText(resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
+							lblCards.setText(resultListModel.size() + " "
+									+ MTGControler.getInstance().getLangService().get("RESULTS"));
 							listResult.setModel(resultListModel);
 							listResult.updateUI();
 
@@ -955,7 +898,6 @@ public class ConstructPanel extends MTGUIComponent {
 
 				}
 
-
 			}
 		});
 
@@ -965,7 +907,7 @@ public class ConstructPanel extends MTGUIComponent {
 				MTGCard mc = UITools.getTableSelection(table, 0);
 				int sel = table.getSelectedRow();
 				if (e.getKeyChar() == '+') {
-					if(f==BOARD.MAIN)
+					if (f == BOARD.MAIN)
 						deck.add(mc);
 					else
 						deck.addSide(mc);
@@ -974,15 +916,15 @@ public class ConstructPanel extends MTGUIComponent {
 				}
 
 				if (e.getKeyChar() == '-') {
-					if(f==BOARD.MAIN)
+					if (f == BOARD.MAIN)
 						deck.remove(mc);
 					else
 						deck.removeSide(mc);
 
 					deckmodel.init(deck);
 				}
-					
-				if(sel>-1)
+
+				if (sel > -1)
 					table.setRowSelectionInterval(sel, sel);
 
 			}
@@ -1010,8 +952,8 @@ public class ConstructPanel extends MTGUIComponent {
 
 		if (selectedIndex == 1)
 			return deck.getSideBoard();
-	
-			return deck.getMain();
+
+		return deck.getMain();
 
 	}
 

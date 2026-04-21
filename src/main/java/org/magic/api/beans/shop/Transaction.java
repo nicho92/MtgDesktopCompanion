@@ -5,7 +5,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
@@ -15,7 +14,7 @@ import org.magic.api.interfaces.extra.MTGSerializable;
 
 public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	private static final long serialVersionUID = 1L;
-	private Long id=-1L;
+	private Long id = -1L;
 	private Date dateCreation;
 	private Date datePayment;
 	private Date dateSend;
@@ -30,18 +29,15 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	private Currency currency;
 	private String sourceShopName;
 	private String sourceShopId;
-	
-	
+
 	private EnumPaymentProvider paymentProvider;
 	private EnumTransactionStatus statut;
 	private EnumTransactionDirection typeTransaction;
-	
 
 	@Override
 	public String getStoreId() {
 		return String.valueOf(getId());
 	}
-	
 
 	public String getSourceShopName() {
 		return sourceShopName;
@@ -51,16 +47,14 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		this.sourceShopName = sourceShopName;
 	}
 
-
 	public Transaction() {
 		dateCreation = new Date();
 		items = new ArrayList<>();
-		contact=new Contact();
+		contact = new Contact();
 		statut = EnumTransactionStatus.NEW;
-		typeTransaction=EnumTransactionDirection.SELL;
+		typeTransaction = EnumTransactionDirection.SELL;
 		currency = Currency.getInstance(Locale.getDefault());
 	}
-	
 
 	public Date getDateCreation() {
 		return dateCreation;
@@ -78,16 +72,13 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		return typeTransaction;
 	}
 
-
 	public String getSourceShopId() {
 		return sourceShopId;
 	}
 
-
 	public void setSourceShopId(String sourceShopId) {
 		this.sourceShopId = sourceShopId;
 	}
-
 
 	public Date getDatePayment() {
 		return datePayment;
@@ -100,11 +91,10 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	public void setReduction(double reduction) {
 		this.reduction = reduction;
 	}
-	
+
 	public double getReduction() {
 		return reduction;
 	}
-
 
 	public Date getDateSend() {
 		return dateSend;
@@ -122,22 +112,17 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		this.paymentProvider = paymentProvider;
 	}
 
-
-
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
-
 
 	public String getTransporterShippingCode() {
 		return transporterShippingCode;
 	}
 
-
 	public void setTransporterShippingCode(String transporterShippingCode) {
 		this.transporterShippingCode = transporterShippingCode;
 	}
-
 
 	public void setConfig(WebShopConfig config) {
 		this.config = config;
@@ -147,28 +132,17 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		return config;
 	}
 
-
-
 	public String getTransporter() {
 		return transporter;
 	}
-
-
-
 
 	public void setTransporter(String transporter) {
 		this.transporter = transporter;
 	}
 
-
-
-
 	public double getShippingPrice() {
 		return shippingPrice;
 	}
-
-
-
 
 	public void setShippingPrice(double shippingPrice) {
 		this.shippingPrice = shippingPrice;
@@ -181,14 +155,12 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		return statut;
 	}
 
-	public double totalItems()
-	{
-		return getItems().stream().mapToDouble(e->e.getQte()*e.getValue().doubleValue()).sum();
+	public double totalItems() {
+		return getItems().stream().mapToDouble(e -> e.getQte() * e.getValue().doubleValue()).sum();
 	}
 
-	public double total()
-	{
-		return (totalItems() + getShippingPrice()) -getReduction();
+	public double total() {
+		return (totalItems() + getShippingPrice()) - getReduction();
 	}
 
 	@Override
@@ -213,10 +185,9 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	}
 
 	public void setId(Long id) {
-		this.id=id;
+		this.id = id;
 
 	}
-
 
 	public List<MTGStockItem> getItems() {
 		return items;
@@ -228,7 +199,7 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		return contact;
 	}
 	public void setContact(Contact contact) {
-			this.contact = contact;
+		this.contact = contact;
 	}
 
 	public void setCurrency(String string) {
@@ -238,13 +209,13 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	public Currency getCurrency() {
 		return currency;
 	}
-	
+
 	@Override
 	public int compareTo(Transaction o) {
-		if( o.getId()>getId())
+		if (o.getId() > getId())
 			return 1;
 
-		if( o.getId()<getId())
+		if (o.getId() < getId())
 			return -1;
 
 		return 0;

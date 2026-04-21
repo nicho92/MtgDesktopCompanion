@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.Icon;
-
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -23,7 +21,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 
 public class AnnouncesExport extends AbstractCardExport {
-
 
 	@Override
 	public MODS getMods() {
@@ -62,7 +59,7 @@ public class AnnouncesExport extends AbstractCardExport {
 			a.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
 			var sb = new StringBuilder("//MAIN<br/>");
 
-			deck.getMain().entrySet().forEach(e->{
+			deck.getMain().entrySet().forEach(e -> {
 				var p = MTGControler.getInstance().getDefaultStock();
 				p.setProduct(e.getKey());
 				a.getItems().add(p);
@@ -70,10 +67,11 @@ public class AnnouncesExport extends AbstractCardExport {
 			});
 
 			sb.append("//SIDEBOARD<br/>");
-			deck.getSideBoard().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
+			deck.getSideBoard().entrySet()
+					.forEach(e -> sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
 			a.setDescription(sb.toString());
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
-			
+
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -82,8 +80,7 @@ public class AnnouncesExport extends AbstractCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		for(var mcs : stock)
-		{
+		for (var mcs : stock) {
 			try {
 				var a = new MTGAnnounce();
 				a.setCategorie(mcs.getProduct().getTypeProduct());
@@ -104,11 +101,12 @@ public class AnnouncesExport extends AbstractCardExport {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
-			m.put("MODE", new MTGProperty("SELL", "Choose announce mode. to Buy or to Sell",Arrays.stream(EnumTransactionDirection.values()).map(Enum::name).toList().toArray(new String[0])));
-		
-			return m;
+		m.put("MODE", new MTGProperty("SELL", "Choose announce mode. to Buy or to Sell",
+				Arrays.stream(EnumTransactionDirection.values()).map(Enum::name).toList().toArray(new String[0])));
+
+		return m;
 	}
 
 	@Override

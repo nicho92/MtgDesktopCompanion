@@ -5,14 +5,12 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.gui.components.tech.CriteriaComponent;
@@ -22,20 +20,18 @@ import org.magic.services.tools.UITools;
 
 public class AdvancedSearchQueryDialog extends JDialog {
 
-
 	private GridLayout layout;
 	private JPanel pContent;
 	private transient List<MTGCrit> crits;
 	private JComboBox<MTGCollection> cboCollection;
 	private JCheckBox chkSearchInCollection;
 
-
 	public AdvancedSearchQueryDialog() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		crits = new ArrayList<>();
 
-		layout = new GridLayout(1,1);
+		layout = new GridLayout(1, 1);
 
 		var btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		var btnSearch = new JButton(MTGConstants.ICON_SEARCH);
@@ -44,7 +40,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 		var bottom = new JPanel();
 
-		bottom .add(btnNewButton);
+		bottom.add(btnNewButton);
 		bottom.add(btnSearch);
 
 		getContentPane().add(bottom, BorderLayout.SOUTH);
@@ -56,43 +52,37 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-
 		cboCollection.setEnabled(false);
 
 		panel.add(chkSearchInCollection);
 		panel.add(cboCollection);
 
-		chkSearchInCollection.addItemListener(_->cboCollection.setEnabled(chkSearchInCollection.isSelected()));
+		chkSearchInCollection.addItemListener(_ -> cboCollection.setEnabled(chkSearchInCollection.isSelected()));
 
-		btnNewButton.addActionListener(_->
-			SwingUtilities.invokeLater(()->{
+		btnNewButton.addActionListener(_ -> SwingUtilities.invokeLater(() -> {
 
-				var cc = new CriteriaComponent();
+			var cc = new CriteriaComponent();
 
-				var delete = new JButton(MTGConstants.ICON_DELETE);
-				delete.addActionListener(_->{
-					pContent.remove(cc);
-					pContent.revalidate();
-					pContent.repaint();
-
-				});
-
-				cc.addButton(delete,false);
-				pContent.add(cc);
-				layout.setRows(layout.getRows()+1);
+			var delete = new JButton(MTGConstants.ICON_DELETE);
+			delete.addActionListener(_ -> {
+				pContent.remove(cc);
 				pContent.revalidate();
 				pContent.repaint();
-			})
-		);
 
+			});
 
-		btnSearch.addActionListener(_->{
+			cc.addButton(delete, false);
+			pContent.add(cc);
+			layout.setRows(layout.getRows() + 1);
+			pContent.revalidate();
+			pContent.repaint();
+		}));
+
+		btnSearch.addActionListener(_ -> {
 
 			crits.clear();
-			for(var i = 0 ; i<pContent.getComponentCount();i++)
-			{
-				if(pContent.getComponent(i) instanceof CriteriaComponent comp)
-				{
+			for (var i = 0; i < pContent.getComponentCount(); i++) {
+				if (pContent.getComponent(i) instanceof CriteriaComponent comp) {
 					crits.add(comp.getMTGCriteria());
 				}
 			}
@@ -114,14 +104,11 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 	public MTGCollection getCollection() {
 
-		if(!chkSearchInCollection.isSelected())
+		if (!chkSearchInCollection.isSelected())
 			return null;
 
-		return (MTGCollection)cboCollection.getSelectedItem();
+		return (MTGCollection) cboCollection.getSelectedItem();
 	}
-
-
-
 
 	private static final long serialVersionUID = 1L;
 

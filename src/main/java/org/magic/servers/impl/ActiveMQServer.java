@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.Message;
 import org.apache.activemq.artemis.api.core.RoutingType;
@@ -47,96 +46,90 @@ public class ActiveMQServer extends AbstractMTGServer {
 	public static final String DEFAULT_TOPIC = "welcome";
 	private ActiveMQServerImpl server;
 	private MTGActiveMQServerPlugin plug;
-	
+
 	public ActiveMQServer() {
 		server = new ActiveMQServerImpl(new ConfigurationImpl());
 	}
-	
+
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String,MTGProperty>();
-			 m.put("ENABLE_JMX_MNG", MTGProperty.newBooleanProperty("true","enable the jmx console management"));
-			 m.put(LISTENERS_TCP, new MTGProperty("tcp://"+URLTools.getInternalIP()+":61616","listening endoints.Separated by comma"));
-			 m.put("SECURITY_ENABLED", MTGProperty.newBooleanProperty("false","Sets whether security is enabled for this server."));
-			 m.put(LOG_DIR, MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR,"activemq")));
-			 m.put("ADRESSES", new MTGProperty(DEFAULT_TOPIC,"defaults adresses of messaging"));
-			 m.put("RETENTION_DAYS", MTGProperty.newIntegerProperty("7","retention days for the log",1,-1));
-			 m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
-			 return m;
+		var m = new HashMap<String, MTGProperty>();
+		m.put("ENABLE_JMX_MNG", MTGProperty.newBooleanProperty("true", "enable the jmx console management"));
+		m.put(LISTENERS_TCP, new MTGProperty("tcp://" + URLTools.getInternalIP() + ":61616",
+				"listening endoints.Separated by comma"));
+		m.put("SECURITY_ENABLED",
+				MTGProperty.newBooleanProperty("false", "Sets whether security is enabled for this server."));
+		m.put(LOG_DIR, MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR, "activemq")));
+		m.put("ADRESSES", new MTGProperty(DEFAULT_TOPIC, "defaults adresses of messaging"));
+		m.put("RETENTION_DAYS", MTGProperty.newIntegerProperty("7", "retention days for the log", 1, -1));
+		m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
+		return m;
 	}
-	
-	
-	private void init() throws IOException 
-	{
-			try {
-				
-				for(int i=0;i<getArray(LISTENERS_TCP).length;i++)
-					server.getConfiguration().addAcceptorConfiguration("tcp-"+i, getArray(LISTENERS_TCP)[i]);
-				
-				
-				server.getConfiguration().setSecurityEnabled(getBoolean("SECURITY_ENABLED"));
-				server.getConfiguration().setJMXManagementEnabled(getBoolean("ENABLE_JMX_MNG"));
-				server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
-				server.getConfiguration().setJournalDirectory(getString(LOG_DIR));
-				server.getConfiguration().setPagingDirectory(getString(LOG_DIR));
-				server.getConfiguration().setNodeManagerLockDirectory(getString(LOG_DIR));
-				server.getConfiguration().setLargeMessagesDirectory(getString(LOG_DIR));
-				server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
-				
-				
-				for(String add : ArrayUtils.add(getArray("ADRESSES"),DEFAULT_TOPIC))
-				{
-					var addr = new CoreAddressConfiguration();
-					addr.setName(add);
-					addr.addRoutingType(RoutingType.MULTICAST);
-					server.getConfiguration().addAddressConfiguration(addr);
+
+	private void init() throws IOException {
+		try {
+
+			for (int i = 0; i < getArray(LISTENERS_TCP).length; i++)
+				server.getConfiguration().addAcceptorConfiguration("tcp-" + i, getArray(LISTENERS_TCP)[i]);
+
+			server.getConfiguration().setSecurityEnabled(getBoolean("SECURITY_ENABLED"));
+			server.getConfiguration().setJMXManagementEnabled(getBoolean("ENABLE_JMX_MNG"));
+			server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
+			server.getConfiguration().setJournalDirectory(getString(LOG_DIR));
+			server.getConfiguration().setPagingDirectory(getString(LOG_DIR));
+			server.getConfiguration().setNodeManagerLockDirectory(getString(LOG_DIR));
+			server.getConfiguration().setLargeMessagesDirectory(getString(LOG_DIR));
+			server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
+
+			for (String add : ArrayUtils.add(getArray("ADRESSES"), DEFAULT_TOPIC)) {
+				var addr = new CoreAddressConfiguration();
+				addr.setName(add);
+				addr.addRoutingType(RoutingType.MULTICAST);
+				server.getConfiguration().addAddressConfiguration(addr);
+			}
+
+			server.setSecurityManager(new ActiveMQSecurityManager() {
+				@Override
+				public boolean validateUserAndRole(String user, String password, Set<Role> roles, CheckType checkType) {
+					logger.debug("validating {} with password {}, roles = {}, checkType = {}", user, password, roles,
+							checkType);
+					return true;
 				}
-				
-				server.setSecurityManager(new ActiveMQSecurityManager() {
-					@Override
-					public boolean validateUserAndRole(String user, String password, Set<Role> roles, CheckType checkType) {
-						logger.debug("validating {} with password {}, roles = {}, checkType = {}",user,password,roles,checkType);
-						return true;
-					}
-					@Override
-					public boolean validateUser(String user, String password) {
-						return true;
-					}
-				});
-				
-				plug = new MTGActiveMQServerPlugin();
-				server.registerBrokerPlugin(plug);
-			} catch (Exception e) {
-				throw new IOException(e);
+				@Override
+				public boolean validateUser(String user, String password) {
+					return true;
 				}
+			});
+
+			plug = new MTGActiveMQServerPlugin();
+			server.registerBrokerPlugin(plug);
+		} catch (Exception e) {
+			throw new IOException(e);
+		}
 	}
-	
-	
+
 	public MTGActiveMQServerPlugin getPlug() {
 		return plug;
 	}
-	
-	
+
 	@Override
 	public void start() throws IOException {
 		try {
 			init();
 			server.start();
 			logger.info("{} is started", getName());
-			} catch (Exception e) {
-				throw new IOException(e);
-			}
-			
-		try {
-			plug.getClient().join(new Player("ActiveBot",true), getArray(LISTENERS_TCP)[0], DEFAULT_TOPIC);
-			plug.getClient().disableConsummer();
-			
-		}catch(Exception e)
-		{
-			logger.error("error starting agent",e);
+		} catch (Exception e) {
+			throw new IOException(e);
 		}
-			
-		
+
+		try {
+			plug.getClient().join(new Player("ActiveBot", true), getArray(LISTENERS_TCP)[0], DEFAULT_TOPIC);
+			plug.getClient().disableConsummer();
+
+		} catch (Exception e) {
+			logger.error("error starting agent", e);
+		}
+
 	}
 
 	@Override
@@ -168,98 +161,99 @@ public class ActiveMQServer extends AbstractMTGServer {
 	public String getVersion() {
 		return server.getVersion().getFullVersion();
 	}
-	
+
 	@Override
 	public String getName() {
 		return "ActiveMQ";
 	}
 
+	public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin {
+		private JsonExport serializer = new JsonExport();
+		private Map<String, Player> onlines = new LinkedHashMap<>();
+		private Logger logger = MTGLogger.getLogger(this.getClass());
+		private MTGNetworkClient client;
 
-public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
-	private JsonExport serializer = new JsonExport(); 
-	private Map<String,Player> onlines = new LinkedHashMap<>();
-	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private MTGNetworkClient client;
-	
-	public MTGActiveMQServerPlugin() {
-		client = new ActiveMQNetworkClient();
-	}
-	
-	
-	public MTGNetworkClient getClient() {
-		return client;
-	}
-	
-	public Map<String,Player> getOnlines() {
-		return onlines;
-	}
-	
-	public List<Player> getOnlinesPlayers(){
-		return getOnlines().values().stream().filter(p->!p.isAdmin()).toList();
-	}
-	
-	
-	@Override
-	public void afterCreateSession(ServerSession session) throws ActiveMQException {
-		logger.info("new connection from user={},  IP={}", session.getUsername(), session.getRemotingConnection().getRemoteAddress());
-		var jmsg = new TalkMessage("New connection from "+ session.getUsername());
-			 jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
-		var p = new Player(session.getUsername());
-			 p.setId(Long.parseLong(session.getRemotingConnection().getClientID()));
-		jmsg.setAuthor(p);
-		jmsg.setEnd(Instant.now());
+		public MTGActiveMQServerPlugin() {
+			client = new ActiveMQNetworkClient();
+		}
 
-		updateOnlines(p);
-		
-		AbstractTechnicalServiceManager.inst().store(jmsg);
-	}
-	
-	private void updateOnlines(Player author) {
-		
-		if(!author.isAdmin())
-			onlines.put(String.valueOf(author.getId()), author);
-		
-		if(author.getState()==EnumPlayerStatus.DISCONNECTED)
-			onlines.remove(String.valueOf(author.getId()));
-	}
+		public MTGNetworkClient getClient() {
+			return client;
+		}
 
+		public Map<String, Player> getOnlines() {
+			return onlines;
+		}
 
-	@Override
-	public void afterCloseSession(ServerSession session, boolean failed) throws ActiveMQException {
-		logger.info("disconnection from user : {}", session.getUsername());
-		onlines.remove(session.getRemotingConnection().getClientID());
+		public List<Player> getOnlinesPlayers() {
+			return getOnlines().values().stream().filter(p -> !p.isAdmin()).toList();
+		}
+
+		@Override
+		public void afterCreateSession(ServerSession session) throws ActiveMQException {
+			logger.info("new connection from user={},  IP={}", session.getUsername(),
+					session.getRemotingConnection().getRemoteAddress());
+			var jmsg = new TalkMessage("New connection from " + session.getUsername());
+			jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0,
+					session.getRemotingConnection().getRemoteAddress().indexOf(":")));
+			var p = new Player(session.getUsername());
+			p.setId(Long.parseLong(session.getRemotingConnection().getClientID()));
+			jmsg.setAuthor(p);
+			jmsg.setEnd(Instant.now());
+
+			updateOnlines(p);
+
+			AbstractTechnicalServiceManager.inst().store(jmsg);
+		}
+
+		private void updateOnlines(Player author) {
+
+			if (!author.isAdmin())
+				onlines.put(String.valueOf(author.getId()), author);
+
+			if (author.getState() == EnumPlayerStatus.DISCONNECTED)
+				onlines.remove(String.valueOf(author.getId()));
+		}
+
+		@Override
+		public void afterCloseSession(ServerSession session, boolean failed) throws ActiveMQException {
+			logger.info("disconnection from user : {}", session.getUsername());
+			onlines.remove(session.getRemotingConnection().getClientID());
 			try {
 				var msg = new TechnicalMessage();
 				msg.setPlayers(getOnlinesPlayers());
-				msg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
+				msg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0,
+						session.getRemotingConnection().getRemoteAddress().indexOf(":")));
 				client.sendMessage(msg);
 			} catch (IOException _) {
-				//	do nothing
+				// do nothing
 			}
+		}
+
+		@Override
+		public void afterSend(ServerSession session, Transaction tx, Message message, boolean direct,
+				boolean noAutoCreateQueue, RoutingStatus result) throws ActiveMQException {
+			var jmsg = serializer.fromJson(((CoreMessage) message).getBodyBuffer().readString(), TalkMessage.class);
+			jmsg.setEnd(Instant.now());
+			jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0,
+					session.getRemotingConnection().getRemoteAddress().indexOf(":")));
+
+			updateOnlines(jmsg.getAuthor());
+
+			AbstractTechnicalServiceManager.inst().store(jmsg);
+
+			if (!jmsg.getAuthor().isAdmin())
+				try {
+					logger.info("{} : {}", session.getUsername(), jmsg.getMessage());
+
+					var onlineMsgs = new TechnicalMessage();
+					onlineMsgs.setPlayers(getOnlinesPlayers());
+					onlineMsgs.setChannels(List.of(getArray("ADRESSES")));
+					client.sendMessage(onlineMsgs);
+				} catch (IOException e) {
+					logger.error("Error sending online users", e);
+				}
+		}
 	}
-	
-	@Override
-	public void afterSend(ServerSession session, Transaction tx, Message message, boolean direct,boolean noAutoCreateQueue, RoutingStatus result) throws ActiveMQException {
-		var jmsg = serializer.fromJson(((CoreMessage)message).getBodyBuffer().readString(), TalkMessage.class);
-			 jmsg.setEnd(Instant.now());
-			 jmsg.setIp(session.getRemotingConnection().getRemoteAddress().substring(0, session.getRemotingConnection().getRemoteAddress().indexOf(":")));
-			 
-		updateOnlines(jmsg.getAuthor());
-		
-		AbstractTechnicalServiceManager.inst().store(jmsg);
-		
-		if(!jmsg.getAuthor().isAdmin())
-			try {
-				logger.info("{} : {}", session.getUsername(),jmsg.getMessage());
-				
-				var onlineMsgs = new TechnicalMessage();
-					 onlineMsgs.setPlayers(getOnlinesPlayers());
-					 onlineMsgs.setChannels(List.of(getArray("ADRESSES")));
-				client.sendMessage(onlineMsgs);
-			} catch (IOException e) {
-				logger.error("Error sending online users",e);
-			}
-	}
-}
 
 }

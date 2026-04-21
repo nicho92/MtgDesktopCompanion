@@ -2,7 +2,6 @@ package org.magic.api.interfaces;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGNewsContent;
 

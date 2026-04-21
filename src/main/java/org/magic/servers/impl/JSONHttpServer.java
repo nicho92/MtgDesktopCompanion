@@ -17,6 +17,9 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.put;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,10 +39,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
+import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 import org.apache.commons.lang3.ArrayUtils;
@@ -111,12 +113,6 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
 import org.magic.services.tools.UITools;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
-import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import spark.Request;
 import spark.Response;
 import spark.ResponseTransformer;
@@ -253,7 +249,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setQuery(request.queryParams().stream().collect(Collectors.toMap(q -> q, request::queryParams)));
 			info.setSessionId(request.session().id());
 			info.setPath(request.servletPath());
-			info.setAttributs(request.attributes().stream().collect(Collectors.toMap(a -> a, a -> request.attribute(a).toString())));
+			info.setAttributs(request.attributes().stream()
+					.collect(Collectors.toMap(a -> a, a -> request.attribute(a).toString())));
 			info.setHeaders(request.headers().stream().collect(Collectors.toMap(s -> s, request::headers)));
 			info.setStatus(response.status());
 			info.setUserAgent(ua.parse(request.userAgent()));
@@ -271,7 +268,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		Spark.
 
-		threadPool(getInt("THREADS"));
+				threadPool(getInt("THREADS"));
 
 		port(getInt(SERVER_PORT));
 

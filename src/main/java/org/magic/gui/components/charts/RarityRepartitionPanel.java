@@ -1,9 +1,7 @@
 package org.magic.gui.components.charts;
 
 import java.util.Map.Entry;
-
 import javax.swing.ImageIcon;
-
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.jfree.chart3d.plot.StandardColorSource;
@@ -12,7 +10,7 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.MTGConstants;
 
-public class RarityRepartitionPanel extends Abstract3DPieChart<MTGCard,String> {
+public class RarityRepartitionPanel extends Abstract3DPieChart<MTGCard, String> {
 
 	public RarityRepartitionPanel(boolean displayPanel) {
 		super(displayPanel);
@@ -25,13 +23,12 @@ public class RarityRepartitionPanel extends Abstract3DPieChart<MTGCard,String> {
 		return "Rarity";
 	}
 
-
 	@Override
 	protected void initPlot() {
 		var source = new StandardColorSource<String>();
 
-		for(EnumRarity r : EnumRarity.values())
-			source.setColor(r.toPrettyString(),r.getColor());
+		for (EnumRarity r : EnumRarity.values())
+			source.setColor(r.toPrettyString(), r.getColor());
 
 		plot.setSectionColorSource(source);
 
@@ -46,7 +43,7 @@ public class RarityRepartitionPanel extends Abstract3DPieChart<MTGCard,String> {
 		}
 		return dataset;
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_RARITY;

@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.magic.api.beans.MTGCard;
 
 public class Zone implements Serializable {
@@ -17,12 +16,12 @@ public class Zone implements Serializable {
 
 	public Zone(ZoneEnum zone) {
 		cards = new ArrayList<>();
-		this.location=zone;
+		this.location = zone;
 	}
 
-	public Zone(List<MTGCard> asList,ZoneEnum zone) {
+	public Zone(List<MTGCard> asList, ZoneEnum zone) {
 		this.cards = asList;
-		this.location=zone;
+		this.location = zone;
 	}
 
 	public List<MTGCard> getCards() {
@@ -70,7 +69,6 @@ public class Zone implements Serializable {
 	public List<MTGCard> subList(int i, int number) {
 		return cards.subList(i, number);
 	}
-
 
 	public void add(int i, MTGCard mc) {
 		cards.add(i, mc);

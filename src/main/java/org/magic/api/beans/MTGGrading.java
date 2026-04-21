@@ -2,30 +2,29 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import org.magic.api.beans.enums.EnumCondition;
 
-public class MTGGrading   implements Serializable{
+public class MTGGrading implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String graderName;
 	private String numberID;
-	private Double gradeNote=0.0;
+	private Double gradeNote = 0.0;
 	private EnumCondition grade;
 	private EnumCondition subGrade;
-	private Double weight=0.0;
-	private Double thickness=0.0;
-	private Double centering=0.0;
-	private Double corners=0.0;
-	private Double edges=0.0;
-	private Double surface=0.0;
-	private boolean certified=false;
+	private Double weight = 0.0;
+	private Double thickness = 0.0;
+	private Double centering = 0.0;
+	private Double corners = 0.0;
+	private Double edges = 0.0;
+	private Double surface = 0.0;
+	private boolean certified = false;
 	private Date gradeDate;
 	private String urlInfo;
 
 	@Override
 	public String toString() {
-		return getGraderName() +" " + getGradeNote();
+		return getGraderName() + " " + getGradeNote();
 	}
 
 	public void setCertified(boolean certified) {
@@ -105,9 +104,8 @@ public class MTGGrading   implements Serializable{
 		this.surface = surface;
 	}
 
-	public boolean isGradded()
-	{
-		return getGraderName()!=null;
+	public boolean isGradded() {
+		return getGraderName() != null;
 	}
 
 	public String getUrlInfo() {
@@ -125,6 +123,5 @@ public class MTGGrading   implements Serializable{
 	public void setGradeDate(Date gradeDate) {
 		this.gradeDate = gradeDate;
 	}
-
 
 }

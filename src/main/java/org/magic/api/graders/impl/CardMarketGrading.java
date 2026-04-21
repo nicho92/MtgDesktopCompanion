@@ -1,7 +1,6 @@
 package org.magic.api.graders.impl;
 
 import java.io.IOException;
-
 import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
@@ -10,45 +9,36 @@ import org.magic.services.tools.UITools;
 
 public class CardMarketGrading extends AbstractGradersProvider {
 
-	
-	private static final String BASE_SITE ="https://guardandgradingsolution.de/wizardsproject_get_grading.php";
-	
+	private static final String BASE_SITE = "https://guardandgradingsolution.de/wizardsproject_get_grading.php";
+
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 		var g = new MTGGrading();
-			 g.setNumberID(identifier);
-			 g.setGraderName(getName());
-		
-		var d = RequestBuilder.build()
-				.newClient()
-				.url(BASE_SITE)
-				.addContent("post_id","11150")
-				.addContent("form_id","f00dd21")
-				.addContent("queried_id", "11150")
-				.addContent("referer_title","Guard+and+Grading+Population+Report+Upload+-+Gutachten+von+Sammelkarten")
-				.addContent("grading_serial", identifier)
-				.get()
-				.toHtml()
-				.select("div.form-container").html().split("<br>");
-		
-		
-		for(var s : d)
-		{
-			if(s.contains("Surface:"))
+		g.setNumberID(identifier);
+		g.setGraderName(getName());
+
+		var d = RequestBuilder.build().newClient().url(BASE_SITE).addContent("post_id", "11150")
+				.addContent("form_id", "f00dd21").addContent("queried_id", "11150")
+				.addContent("referer_title", "Guard+and+Grading+Population+Report+Upload+-+Gutachten+von+Sammelkarten")
+				.addContent("grading_serial", identifier).get().toHtml().select("div.form-container").html()
+				.split("<br>");
+
+		for (var s : d) {
+			if (s.contains("Surface:"))
 				g.setSurface(UITools.parseDouble(s.substring(s.indexOf(" "))));
-			
-			if(s.contains("Centering:"))
+
+			if (s.contains("Centering:"))
 				g.setCentering(UITools.parseDouble(s.substring(s.indexOf(" "))));
-			
-			if(s.contains("Edges:"))
+
+			if (s.contains("Edges:"))
 				g.setEdges(UITools.parseDouble(s.substring(s.indexOf(" "))));
-			
-			if(s.contains("Corners:"))
+
+			if (s.contains("Corners:"))
 				g.setCorners(UITools.parseDouble(s.substring(s.indexOf(" "))));
-			
-			if(s.contains("Total Grade:"))
-				g.setGradeNote(UITools.parseDouble(s.substring(s.lastIndexOf("</b>")+4)));
-			
+
+			if (s.contains("Total Grade:"))
+				g.setGradeNote(UITools.parseDouble(s.substring(s.lastIndexOf("</b>") + 4)));
+
 		}
 		return g;
 	}

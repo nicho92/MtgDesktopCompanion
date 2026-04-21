@@ -4,9 +4,8 @@ import org.magic.api.interfaces.extra.MTGSerializable;
 
 public class Contact implements MTGSerializable {
 
-
 	private static final long serialVersionUID = 1L;
-	private int id=-1;
+	private int id = -1;
 	private String name;
 	private String lastName;
 	private String email;
@@ -16,21 +15,18 @@ public class Contact implements MTGSerializable {
 	private String zipCode;
 	private String city;
 	private String website;
-	private boolean emailAccept=true;
-	private transient String pass="changeit";
-	private boolean active=false;
+	private boolean emailAccept = true;
+	private transient String pass = "changeit";
+	private boolean active = false;
 	private String temporaryToken;
-
 
 	@Override
 	public boolean equals(Object obj) {
-	    if(obj instanceof Contact c)
-	    	return c.getId()==getId();
-	    
-	    return false;
+		if (obj instanceof Contact c)
+			return c.getId() == getId();
+
+		return false;
 	}
-
-
 
 	public String getTemporaryToken() {
 		return temporaryToken;
@@ -97,17 +93,14 @@ public class Contact implements MTGSerializable {
 		this.emailAccept = emailAccept;
 	}
 
-
 	public void setWebsite(String website) {
 		this.website = website;
 	}
 
-
 	@Override
 	public String toString() {
-		return ""+getId();
+		return "" + getId();
 	}
-
 
 	public String getName() {
 		return name;
@@ -146,13 +139,9 @@ public class Contact implements MTGSerializable {
 		this.address = address;
 	}
 
-
-
 	@Override
 	public String getStoreId() {
 		return String.valueOf(getId());
 	}
-
-
 
 }

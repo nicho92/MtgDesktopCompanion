@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.gui.abstracts.GenericTableModel;
@@ -35,16 +33,15 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 		} catch (Exception e) {
 			logger.error("error calculate", e);
 		}
-		
-	}
 
+	}
 
 	public void calculate() {
 		var collection = new MTGCollection(MTGControler.getInstance().get("default-library"));
 		try {
 			mapCount = CollectionEvaluator.analyse(collection);
 		} catch (IOException e) {
-			logger.error("can't evaluate for {} : {}",collection,e.getMessage());
+			logger.error("can't evaluate for {} : {}", collection, e.getMessage());
 		}
 	}
 
@@ -52,46 +49,37 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 		return mapCount;
 	}
 
-
-	public Integer  getCountTotal() {
+	public Integer getCountTotal() {
 		return items.stream().mapToInt(MTGEdition::getCardCount).sum();
 	}
-
 
 	public int getCountDefaultLibrary() {
 		return mapCount.values().stream().mapToInt(Integer::intValue).sum();
 	}
-	
-
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		switch(columnIndex)
-		{
-			case 0 : return ImageIcon.class;
-			case 1 : return MTGEdition.class;
-			case 2 : return Integer.class;
-			case 3 : return Integer.class;
-			case 4 : return Double.class;
-			case 8 | 9 : return Boolean.class;
-			default : return super.getColumnClass(columnIndex);
+		switch (columnIndex) {
+			case 0 :
+				return ImageIcon.class;
+			case 1 :
+				return MTGEdition.class;
+			case 2 :
+				return Integer.class;
+			case 3 :
+				return Integer.class;
+			case 4 :
+				return Double.class;
+			case 8 | 9 :
+				return Boolean.class;
+			default :
+				return super.getColumnClass(columnIndex);
 		}
 	}
 
-
-	private void initColumns()
-	{
-		setColumns( 
-				"EDITION_CODE",
-				"EDITION",
-				"QTY",
-				"EDITION_SIZE",
-				"PC_COMPLETE",
-				"DATE_RELEASE",
-				"EDITION_TYPE",
-				"EDITION_BLOCK",
-				"EDITION_ONLINE",
-				"PREVIEW");
+	private void initColumns() {
+		setColumns("EDITION_CODE", "EDITION", "QTY", "EDITION_SIZE", "PC_COMPLETE", "DATE_RELEASE", "EDITION_TYPE",
+				"EDITION_BLOCK", "EDITION_ONLINE", "PREVIEW");
 
 	}
 
@@ -103,16 +91,16 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 		if (column == 1)
 			return e;
-		
+
 		if (column == 2)
-			return mapCount.get(e)==null?0:mapCount.get(e);
+			return mapCount.get(e) == null ? 0 : mapCount.get(e);
 
 		if (column == 3)
 			return e.getCardCountPhysical();
 
 		if (column == 4) {
 
-			if(mapCount.get(e)==null)
+			if (mapCount.get(e) == null)
 				return 0.0;
 
 			if (e.getCardCountPhysical() > 0)
@@ -120,11 +108,10 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 			else
 				return (double) mapCount.get(e) / 1;
 		}
-		
+
 		if (column == 5)
 			return e.getReleaseDate();
 
-			
 		if (column == 6)
 			return e.getType();
 
@@ -140,6 +127,5 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 		return "";
 
 	}
-
 
 }

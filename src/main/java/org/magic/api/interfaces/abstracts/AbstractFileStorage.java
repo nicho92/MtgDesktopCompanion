@@ -8,7 +8,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
-
 import org.apache.commons.lang3.SerializationUtils;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
@@ -18,7 +17,6 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 
 	protected FileSystem fs;
 
-
 	public abstract void initFileSystem() throws IOException;
 
 	@Override
@@ -26,35 +24,30 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 
 		var ret = new ArrayList<GedEntry<T>>();
 
-		try(var stream = Files.walk(getRoot()).filter(Files::isRegularFile))
-		{
-			stream.forEach(p->{
+		try (var stream = Files.walk(getRoot()).filter(Files::isRegularFile)) {
+			stream.forEach(p -> {
 				try {
 					ret.add(read(p));
 				} catch (IOException e) {
 					logger.error(e);
 				}
 			});
-		return ret;
+			return ret;
 		}
 	}
 
-
 	@Override
 	public Path getRoot() throws IOException {
-		if(fs==null)
+		if (fs == null)
 			initFileSystem();
-
 
 		return fs.getPath("/");
 	}
 
-
-
 	@Override
 	public FileSystem getFilesSystem() throws IOException {
 
-		if(fs==null)
+		if (fs == null)
 			initFileSystem();
 
 		return fs;
@@ -65,28 +58,25 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 		return PLUGINS.GED;
 	}
 
-
 	@Override
-	public <T extends MTGSerializable> GedEntry<T>  read(Path p) throws IOException
-	{
+	public <T extends MTGSerializable> GedEntry<T> read(Path p) throws IOException {
 		GedEntry<T> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
-		logger.debug("reading {} : {} {}",p,ged.getClasse(),ged.getName());
+		logger.debug("reading {} : {} {}", p, ged.getClasse(), ged.getName());
 
 		notify(ged);
 		return ged;
 	}
 
 	@Override
-	public <T extends MTGSerializable> void store(GedEntry<T> entry) throws IOException
-	{
+	public <T extends MTGSerializable> void store(GedEntry<T> entry) throws IOException {
 
 		var p = getPath(entry);
-		logger.info("store : {} ",p.toAbsolutePath());
+		logger.info("store : {} ", p.toAbsolutePath());
 
-		if(p.getParent()!=null && !Files.exists(p.getParent()))
+		if (p.getParent() != null && !Files.exists(p.getParent()))
 			Files.createDirectories(p.getParent());
 
-		Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
+		Files.write(p, SerializationUtils.serialize(entry), StandardOpenOption.CREATE);
 
 	}
 
@@ -95,19 +85,18 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 		return Files.list(p);
 	}
 
-	private <T extends MTGSerializable> Path getPath(GedEntry<T> entry) throws IOException
-	{
-		if(entry.getClasse()==null)
+	private <T extends MTGSerializable> Path getPath(GedEntry<T> entry) throws IOException {
+		if (entry.getClasse() == null)
 			return getFilesSystem().getPath(entry.getName());
-		else if(entry.getId()!=null)
-			return getFilesSystem().getPath(entry.getClasse().getSimpleName(),entry.getId(),entry.getName());
+		else if (entry.getId() != null)
+			return getFilesSystem().getPath(entry.getClasse().getSimpleName(), entry.getId(), entry.getName());
 		else
-			return getFilesSystem().getPath(entry.getClasse().getSimpleName(),entry.getName());
+			return getFilesSystem().getPath(entry.getClasse().getSimpleName(), entry.getName());
 	}
 
 	@Override
-	public <T extends MTGSerializable>  boolean delete(GedEntry<T> entry) {
-		logger.info("removing {}",entry);
+	public <T extends MTGSerializable> boolean delete(GedEntry<T> entry) {
+		logger.info("removing {}", entry);
 
 		try {
 			Files.delete(getPath(entry));
@@ -121,16 +110,13 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	@Override
 	public <T extends MTGSerializable> Path getPath(Class<T> classe, T instance) throws IOException {
 
-
-		if(classe==null)
+		if (classe == null)
 			return getRoot();
 
-		if(instance==null)
+		if (instance == null)
 			return getFilesSystem().getPath(classe.getSimpleName());
 
-		return getFilesSystem().getPath(classe.getSimpleName(),instance.toString());
+		return getFilesSystem().getPath(classe.getSimpleName(), instance.toString());
 	}
-
-
 
 }

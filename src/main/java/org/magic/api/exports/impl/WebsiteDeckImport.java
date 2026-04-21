@@ -3,9 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import javax.swing.Icon;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -15,8 +13,6 @@ import org.magic.gui.components.deck.DeckSnifferDialog;
 import org.magic.services.MTGConstants;
 
 public class WebsiteDeckImport extends AbstractCardExport {
-
-
 
 	@Override
 	public MODS getMods() {
@@ -48,7 +44,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 		return true;
 	}
 
-	 @Override
+	@Override
 	public boolean needDialogForStock(MODS mod) {
 		return true;
 	}
@@ -66,7 +62,6 @@ public class WebsiteDeckImport extends AbstractCardExport {
 
 		return importFromDeck(d);
 	}
-
 
 	@Override
 	public MTGDeck importDeckFromFile(File f) throws IOException {

@@ -1,16 +1,13 @@
 package org.magic.gui.models;
 
 import java.util.List;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGEdition;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.models.DeckStockComparisonModel.Line;
 
-
 public class DeckStockComparisonModel extends GenericTableModel<Line> {
-
 
 	/**
 	 *
@@ -19,13 +16,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
 	public DeckStockComparisonModel() {
 
-		setColumns(
-				"CARD",
-				"SET",
-				"QTY",
-				"STOCK_MODULE",
-				"NEEDED_QTY"
-				);
+		setColumns("CARD", "SET", "QTY", "STOCK_MODULE", "NEEDED_QTY");
 
 	}
 
@@ -34,9 +25,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		return false;
 	}
 
-
-	public void addItem(MTGCard mc, Integer qty, List<MTGCardStock> stocks)
-	{
+	public void addItem(MTGCard mc, Integer qty, List<MTGCardStock> stocks) {
 		var l = new Line(mc, qty, stocks);
 		l.setResult(calculate(l));
 
@@ -46,58 +35,60 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex==0)
+		if (columnIndex == 0)
 			return MTGCard.class;
-		else if (columnIndex==1)
+		else if (columnIndex == 1)
 			return MTGEdition.class;
 
-		
 		return Integer.class;
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
 		switch (column) {
-		case 0:return items.get(row).getMc();
-		case 1:return items.get(row).getMc().getEdition();
-		case 2:return items.get(row).getNeeded();
-		case 3:return items.get(row).getStocks().stream().mapToInt(mcs->mcs.getQte()).sum();
-		case 4:return items.get(row).getResult();
+			case 0 :
+				return items.get(row).getMc();
+			case 1 :
+				return items.get(row).getMc().getEdition();
+			case 2 :
+				return items.get(row).getNeeded();
+			case 3 :
+				return items.get(row).getStocks().stream().mapToInt(mcs -> mcs.getQte()).sum();
+			case 4 :
+				return items.get(row).getResult();
 
-		default:return "";
+			default :
+				return "";
 		}
 	}
 
 	private Integer calculate(Line line) {
-		var count =0;
-		if (!line.getStocks().isEmpty())
-		{
-			
-			for(MTGCardStock st : line.getStocks())
-				count +=st.getQte();
-		}
-		
-		count =  line.getNeeded()-count;
+		var count = 0;
+		if (!line.getStocks().isEmpty()) {
 
-		if(count<0)
-			count=0;
-		
+			for (MTGCardStock st : line.getStocks())
+				count += st.getQte();
+		}
+
+		count = line.getNeeded() - count;
+
+		if (count < 0)
+			count = 0;
+
 		return count;
-		
-		
+
 	}
 
-	public class Line
-	{
+	public class Line {
 		private MTGCard mc;
 		private Integer needed;
 		private List<MTGCardStock> stocks;
 		private Integer result;
 
-		private Line(MTGCard mc,Integer needed,List<MTGCardStock> stocks) {
-			this.mc=mc;
-			this.needed=needed;
-			this.stocks=stocks;
+		private Line(MTGCard mc, Integer needed, List<MTGCardStock> stocks) {
+			this.mc = mc;
+			this.needed = needed;
+			this.stocks = stocks;
 		}
 
 		public void setResult(Integer result) {
@@ -112,7 +103,6 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 			return mc;
 		}
 
-
 		public Integer getNeeded() {
 			return needed;
 		}
@@ -122,8 +112,4 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		}
 	}
 
-
 }
-
-
-

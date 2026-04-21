@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -20,7 +19,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGKeyWord;
@@ -40,10 +38,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.tools.UITools;
 
-
-public class CriteriaComponent extends JComponent implements ActionListener{
-
-
+public class CriteriaComponent extends JComponent implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,54 +50,50 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 	private boolean showComparator;
 	private JButton button;
 
-
 	public CriteriaComponent() {
-		showComparator=true;
+		showComparator = true;
 		initGui();
 	}
 
 	public CriteriaComponent(boolean showComparator) {
-		this.showComparator=showComparator;
+		this.showComparator = showComparator;
 		initGui();
 	}
-
 
 	private void initGui() {
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		JComboBox<QueryAttribute> cboAttributes = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs());
-		
-		cboAttributes.setPreferredSize(new Dimension(200,25));
+		JComboBox<QueryAttribute> cboAttributes = UITools
+				.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs());
 
-		c=getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs()[0];
+		cboAttributes.setPreferredSize(new Dimension(200, 25));
+
+		c = getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs()[0];
 		selector = getComponentFor(c);
 
 		add(cboAttributes);
 
-		if(showComparator)
-		{
+		if (showComparator) {
 			cboOperator = UITools.createCombobox(MTGCrit.OPERATOR.values());
 			add(cboOperator);
 		}
 
 		add(selector);
 
-		cboAttributes.addItemListener(il->{
-			if(il.getStateChange() == ItemEvent.SELECTED)
-			{
+		cboAttributes.addItemListener(il -> {
+			if (il.getStateChange() == ItemEvent.SELECTED) {
 
 				int pos = UITools.getComponentIndex(selector);
 				remove(selector);
-				c = ((QueryAttribute)cboAttributes.getSelectedItem());
+				c = ((QueryAttribute) cboAttributes.getSelectedItem());
 
-				SwingUtilities.invokeLater(()->{
+				SwingUtilities.invokeLater(() -> {
 					selector = getComponentFor(c);
-					add(selector,pos);
+					add(selector, pos);
 					revalidate();
 					repaint();
 				});
-
 
 			}
 		});
@@ -110,166 +101,137 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 
 	private JComponent getComponentFor(QueryAttribute c) {
 
-		if(c.getType() == Integer.class || c.getType() == Float.class)
-		{
-			var s= new JSpinner(new SpinnerNumberModel(0,0,1000000,1));
+		if (c.getType() == Integer.class || c.getType() == Float.class) {
+			var s = new JSpinner(new SpinnerNumberModel(0, 0, 1000000, 1));
 			s.setValue(0);
-			s.addChangeListener(_->val = s.getValue());
-			val=0;
+			s.addChangeListener(_ -> val = s.getValue());
+			val = 0;
 			return s;
-		}
-		else
-		if(c.getType() == Boolean.class)
-		{
+		} else if (c.getType() == Boolean.class) {
 			var ch = new JCheckBox();
-			val=false;
+			val = false;
 			ch.setSelected(false);
-			ch.addItemListener(_->val=ch.isSelected());
+			ch.addItemListener(_ -> val = ch.isSelected());
 			return ch;
-		}
-		else
-		if(c.getType() == MTGEdition.class)
+		} else if (c.getType() == MTGEdition.class)
 			return init(UITools.createComboboxEditions());
-		else
-		if(c.getType() == MTGCollection.class)
+		else if (c.getType() == MTGCollection.class)
 			return init(UITools.createComboboxCollection());
-		else
-		if(c.getType() == EnumColors.class)
+		else if (c.getType() == EnumColors.class)
 			return init(UITools.createCombobox(EnumColors.values()));
-		else
-		if(c.getType() == EnumLayout.class)
+		else if (c.getType() == EnumLayout.class)
 			return init(UITools.createCombobox(EnumLayout.values()));
-		else
-		if(c.getType() == EnumBorders.class)
+		else if (c.getType() == EnumBorders.class)
 			return init(UITools.createCombobox(EnumBorders.values()));
-		else
-		if(c.getType() == EnumRarity.class)
+		else if (c.getType() == EnumRarity.class)
 			return init(UITools.createCombobox(EnumRarity.values()));
-		else
-		if(c.getType() == EnumFrameEffects.class)
+		else if (c.getType() == EnumFrameEffects.class)
 			return init(UITools.createCombobox(EnumFrameEffects.values()));
-		else
-		if(c.getType() == EnumFinishes.class)
+		else if (c.getType() == EnumFinishes.class)
 			return init(UITools.createCombobox(EnumFinishes.values()));
-		else
-		if(c.getType() == EnumPromoType.class)
+		else if (c.getType() == EnumPromoType.class)
 			return init(UITools.createCombobox(EnumPromoType.values()));
-		else
-		if(c.getType() == MTGKeyWord.class)
-				return init(UITools.createCombobox(AbstractKeyWordsManager.getInstance().getList().stream().sorted().toList()));
-		else
-		if(c.getType() == EnumSecurityStamp.class)
-				return init(UITools.createCombobox(EnumSecurityStamp.values()));
-		else
-		if(c.getName().equalsIgnoreCase("name")) {
-			JTextField f= UITools.createSearchField();
+		else if (c.getType() == MTGKeyWord.class)
+			return init(
+					UITools.createCombobox(AbstractKeyWordsManager.getInstance().getList().stream().sorted().toList()));
+		else if (c.getType() == EnumSecurityStamp.class)
+			return init(UITools.createCombobox(EnumSecurityStamp.values()));
+		else if (c.getName().equalsIgnoreCase("name")) {
+			JTextField f = UITools.createSearchField();
 			f.setColumns(50);
 
 			f.getDocument().addDocumentListener(new DocumentListener() {
 
 				@Override
 				public void removeUpdate(DocumentEvent e) {
-					val=f.getText().trim();
+					val = f.getText().trim();
 
 				}
 
 				@Override
 				public void insertUpdate(DocumentEvent e) {
-					val=f.getText().trim();
+					val = f.getText().trim();
 
 				}
 
 				@Override
 				public void changedUpdate(DocumentEvent e) {
-					val=f.getText().trim();
+					val = f.getText().trim();
 
 				}
 			});
-
 
 			f.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyReleased(KeyEvent e) {
 
-					val=f.getText().trim();
+					val = f.getText().trim();
 
-					if(e.getKeyCode()==KeyEvent.VK_ENTER && button!=null)
-					{
+					if (e.getKeyCode() == KeyEvent.VK_ENTER && button != null) {
 						button.doClick();
 					}
-
-
 
 				}
 			});
 			return f;
 		}
 
-		//else
+		// else
 
-		var f= new JTextField(50);
+		var f = new JTextField(50);
 		f.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				val=f.getText();
+				val = f.getText();
 			}
 		});
 		return f;
 	}
 
 	private JComponent init(JComboBox<?> createCombobox) {
-		createCombobox.addItemListener(il->{
-			if(il.getStateChange() == ItemEvent.SELECTED)
-				val=createCombobox.getSelectedItem();
+		createCombobox.addItemListener(il -> {
+			if (il.getStateChange() == ItemEvent.SELECTED)
+				val = createCombobox.getSelectedItem();
 		});
-		val=createCombobox.getSelectedItem();
+		val = createCombobox.getSelectedItem();
 		return createCombobox;
 	}
 
-	public MTGCrit<?> getMTGCriteria(){
-		if(!showComparator)
+	public MTGCrit<?> getMTGCriteria() {
+		if (!showComparator)
 			return new MTGCrit<>(c, OPERATOR.EQ, val);
-
 
 		return new MTGCrit<>(c, OPERATOR.valueOf(cboOperator.getSelectedItem().toString()), val);
 	}
 
-	public boolean isCollectionSearch()
-	{
+	public boolean isCollectionSearch() {
 		return c.getType() == MTGCollection.class;
 	}
 
-	public boolean isSetSearch()
-	{
+	public boolean isSetSearch() {
 		return c.getType() == MTGEdition.class;
 	}
 
-	public boolean isAllCardsSearch()
-	{
+	public boolean isAllCardsSearch() {
 		return c.getName().equals(AbstractCardsProvider.ALL);
 	}
 
+	public void addButton(JButton b, boolean right) {
 
+		button = b;
 
-	public void addButton(JButton b,boolean right) {
-
-		button=b;
-
-		if(right)
+		if (right)
 			add(button);
 		else
-			add(button,0);
+			add(button, 0);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(ActionListener al : listenerList.getListeners(ActionListener.class))
-		{
+		for (ActionListener al : listenerList.getListeners(ActionListener.class)) {
 			al.actionPerformed(e);
 		}
 
 	}
-
-
 
 }

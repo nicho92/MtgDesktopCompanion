@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.api.manapool.listener.URLCallInfo;
 import org.api.manapool.model.InventoryItem;
@@ -38,27 +37,26 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
-		
-		
+
 		return new ArrayList<>();
 	}
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
 		init();
-		
-		var type = (typeStock==EnumItems.CARD?EnumType.SINGLE:EnumType.SEALED);
+
+		var type = (typeStock == EnumItems.CARD ? EnumType.SINGLE : EnumType.SEALED);
 		var item = service.getSellerInventoryById(type, id);
-			
+
 		return convert(item);
 	}
 
 	@Override
 	public List<Category> listCategories() throws IOException {
-		return Stream.of(EnumType.values()).map(t->new Category(t==EnumType.SINGLE?1:2, t.name())).toList();
+		return Stream.of(EnumType.values()).map(t -> new Category(t == EnumType.SINGLE ? 1 : 2, t.name())).toList();
 	}
 
 	@Override
@@ -82,7 +80,7 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -100,19 +98,17 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
 		init();
-		
+
 	}
 
 	@Override
 	public Transaction getTransactionById(String id) throws IOException {
-		
-		init();
-		
-		return convert(service.getBoughtOrderById(id));
-		
-		
-	}
 
+		init();
+
+		return convert(service.getBoughtOrderById(id));
+
+	}
 
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
@@ -134,22 +130,22 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
 		init();
-	
+
 		return new ArrayList<>();
 	}
 
 	@Override
 	protected List<MTGStockItem> loadStock(String search) throws IOException {
 		init();
-		
+
 		var ret = new ArrayList<MTGStockItem>();
-		
-		service.getSellerInventory().forEach(item->{
+
+		service.getSellerInventory().forEach(item -> {
 			try {
-				
-				if(item.getProduct().getName().contains(search) || StringUtils.isEmpty(search))
+
+				if (item.getProduct().getName().contains(search) || StringUtils.isEmpty(search))
 					ret.add(convert(item));
-				
+
 			} catch (IOException e) {
 				logger.error(e);
 			}
@@ -158,102 +154,89 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	}
 
 	private void init() {
-		if(service==null)
+		if (service == null)
 			service = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
-		
-		service.getClient().setCallListener((URLCallInfo callInfo)->{
+
+		service.getClient().setCallListener((URLCallInfo callInfo) -> {
 			var netinfo = new NetworkInfo();
-				netinfo.setStart(callInfo.getStart());
-				netinfo.setEnd(callInfo.getEnd());
-				netinfo.setRequest(callInfo.getRequest());
-				netinfo.setReponse(callInfo.getResponse());
+			netinfo.setStart(callInfo.getStart());
+			netinfo.setEnd(callInfo.getEnd());
+			netinfo.setRequest(callInfo.getRequest());
+			netinfo.setReponse(callInfo.getResponse());
 
 			AbstractTechnicalServiceManager.inst().store(netinfo);
 
-	});
-		
-		
+		});
+
 	}
-	
 
 	private Transaction convert(Order o) {
-		var t  = new Transaction();
-		
+		var t = new Transaction();
+
 		t.setCurrency(Currency.getInstance("USD"));
 		t.setDateCreation(o.getCreatedAtDate());
 		t.setTransporter(o.getShippingMethod());
 		t.setTypeTransaction(EnumTransactionDirection.SELL);
-		
-		
-		o.getItems().forEach(item->{
-			
+
+		o.getItems().forEach(item -> {
+
 			try {
 				var it = convert(item);
 				t.getItems().add(it);
 			} catch (IOException e) {
 				logger.error(e);
 			}
-			
-		});
-		
-		
-		
-		return t;
-		
-		
-	}
-	
-	private MTGStockItem convert(ProductItem obj) throws IOException
-	{
 
-		if(obj.getType()==EnumType.SINGLE)
-		{
-		var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(obj.getSingle().getScryfallId());
-		var item = ProductFactory.generateStockItem(card);
-			 item.setFoil(obj.getSingle().getFinishId()==EnumFinish.FO);
-			 item.setEdition(card.getEdition());
-			 item.setEtched(obj.getSingle().getFinishId()==EnumFinish.EF);
-			 item.setLanguage(obj.getLanguage().getLabel());
-			 item.getTiersAppIds().put(getName(), obj.getId());
-			 
-			 return item;
-		}
-		else
-		{
+		});
+
+		return t;
+
+	}
+
+	private MTGStockItem convert(ProductItem obj) throws IOException {
+
+		if (obj.getType() == EnumType.SINGLE) {
+			var card = MTG.getEnabledPlugin(MTGCardsProvider.class)
+					.getCardByScryfallId(obj.getSingle().getScryfallId());
+			var item = ProductFactory.generateStockItem(card);
+			item.setFoil(obj.getSingle().getFinishId() == EnumFinish.FO);
+			item.setEdition(card.getEdition());
+			item.setEtched(obj.getSingle().getFinishId() == EnumFinish.EF);
+			item.setLanguage(obj.getLanguage().getLabel());
+			item.getTiersAppIds().put(getName(), obj.getId());
+
+			return item;
+		} else {
 			var sealed = new MTGSealedProduct();
 			sealed.setName(obj.getName());
 			sealed.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(obj.getSealed().getSet()));
-			
-			if(obj.getName().contains("Booster Box"))
-				sealed = MTG.getEnabledPlugin(MTGSealedProvider.class).get(sealed.getEdition(), EnumItems.BOX).get(0);
-			else if(obj.getName().contains("Booster Pack"))
-				sealed = MTG.getEnabledPlugin(MTGSealedProvider.class).get(sealed.getEdition(), EnumItems.BOOSTER).get(0);
 
-			
-			
-			
+			if (obj.getName().contains("Booster Box"))
+				sealed = MTG.getEnabledPlugin(MTGSealedProvider.class).get(sealed.getEdition(), EnumItems.BOX).get(0);
+			else if (obj.getName().contains("Booster Pack"))
+				sealed = MTG.getEnabledPlugin(MTGSealedProvider.class).get(sealed.getEdition(), EnumItems.BOOSTER)
+						.get(0);
+
 			var item = ProductFactory.generateStockItem(sealed);
-			 item.setLanguage(obj.getLanguage().getLabel());
-			 item.getTiersAppIds().put(getName(), obj.getId());
-			 item.setEdition(sealed.getEdition());
-			 return item;
+			item.setLanguage(obj.getLanguage().getLabel());
+			item.getTiersAppIds().put(getName(), obj.getId());
+			item.setEdition(sealed.getEdition());
+			return item;
 		}
 	}
-	
 
 	private MTGStockItem convert(InventoryItem obj) throws IOException {
-		
-					var item = convert(obj.getProduct());
-					item.setPrice(obj.getPriceValue());
-					return item;
+
+		var item = convert(obj.getProduct());
+		item.setPrice(obj.getPriceValue());
+		return item;
 	}
 
 	@Override
 	protected void saveOrUpdateStock(List<MTGStockItem> items) throws IOException {
-		
+
 		init();
-		
-		
+
 	}
 
 }

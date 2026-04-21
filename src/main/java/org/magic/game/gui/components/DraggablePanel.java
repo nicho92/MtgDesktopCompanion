@@ -4,17 +4,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JPopupMenu;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.game.Player;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGControler;
 
-public abstract class DraggablePanel extends MTGUIComponent implements Draggable
-{
+public abstract class DraggablePanel extends MTGUIComponent implements Draggable {
 
 	/**
 	 *
@@ -27,7 +24,6 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 
 	boolean dragging = true;
 	protected Player player;
-
 
 	public boolean isDragging() {
 		return dragging;
@@ -49,14 +45,12 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 		return (int) d.getHeight();
 	}
 
-	public Dimension getCardsDimension()
-	{
+	public Dimension getCardsDimension() {
 		if (d == null)
 			d = MTGControler.getInstance().getCardsGameDimension();
 
 		return d;
 	}
-
 
 	protected DraggablePanel() {
 		super();
@@ -96,7 +90,7 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 
 	@Override
 	public String getTitle() {
-		return "Draggable Panel : " + getOrigine() ;
+		return "Draggable Panel : " + getOrigine();
 	}
 
 }

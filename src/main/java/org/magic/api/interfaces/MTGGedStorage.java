@@ -5,11 +5,10 @@ import java.nio.file.FileSystem;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
-
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.extra.MTGSerializable;
 
-public interface MTGGedStorage extends MTGPlugin{
+public interface MTGGedStorage extends MTGPlugin {
 
 	public FileSystem getFilesSystem() throws IOException;
 	public Path getRoot() throws IOException;

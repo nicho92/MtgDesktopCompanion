@@ -2,13 +2,11 @@ package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -30,9 +28,9 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		textpane.setLineWrap(true);
 		textpane.setEditable(false);
 		textpane.setWrapStyleWord(true);
-	
-		add(new JScrollPane(textpane),BorderLayout.CENTER);
-		setPreferredSize(new Dimension(1,400));
+
+		add(new JScrollPane(textpane), BorderLayout.CENTER);
+		setPreferredSize(new Dimension(1, 400));
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
@@ -41,39 +39,34 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		rdoMemory = new JRadioButton("Memory");
 		rdoBeanUtils = new JRadioButton("Bean");
 		var group = new ButtonGroup();
-					group.add(rdoJson);
-					group.add(rdoMemory);
-					group.add(rdoBeanUtils);
+		group.add(rdoJson);
+		group.add(rdoMemory);
+		group.add(rdoBeanUtils);
 		panel.add(rdoJson);
 		panel.add(rdoMemory);
 		panel.add(rdoBeanUtils);
 
-		rdoJson.addItemListener(_->init(currentObject));
-		rdoMemory.addItemListener(_->init(currentObject));
-		rdoBeanUtils.addItemListener(_->init(currentObject));
+		rdoJson.addItemListener(_ -> init(currentObject));
+		rdoMemory.addItemListener(_ -> init(currentObject));
+		rdoBeanUtils.addItemListener(_ -> init(currentObject));
 	}
 
 	public void init(Object mc) {
 		currentObject = mc;
 
-		if(currentObject==null)
+		if (currentObject == null)
 			return;
 
-		if(rdoJson.isSelected())
-		{
+		if (rdoJson.isSelected()) {
 			textpane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON);
 			textpane.setText(BeanTools.toJson(currentObject));
 			textpane.setCaretPosition(0);
-		}
-		else if(rdoMemory.isSelected())
-		{
+		} else if (rdoMemory.isSelected()) {
 			textpane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_INI);
 			textpane.setText(BeanTools.toMemory(currentObject));
-		}
-		else
-		{
+		} else {
 			textpane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_INI);
-			textpane.setText(BeanTools.toString(currentObject,"\t"));
+			textpane.setText(BeanTools.toString(currentObject, "\t"));
 		}
 
 	}
@@ -87,6 +80,5 @@ public class ObjectViewerPanel extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_JSON;
 	}
-
 
 }

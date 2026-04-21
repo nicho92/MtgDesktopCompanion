@@ -19,11 +19,9 @@ public class Observable {
 		}
 	}
 
-	public List<Observer> listObservers()
-	{
+	public List<Observer> listObservers() {
 		return obs;
 	}
-
 
 	public void notifyObservers(Object arg) {
 		Object[] arrLocal;

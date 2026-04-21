@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -41,7 +40,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCollection;
@@ -119,11 +117,10 @@ public class CardSearchPanel extends MTGUIComponent {
 	private CardAbilitiesPanel abilitiesPanel;
 	private JButton defaultEnterButton;
 	private GedPanel<MTGCard> gedPanel;
-		
+
 	public AbstractBuzyIndicatorComponent getLblLoading() {
 		return lblLoading;
 	}
-	
 
 	@Override
 	public ImageIcon getIcon() {
@@ -136,7 +133,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	}
 
 	public List<MTGCard> getMultiSelection() {
-		return UITools.getTableSelections(tableCards,0);
+		return UITools.getTableSelections(tableCards, 0);
 	}
 
 	public MTGCard getSelected() {
@@ -159,7 +156,8 @@ public class CardSearchPanel extends MTGUIComponent {
 				for (var i = 0; i < tableCards.getSelectedRowCount(); i++) {
 					MTGCard mcCard = UITools.getTableSelection(tableCards, 0);
 					try {
-						CardsManagerService.saveCard(mcCard, getEnabledPlugin(MTGDao.class).getCollection(collec),null);
+						CardsManagerService.saveCard(mcCard, getEnabledPlugin(MTGDao.class).getCollection(collec),
+								null);
 					} catch (SQLException e1) {
 						logger.error(e1);
 						MTGControler.getInstance().notify(e1);
@@ -173,7 +171,6 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		popupMenu.add(menuItemAdd);
 	}
-
 
 	public void initGUI() {
 		cardsModeltable = new MagicCardTableModel();
@@ -191,7 +188,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		DefaultRowSorter<TableModel, Integer> sorterCards;
 		sorterCards = new TableRowSorter<>(cardsModeltable);
 		sorterCards.setComparator(6, new NumberSorter());
-
 
 		List<MTGEdition> li = new ArrayList<>();
 		try {
@@ -232,11 +228,12 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnFilter = UITools.createBindableJButton(null, MTGConstants.ICON_FILTER, KeyEvent.VK_F, "searchfilter");
 		btnClear = UITools.createBindableJButton(null, MTGConstants.ICON_CLEAR, KeyEvent.VK_C, "clear");
 		similarityPanel = new SimilarityCardPanel();
-		tableCards = UITools.createNewTable(cardsModeltable,true);
+		tableCards = UITools.createNewTable(cardsModeltable, true);
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var lblFilter = new JLabel();
 		listEdition = new JList<>();
-		var advancedSearch = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH_ADVANCED, KeyEvent.VK_A, "AdvancedSearch");
+		var advancedSearch = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH_ADVANCED, KeyEvent.VK_A,
+				"AdvancedSearch");
 		searchComponent = new CriteriaComponent(false);
 		defaultEnterButton = new JButton(MTGConstants.ICON_SEARCH);
 		txtRulesArea = new RulesPanel();
@@ -262,7 +259,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panneauCentral.setRightComponent(getContextTabbedPane());
 		panneauCentral.setLeftComponent(tabbedCardsView);
-	
+
 		tableCards.setRowSorter(sorterCards);
 
 		UITools.initTableVisibility(tableCards, cardsModeltable);
@@ -297,13 +294,14 @@ public class CardSearchPanel extends MTGUIComponent {
 		tableCards.setShowVerticalLines(false);
 
 		/// ADD PANELS
-		for (String s : new String[] { "W", "U", "B", "R", "G", "C", "1" }) {
+		for (String s : new String[]{"W", "U", "B", "R", "G", "C", "1"}) {
 			final var btnG = new JButton();
 			btnG.setToolTipText(s);
 			if (s.equals("1"))
 				btnG.setToolTipText("[0-9]*");
 
-			btnG.setIcon(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+			btnG.setIcon(new ImageIcon(
+					IconsProvider.getInstance().getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
 			btnG.setForeground(btnG.getBackground());
 			btnG.addActionListener(_ -> {
 				txtFilter.setText("\\{" + btnG.getToolTipText() + "}");
@@ -315,7 +313,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		scrollThumbnails.setViewportView(thumbnailPanel);
 		thumbnailPanel.setEnclosingScrollPane(scrollThumbnails);
 
-
 		panneauHaut.add(searchComponent);
 		panneauHaut.add(advancedSearch);
 		panneauHaut.add(btnFilter);
@@ -325,7 +322,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
 
 		panelResultsCards.add(panelFilters, BorderLayout.NORTH);
-		panelResultsCards.add(new JScrollPane(tableCards),BorderLayout.CENTER);
+		panelResultsCards.add(new JScrollPane(tableCards), BorderLayout.CENTER);
 		magicEditionDetailPanel = new MagicEditionDetailPanel();
 
 		editionDetailPanel.add(magicEditionDetailPanel, BorderLayout.CENTER);
@@ -335,9 +332,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelFilters.add(btnClear);
 		panelFilters.add(panelmana);
 
-		
 		addContextComponent(detailCardPanel);
-		addContextComponent(new JScrollPane(editionDetailPanel),"EDITION",MTGConstants.ICON_TAB_BACK);
+		addContextComponent(new JScrollPane(editionDetailPanel), "EDITION", MTGConstants.ICON_TAB_BACK);
 		addContextComponent(priceTablePanel);
 		addContextComponent(txtRulesArea);
 		addContextComponent(historyChartPanel);
@@ -346,19 +342,17 @@ public class CardSearchPanel extends MTGUIComponent {
 		addContextComponent(stockPanel);
 		addContextComponent(abilitiesPanel);
 		addContextComponent(gedPanel);
-		if(MTG.readPropertyAsBoolean("debug-json-panel"))
+		if (MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(panelJson);
 
-		
-		
 		panneauStat.add(cmcChart);
 		panneauStat.add(manaRepartitionPanel);
 		panneauStat.add(typeRepartitionPanel);
 		panneauStat.add(rarityRepartitionPanel);
 
-		tabbedCardsView.addTab(capitalize("RESULTS"),  MTGConstants.ICON_TAB_RESULTS,panelResultsCards, null);
-		tabbedCardsView.addTab(capitalize("THUMBNAIL"), MTGConstants.ICON_TAB_THUMBNAIL,scrollThumbnails, null);
-		tabbedCardsView.addTab(capitalize("STATS"), MTGConstants.ICON_TAB_ANALYSE, panneauStat,null);
+		tabbedCardsView.addTab(capitalize("RESULTS"), MTGConstants.ICON_TAB_RESULTS, panelResultsCards, null);
+		tabbedCardsView.addTab(capitalize("THUMBNAIL"), MTGConstants.ICON_TAB_THUMBNAIL, scrollThumbnails, null);
+		tabbedCardsView.addTab(capitalize("STATS"), MTGConstants.ICON_TAB_ANALYSE, panneauStat, null);
 
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCard, BorderLayout.EAST);
@@ -368,25 +362,24 @@ public class CardSearchPanel extends MTGUIComponent {
 		try {
 			initPopupCollection();
 		} catch (Exception e2) {
-			logger.error("error init popup",e2);
+			logger.error("error init popup", e2);
 		}
 
 		/// Action listners
 		addComponentListener(new ComponentAdapter() {
 			@Override
-		    public void componentShown(ComponentEvent componentEvent){
-		        searchComponent.requestFocus();
+			public void componentShown(ComponentEvent componentEvent) {
+				searchComponent.requestFocus();
 				panneauCentral.setDividerLocation(.45);
 				removeComponentListener(this);
-		    }
+			}
 		});
-
 
 		similarityPanel.getTableSimilarity().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
 
-				if(similarityPanel.getTableSimilarity().getSelectedRow()==-1)
+				if (similarityPanel.getTableSimilarity().getSelectedRow() == -1)
 					return;
 
 				MTGCard mc = UITools.getTableSelection(similarityPanel.getTableSimilarity(), 0);
@@ -394,61 +387,54 @@ public class CardSearchPanel extends MTGUIComponent {
 			}
 		});
 
-
-		advancedSearch.addActionListener(_->{
+		advancedSearch.addActionListener(_ -> {
 			var diag = new AdvancedSearchQueryDialog();
-									  diag.setVisible(true);
+			diag.setVisible(true);
 
-			if(diag.getCrits().isEmpty())
+			if (diag.getCrits().isEmpty())
 				return;
-
 
 			lblLoading.start();
 			lblLoading.setText(capitalize("SEARCHING"));
 			cardsModeltable.clear();
 
-			var wk = new AbstractObservableWorker<List<MTGCard>, MTGCard, MTGCardsProvider>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
+			var wk = new AbstractObservableWorker<List<MTGCard>, MTGCard, MTGCardsProvider>(lblLoading,
+					getEnabledPlugin(MTGCardsProvider.class)) {
 
-						@Override
-						protected List<MTGCard> doInBackground() throws Exception {
+				@Override
+				protected List<MTGCard> doInBackground() throws Exception {
 
-
-							if(diag.getCollection()==null)
-							{
-								return plug.searchByCriteria(diag.getCrits());
+					if (diag.getCollection() == null) {
+						return plug.searchByCriteria(diag.getCrits());
+					} else {
+						return plug.searchByCriteria(diag.getCrits()).stream().filter(mc -> {
+							try {
+								return MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc)
+										.contains(diag.getCollection());
+							} catch (SQLException e) {
+								logger.error("error sql for {} : {}", mc, e);
+								return false;
 							}
-							else
-							{
-								return plug.searchByCriteria(diag.getCrits()).stream().filter(mc->{
-									try {
-										return MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).contains(diag.getCollection());
-									} catch (SQLException e) {
-										logger.error("error sql for {} : {}",mc,e);
-										return false;
-									}
-								}).toList();
-							}
-						}
+						}).toList();
+					}
+				}
 
-						@Override
-						protected void process(List<MTGCard> chunks) {
-							super.process(chunks);
-							cardsModeltable.addItems(chunks);
-						}
+				@Override
+				protected void process(List<MTGCard> chunks) {
+					super.process(chunks);
+					cardsModeltable.addItems(chunks);
+				}
 
-						@Override
-						protected void done() {
-							super.done();
-							open(getResult());
-							btnExport.setEnabled(tableCards.getRowCount() > 0);
-						}
-
+				@Override
+				protected void done() {
+					super.done();
+					open(getResult());
+					btnExport.setEnabled(tableCards.getRowCount() > 0);
+				}
 
 			};
 
-
-			ThreadManager.getInstance().runInEdt(wk,"searching "+diag.getCrits());
-
+			ThreadManager.getInstance().runInEdt(wk, "searching " + diag.getCrits());
 
 		});
 
@@ -459,60 +445,64 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		btnFilter.addActionListener(_ -> panelFilters.setVisible(!panelFilters.isVisible()));
 
-		searchComponent.addButton(defaultEnterButton,true);
+		searchComponent.addButton(defaultEnterButton, true);
 
-		defaultEnterButton.addActionListener(_->{
-					selectedEdition = null;
-					lblLoading.start();
-					lblLoading.setText(capitalize("SEARCHING"));
+		defaultEnterButton.addActionListener(_ -> {
+			selectedEdition = null;
+			lblLoading.start();
+			lblLoading.setText(capitalize("SEARCHING"));
 
-					MTGPlugin plug = searchComponent.isCollectionSearch() ? getEnabledPlugin(MTGDao.class):getEnabledPlugin(MTGCardsProvider.class);
-					cardsModeltable.clear();
+			MTGPlugin plug = searchComponent.isCollectionSearch()
+					? getEnabledPlugin(MTGDao.class)
+					: getEnabledPlugin(MTGCardsProvider.class);
+			cardsModeltable.clear();
 
-					AbstractObservableWorker<List<MTGCard>, MTGCard, MTGPlugin> wk = new AbstractObservableWorker<>(lblLoading,plug) {
-						@Override
-						protected List<MTGCard> doInBackground() throws Exception {
-							List<MTGCard> cards;
+			AbstractObservableWorker<List<MTGCard>, MTGCard, MTGPlugin> wk = new AbstractObservableWorker<>(lblLoading,
+					plug) {
+				@Override
+				protected List<MTGCard> doInBackground() throws Exception {
+					List<MTGCard> cards;
 
-							if (searchComponent.isCollectionSearch()) {
-								cards=((MTGDao)plug).listCardsFromCollection((MTGCollection) searchComponent.getMTGCriteria().getFirst());
-							}
-							else if(searchComponent.isSetSearch()) {
-								cards=((MTGCardsProvider)plug).searchCardByEdition((MTGEdition)searchComponent.getMTGCriteria().getFirst());
-							}
-							else if (searchComponent.isAllCardsSearch()) {
-								cards=((MTGCardsProvider)plug).listAllCards();
+					if (searchComponent.isCollectionSearch()) {
+						cards = ((MTGDao) plug)
+								.listCardsFromCollection((MTGCollection) searchComponent.getMTGCriteria().getFirst());
+					} else if (searchComponent.isSetSearch()) {
+						cards = ((MTGCardsProvider) plug)
+								.searchCardByEdition((MTGEdition) searchComponent.getMTGCriteria().getFirst());
+					} else if (searchComponent.isAllCardsSearch()) {
+						cards = ((MTGCardsProvider) plug).listAllCards();
 
-							}
-							else {
-								cards=((MTGCardsProvider)plug).searchCardByCriteria(searchComponent.getMTGCriteria().getAtt(), ((MTGCardsProvider)plug).getMTGQueryManager().getValueFor(searchComponent.getMTGCriteria().getFirst()).toString(), null, false);
-							}
+					} else {
+						cards = ((MTGCardsProvider) plug).searchCardByCriteria(
+								searchComponent.getMTGCriteria().getAtt(),
+								((MTGCardsProvider) plug).getMTGQueryManager()
+										.getValueFor(searchComponent.getMTGCriteria().getFirst()).toString(),
+								null, false);
+					}
 
-							try {
-								Collections.sort(cards, new CardsEditionSorter());
-							}
-							catch(Exception _)
-							{
-								//do nothing
-							}
+					try {
+						Collections.sort(cards, new CardsEditionSorter());
+					} catch (Exception _) {
+						// do nothing
+					}
 
-							return cards;
-						}
+					return cards;
+				}
 
-						@Override
-						protected void process(List<MTGCard> chunks) {
-							super.process(chunks);
-							cardsModeltable.addItems(chunks);
-						}
+				@Override
+				protected void process(List<MTGCard> chunks) {
+					super.process(chunks);
+					cardsModeltable.addItems(chunks);
+				}
 
-						@Override
-						protected void done() {
-							super.done();
-							open(getResult());
-							btnExport.setEnabled(tableCards.getRowCount() > 0);
-						}
-					};
-					ThreadManager.getInstance().runInEdt(wk,"searching "+searchComponent.getMTGCriteria());
+				@Override
+				protected void done() {
+					super.done();
+					open(getResult());
+					btnExport.setEnabled(tableCards.getRowCount() > 0);
+				}
+			};
+			ThreadManager.getInstance().runInEdt(wk, "searching " + searchComponent.getMTGCriteria());
 		});
 
 		tableCards.getSelectionModel().addListSelectionListener(event -> {
@@ -520,30 +510,27 @@ public class CardSearchPanel extends MTGUIComponent {
 				try {
 					selectedCard = UITools.getTableSelection(tableCards, 0);
 
-					if(selectedCard==null)
+					if (selectedCard == null)
 						return;
 
 					selectedEdition = selectedCard.getEdition();
 					updateCards();
 				} catch (Exception e) {
-					logger.error("error selecting line",e);
+					logger.error("error selecting line", e);
 				}
 			}
 		});
 
-
-
-
 		tableCards.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-				if(tableCards.getSelectedRow()==-1)
+				if (tableCards.getSelectedRow() == -1)
 					return;
 
 				if (SwingUtilities.isRightMouseButton(evt)) {
 					var point = evt.getPoint();
 					popupMenu.show(tableCards, (int) point.getX(), (int) point.getY());
-				} 
+				}
 			}
 		});
 
@@ -552,63 +539,56 @@ public class CardSearchPanel extends MTGUIComponent {
 			public void mouseClicked(MouseEvent mev) {
 				selectedEdition = listEdition.getSelectedValue();
 
-				if(selectedEdition==null)
+				if (selectedEdition == null)
 					return;
 
-				var sw = new SwingWorker<MTGCard, MTGCard>()
-						{
+				var sw = new SwingWorker<MTGCard, MTGCard>() {
 
-							@Override
-							protected void process(List<MTGCard> chunks) {
-								detailCardPanel.init(chunks.get(0));
-								magicEditionDetailPanel.init(selectedEdition);
-							}
+					@Override
+					protected void process(List<MTGCard> chunks) {
+						detailCardPanel.init(chunks.get(0));
+						magicEditionDetailPanel.init(selectedEdition);
+					}
 
-							@Override
-							protected MTGCard doInBackground() throws Exception {
-								try {
-									var mc = CardsManagerService.switchEditions(selectedCard, selectedEdition);
-									publish(mc);
-									return mc;
-								} catch (Exception e) {
-									logger.error(e);
-									return null;
-								}
+					@Override
+					protected MTGCard doInBackground() throws Exception {
+						try {
+							var mc = CardsManagerService.switchEditions(selectedCard, selectedEdition);
+							publish(mc);
+							return mc;
+						} catch (Exception e) {
+							logger.error(e);
+							return null;
+						}
 
+					}
+					@Override
+					protected void done() {
+						try {
+							selectedCard = get();
+							cardsPicPanel.init(selectedCard); // backcard
+							historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
+							priceTablePanel.init(selectedCard);
+						} catch (InterruptedException _) {
+							Thread.currentThread().interrupt();
+						} catch (Exception e) {
+							logger.error(e);
+						}
+					}
 
-							}
-							@Override
-							protected void done() {
-								try {
-									selectedCard = get();
-									cardsPicPanel.init(selectedCard); // backcard
-									historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
-									priceTablePanel.init(selectedCard);
-								}catch(InterruptedException _)
-								{
-									Thread.currentThread().interrupt();
-								}
-								catch (Exception e) {
-									logger.error(e);
-								}
-							}
+				};
 
-						};
-
-
-				ThreadManager.getInstance().runInEdt(sw,"loading " + selectedCard);
+				ThreadManager.getInstance().runInEdt(sw, "loading " + selectedCard);
 			}
 		});
-
-	
 
 		btnExport.initCardsExport(new Callable<MTGDeck>() {
 			@Override
 			public MTGDeck call() throws Exception {
-				List<MTGCard> export = UITools.getTableSelections(tableCards,0);
+				List<MTGCard> export = UITools.getTableSelections(tableCards, 0);
 
-				if(export.isEmpty())
-					export =  ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
+				if (export.isEmpty())
+					export = ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
 
 				return MTGDeck.toDeck(export);
 			}
@@ -646,7 +626,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		SwingUtilities.getRootPane(this).setDefaultButton(defaultEnterButton);
 	}
 
-
 	public CardSearchPanel() {
 
 		try {
@@ -674,31 +653,27 @@ public class CardSearchPanel extends MTGUIComponent {
 			similarityPanel.init(selectedCard);
 			panelJson.init(selectedCard);
 			deckPanel.init(selectedCard);
-			stockPanel.init(selectedCard,null);
+			stockPanel.init(selectedCard, null);
 			abilitiesPanel.init(selectedCard);
 			historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 			gedPanel.init(MTGCard.class, selectedCard);
-
 
 			((DefaultListModel<MTGEdition>) listEdition.getModel()).removeAllElements();
 			for (MTGEdition me : selectedCard.getEditions())
 				((DefaultListModel<MTGEdition>) listEdition.getModel()).addElement(me);
 
-
-
 		} catch (Exception e1) {
-			logger.error("error ",e1);
+			logger.error("error ", e1);
 		}
 
 	}
 
 	public void open(List<MTGCard> cards) {
 
-		if(cards==null)
+		if (cards == null)
 			return;
 
-
-		logger.debug("results {} cards",cards.size());
+		logger.debug("results {} cards", cards.size());
 
 		if (!cards.isEmpty()) {
 			cardsModeltable.init(cards);
@@ -707,7 +682,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			typeRepartitionPanel.init(cards);
 			manaRepartitionPanel.init(cards);
 			rarityRepartitionPanel.init(cards);
-			tabbedCardsView.setTitleAt(0, capitalize("RESULTS") + " ("+ cardsModeltable.getRowCount() + ")");
+			tabbedCardsView.setTitleAt(0, capitalize("RESULTS") + " (" + cardsModeltable.getRowCount() + ")");
 			btnExport.setEnabled(true);
 		}
 	}

@@ -8,7 +8,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.lang3.ArrayUtils;
@@ -50,16 +49,14 @@ import org.magic.services.tools.UITools;
 public class MkmExternalShop extends AbstractExternalShop {
 
 	private static final String ID_GAME = "ID_GAME";
-	private boolean initied=false;
+	private boolean initied = false;
 	private StockService mkmStockService;
 
-
-	private void init()
-	{
-		if(!initied) {
+	private void init() {
+		if (!initied) {
 			try {
 				MkmAPIConfig.getInstance().init(getAuthenticator().getTokensAsProperties());
-				initied=true;
+				initied = true;
 			} catch (MkmException e) {
 				logger.error(e);
 			}
@@ -67,103 +64,94 @@ public class MkmExternalShop extends AbstractExternalShop {
 		mkmStockService = new StockService();
 	}
 
-
 	@Override
 	public List<Category> listCategories() throws IOException {
-		return new GameService().listCategories().stream().map(c->
-			new Category(c.getIdCategory(), c.getCategoryName())
-		).toList();
+		return new GameService().listCategories().stream()
+				.map(c -> new Category(c.getIdCategory(), c.getCategoryName())).toList();
 	}
 
+	private List<File> loadFiles() throws IOException {
 
-	private List<File> loadFiles() throws IOException
-	{
-
-	
 		var temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv");
 		var temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv");
 
 		var g = new Game();
 		g.setIdGame(getInt(ID_GAME));
 
-		mkmStockService.exportStock(temp,getInt(ID_GAME),false);
-		mkmStockService.exportStock(temp2,getInt(ID_GAME),true);
+		mkmStockService.exportStock(temp, getInt(ID_GAME), false);
+		mkmStockService.exportStock(temp2, getInt(ID_GAME), true);
 
-		return List.of(temp,temp2);
+		return List.of(temp, temp2);
 
 	}
 
-
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
-			init();
-			var ret = new ArrayList<MTGStockItem>();
-			for(File f : loadFiles())
-				try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().get().parse(new FileReader(f))  )
-				{
-					p.iterator().forEachRemaining(art->{
+		init();
+		var ret = new ArrayList<MTGStockItem>();
+		for (File f : loadFiles())
+			try (CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().get()
+					.parse(new FileReader(f))) {
+				p.iterator().forEachRemaining(art -> {
 
-						if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase()) ||art.get("idArticle").equalsIgnoreCase(search.toLowerCase())) {
+					if (art.get("English Name").toLowerCase().contains(search.toLowerCase())
+							|| art.get("Exp. Name").toLowerCase().contains(search.toLowerCase())
+							|| art.get("idArticle").equalsIgnoreCase(search.toLowerCase())) {
 
-							var product = new LightProduct();
-								  product.setIdGame(1);
-								  product.setLocName(art.get("Local Name"));
-								  product.setExpansion(art.get("Exp. Name"));
-								  product.setEnName(art.get("English Name"));
-								  product.setIdProduct(Integer.parseInt(art.get("idProduct")));
-								  product.setRarity("");
-								  product.setImage("");
-								  
-									var item = ProductFactory.generateStockItem(toProduct(product));
-								  
-								  try {
-									  item.setFoil(!art.get("Foil?").isEmpty());
-									  item.setSigned(!art.get("Signed?").isEmpty());
-									  item.setAltered(!art.get("Altered?").isEmpty());
-									  item.setCondition(aliases.getReversedConditionFor(this,art.get("Condition"),EnumCondition.NEAR_MINT));
-								   }
-									catch(IllegalArgumentException _)
-									{
-										item.setCondition(EnumCondition.SEALED);
-										product.setRarity(null);
-									}
+						var product = new LightProduct();
+						product.setIdGame(1);
+						product.setLocName(art.get("Local Name"));
+						product.setExpansion(art.get("Exp. Name"));
+						product.setEnName(art.get("English Name"));
+						product.setIdProduct(Integer.parseInt(art.get("idProduct")));
+						product.setRarity("");
+						product.setImage("");
 
-								  item.setQte(Integer.parseInt(art.get("Amount")));
-								  item.setPrice(UITools.parseDouble(art.get("Price")));
-								  item.setId(Integer.parseInt(art.get("idArticle")));
-								  item.setComment(art.get("Comments"));
-								  try {
-									  var loc = Tools.listLanguages().get(Integer.parseInt(art.get("Language"))-1);
-									  item.setLanguage(loc.getLanguageName());
-								  }
-								  catch(Exception _)
-								  {
-									  logger.error("No language for code ={}",art.get("Language"));
-								  }
-								  ret.add(item);
+						var item = ProductFactory.generateStockItem(toProduct(product));
 
-								  notify(item);
+						try {
+							item.setFoil(!art.get("Foil?").isEmpty());
+							item.setSigned(!art.get("Signed?").isEmpty());
+							item.setAltered(!art.get("Altered?").isEmpty());
+							item.setCondition(aliases.getReversedConditionFor(this, art.get("Condition"),
+									EnumCondition.NEAR_MINT));
+						} catch (IllegalArgumentException _) {
+							item.setCondition(EnumCondition.SEALED);
+							product.setRarity(null);
 						}
-					});
-				}
-			catch(Exception e)
-			{
+
+						item.setQte(Integer.parseInt(art.get("Amount")));
+						item.setPrice(UITools.parseDouble(art.get("Price")));
+						item.setId(Integer.parseInt(art.get("idArticle")));
+						item.setComment(art.get("Comments"));
+						try {
+							var loc = Tools.listLanguages().get(Integer.parseInt(art.get("Language")) - 1);
+							item.setLanguage(loc.getLanguageName());
+						} catch (Exception _) {
+							logger.error("No language for code ={}", art.get("Language"));
+						}
+						ret.add(item);
+
+						notify(item);
+					}
+				});
+			} catch (Exception e) {
 				logger.error(e);
 			}
 		return ret;
 	}
 
-
 	@Override
-	protected List<Transaction> loadTransaction()  {
+	protected List<Transaction> loadTransaction() {
 		init();
 
 		var ret = new ArrayList<Transaction>();
 		try {
 			var serv = new OrderService();
 
-			for(String t: getArray("STATE"))
-				ret.addAll(serv.listOrders(ACTOR.valueOf(getString("ACTOR")),STATE.valueOf(t),1).stream().map(this::toTransaction).toList());
+			for (String t : getArray("STATE"))
+				ret.addAll(serv.listOrders(ACTOR.valueOf(getString("ACTOR")), STATE.valueOf(t), 1).stream()
+						.map(this::toTransaction).toList());
 
 			return ret;
 		} catch (IOException e) {
@@ -183,39 +171,29 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	public String saveOrUpdateTransaction(Transaction t) throws IOException {
 		init();
-		var stocks= new ArrayList<LightArticle>();
-		for(File f : loadFiles())
-		{
+		var stocks = new ArrayList<LightArticle>();
+		for (File f : loadFiles()) {
 			stocks.addAll(mkmStockService.readStockFile(f, getInt(ID_GAME)));
 		}
 
-		logger.info("{} will only update his stock from this transation",getName());
-		logger.debug("{} loaded {} items",getName(),stocks.size());
-
+		logger.info("{} will only update his stock from this transation", getName());
+		logger.debug("{} loaded {} items", getName(), stocks.size());
 
 		t.getItems().stream().map(it -> {
-			if(it.getTiersAppIds(getName())==null)
-			{
-				logger.warn("{} is not synchronized with {}",it.getProduct(),getName());
+			if (it.getTiersAppIds(getName()) == null) {
+				logger.warn("{} is not synchronized with {}", it.getProduct(), getName());
 				return null;
-			}
-			else
-			{
+			} else {
 				return parse(it);
 			}
 
-		}).filter(Objects::nonNull).toList().forEach(art->{
-			var articles = stocks.stream().filter(pl->pl.getIdProduct()==art.getIdProduct()).toList();
-			if(articles.size()>1)
-			{
-				logger.warn("Found multiple Articles : {}",articles);
-			}
-			else if(articles.isEmpty())
-			{
-				logger.warn("Article {} not found in stock",art.getIdArticle());
-			}
-			else
-			{
+		}).filter(Objects::nonNull).toList().forEach(art -> {
+			var articles = stocks.stream().filter(pl -> pl.getIdProduct() == art.getIdProduct()).toList();
+			if (articles.size() > 1) {
+				logger.warn("Found multiple Articles : {}", articles);
+			} else if (articles.isEmpty()) {
+				logger.warn("Article {} not found in stock", art.getIdArticle());
+			} else {
 				try {
 					mkmStockService.changeQte(art, -art.getCount());
 				} catch (IOException e) {
@@ -226,17 +204,15 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return String.valueOf(t.getId());
 	}
 
-
-
-
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
 
 		ret.setIdArticle(it.getId().intValue());
 
-
 		ret.setIdProduct(it.getProduct().getProductId().intValue());
-		ret.setLanguage(Tools.listLanguages().stream().filter(l->l.getLanguageName().equalsIgnoreCase(it.getLanguage())).findFirst().orElse(new Localization(1, it.getLanguage())));
+		ret.setLanguage(
+				Tools.listLanguages().stream().filter(l -> l.getLanguageName().equalsIgnoreCase(it.getLanguage()))
+						.findFirst().orElse(new Localization(1, it.getLanguage())));
 		ret.setCount(it.getQte());
 		return ret;
 	}
@@ -253,65 +229,58 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	private Transaction toTransaction(Order o) {
 		var t = new Transaction();
-							t.setId(o.getIdOrder());
-							t.setTransporterShippingCode(null);
-							t.setDateCreation(o.getState().getDateBought());
-							t.setDatePayment(o.getState().getDatePaid());
-							t.setDateSend(o.getState().getDateSent());
-							t.setCurrency(o.getCurrencyCode());
-							t.setMessage(o.getNote());
-							t.setSourceShopName(getName());
-							t.setSourceShopId(String.valueOf(o.getIdOrder()));
+		t.setId(o.getIdOrder());
+		t.setTransporterShippingCode(null);
+		t.setDateCreation(o.getState().getDateBought());
+		t.setDatePayment(o.getState().getDatePaid());
+		t.setDateSend(o.getState().getDateSent());
+		t.setCurrency(o.getCurrencyCode());
+		t.setMessage(o.getNote());
+		t.setSourceShopName(getName());
+		t.setSourceShopId(String.valueOf(o.getIdOrder()));
 		var c = new Contact();
 
-				var name = o.getBuyer().getAddress().getName();
+		var name = o.getBuyer().getAddress().getName();
 
-				if(name.indexOf(" ")>1)
-				{
-					c.setLastName(name.substring(0, name.indexOf(" ")).trim());
-					c.setName(name.substring(name.indexOf(" ")).trim());
-				}
-				else
-				{
-					c.setLastName(name.trim());
-					c.setName("");
-				}
+		if (name.indexOf(" ") > 1) {
+			c.setLastName(name.substring(0, name.indexOf(" ")).trim());
+			c.setName(name.substring(name.indexOf(" ")).trim());
+		} else {
+			c.setLastName(name.trim());
+			c.setName("");
+		}
 
-				c.setAddress(o.getBuyer().getAddress().getStreet());
-				c.setZipCode(o.getBuyer().getAddress().getZip());
-				c.setCity(o.getBuyer().getAddress().getCity());
-				c.setId(o.getBuyer().getIdUser());
-				c.setEmailAccept(false);
-				c.setEmail(null);
+		c.setAddress(o.getBuyer().getAddress().getStreet());
+		c.setZipCode(o.getBuyer().getAddress().getZip());
+		c.setCity(o.getBuyer().getAddress().getCity());
+		c.setId(o.getBuyer().getIdUser());
+		c.setEmailAccept(false);
+		c.setEmail(null);
 
 		t.setContact(c);
 		t.setShippingPrice(o.getShippingMethod().getPrice());
 		t.setTransporterShippingCode(o.getTrackingNumber());
 
-
-		if(t.getDateCreation()!=null)
+		if (t.getDateCreation() != null)
 			t.setStatut(EnumTransactionStatus.NEW);
 
-		if(t.getDatePayment()!=null)
+		if (t.getDatePayment() != null)
 			t.setStatut(EnumTransactionStatus.PAID);
 
-		if(t.getDateSend()!=null)
+		if (t.getDateSend() != null)
 			t.setStatut(EnumTransactionStatus.SENT);
 
+		o.getArticle().forEach(article -> {
 
-		o.getArticle().forEach(article->{
-			
-			
-			
-			
 			var item = ProductFactory.generateStockItem(toProduct(article.getProduct()));
 			item.setId(article.getIdArticle());
 			item.setLanguage(article.getLanguage().getLanguageName());
 			item.setPrice(article.getPrice());
 			item.getProduct().setProductId(Long.valueOf(article.getIdProduct()));
 
-			if(article.getCondition()!=null)
-				item.setCondition(aliases.getReversedConditionFor(this, article.getCondition(), EnumCondition.NEAR_MINT));
+			if (article.getCondition() != null)
+				item.setCondition(
+						aliases.getReversedConditionFor(this, article.getCondition(), EnumCondition.NEAR_MINT));
 
 			item.setQte(article.getCount());
 			item.setFoil(article.isFoil());
@@ -323,7 +292,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return t;
 	}
 
-
 	private MTGProduct toProduct(Product p) {
 		var product = new LightProduct();
 
@@ -333,29 +301,25 @@ public class MkmExternalShop extends AbstractExternalShop {
 		product.setImage(p.getImage());
 		product.setRarity(p.getRarity());
 
-		MTGProduct prod=  toProduct(product);
-		prod.setCategory(new Category(0,p.getCategoryName()));
-
+		MTGProduct prod = toProduct(product);
+		prod.setCategory(new Category(0, p.getCategoryName()));
 
 		return prod;
 
 	}
 
-
 	private MTGProduct toProduct(LightProduct product) {
-		var p = ProductFactory.createDefaultProduct(product.getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
+		var p = ProductFactory.createDefaultProduct(product.getRarity() == null ? EnumItems.SEALED : EnumItems.CARD);
 		p.setName(product.getEnName());
 		p.setProductId(Long.valueOf(product.getIdProduct()));
 		try {
-		p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
-		}
-		catch(Exception _)
-		{
-			p.setEdition(new MTGEdition("set",product.getExpansion()));
+			p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
+		} catch (Exception _) {
+			p.setEdition(new MTGEdition("set", product.getExpansion()));
 		}
 
-		if(product.getImage()!=null && product.getImage().startsWith("//"))
-			p.setUrl("https:"+ product.getImage());
+		if (product.getImage() != null && product.getImage().startsWith("//"))
+			p.setUrl("https:" + product.getImage());
 		else
 			p.setUrl(product.getImage());
 
@@ -366,11 +330,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-			m.put("STATE",new MTGProperty("paid", "filter states of orders to import. Separated by comma", ArrayUtils.toStringArray(STATE.values())));
-			m.put("ACTOR", new MTGProperty("seller", "filter orders you bought or sell ", ArrayUtils.toStringArray(ACTOR.values())));
-			m.put(ID_GAME, MTGProperty.newIntegerProperty("1","set ID Game. let 1 for MTG",1,21));
-		
-			return m;
+		m.put("STATE", new MTGProperty("paid", "filter states of orders to import. Separated by comma",
+				ArrayUtils.toStringArray(STATE.values())));
+		m.put("ACTOR", new MTGProperty("seller", "filter orders you bought or sell ",
+				ArrayUtils.toStringArray(ACTOR.values())));
+		m.put(ID_GAME, MTGProperty.newIntegerProperty("1", "set ID Game. let 1 for MTG", 1, 21));
+
+		return m;
 	}
 
 	@Override
@@ -389,53 +355,47 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock,String id) throws IOException {
-			return loadStock(id).stream().findAny().orElse(null);
+	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
+		return loadStock(id).stream().findAny().orElse(null);
 	}
-
 
 	@Override
 	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
 		init();
-		var transformed = stocks.stream().map(it->{
+		var transformed = stocks.stream().map(it -> {
 			var art = new Article();
 			art.setIdArticle(it.getId().intValue());
 			art.setIdProduct(it.getProduct().getProductId().intValue());
 			art.setPrice(it.getValue().doubleValue());
-			art.setCondition(aliases.getConditionFor(this,it.getCondition()));
+			art.setCondition(aliases.getConditionFor(this, it.getCondition()));
 			art.setFoil(it.isFoil());
 			art.setSigned(it.isSigned());
 			art.setAltered(it.isAltered());
 			return art;
 		}).toList();
 
-
-
-
 		var retour = mkmStockService.updateArticles(transformed);
-		stocks.forEach(mtg->mtg.setUpdated(retour.stream().map(LightArticle::getIdArticle).noneMatch(i-> i.intValue() == mtg.getId())));
+		stocks.forEach(mtg -> mtg.setUpdated(
+				retour.stream().map(LightArticle::getIdArticle).noneMatch(i -> i.intValue() == mtg.getId())));
 
-		stocks.stream().filter(it->!it.getQte().equals(itemsBkcp.get(it).getKey())).forEach(it->{
+		stocks.stream().filter(it -> !it.getQte().equals(itemsBkcp.get(it).getKey())).forEach(it -> {
 
-			int changeQty = (it.getQte()-itemsBkcp.get(it).getKey());
+			int changeQty = (it.getQte() - itemsBkcp.get(it).getKey());
 			try {
 
 				var ret = new LightArticle();
-					  ret.setIdArticle(it.getId().intValue());
-					  ret.setIdProduct(it.getProduct().getProductId().intValue());
-					  ret.setCount(it.getQte());
-					  logger.debug("{} new = {} old={} = {}",it,it.getQte(),itemsBkcp.get(it).getKey(),changeQty);
-					  mkmStockService.changeQte(ret, changeQty);
+				ret.setIdArticle(it.getId().intValue());
+				ret.setIdProduct(it.getProduct().getProductId().intValue());
+				ret.setCount(it.getQte());
+				logger.debug("{} new = {} old={} = {}", it, it.getQte(), itemsBkcp.get(it).getKey(), changeQty);
+				mkmStockService.changeQte(ret, changeQty);
 			} catch (IOException e) {
 				logger.error(e);
 			}
 
 		});
 
-
 	}
-
-
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
@@ -448,14 +408,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	}
 
-
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
 		throw new IOException("Transaction can't be deleted");
 
-
 	}
-
 
 	@Override
 	public Transaction getTransactionById(String s) throws IOException {
@@ -463,18 +420,15 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return toTransaction(serv.getOrderById(Integer.parseInt(s)));
 	}
 
-
 	@Override
 	public Contact getContactByLogin(String login, String passw) throws IOException {
 		throw new IOException("get Contact by login is not implemented");
 	}
 
-
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
-		return listTransaction().stream().filter(t->t.getContact().getId()==c.getId()).toList();
+		return listTransaction().stream().filter(t -> t.getContact().getId() == c.getId()).toList();
 	}
-
 
 	@Override
 	public boolean enableContact(String token) throws IOException {
@@ -482,5 +436,3 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return false;
 	}
 }
-
-

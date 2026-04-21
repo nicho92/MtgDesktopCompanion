@@ -10,13 +10,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.Callable;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.technical.GedEntry;
@@ -32,10 +30,9 @@ public class GedEntryComponent extends JPanel {
 	private boolean selected = false;
 	private Color defaultColor;
 	private JLabel lblDelete;
-	private int w=150;
-	private int h=100;
+	private int w = 150;
+	private int h = 100;
 	protected transient Logger logger = MTGLogger.getLogger(GedEntryComponent.class);
-
 
 	public boolean isSelected() {
 		return selected;
@@ -45,18 +42,15 @@ public class GedEntryComponent extends JPanel {
 		return entry;
 	}
 
-	public GedEntryComponent(GedEntry e, int w,int h)
-	{
+	public GedEntryComponent(GedEntry e, int w, int h) {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		setLayout(new BorderLayout(0, 0));
-		this.w=w;
-		this.h=h;
-
+		this.w = w;
+		this.h = h;
 
 		lblDelete = new JLabel(MTGConstants.ICON_SMALL_DELETE);
 		lblDelete.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblDelete, BorderLayout.NORTH);
-
 
 		var l = new JXLabel();
 		l.setHorizontalAlignment(SwingConstants.CENTER);
@@ -65,16 +59,14 @@ public class GedEntryComponent extends JPanel {
 
 		try {
 			l.setIcon(new ImageIcon(entry.getContent()));
-		}catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			logger.error(ex);
 		}
-
 
 		l.setLineWrap(true);
 		defaultColor = getBackground();
 
-		if(entry.isImage())
+		if (entry.isImage())
 			l.setIcon(getThumbnail());
 
 		l.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -82,73 +74,57 @@ public class GedEntryComponent extends JPanel {
 
 		setToolTipText(e.getName());
 		setOpaque(true);
-		setPreferredSize(new Dimension(w,h));
+		setPreferredSize(new Dimension(w, h));
 
 		add(l);
 
 	}
 
+	public ImageIcon getThumbnail() {
+		var buff = getPicture();
 
+		if (buff != null)
+			return new ImageIcon(buff.getScaledInstance(w, h, Image.SCALE_SMOOTH));
 
-	public ImageIcon getThumbnail()
-	{
-			   var buff = getPicture();
-
-			   if(buff!=null)
-				   return new ImageIcon(buff.getScaledInstance(w, h, Image.SCALE_SMOOTH));
-
-			   return null;
+		return null;
 	}
 
-	public BufferedImage getPicture()
-	{
-		   if(entry.isImage())
-		   {
-			   try {
-				   return ImageTools.read(entry.getContent());
-			   } catch (IOException _) {
-				   return null;
-			   }
-		   }
+	public BufferedImage getPicture() {
+		if (entry.isImage()) {
+			try {
+				return ImageTools.read(entry.getContent());
+			} catch (IOException _) {
+				return null;
+			}
+		}
 
-		   return null;
+		return null;
 	}
 
-
-
-	public void setCallable(Callable<Void> callable)
-	{
+	public void setCallable(Callable<Void> callable) {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 
-				if(me.getClickCount()==2)
-				{
+				if (me.getClickCount() == 2) {
 					try {
 						callable.call();
 					} catch (Exception e) {
 						logger.error(e);
 					}
 
-				}
-				else
-				{
-					selected=!selected;
+				} else {
+					selected = !selected;
 
-					if(selected)
+					if (selected)
 						setBackground(SystemColor.activeCaption);
 					else
 						setBackground(defaultColor);
 				}
 
-
-
-
-
 			}
 		});
 	}
-
 
 	public JLabel getRemoveComponent() {
 		return lblDelete;

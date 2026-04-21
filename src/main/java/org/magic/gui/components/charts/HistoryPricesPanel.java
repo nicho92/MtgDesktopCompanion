@@ -11,12 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
-
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
-
 import org.jfree.chart.annotations.XYImageAnnotation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Day;
@@ -37,12 +35,11 @@ import org.magic.services.tools.UITools;
 
 public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
-
 	private static final long serialVersionUID = 1L;
 	private boolean showEdition = false;
 	private JCheckBox chckbxShowEditions;
 	private transient HistoryPrice<?> cpVariations;
-	private String title="PRICE_VARIATIONS";
+	private String title = "PRICE_VARIATIONS";
 	private transient HistoryPrice<?> cpVariationsF;
 	private MTGCard mc;
 	private MTGEdition me;
@@ -59,21 +56,20 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		return title;
 	}
 
-
 	public HistoryPricesPanel(boolean showOption) {
 
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		if(showOption) {
+		if (showOption) {
 			var panelActions = new JPanel();
 			var gblpanel = new GridBagLayout();
 
 			add(panelActions, BorderLayout.EAST);
-			add(buzy,BorderLayout.SOUTH);
+			add(buzy, BorderLayout.SOUTH);
 
-			gblpanel.columnWidths = new int[] { 91, 0 };
-			gblpanel.rowHeights = new int[] { 23, 0, 0 };
-			gblpanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-			gblpanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+			gblpanel.columnWidths = new int[]{91, 0};
+			gblpanel.rowHeights = new int[]{23, 0, 0};
+			gblpanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+			gblpanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 			panelActions.setLayout(gblpanel);
 			chckbxShowEditions = new JCheckBox("Show Editions");
 			chckbxShowEditions.setSelected(showEdition);
@@ -82,54 +78,49 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 				refresh();
 			});
 
-			panelActions.add(chckbxShowEditions, UITools.createGridBagConstraints(GridBagConstraints.NORTHWEST, null, 0, 0));
+			panelActions.add(chckbxShowEditions,
+					UITools.createGridBagConstraints(GridBagConstraints.NORTHWEST, null, 0, 0));
 		}
 	}
 
 	@Override
 	public void onVisible() {
-		init(mc,me,title);
+		init(mc, me, title);
 	}
 
 	public void init(MTGCard card, MTGEdition me, String title) {
 		this.mc = card;
 		this.me = me;
-		this.title=title;
+		this.title = title;
 
-
-		if(card==null && me==null)
+		if (card == null && me == null)
 			return;
 
-
-		if(isVisible())
-		{
+		if (isVisible()) {
 			buzy.start();
-			SwingWorker<Void, Void> sw=  new SwingWorker<>(){
+			SwingWorker<Void, Void> sw = new SwingWorker<>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					if(card==null)
-					{
+					if (card == null) {
 						try {
 							cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(me);
 						} catch (IOException e1) {
-							logger.error("error init {}",me, e1);
+							logger.error("error init {}", me, e1);
 						}
-					}
-					else
-					{
+					} else {
 						try {
 							cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, false);
 
 						} catch (IOException e) {
-							logger.error("error init {}",card, e);
+							logger.error("error init {}", card, e);
 						}
 
 						try {
 							cpVariationsF = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, true);
 
 						} catch (IOException e) {
-							logger.error("error init FOIL {}",card, e);
+							logger.error("error init FOIL {}", card, e);
 						}
 					}
 					return null;
@@ -143,46 +134,41 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
 			};
 
-			ThreadManager.getInstance().runInEdt(sw, "loading history "+ mc);
+			ThreadManager.getInstance().runInEdt(sw, "loading history " + mc);
 		}
 	}
-
 
 	@Override
 	public TimeSeriesCollection getDataSet() {
 		var dataset = new TimeSeriesCollection();
 
-			series1=null;
+		series1 = null;
 
-			if(cpVariations!=null && !cpVariations.isEmpty())
-			{
+		if (cpVariations != null && !cpVariations.isEmpty()) {
 
-				series1 = new TimeSeries(cpVariations.toString());
+			series1 = new TimeSeries(cpVariations.toString());
 
-				for (Entry<Date, Double> d : cpVariations.entrySet())
-					series1.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
+			for (Entry<Date, Double> d : cpVariations.entrySet())
+				series1.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
 
-				dataset.addSeries(series1);
-			}
+			dataset.addSeries(series1);
+		}
 
-			if(cpVariationsF!=null && !cpVariationsF.isEmpty())
-			{
-				var series2 = new TimeSeries(cpVariationsF.toString());
+		if (cpVariationsF != null && !cpVariationsF.isEmpty()) {
+			var series2 = new TimeSeries(cpVariationsF.toString());
 
-				for (Entry<Date, Double> d : cpVariationsF.entrySet())
-					series2.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
+			for (Entry<Date, Double> d : cpVariationsF.entrySet())
+				series2.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
 
-				dataset.addSeries(series2);
-			}
+			dataset.addSeries(series2);
+		}
 
-
-			return dataset;
+		return dataset;
 	}
 
 	@Override
 	protected void initPlot() {
-		if (showEdition)
-		{
+		if (showEdition) {
 			List<MTGEdition> list = new ArrayList<>();
 			try {
 				list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
@@ -190,30 +176,27 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 				logger.error(e1);
 			}
 
-			for (MTGEdition edition : list)
-			{
-				if(edition.getReleaseDate()!=null && !edition.getReleaseDate().isEmpty())
-				{
+			for (MTGEdition edition : list) {
+				if (edition.getReleaseDate() != null && !edition.getReleaseDate().isEmpty()) {
 					try {
 						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
 						TimeSeriesDataItem item = series1.getDataItem(new Day(d));
-						if (item != null)
-						{
+						if (item != null) {
 							var x = item.getPeriod().getFirstMillisecond();
 							var y = item.getValue().doubleValue();
-							var annot = new XYImageAnnotation(x,y,IconsProvider.getInstance().get16(edition.getId()).getImage());
-								annot.setToolTipText(edition.getSet());
+							var annot = new XYImageAnnotation(x, y,
+									IconsProvider.getInstance().get16(edition.getId()).getImage());
+							annot.setToolTipText(edition.getSet());
 
-							 ((XYPlot) chart.getPlot()).addAnnotation(annot);
+							((XYPlot) chart.getPlot()).addAnnotation(annot);
 						}
 
 					} catch (Exception e) {
-						logger.error("error show eds {}:{}",edition,e);
+						logger.error("error show eds {}:{}", edition, e);
 					}
 				}
 			}
 		}
 	}
-
 
 }

@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.swing.Icon;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -24,8 +22,7 @@ import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.MTG;
 
-public class PrivateMTGSetProvider extends AbstractCardsProvider{
-
+public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	public static final String PERSONNAL_DATA_SET_PROVIDER = "Personnal Data Set Provider";
 
@@ -46,10 +43,10 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 			throw new IOException(e);
 		}
 	}
-	
+
 	public void saveCustomSet(MTGEdition ed, List<MTGCard> cards) {
-		
-		cards.forEach(mc->{
+
+		cards.forEach(mc -> {
 			try {
 				saveCustomCard(ed, mc);
 			} catch (IOException e) {
@@ -64,36 +61,34 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
-		
+
 	}
 
 	public void saveCustomCard(MTGEdition me, MTGCard mc) throws IOException {
-		
+
 		mc.setEdition(me);
-		
+
 		if (mc.getId() == null)
 			mc.setId(CryptoUtils.uuid());
 
 		AbstractCardsProvider.postTreatmentCard(mc);
-		
+
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).saveCustomCard(mc);
 			notify(mc);
 		} catch (SQLException e) {
-			throw new IOException(e); 
+			throw new IOException(e);
 		}
-	
-		
+
 	}
 
-	
 	public void rebuild(MTGEdition ed) throws IOException {
 		var cards = searchCardByEdition(ed);
 		ed.setCardCount(cards.size());
-		ed.setCardCountOfficial((int)cards.stream().filter(mc->mc.getSide().equals("a") && mc.isToken()).count());
+		ed.setCardCountOfficial((int) cards.stream().filter(mc -> mc.getSide().equals("a") && mc.isToken()).count());
 		ed.setCardCountPhysical(ed.getCardCountOfficial());
-		
-		cards.forEach(mc->{
+
+		cards.forEach(mc -> {
 			mc.getEditions().clear();
 			try {
 				mc.getEditions().add(BeanTools.cloneBean(ed));
@@ -101,30 +96,28 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 				mc.setNumber(null);
 			} catch (Exception e) {
 				logger.error(e);
-			} 
+			}
 		});
-		Collections.sort(cards,new CardsEditionSorter());
+		Collections.sort(cards, new CardsEditionSorter());
 
-		for(var i=0;i<cards.size();i++)
-			cards.get(i).setNumber(String.valueOf((i+1)));
-		
-		
+		for (var i = 0; i < cards.size(); i++)
+			cards.get(i).setNumber(String.valueOf((i + 1)));
+
 		var i = 1;
-		for(var t : cards.stream().filter(MTGCard::isToken).toList()){
-			t.setNumber("T"+(i++));
+		for (var t : cards.stream().filter(MTGCard::isToken).toList()) {
+			t.setNumber("T" + (i++));
 		}
-			
-		saveCustomSet(ed,cards);
+
+		saveCustomSet(ed, cards);
 	}
-	
-	
+
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
-		var b= new JsonCriteriaBuilder();
+		var b = new JsonCriteriaBuilder();
 		initBuilder(b);
 		return b;
 	}
-		
+
 	@Override
 	public MTGCard getCardById(String id) {
 		try {
@@ -143,36 +136,30 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 		}
 	}
 
-
-
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
 		List<MTGCard> res = new ArrayList<>();
-			for (var ed : listEditions())
-				for (var mc : searchCardByEdition(ed))
-						res.add(mc);
+		for (var ed : listEditions())
+			for (var mc : searchCardByEdition(ed))
+				res.add(mc);
 
-			return res;
+		return res;
 	}
 
-
 	@Override
-	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact)throws IOException {
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact)
+			throws IOException {
 		var res = new ArrayList<MTGCard>();
-	
+
 		if (me == null) {
-				for (var mc : listAllCards())
-					if (hasValue(mc, att, crit))
-					{
-						notify(mc);
-						res.add(mc);
-					}
-		} 
-		else 
-		{
+			for (var mc : listAllCards())
+				if (hasValue(mc, att, crit)) {
+					notify(mc);
+					res.add(mc);
+				}
+		} else {
 			for (MTGCard mc : searchCardByEdition(me)) {
-				if (hasValue(mc, att, crit))
-				{
+				if (hasValue(mc, att, crit)) {
 					notify(mc);
 					res.add(mc);
 				}
@@ -183,12 +170,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 
 	private boolean hasValue(MTGCard mc, String att, String val) {
 		try {
-			if(att.equals("set"))
+			if (att.equals("set"))
 				return mc.getEdition().getId().equals(val);
-			
+
 			return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
 		} catch (Exception e) {
-			logger.error("error loading {} {} {}" ,mc,att,val,e);
+			logger.error("error loading {} {} {}", mc, att, val, e);
 			return false;
 		}
 	}
@@ -214,9 +201,9 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 			throw new IOException(e);
 		}
 	}
-	
+
 	@Override
-	public MTGEdition getSetById(String id){
+	public MTGEdition getSetById(String id) {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).getCustomSetById(id);
 		} catch (SQLException _) {
@@ -232,17 +219,17 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	@Override
 	public List<QueryAttribute> loadQueryableAttributs() {
 		try {
-			
-				var mc = new MTGCard();
-			
-				var keys = BeanUtils.describe(mc).keySet();
-				
-				return keys.stream().map(k->{
-					var qa = new QueryAttribute(k,String.class);
-					return qa;
-				}).sorted().collect(Collectors.toList());
-				
-			} catch (Exception e) {
+
+			var mc = new MTGCard();
+
+			var keys = BeanUtils.describe(mc).keySet();
+
+			return keys.stream().map(k -> {
+				var qa = new QueryAttribute(k, String.class);
+				return qa;
+			}).sorted().collect(Collectors.toList());
+
+		} catch (Exception e) {
 			logger.error(e);
 			return new ArrayList<>();
 		}
@@ -268,18 +255,14 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 		throw new IOException("Not implemented");
 	}
 
-
 	@Override
 	public MTGCard getCardByArenaId(String id) throws IOException {
 		return null;
 	}
 
-
 	@Override
 	public MTGCard getCardByScryfallId(String crit) throws IOException {
 		return null;
 	}
-
-
 
 }

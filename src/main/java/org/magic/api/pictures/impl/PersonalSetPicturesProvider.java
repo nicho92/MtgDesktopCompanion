@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-
 import javax.swing.Icon;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.MTGProperty;
@@ -34,8 +32,9 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		if (!edDir.exists())
 			edDir.mkdir();
 
-		
-		ImageTools.saveImage(bi, Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile(), getString(FORMAT));
+		ImageTools.saveImage(bi,
+				Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile(),
+				getString(FORMAT));
 	}
 
 	public void removePicture(MTGCard mc) {
@@ -45,7 +44,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		try {
 			FileTools.deleteFile(f);
 		} catch (Exception e) {
-			logger.error("error removing {} : {}",f,e.getMessage());
+			logger.error("error removing {} : {}", f, e.getMessage());
 		}
 	}
 
@@ -62,17 +61,15 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		return null;
 	}
 
-
 	@Override
 	public BufferedImage getPicture(MTGCard mc) throws IOException {
 		return getOnlinePicture(mc);
 	}
 
-
 	@Override
 	public String generateUrl(MTGCard mc) {
 		var mainDir = getFile(PICS_DIR);
-		var edDir = new File(mainDir,mc.getEdition().getId());
+		var edDir = new File(mainDir, mc.getEdition().getId());
 
 		return new File(edDir, mc.getId() + "." + getString(FORMAT).toLowerCase()).getAbsolutePath();
 	}
@@ -82,10 +79,8 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 		try {
 			return ImageTools.read(new File(generateUrl(mc)));
-		}
-		catch(Exception _)
-		{
-			logger.debug("{} is not found",generateUrl(mc));
+		} catch (Exception _) {
+			logger.debug("{} is not found", generateUrl(mc));
 			return null;
 		}
 	}
@@ -98,18 +93,19 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		return Map.of(PICS_DIR,MTGProperty.newDirectoryProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"privateSets","pics")),
-							   FORMAT, new MTGProperty("PNG","Image format for storage","PNG","JPG","BMP"));
+		return Map.of(PICS_DIR,
+				MTGProperty.newDirectoryProperty(
+						Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "privateSets", "pics")),
+				FORMAT, new MTGProperty("PNG", "Image format for storage", "PNG", "JPG", "BMP"));
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
 
 	@Override

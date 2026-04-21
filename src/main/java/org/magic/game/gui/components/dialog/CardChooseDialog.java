@@ -1,12 +1,10 @@
 package org.magic.game.gui.components.dialog;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGConstants;

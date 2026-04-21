@@ -13,16 +13,14 @@ public class LoyaltyCost extends NumberCost {
 	}
 
 	@Override
-	public String toString()
-	{
-		if(getValue()==null)
-			return getModifier()+"X";
-		return (getValue()>0) ? "+"+getValue(): String.valueOf(getValue());
+	public String toString() {
+		if (getValue() == null)
+			return getModifier() + "X";
+		return (getValue() > 0) ? "+" + getValue() : String.valueOf(getValue());
 	}
 
 	public boolean isX() {
-		return getValue()==null;
+		return getValue() == null;
 	}
-
 
 }

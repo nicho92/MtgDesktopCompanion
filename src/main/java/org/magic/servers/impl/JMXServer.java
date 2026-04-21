@@ -7,32 +7,26 @@ import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.management.MBeanServer;
 import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 import javax.management.StandardMBean;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.Chrono;
 public class JMXServer extends AbstractMTGServer {
 
-	private MBeanServer mbs ;
+	private MBeanServer mbs;
 
 	private List<ObjectName> names;
-
-
 
 	public JMXServer() {
 		super();
 		names = new ArrayList<>();
 	}
-
-
 
 	@Override
 	public void start() throws IOException {
@@ -40,38 +34,35 @@ public class JMXServer extends AbstractMTGServer {
 		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer();
 
-		PluginRegistry.inst().listClasses().forEach(entry->
-		listPlugins(entry).forEach(o->{
-				try {
-					mbs.registerMBean(new StandardMBean(o, entry),o.getObjectName());
-					names.add(o.getObjectName());
-				} catch (NotCompliantMBeanException e) {
-					logger.trace(e);
-				} catch (Exception e) {
-					logger.error(e);
-				}
-			})
-		);
-		logger.info("{} started in {}s.",getName(),c.stop());
+		PluginRegistry.inst().listClasses().forEach(entry -> listPlugins(entry).forEach(o -> {
+			try {
+				mbs.registerMBean(new StandardMBean(o, entry), o.getObjectName());
+				names.add(o.getObjectName());
+			} catch (NotCompliantMBeanException e) {
+				logger.trace(e);
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		}));
+		logger.info("{} started in {}s.", getName(), c.stop());
 	}
 
 	@Override
 	public void stop() throws IOException {
 
-		logger.debug("{} is stopping",getName());
-		var ok=true;
-		for(ObjectName n : names)
-		{
+		logger.debug("{} is stopping", getName());
+		var ok = true;
+		for (ObjectName n : names) {
 			try {
 				mbs.unregisterMBean(n);
-				logger.debug("unloading {}",n);
+				logger.debug("unloading {}", n);
 			} catch (Exception e) {
-				ok=false;
-				logger.error("error unloading {}",n,e);
+				ok = false;
+				logger.error("error unloading {}", n, e);
 			}
 		}
 
-		if(ok)
+		if (ok)
 			names.clear();
 
 	}
@@ -85,7 +76,6 @@ public class JMXServer extends AbstractMTGServer {
 	public boolean isAutostart() {
 		return getBoolean("AUTOSTART");
 	}
-
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {

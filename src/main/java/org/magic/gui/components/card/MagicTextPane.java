@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -18,7 +17,6 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
-
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.services.providers.IconsProvider;
 
@@ -42,17 +40,15 @@ public class MagicTextPane extends JComponent {
 		enableTranslate(enable);
 	}
 
-
 	private void init() {
 		setLayout(new BorderLayout());
 		textPane = new JTextPane();
-		add(textPane,BorderLayout.CENTER);
+		add(textPane, BorderLayout.CENTER);
 
-		
 		setPreferredSize(new Dimension(200, 150));
 		textPane.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
 
-		translation=new KeyAdapter() {
+		translation = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				int pos = textPane.getCaretPosition();
@@ -62,15 +58,13 @@ public class MagicTextPane extends JComponent {
 		};
 	}
 
-	public void enableTranslate(boolean b)
-	{
+	public void enableTranslate(boolean b) {
 
-		if(b)
+		if (b)
 			addKeyListener(translation);
 		else
 			removeKeyListener(translation);
 	}
-
 
 	public void updateTextWithIcons() {
 
@@ -124,13 +118,11 @@ public class MagicTextPane extends JComponent {
 		return textPane.getDocument();
 	}
 
-	public String getText()
-	{
+	public String getText() {
 		return textPane.getText();
 	}
 
-	public int getCaretPosition()
-	{
+	public int getCaretPosition() {
 		return textPane.getCaretPosition();
 	}
 

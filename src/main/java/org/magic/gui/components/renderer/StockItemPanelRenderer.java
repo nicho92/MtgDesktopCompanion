@@ -4,11 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconsProvider;
@@ -29,10 +27,10 @@ public class StockItemPanelRenderer extends JPanel {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
 		var gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 137, 129, 0 };
-		gridBagLayout.rowHeights = new int[] { 12, 12, 12, 12, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[]{0, 137, 129, 0};
+		gridBagLayout.rowHeights = new int[]{12, 12, 12, 12, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		lblName = new JLabel();
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
@@ -44,12 +42,11 @@ public class StockItemPanelRenderer extends JPanel {
 		lblEdition = new JLabel();
 		add(lblEdition, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 1, 2));
 
-
 	}
 
 	public void setProduct(MTGStockItem mc) {
 
-		if(mc==null || mc.getProduct()==null)
+		if (mc == null || mc.getProduct() == null)
 			return;
 
 		lblName.setText(mc.getProduct().getName());

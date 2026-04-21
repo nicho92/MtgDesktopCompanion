@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.magic.api.beans.MTGEdition;
 import org.magic.services.recognition.DescContainer;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.recognition.MatchResult;
 
 public interface MTGCardRecognition extends MTGPlugin {
-
 
 	public MatchResult getMatch(ImageDesc id, double thresh);
 

@@ -7,7 +7,6 @@ import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.util.List;
 import java.util.concurrent.Callable;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
@@ -54,42 +52,34 @@ public class TrendingDashlet extends AbstractJDashlet {
 		cboFormats = UITools.createCombobox(MTGFormat.FORMATS.values());
 		panneauHaut.add(cboFormats);
 
-
 		btnRefresh = new JButton("");
 		btnRefresh.addActionListener(_ -> init());
 
 		cboFormats.addItemListener(ie -> {
-			if(ie.getStateChange()==ItemEvent.SELECTED)
+			if (ie.getStateChange() == ItemEvent.SELECTED)
 				init();
 		});
-
 
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(buzy);
 
-
-
 		modStandard = new CardShakerTableModel();
-		table = UITools.createNewTable(modStandard,true);
+		table = UITools.createNewTable(modStandard, true);
 
 		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer(true));
-		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true,true));
+		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true, true));
 		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer(true));
-		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true,true));
+		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true, true));
 
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
 
-
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
-
-
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")),
-					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
-					(int) Double.parseDouble(getString("h")));
+			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			try {
 				cboFormats.setSelectedItem(MTGFormat.FORMATS.valueOf(getString("FORMAT")));
@@ -100,15 +90,14 @@ public class TrendingDashlet extends AbstractJDashlet {
 			setBounds(r);
 		}
 
-		UITools.initCardToolTipTable(table, 0, 1, 8,new Callable<Void>() {
+		UITools.initCardToolTipTable(table, 0, 1, 8, new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {
 				try {
 					CardShake cs = UITools.getTableSelection(table, 0);
 					UITools.browse(cs.getLink());
 
-				}catch(Exception ex)
-				{
+				} catch (Exception ex) {
 					logger.error("error", ex);
 				}
 				return null;
@@ -122,14 +111,12 @@ public class TrendingDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 
-
-
-		SwingWorker<List<CardShake>, CardShake> sw = new SwingWorker<>()
-		{
+		SwingWorker<List<CardShake>, CardShake> sw = new SwingWorker<>() {
 
 			@Override
 			protected List<CardShake> doInBackground() throws Exception {
-				return getEnabledPlugin(MTGDashBoard.class).getShakerFor((MTGFormat.FORMATS) cboFormats.getSelectedItem());
+				return getEnabledPlugin(MTGDashBoard.class)
+						.getShakerFor((MTGFormat.FORMATS) cboFormats.getSelectedItem());
 			}
 
 			@Override
@@ -137,20 +124,16 @@ public class TrendingDashlet extends AbstractJDashlet {
 				try {
 					modStandard.init(get());
 					table.setModel(modStandard);
-				}
-				catch(InterruptedException _)
-				{
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					logger.error(e);
 				}
 				buzy.end();
 				setProperty("FORMAT", ((MTGFormat.FORMATS) cboFormats.getSelectedItem()).toString());
-				
-				
+
 				try {
-					UITools.sort(table,3,SortOrder.DESCENDING);
+					UITools.sort(table, 3, SortOrder.DESCENDING);
 					modStandard.fireTableDataChanged();
 					table.packAll();
 				} catch (Exception _) {
@@ -161,7 +144,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		};
 
 		buzy.start();
-		ThreadManager.getInstance().runInEdt(sw,"Init Formats Dashlet");
+		ThreadManager.getInstance().runInEdt(sw, "Init Formats Dashlet");
 
 	}
 

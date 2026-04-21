@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.interfaces.MTGPictureCache;
@@ -19,8 +18,8 @@ import org.magic.services.tools.MTG;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
-	private int newW=MTGConstants.DEFAULT_PIC_WIDTH;
-	private int newH=MTGConstants.DEFAULT_PIC_HEIGHT;
+	private int newW = MTGConstants.DEFAULT_PIC_WIDTH;
+	private int newH = MTGConstants.DEFAULT_PIC_HEIGHT;
 
 	@Override
 	public PLUGINS getType() {
@@ -29,13 +28,11 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	protected AbstractPicturesProvider() {
 		super();
-		
+
 		try {
 			setSize(MTGControler.getInstance().getPictureProviderDimension().getDimension());
-		}
-		catch(Exception e)
-		{
-			logger.error("couldn't set size",e);
+		} catch (Exception e) {
+			logger.error("couldn't set size", e);
 		}
 	}
 
@@ -49,30 +46,25 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	@Override
 	public BufferedImage getFullSizePicture(MTGCard mc) throws IOException {
-		
+
 		if (getEnabledPlugin(MTGPictureCache.class).getItem(mc) != null) {
-			logger.trace("cached {} ({}) found",mc,mc.getEdition());
+			logger.trace("cached {} ({}) found", mc, mc.getEdition());
 			return getEnabledPlugin(MTGPictureCache.class).getItem(mc);
 		}
 
-		if(mc==null)
+		if (mc == null)
 			return getBackPicture(mc);
-		
 
-		BufferedImage bufferedImage  = null;
-		if(mc.isSpecialTokenOrExtra())
-			bufferedImage =MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
+		BufferedImage bufferedImage = null;
+		if (mc.isSpecialTokenOrExtra())
+			bufferedImage = MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
 		else
-			bufferedImage  = getOnlinePicture(mc);
+			bufferedImage = getOnlinePicture(mc);
 
-
-		if (bufferedImage != null)
-		{
+		if (bufferedImage != null) {
 			getEnabledPlugin(MTGPictureCache.class).put(bufferedImage, mc);
 			return bufferedImage;
-		}
-		else
-		{
+		} else {
 			return getBackPicture(mc);
 		}
 	}
@@ -90,23 +82,22 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	@Override
 	public void setSize(Dimension d) {
-		newW=(int)d.getWidth();
-		newH=(int)d.getHeight();
+		newW = (int) d.getWidth();
+		newH = (int) d.getHeight();
 	}
 
 	@Override
 	public BufferedImage getBackPicture(MTGCard mc) {
 		try {
-			
-			
-			if(mc!=null&&mc.getEdition()!=null&&mc.getEdition().getId().equals("30A"))
+
+			if (mc != null && mc.getEdition() != null && mc.getEdition().getId().equals("30A"))
 				return resizeCard(ImageTools.readLocal(MTGConstants.ANNIVERSARY_BACK_CARD), newW, newH);
-			
-			if(mc!=null&&mc.getEdition()!=null&&mc.getEdition().getId().equals("CED"))
+
+			if (mc != null && mc.getEdition() != null && mc.getEdition().getId().equals("CED"))
 				return resizeCard(ImageTools.readLocal(MTGConstants.COLLECTOR_BACK_CARD), newW, newH);
-			
+
 			return resizeCard(ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD), newW, newH);
-			
+
 		} catch (IOException e) {
 			logger.error(e);
 			return null;
@@ -114,7 +105,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	}
 
 	private BufferedImage resizeCard(BufferedImage img, int newW, int newH) {
-		if(img==null)
+		if (img == null)
 			return null;
 		return ImageTools.resize(img, newH, newW);
 	}
@@ -122,16 +113,15 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
 
 	@Override
 	public int hashCode() {
-		return (getType()+getName()).hashCode();
+		return (getType() + getName()).hashCode();
 	}
-
 
 }

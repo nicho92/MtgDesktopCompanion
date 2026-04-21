@@ -7,7 +7,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.MTGProperty;
@@ -18,16 +17,15 @@ import org.magic.services.network.URLTools;
 
 public class MTGDecksSniffer extends AbstractDeckSniffer {
 
-
 	private static final String MAX_PAGE = "MAX_PAGE";
-	private static final String URL =  "https://mtgdecks.net";
+	private static final String URL = "https://mtgdecks.net";
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "Historic", "Timeless","Explorer","Pauper", "Pioneer",	"Highlander","Old-school" };
+		return new String[]{"Standard", "Modern", "Legacy", "Vintage", "Commander", "Historic", "Timeless", "Explorer",
+				"Pauper", "Pioneer", "Highlander", "Old-school"};
 	}
 
-	
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
@@ -35,7 +33,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		deck.setName(info.getName());
 		deck.setDescription("from " + info.getUrl());
 
-		logger.debug("get deck at {}",info.getUrl());
+		logger.debug("get deck at {}", info.getUrl());
 
 		var d = URLTools.extractAsHtml(info.getUrl().toString());
 
@@ -50,28 +48,25 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 			for (var tr : table.select("tr.cardItem")) {
 				var td = tr.select("td.number").first();
-				
-				if(td!=null)
-				{
+
+				if (td != null) {
 					var qte = td.text().substring(0, td.text().indexOf(' '));
 					var name = td.select("a").text();
 					if (name.contains("/"))
 						name = name.substring(0, name.indexOf('/')).trim();
-	
+
 					try {
-					var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
-	
-					notify(mc);
-	
-					if (!isSideboard)
-						deck.getMain().put(mc, Integer.parseInt(qte));
-					else
-						deck.getSideBoard().put(mc, Integer.parseInt(qte));
-	
-					}
-					catch(Exception _)
-					{
-						logger.error("No card found for {}",name);
+						var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
+
+						notify(mc);
+
+						if (!isSideboard)
+							deck.getMain().put(mc, Integer.parseInt(qte));
+						else
+							deck.getSideBoard().put(mc, Integer.parseInt(qte));
+
+					} catch (Exception _) {
+						logger.error("No card found for {}", name);
 					}
 				}
 
@@ -86,15 +81,13 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		var list = new ArrayList<RetrievableDeck>();
 
-		for (var i = 1; i <= getInt(MAX_PAGE); i++) 
-		{
+		for (var i = 1; i <= getInt(MAX_PAGE); i++) {
 			var url = URL + "/" + filter + "/decklists/page:" + i;
 			logger.debug("read deck list at {}", url);
 			var d = URLTools.extractAsHtml(url);
 			var trs = d.select("table.hidden-xs tr ");
 
-			for (var j = 1; j < trs.size(); j++) 
-			{
+			for (var j = 1; j < trs.size(); j++) {
 				var tr = trs.get(j);
 				var deck = new RetrievableDeck();
 
@@ -140,7 +133,6 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
 		return m;
 	}
-
 
 	@Override
 	public String getVersion() {

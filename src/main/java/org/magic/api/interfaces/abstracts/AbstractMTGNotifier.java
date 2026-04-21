@@ -1,7 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
-
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;
@@ -10,7 +9,7 @@ public abstract class AbstractMTGNotifier extends AbstractMTGPlugin implements M
 
 	@Override
 	public void send(String notification) throws IOException {
-		send(new MTGNotification("",notification,MESSAGE_TYPE.INFO));
+		send(new MTGNotification("", notification, MESSAGE_TYPE.INFO));
 	}
 
 	@Override

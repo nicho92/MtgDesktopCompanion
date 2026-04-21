@@ -37,7 +37,6 @@ public class ItemCounter extends AbstractCounter {
 		return name + " counter";
 	}
 
-
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
@@ -46,12 +45,10 @@ public class ItemCounter extends AbstractCounter {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
-
-
 
 }

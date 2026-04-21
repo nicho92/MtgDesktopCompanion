@@ -2,11 +2,9 @@ package org.magic.game.gui.components;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-
 import org.magic.api.beans.game.ManaPool;
 import org.magic.api.beans.game.Player;
 import org.magic.gui.components.card.ManaPanel;

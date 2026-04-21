@@ -1,7 +1,6 @@
 package org.magic.api.beans.technical;
 
 import java.io.Serializable;
-
 import org.magic.services.tools.UITools;
 
 public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
@@ -21,17 +20,13 @@ public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
 		this.size = size;
 	}
 
-
 	public double getAvg() {
 		try {
-			return (double)size/count;
-		}
-		catch(Exception _)
-		{
+			return (double) size / count;
+		} catch (Exception _) {
 			return 0;
 		}
 	}
-
 
 	public Class<?> getClasse() {
 		return classe;
@@ -52,16 +47,15 @@ public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
 		this.size = size;
 	}
 
-
 	@Override
 	public String toString() {
-		return "COUNT="+getCount()+"\tSIZE="+getSize()+"\tAVG="+UITools.formatDouble(getAvg()) +"\t"+getClasse();
+		return "COUNT=" + getCount() + "\tSIZE=" + getSize() + "\tAVG=" + UITools.formatDouble(getAvg()) + "\t"
+				+ getClasse();
 	}
 
 	@Override
 	public int compareTo(MemoryInfo mem) {
-		return (int) (getCount()-mem.getCount());
+		return (int) (getCount() - mem.getCount());
 	}
-
 
 }

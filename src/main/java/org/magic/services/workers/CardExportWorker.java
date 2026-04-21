@@ -2,9 +2,7 @@ package org.magic.services.workers;
 
 import java.io.File;
 import java.util.List;
-
 import javax.swing.SwingWorker;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -27,42 +25,36 @@ public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 	private MTGDeck export;
 	private Exception err;
 
-
-	public CardExportWorker(MTGCardsExport exp,List<MTGCard> export,AbstractBuzyIndicatorComponent buzy,File f) {
+	public CardExportWorker(MTGCardsExport exp, List<MTGCard> export, AbstractBuzyIndicatorComponent buzy, File f) {
 
 		var d = new MTGDeck();
 		d.setName("Export Alerts");
-		export.stream().forEach(mc->d.getMain().put(mc, 1));
+		export.stream().forEach(mc -> d.getMain().put(mc, 1));
 
-
-
-		init(exp,d,buzy,f);
+		init(exp, d, buzy, f);
 	}
 
-
-	public CardExportWorker(MTGCardsExport exp,MTGDeck export,AbstractBuzyIndicatorComponent buzy,File f) {
-		init(exp,export,buzy,f);
+	public CardExportWorker(MTGCardsExport exp, MTGDeck export, AbstractBuzyIndicatorComponent buzy, File f) {
+		init(exp, export, buzy, f);
 	}
 
-	public void init(MTGCardsExport exp,MTGDeck export,AbstractBuzyIndicatorComponent buzy,File f) {
-		this.exp=exp;
-		this.buzy=buzy;
-		this.f=f;
-		this.export=export;
-		err=null;
-		o=(Observable _, Object c)->publish((MTGCard)c);
+	public void init(MTGCardsExport exp, MTGDeck export, AbstractBuzyIndicatorComponent buzy, File f) {
+		this.exp = exp;
+		this.buzy = buzy;
+		this.f = f;
+		this.export = export;
+		err = null;
+		o = (Observable _, Object c) -> publish((MTGCard) c);
 		exp.addObserver(o);
 	}
 
-
-
 	@Override
-	protected Void doInBackground(){
+	protected Void doInBackground() {
 		try {
 			exp.exportDeck(export, f);
 		} catch (Exception e) {
-			err=e;
-			logger.error("error export with {}",exp,e);
+			err = e;
+			logger.error("error export with {}", exp, e);
 		}
 		return null;
 	}
@@ -81,17 +73,12 @@ public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 		}
 		buzy.end();
 
-		if(err!=null)
-		{
+		if (err != null) {
 			MTGControler.getInstance().notify(err);
-		}
-		else
-		{
+		} else {
 			MTGControler.getInstance().notify(new MTGNotification(
-					exp.getName() + " "+ MTGControler.getInstance().getLangService().get("FINISHED"),
-					MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-					MESSAGE_TYPE.INFO
-					));
+					exp.getName() + " " + MTGControler.getInstance().getLangService().get("FINISHED"),
+					MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"), MESSAGE_TYPE.INFO));
 		}
 
 	}

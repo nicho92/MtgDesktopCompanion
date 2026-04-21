@@ -1,22 +1,19 @@
 package org.magic.gui.abstracts.charts;
 
 import java.awt.BorderLayout;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
 
-public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends AbstractChartComponent<T> {
-
+public abstract class MTGUI2DChartComponent<T, U extends Dataset> extends AbstractChartComponent<T> {
 
 	private static final long serialVersionUID = 1L;
 	private ChartPanel chartPanel;
 	protected JFreeChart chart;
 
-
 	protected MTGUI2DChartComponent() {
 		super();
-		chartPanel = new ChartPanel(null,true);
+		chartPanel = new ChartPanel(null, true);
 		add(chartPanel, BorderLayout.CENTER);
 
 		chartPanel.addMouseWheelListener(mwe -> {
@@ -30,23 +27,17 @@ public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends Abstrac
 
 	}
 
-	public abstract U getDataSet() ;
-
+	public abstract U getDataSet();
 
 	@Override
-	public void refresh()
-	{
+	public void refresh() {
 		createNewChart();
 		chartPanel.setChart(chart);
 
-		if(chart!=null)
+		if (chart != null)
 			chart.fireChartChanged();
 
 		initPlot();
 	}
-
-
-
-
 
 }

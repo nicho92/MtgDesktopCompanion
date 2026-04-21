@@ -15,7 +15,6 @@ public class MTGCardNames implements Serializable {
 	private String flavor;
 	private int gathererId;
 
-
 	public String getFlavor() {
 		return flavor;
 	}
@@ -39,7 +38,6 @@ public class MTGCardNames implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-
 
 	public String getLanguage() {
 		return language;

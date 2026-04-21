@@ -3,12 +3,10 @@ package org.magic.gui.components;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import org.magic.api.beans.MTGNews;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.gui.components.widgets.JLangLabel;
@@ -22,13 +20,12 @@ public class NewsEditorPanel extends JPanel {
 	private JTextField urlJTextField;
 	private JComboBox<MTGNewsProvider> cboType;
 
-
 	public NewsEditorPanel() {
 		var gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.columnWidths = new int[]{0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0E-4};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
 		setLayout(gridBagLayout);
 
 		var lblType = new JLabel("Type:");
@@ -67,7 +64,7 @@ public class NewsEditorPanel extends JPanel {
 		labelGbc2.insets = new Insets(5, 5, 5, 5);
 		labelGbc2.gridx = 0;
 		labelGbc2.gridy = 2;
-		add(new JLangLabel("NAME",true), labelGbc2);
+		add(new JLangLabel("NAME", true), labelGbc2);
 
 		nameJTextField = new JTextField();
 		var componentGbc2 = new GridBagConstraints();

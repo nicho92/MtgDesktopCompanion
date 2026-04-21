@@ -2,7 +2,6 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -16,7 +15,7 @@ public class CyclingActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public CyclingActions(DisplayableCard card) {
-		super(card,"Cycling");
+		super(card, "Cycling");
 		putValue(SHORT_DESCRIPTION, "Cycling");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 	}

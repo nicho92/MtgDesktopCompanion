@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGTokensProvider;
@@ -21,7 +20,7 @@ public class CreateActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public CreateActions(DisplayableCard card) {
-		super(card,"Create a token");
+		super(card, "Create a token");
 		putValue(SHORT_DESCRIPTION, "Generate a token");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 	}
@@ -30,14 +29,13 @@ public class CreateActions extends AbstractCardAction {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			MTGCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
-			
-			if(tok==null)
-			{
+
+			if (tok == null) {
 				MTGControler.getInstance().notify(new Exception("Can't generate token for " + card.getMagicCard()));
 				return;
 			}
-			
-			logger.info("Generating token for {} = {}",card.getMagicCard(),tok);
+
+			logger.info("Generating token for {} = {}", card.getMagicCard(), tok);
 			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);

@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumItems;
@@ -37,84 +36,84 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.MTG;
 
-public class TransactionService
-{
+public class TransactionService {
 
 	public static final Integer TOKENSIZE = 50;
-	private  static Logger logger = MTGLogger.getLogger(TransactionService.class);
-	private static MTGExternalShop mtgshop=MTG.getEnabledPlugin(MTGExternalShop.class);
-	private TransactionService() {	}
+	private static Logger logger = MTGLogger.getLogger(TransactionService.class);
+	private static MTGExternalShop mtgshop = MTG.getEnabledPlugin(MTGExternalShop.class);
+	private TransactionService() {
+	}
 
-	public static int createContact(Contact c) throws IOException
-	{
+	public static int createContact(Contact c) throws IOException {
 
 		c.setTemporaryToken(CryptoUtils.randomString(TOKENSIZE));
 		c.setActive(false);
 
-		int ret= mtgshop.saveOrUpdateContact(c);
+		int ret = mtgshop.saveOrUpdateContact(c);
 
-		c.setTemporaryToken(MTGControler.getInstance().getWebshopService().getWebConfig().getWebsiteUrl()+"/pages/validate.html?token="+c.getTemporaryToken());
+		c.setTemporaryToken(MTGControler.getInstance().getWebshopService().getWebConfig().getWebsiteUrl()
+				+ "/pages/validate.html?token=" + c.getTemporaryToken());
 
-		var plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
-			try {
-					var not = new MTGNotification("["+MTGControler.getInstance().getWebshopService().getWebConfig().getSiteTitle()+ "] Email verification", new ReportsService().generate(plug.getFormat(), c, "ContactValidation"), MTGNotification.MESSAGE_TYPE.INFO);
-					plug.send(c.getEmail(),not);
-				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
+		var plug = (EmailNotifier) MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
+		try {
+			var not = new MTGNotification(
+					"[" + MTGControler.getInstance().getWebshopService().getWebConfig().getSiteTitle()
+							+ "] Email verification",
+					new ReportsService().generate(plug.getFormat(), c, "ContactValidation"),
+					MTGNotification.MESSAGE_TYPE.INFO);
+			plug.send(c.getEmail(), not);
+		} catch (Exception e) {
+			logger.error(e);
+		}
 		return ret;
 
 	}
 
 	public static String saveTransaction(Transaction t, boolean reloadShipping) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
-		if(reloadShipping) {
+		if (reloadShipping) {
 			try {
 				var js = new JavaScript();
 				js.addVariable("total", t.total());
-				js.addVariable("qty",t.getItems().size());
-				js.addVariable("transaction",t);
+				js.addVariable("qty", t.getItems().size());
+				js.addVariable("transaction", t);
 
-				Object ret = js.runContent(MTGControler.getInstance().getWebshopService().getWebConfig().getShippingRules());
+				Object ret = js
+						.runContent(MTGControler.getInstance().getWebshopService().getWebConfig().getShippingRules());
 				t.setShippingPrice(Double.parseDouble(ret.toString()));
 			} catch (Exception e1) {
-				logger.error("Error updating shipping price",e1);
+				logger.error("Error updating shipping price", e1);
 			}
 		}
 
 		var pContact = mtgshop.getContactByEmail(t.getContact().getEmail());
 
-		if(pContact!=null)
-		{
+		if (pContact != null) {
 			t.setContact(pContact);
 		}
 
-		if(t.getContact().getId()<=0)
-		{
-			logger.debug("{} doesn't exist. Creating it",t.getContact());
-			int id= createContact(t.getContact());
+		if (t.getContact().getId() <= 0) {
+			logger.debug("{} doesn't exist. Creating it", t.getContact());
+			int id = createContact(t.getContact());
 			t.getContact().setId(id);
 		}
-		t.getItems().forEach(it->it.setUpdated(false));
+		t.getItems().forEach(it -> it.setUpdated(false));
 		return mtgshop.saveOrUpdateTransaction(t);
 	}
 
-	public static void sendMail(Transaction t,String template,String msg)
-	{
-		EmailNotifier plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
-		if(t.getContact().isEmailAccept())
-		{
+	public static void sendMail(Transaction t, String template, String msg) {
+		EmailNotifier plug = (EmailNotifier) MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
+		if (t.getContact().isEmailAccept()) {
 			try {
-					var not = new MTGNotification("["+t.getConfig().getSiteTitle()+ "] Order #"+t.getId() + ":" + msg , new ReportsService().generate(plug.getFormat(), t, template), MTGNotification.MESSAGE_TYPE.INFO);
-					plug.send(t.getContact().getEmail(),not);
-				}
+				var not = new MTGNotification("[" + t.getConfig().getSiteTitle() + "] Order #" + t.getId() + ":" + msg,
+						new ReportsService().generate(plug.getFormat(), t, template),
+						MTGNotification.MESSAGE_TYPE.INFO);
+				plug.send(t.getContact().getEmail(), not);
+			}
 
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
+			catch (Exception e) {
+				logger.error(e);
+			}
 		}
 
 	}
@@ -123,12 +122,13 @@ public class TransactionService
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		t.setStatut(EnumTransactionStatus.NEW);
 		t.setCurrency(t.getConfig().getCurrency());
-		var ret = saveTransaction(t,false);
-		sendMail(t,"TransactionNew","Transaction received");
+		var ret = saveTransaction(t, false);
+		sendMail(t, "TransactionNew", "Transaction received");
 
-		MTGControler.getInstance().notify(new MTGNotification("New Transaction","New transaction from " + t.getContact(),MESSAGE_TYPE.INFO));
+		MTGControler.getInstance().notify(
+				new MTGNotification("New Transaction", "New transaction from " + t.getContact(), MESSAGE_TYPE.INFO));
 
-		if(t.getConfig().isAutomaticValidation())
+		if (t.getConfig().isAutomaticValidation())
 			ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
 				@Override
@@ -140,8 +140,7 @@ public class TransactionService
 					}
 
 				}
-			}, "Transaction " + t.getId() +" validation");
-
+			}, "Transaction " + t.getId() + " validation");
 
 		return ret;
 
@@ -149,53 +148,49 @@ public class TransactionService
 
 	public static MTGCardStock getBestProduct() throws SQLException {
 
-		Map<MTGCardStock, Integer> items = new HashMap<>() ;
-		for(var t : getEnabledPlugin(MTGDao.class).listTransactions())
-			for(var m : t.getItems().stream().filter(msi->msi.getProduct().getTypeProduct()==EnumItems.CARD).toList())
-				items.put((MTGCardStock)m, items.getOrDefault(m, 0)+m.getQte());
+		Map<MTGCardStock, Integer> items = new HashMap<>();
+		for (var t : getEnabledPlugin(MTGDao.class).listTransactions())
+			for (var m : t.getItems().stream().filter(msi -> msi.getProduct().getTypeProduct() == EnumItems.CARD)
+					.toList())
+				items.put((MTGCardStock) m, items.getOrDefault(m, 0) + m.getQte());
 
 		int max = Collections.max(items.values());
-		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(Entry::getKey).findAny().orElse(null);
+		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(Entry::getKey).findAny()
+				.orElse(null);
 	}
 
-	public static List<MTGStockItem> validateTransaction(Transaction t) throws  IOException {
+	public static List<MTGStockItem> validateTransaction(Transaction t) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		List<MTGStockItem> rejectsT = new ArrayList<>();
 		List<MTGStockItem> accepteds = new ArrayList<>();
-		for(var transactionItem : t.getItems())
-		{
-				var stock = mtgshop.getStockById(transactionItem.getProduct().getTypeProduct(),String.valueOf(transactionItem.getId()));
-				if(transactionItem.getQte()>stock.getQte())
-				{
-					   t.setStatut(EnumTransactionStatus.IN_PROGRESS);
-					   rejectsT.add(transactionItem);
-					   transactionItem.setComment("Not enought Stock ( "+stock.getQte()+"/"+transactionItem.getQte()+")");
-				}
-				else
-				{
-					   transactionItem.setComment("");
-					   stock.setQte(stock.getQte()-transactionItem.getQte());
-					   stock.setUpdated(true);
-					   accepteds.add(stock);
-				}
+		for (var transactionItem : t.getItems()) {
+			var stock = mtgshop.getStockById(transactionItem.getProduct().getTypeProduct(),
+					String.valueOf(transactionItem.getId()));
+			if (transactionItem.getQte() > stock.getQte()) {
+				t.setStatut(EnumTransactionStatus.IN_PROGRESS);
+				rejectsT.add(transactionItem);
+				transactionItem
+						.setComment("Not enought Stock ( " + stock.getQte() + "/" + transactionItem.getQte() + ")");
+			} else {
+				transactionItem.setComment("");
+				stock.setQte(stock.getQte() - transactionItem.getQte());
+				stock.setUpdated(true);
+				accepteds.add(stock);
+			}
 		}
 
-		if(rejectsT.isEmpty() && !accepteds.isEmpty())
-		{
+		if (rejectsT.isEmpty() && !accepteds.isEmpty()) {
 			t.setStatut(EnumTransactionStatus.PAYMENT_WAITING);
-			for(MTGStockItem stock : accepteds)
-			{
-				mtgshop.saveOrUpdateStock(stock,true);
+			for (MTGStockItem stock : accepteds) {
+				mtgshop.saveOrUpdateStock(stock, true);
 			}
-			sendMail(t,"TransactionValid"," Your order is validate !");
-			((JSONHttpServer)MTG.getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache();
-		}
-		else
-		{
+			sendMail(t, "TransactionValid", " Your order is validate !");
+			((JSONHttpServer) MTG.getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache();
+		} else {
 			t.setStatut(EnumTransactionStatus.IN_PROGRESS);
 		}
 
-		saveTransaction(t,false);
+		saveTransaction(t, false);
 
 		return rejectsT;
 	}
@@ -203,21 +198,21 @@ public class TransactionService
 	public static void payingTransaction(Transaction t, String providerName) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 
-		if(EnumPaymentProvider.BANK_TRANSFERT.equals(t.getPaymentProvider()) || EnumPaymentProvider.PAYPALME.equals(t.getPaymentProvider()))
+		if (EnumPaymentProvider.BANK_TRANSFERT.equals(t.getPaymentProvider())
+				|| EnumPaymentProvider.PAYPALME.equals(t.getPaymentProvider()))
 			t.setStatut(EnumTransactionStatus.PAYMENT_SENT);
 		else
 			t.setStatut(EnumTransactionStatus.PAID);
 
-
 		t.setPaymentProvider(EnumPaymentProvider.valueOf(providerName.toUpperCase()));
 		t.setDatePayment(new Date());
-		saveTransaction(t,false);
+		saveTransaction(t, false);
 		try {
 			storeInvoice(t);
 		} catch (SQLException e) {
-		logger.warn("Error saving invoice for {}", t,e);
+			logger.warn("Error saving invoice for {}", t, e);
 		}
-		sendMail(t,"TransactionPaid","Payment Accepted !");
+		sendMail(t, "TransactionPaid", "Payment Accepted !");
 
 	}
 
@@ -225,10 +220,8 @@ public class TransactionService
 
 		Transaction t = ts.get(0);
 
-		for(var i=1;i<ts.size();i++)
-		{
-			if(t.getContact() != ts.get(0).getContact())
-			{
+		for (var i = 1; i < ts.size(); i++) {
+			if (t.getContact() != ts.get(0).getContact()) {
 				throw new IOException("Users are differents");
 			}
 
@@ -240,7 +233,7 @@ public class TransactionService
 				logger.error(e);
 			}
 		}
-		saveTransaction(t,false);
+		saveTransaction(t, false);
 	}
 
 	public static void deleteContact(Contact contact) throws IOException {
@@ -256,42 +249,38 @@ public class TransactionService
 		return mtgshop.listContacts();
 	}
 
-	public static List<Transaction> listTransactions()  throws IOException {
+	public static List<Transaction> listTransactions() throws IOException {
 		return mtgshop.listTransaction();
 	}
 
-	public static List<Transaction> listTransactions(Contact c)  throws IOException {
+	public static List<Transaction> listTransactions(Contact c) throws IOException {
 		return mtgshop.listTransactions(c);
 	}
-	
+
 	public static void deleteTransaction(List<Transaction> t) throws IOException {
 		mtgshop.deleteTransaction(t);
 
 	}
 
 	public static void storeInvoice(Transaction t) throws SQLException {
-		
+
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		t.setCurrency(t.getConfig().getCurrency());
-		
-		var fileName= "invoice-"+t.getId()+".html";
-		
-		 if(!MTG.getEnabledPlugin(MTGDao.class).listEntries(t.getClasseName(), fileName).isEmpty())
-		 {
-			 logger.warn("Invoice already present for {}",t);
-			 return;
-		 }
-		
-		
+
+		var fileName = "invoice-" + t.getId() + ".html";
+
+		if (!MTG.getEnabledPlugin(MTGDao.class).listEntries(t.getClasseName(), fileName).isEmpty()) {
+			logger.warn("Invoice already present for {}", t);
+			return;
+		}
+
 		var entry = new GedEntry<Transaction>();
-		  entry.setContent(new ReportsService().generate(FORMAT_NOTIFICATION.HTML, t, "Invoice").getBytes());
-		  entry.setId(t.getId().toString());
-		  entry.setName(fileName);
-		  entry.setClasse(Transaction.class);
-		  MTG.getEnabledPlugin(MTGDao.class).storeEntry(entry);
-		
+		entry.setContent(new ReportsService().generate(FORMAT_NOTIFICATION.HTML, t, "Invoice").getBytes());
+		entry.setId(t.getId().toString());
+		entry.setName(fileName);
+		entry.setClasse(Transaction.class);
+		MTG.getEnabledPlugin(MTGDao.class).storeEntry(entry);
+
 	}
-
-
 
 }

@@ -2,7 +2,6 @@ package org.magic.gui.renderer.standard;
 
 import java.awt.Component;
 import java.text.NumberFormat;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
@@ -11,10 +10,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
 import org.apache.commons.lang3.StringUtils;
 
-public class NumberCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
+public class NumberCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
 
 	/**
 	 *
@@ -29,13 +27,12 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 		var model1 = new SpinnerNumberModel();
 		model1.setMinimum(0);
 		spinner.setModel(model1);
-		formater =NumberFormat.getNumberInstance();
+		formater = NumberFormat.getNumberInstance();
 		formater.setGroupingUsed(false);
-		label= new JLabel();
+		label = new JLabel();
 		label.setHorizontalAlignment(SwingConstants.HORIZONTAL);
 		label.setOpaque(true);
 	}
-
 
 	@Override
 	public Object getCellEditorValue() {
@@ -49,32 +46,26 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 	}
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
 
 		var text = String.valueOf(value);
-		if(StringUtils.isNumeric(text))
-		{
+		if (StringUtils.isNumeric(text)) {
 			try {
 				text = formater.format(value);
-			}catch(Exception _)
-			{
-				//do nothing
+			} catch (Exception _) {
+				// do nothing
 			}
 		}
 
 		label.setText(text);
-			if(isSelected)
-			{
-				label.setBackground(table.getSelectionBackground());
-				label.setForeground(table.getSelectionForeground());
-			}
-			else
-			{
-				label.setBackground(table.getBackground());
-				label.setForeground(table.getForeground());
-			}
-
-
+		if (isSelected) {
+			label.setBackground(table.getSelectionBackground());
+			label.setForeground(table.getSelectionForeground());
+		} else {
+			label.setBackground(table.getBackground());
+			label.setForeground(table.getForeground());
+		}
 
 		return label;
 	}

@@ -1,10 +1,8 @@
 package org.magic.gui.components.widgets;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JComponent;
 import javax.swing.JProgressBar;
-
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 
 public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
@@ -20,7 +18,7 @@ public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 		progress = new JProgressBar();
 		progress.setMinimum(0);
 		progress.setStringPainted(true);
-		add(progress,BorderLayout.CENTER);
+		add(progress, BorderLayout.CENTER);
 
 	}
 
@@ -30,28 +28,23 @@ public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 	}
 
 	@Override
-	public void progress()
-	{
-		setValue(progress.getValue()+1);
+	public void progress() {
+		setValue(progress.getValue() + 1);
 	}
 
-
-
 	@Override
-	public void setText(String s)
-	{
-		if(progress.isIndeterminate())
+	public void setText(String s) {
+		if (progress.isIndeterminate())
 			progress.setString(s);
 	}
 
-
 	@Override
 	public void start(int max) {
-			setText(null);
-			progress.setValue(0);
-			progress.setMaximum(max);
-			progress.setIndeterminate(false);
-			setVisible(true);
+		setText(null);
+		progress.setValue(0);
+		progress.setMaximum(max);
+		progress.setIndeterminate(false);
+		setVisible(true);
 	}
 
 	@Override
@@ -61,7 +54,6 @@ public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 		setVisible(true);
 		setText(null);
 	}
-
 
 	@Override
 	public void end() {
@@ -80,6 +72,5 @@ public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 	public int getValue() {
 		return progress.getValue();
 	}
-
 
 }

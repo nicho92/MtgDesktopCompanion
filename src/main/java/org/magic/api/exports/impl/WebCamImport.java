@@ -3,7 +3,6 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -13,7 +12,6 @@ import org.magic.gui.components.dialog.WebcamCardImportDialog;
 import org.magic.services.MTGControler;
 
 public class WebCamImport extends AbstractCardExport {
-
 
 	@Override
 	public MODS getMods() {
@@ -57,13 +55,12 @@ public class WebCamImport extends AbstractCardExport {
 		var c = new WebcamCardImportDialog();
 		c.setVisible(true);
 
-		return c.getFindedCards().stream().map(card->{
+		return c.getFindedCards().stream().map(card -> {
 			MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(card);
 			return st;
 		}).toList();
 	}
-
 
 	@Override
 	public String getName() {

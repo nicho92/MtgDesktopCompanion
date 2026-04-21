@@ -3,7 +3,6 @@ package org.magic.game.actions.cards;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
@@ -22,7 +21,7 @@ public class MeldActions extends AbstractCardAction {
 	private static final String PARSEKEY = "(Melds with ";
 
 	public MeldActions(DisplayableCard card) {
-		super(card,"Meld into " + card.getMagicCard().getRotatedCard());
+		super(card, "Meld into " + card.getMagicCard().getRotatedCard());
 		putValue(SHORT_DESCRIPTION, "Meld the cards with bigger one !");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
 		parse(card.getMagicCard().getText());
@@ -80,7 +79,7 @@ public class MeldActions extends AbstractCardAction {
 
 	@Override
 	public ZoneEnum playableFrom() {
-			return ZoneEnum.BATTLEFIELD;
+		return ZoneEnum.BATTLEFIELD;
 	}
 
 }

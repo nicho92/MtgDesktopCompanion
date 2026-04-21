@@ -6,14 +6,12 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGFormat;
@@ -35,7 +33,6 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	private JComboBox<MTGFormat.FORMATS> cboFormat;
 	private JComboBox<String> cboFilter;
 
-
 	@Override
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_UP;
@@ -45,9 +42,6 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	public String getCategory() {
 		return "Market";
 	}
-
-
-
 
 	@Override
 	public String getName() {
@@ -69,25 +63,24 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		panneauHaut.add(buzy);
 
 		models = new CardDominanceTableModel();
-		table = UITools.createNewTable(models,false);
+		table = UITools.createNewTable(models, false);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		UITools.initCardToolTipTable(table, 0, null,null,null);
+		UITools.initCardToolTipTable(table, 0, null, null, null);
 
 		cboFormat.addItemListener(ie -> {
-			if(ie.getStateChange()==ItemEvent.SELECTED)
+			if (ie.getStateChange() == ItemEvent.SELECTED)
 				init();
 		});
 
 		cboFilter.addItemListener(ie -> {
 
-			if(ie.getStateChange()==ItemEvent.SELECTED)
+			if (ie.getStateChange() == ItemEvent.SELECTED)
 				init();
 		});
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")),
-					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
-					(int) Double.parseDouble(getString("h")));
+			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			try {
 				cboFormat.setSelectedItem(getProperty("FORMAT", "standard"));
@@ -106,7 +99,8 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 			@Override
 			protected List<MTGDominance> doInBackground() throws Exception {
-				return getEnabledPlugin(MTGDashBoard.class).getBestCards((MTGFormat.FORMATS) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
+				return getEnabledPlugin(MTGDashBoard.class).getBestCards(
+						(MTGFormat.FORMATS) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
 			}
 
 			@Override
@@ -120,20 +114,15 @@ public class BestCardsDashlet extends AbstractJDashlet {
 					setProperty("FORMAT", cboFormat.getSelectedItem().toString());
 					setProperty("FILTER", cboFilter.getSelectedItem().toString());
 
-				}
-				catch(InterruptedException _)
-				{
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
-				}
-				catch(Exception e)
-				{
+				} catch (Exception e) {
 					logger.error(e);
 				}
 				buzy.end();
 			}
 
 		};
-
 
 		ThreadManager.getInstance().runInEdt(sw, "Loading best cards");
 	}

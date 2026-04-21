@@ -6,10 +6,8 @@ import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.Frame;
 import java.io.IOException;
-
 import javax.swing.JOptionPane;
 import javax.swing.plaf.FontUIResource;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -31,21 +29,20 @@ public class MtgDesktopCompanion {
 	private Chrono chrono;
 
 	public static void main(String[] args) {
-			new MtgDesktopCompanion();
+		new MtgDesktopCompanion();
 	}
 
 	public MtgDesktopCompanion() {
 		chrono = new Chrono();
 
 		launch = new MTGSplashScreen();
-		
+
 		try {
-			MTGLogger.getMTGAppender().addObserver(launch);	
-		}catch(Exception e)
-		{
-			logger.error("Error getting MTGLogger : {} ",e.getMessage());
+			MTGLogger.getMTGAppender().addObserver(launch);
+		} catch (Exception e) {
+			logger.error("Error getting MTGLogger : {} ", e.getMessage());
 		}
-		
+
 		launch.start();
 		chrono.start();
 		try {
@@ -53,20 +50,21 @@ public class MtgDesktopCompanion {
 
 			boolean updated = MTGControler.getInstance().updateConfigMods();
 			MTGControler.getInstance().loadAccountsConfiguration();
-		
 
-			logger.trace("result config updated : {}",updated);
+			logger.trace("result config updated : {}", updated);
 
 			if (updated)
-				MTGControler.getInstance().notify(new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
+				MTGControler.getInstance().notify(
+						new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
 
 			getEnabledPlugin(MTGCardsProvider.class).init();
 			getEnabledPlugin(MTGDao.class).init();
 
-			logger.info("Init {} GUI",MTGConstants.MTG_APP_NAME);
+			logger.info("Init {} GUI", MTGConstants.MTG_APP_NAME);
 		} catch (Exception e) {
 			logger.error("Error initialisation", e);
-			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),
+					JOptionPane.ERROR_MESSAGE);
 			System.exit(-1);
 		}
 
@@ -75,8 +73,10 @@ public class MtgDesktopCompanion {
 			@Override
 			protected void auditedRun() {
 				var gui = new MagicGUI();
-				MTGControler.getInstance().getLafService().setFont(new FontUIResource(MTGControler.getInstance().getFont()));
-				MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"),false);
+				MTGControler.getInstance().getLafService()
+						.setFont(new FontUIResource(MTGControler.getInstance().getFont()));
+				MTGControler.getInstance().getLafService().setLookAndFeel(gui,
+						MTGControler.getInstance().get("lookAndFeel"), false);
 				gui.setExtendedState(Frame.MAXIMIZED_BOTH);
 				gui.setVisible(true);
 
@@ -84,7 +84,7 @@ public class MtgDesktopCompanion {
 
 				launch.stop();
 
-				listEnabledPlugins(MTGServer.class).stream().filter(MTGServer::isAutostart).forEach(s->{
+				listEnabledPlugins(MTGServer.class).stream().filter(MTGServer::isAutostart).forEach(s -> {
 					try {
 						s.start();
 					} catch (IOException e) {
@@ -92,7 +92,7 @@ public class MtgDesktopCompanion {
 					}
 				});
 				long time = chrono.stop();
-				logger.info("{} started in {} sec",MTGConstants.MTG_APP_NAME ,time);
+				logger.info("{} started in {} sec", MTGConstants.MTG_APP_NAME, time);
 
 			}
 		}, "Running Main App GUI");

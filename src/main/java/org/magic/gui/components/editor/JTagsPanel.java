@@ -13,7 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -24,7 +23,6 @@ import javax.swing.KeyStroke;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
 import org.magic.gui.components.wallpaper.WrapLayout;
 import org.magic.services.MTGControler;
 
@@ -45,12 +43,11 @@ public class JTagsPanel extends JComponent {
 		this.clickcounttoDelete = clickcounttoDelete;
 	}
 
-
 	public JTagsPanel() {
 		tags = new ArrayList<>();
-		
+
 		initGUI();
-		
+
 		isEditable = true;
 	}
 
@@ -58,7 +55,7 @@ public class JTagsPanel extends JComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		panelTags = new JPanel();
-	
+
 		panelTags.setLayout(new WrapLayout(FlowLayout.LEFT, 10, 10));
 		add(panelTags, BorderLayout.CENTER);
 
@@ -96,7 +93,7 @@ public class JTagsPanel extends JComponent {
 		btnAdd.getActionMap().put("ADD", action);
 		panelAdds.add(btnAdd);
 		componentFont = MTGControler.getInstance().getFont().deriveFont(Font.PLAIN, 15);
-		
+
 	}
 
 	public void setFontSize(int s) {
@@ -119,7 +116,6 @@ public class JTagsPanel extends JComponent {
 		clean();
 		this.tags = tagsList;
 		tags.forEach(this::addLabel);
-		
 
 	}
 
@@ -139,10 +135,10 @@ public class JTagsPanel extends JComponent {
 		isEditable = l;
 		panelAdds.setVisible(isEditable);
 
-		if(isEditable)
+		if (isEditable)
 			for (Component c : getComponents()) {
 				if (c instanceof TagLabel t) {
-						c.addMouseListener(new TagMouseListener(t));
+					c.addMouseListener(new TagMouseListener(t));
 				}
 			}
 	}
@@ -152,12 +148,10 @@ public class JTagsPanel extends JComponent {
 		panelTags.revalidate();
 	}
 
-
 	public void addTag(String t) {
-			tags.add(t);
-			addLabel(t);
+		tags.add(t);
+		addLabel(t);
 	}
-
 
 	public void addTags(List<String> list) {
 		list.forEach(this::addTag);
@@ -181,8 +175,6 @@ public class JTagsPanel extends JComponent {
 		repaint();
 	}
 
-
-
 	class TagMouseListener extends MouseAdapter {
 		private TagLabel tagLabel;
 
@@ -202,11 +194,9 @@ public class JTagsPanel extends JComponent {
 
 	public String getTagAt(Point point) {
 		try {
-		TagLabel t = (TagLabel) panelTags.getComponentAt(point);
-		return t.getText();
-		}
-		catch(Exception _)
-		{
+			TagLabel t = (TagLabel) panelTags.getComponentAt(point);
+			return t.getText();
+		} catch (Exception _) {
 			return "";
 		}
 	}
@@ -220,16 +210,15 @@ class TagLabel extends JLabel {
 	public TagLabel(String t, Color f, Color b, Font font) {
 		super(t);
 		setFont(font);
-		init(f,b);
+		init(f, b);
 	}
 
 	public TagLabel(String t) {
 		super(t);
-		init(Color.BLACK,Color.WHITE);
+		init(Color.BLACK, Color.WHITE);
 	}
 
-	private void init(Color f, Color b)
-	{
+	private void init(Color f, Color b) {
 		setForeground(f);
 		setBackground(b);
 		setBounds(new Rectangle(2, 2, 7, 2));

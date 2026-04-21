@@ -7,16 +7,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
-
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
-	private String[] columnsNames = { capitalize("PROVIDERS"),
-			capitalize("VALUE"), "Version",
-			capitalize("ENABLED") };
+	private String[] columnsNames = {capitalize("PROVIDERS"), capitalize("VALUE"), "Version", capitalize("ENABLED")};
 
 	private static final int ENABLED_INDEX = 3;
 
@@ -48,7 +45,6 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 		return new ArrayList<>(listElements).get(index);
 	}
 
-
 	@Override
 	public int getChildCount(Object parent) {
 		if (parent instanceof MTGPlugin) {
@@ -67,19 +63,16 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 			selectedProvider = (T) node;
 			if (column == ENABLED_INDEX) {
 
-
 				selectedProvider.enable(Boolean.parseBoolean(strValue));
 				MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 
 				if (!multipleSelection)
-					listElements.stream().filter(p->p!=selectedProvider).forEach(p->{
+					listElements.stream().filter(p -> p != selectedProvider).forEach(p -> {
 						p.enable(false);
 						MTGControler.getInstance().setProperty(p, p.isEnable());
 					});
 
-
-				if(listElements.stream().filter(MTGPlugin::isEnable).count()==0)
-				{
+				if (listElements.stream().filter(MTGPlugin::isEnable).count() == 0) {
 					selectedProvider.enable(true);
 					MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 				}
@@ -98,26 +91,26 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 		if (node instanceof MTGPlugin prov) {
 
 			switch (column) {
-			case 0:
-				return prov;
-			case 1:
-				return prov.getStatut();
-			case 2:
-				return prov.getVersion();
-			case 3:
-				return prov.isEnable();
-			default:
-				return "";
+				case 0 :
+					return prov;
+				case 1 :
+					return prov.getStatut();
+				case 2 :
+					return prov.getVersion();
+				case 3 :
+					return prov.isEnable();
+				default :
+					return "";
 			}
 		} else if (node instanceof Entry) {
 			Entry<String, String> emp = (Entry<String, String>) node;
 			switch (column) {
-			case 0:
-				return emp.getKey();
-			case 1:
-				return emp.getValue();
-			default:
-				return "";
+				case 0 :
+					return emp.getKey();
+				case 1 :
+					return emp.getValue();
+				default :
+					return "";
 			}
 		}
 		return null;

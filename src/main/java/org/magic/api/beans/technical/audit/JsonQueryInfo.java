@@ -2,13 +2,10 @@ package org.magic.api.beans.technical.audit;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import nl.basjes.parse.useragent.UserAgent;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 
-import nl.basjes.parse.useragent.UserAgent;
-
 public class JsonQueryInfo extends AbstractAuditableItem {
-
 
 	private static final long serialVersionUID = 1L;
 	private String ip;
@@ -27,7 +24,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 
 	public JsonQueryInfo() {
 		super();
-		params=new HashMap<>();
+		params = new HashMap<>();
 		attributes = new HashMap<>();
 		headers = new HashMap<>();
 		queryParams = new HashMap<>();
@@ -40,7 +37,6 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	public Location getLocation() {
 		return location;
 	}
-
 
 	public void setUrl(String url) {
 		this.url = url;
@@ -75,7 +71,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	}
 
 	public void setStatus(int status) {
-		this.status=status;
+		this.status = status;
 	}
 
 	public int getStatus() {
@@ -83,22 +79,22 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	}
 
 	public void setParameters(Map<String, String> params) {
-		this.params=params;
+		this.params = params;
 	}
 
 	public Map<String, String> getParams() {
 		return params;
 	}
 
-	public void setAttributs(Map<String,String> attributes) {
-		this.attributes=attributes;
+	public void setAttributs(Map<String, String> attributes) {
+		this.attributes = attributes;
 	}
 
-	public Map<String,String> getAttributes() {
+	public Map<String, String> getAttributes() {
 		return attributes;
 	}
 
-	public void setHeaders(Map<String,String> headers) {
+	public void setHeaders(Map<String, String> headers) {
 		this.headers = headers;
 	}
 
@@ -107,7 +103,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	}
 
 	public void setUserAgent(UserAgent ua) {
-		this.userAgent=ua;
+		this.userAgent = ua;
 
 	}
 
@@ -116,7 +112,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	}
 
 	public void setSessionId(String id) {
-		this.sessionId=id;
+		this.sessionId = id;
 	}
 
 	public String getPath() {
@@ -124,24 +120,20 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	}
 
 	public void setPath(String servletPath) {
-		this.path=servletPath;
+		this.path = servletPath;
 	}
 
 	public Map<String, String> getQueryParams() {
 		return queryParams;
 	}
 
-
 	public void setQuery(Map<String, String> map) {
-		this.queryParams=map;
+		this.queryParams = map;
 
 	}
-
 
 	public UserAgent getUserAgent() {
 		return userAgent;
 	}
-
-
 
 }

@@ -7,13 +7,11 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -28,7 +26,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
-
 
 public class CardStockPanel extends MTGUIComponent {
 
@@ -49,40 +46,32 @@ public class CardStockPanel extends MTGUIComponent {
 		btnAdd.setEnabled(b);
 	}
 
-	public void showAllColumns()
-	{
-		for(var i=0;i<model.getColumnCount();i++)
+	public void showAllColumns() {
+		for (var i = 0; i < model.getColumnCount(); i++)
 			table.getColumnExt(model.getColumnName(i)).setVisible(true);
 	}
 
-
 	public List<MTGCardStock> getMultiSelection() {
-		return	UITools.getTableSelections(table, 0);
+		return UITools.getTableSelections(table, 0);
 	}
 
 	public MTGCardStock getSelected() {
-		return	UITools.getTableSelection(table, 0);
+		return UITools.getTableSelection(table, 0);
 	}
 
-
-	
-	
 	public CardStockPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new CardStockTableModel();
-		table = UITools.createNewTable(model,true);
+		table = UITools.createNewTable(model, true);
 		table.getColumn(8).setCellEditor(new LanguageComboBoxCellEditor());
-		
-		
 
-		for(int i : model.defaultHiddenColumns())
-		{
+		for (int i : model.defaultHiddenColumns()) {
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);
 		}
 
 		panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
-		add(new JScrollPane(table),BorderLayout.CENTER);
+		add(new JScrollPane(table), BorderLayout.CENTER);
 		btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_ADD, "newStock");
 		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_MINUS, "delete");
 		btnSave = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S, "save");
@@ -95,8 +84,6 @@ public class CardStockPanel extends MTGUIComponent {
 		btnSave.addActionListener(_ -> save());
 		btnDelete.addActionListener(_ -> delete());
 
-
-
 		panneauHaut.add(btnAdd);
 		panneauHaut.add(btnDelete);
 		panneauHaut.add(btnSave);
@@ -105,8 +92,7 @@ public class CardStockPanel extends MTGUIComponent {
 
 	private void save() {
 
-		SwingWorker<Void, Void> sw = new SwingWorker<>()
-		{
+		SwingWorker<Void, Void> sw = new SwingWorker<>() {
 			@Override
 			protected Void doInBackground() throws Exception {
 				for (MTGCardStock ms : model.getItems())
@@ -127,8 +113,6 @@ public class CardStockPanel extends MTGUIComponent {
 				model.fireTableDataChanged();
 			}
 
-
-
 		};
 		ThreadManager.getInstance().runInEdt(sw, "batch stock saving");
 	}
@@ -137,15 +121,14 @@ public class CardStockPanel extends MTGUIComponent {
 		List<MTGCardStock> st = UITools.getTableSelections(table, 0);
 
 		model.removeItem(st);
-		st.removeIf(s->s.getId()==-1);
+		st.removeIf(s -> s.getId() == -1);
 
-		if(!st.isEmpty())
-		{
-		try {
-			getEnabledPlugin(MTGDao.class).deleteStock(st);
-		} catch (SQLException e) {
-			logger.error(e);
-		}
+		if (!st.isEmpty()) {
+			try {
+				getEnabledPlugin(MTGDao.class).deleteStock(st);
+			} catch (SQLException e) {
+				logger.error(e);
+			}
 		}
 	}
 
@@ -153,20 +136,19 @@ public class CardStockPanel extends MTGUIComponent {
 	public void onHide() {
 		boolean isUpdatedModel = model.getItems().stream().anyMatch(MTGCardStock::isUpdated);
 
-		if(isUpdatedModel)
-		{
-			MTGControler.getInstance().notify(new MTGNotification("Item Updated", "Don't forget to save your updates", MESSAGE_TYPE.WARNING));
+		if (isUpdatedModel) {
+			MTGControler.getInstance().notify(
+					new MTGNotification("Item Updated", "Don't forget to save your updates", MESSAGE_TYPE.WARNING));
 		}
 
 	}
 
-	private void addLine()
-	{
+	private void addLine() {
 		try {
 			MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(mc);
 
-			if(col!=null)
+			if (col != null)
 				st.setMagicCollection(col);
 			else
 				st.setMagicCollection(new MTGCollection(MTGControler.getInstance().get("default-library")));
@@ -182,39 +164,35 @@ public class CardStockPanel extends MTGUIComponent {
 
 	public void init(MTGCard mc, MTGCollection col) {
 
-		if(mc==null)
+		if (mc == null)
 			return;
 
-		this.mc=mc;
-		this.col=col;
+		this.mc = mc;
+		this.col = col;
 		btnAdd.setEnabled(true);
 		btnSave.setEnabled(true);
 		btnDelete.setEnabled(true);
 
-		if(isVisible())
-		{
+		if (isVisible()) {
 			onVisible();
 		}
 
 	}
 
-
 	@Override
 	public void onVisible() {
-		
-		if(mc==null)
+
+		if (mc == null)
 			return;
-		
-		var sw = new SwingWorker<List<MTGCardStock> , Void>()
-		{
+
+		var sw = new SwingWorker<List<MTGCardStock>, Void>() {
 			@Override
 			protected List<MTGCardStock> doInBackground() throws Exception {
-				if(col==null)
+				if (col == null)
 					return getEnabledPlugin(MTGDao.class).listStocks(mc);
 				else
-					return getEnabledPlugin(MTGDao.class).listStocks(mc, col,true);
+					return getEnabledPlugin(MTGDao.class).listStocks(mc, col, true);
 			}
-
 
 			@Override
 			protected void done() {
@@ -234,8 +212,6 @@ public class CardStockPanel extends MTGUIComponent {
 		ThreadManager.getInstance().runInEdt(sw, "load stock");
 	}
 
-
-
 	public void disableCommands() {
 
 		btnAdd.setEnabled(false);
@@ -245,8 +221,6 @@ public class CardStockPanel extends MTGUIComponent {
 		model.setWritable(false);
 
 	}
-
-
 
 	public void initMagicCardStock(List<MTGCardStock> st) {
 
@@ -262,9 +236,6 @@ public class CardStockPanel extends MTGUIComponent {
 		}
 
 	}
-
-
-
 
 	@Override
 	public String getTitle() {

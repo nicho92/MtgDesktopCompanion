@@ -2,15 +2,14 @@ package org.magic.gui.dashlet;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
+import com.jogamp.newt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
-
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -19,14 +18,10 @@ import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
-import com.jogamp.newt.event.KeyEvent;
-
 public class TransactionHistoryDashlet extends AbstractJDashlet {
-
 
 	private static final long serialVersionUID = 1L;
 	private TransactionHistoryChartPanel chart;
-
 
 	@Override
 	public String getCategory() {
@@ -40,25 +35,20 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh");
 
-		
 		getContentPane().add(panel, BorderLayout.NORTH);
-		getContentPane().add(chart,BorderLayout.CENTER);
+		getContentPane().add(chart, BorderLayout.CENTER);
 
 		panel.add(btnRefresh);
 		panel.add(buzy);
-		
-		
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")),
-					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
-					(int) Double.parseDouble(getString("h")));
-
+			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);
 		}
-		
-		btnRefresh.addActionListener(_->init());
+
+		btnRefresh.addActionListener(_ -> init());
 
 	}
 
@@ -81,11 +71,10 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 				}
 				buzy.end();
 			}
-			
-			
+
 		};
-		
-		ThreadManager.getInstance().runInEdt(sw, "Loading "+getName());
+
+		ThreadManager.getInstance().runInEdt(sw, "Loading " + getName());
 	}
 
 	@Override
@@ -97,6 +86,5 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 	public String getName() {
 		return "Transactions History";
 	}
-
 
 }

@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -15,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,11 +29,9 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 	private DefaultMutableTreeNode root = new DefaultMutableTreeNode();
 	private DefaultTreeModel model = new DefaultTreeModel(root);
 	private JTextField jtf;
-	private JButton btnExport ;
+	private JButton btnExport;
 	private JTextField txtSeparator;
 	private JCheckBox chkseparator;
-
-
 
 	public ExportConfiguratorPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -44,7 +40,6 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 		jtf = new JTextField(50);
 		txtSeparator = new JTextField(10);
 		chkseparator = new JCheckBox(capitalize("AUTO_ADD"));
-
 
 		btnExport = UITools.createBindableJButton(null, MTGConstants.ICON_EXPORT, KeyEvent.VK_E, "export");
 		add(new JScrollPane(tree), BorderLayout.WEST);
@@ -59,58 +54,52 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 		tree.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2)
-				{
+				if (e.getClickCount() == 2) {
 					var selPath = tree.getPathForLocation(e.getX(), e.getY());
 
-					if(selPath!=null)
-					{
-						jtf.setText(jtf.getText()+BeanTools.TOKEN_START+StringUtils.join(ArrayUtils.remove(selPath.getPath(), 0),".")+BeanTools.TOKEN_END);
+					if (selPath != null) {
+						jtf.setText(jtf.getText() + BeanTools.TOKEN_START
+								+ StringUtils.join(ArrayUtils.remove(selPath.getPath(), 0), ".") + BeanTools.TOKEN_END);
 
-						if(chkseparator.isSelected())
-							jtf.setText(jtf.getText()+txtSeparator.getText());
+						if (chkseparator.isSelected())
+							jtf.setText(jtf.getText() + txtSeparator.getText());
 
 						jtf.requestFocus();
 
-
-
-
 					}
 
-	            }
+				}
 			}
-			});
+		});
 
 	}
 
-	public void initTree(Object o)
-	{
-		BeanTools.describe(o).entrySet().forEach(e->{
+	public void initTree(Object o) {
+		BeanTools.describe(o).entrySet().forEach(e -> {
 
 			var entry = new DefaultMutableTreeNode(e.getKey());
 
-			if(e.getValue()!=null && !(ClassUtils.isPrimitiveOrWrapper(e.getValue().getClass())) && !(e.getValue() instanceof String))
-			{
-				BeanTools.describe(e.getValue()).entrySet().forEach(f->{
+			if (e.getValue() != null && !(ClassUtils.isPrimitiveOrWrapper(e.getValue().getClass()))
+					&& !(e.getValue() instanceof String)) {
+				BeanTools.describe(e.getValue()).entrySet().forEach(f -> {
 					var entryEd = new DefaultMutableTreeNode(f.getKey());
 					entry.add(entryEd);
 
-					if(f.getValue()!=null && !(ClassUtils.isPrimitiveOrWrapper(f.getValue().getClass())) && !(f.getValue() instanceof String))
-					{
+					if (f.getValue() != null && !(ClassUtils.isPrimitiveOrWrapper(f.getValue().getClass()))
+							&& !(f.getValue() instanceof String)) {
 
-						BeanTools.describe(f.getValue()).entrySet().forEach(g->{
+						BeanTools.describe(f.getValue()).entrySet().forEach(g -> {
 							var entry2 = new DefaultMutableTreeNode(g.getKey());
 							entryEd.add(entry2);
 						});
 					}
 				});
 
-				if(e.getValue() instanceof List)
-				{
-					List<?> t = (List<?>)e.getValue();
+				if (e.getValue() instanceof List) {
+					List<?> t = (List<?>) e.getValue();
 
-					if(!t.isEmpty())
-						BeanTools.describe(t.get(0)).entrySet().forEach(f->{
+					if (!t.isEmpty())
+						BeanTools.describe(t.get(0)).entrySet().forEach(f -> {
 							var entryEd = new DefaultMutableTreeNode(f.getKey());
 							entry.add(entryEd);
 						});
@@ -139,6 +128,5 @@ public class ExportConfiguratorPanel extends MTGUIComponent {
 		jtf.setText(string);
 
 	}
-
 
 }

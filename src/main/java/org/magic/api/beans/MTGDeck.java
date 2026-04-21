@@ -9,11 +9,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
-
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.interfaces.extra.MTGSerializable;
-
 
 public class MTGDeck implements MTGSerializable {
 
@@ -23,50 +21,49 @@ public class MTGDeck implements MTGSerializable {
 	private int id;
 
 	private String description;
-	private String name="No Name";
+	private String name = "No Name";
 	private Date dateCreation;
 	private Date dateUpdate;
 	private double averagePrice;
 	private List<String> tags;
 	private MTGCard commander;
 
-	public enum BOARD {MAIN, SIDE}
+	public enum BOARD {
+		MAIN, SIDE
+	}
 
-	public MTGDeck()
-	{
-		id=-1;
+	public MTGDeck() {
+		id = -1;
 		mapDeck = new LinkedHashMap<>();
 		mapSideBoard = new LinkedHashMap<>();
 		tags = new ArrayList<>();
 		averagePrice = 0;
-		dateCreation=new Date();
-		dateUpdate=new Date();
+		dateCreation = new Date();
+		dateUpdate = new Date();
 	}
-
 
 	@Override
 	public String getStoreId() {
 		return String.valueOf(getId());
 	}
 
+	public MTGDeck getMergedDeck() {
+		var mergeCardList = new ArrayList<MTGCard>();
+		var cardNames = new ArrayList<String>();
 
+		getMainAsList().forEach(mc -> {
+			if (!cardNames.contains(mc.getName())) {
+				getMainAsList().stream().filter(k -> k.getName().equalsIgnoreCase(mc.getName()))
+						.forEach(_ -> mergeCardList.add(mc));
+				cardNames.add(mc.getName());
+			}
+		});
 
-  public MTGDeck getMergedDeck() {
-    var mergeCardList = new ArrayList<MTGCard>();
-    var cardNames = new ArrayList<String>();
+		var mergedDeck = toDeck(mergeCardList);
+		mergedDeck.setName("merged cards deck");
 
-    getMainAsList().forEach(mc -> {
-      if (! cardNames.contains(mc.getName())) {
-        getMainAsList().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).forEach(_->mergeCardList.add(mc));
-        cardNames.add(mc.getName());
-      }
-    });
-
-    var mergedDeck = toDeck(mergeCardList);
-    mergedDeck.setName("merged cards deck");
-
-    return mergedDeck;
-  }
+		return mergedDeck;
+	}
 
 	public int getId() {
 		return id;
@@ -75,7 +72,6 @@ public class MTGDeck implements MTGSerializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	public MTGCard getValueAt(int pos) {
 		return new ArrayList<>(getMain().keySet()).get(pos);
@@ -98,19 +94,19 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	public List<MTGCard> getAllUniqueCards() {
-		
+
 		var list = new ArrayList<MTGCard>();
-		
+
 		list.addAll(getMain().keySet().stream().toList());
 		list.addAll(getSideBoard().keySet().stream().toList());
-		
+
 		return list;
 	}
-	
-	public int getCardCountByName(String name) {
-			return getMain().entrySet().stream().filter(e->e.getKey().getName().equals(name)).mapToInt(Entry::getValue).sum();
-	}
 
+	public int getCardCountByName(String name) {
+		return getMain().entrySet().stream().filter(e -> e.getKey().getName().equals(name)).mapToInt(Entry::getValue)
+				.sum();
+	}
 
 	public void remove(MTGCard mc) {
 		if (getMain().get(mc) == 0)
@@ -127,24 +123,24 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	public void delete(MTGCard mc, BOARD board) {
-    var deck = ((board==BOARD.SIDE) ? mapSideBoard : mapDeck);
+		var deck = ((board == BOARD.SIDE) ? mapSideBoard : mapDeck);
 		deck.remove(mc);
 	}
 
 	public void add(MTGCard mc) {
-		getMain().compute(mc, (_,v)->(v==null)?1:v+1);
+		getMain().compute(mc, (_, v) -> (v == null) ? 1 : v + 1);
 	}
 
 	public void addSide(MTGCard mc) {
-		getSideBoard().compute(mc, (_,v)->(v==null)?1:v+1);
+		getSideBoard().compute(mc, (_, v) -> (v == null) ? 1 : v + 1);
 	}
 
-	public boolean hasCard(MTGCard mc,boolean strict) {
+	public boolean hasCard(MTGCard mc, boolean strict) {
 
-		if(strict)
-			return !getMain().keySet().stream().filter(k->k.equals(mc)).findAny().isEmpty();
+		if (strict)
+			return !getMain().keySet().stream().filter(k -> k.equals(mc)).findAny().isEmpty();
 
-		return !getMain().keySet().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
+		return !getMain().keySet().stream().filter(k -> k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
 	}
 
 	public Set<MTGFormat> getLegality() {
@@ -160,13 +156,10 @@ public class MTGDeck implements MTGSerializable {
 	public String getColors() {
 
 		var cmap = new LinkedHashSet<EnumColors>();
-		for (MTGCard mc : getUniqueCards())
-		{
-			if ((mc.getCmc() != null))
-			{
-				for (EnumColors c : mc.getColors())
-				{
-					if(c!=null)
+		for (MTGCard mc : getUniqueCards()) {
+			if ((mc.getCmc() != null)) {
+				for (EnumColors c : mc.getColors()) {
+					if (c != null)
 						cmap.add(c);
 				}
 			}
@@ -184,7 +177,6 @@ public class MTGDeck implements MTGSerializable {
 	public List<MTGCard> getSideAsList() {
 		return toList(getSideBoard().entrySet());
 	}
-	
 
 	private List<MTGCard> toList(Set<Entry<MTGCard, Integer>> entrySet) {
 		var deck = new ArrayList<MTGCard>();
@@ -198,17 +190,18 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	public boolean isCompatibleFormat(MTGFormat mf) {
-		for (MTGCard mc : mapDeck.keySet())
-		{
-			long num = mc.getLegalities().stream().filter(mf::equals).toList().stream().filter(f->f.getFormatLegality()==AUTHORIZATION.LEGAL || f.getFormatLegality()==AUTHORIZATION.RESTRICTED).count();
+		for (MTGCard mc : mapDeck.keySet()) {
+			long num = mc.getLegalities().stream().filter(mf::equals).toList().stream()
+					.filter(f -> f.getFormatLegality() == AUTHORIZATION.LEGAL
+							|| f.getFormatLegality() == AUTHORIZATION.RESTRICTED)
+					.count();
 
-			if(num<=0)
+			if (num <= 0)
 				return false;
 
 		}
 		return true;
 	}
-
 
 	public static MTGDeck toDeck(List<MTGCard> cards) {
 		var d = new MTGDeck();
@@ -222,7 +215,6 @@ public class MTGDeck implements MTGSerializable {
 
 		return d;
 	}
-
 
 	public List<String> getTags() {
 		return tags;
@@ -290,11 +282,11 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	public void setCreationDate(Date date) {
-		this.dateCreation=date;
+		this.dateCreation = date;
 	}
 
 	public void setCommander(MTGCard mc) {
-		this.commander=mc;
+		this.commander = mc;
 	}
 
 	public MTGCard getCommander() {
@@ -303,13 +295,12 @@ public class MTGDeck implements MTGSerializable {
 
 	public MTGCard getCompanion() {
 
-		Optional<MTGCard> opt= getUniqueCards().stream().filter(MTGCard::isCompanion).findFirst();
+		Optional<MTGCard> opt = getUniqueCards().stream().filter(MTGCard::isCompanion).findFirst();
 
-		if(opt.isPresent())
+		if (opt.isPresent())
 			return opt.get();
 		else
 			return null;
-
 
 	}
 

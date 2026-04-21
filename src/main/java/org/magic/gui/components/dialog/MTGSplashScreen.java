@@ -6,12 +6,10 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
-
 import org.apache.logging.log4j.message.Message;
 import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
@@ -21,7 +19,6 @@ public class MTGSplashScreen extends JWindow implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JProgressBar progressBar;
-
 
 	public void start() {
 		setVisible(true);
@@ -62,7 +59,7 @@ public class MTGSplashScreen extends JWindow implements Observer {
 		progressBar.setMinimum(0);
 		progressBar.setIndeterminate(true);
 		progressBar.setStringPainted(true);
-		progressBar.setForeground(new Color(101,13,136));
+		progressBar.setForeground(new Color(101, 13, 136));
 		pack();
 		setLocationRelativeTo(null);
 	}
@@ -75,13 +72,9 @@ public class MTGSplashScreen extends JWindow implements Observer {
 	@Override
 	public void update(Observable o, Object msg) {
 
-
-		if(msg instanceof Message le)
-		{
+		if (msg instanceof Message le) {
 			progressBar.setString(le.getFormattedMessage());
-		}
-		else
-		{
+		} else {
 			progressBar.setString(String.valueOf(msg));
 		}
 

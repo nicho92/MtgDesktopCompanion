@@ -8,7 +8,6 @@ import org.magic.api.interfaces.extra.MTGComparator;
 
 public class CardsEditionSorter implements MTGComparator<MTGCard> {
 
-
 	@Override
 	public String toString() {
 		return "Edition Sorter";
@@ -19,25 +18,23 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 
 		try {
 
-		boolean o1NullNumber=StringUtils.isEmpty(o1.getNumber());
-		boolean o2NullNumber=StringUtils.isEmpty(o2.getNumber());
-		
-		if (!o1NullNumber && !o2NullNumber && (o1.getEdition().equals(o2.getEdition()))) {
-			int n1 = calculate(o1.getNumber());
-			int n2 = calculate(o2.getNumber());
-			return n1 - n2;
-		}
+			boolean o1NullNumber = StringUtils.isEmpty(o1.getNumber());
+			boolean o2NullNumber = StringUtils.isEmpty(o2.getNumber());
 
-		// else compare
-		int ret = test(o1, o2);
-		if (ret == 0)
-			ret = name(o1, o2);
+			if (!o1NullNumber && !o2NullNumber && (o1.getEdition().equals(o2.getEdition()))) {
+				int n1 = calculate(o1.getNumber());
+				int n2 = calculate(o2.getNumber());
+				return n1 - n2;
+			}
 
-		return ret;
+			// else compare
+			int ret = test(o1, o2);
+			if (ret == 0)
+				ret = name(o1, o2);
 
-		}
-		catch(Exception _)
-		{
+			return ret;
+
+		} catch (Exception _) {
 			return 0;
 		}
 
@@ -82,21 +79,17 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 
 	@Override
 	public int getWeight(MTGCard mc) {
-			
-		
-		if(mc.isShowCase())
+
+		if (mc.isShowCase())
 			return 90;
-		else if(mc.isBorderLess())
+		else if (mc.isBorderLess())
 			return 91;
-		else if(mc.isExtendedArt())
+		else if (mc.isExtendedArt())
 			return 92;
 		else if (mc.isRetro())
 			return 93;
-		
-		
-		
-		if (mc.getColors().isEmpty()) 
-		{
+
+		if (mc.getColors().isEmpty()) {
 			if (mc.isArtifact()) {
 				return 7;
 			} else if (mc.isLand()) {
@@ -105,13 +98,12 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 				} else {
 					return 8; // advanced land
 				}
-			} else if (mc.getLayout()!=EnumLayout.NORMAL) {
+			} else if (mc.getLayout() != EnumLayout.NORMAL) {
 				return 99;
 			} else {
 				return -1;
 			}
 		}
-		
 
 		return EnumColors.determine(mc.getColors()).getPosition();
 

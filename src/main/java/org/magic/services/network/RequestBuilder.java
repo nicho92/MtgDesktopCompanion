@@ -1,5 +1,7 @@
 package org.magic.services.network;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +9,6 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.apache.commons.io.input.BoundedInputStream;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -19,22 +20,20 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 import org.magic.services.tools.XMLTools;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-public class RequestBuilder
-{
+public class RequestBuilder {
 
 	private String url;
 	private METHOD method;
-	private Map<String,String> headers;
-	private  Map<String,String> content;
+	private Map<String, String> headers;
+	private Map<String, String> content;
 	private MTGHttpClient client;
-	public enum METHOD { POST, GET,PUT}
+	public enum METHOD {
+		POST, GET, PUT
+	}
 
 	public RequestBuilder() {
 		headers = new HashMap<>();
-		content= new TreeMap<>();
+		content = new TreeMap<>();
 	}
 
 	public String getUrl() {
@@ -67,114 +66,97 @@ public class RequestBuilder
 
 		builder.append(method).append(" ").append(url).append("\n");
 
-		if(!headers.isEmpty()) {
+		if (!headers.isEmpty()) {
 			builder.append("headers:\n");
-			headers.entrySet().forEach(entry->builder.append(entry.getKey()).append(":").append(entry.getValue()).append("\n"));
+			headers.entrySet()
+					.forEach(entry -> builder.append(entry.getKey()).append(":").append(entry.getValue()).append("\n"));
 		}
 
-		if(!content.isEmpty()) {
+		if (!content.isEmpty()) {
 			builder.append("body:\n");
-			content.entrySet().forEach(entry->builder.append(entry.getKey()).append(":").append(entry.getValue()).append("\n"));
+			content.entrySet()
+					.forEach(entry -> builder.append(entry.getKey()).append(":").append(entry.getValue()).append("\n"));
 		}
-
 
 		return builder.toString();
 	}
 
-	public static RequestBuilder build()
-	{
+	public static RequestBuilder build() {
 		return new RequestBuilder();
 	}
 
-	public RequestBuilder get()
-	{
+	public RequestBuilder get() {
 		method(METHOD.GET);
 		return this;
 	}
-	
-	public RequestBuilder post()
-	{
+
+	public RequestBuilder post() {
 		method(METHOD.POST);
 		return this;
 	}
 
-	public RequestBuilder method(METHOD m)
-	{
-		method=m;
+	public RequestBuilder method(METHOD m) {
+		method = m;
 		return this;
 	}
 
-	public RequestBuilder url(String u)
-	{
-		url=u;
+	public RequestBuilder url(String u) {
+		url = u;
 		return this;
 	}
 
-	public RequestBuilder url(URI u)
-	{
-		url=u.toString();
+	public RequestBuilder url(URI u) {
+		url = u.toString();
 		return this;
 	}
 
-	public RequestBuilder clearHeaders()
-	{
+	public RequestBuilder clearHeaders() {
 		headers.clear();
 		return this;
 	}
 
-	public RequestBuilder clearContents()
-	{
+	public RequestBuilder clearContents() {
 		content.clear();
 		return this;
 	}
 
 	public RequestBuilder addHeaders(Map<String, String> headers2) {
 
-		headers2.entrySet().forEach(e->headers.put(e.getKey(),e.getValue()));
+		headers2.entrySet().forEach(e -> headers.put(e.getKey(), e.getValue()));
 		return this;
 	}
 
-
-	public RequestBuilder addHeader(String k, String c)
-	{
+	public RequestBuilder addHeader(String k, String c) {
 		headers.put(k, c);
 		return this;
 	}
 
-
 	public RequestBuilder removeContent(String k) {
 		content.remove(k);
 		return this;
-		
+
 	}
-	
-	public RequestBuilder updateContent(String k,String v) {
+
+	public RequestBuilder updateContent(String k, String v) {
 		return removeContent(k).addContent(k, v);
 	}
-	
 
-	
-	public RequestBuilder addContent(String k, String c)
-	{
+	public RequestBuilder addContent(String k, String c) {
 		content.put(k, c);
 		return this;
 	}
 
 	public RequestBuilder setClient(MTGHttpClient client) {
-		this.client=client;
+		this.client = client;
 		return this;
 	}
-	
 
 	public RequestBuilder newClient() {
-		this.client=URLTools.newClient();
+		this.client = URLTools.newClient();
 		return this;
 	}
-	
-	
 
-	public JsonElement toJson()
-	{
+	public JsonElement toJson() {
 		try {
 			return URLTools.toJson(toContentString());
 		} catch (Exception e) {
@@ -184,19 +166,16 @@ public class RequestBuilder
 		}
 	}
 
-
 	public BufferedImage toImage() throws IOException {
 
-		try(var stream = execute().getEntity().getContent()){
+		try (var stream = execute().getEntity().getContent()) {
 			return ImageTools.read(stream);
 		}
 
 	}
 
-
-	public HttpResponse execute() throws IOException
-	{
-		if(client!=null)
+	public HttpResponse execute() throws IOException {
+		if (client != null)
 			return client.execute(this);
 
 		throw new IOException("You must set a httpClient with .setClient()");
@@ -210,7 +189,6 @@ public class RequestBuilder
 		method(null);
 		return this;
 	}
-
 
 	public org.w3c.dom.Document toXml() throws IOException {
 		try {
@@ -230,15 +208,15 @@ public class RequestBuilder
 	}
 
 	public void download(File dest) throws IOException {
-		
+
 		var c = new Chrono();
 		c.start();
 		var stream = BoundedInputStream.builder().setInputStream(execute().getEntity().getContent()).get();
-		FileTools.copyInputStreamToFile(stream,dest);
+		FileTools.copyInputStreamToFile(stream, dest);
 		var csi = c.stop();
 		var size = UITools.humanReadableSize(stream.getCount());
-		MTGLogger.getLogger(this.getClass()).debug("{} : {} in {}s",getUrl(),size,csi);
-		
+		MTGLogger.getLogger(this.getClass()).debug("{} : {} in {}s", getUrl(), size, csi);
+
 	}
 
 }

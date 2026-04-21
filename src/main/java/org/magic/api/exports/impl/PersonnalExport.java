@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
@@ -32,64 +31,57 @@ public class PersonnalExport extends AbstractCardExport {
 		panel.setRegex(getString(REGEX));
 		panel.initTree(deck.getMainAsList().get(0));
 
-		var d = MTGUIComponent.createJDialog(panel,true,true);
+		var d = MTGUIComponent.createJDialog(panel, true, true);
 
-		panel.getBtnExport().addActionListener(_->{
+		panel.getBtnExport().addActionListener(_ -> {
 			regx = panel.getResult();
-			setProperty(REGEX,regx);
+			setProperty(REGEX, regx);
 			d.dispose();
 		});
-
 
 		d.setVisible(true);
 
 		var temp = new StringBuilder();
 
-		logger.debug("Parsing with : {}",regx);
+		logger.debug("Parsing with : {}", regx);
 
-		for(MTGCard mc : deck.getMainAsList())
+		for (MTGCard mc : deck.getMainAsList())
 			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
-
 
 		FileTools.saveFile(dest, temp.toString());
 	}
-
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
 		var panel = new ExportConfiguratorPanel();
 		panel.initTree(stock.get(0));
 		panel.setRegex(getString(REGEX));
-		var d = MTGUIComponent.createJDialog(panel,true,true);
+		var d = MTGUIComponent.createJDialog(panel, true, true);
 
-		panel.getBtnExport().addActionListener(_->{
+		panel.getBtnExport().addActionListener(_ -> {
 			regx = panel.getResult();
-			setProperty(REGEX,regx);
+			setProperty(REGEX, regx);
 			d.dispose();
 		});
-
 
 		d.setVisible(true);
 
 		var temp = new StringBuilder();
 
-		logger.debug("Parsing with : {}",regx);
+		logger.debug("Parsing with : {}", regx);
 
-		for(MTGCardStock mc : stock)
-		{
+		for (MTGCardStock mc : stock) {
 			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
 			notify(mc.getProduct());
 		}
-
 
 		FileTools.saveFile(dest, temp.toString());
 	}
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of(REGEX,new MTGProperty("","latest regex"));
+		return Map.of(REGEX, new MTGProperty("", "latest regex"));
 	}
-
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
@@ -110,7 +102,6 @@ public class PersonnalExport extends AbstractCardExport {
 	public boolean needDialogForStock(MODS mod) {
 		return true;
 	}
-
 
 	@Override
 	public String getName() {

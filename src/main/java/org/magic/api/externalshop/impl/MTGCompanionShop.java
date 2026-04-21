@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.Icon;
-
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
@@ -35,9 +33,9 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	@Override
 	public List<Category> listCategories() throws IOException {
 		var cat = new ArrayList<Category>();
-		int i=1;
-		for(EnumItems item : EnumItems.values()){
-			cat.add(new Category(i++,item.name()));
+		int i = 1;
+		for (EnumItems item : EnumItems.values()) {
+			cat.add(new Category(i++, item.name()));
 		}
 
 		return cat;
@@ -46,7 +44,8 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).listStockItems().stream().filter(msi->msi.getProduct().getName().contains(search)).toList();
+			return MTG.getEnabledPlugin(MTGDao.class).listStockItems().stream()
+					.filter(msi -> msi.getProduct().getName().contains(search)).toList();
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
@@ -56,26 +55,27 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	public List<MTGProduct> listProducts(String name) throws IOException {
 
 		var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, false);
-		var products =MTG.getEnabledPlugin(MTGSealedProvider.class).search(name);
+		var products = MTG.getEnabledPlugin(MTGSealedProvider.class).search(name);
 
-		logger.debug("Found {} for {}",products,name);
+		logger.debug("Found {} for {}", products, name);
 		var ret = new ArrayList<MTGProduct>();
-		
-		cards.forEach(card->{
-					card.setEdition(card.getEdition());
-					card.setCategory(new Category(0, EnumItems.CARD.name()));
-					card.setUrl(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
-					card.setProductId(Long.valueOf(card.getScryfallId().hashCode()));
-					notify(card);
-					ret.add(card);
+
+		cards.forEach(card -> {
+			card.setEdition(card.getEdition());
+			card.setCategory(new Category(0, EnumItems.CARD.name()));
+			card.setUrl(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
+			card.setProductId(Long.valueOf(card.getScryfallId().hashCode()));
+			notify(card);
+			ret.add(card);
 		});
 
-		products.forEach(ss->{
-					ss.setName(ss.getTypeProduct() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
-					ss.setUrl(ss.getUrl());
-					ss.setProductId(Long.valueOf(ss.hashCode()));
-					ss.setCategory(new Category(1,EnumItems.SEALED.name()));
-					notify(ss);
+		products.forEach(ss -> {
+			ss.setName(ss.getTypeProduct() + " " + (ss.getExtra() != null ? ss.getExtra() : "") + " " + ss.getEdition()
+					+ " " + ss.getLang());
+			ss.setUrl(ss.getUrl());
+			ss.setProductId(Long.valueOf(ss.hashCode()));
+			ss.setCategory(new Category(1, EnumItems.SEALED.name()));
+			notify(ss);
 			ret.add(ss);
 		});
 		return ret;
@@ -95,11 +95,12 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	public void deleteContact(Contact contact) throws IOException {
 		try {
 
-
-			if(MTG.getEnabledPlugin(MTGDao.class).listAnnounces(contact).isEmpty() && MTG.getEnabledPlugin(MTGDao.class).listTransactions(contact).isEmpty())
+			if (MTG.getEnabledPlugin(MTGDao.class).listAnnounces(contact).isEmpty()
+					&& MTG.getEnabledPlugin(MTGDao.class).listTransactions(contact).isEmpty())
 				MTG.getEnabledPlugin(MTGDao.class).deleteContact(contact);
 			else
-				throw new IOException(contact + " can't be deleted.Please remove all transactions and announces associated");
+				throw new IOException(
+						contact + " can't be deleted.Please remove all transactions and announces associated");
 
 		} catch (SQLException e) {
 			throw new IOException(e);
@@ -107,7 +108,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	}
 	@Override
-	public Integer saveOrUpdateContact(Contact c) throws IOException  {
+	public Integer saveOrUpdateContact(Contact c) throws IOException {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateContact(c);
 		} catch (SQLException e) {
@@ -115,7 +116,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		}
 	}
 	@Override
-	public List<Contact> listContacts() throws IOException  {
+	public List<Contact> listContacts() throws IOException {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listContacts();
 		} catch (SQLException e) {
@@ -132,54 +133,42 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		}
 	}
 	@Override
-	public String saveOrUpdateTransaction(Transaction t)  throws IOException {
-			try {
-				return ""+MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
-				}
-				catch(SQLException e)
-				{
-					throw new IOException(e);
-				}
-
+	public String saveOrUpdateTransaction(Transaction t) throws IOException {
+		try {
+			return "" + MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 
 	}
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).getStockById(typeStock,Long.parseLong(id));
-			}
-			catch(SQLException e)
-			{
-				throw new IOException(e);
-			}
+			return MTG.getEnabledPlugin(MTGDao.class).getStockById(typeStock, Long.parseLong(id));
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
 	}
 	@Override
 	public void saveOrUpdateStock(List<MTGStockItem> stock) throws IOException {
-		for(var item : stock)
-		{
+		for (var item : stock) {
 			try {
-				 MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateStock(item);
-				}
-				catch(SQLException e)
-				{
-					throw new IOException(e);
-				}
+				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateStock(item);
+			} catch (SQLException e) {
+				throw new IOException(e);
+			}
 		}
 
 	}
-
 
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
 		try {
-		MTG.getEnabledPlugin(MTGDao.class).deleteTransaction(t);
-		}
-		catch(Exception e)
-		{
+			MTG.getEnabledPlugin(MTGDao.class).deleteTransaction(t);
+		} catch (Exception e) {
 			throw new IOException(e);
 		}
 	}
-
 
 	@Override
 	public Transaction getTransactionById(String id) throws IOException {
@@ -190,14 +179,11 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		}
 	}
 
-
 	@Override
 	public void deleteTransaction(List<Transaction> list) throws IOException {
 		try {
-		MTG.getEnabledPlugin(MTGDao.class).deleteTransaction(list);
-		}
-		catch(Exception e)
-		{
+			MTG.getEnabledPlugin(MTGDao.class).deleteTransaction(list);
+		} catch (Exception e) {
 			throw new IOException(e);
 		}
 	}
@@ -229,6 +215,5 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		}
 
 	}
-
 
 }

@@ -1,7 +1,6 @@
 package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -14,7 +13,7 @@ public class RemoveCounterActions extends AbstractCardAction {
 	private AbstractCounter counter;
 
 	public RemoveCounterActions(DisplayableCard displayableCard, AbstractCounter counter) {
-		super(displayableCard,"remove a " + counter.describe());
+		super(displayableCard, "remove a " + counter.describe());
 		this.counter = counter;
 		putValue(SHORT_DESCRIPTION, "remove a " + counter.describe());
 	}
@@ -34,5 +33,5 @@ public class RemoveCounterActions extends AbstractCardAction {
 	public ZoneEnum playableFrom() {
 		return ZoneEnum.BATTLEFIELD;
 	}
-	
+
 }

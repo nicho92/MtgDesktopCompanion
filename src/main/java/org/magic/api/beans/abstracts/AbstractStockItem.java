@@ -3,7 +3,6 @@ package org.magic.api.beans.abstracts;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
@@ -16,30 +15,29 @@ import org.magic.services.MTGControler;
 public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStockItem {
 
 	protected static final long serialVersionUID = 1L;
-	private Long id=-1L;
+	private Long id = -1L;
 	private MTGCollection magicCollection;
-	private Integer qte=1;
-	private String comment="";
-	private String language="English";
-	private boolean updated=false;
-	private Double price=0.0;
+	private Integer qte = 1;
+	private String comment = "";
+	private String language = "English";
+	private boolean updated = false;
+	private Double price = 0.0;
 	private MTGGrading grade;
 	private MTGEdition edition;
 	protected T product;
-	protected transient Map<String,String> tiersAppIds;
-	private boolean foil=false;
-	private boolean etched=false;
-	private boolean signed=false;
-	private boolean altered=false;
+	protected transient Map<String, String> tiersAppIds;
+	private boolean foil = false;
+	private boolean etched = false;
+	private boolean signed = false;
+	private boolean altered = false;
 	private Date dateUpdate;
 	private String sku;
 	protected EnumCondition condition = EnumCondition.NEAR_MINT;
-	
+
 	public void setEdition(MTGEdition edition) {
 		this.edition = edition;
 	}
-	
-	
+
 	public Date getDateUpdate() {
 		return dateUpdate;
 	}
@@ -63,8 +61,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		return String.valueOf(getId());
 	}
 
-	public void setProduct(T product)
-	{
+	public void setProduct(T product) {
 		this.product = product;
 	}
 
@@ -82,7 +79,6 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		return etched;
 	}
 
-
 	@Override
 	public void setEtched(boolean etched) {
 		this.etched = etched;
@@ -90,9 +86,8 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 
 	@Override
 	public boolean isGrade() {
-		return grade!=null;
+		return grade != null;
 	}
-
 
 	@Override
 	public boolean isAltered() {
@@ -128,8 +123,6 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		tiersAppIds = new HashMap<>();
 	}
 
-
-
 	@Override
 	public String getTiersAppIds(String name) {
 		return tiersAppIds.get(name);
@@ -150,16 +143,14 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		this.grade = grade;
 	}
 
-	
 	@Override
 	public MoneyValue getValue() {
 		return new MoneyValue(price, MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 	}
-	
+
 	public Double getPrice() {
 		return price;
 	}
-	
 
 	@Override
 	public MTGGrading getGrade() {
@@ -238,16 +229,15 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 
 	@Override
 	public int compareTo(MTGStockItem o) {
-		return (int) (getId()-o.getId());
+		return (int) (getId() - o.getId());
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof MTGStockItem))
+		if (!(obj instanceof MTGStockItem))
 			return false;
 
-		return getId() == ((MTGStockItem)obj).getId();
+		return getId() == ((MTGStockItem) obj).getId();
 	}
 
 	public void setSku(String sku) {
@@ -258,5 +248,3 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		return sku;
 	}
 }
-
-

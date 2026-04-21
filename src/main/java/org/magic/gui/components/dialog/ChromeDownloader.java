@@ -1,13 +1,11 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -30,25 +28,26 @@ public class ChromeDownloader extends JDialog {
 
 		var panelCenter = new JPanel();
 		getContentPane().add(panelCenter, BorderLayout.CENTER);
-		txtDirectory = new JTextFieldFileChooser(30,JFileChooser.DIRECTORIES_ONLY,System.getProperty("user.home"));
+		txtDirectory = new JTextFieldFileChooser(30, JFileChooser.DIRECTORIES_ONLY, System.getProperty("user.home"));
 		panelCenter.add(txtDirectory);
 
 		var panelButtons = new JPanel();
 		getContentPane().add(panelButtons, BorderLayout.SOUTH);
 
 		var btnCancel = new JButton(MTGConstants.ICON_DELETE);
-		btnCancel.addActionListener(_->dispose());
+		btnCancel.addActionListener(_ -> dispose());
 
 		panelButtons.add(btnCancel);
 
 		var btnExport = new JButton(MTGConstants.ICON_EXPORT);
-		btnExport.addActionListener(_-> {
+		btnExport.addActionListener(_ -> {
 			try {
 				FileTools.copyDirJarToDirectory(MTGConstants.MTG_CHROME_PLUGIN_DIR, txtDirectory.getFile());
-				MTGControler.getInstance().notify(new MTGNotification("Export", "Plugin copied in " + txtDirectory.getFile(), MESSAGE_TYPE.INFO));
+				MTGControler.getInstance().notify(
+						new MTGNotification("Export", "Plugin copied in " + txtDirectory.getFile(), MESSAGE_TYPE.INFO));
 				dispose();
 			} catch (Exception e1) {
-				logger.error("error extracting files ",e1);
+				logger.error("error extracting files ", e1);
 				MTGControler.getInstance().notify(e1);
 			}
 

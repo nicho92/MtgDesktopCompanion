@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGNewsContent;
@@ -19,7 +18,6 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	private static final String PAGINATION = "PAGINATION";
 	private String prefixForum = "gathering-forum-viewtopic-";
 
-
 	@Override
 	public List<MTGNewsContent> listNews(MTGNews n) throws IOException {
 		List<MTGNewsContent> ret = new ArrayList<>();
@@ -28,7 +26,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 		try {
 
 			String text = d.select("div.jump_page").text();
-			maxpage = Integer.parseInt(text.substring(text.indexOf('/')+1,text.indexOf('-')).trim());
+			maxpage = Integer.parseInt(text.substring(text.indexOf('/') + 1, text.indexOf('-')).trim());
 		} catch (Exception _) {
 			maxpage = 1;
 		}
@@ -48,15 +46,13 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 			else
 				id = i + "-";
 
-			cont.setLink( URI.create(SITE + prefixForum + idForum + "-" + idTopic + "-" + id + endUri).toURL());
+			cont.setLink(URI.create(SITE + prefixForum + idForum + "-" + idTopic + "-" + id + endUri).toURL());
 			cont.setTitle("Page " + id);
 			ret.add(cont);
 		}
 
 		return ret;
 	}
-
-
 
 	@Override
 	public String getName() {
@@ -77,7 +73,5 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	public String getVersion() {
 		return "0.5b";
 	}
-
-
 
 }

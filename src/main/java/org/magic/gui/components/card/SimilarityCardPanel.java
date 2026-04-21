@@ -4,10 +4,8 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -23,7 +21,6 @@ public class SimilarityCardPanel extends MTGUIComponent {
 	private JXTable tableSimilarity;
 	private SimilarityCardsTableModel model;
 
-
 	public JXTable getTableSimilarity() {
 		return tableSimilarity;
 	}
@@ -32,10 +29,9 @@ public class SimilarityCardPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		model = new SimilarityCardsTableModel();
-		tableSimilarity = UITools.createNewTable(model,false);
+		tableSimilarity = UITools.createNewTable(model, false);
 
 		add(new JScrollPane(tableSimilarity), BorderLayout.CENTER);
-
 
 	}
 
@@ -44,20 +40,18 @@ public class SimilarityCardPanel extends MTGUIComponent {
 		init(currentCard);
 	}
 
-
 	public void init(MTGCard mc) {
 		currentCard = mc;
 
-		if(isVisible()) {
-		try {
-			model.init(getEnabledPlugin(MTGCardsIndexer.class).similarity(mc));
-		} catch (IOException e) {
-			logger.error(e);
-		}
+		if (isVisible()) {
+			try {
+				model.init(getEnabledPlugin(MTGCardsIndexer.class).similarity(mc));
+			} catch (IOException e) {
+				logger.error(e);
+			}
 
 		}
 	}
-
 
 	@Override
 	public ImageIcon getIcon() {
@@ -68,6 +62,5 @@ public class SimilarityCardPanel extends MTGUIComponent {
 	public String getTitle() {
 		return "MORE_LIKE_THIS";
 	}
-
 
 }

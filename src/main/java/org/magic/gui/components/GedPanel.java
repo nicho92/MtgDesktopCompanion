@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import static org.magic.services.tools.MTG.capitalize;
 
+import com.jogamp.newt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
@@ -17,14 +18,12 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
-
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
@@ -41,8 +40,6 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-
-import com.jogamp.newt.event.KeyEvent;
 public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -53,15 +50,13 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 	private transient T instance;
 	private JPanel panneauCenter;
 
-
 	public GedPanel() {
 		setLayout(new BorderLayout());
 		var panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		btnLoadFromUrl = UITools.createBindableJButton("", MTGConstants.ICON_WEBSITE, KeyEvent.VK_U, "importUrl");
-		btnLoadFromWebcam= UITools.createBindableJButton("", MTGConstants.ICON_WEBCAM, KeyEvent.VK_W, "importwebcam");
-
+		btnLoadFromWebcam = UITools.createBindableJButton("", MTGConstants.ICON_WEBCAM, KeyEvent.VK_W, "importwebcam");
 
 		btnLoadFromUrl.setEnabled(false);
 		btnLoadFromWebcam.setEnabled(false);
@@ -75,7 +70,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 		panneauHaut.add(btnLoadFromWebcam);
 		panneauHaut.add(buzy);
 
-		btnLoadFromWebcam.addActionListener(_->{
+		btnLoadFromWebcam.addActionListener(_ -> {
 
 			var g = new WebcamSnapShotComponent();
 			var diag = MTGUIComponent.createJDialog(g, true, true);
@@ -89,31 +84,27 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 			});
 
-
-			g.getBtnClose().addActionListener(_->{
+			g.getBtnClose().addActionListener(_ -> {
 				g.onDestroy();
 				diag.dispose();
 			});
 
 			diag.setVisible(true);
 
-
-
 			var img = g.getSnappedImages();
-			
-			logger.debug("Importing {} snaps",img.size());
-			
-			if(!img.isEmpty()) {
-				
+
+			logger.debug("Importing {} snaps", img.size());
+
+			if (!img.isEmpty()) {
+
 				buzy.start(img.size());
-				SwingWorker<Void,File> sw = new SwingWorker<>() {
+				SwingWorker<Void, File> sw = new SwingWorker<>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						for(var snap : img)
-						{
-							var f = FileTools.createTempFile("picture",".png");
-							ImageTools.saveImageInPng(snap,f);
+						for (var snap : img) {
+							var f = FileTools.createTempFile("picture", ".png");
+							ImageTools.saveImageInPng(snap, f);
 							publish(f);
 						}
 						return null;
@@ -123,25 +114,23 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 					protected void done() {
 						try {
 							get();
-						}
-						catch(InterruptedException e)
-						{
+						} catch (InterruptedException e) {
 							Thread.currentThread().interrupt();
 							logger.error(e);
 						} catch (ExecutionException e) {
 							logger.error(e);
 						}
-						
+
 						buzy.end();
 					}
 
 					@Override
-					protected void process(List<File> chunks)
-					{
+					protected void process(List<File> chunks) {
 						buzy.progressSmooth(chunks.size());
-						for(File f :chunks) {
+						for (File f : chunks) {
 							try {
-								var entry = new GedEntry<>(FileTools.readFileAsBinary(f),classe, instance.getStoreId(),f.getName());
+								var entry = new GedEntry<>(FileTools.readFileAsBinary(f), classe, instance.getStoreId(),
+										f.getName());
 								MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 								addEntry(entry);
 							} catch (IOException e) {
@@ -156,21 +145,21 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 			}
 		});
 
-		btnLoadFromUrl.addActionListener(_->{
+		btnLoadFromUrl.addActionListener(_ -> {
 			var url = JOptionPane.showInputDialog("URL");
 			buzy.start();
 			SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {
 				@Override
 				protected Void doInBackground() throws Exception {
-						try {
-							var temp = URLTools.readAsBinary(url);
-							var entry = new GedEntry<>(temp,classe, instance.getStoreId(),FilenameUtils.getName(url));
-							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
-							publish(entry);
+					try {
+						var temp = URLTools.readAsBinary(url);
+						var entry = new GedEntry<>(temp, classe, instance.getStoreId(), FilenameUtils.getName(url));
+						MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
+						publish(entry);
 
-						} catch (Exception e) {
-							logger.error("Error uploading {}",url,e);
-						}
+					} catch (Exception e) {
+						logger.error("Error uploading {}", url, e);
+					}
 					return null;
 				}
 
@@ -182,7 +171,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 				@Override
 				protected void process(List<GedEntry<T>> chunks) {
-					chunks.forEach(c->{
+					chunks.forEach(c -> {
 						addEntry(c);
 						buzy.progressSmooth(1);
 					});
@@ -198,15 +187,15 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 			SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {
 				@Override
 				protected Void doInBackground() throws Exception {
-					for(File f : files)
-					{
+					for (File f : files) {
 						try {
-							var entry = new GedEntry<>(FileTools.readFileAsBinary(f),classe, instance.getStoreId(),f.getName());
+							var entry = new GedEntry<>(FileTools.readFileAsBinary(f), classe, instance.getStoreId(),
+									f.getName());
 							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 							publish(entry);
 
 						} catch (Exception e) {
-							logger.error("Error uploading {}",f,e);
+							logger.error("Error uploading {}", f, e);
 						}
 
 					}
@@ -221,7 +210,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 				@Override
 				protected void process(List<GedEntry<T>> chunks) {
-					chunks.forEach(c->{
+					chunks.forEach(c -> {
 						addEntry(c);
 						buzy.progressSmooth(1);
 					});
@@ -232,45 +221,42 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 		});
 	}
 
-	private void addEntry(GedEntry<T> c)  {
+	private void addEntry(GedEntry<T> c) {
 
-		if(c==null) {
+		if (c == null) {
 			return;
 		}
 
-		var e = new GedEntryComponent(c,150,100);
+		var e = new GedEntryComponent(c, 150, 100);
 		panneauCenter.add(e);
 
 		e.setCallable(new Callable<Void>() {
 
 			@Override
 			public Void call() throws Exception {
-				
-					try {
-						var tmp = FileTools.createTempFile(e.getEntry().getName(), "."+e.getEntry().getExt());
-						FileTools.saveFile(tmp, e.getEntry().getContent());
-						Desktop.getDesktop().open(tmp);
-					}catch(Exception e)
-					{
-						logger.error(e);
-					}
-				
+
+				try {
+					var tmp = FileTools.createTempFile(e.getEntry().getName(), "." + e.getEntry().getExt());
+					FileTools.saveFile(tmp, e.getEntry().getContent());
+					Desktop.getDesktop().open(tmp);
+				} catch (Exception e) {
+					logger.error(e);
+				}
+
 				return null;
 			}
 		});
 
-
 		e.getRemoveComponent().addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent ev)
-			{
-					var ret = JOptionPane.showConfirmDialog(null, MTG.capitalize("DELETE"));
+			public void mouseClicked(MouseEvent ev) {
+				var ret = JOptionPane.showConfirmDialog(null, MTG.capitalize("DELETE"));
 
-					if(ret==JOptionPane.YES_OPTION && MTG.getEnabledPlugin(MTGGedStorage.class).delete(c)) {
-							panneauCenter.remove(e);
-							panneauCenter.revalidate();
-							panneauCenter.repaint();
-					}
+				if (ret == JOptionPane.YES_OPTION && MTG.getEnabledPlugin(MTGGedStorage.class).delete(c)) {
+					panneauCenter.remove(e);
+					panneauCenter.revalidate();
+					panneauCenter.repaint();
+				}
 			}
 		});
 	}
@@ -280,51 +266,40 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 		return MTGConstants.ICON_TAB_GED;
 	}
 
-
-
 	@Override
 	public String getTitle() {
 		return "GED";
 	}
 
-	public void init(Class<T> t, T instance)
-	{
-		this.classe=t;
-		this.instance=instance;
+	public void init(Class<T> t, T instance) {
+		this.classe = t;
+		this.instance = instance;
 
-		btnLoadFromUrl.setEnabled(instance!=null);
-		btnLoadFromWebcam.setEnabled(instance!=null);
+		btnLoadFromUrl.setEnabled(instance != null);
+		btnLoadFromWebcam.setEnabled(instance != null);
 
-
-		if(isVisible()) {
+		if (isVisible()) {
 			onVisible();
 		}
 	}
 
-	private void listDirectory(Path p)
-	{
+	private void listDirectory(Path p) {
 		panneauCenter.removeAll();
 		panneauCenter.revalidate();
 		panneauCenter.repaint();
 		buzy.start();
-		SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>()
-		{
+		SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {
 			protected Void doInBackground() throws Exception {
 
-				try(Stream<Path> s = MTG.getEnabledPlugin(MTGGedStorage.class).listDirectory(p))
-				{
-					s.forEach(p->{
-						try
-						{
-							if(!Files.isDirectory(p))
-							{
-								
+				try (Stream<Path> s = MTG.getEnabledPlugin(MTGGedStorage.class).listDirectory(p)) {
+					s.forEach(p -> {
+						try {
+							if (!Files.isDirectory(p)) {
+
 								var ged = (GedEntry<T>) MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
 								publish(ged);
 							}
-						}
-						catch (Exception e)
-						{
+						} catch (Exception e) {
 							logger.error(e);
 						}
 					});
@@ -333,8 +308,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 			}
 
 			@Override
-			protected void done()
-			{
+			protected void done() {
 				panneauCenter.revalidate();
 				panneauCenter.repaint();
 				buzy.end();
@@ -342,7 +316,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 			@Override
 			protected void process(List<GedEntry<T>> chunks) {
-				for(GedEntry<T> g : chunks) {
+				for (GedEntry<T> g : chunks) {
 					addEntry(g);
 				}
 			}
@@ -354,18 +328,17 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 	@Override
 	public void onVisible() {
 
-		if(classe==null) {
+		if (classe == null) {
 			return;
 		}
 
-		logger.debug("Show ged for {} item {}",classe.getSimpleName(),instance);
+		logger.debug("Show ged for {} item {}", classe.getSimpleName(), instance);
 		try {
-			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getPath(classe,instance));
+			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getPath(classe, instance));
 		} catch (IOException e) {
 			logger.error(e);
 		}
 
 	}
-
 
 }

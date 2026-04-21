@@ -2,22 +2,21 @@ package org.magic.api.dao.impl;
 
 import java.sql.Statement;
 import java.util.Map;
-
 import org.jooq.SQLDialect;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class TrinoDBDAO extends AbstractMagicSQLDAO {
-	
+
 	public TrinoDBDAO() {
 		generatedKey = Statement.NO_GENERATED_KEYS;
 	}
-	
+
 	@Override
 	protected boolean enablePooling() {
 		return false;
 	}
-	
+
 	@Override
 	protected String getdbSizeQuery() {
 		return "";
@@ -28,13 +27,11 @@ public class TrinoDBDAO extends AbstractMagicSQLDAO {
 		return SQLDialect.TRINO;
 	}
 
-	
 	@Override
 	public STATUT getStatut() {
-			return STATUT.DEV;
+		return STATUT.DEV;
 	}
-	
-	
+
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
@@ -54,5 +51,5 @@ public class TrinoDBDAO extends AbstractMagicSQLDAO {
 	protected String getjdbcnamedb() {
 		return "trino";
 	}
-	
+
 }

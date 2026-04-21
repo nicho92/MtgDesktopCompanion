@@ -14,7 +14,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -29,7 +28,6 @@ import javax.swing.SwingWorker;
 import javax.swing.TransferHandler;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
@@ -99,7 +97,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private Player owner;
 
-
 	public Player getOwner() {
 		return owner;
 	}
@@ -125,7 +122,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 		c.apply(this);
 		initActions();
 	}
-
 
 	public void removeCounter(AbstractCounter c) {
 		counters.remove(c);
@@ -276,16 +272,15 @@ public class DisplayableCard extends JLabel implements Draggable {
 		setVerticalAlignment(SwingConstants.CENTER);
 		setMagicCard(mc);
 
-
 		if (activateCards) {
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					setCursor(new Cursor(Cursor.HAND_CURSOR));
 					describe();
-					
+
 				}
-				
+
 				@Override
 				public void mouseExited(MouseEvent e) {
 					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -331,12 +326,13 @@ public class DisplayableCard extends JLabel implements Draggable {
 		((DraggablePanel) getParent()).getTransferHandler().exportAsDrag(this, e, TransferHandler.MOVE);
 	}
 
-	private AbstractCardAction generateActionFromKey(MTGKeyWord k) throws NoSuchMethodException,InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
-			var a = PluginRegistry.inst().loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
-			@SuppressWarnings("unchecked")
-			var ctor = a.getDeclaredConstructor(DisplayableCard.class);
-			var aaction = (AbstractCardAction) ctor.newInstance(this);
-			aaction.putValue(Action.LONG_DESCRIPTION, k.getKeyword());
+	private AbstractCardAction generateActionFromKey(MTGKeyWord k) throws NoSuchMethodException, InstantiationException,
+			IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+		var a = PluginRegistry.inst().loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
+		@SuppressWarnings("unchecked")
+		var ctor = a.getDeclaredConstructor(DisplayableCard.class);
+		var aaction = (AbstractCardAction) ctor.newInstance(this);
+		aaction.putValue(Action.LONG_DESCRIPTION, k.getKeyword());
 		return aaction;
 	}
 
@@ -346,49 +342,47 @@ public class DisplayableCard extends JLabel implements Draggable {
 			menu.removeAll();
 			menu.add(new JMenuItem(new SelectionActions(this)));
 
-			if(getMagicCard().isPermanent())
-			{
-					if(!getMagicCard().isPlaneswalker())
-						menu.add(new JMenuItem(new TapActions(this)));
+			if (getMagicCard().isPermanent()) {
+				if (!getMagicCard().isPlaneswalker())
+					menu.add(new JMenuItem(new TapActions(this)));
 
-					if (magicCard.isCreature() || magicCard.isVehicule()) {
-						var mnuModifier = new JMenu("P/T");
-						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
-						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
-						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, 1)));
-						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, -1)));
-						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 1)));
-						mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, -1)));
-						mnuModifier.add(new FixCreaturePowerActions(this));
-						menu.add(mnuModifier);
-					}
+				if (magicCard.isCreature() || magicCard.isVehicule()) {
+					var mnuModifier = new JMenu("P/T");
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, 1)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, -1)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 1)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, -1)));
+					mnuModifier.add(new FixCreaturePowerActions(this));
+					menu.add(mnuModifier);
+				}
 
+				if (!counters.isEmpty()) {
+					var mnuModifier = new JMenu("Remove Counter");
+					counters.forEach(count -> mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count))));
+					menu.add(mnuModifier);
+				}
 
-					if (!counters.isEmpty()) {
-						var mnuModifier = new JMenu("Remove Counter");
-						counters.forEach(count->mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count))));
-						menu.add(mnuModifier);
-					}
+				if (magicCard.isPlaneswalker()) {
+					var mnuModifier = new JMenu("Loyalty");
+					AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard())
+							.forEach(la -> mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
+					menu.add(mnuModifier);
+				}
 
-					if (magicCard.isPlaneswalker()) {
-						var mnuModifier = new JMenu("Loyalty");
-						AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard()).forEach(la->mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
-						menu.add(mnuModifier);
-					}
+				if (magicCard.isDoubleFaced()) {
+					var mnuModifier = new JMenu("Rotate");
+					mnuModifier.add(new TransformActions(this));
+					menu.add(mnuModifier);
+				}
 
-					if (magicCard.isDoubleFaced()) {
-						var mnuModifier = new JMenu("Rotate");
-						mnuModifier.add(new TransformActions(this));
-						menu.add(mnuModifier);
-					}
-					
 			}
 
 			List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getActivatedAbilities(getMagicCard());
-			if(!abs.isEmpty())
-			{
+			if (!abs.isEmpty()) {
 				var mnuAbilities = new JMenu("Activate");
-				abs.stream().filter(c->!c.isLoyalty()).forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
+				abs.stream().filter(c -> !c.isLoyalty()).forEach(c -> mnuAbilities.add(new AbilitiesActions(c)));
 				menu.add(mnuAbilities);
 			}
 
@@ -401,33 +395,27 @@ public class DisplayableCard extends JLabel implements Draggable {
 					JMenuItem it;
 					try {
 						var act = generateActionFromKey(k);
-						if(act.playableFrom()==position)
-						{
+						if (act.playableFrom() == position) {
 							it = new JMenuItem(act);
 							actions.add(it);
 						}
-						
-						
+
 					} catch (Exception e) {
-						logger.trace("error {} : {}",k,e);
+						logger.trace("error {} : {}", k, e);
 						it = new JMenuItem(k.getKeyword());
 						actions.add(it);
 					}
-				
+
 				}
 				menu.add(actions);
 			}
 
-
 			List<ItemCounter> items = CountersFactory.getInstance().createItemCounter(getMagicCard());
-			if(!items.isEmpty())
-			{
+			if (!items.isEmpty()) {
 				var mnuCounter = new JMenu("Counters");
-				items.forEach(c->mnuCounter.add(new ItemCounterActions(this, c)));
+				items.forEach(c -> mnuCounter.add(new ItemCounterActions(this, c)));
 				menu.add(mnuCounter);
 			}
-
-
 
 			if (magicCard.getSubtypes().contains("Aura") || magicCard.getSubtypes().contains("Equipment")) {
 				menu.add(new JMenuItem(new AttachActions(this)));
@@ -442,7 +430,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 			if (getEnabledPlugin(MTGTokensProvider.class).isEmblemizer(magicCard)) {
 				menu.add(new JMenuItem(new EmblemActions(this)));
 			}
-
 
 			setComponentPopupMenu(menu);
 		}
@@ -469,7 +456,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 		else
 			angle = -90;
 
-		this.image = new ImageIcon(ImageTools.rotate(ImageTools.imageToBufferedImage(getImageIcon().getImage()), angle));
+		this.image = new ImageIcon(
+				ImageTools.rotate(ImageTools.imageToBufferedImage(getImageIcon().getImage()), angle));
 		this.setSize(getHeight(), getWidth());
 		this.tapped = t;
 	}
@@ -482,20 +470,17 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			this.magicCard = (MTGCard) BeanUtils.cloneBean(mc);
 		} catch (Exception e1) {
-			logger.error("error setting {}",mc, e1);
+			logger.error("error setting {}", mc, e1);
 		}
 
-
-		SwingWorker<Image, Image> sw = new SwingWorker<>()
-		{
+		SwingWorker<Image, Image> sw = new SwingWorker<>() {
 			Image temp = null;
 			@Override
 			protected Image doInBackground() throws Exception {
 				try {
-					if (mc.getLayout() ==EnumLayout.TOKEN|| mc.getLayout()==EnumLayout.EMBLEM) {
+					if (mc.getLayout() == EnumLayout.TOKEN || mc.getLayout() == EnumLayout.EMBLEM) {
 						temp = getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
-					}
-					else {
+					} else {
 						temp = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 					}
 					publish(temp);
@@ -503,31 +488,26 @@ public class DisplayableCard extends JLabel implements Draggable {
 					temp = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
 				}
 
-
 				return temp;
 			}
-
 
 			@Override
 			protected void done() {
 				try {
-					fullResPics=get();
+					fullResPics = get();
 					image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 					revalidate();
 					repaint();
-				}catch(InterruptedException _)
-				{
+				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					logger.error(e);
 				}
 			}
 
 		};
 
-		ThreadManager.getInstance().runInEdt(sw,"Init DisplayableCard:"+mc);
-
+		ThreadManager.getInstance().runInEdt(sw, "Init DisplayableCard:" + mc);
 
 	}
 
@@ -586,7 +566,5 @@ public class DisplayableCard extends JLabel implements Draggable {
 	public void addObserver(Observer panelDetail) {
 		obs.addObserver(panelDetail);
 	}
-
-
 
 }

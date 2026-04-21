@@ -7,8 +7,12 @@ import java.util.Date;
 public class MTGNotification implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public enum FORMAT_NOTIFICATION {HTML,TEXT,MARKDOWN}
-	public enum MESSAGE_TYPE{ERROR,WARNING,INFO,NONE}
+	public enum FORMAT_NOTIFICATION {
+		HTML, TEXT, MARKDOWN
+	}
+	public enum MESSAGE_TYPE {
+		ERROR, WARNING, INFO, NONE
+	}
 
 	private Date date;
 	private String sender;
@@ -18,29 +22,24 @@ public class MTGNotification implements Serializable {
 	private Exception exception;
 	private File file;
 
-
-
-
 	public MTGNotification() {
 		date = new Date();
-		type=MESSAGE_TYPE.INFO;
+		type = MESSAGE_TYPE.INFO;
 	}
 
-	public MTGNotification(String title,Exception e)
-	{
-		this.message=e.getMessage();
-		this.title=title;
-		this.exception=e;
+	public MTGNotification(String title, Exception e) {
+		this.message = e.getMessage();
+		this.title = title;
+		this.exception = e;
 		date = new Date();
-		type=MESSAGE_TYPE.ERROR;
+		type = MESSAGE_TYPE.ERROR;
 	}
 
-	public MTGNotification(String title,String msg,MESSAGE_TYPE t)
-	{
-		this.message=msg;
-		this.title=title;
+	public MTGNotification(String title, String msg, MESSAGE_TYPE t) {
+		this.message = msg;
+		this.title = title;
 		date = new Date();
-		type=t;
+		type = t;
 	}
 
 	public File getFile() {
@@ -55,12 +54,10 @@ public class MTGNotification implements Serializable {
 		return exception;
 	}
 
-
 	@Override
 	public String toString() {
-		return getDate() + ":"+ getMessage();
+		return getDate() + ":" + getMessage();
 	}
-
 
 	public Date getDate() {
 		return date;
@@ -90,9 +87,5 @@ public class MTGNotification implements Serializable {
 	public void setType(MESSAGE_TYPE type) {
 		this.type = type;
 	}
-
-
-
-
 
 }

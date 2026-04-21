@@ -2,13 +2,11 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.WantsService;
 import org.magic.services.MTGConstants;
@@ -19,7 +17,7 @@ public class MkmWantListChooserDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private transient WantsService serv;
-	private JComboBox<Wantslist> cboWants ;
+	private JComboBox<Wantslist> cboWants;
 
 	public MkmWantListChooserDialog() {
 		serv = new WantsService();
@@ -40,16 +38,12 @@ public class MkmWantListChooserDialog extends JDialog {
 			pane.add(btnOK);
 			pane.add(btnCancel);
 
-			getContentPane().add(cboWants,BorderLayout.CENTER);
-			getContentPane().add(pane,BorderLayout.SOUTH);
-
+			getContentPane().add(cboWants, BorderLayout.CENTER);
+			getContentPane().add(pane, BorderLayout.SOUTH);
 
 			pack();
 
-
-
-
-			btnNewWantList.addActionListener(_->{
+			btnNewWantList.addActionListener(_ -> {
 				String name = JOptionPane.showInputDialog("Want List Name ? ");
 				try {
 					Wantslist created = serv.createWantList(name);
@@ -60,27 +54,23 @@ public class MkmWantListChooserDialog extends JDialog {
 				}
 			});
 
-			btnOK.addActionListener(_->dispose());
-			btnCancel.addActionListener(_->{
+			btnOK.addActionListener(_ -> dispose());
+			btnCancel.addActionListener(_ -> {
 				cboWants.setSelectedItem(null);
 				dispose();
 			});
-
 
 		} catch (IOException e) {
 			MTGControler.getInstance().notify(e);
 		}
 	}
 
+	public Wantslist getSelectedWantList() {
 
-	public Wantslist getSelectedWantList()
-	{
-
-		if(cboWants.getSelectedItem()!=null)
-			return (Wantslist)cboWants.getSelectedItem();
+		if (cboWants.getSelectedItem() != null)
+			return (Wantslist) cboWants.getSelectedItem();
 
 		return null;
 	}
-
 
 }

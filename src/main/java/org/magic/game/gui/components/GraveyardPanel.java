@@ -2,9 +2,7 @@ package org.magic.game.gui.components;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.border.LineBorder;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.services.MTGControler;
 
@@ -42,27 +40,27 @@ public class GraveyardPanel extends DraggablePanel {
 		}
 
 		i.removeAllCounters();
-		
+
 		i.initActions();
 	}
 
 	@Override
 	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 		switch (to) {
-		case BATTLEFIELD:
-			player.playCardFromGraveyard(mc.getMagicCard());
-			break;
-		case EXIL:
-			player.exileCardFromGraveyard(mc.getMagicCard());
-			break;
-		case HAND:
-			player.returnCardFromGraveyard(mc.getMagicCard());
-			break;
-		case LIBRARY:
-			player.putCardInLibraryFromGraveyard(mc.getMagicCard(), true);
-			break;
-		default:
-			break;
+			case BATTLEFIELD :
+				player.playCardFromGraveyard(mc.getMagicCard());
+				break;
+			case EXIL :
+				player.exileCardFromGraveyard(mc.getMagicCard());
+				break;
+			case HAND :
+				player.returnCardFromGraveyard(mc.getMagicCard());
+				break;
+			case LIBRARY :
+				player.putCardInLibraryFromGraveyard(mc.getMagicCard(), true);
+				break;
+			default :
+				break;
 		}
 
 	}

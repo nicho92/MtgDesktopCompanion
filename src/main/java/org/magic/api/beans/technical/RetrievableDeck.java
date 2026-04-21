@@ -3,7 +3,6 @@ package org.magic.api.beans.technical;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.magic.api.beans.MTGDeck;
 
 public class RetrievableDeck {
@@ -15,16 +14,13 @@ public class RetrievableDeck {
 	private String color;
 	private List<String> keycards;
 
-
-	public MTGDeck toBaseDeck()
-	{
+	public MTGDeck toBaseDeck() {
 		var deck = new MTGDeck();
 		deck.setName(getName());
 		deck.setDescription("Import from : " + getUrl());
 
 		return deck;
 	}
-
 
 	public RetrievableDeck() {
 		keycards = new ArrayList<>();

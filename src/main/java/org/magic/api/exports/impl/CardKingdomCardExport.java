@@ -3,7 +3,6 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -13,7 +12,7 @@ import org.magic.services.tools.UITools;
 
 public class CardKingdomCardExport extends AbstractCardExport {
 
-	private static final String BASE_URL="https://www.cardkingdom.com/builder";
+	private static final String BASE_URL = "https://www.cardkingdom.com/builder";
 
 	@Override
 	public String getStockFileExtension() {
@@ -45,16 +44,15 @@ public class CardKingdomCardExport extends AbstractCardExport {
 		return EnumExportCategory.ONLINE;
 	}
 
-
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 
-		var s = BASE_URL+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion&c=";
+		var s = BASE_URL
+				+ "?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion&c=";
 
-		for(Entry<MTGCard, Integer> e : deck.getMain().entrySet())
+		for (Entry<MTGCard, Integer> e : deck.getMain().entrySet())
 			temp.append(e.getValue()).append(" ").append(e.getKey()).append("||");
-
 
 		s = s + URLTools.encode(temp.toString());
 

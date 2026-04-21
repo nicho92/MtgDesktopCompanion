@@ -3,9 +3,7 @@ package org.magic.gui.models;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.util.List;
-
 import javax.swing.table.DefaultTableModel;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGDeck.BOARD;
@@ -19,12 +17,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String[] columns = new String[] { "NAME",
-			"CARD_TYPES",
-			"CARD_MANA",
-			"CARD_EDITION",
-			"QTY",
-			"ARENA"};
+	private String[] columns = new String[]{"NAME", "CARD_TYPES", "CARD_MANA", "CARD_EDITION", "QTY", "ARENA"};
 
 	private MTGDeck deck;
 
@@ -68,15 +61,15 @@ public class DeckCardsTableModel extends DefaultTableModel {
 	public Object getValueAt(int row, int column) {
 		MTGCard mc;
 		switch (t) {
-		case MAIN:
-			mc = deck.getValueAt(row);
-			break;
-		case SIDE:
-			mc = deck.getSideValueAt(row);
-			break;
-		default:
-			mc = deck.getValueAt(row);
-			break;
+			case MAIN :
+				mc = deck.getValueAt(row);
+				break;
+			case SIDE :
+				mc = deck.getSideValueAt(row);
+				break;
+			default :
+				mc = deck.getValueAt(row);
+				break;
 		}
 
 		if (column == 0)
@@ -93,12 +86,12 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 		if (column == 4) {
 			switch (t) {
-			case MAIN:
-				return deck.getMain().get(mc);
-			case SIDE:
-				return deck.getSideBoard().get(mc);
-			default:
-				return null;
+				case MAIN :
+					return deck.getMain().get(mc);
+				case SIDE :
+					return deck.getSideBoard().get(mc);
+				default :
+					return null;
 			}
 
 		}
@@ -115,12 +108,12 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			return 0;
 
 		switch (t) {
-		case MAIN:
-			return deck.getMain().size();
-		case SIDE:
-			return deck.getSideBoard().size();
-		default:
-			return deck.getMain().size();
+			case MAIN :
+				return deck.getMain().size();
+			case SIDE :
+				return deck.getSideBoard().size();
+			default :
+				return deck.getMain().size();
 		}
 
 	}
@@ -137,37 +130,41 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		
+
 		MTGCard mc = null;
 		int qty = 0;
-		
-		switch (t)
-		{
-			case MAIN : mc = deck.getValueAt(row); qty = deck.getMain().get(mc); break;
-			case SIDE: mc = deck.getSideValueAt(row); qty=deck.getSideBoard().get(mc);break;
-			default:  mc=deck.getValueAt(row); qty=0;break;
+
+		switch (t) {
+			case MAIN :
+				mc = deck.getValueAt(row);
+				qty = deck.getMain().get(mc);
+				break;
+			case SIDE :
+				mc = deck.getSideValueAt(row);
+				qty = deck.getSideBoard().get(mc);
+				break;
+			default :
+				mc = deck.getValueAt(row);
+				qty = 0;
+				break;
 		}
 
 		if (column == 3) {
 			MTGEdition ed = (MTGEdition) aValue;
 
-			if(!ed.equals(mc.getEdition()))
-			{
+			if (!ed.equals(mc.getEdition())) {
 				var newC = CardsManagerService.switchEditions(mc, ed);
-				if (t == BOARD.MAIN) 
-				{
+				if (t == BOARD.MAIN) {
 					deck.getMain().remove(mc);
 					deck.getMain().put(newC, qty);
-				} else 
-				{
+				} else {
 					deck.getSideBoard().remove(mc);
 					deck.getSideBoard().put(newC, qty);
 				}
 			}
 		}
 
-		if (column == 4)
-		{
+		if (column == 4) {
 			if (Integer.valueOf(aValue.toString()) == 0) {
 				if (t == BOARD.MAIN) {
 					deck.getMain().remove(deck.getValueAt(row));

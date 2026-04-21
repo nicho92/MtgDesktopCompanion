@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;
@@ -19,10 +18,9 @@ public class EmbalmActions extends AbstractCardAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
 	public EmbalmActions(DisplayableCard card) {
-		super(card,"Embalm");
+		super(card, "Embalm");
 		putValue(SHORT_DESCRIPTION, "Create a embalmed copy");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}
@@ -32,12 +30,11 @@ public class EmbalmActions extends AbstractCardAction {
 		try {
 			var tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
 
-			if(tok==null)
-			{
+			if (tok == null) {
 				MTGControler.getInstance().notify(new Exception("Can't generate token for " + card.getMagicCard()));
 				return;
 			}
-			
+
 			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.addCounter(new ItemCounter("Embalm"));
 

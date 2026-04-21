@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
-
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.shop.Contact;
@@ -27,7 +26,7 @@ public class WebShopConfig implements Serializable {
 	private int maxLastProduct = 4;
 	private String currencySymbol;
 	private String currencyCode;
-	private double percentReduction=0;
+	private double percentReduction = 0;
 	private String googleAnalyticsId;
 	private int averageDeliveryTime;
 	private String shippingRules;
@@ -44,22 +43,21 @@ public class WebShopConfig implements Serializable {
 	private int productPagination;
 
 	public WebShopConfig() {
-		delivery= new ArrayList<>();
-		links= new ArrayList<>();
+		delivery = new ArrayList<>();
+		links = new ArrayList<>();
 		collections = new ArrayList<>();
 		slidesLinksImage = new ArrayList<>();
 		needcollections = new ArrayList<>();
-		contact=new Contact();
+		contact = new Contact();
 	}
 
 	public String getExtraCss() {
 		return extraCss;
 	}
 
-	 public void setExtraCss(String extraCss) {
+	public void setExtraCss(String extraCss) {
 		this.extraCss = extraCss;
 	}
-
 
 	public boolean isEnableGed() {
 		return enableGed;
@@ -85,10 +83,6 @@ public class WebShopConfig implements Serializable {
 		this.bic = bic;
 	}
 
-
-
-
-
 	public void setPaypalClientId(String paypalClientId) {
 		this.paypalClientId = paypalClientId;
 	}
@@ -101,14 +95,11 @@ public class WebShopConfig implements Serializable {
 		this.currencyCode = currencyCode;
 	}
 
-
-
 	public String getCurrencyCode() {
 		return currencyCode;
 	}
 
-	public Currency getCurrency()
-	{
+	public Currency getCurrency() {
 		return Currency.getInstance(getCurrencyCode());
 	}
 
@@ -116,11 +107,9 @@ public class WebShopConfig implements Serializable {
 		return shippingRules;
 	}
 
-
 	public void setShippingRules(String shippingRules) {
 		this.shippingRules = shippingRules;
 	}
-
 
 	public void setAverageDeliveryTime(int averageDeliveryTime) {
 		this.averageDeliveryTime = averageDeliveryTime;
@@ -150,8 +139,7 @@ public class WebShopConfig implements Serializable {
 		return currencySymbol;
 	}
 
-	public void setCurrency(Currency c)
-	{
+	public void setCurrency(Currency c) {
 		setCurrencySymbol(c.getSymbol());
 		setCurrencyCode(c.getCurrencyCode());
 	}
@@ -168,16 +156,13 @@ public class WebShopConfig implements Serializable {
 		this.maxLastProduct = maxLastProduct;
 	}
 
-
 	public void setTopProduct(MTGCardStock topProduct) {
 		this.topProduct = topProduct;
 	}
 
-
 	public MTGCardStock getTopProduct() {
 		return topProduct;
 	}
-
 
 	public List<String> getSlidesLinksImage() {
 		return slidesLinksImage;
@@ -186,7 +171,6 @@ public class WebShopConfig implements Serializable {
 	public void setSlidesLinksImage(List<String> slidesLinksImage) {
 		this.slidesLinksImage = slidesLinksImage;
 	}
-
 
 	public String getSiteTitle() {
 		return siteTitle;
@@ -232,7 +216,6 @@ public class WebShopConfig implements Serializable {
 		this.collections = collections;
 	}
 
-
 	public double getPercentReduction() {
 		return percentReduction;
 	}
@@ -257,7 +240,7 @@ public class WebShopConfig implements Serializable {
 	}
 
 	public void setAutomaticValidation(boolean selected) {
-		this.automaticValidation=selected;
+		this.automaticValidation = selected;
 	}
 
 	public boolean isAutomaticValidation() {

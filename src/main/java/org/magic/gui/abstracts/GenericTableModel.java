@@ -5,15 +5,11 @@ import static org.magic.services.tools.MTG.capitalize;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.swing.table.AbstractTableModel;
-
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
-
-
 
 public class GenericTableModel<T> extends AbstractTableModel {
 
@@ -21,35 +17,30 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	protected transient List<T> items;
 	private String[] columns;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private boolean writable=false;
-	private boolean changed=false;
+	private boolean writable = false;
+	private boolean changed = false;
 	private int[] hiddenColumns = new int[0];
-
 
 	public GenericTableModel() {
 		items = new ArrayList<>();
 		columns = new String[]{"VALUE"};
 	}
 
-	public void setDefaultHiddenComlumns(int... nums)
-	{
-		this.hiddenColumns =nums;
+	public void setDefaultHiddenComlumns(int... nums) {
+		this.hiddenColumns = nums;
 	}
 
 	public void addHiddenColumns(int i) {
-		hiddenColumns= ArrayUtils.add(hiddenColumns,i);
+		hiddenColumns = ArrayUtils.add(hiddenColumns, i);
 	}
 
-
-	public int[] defaultHiddenColumns()
-	{
+	public int[] defaultHiddenColumns() {
 		return hiddenColumns;
 	}
 
 	public boolean isChanged() {
 		return changed;
 	}
-
 
 	public void setWritable(boolean writable) {
 		this.writable = writable;
@@ -69,7 +60,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		changed=true;
+		changed = true;
 	}
 
 	@Override
@@ -84,94 +75,80 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		return it;
 	}
 
-	public void setColumns(String... columns)
-	{
-		this.columns=columns;
+	public void setColumns(String... columns) {
+		this.columns = columns;
 
 		fireTableStructureChanged();
 	}
 
-	public void addItem(T t)
-	{
+	public void addItem(T t) {
 		items.add(t);
-		changed=true;
-		fireTableRowsInserted(getRowCount()-1,getRowCount()-1);
+		changed = true;
+		fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
 	}
 
-	public void init(List<T> t)
-	{
-		if(t==null)
-			items=new ArrayList<>();
+	public void init(List<T> t) {
+		if (t == null)
+			items = new ArrayList<>();
 		else
-			items=new ArrayList<>(t);
+			items = new ArrayList<>(t);
 
-		changed=false;
+		changed = false;
 		fireTableDataChanged();
 	}
 
-	public void init(T[] t)
-	{
+	public void init(T[] t) {
 		init(Arrays.asList(t));
 	}
 
+	public void addItems(List<T> t) {
 
-	public void addItems(List<T> t)
-	{
-
-		if(t!=null)
+		if (t != null)
 			t.forEach(items::add);
 
 		fireTableDataChanged();
 	}
 
-	public void bind(List<T> items)
-	{
-		this.items=items;
-		changed=false;
+	public void bind(List<T> items) {
+		this.items = items;
+		changed = false;
 		fireTableDataChanged();
 	}
 
-	public boolean isEmpty()
-	{
-		if(items!=null)
+	public boolean isEmpty() {
+		if (items != null)
 			return items.isEmpty();
 
 		return true;
 	}
 
-	public void removeItem(List<T> list)
-	{
-		for(T it : list)
+	public void removeItem(List<T> list) {
+		for (T it : list)
 			items.remove(it);
 
-		changed=true;
+		changed = true;
 		fireTableDataChanged();
 	}
 
-	public void removeItem(T t)
-	{
+	public void removeItem(T t) {
 		items.remove(t);
-		changed=true;
+		changed = true;
 		fireTableDataChanged();
 	}
 
-	public void removeRow(int row)
-	{
+	public void removeRow(int row) {
 		items.remove(row);
-	    fireTableRowsDeleted(row, row);
+		fireTableRowsDeleted(row, row);
 	}
-
 
 	public void removeRows(List<Integer> selectedRows) {
-		for(Integer i : selectedRows)
-				removeRow(i);
+		for (Integer i : selectedRows)
+			removeRow(i);
 	}
 
-	
 	public boolean isWritable() {
 		return writable;
 	}
-	
 
 	@Override
 	public int getRowCount() {
@@ -184,8 +161,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	public String getColumn(int ind) {
 		return columns[ind];
 	}
-	
-	
+
 	@Override
 	public String getColumnName(int column) {
 		return capitalize(getColumn(column));
@@ -193,22 +169,20 @@ public class GenericTableModel<T> extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		if(columns==null)
+		if (columns == null)
 			return 0;
 		return columns.length;
 	}
 
-
 	public void clear() {
 		items.clear();
-		changed=true;
+		changed = true;
 		fireTableDataChanged();
 	}
 
-	public T getItemAt(int row)	{
+	public T getItemAt(int row) {
 		return items.get(row);
 	}
-
 
 	public List<T> getItems() {
 		return items;
@@ -218,9 +192,5 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	public boolean isCellEditable(int row, int column) {
 		return writable;
 	}
-
-	
-	
-	
 
 }

@@ -3,7 +3,6 @@ package org.magic.game.actions.cards;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -15,11 +14,11 @@ public class FlashbackActions extends AbstractCardAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private static String k = "Flashback";
 
 	public FlashbackActions(DisplayableCard card) {
-		super(card,k);
+		super(card, k);
 		putValue(SHORT_DESCRIPTION, k);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_F);
 	}
@@ -43,12 +42,11 @@ public class FlashbackActions extends AbstractCardAction {
 		return cost;
 	}
 
-	
 	@Override
 	public ZoneEnum playableFrom() {
 		return ZoneEnum.GRAVEYARD;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

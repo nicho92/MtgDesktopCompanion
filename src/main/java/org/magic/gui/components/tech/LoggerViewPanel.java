@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.util.Date;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -16,7 +15,6 @@ import javax.swing.SortOrder;
 import javax.swing.Timer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import org.apache.logging.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -35,22 +33,19 @@ public class LoggerViewPanel extends MTGUIComponent {
 	private JComboBox<Level> cboChooseLevel;
 	private transient TableRowSorter<TableModel> datesorter;
 
-
 	public LoggerViewPanel() {
 		model = new LogTableModel();
-		cboChooseLevel = UITools.createCombobox(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
+		cboChooseLevel = UITools.createCombobox(new Level[]{null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE});
 		var panel = new JPanel();
-		table = UITools.createNewTable(model,false);
-
+		table = UITools.createNewTable(model, false);
 
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
-		t = new Timer(1000, _-> model.fireTableDataChanged());
+		t = new Timer(1000, _ -> model.fireTableDataChanged());
 		chckbxAutorefresh = new JCheckBox("Auto-refresh");
 
 		setLayout(new BorderLayout(0, 0));
-
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panel, BorderLayout.NORTH);
@@ -60,8 +55,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 
 		UITools.sort(table, 1, SortOrder.DESCENDING);
 
-		model.setDefaultHiddenComlumns(2,3,4);
-
+		model.setDefaultHiddenComlumns(2, 3, 4);
 
 		btnRefresh.addActionListener(_ -> model.fireTableDataChanged());
 
@@ -76,16 +70,13 @@ public class LoggerViewPanel extends MTGUIComponent {
 			}
 		});
 
-		cboChooseLevel.addActionListener(_->{
+		cboChooseLevel.addActionListener(_ -> {
 
-			if(cboChooseLevel.getSelectedItem()!=null)
-			{
+			if (cboChooseLevel.getSelectedItem() != null) {
 				TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
 				sorter.setRowFilter(RowFilter.regexFilter(cboChooseLevel.getSelectedItem().toString()));
 				table.setRowSorter(sorter);
-			}
-			else
-			{
+			} else {
 				table.setRowSorter(datesorter);
 
 			}
@@ -94,20 +85,16 @@ public class LoggerViewPanel extends MTGUIComponent {
 		table.packAll();
 	}
 
-	public void enabledAutoLoad()
-	{
+	public void enabledAutoLoad() {
 		chckbxAutorefresh.doClick();
 	}
 
-	public void setLevel(Level l)
-	{
+	public void setLevel(Level l) {
 		cboChooseLevel.setSelectedItem(l);
 	}
 
-
-	public <T> void  setClassFilter(Class<T> c)
-	{
-		logger.debug("Filtering logs for {}",c.getName() );
+	public <T> void setClassFilter(Class<T> c) {
+		logger.debug("Filtering logs for {}", c.getName());
 		TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
 		sorter.setRowFilter(RowFilter.regexFilter(c.getName()));
 		table.setRowSorter(sorter);
@@ -118,12 +105,10 @@ public class LoggerViewPanel extends MTGUIComponent {
 		t.stop();
 	}
 
-
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_RULES;
 	}
-
 
 	@Override
 	public String getTitle() {

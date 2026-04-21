@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.extra.MTGPriceSuggester;
@@ -35,15 +34,13 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 		btnValidate = new JButton(MTGConstants.ICON_OPEN);
 
 		rdoDashBoard = new JRadioButton("DashBoard");
-		cboDashBoard = UITools.createComboboxPlugins(MTGDashBoard.class,true);
+		cboDashBoard = UITools.createComboboxPlugins(MTGDashBoard.class, true);
 		rdoPricer = new JRadioButton("Pricer");
-		cboPricer = UITools.createComboboxPlugins(MTGPricesProvider.class,false);
-
+		cboPricer = UITools.createComboboxPlugins(MTGPricesProvider.class, false);
 
 		var group = new ButtonGroup();
-					group.add(rdoDashBoard);
-					group.add(rdoPricer);
-
+		group.add(rdoDashBoard);
+		group.add(rdoPricer);
 
 		panel1.add(rdoDashBoard);
 		panel1.add(cboDashBoard);
@@ -51,47 +48,39 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 		panel2.add(cboPricer);
 		panel3.add(btnValidate);
 
-
 		add(panel1);
 		add(panel2);
 		add(panel3);
 
-
-
-		rdoPricer.addItemListener(_->{
+		rdoPricer.addItemListener(_ -> {
 			cboDashBoard.setEnabled(!rdoPricer.isEnabled());
 			cboPricer.setEnabled(rdoPricer.isEnabled());
 
 		});
 
-		rdoDashBoard.addItemListener(_->{
+		rdoDashBoard.addItemListener(_ -> {
 			cboPricer.setEnabled(!rdoDashBoard.isEnabled());
 			cboDashBoard.setEnabled(rdoDashBoard.isEnabled());
 		});
 
-
 		rdoDashBoard.doClick();
 	}
-
 
 	public JButton getBtnValidate() {
 		return btnValidate;
 	}
 
-
-	public MTGPriceSuggester getSelectedPlugin()
-	{
-		if(rdoDashBoard.isSelected())
+	public MTGPriceSuggester getSelectedPlugin() {
+		if (rdoDashBoard.isSelected())
 			return (MTGDashBoard) cboDashBoard.getSelectedItem();
 		else
-			return (MTGPricesProvider)cboPricer.getSelectedItem();
+			return (MTGPricesProvider) cboPricer.getSelectedItem();
 	}
 
 	@Override
 	public String getTitle() {
 		return "Prices Suggester";
 	}
-
 
 	@Override
 	public ImageIcon getIcon() {

@@ -5,13 +5,11 @@ import static org.magic.services.tools.MTG.capitalize;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.AbstractTableModel;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -41,9 +39,8 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		calc = new MTGDeckManager();
-		table = UITools.createNewTable(null,false);
-		table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer(true,false));
-
+		table = UITools.createNewTable(null, false);
+		table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer(true, false));
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		var panel = new JPanel();
@@ -56,12 +53,12 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 	}
 
 	public void init(MTGDeck d) {
-		this.d=d.getMergedDeck();
+		this.d = d.getMergedDeck();
 		initDeck();
 	}
 
 	public void init(MTGDeck d, MTGCard c) {
-		this.d=d;
+		this.d = d;
 
 		if (c != null)
 			initCard(c);
@@ -89,13 +86,13 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 				if (c == 0) {
 					return "Turn " + (r);
 				} else {
-					return UITools.roundDouble(calc.getProbability(d,r, card));
+					return UITools.roundDouble(calc.getProbability(d, r, card));
 				}
 			}
 
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
-				if(columnIndex>0)
+				if (columnIndex > 0)
 					return Double.class;
 
 				return super.getColumnClass(columnIndex);
@@ -138,13 +135,13 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 				if (c == 0) {
 					return d.getUniqueCards().get(r);
 				} else {
-					return UITools.roundDouble(calc.getProbability(d,c - 1, d.getUniqueCards().get(r)));
+					return UITools.roundDouble(calc.getProbability(d, c - 1, d.getUniqueCards().get(r)));
 				}
 			}
 
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
-				if(columnIndex>0)
+				if (columnIndex > 0)
 					return Double.class;
 
 				return super.getColumnClass(columnIndex);
@@ -170,11 +167,10 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 	public String getTitle() {
 		return "DRAWING";
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_DECK;
 	}
-	
-	
+
 }

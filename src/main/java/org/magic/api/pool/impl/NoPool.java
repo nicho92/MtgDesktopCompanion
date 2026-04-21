@@ -3,7 +3,6 @@ package org.magic.api.pool.impl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
 
 public class NoPool extends AbstractPoolProvider {
@@ -25,9 +24,9 @@ public class NoPool extends AbstractPoolProvider {
 
 	@Override
 	public void init(String url, String user, String pass) {
-		this.url=url;
-		this.user=user;
-		this.pass=pass;
+		this.url = url;
+		this.user = user;
+		this.pass = pass;
 
 	}
 

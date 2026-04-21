@@ -1,7 +1,6 @@
 package org.magic.game.model.counters;
 
 import javax.swing.JOptionPane;
-
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.costs.LoyaltyCost;
@@ -17,8 +16,8 @@ public class LoyaltyCounter extends AbstractCounter {
 
 	public LoyaltyCounter(LoyaltyAbilities la) {
 
-		this.label=la.getEffects().get(0).getEffectDescription();
-		this.value=(LoyaltyCost)la.getCost();
+		this.label = la.getEffects().get(0).getEffectDescription();
+		this.value = (LoyaltyCost) la.getCost();
 	}
 
 	@Override
@@ -31,8 +30,7 @@ public class LoyaltyCounter extends AbstractCounter {
 			logger.error(e);
 		}
 
-		if(value.isX())
-		{
+		if (value.isX()) {
 			String x = JOptionPane.showInputDialog("X ?");
 			value.setX(Integer.parseInt(x));
 		}
@@ -58,7 +56,6 @@ public class LoyaltyCounter extends AbstractCounter {
 		return value + ": " + label;
 	}
 
-
 	@Override
 	public int hashCode() {
 		return "loyalty".hashCode();
@@ -67,10 +64,10 @@ public class LoyaltyCounter extends AbstractCounter {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
 
 }

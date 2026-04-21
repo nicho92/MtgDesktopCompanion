@@ -10,12 +10,12 @@ public class BoostersTableModel extends GenericTableModel<MTGBooster> {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-		case 0:
-			return MTGBooster.class;
-		case 1:
-			return Double.class;
-		default:
-			return super.getColumnClass(columnIndex);
+			case 0 :
+				return MTGBooster.class;
+			case 1 :
+				return Double.class;
+			default :
+				return super.getColumnClass(columnIndex);
 		}
 	}
 
@@ -23,21 +23,17 @@ public class BoostersTableModel extends GenericTableModel<MTGBooster> {
 	public Object getValueAt(int row, int column) {
 
 		switch (column) {
-		case 0:
-			return items.get(row);
-		case 1:
-			return items.get(row).getPrice();
-		default:
-			return "";
+			case 0 :
+				return items.get(row);
+			case 1 :
+				return items.get(row).getPrice();
+			default :
+				return "";
 		}
 	}
 
-
-
 	public BoostersTableModel() {
-		setColumns("CARD_NUMBER","PRICE" );
+		setColumns("CARD_NUMBER", "PRICE");
 	}
-
-
 
 }

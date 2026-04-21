@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -28,7 +27,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public static final String SET_FIELD = "set";
 	public static final String ALL = "all";
 
-
 	protected TCache<MTGCard> cacheCards;
 	private TCache<MTGEdition> cacheEditions;
 	private TCache<String> cacheLanguages;
@@ -36,8 +34,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	protected abstract List<QueryAttribute> loadQueryableAttributs();
 	public abstract List<MTGEdition> loadEditions() throws IOException;
 	public abstract List<String> loadCardsLangs() throws IOException;
-	
-	
 
 	protected AbstractCardsProvider() {
 		cacheCards = new TCache<>("cards");
@@ -47,97 +43,80 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	@Override
 	public int hashCode() {
-		return (getType()+getName()).hashCode();
+		return (getType() + getName()).hashCode();
 	}
-
-	
 
 	@Override
 	public void init() {
-		
+
 	}
-	
+
 	@Override
 	public List<String> getLanguages() {
-		if(cacheLanguages.isEmpty())
+		if (cacheLanguages.isEmpty())
 			try {
-				loadCardsLangs().forEach(s->cacheLanguages.put(s, s));
+				loadCardsLangs().forEach(s -> cacheLanguages.put(s, s));
 			} catch (Exception e) {
 				logger.error(e);
 			}
-		
+
 		return cacheLanguages.values();
 	}
-	
-	
 
-	protected void initBuilder(MTGQueryBuilder<?> b)
-	{
+	protected void initBuilder(MTGQueryBuilder<?> b) {
 		b.addConvertor(EnumColors.class, EnumColors::getCode);
 		b.addConvertor(MTGEdition.class, MTGEdition::getId);
-		b.addConvertor(EnumLayout.class,(EnumLayout source)->source.name().toLowerCase());
-		b.addConvertor(EnumFrameEffects.class,(EnumFrameEffects source)->source.name().toLowerCase());
-		b.addConvertor(EnumRarity.class,(EnumRarity source)->source.name().toLowerCase());
-		b.addConvertor(EnumPromoType.class,(EnumPromoType source)->source.name().toLowerCase());
-		b.addConvertor(EnumCardVariation.class,(EnumCardVariation source)->source.name().toLowerCase());
-		b.addConvertor(EnumPromoType.class,(EnumPromoType source)->source.name().toLowerCase());
-		b.addConvertor(EnumFinishes.class,(EnumFinishes source)->source.name().toLowerCase());
-		b.addConvertor(EnumSecurityStamp.class, (EnumSecurityStamp source)->source.name().toLowerCase());
+		b.addConvertor(EnumLayout.class, (EnumLayout source) -> source.name().toLowerCase());
+		b.addConvertor(EnumFrameEffects.class, (EnumFrameEffects source) -> source.name().toLowerCase());
+		b.addConvertor(EnumRarity.class, (EnumRarity source) -> source.name().toLowerCase());
+		b.addConvertor(EnumPromoType.class, (EnumPromoType source) -> source.name().toLowerCase());
+		b.addConvertor(EnumCardVariation.class, (EnumCardVariation source) -> source.name().toLowerCase());
+		b.addConvertor(EnumPromoType.class, (EnumPromoType source) -> source.name().toLowerCase());
+		b.addConvertor(EnumFinishes.class, (EnumFinishes source) -> source.name().toLowerCase());
+		b.addConvertor(EnumSecurityStamp.class, (EnumSecurityStamp source) -> source.name().toLowerCase());
 	}
-
 
 	@Override
 	public QueryAttribute[] getQueryableAttributs() {
 
 		List<QueryAttribute> atts = loadQueryableAttributs();
-				atts.add(new QueryAttribute(SET_FIELD, MTGEdition.class));
-				atts.add(new QueryAttribute(ALL, String.class));
+		atts.add(new QueryAttribute(SET_FIELD, MTGEdition.class));
+		atts.add(new QueryAttribute(ALL, String.class));
 		return atts.stream().toArray(QueryAttribute[]::new);
 	}
 
+	public static void postTreatmentCard(MTGCard mc) {
 
-
-	public static  void postTreatmentCard(MTGCard mc)
-	{
-		
 		try {
 			var releaseYear = Integer.parseInt(mc.getEdition().getReleaseDate().substring(0, 4));
-			var frameYear =  Integer.parseInt(mc.getFrameVersion());
-			if( (frameYear>=1993 && frameYear<=1997)  && releaseYear > 2019)
-					mc.setRetro(true);
-			
-			
-			if(mc.getEdition().getId().endsWith("BLB") && mc.getName().startsWith("Season of "))
-				mc.setText(mc.getText().replace("{P}","{Paw Print}"));
-			
-			
-			
-		}catch(Exception _)
-		{
-			//do nothign
+			var frameYear = Integer.parseInt(mc.getFrameVersion());
+			if ((frameYear >= 1993 && frameYear <= 1997) && releaseYear > 2019)
+				mc.setRetro(true);
+
+			if (mc.getEdition().getId().endsWith("BLB") && mc.getName().startsWith("Season of "))
+				mc.setText(mc.getText().replace("{P}", "{Paw Print}"));
+
+		} catch (Exception _) {
+			// do nothign
 		}
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
 
-	public TCache<MTGCard> getCacheCards()
-	{
+	public TCache<MTGCard> getCacheCards() {
 		return cacheCards;
 	}
 
-	public TCache<MTGEdition> getCacheEditions()
-	{
+	public TCache<MTGEdition> getCacheEditions() {
 		return cacheEditions;
 	}
-
 
 	@Override
 	public MTGCard getCardByNumber(String id, String idMe) throws IOException {
@@ -146,40 +125,41 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	@Override
 	public List<MTGCard> searchCardByEdition(MTGEdition ed) throws IOException {
-			return  searchCardByCriteria(SET_FIELD, ed.getId(), null, false);
+		return searchCardByCriteria(SET_FIELD, ed.getId(), null, false);
 	}
 
 	@Override
 	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact) throws IOException {
-		return searchCardByCriteria("name",name, me, exact);
+		return searchCardByCriteria("name", name, me, exact);
 	}
 
-
 	@Override
-	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact, EnumCardVariation extra) throws IOException{
-		return searchCardByCriteria("name",name, me, exact,extra);
+	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact, EnumCardVariation extra)
+			throws IOException {
+		return searchCardByCriteria("name", name, me, exact, extra);
 	}
 
-
 	@Override
-	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact, EnumCardVariation extra) throws IOException {
-		
-		if(extra==null)
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact,
+			EnumCardVariation extra) throws IOException {
+
+		if (extra == null)
 			return searchCardByCriteria(att, crit, me, exact).stream().toList();
-		
-		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.getExtra().contains(extra)).toList();
+
+		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc -> mc.getExtra().contains(extra)).toList();
 	}
 
 	@Override
 	public MTGEdition getSetByName(String name) throws IOException {
-		return listEditions().stream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
+		return listEditions().stream().filter(ed -> ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
 	}
 
 	@Override
 	public MTGEdition getSetById(String id) {
 
 		try {
-			return listEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findFirst().orElse(new MTGEdition(id, "Not found set "+id));
+			return listEditions().stream().filter(ed -> ed.getId().equalsIgnoreCase(id)).findFirst()
+					.orElse(new MTGEdition(id, "Not found set " + id));
 		} catch (IOException e) {
 			logger.error(e);
 			return null;
@@ -191,84 +171,75 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return searchByCriteria(crits.stream().toArray(MTGCrit[]::new));
 	}
 
-
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.PROVIDER;
 	}
 
 	@Override
-	public List<MTGBooster> generateBooster(MTGEdition me, EnumExtra typeBooster,int qty) throws IOException {
+	public List<MTGBooster> generateBooster(MTGEdition me, EnumExtra typeBooster, int qty) throws IOException {
 
-		
 		var list = new ArrayList<MTGBooster>();
-		
-		for(int i=0;i<qty;i++)
-		{
-		
-		logger.debug("opening booster for {}",me);
-		List<MTGCard> common = new ArrayList<>();
-		List<MTGCard> uncommon = new ArrayList<>();
-		List<MTGCard> rare = new ArrayList<>();
-		List<MTGCard> lands = new ArrayList<>();
-		var b = new MTGBooster();
 
-		try {
-			for (MTGCard mc : searchCardByEdition(me).stream().filter(MTGCard::isMainFace).toList())
-			{
-				if (mc.getRarity()==EnumRarity.COMMON && !mc.isBasicLand())
-					common.add(mc);
+		for (int i = 0; i < qty; i++) {
 
-				if (mc.getRarity()==EnumRarity.UNCOMMON)
-					uncommon.add(mc);
+			logger.debug("opening booster for {}", me);
+			List<MTGCard> common = new ArrayList<>();
+			List<MTGCard> uncommon = new ArrayList<>();
+			List<MTGCard> rare = new ArrayList<>();
+			List<MTGCard> lands = new ArrayList<>();
+			var b = new MTGBooster();
 
-				if (mc.getRarity()==EnumRarity.RARE)
-					rare.add(mc);
+			try {
+				for (MTGCard mc : searchCardByEdition(me).stream().filter(MTGCard::isMainFace).toList()) {
+					if (mc.getRarity() == EnumRarity.COMMON && !mc.isBasicLand())
+						common.add(mc);
 
-				if (mc.getRarity()==EnumRarity.MYTHIC)
-					rare.add(mc);
+					if (mc.getRarity() == EnumRarity.UNCOMMON)
+						uncommon.add(mc);
 
+					if (mc.getRarity() == EnumRarity.RARE)
+						rare.add(mc);
 
-				if (mc.isBasicLand())
-					lands.add(mc);
+					if (mc.getRarity() == EnumRarity.MYTHIC)
+						rare.add(mc);
 
+					if (mc.isBasicLand())
+						lands.add(mc);
+
+				}
+				Collections.shuffle(lands);
+				Collections.shuffle(common);
+				Collections.shuffle(uncommon);
+				Collections.shuffle(rare);
+			} catch (Exception e) {
+				logger.error("Error opening booster", e);
 			}
-			Collections.shuffle(lands);
-			Collections.shuffle(common);
-			Collections.shuffle(uncommon);
-			Collections.shuffle(rare);
-		} catch (Exception e) {
-			logger.error("Error opening booster", e);
+
+			List<MTGCard> resList = new ArrayList<>();
+			resList.addAll(common.subList(0, 11));
+			resList.addAll(uncommon.subList(0, 3));
+			resList.add(rare.get(0));
+
+			if (!lands.isEmpty())
+				resList.addAll(lands.subList(0, 1));
+
+			b.setCards(resList);
+			b.setEdition(me);
+			notify(b);
+			list.add(b);
 		}
 
-		List<MTGCard> resList = new ArrayList<>();
-		resList.addAll(common.subList(0, 11));
-		resList.addAll(uncommon.subList(0, 3));
-		resList.add(rare.get(0));
-
-		if (!lands.isEmpty())
-			resList.addAll(lands.subList(0, 1));
-
-		b.setCards(resList);
-		b.setEdition(me);
-		notify(b);
-		list.add(b);
-		}
-		
 		return list;
 	}
 
-
-
 	@Override
 	public List<MTGEdition> listEditions() throws IOException {
-		if(cacheEditions.isEmpty())
-		{
+		if (cacheEditions.isEmpty()) {
 			logger.debug("cacheEditions not loaded. Filling it");
-			loadEditions().forEach(ed->cacheEditions.put(ed.getId(), ed));
+			loadEditions().forEach(ed -> cacheEditions.put(ed.getId(), ed));
 		}
 		return cacheEditions.values();
 	}
-
 
 }

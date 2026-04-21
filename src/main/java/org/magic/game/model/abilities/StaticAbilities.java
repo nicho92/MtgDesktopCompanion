@@ -10,14 +10,13 @@ public class StaticAbilities extends AbstractAbilities {
 	private static final long serialVersionUID = 1L;
 	private MTGKeyWord key;
 
-
 	@Override
 	public boolean isStatic() {
 		return true;
 	}
 
 	public void init(MTGKeyWord key) {
-		this.key=key;
+		this.key = key;
 	}
 
 	@Override
@@ -28,6 +27,5 @@ public class StaticAbilities extends AbstractAbilities {
 	public StaticAbilities(MTGKeyWord k) {
 		init(k);
 	}
-
 
 }

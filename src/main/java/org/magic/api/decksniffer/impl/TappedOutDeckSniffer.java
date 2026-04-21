@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MTGCard;
@@ -24,9 +23,8 @@ import org.magic.services.network.URLTools;
 
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
-	private static final String URI_BASE="https://tappedout.net";
+	private static final String URI_BASE = "https://tappedout.net";
 	private MTGHttpClient httpclient;
-
 
 	@Override
 	public STATUT getStatut() {
@@ -35,7 +33,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "latest", "standard", "modern", "legacy", "vintage", "edh", "pauper", "aggro","budget", "control" };
+		return new String[]{"latest", "standard", "modern", "legacy", "vintage", "edh", "pauper", "aggro", "budget",
+				"control"};
 	}
 
 	@Override
@@ -45,39 +44,33 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
-		httpclient.doGet(URI_BASE+"/accounts/log-in/?next=/");
-		
-		var b = RequestBuilder.build()
-						  .setClient(httpclient)
-						  .url(URI_BASE+"/accounts/login/")
-						  .post()
-						  .addContent("username", getAuthenticator().getLogin())
-						  .addContent("password", getAuthenticator().getPassword())
-						  .addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
-						  .addHeader(URLTools.REFERER, URI_BASE+"/accounts/login/?next=/")
-						  .addHeader(URLTools.UPGR_INSECURE_REQ, "1")
-				          .addHeader(URLTools.ORIGIN, URI_BASE)
-						  .addHeader(URLTools.REFERER_POLICY,"strict-origin-when-cross-origin")
-						  .addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
-						  .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
-						  .addHeader("pragma","no-cache")
-						  .addHeader("sec-fetch-dest", "document")
-						  .addHeader("sec-fetch-mode", "navigate")
-						  .addHeader("sec-fetch-site", "same-origin")
-						  .addHeader("sec-fetch-user", "?1")
-						  .addHeader("cache-control","no-cache");
+		httpclient.doGet(URI_BASE + "/accounts/log-in/?next=/");
+
+		var b = RequestBuilder.build().setClient(httpclient).url(URI_BASE + "/accounts/login/").post()
+				.addContent("username", getAuthenticator().getLogin())
+				.addContent("password", getAuthenticator().getPassword())
+				.addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
+				.addHeader(URLTools.REFERER, URI_BASE + "/accounts/login/?next=/")
+				.addHeader(URLTools.UPGR_INSECURE_REQ, "1").addHeader(URLTools.ORIGIN, URI_BASE)
+				.addHeader(URLTools.REFERER_POLICY, "strict-origin-when-cross-origin")
+				.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
+				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br").addHeader("pragma", "no-cache")
+				.addHeader("sec-fetch-dest", "document").addHeader("sec-fetch-mode", "navigate")
+				.addHeader("sec-fetch-site", "same-origin").addHeader("sec-fetch-user", "?1")
+				.addHeader("cache-control", "no-cache");
 
 		var resp = httpclient.execute(b);
 		EntityUtils.consume(resp.getEntity());
-		logger.debug("Connection with user = {} : {}",getAuthenticator().getLogin(),resp.getStatusLine().getReasonPhrase());
+		logger.debug("Connection with user = {} : {}", getAuthenticator().getLogin(),
+				resp.getStatusLine().getReasonPhrase());
 	}
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		if(httpclient==null)
+		if (httpclient == null)
 			initConnexion();
 
-		logger.debug("sniff deck at {}",info.getUrl());
+		logger.debug("sniff deck at {}", info.getUrl());
 		var deck = info.toBaseDeck();
 		var root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).get().toJson();
 
@@ -109,11 +102,11 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 			List<MTGCard> ret;
 			if (idSet == null) {
-					ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null,true);
+				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true);
 
 			} else {
 				var ed = new MTGEdition(idSet);
-				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true);
+				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true);
 			}
 
 			if (!ret.isEmpty()) {
@@ -131,7 +124,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
-		var root = URLTools.extractAsJson(URI_BASE+"/api/deck/latest/"+ filter+"/");
+		var root = URLTools.extractAsJson(URI_BASE + "/api/deck/latest/" + filter + "/");
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 0; i < root.getAsJsonArray().size(); i++) {
@@ -150,11 +143,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		return list;
 	}
 
-
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
 	}
-
 
 }

@@ -10,12 +10,12 @@ public class RetrievableTransaction {
 	private String source;
 	private String sourceId;
 	private String url;
-	
+
 	@Override
 	public String toString() {
 		return getSourceId();
 	}
-	
+
 	public String getSource() {
 		return source;
 	}
@@ -37,12 +37,11 @@ public class RetrievableTransaction {
 	public void setTotalValue(MoneyValue totalValue) {
 		this.totalValue = totalValue;
 	}
-	
+
 	public MoneyValue getTotalValue() {
 		return totalValue;
 	}
-	
-	
+
 	public Date getDateTransaction() {
 		return dateTransaction;
 	}
@@ -57,7 +56,5 @@ public class RetrievableTransaction {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
-	
-	
+
 }

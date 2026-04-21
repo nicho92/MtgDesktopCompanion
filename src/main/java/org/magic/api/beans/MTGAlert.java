@@ -10,7 +10,7 @@ public class MTGAlert {
 	private MTGCard card;
 	private Double price;
 	private CardShake shake;
-	private int qty=1;
+	private int qty = 1;
 	private List<MTGPrice> offers;
 	private boolean foil;
 
@@ -33,7 +33,7 @@ public class MTGAlert {
 
 	public MTGAlert() {
 		offers = new ArrayList<>();
-		shake=new CardShake();
+		shake = new CardShake();
 	}
 
 	public List<MTGPrice> getOffers() {
@@ -50,7 +50,7 @@ public class MTGAlert {
 
 	public void setCard(MTGCard card) {
 		this.card = card;
-		id=card.getScryfallId();
+		id = card.getScryfallId();
 	}
 
 	public Double getPrice() {
@@ -63,9 +63,8 @@ public class MTGAlert {
 
 	@Override
 	public int hashCode() {
-		if(getId()==null)
+		if (getId() == null)
 			return -1;
-
 
 		return getId().hashCode();
 	}
@@ -81,8 +80,6 @@ public class MTGAlert {
 	public void orderDesc() {
 		Collections.sort(this.offers, (MTGPrice b1, MTGPrice b2) -> (b1.getValue() < b2.getValue() ? -1 : 1));
 	}
-
-
 
 	public CardShake getShake() {
 		return shake;

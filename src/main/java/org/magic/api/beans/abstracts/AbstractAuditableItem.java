@@ -10,25 +10,22 @@ public abstract class AbstractAuditableItem implements Serializable {
 	protected Instant end;
 	protected long duration;
 	private transient boolean stored;
-	
 
 	public boolean isStored() {
 		return stored;
 	}
-	
+
 	public void setStored(boolean stored) {
 		this.stored = stored;
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return getClass()+"-"+start+"-"+end+"-"+duration+"-"+stored;
+		return getClass() + "-" + start + "-" + end + "-" + duration + "-" + stored;
 	}
 
-
 	protected AbstractAuditableItem() {
-		start= Instant.now();
+		start = Instant.now();
 	}
 
 	public Instant getStart() {
@@ -45,16 +42,15 @@ public abstract class AbstractAuditableItem implements Serializable {
 
 	public void setEnd(Instant end) {
 		this.end = end;
-		setDuration(getEnd().toEpochMilli()-getStart().toEpochMilli());
+		setDuration(getEnd().toEpochMilli() - getStart().toEpochMilli());
 	}
 
 	public long getDuration() {
 		return duration;
 	}
 
-
 	public void setDuration(long duration) {
-			this.duration=duration;
+		this.duration = duration;
 	}
 
 }

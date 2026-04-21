@@ -3,10 +3,8 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MTGProperty;
@@ -24,16 +22,16 @@ public class MkmPricer extends AbstractPricesProvider {
 	@Override
 	protected synchronized List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		logger.debug("{} looking for prices for {} ",getName(),card);
+		logger.debug("{} looking for prices for {} ", getName(), card);
 
 		MTGJsonPricerProvider.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
 
-		var ret =  MTGJsonPricerProvider.getInstance().getPriceFor(card,VENDOR.CARDMARKET);
-		
-		ret.forEach(p->p.setSite(getName()));
-		
+		var ret = MTGJsonPricerProvider.getInstance().getPriceFor(card, VENDOR.CARDMARKET);
+
+		ret.forEach(p -> p.setSite(getName()));
+
 		return ret;
-		
+
 	}
 
 	@Override
@@ -43,7 +41,8 @@ public class MkmPricer extends AbstractPricesProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("EXPIRE_FILE_DAYS",MTGProperty.newIntegerProperty("1","Number of day when the file will be updated",1,-1));
+		return Map.of("EXPIRE_FILE_DAYS",
+				MTGProperty.newIntegerProperty("1", "Number of day when the file will be updated", 1, -1));
 	}
 
 }

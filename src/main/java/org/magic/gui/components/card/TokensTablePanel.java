@@ -8,10 +8,8 @@ import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CancellationException;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -30,8 +28,7 @@ public class TokensTablePanel extends MTGUIComponent {
 	private MagicCardTableModel model;
 	private MTGEdition currentEdition;
 	private AbstractBuzyIndicatorComponent buzy;
-	private transient AbstractObservableWorker<List<MTGCard>, MTGCard,MTGTokensProvider> sw;
-
+	private transient AbstractObservableWorker<List<MTGCard>, MTGCard, MTGTokensProvider> sw;
 
 	public TokensTablePanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -39,11 +36,10 @@ public class TokensTablePanel extends MTGUIComponent {
 		var panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
 
-		model.setDefaultHiddenComlumns(1,2,5,8,9,11,12,13,14,15);
+		model.setDefaultHiddenComlumns(1, 2, 5, 8, 9, 11, 12, 13, 14, 15);
 
-
-		table = UITools.createNewTable(model,true);
-		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
+		table = UITools.createNewTable(model, true);
+		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 
 		table.setColumnControlVisible(true);
 
@@ -51,7 +47,7 @@ public class TokensTablePanel extends MTGUIComponent {
 
 		panneauHaut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);
-		add(panneauHaut,BorderLayout.NORTH);
+		add(panneauHaut, BorderLayout.NORTH);
 
 		addComponentListener(new ComponentAdapter() {
 			@Override
@@ -67,44 +63,37 @@ public class TokensTablePanel extends MTGUIComponent {
 		refresh();
 	}
 
-	public MTGCard getSelectedCard()
-	{
-		if(table.getSelectedRow()>-1)
-		{
+	public MTGCard getSelectedCard() {
+		if (table.getSelectedRow() > -1) {
 			return UITools.getTableSelection(table, 0);
 		}
 
 		return null;
 	}
 
-	public List<MTGCard> getSelectedCards()
-	{
-		return UITools.getTableSelections(table,0);
+	public List<MTGCard> getSelectedCards() {
+		return UITools.getTableSelections(table, 0);
 	}
-
 
 	public JXTable getTable() {
 		return table;
 	}
 
-	public void init(MTGEdition ed)
-	{
-		this.currentEdition=ed;
-		if(isVisible())
+	public void init(MTGEdition ed) {
+		this.currentEdition = ed;
+		if (isVisible())
 			refresh();
 	}
 
-	private void refresh()
-	{
-		if(currentEdition==null)
+	private void refresh() {
+		if (currentEdition == null)
 			return;
 
-		if(sw!=null && !sw.isDone())
-		{
+		if (sw != null && !sw.isDone()) {
 			sw.cancel(true);
 		}
 
-		sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGTokensProvider.class),10) {
+		sw = new AbstractObservableWorker<>(buzy, getEnabledPlugin(MTGTokensProvider.class), 10) {
 			@Override
 			protected List<MTGCard> doInBackground() throws IOException {
 				return plug.listTokensFor(currentEdition);
@@ -118,7 +107,7 @@ public class TokensTablePanel extends MTGUIComponent {
 
 			@Override
 			protected void error(Exception e) {
-				//do nothing
+				// do nothing
 			}
 
 			@Override
@@ -126,28 +115,21 @@ public class TokensTablePanel extends MTGUIComponent {
 				try {
 					super.done();
 					model.init(get());
-				}
-				catch(InterruptedException|CancellationException _)
-				{
+				} catch (InterruptedException | CancellationException _) {
 					Thread.currentThread().interrupt();
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					logger.error(e);
 				}
 			}
 
-
-
 		};
 
-		ThreadManager.getInstance().runInEdt(sw, "loading edition "+currentEdition);
+		ThreadManager.getInstance().runInEdt(sw, "loading edition " + currentEdition);
 	}
 
 	@Override
 	public String getTitle() {
 		return "Tokens";
 	}
-
-
 
 }

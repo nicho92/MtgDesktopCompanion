@@ -1,9 +1,7 @@
 package org.magic.gui.components.card;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JScrollPane;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;
@@ -19,12 +17,12 @@ public class MagicCardSubDetailPanel extends MTGUIComponent {
 	public String getTitle() {
 		return "DETAIL";
 	}
-	
+
 	public MagicCardSubDetailPanel() {
 		setLayout(new BorderLayout());
-		
+
 		mod = new MapTableModel<>() {
-			
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -32,21 +30,13 @@ public class MagicCardSubDetailPanel extends MTGUIComponent {
 				return Object.class;
 			}
 		};
-		
-		
-		
-		var table = UITools.createNewTable(mod,false);
-		add(new JScrollPane(table),BorderLayout.CENTER);
+
+		var table = UITools.createNewTable(mod, false);
+		add(new JScrollPane(table), BorderLayout.CENTER);
 	}
-	
-	public void init(MTGCard mc)
-	{
+
+	public void init(MTGCard mc) {
 		mod.init(BeanTools.describe(mc));
 	}
-	
-	
-	
-	
-	
 
 }

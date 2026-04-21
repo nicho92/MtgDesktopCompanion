@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGGrading;
@@ -15,7 +14,6 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
 public class BeckettGrader extends AbstractGradersProvider {
-
 
 	@Override
 	public String getWebSite() {
@@ -27,74 +25,62 @@ public class BeckettGrader extends AbstractGradersProvider {
 
 		var c = URLTools.newClient();
 
-		var urlLogin = getWebSite()+"/login?utm_content=bkthp&utm_term=login";
-		var urlCheking = getWebSite()+"/grading/card-lookup";
+		var urlLogin = getWebSite() + "/login?utm_content=bkthp&utm_term=login";
+		var urlCheking = getWebSite() + "/grading/card-lookup";
 
 		var d = RequestBuilder.build().url(urlLogin).setClient(c).get().toHtml();
 		var token = d.select("input[name='login_token']").first().attr("value");
 
+		d = RequestBuilder.build().url(urlLogin).setClient(c).post()
+				.addContent("redirect_url", getWebSite() + "/account").addContent("login_token", token)
+				.addContent("email", getAuthenticator().getLogin())
+				.addContent("password", getAuthenticator().getPassword()).toHtml();
 
-			d=RequestBuilder.build().url(urlLogin).setClient(c).post()
-						  .addContent("redirect_url", getWebSite()+"/account")
-						  .addContent("login_token", token)
-						  .addContent("email",getAuthenticator().getLogin())
-						  .addContent("password", getAuthenticator().getPassword())
-						  .toHtml();
+		boolean connected = !d.getElementsByTag("title").html().equalsIgnoreCase("Member Login");
 
-		boolean	connected = !d.getElementsByTag("title").html().equalsIgnoreCase("Member Login");
-
-
-		if(!connected)
+		if (!connected)
 			throw new IOException("Error when login to website");
 
+		d = RequestBuilder.build().url(urlCheking).setClient(c).get().addContent("item_type", "BGS")
+				.addContent("item_id", identifier).toHtml();
 
-			d=RequestBuilder.build().url(urlCheking).setClient(c).get()
-					.addContent("item_type", "BGS")
-					.addContent("item_id", identifier)
-					 .toHtml();
+		Element table = d.select("table.cardDetail").first();
 
-			Element table = d.select("table.cardDetail").first();
+		if (table == null)
+			return null;
 
-			if(table==null)
-				return null;
+		Elements trs = table.select("tr");
+		var grad = new MTGGrading();
+		grad.setGraderName(getName());
+		grad.setNumberID(identifier);
+		grad.setUrlInfo(getWebSite() + "?item_id=" + identifier);
 
+		trs.forEach(tr -> {
+			if (tr.text().startsWith("Centering"))
+				grad.setCentering(Double.parseDouble(tr.text().replace("Centering Grade : ", "").trim()));
 
+			if (tr.text().startsWith("Corner"))
+				grad.setCorners(Double.parseDouble(tr.text().replace("Corner Grade : ", "").trim()));
 
-			Elements trs=table.select("tr");
-			var grad = new MTGGrading();
-			grad.setGraderName(getName());
-			grad.setNumberID(identifier);
-			grad.setUrlInfo(getWebSite()+"?item_id="+identifier);
+			if (tr.text().startsWith("Edges"))
+				grad.setEdges(Double.parseDouble(tr.text().replace("Edges Grade : ", "").trim()));
 
-			trs.forEach(tr->{
-				if(tr.text().startsWith("Centering"))
-					grad.setCentering(Double.parseDouble(tr.text().replace("Centering Grade : ","").trim()));
+			if (tr.text().startsWith("Surfaces"))
+				grad.setSurface(Double.parseDouble(tr.text().replace("Surfaces Grade : ", "").trim()));
 
-				if(tr.text().startsWith("Corner"))
-					grad.setCorners(Double.parseDouble(tr.text().replace("Corner Grade : ","").trim()));
+			if (tr.text().startsWith("Final"))
+				grad.setGradeNote(Double.parseDouble(tr.text().replace("Final Grade : ", "").trim()));
 
-				if(tr.text().startsWith("Edges"))
-					grad.setEdges(Double.parseDouble(tr.text().replace("Edges Grade : ","").trim()));
-
-				if(tr.text().startsWith("Surfaces"))
-					grad.setSurface(Double.parseDouble(tr.text().replace("Surfaces Grade : ","").trim()));
-
-				if(tr.text().startsWith("Final"))
-					grad.setGradeNote(Double.parseDouble(tr.text().replace("Final Grade : ","").trim()));
-
-				if(tr.text().startsWith("Date"))
-				{
-					try {
-						grad.setGradeDate(new SimpleDateFormat("EEEEE, MMMMM dd, yyyy",Locale.US).parse(tr.text().replace("Date Graded : ","").trim()));
-					}
-					catch(ParseException e)
-					{
-						logger.error(e);
-					}
+			if (tr.text().startsWith("Date")) {
+				try {
+					grad.setGradeDate(new SimpleDateFormat("EEEEE, MMMMM dd, yyyy", Locale.US)
+							.parse(tr.text().replace("Date Graded : ", "").trim()));
+				} catch (ParseException e) {
+					logger.error(e);
 				}
+			}
 
-
-			});
+		});
 		return grad;
 	}
 

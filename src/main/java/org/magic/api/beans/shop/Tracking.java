@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Tracking implements Serializable{
+public class Tracking implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private List<TrackingStep> steps;
@@ -25,7 +25,7 @@ public class Tracking implements Serializable{
 
 	@Override
 	public String toString() {
-		return getProductName() +"#"+getNumber();
+		return getProductName() + "#" + getNumber();
 	}
 
 	public Date getDeliveryDate() {
@@ -66,11 +66,10 @@ public class Tracking implements Serializable{
 
 	public Tracking(String number2) {
 		steps = new ArrayList<>();
-		this.number=number2;
+		this.number = number2;
 	}
 
-	public void addStep(TrackingStep ts)
-	{
+	public void addStep(TrackingStep ts) {
 		steps.add(ts);
 	}
 
@@ -78,8 +77,4 @@ public class Tracking implements Serializable{
 		return steps;
 	}
 
-
 }
-
-
-

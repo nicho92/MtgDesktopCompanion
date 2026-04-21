@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.enums.EnumCardsPatterns;
@@ -20,37 +19,32 @@ import org.magic.game.model.costs.ActionCost;
 import org.magic.game.model.costs.LoyaltyCost;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 
-public class AbilitiesFactory implements Serializable{
+public class AbilitiesFactory implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static AbilitiesFactory inst;
 
-	public static AbilitiesFactory getInstance()
-	{
+	public static AbilitiesFactory getInstance() {
 
-		if(inst==null)
-			inst=new AbilitiesFactory();
+		if (inst == null)
+			inst = new AbilitiesFactory();
 
 		return inst;
 	}
-
 
 	private AbilitiesFactory() {
 
 	}
 
-	private List<String> listSentences(MTGCard mc)
-	{
-		if(mc.getText()==null)
-		{
+	private List<String> listSentences(MTGCard mc) {
+		if (mc.getText() == null) {
 			return new ArrayList<>();
 		}
-		
+
 		return Arrays.asList(mc.getText().split("\n"));
 	}
 
-	public List<AbstractAbilities> getAbilities(MTGCard mc)
-	{
+	public List<AbstractAbilities> getAbilities(MTGCard mc) {
 
 		mc.setText(removeParenthesis(mc.getText()));
 		List<AbstractAbilities> ret = new ArrayList<>();
@@ -62,31 +56,25 @@ public class AbilitiesFactory implements Serializable{
 		return ret;
 	}
 
-	private String removeParenthesis(String text)
-	{
-		return text.replaceAll(EnumCardsPatterns.REMINDER.getPattern(),"");
+	private String removeParenthesis(String text) {
+		return text.replaceAll(EnumCardsPatterns.REMINDER.getPattern(), "");
 	}
-
 
 	public List<AbstractAbilities> getActivatedAbilities(MTGCard mc) {
 		List<AbstractAbilities> ret = new ArrayList<>();
-		if(!mc.isPlaneswalker() && !mc.isSaga())
-		{
-			for(String s : listSentences(mc))
-			{
+		if (!mc.isPlaneswalker() && !mc.isSaga()) {
+			for (String s : listSentences(mc)) {
 				int end = s.indexOf('.');
 
-				if(s.indexOf(':')>1 && s.indexOf(':')<end)
-				{
-					String[] costs = s.substring(0,s.indexOf(':')).split(",");
+				if (s.indexOf(':') > 1 && s.indexOf(':') < end) {
+					String[] costs = s.substring(0, s.indexOf(':')).split(",");
 					var abs = new ActivatedAbilities();
 					abs.setCard(mc);
 
-					for(String c : costs)
+					for (String c : costs)
 						abs.addCost(CostsFactory.getInstance().parseCosts(c.trim()));
 
-					abs.addEffect(EffectsFactory.getInstance().parseEffect(mc,s.substring(s.indexOf(':')+1)));
-
+					abs.addEffect(EffectsFactory.getInstance().parseEffect(mc, s.substring(s.indexOf(':') + 1)));
 
 					ret.add(abs);
 
@@ -95,72 +83,57 @@ public class AbilitiesFactory implements Serializable{
 		}
 		return ret;
 	}
-	
+
 	public List<SagaAbilities> getSagaAbilities(MTGCard mc) {
 		var list = new ArrayList<SagaAbilities>();
-			if(!mc.isSaga())
-				return list;
-			
-
-			for(String s : listSentences(mc))
-			{
-
-				Matcher m  = EnumCardsPatterns.extract(s, EnumCardsPatterns.SAGA_PATTERN);
-				if(m.matches()) 
-				{
-					var abilities = new SagaAbilities();
-					abilities.setCard(mc);
-					abilities.setCost(new ActionCost("Put Lore Counter"));
-					abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc,m.group(2)));
-					list.add(abilities);
-				}
-				
-			}
-			
+		if (!mc.isSaga())
 			return list;
+
+		for (String s : listSentences(mc)) {
+
+			Matcher m = EnumCardsPatterns.extract(s, EnumCardsPatterns.SAGA_PATTERN);
+			if (m.matches()) {
+				var abilities = new SagaAbilities();
+				abilities.setCard(mc);
+				abilities.setCost(new ActionCost("Put Lore Counter"));
+				abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc, m.group(2)));
+				list.add(abilities);
+			}
+
+		}
+
+		return list;
 	}
-	
 
 	public List<LoyaltyAbilities> getLoyaltyAbilities(MTGCard mc) {
 		List<LoyaltyAbilities> list = new ArrayList<>();
-		if(mc.isPlaneswalker())
-		{
+		if (mc.isPlaneswalker()) {
 
-			for(String s : listSentences(mc))
-			{
+			for (String s : listSentences(mc)) {
 
-				Matcher m  = EnumCardsPatterns.extract(s, EnumCardsPatterns.LOYALTY_PATTERN);
-				if(m.matches()) {
+				Matcher m = EnumCardsPatterns.extract(s, EnumCardsPatterns.LOYALTY_PATTERN);
+				if (m.matches()) {
 
-				var abilities = new LoyaltyAbilities();
-				abilities.setCard(mc);
-				String c = m.group(1);
-				if(c.startsWith("+"))
-				{
-					try{
-						abilities.setCost(new LoyaltyCost(Integer.parseInt(c.substring(1))));
+					var abilities = new LoyaltyAbilities();
+					abilities.setCard(mc);
+					String c = m.group(1);
+					if (c.startsWith("+")) {
+						try {
+							abilities.setCost(new LoyaltyCost(Integer.parseInt(c.substring(1))));
+						} catch (Exception _) {
+							abilities.setCost(new LoyaltyCost("+"));
+						}
+					} else if (c.startsWith("0")) {
+						abilities.setCost(new LoyaltyCost(0));
+					} else {
+						try {
+							abilities.setCost(new LoyaltyCost(-Integer.parseInt(c.substring(1))));
+						} catch (Exception _) {
+							abilities.setCost(new LoyaltyCost("-"));
+						}
 					}
-					catch(Exception _)
-					{
-						abilities.setCost(new LoyaltyCost("+"));
-					}
-				}
-				else if(c.startsWith("0"))
-				{
-					abilities.setCost(new LoyaltyCost(0));
-				}
-				else
-				{
-					try{
-						abilities.setCost(new LoyaltyCost(-Integer.parseInt(c.substring(1))));
-					}
-					catch(Exception _)
-					{
-						abilities.setCost(new LoyaltyCost("-"));
-					}
-				}
-				abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc,m.group(2)));
-				list.add(abilities);
+					abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc, m.group(2)));
+					list.add(abilities);
 				}
 			}
 		}
@@ -169,23 +142,20 @@ public class AbilitiesFactory implements Serializable{
 	}
 
 	public List<StaticAbilities> getStaticAbilities(MTGCard mc) {
-		return AbstractKeyWordsManager.getInstance().getKeywordsFrom(mc, EVENT.STATIC).stream().map(StaticAbilities::new).toList();
+		return AbstractKeyWordsManager.getInstance().getKeywordsFrom(mc, EVENT.STATIC).stream()
+				.map(StaticAbilities::new).toList();
 	}
 
-	public List<TriggeredAbilities> getTriggeredAbility(MTGCard mc)
-	{
-		List<TriggeredAbilities> arr =new ArrayList<>();
-		var i=0;
-		for(String s : listSentences(mc))
-		{
-			for(KEYWORDS k : TriggeredAbilities.KEYWORDS.values())
-			{
-				if(s.split(" ")[0].equalsIgnoreCase(k.name()))
-				{
+	public List<TriggeredAbilities> getTriggeredAbility(MTGCard mc) {
+		List<TriggeredAbilities> arr = new ArrayList<>();
+		var i = 0;
+		for (String s : listSentences(mc)) {
+			for (KEYWORDS k : TriggeredAbilities.KEYWORDS.values()) {
+				if (s.split(" ")[0].equalsIgnoreCase(k.name())) {
 					var t = new TriggeredAbilities();
-									   t.setCard(mc);
-									   t.setCost(null);
-									   t.init(k,listSentences(mc).subList(i, listSentences(mc).size()));
+					t.setCard(mc);
+					t.setCost(null);
+					t.init(k, listSentences(mc).subList(i, listSentences(mc).size()));
 
 					arr.add(t);
 				}
@@ -194,6 +164,5 @@ public class AbilitiesFactory implements Serializable{
 		}
 		return arr;
 	}
-
 
 }

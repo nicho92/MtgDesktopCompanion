@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -16,7 +15,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
-
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
@@ -44,7 +42,7 @@ public class GradingEditorPane extends MTGUIComponent {
 	private JComboBox<EnumCondition> cboSubGrade;
 	private JButton btnSave;
 	private JCheckBox chbGradded;
-	private JLabel lblCertified= new JLabel(MTGConstants.ICON_CHECK);
+	private JLabel lblCertified = new JLabel(MTGConstants.ICON_CHECK);
 
 	public void initGUI(MTGGrading grade) {
 		var gridBagLayout = new GridBagLayout();
@@ -55,7 +53,7 @@ public class GradingEditorPane extends MTGUIComponent {
 		setLayout(gridBagLayout);
 
 		chbGradded = new JCheckBox("Gradded");
-		cboGraders = UITools.createComboboxPlugins(MTGGraders.class,true);
+		cboGraders = UITools.createComboboxPlugins(MTGGraders.class, true);
 		spinnerGradeNote = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
 		spinnerGradeNote.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 16));
 		cboMainGrade = UITools.createCombobox(EnumCondition.values());
@@ -65,18 +63,16 @@ public class GradingEditorPane extends MTGUIComponent {
 		spinnerCorner = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
 		spinnerEdges = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
 
-
 		spinnerThickness = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.1));
-		((JSpinner.NumberEditor)spinnerThickness.getEditor()).getFormat().setMaximumFractionDigits(3);
+		((JSpinner.NumberEditor) spinnerThickness.getEditor()).getFormat().setMaximumFractionDigits(3);
 		spinnerWeight = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.1));
-		((JSpinner.NumberEditor)spinnerWeight.getEditor()).getFormat().setMaximumFractionDigits(2);
-
+		((JSpinner.NumberEditor) spinnerWeight.getEditor()).getFormat().setMaximumFractionDigits(2);
 
 		txtSerialNumber = new JTextField(10);
-		var btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE_24, KeyEvent.VK_L, "Grade info loading");
-		btnSave = UITools.createBindableJButton(capitalize("UPDATE"), MTGConstants.ICON_SAVE, KeyEvent.VK_G, "Grade info saving");
-
-
+		var btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE_24, KeyEvent.VK_L,
+				"Grade info loading");
+		btnSave = UITools.createBindableJButton(capitalize("UPDATE"), MTGConstants.ICON_SAVE, KeyEvent.VK_G,
+				"Grade info saving");
 
 		add(new JLabel("Note :"), UITools.createGridBagConstraints(null, null, 2, 1));
 		add(new JLabel("Grading :"), UITools.createGridBagConstraints(null, null, 0, 2));
@@ -88,14 +84,14 @@ public class GradingEditorPane extends MTGUIComponent {
 		add(new JLabel("Edges :"), UITools.createGridBagConstraints(null, null, 2, 5));
 		add(new JLabel("Serial :"), UITools.createGridBagConstraints(null, null, 0, 6));
 
-		add(chbGradded,UITools.createGridBagConstraints(null, null, 0, 0));
-		add(lblCertified,UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
-		add(cboGraders,UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
+		add(chbGradded, UITools.createGridBagConstraints(null, null, 0, 0));
+		add(lblCertified, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
+		add(cboGraders, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 		add(spinnerGradeNote, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 1));
 		add(cboMainGrade, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 
 		add(new JLabel("SubGrading :"), UITools.createGridBagConstraints(null, null, 0, 3));
-		add(cboSubGrade, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1,3));
+		add(cboSubGrade, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 
 		add(new JLabel("Surface :"), UITools.createGridBagConstraints(null, null, 2, 2));
 		add(spinnerSurface, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 2));
@@ -107,25 +103,23 @@ public class GradingEditorPane extends MTGUIComponent {
 		add(spinnerEdges, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 5));
 		add(txtSerialNumber, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 		add(btnLoad, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 6));
-		add(btnSave, UITools.createGridBagConstraints(null, null, 0, 7,4,null));
+		add(btnSave, UITools.createGridBagConstraints(null, null, 0, 7, 4, null));
 
 		setGrading(grade);
 
 		chbGradded.setSelected(false);
 
-		btnLoad.addActionListener(_->{
+		btnLoad.addActionListener(_ -> {
 			MTGGraders grader = (MTGGraders) cboGraders.getSelectedItem();
 
-			if(grader==null)
-			{
+			if (grader == null) {
 				MTG.notifyError("Choose a Grader");
 				return;
 			}
 
-
 			btnLoad.setEnabled(false);
 
-			SwingWorker<MTGGrading, MTGGrading> sw = new SwingWorker<>(){
+			SwingWorker<MTGGrading, MTGGrading> sw = new SwingWorker<>() {
 
 				@Override
 				protected MTGGrading doInBackground() throws Exception {
@@ -139,84 +133,73 @@ public class GradingEditorPane extends MTGUIComponent {
 
 					try {
 						grad = get();
-						if(grad!=null)
-						{
+						if (grad != null) {
 							grad.setCertified(true);
 							setGrading(grad);
 						}
-					}
-					catch(InterruptedException _)
-					{
-							Thread.currentThread().interrupt();
-					}
-					catch (Exception e) {
+					} catch (InterruptedException _) {
+						Thread.currentThread().interrupt();
+					} catch (Exception e) {
 						MTGControler.getInstance().notify(e);
 					}
 				}
 			};
 
-
-
 			ThreadManager.getInstance().runInEdt(sw, "checking grading");
 		});
 
-
 	}
 
-	public MTGGrading getGrading()
-	{
+	public MTGGrading getGrading() {
 		var g = new MTGGrading();
-				g.setCentering((Double)spinnerCentering.getValue());
-				g.setCorners((Double)spinnerCorner.getValue());
-				g.setEdges((Double)spinnerEdges.getValue());
-				g.setGrade((EnumCondition)cboMainGrade.getSelectedItem());
-				g.setGradeNote((Double)spinnerGradeNote.getValue());
-				g.setGraderName(cboGraders.getSelectedItem().toString());
-				g.setNumberID(txtSerialNumber.getText());
-				g.setSubGrade((EnumCondition)cboSubGrade.getSelectedItem());
-				g.setSurface((Double)spinnerSurface.getValue());
-				g.setThickness((Double)spinnerThickness.getValue());
-				g.setWeight((Double)spinnerWeight.getValue());
-				g.setCertified(lblCertified.isVisible());
-				g.setGradeDate(UITools.parseDate(lblCertified.getText()));
+		g.setCentering((Double) spinnerCentering.getValue());
+		g.setCorners((Double) spinnerCorner.getValue());
+		g.setEdges((Double) spinnerEdges.getValue());
+		g.setGrade((EnumCondition) cboMainGrade.getSelectedItem());
+		g.setGradeNote((Double) spinnerGradeNote.getValue());
+		g.setGraderName(cboGraders.getSelectedItem().toString());
+		g.setNumberID(txtSerialNumber.getText());
+		g.setSubGrade((EnumCondition) cboSubGrade.getSelectedItem());
+		g.setSurface((Double) spinnerSurface.getValue());
+		g.setThickness((Double) spinnerThickness.getValue());
+		g.setWeight((Double) spinnerWeight.getValue());
+		g.setCertified(lblCertified.isVisible());
+		g.setGradeDate(UITools.parseDate(lblCertified.getText()));
 		return g;
 	}
 
-	public void setGrading(MTGGrading grade)
-	{
-			if(grade==null)
-				grade=new MTGGrading();
+	public void setGrading(MTGGrading grade) {
+		if (grade == null)
+			grade = new MTGGrading();
 
-			chbGradded.setSelected(grade.isGradded());
-			spinnerCentering.setValue(grade.getCentering());
-			spinnerCorner.setValue(grade.getCorners());
-			spinnerEdges.setValue(grade.getEdges());
-			cboMainGrade.setSelectedItem(grade.getGrade());
-			cboSubGrade.setSelectedItem(grade.getSubGrade());
-			spinnerGradeNote.setValue(grade.getGradeNote());
+		chbGradded.setSelected(grade.isGradded());
+		spinnerCentering.setValue(grade.getCentering());
+		spinnerCorner.setValue(grade.getCorners());
+		spinnerEdges.setValue(grade.getEdges());
+		cboMainGrade.setSelectedItem(grade.getGrade());
+		cboSubGrade.setSelectedItem(grade.getSubGrade());
+		spinnerGradeNote.setValue(grade.getGradeNote());
 
-			if(grade.isGradded())
-				cboGraders.setSelectedItem(PluginRegistry.inst().getPlugin(grade.getGraderName(),MTGGraders.class));
-			else
-				cboGraders.setSelectedItem(null);
+		if (grade.isGradded())
+			cboGraders.setSelectedItem(PluginRegistry.inst().getPlugin(grade.getGraderName(), MTGGraders.class));
+		else
+			cboGraders.setSelectedItem(null);
 
-			txtSerialNumber.setText(grade.getNumberID());
-			spinnerSurface.setValue(grade.getSurface());
-			spinnerThickness.setValue(grade.getThickness());
-			spinnerWeight.setValue(grade.getWeight());
-			lblCertified.setVisible(grade.isCertified());
+		txtSerialNumber.setText(grade.getNumberID());
+		spinnerSurface.setValue(grade.getSurface());
+		spinnerThickness.setValue(grade.getThickness());
+		spinnerWeight.setValue(grade.getWeight());
+		lblCertified.setVisible(grade.isCertified());
 
-			if(grade.isCertified()) {
-				lblCertified.setText(UITools.formatDate(grade.getGradeDate()));
-				lblCertified.setToolTipText("Certified by " + grade.getGraderName()+ " : " + grade.getUrlInfo());
-			}
+		if (grade.isCertified()) {
+			lblCertified.setText(UITools.formatDate(grade.getGradeDate()));
+			lblCertified.setToolTipText("Certified by " + grade.getGraderName() + " : " + grade.getUrlInfo());
+		}
 
 	}
 
-
-	public void saveTo(MTGCardStock stock)
-	{
-		if(!chbGradded.isSelected())
+	public void saveTo(MTGCardStock stock) {
+		if (!chbGradded.isSelected())
 			stock.setGrade(null);
 		else
 			stock.setGrade(getGrading());
@@ -224,12 +207,9 @@ public class GradingEditorPane extends MTGUIComponent {
 		stock.setUpdated(true);
 	}
 
-
-	public GradingEditorPane()
-	{
+	public GradingEditorPane() {
 		initGUI(new MTGGrading());
 	}
-
 
 	@Override
 	public String getTitle() {
@@ -240,7 +220,6 @@ public class GradingEditorPane extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_GRADING;
 	}
-
 
 	public JButton getBtnSave() {
 		return btnSave;

@@ -9,22 +9,18 @@ public class PictureDimension {
 	double zoom;
 	double x;
 	double y;
-	
+
 	public PictureDimension(int width, int height, double zoom, double x, double y) {
 		this.width = width;
 		this.height = height;
-		this.zoom = zoom<1?1:zoom;
+		this.zoom = zoom < 1 ? 1 : zoom;
 		this.x = x;
 		this.y = y;
 	}
 
-	
-	public Dimension getDimension()
-	{
-		return new Dimension(width,height);
+	public Dimension getDimension() {
+		return new Dimension(width, height);
 	}
-
-
 
 	public int getWidth() {
 		return width;
@@ -56,9 +52,5 @@ public class PictureDimension {
 	public void setY(double y) {
 		this.y = y;
 	}
-	
-	
-	
-	
-	
+
 }

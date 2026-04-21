@@ -2,9 +2,7 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JOptionPane;
-
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -21,10 +19,9 @@ public class ScryActions extends AbstractCardAction {
 	private String value;
 
 	public ScryActions(DisplayableCard c) {
-		
-		super(c,"Scry  cards");
-		
-		
+
+		super(c, "Scry  cards");
+
 		putValue(SHORT_DESCRIPTION, "Scry " + parse() + " cards");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 	}
@@ -50,7 +47,7 @@ public class ScryActions extends AbstractCardAction {
 		if (value != null) {
 			new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(),
 					GamePanelGUI.getInstance().getPlayer().scry(Integer.parseInt(value.trim())), ZoneEnum.LIBRARY)
-							.setVisible(true);
+					.setVisible(true);
 		}
 
 	}

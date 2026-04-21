@@ -3,11 +3,9 @@ package org.magic.gui.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.Date;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
@@ -23,29 +21,24 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	private static final long serialVersionUID = 1L;
 	private Color c;
 	private Component pane;
-		
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
-		if (value instanceof Double)
-		{
-			pane = new DoubleCellEditorRenderer(true, false).getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		}
-		else if(value instanceof ImageIcon ic)
-		{
-			pane=new JLabel(ic);
-			((JLabel)pane).setOpaque(true);
-		}
-		else if(value instanceof Boolean)
-		{
-			pane=new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		}
-		else if(value instanceof Date)
-		{
-			pane=new DateTableCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		}
-		else
-		{
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+
+		if (value instanceof Double) {
+			pane = new DoubleCellEditorRenderer(true, false).getTableCellRendererComponent(table, value, isSelected,
+					hasFocus, row, column);
+		} else if (value instanceof ImageIcon ic) {
+			pane = new JLabel(ic);
+			((JLabel) pane).setOpaque(true);
+		} else if (value instanceof Boolean) {
+			pane = new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,
+					row, column);
+		} else if (value instanceof Date) {
+			pane = new DateTableCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,
+					row, column);
+		} else {
 			pane = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
 
@@ -53,7 +46,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
 		double val = (double) table.getValueAt(row, 4);
 
-		if (val> 0.0 && val<0.5) {
+		if (val > 0.0 && val < 0.5) {
 			pane.setBackground(MTGConstants.COLLECTION_1PC);
 			pane.setForeground(Color.BLACK);
 		}
@@ -63,7 +56,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 			pane.setForeground(Color.BLACK);
 		}
 
-		if (val>=0.9) {
+		if (val >= 0.9) {
 			pane.setBackground(MTGConstants.COLLECTION_90PC);
 			pane.setForeground(Color.BLACK);
 		}
@@ -73,9 +66,8 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 			pane.setForeground(Color.BLACK);
 		}
 
-		if(isSelected)
+		if (isSelected)
 			UITools.applyDefaultSelection(pane);
-
 
 		return pane;
 	}

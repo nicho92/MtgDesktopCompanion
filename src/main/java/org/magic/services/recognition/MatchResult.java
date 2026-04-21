@@ -62,14 +62,14 @@ public class MatchResult {
 		if (result == null) {
 			if (other.result != null)
 				return false;
-			}
-			else if (!result.equals(other.result))
-					return false;
+		} else if (!result.equals(other.result))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "MatchResult [name=" + name + ", setCode=" + setCode + ", number="+ number +",scryfall="+ scryfallId +", score=" + score + "]";
+		return "MatchResult [name=" + name + ", setCode=" + setCode + ", number=" + number + ",scryfall=" + scryfallId
+				+ ", score=" + score + "]";
 	}
 }

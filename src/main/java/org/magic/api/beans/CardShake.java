@@ -3,7 +3,6 @@ package org.magic.api.beans;
 import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
-
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.technical.MoneyValue;
 
@@ -17,7 +16,7 @@ public class CardShake implements Serializable {
 	private String number;
 	private String link;
 	private MoneyValue price;
-	private double priceDayChange=0.0;
+	private double priceDayChange = 0.0;
 	private double percentDayChange;
 	private double priceWeekChange;
 	private double percentWeekChange;
@@ -28,37 +27,33 @@ public class CardShake implements Serializable {
 	private boolean etched;
 	private EnumCardVariation cardVariation;
 
-
 	public CardShake() {
-		price = new MoneyValue(0.0,Currency.getInstance("USD"));
+		price = new MoneyValue(0.0, Currency.getInstance("USD"));
 		priceDayChange = 0;
 		percentDayChange = 0;
 		priceWeekChange = 0;
 		percentWeekChange = 0;
-		
-		dateUpdate=new Date();
+
+		dateUpdate = new Date();
 		foil = false;
 		etched = false;
 	}
 
-	public void init(double price, double lastDayPrice,double lastWeekPrice) {
-		this.price=new MoneyValue(price,Currency.getInstance("USD"));
-		priceDayChange = price-lastDayPrice;
+	public void init(double price, double lastDayPrice, double lastWeekPrice) {
+		this.price = new MoneyValue(price, Currency.getInstance("USD"));
+		priceDayChange = price - lastDayPrice;
 
+		if (lastDayPrice == 0)
+			lastDayPrice = 1;
 
-		if(lastDayPrice==0)
-			lastDayPrice=1;
+		if (lastWeekPrice == 0)
+			lastWeekPrice = 1;
 
-		if(lastWeekPrice==0)
-			lastWeekPrice=1;
+		percentDayChange = ((price - lastDayPrice) / lastDayPrice) / 100;
+		priceWeekChange = price - lastWeekPrice;
+		percentWeekChange = ((price - lastWeekPrice) / lastWeekPrice) / 100;
 
-
-		percentDayChange = ((price-lastDayPrice)/lastDayPrice)/100;
-		priceWeekChange = price-lastWeekPrice;
-		percentWeekChange = ((price-lastWeekPrice)/lastWeekPrice)/100;
-
-
-		dateUpdate=new Date();
+		dateUpdate = new Date();
 	}
 
 	public boolean isEtched() {
@@ -77,7 +72,6 @@ public class CardShake implements Serializable {
 		this.cardVariation = cardVariation;
 	}
 
-
 	public boolean isFoil() {
 		return foil;
 	}
@@ -85,8 +79,6 @@ public class CardShake implements Serializable {
 	public void setFoil(boolean foil) {
 		this.foil = foil;
 	}
-
-
 
 	public Currency getCurrency() {
 		return price.getCurrency();
@@ -117,7 +109,7 @@ public class CardShake implements Serializable {
 	}
 
 	public void setLink(String link) {
-		this.link=link;
+		this.link = link;
 	}
 
 	public String getEd() {
@@ -131,9 +123,7 @@ public class CardShake implements Serializable {
 	public MoneyValue getPrice() {
 		return price;
 	}
-	
-	
-	
+
 	public void setPrice(Double price) {
 		this.price.setValue(price);
 	}
@@ -180,7 +170,7 @@ public class CardShake implements Serializable {
 	}
 
 	public void setProviderName(String name2) {
-		this.providerName=name2;
+		this.providerName = name2;
 
 	}
 

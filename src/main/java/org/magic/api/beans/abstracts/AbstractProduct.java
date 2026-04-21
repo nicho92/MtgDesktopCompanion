@@ -1,23 +1,22 @@
 package org.magic.api.beans.abstracts;
 
+import com.google.gson.annotations.SerializedName;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.extra.MTGProduct;
 
-import com.google.gson.annotations.SerializedName;
-
-public abstract class AbstractProduct implements MTGProduct{
+public abstract class AbstractProduct implements MTGProduct {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long productId;
-	@SerializedName(alternate = "imageName", value = "url") private  String url;
+	@SerializedName(alternate = "imageName", value = "url")
+	private String url;
 	private String name;
 	protected MTGEdition edition;
 	private EnumItems typeProduct;
 	private Category category;
-
 
 	@Override
 	public String getStoreId() {
@@ -31,7 +30,7 @@ public abstract class AbstractProduct implements MTGProduct{
 
 	@Override
 	public void setCategory(Category c) {
-		this.category= c;
+		this.category = c;
 
 	}
 
@@ -47,7 +46,7 @@ public abstract class AbstractProduct implements MTGProduct{
 
 	@Override
 	public void setTypeProduct(EnumItems type) {
-		this.typeProduct=type;
+		this.typeProduct = type;
 	}
 
 	@Override
@@ -70,7 +69,7 @@ public abstract class AbstractProduct implements MTGProduct{
 	public MTGEdition getEdition() {
 		return edition;
 	}
-	
+
 	@Override
 	public void setEdition(MTGEdition edition) {
 		this.edition = edition;
@@ -85,4 +84,3 @@ public abstract class AbstractProduct implements MTGProduct{
 	}
 
 }
-

@@ -3,7 +3,6 @@ package org.magic.gui.abstracts.charts;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGDeckManager;
 
@@ -24,23 +23,17 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 
 	}
 
-	protected void initPlot()
-	{
-
+	protected void initPlot() {
 
 	}
 
-	public boolean showLegend()
-	{
+	public boolean showLegend() {
 		return true;
 	}
 
-
-	public boolean showLabel()
-	{
+	public boolean showLabel() {
 		return true;
 	}
-
 
 	@Override
 	public void onFirstShowing() {
@@ -49,14 +42,11 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 
 	}
 
-	public void init(List<T> items)
-	{
+	public void init(List<T> items) {
 		this.items = items;
 
-		if(isVisible())
+		if (isVisible())
 			refresh();
 	}
-
-	
 
 }

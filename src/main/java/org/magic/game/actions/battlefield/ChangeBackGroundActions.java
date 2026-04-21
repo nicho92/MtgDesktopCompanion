@@ -5,10 +5,8 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGConstants;
@@ -25,7 +23,6 @@ public class ChangeBackGroundActions extends AbstractAction {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private File lastDir = MTGConstants.DATA_DIR;
-
 
 	public ChangeBackGroundActions() {
 		super("Change Background");
@@ -49,7 +46,8 @@ public class ChangeBackGroundActions extends AbstractAction {
 				GamePanelGUI.getInstance().getPanelBattleField().setBackgroundPicture(im);
 				GamePanelGUI.getInstance().getPanelBattleField().repaint();
 
-				MTGControler.getInstance().setProperty("/game/player-profil/background",choose.getSelectedFile().getAbsolutePath());
+				MTGControler.getInstance().setProperty("/game/player-profil/background",
+						choose.getSelectedFile().getAbsolutePath());
 			} catch (IOException e1) {
 				logger.error(e1);
 			}

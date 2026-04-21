@@ -1,7 +1,6 @@
 package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 
@@ -10,7 +9,6 @@ public class NoCache extends AbstractCacheProvider {
 	public NoCache() {
 		super();
 	}
-
 
 	@Override
 	public String getName() {

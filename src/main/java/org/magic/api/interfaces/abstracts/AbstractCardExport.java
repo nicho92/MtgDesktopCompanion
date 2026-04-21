@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -31,45 +30,37 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return true;
 	}
 
-
 	@Override
 	public String getDeckFileExtension() {
 		return getStockFileExtension();
 	}
-	
-	
-	
 
 	@Override
 	public EnumExportCategory getCategory() {
-		if(needFile())
+		if (needFile())
 			return EnumExportCategory.FILE;
 
 		return EnumExportCategory.NONE;
 	}
 
+	protected String commated(String name) {
+		if (name.indexOf(',') > -1)
+			return "\"" + name + "\"";
 
-	protected String commated(String name)
-	{
-		if(name.indexOf(',')>-1)
-			return "\""+name+"\"";
-				
 		return name;
 	}
 
 	protected String cleanName(String cname) {
-		
-		if(cname==null)
+
+		if (cname == null)
 			return "";
-		
-		cname = cname.replace("\"","").trim();
-		if(cname.indexOf('/') > 1)
-			cname=cname.substring(0,cname.indexOf('/')).trim();
 
-		if(cname.indexOf('(')>1)
-			cname=cname.substring(0,cname.indexOf('(')).trim();
+		cname = cname.replace("\"", "").trim();
+		if (cname.indexOf('/') > 1)
+			cname = cname.substring(0, cname.indexOf('/')).trim();
 
-
+		if (cname.indexOf('(') > 1)
+			cname = cname.substring(0, cname.indexOf('(')).trim();
 
 		return cname;
 	}
@@ -79,32 +70,27 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return false;
 	}
 
-	 @Override
+	@Override
 	public boolean needDialogForStock(MODS mod) {
 		return false;
 	}
 
+	@Override
+	public MTGDeck importDeck(String f, String name) throws IOException {
+		var d = new MTGDeck();
+		d.setName(name);
 
-		@Override
-		public MTGDeck importDeck(String f, String name) throws IOException {
-			var d = new MTGDeck();
-			d.setName(name);
+		for (MTGCardStock st : importStock(f))
+			d.getMain().put(st.getProduct(), st.getQte());
 
-			for(MTGCardStock st : importStock(f))
-				d.getMain().put(st.getProduct(), st.getQte());
+		return d;
+	}
 
-			return d;
-		}
+	@Override
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
+		exportStock(importFromDeck(deck), dest);
 
-
-
-		@Override
-		public void exportDeck(MTGDeck deck, File dest) throws IOException {
-			exportStock(importFromDeck(deck), dest);
-			
-		}
-
-
+	}
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
@@ -132,23 +118,19 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		return mcs;
 	}
 
-
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		return importFromDeck(importDeck(content, "defaultImport from " + getName()));
 	}
 
-
 	@Override
 	public MTGDeck importDeckFromFile(File f) throws IOException {
-		return importDeck(FileTools.readFile(f),FilenameUtils.getBaseName(f.getName()));
+		return importDeck(FileTools.readFile(f), FilenameUtils.getBaseName(f.getName()));
 	}
 
 	@Override
 	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
 		return importStock(FileTools.readFile(f));
 	}
-
-
 
 }

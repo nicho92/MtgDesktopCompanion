@@ -5,7 +5,6 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
-
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -19,7 +18,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 
 	public SystemTray getTray() {
 
-		if(tray==null)
+		if (tray == null)
 			init();
 
 		return tray;
@@ -27,7 +26,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 
 	public TrayIcon getTrayNotifier() {
 
-		if(trayNotifier==null)
+		if (trayNotifier == null)
 			init();
 
 		return trayNotifier;
@@ -38,38 +37,39 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		return FORMAT_NOTIFICATION.TEXT;
 	}
 
-
-	private void init()
-	{
+	private void init() {
 		try {
-			if(trayNotifier==null)
-			{
+			if (trayNotifier == null) {
 				trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO_32.getScaledInstance(20, 20, Image.SCALE_SMOOTH));
 				tray = SystemTray.getSystemTray();
 				if (SystemTray.isSupported()) {
 					tray.add(trayNotifier);
 				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			logger.error(e);
 		}
 	}
 
 	private MessageType convert(MESSAGE_TYPE type) {
-		switch(type)
-		{
-		 case ERROR : return MessageType.ERROR;
-		 case INFO : return MessageType.INFO;
-		 case WARNING : return MessageType.WARNING;
-		 case NONE : return MessageType.NONE;
-		 default: return MessageType.INFO;
+		switch (type) {
+			case ERROR :
+				return MessageType.ERROR;
+			case INFO :
+				return MessageType.INFO;
+			case WARNING :
+				return MessageType.WARNING;
+			case NONE :
+				return MessageType.NONE;
+			default :
+				return MessageType.INFO;
 		}
 	}
 
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		getTrayNotifier().displayMessage(notification.getTitle(), notification.getMessage(), convert(notification.getType()));
+		getTrayNotifier().displayMessage(notification.getTitle(), notification.getMessage(),
+				convert(notification.getType()));
 	}
 
 	@Override
@@ -82,14 +82,13 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		return "Tray";
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj ==null)
+		if (obj == null)
 			return false;
 
-		return hashCode()==obj.hashCode();
+		return hashCode() == obj.hashCode();
 	}
 
 	@Override

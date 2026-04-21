@@ -14,72 +14,68 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 	private static final long serialVersionUID = 1L;
 
 	public CardAlertTableModel() {
-		setColumns("CARD","EDITION","NEEDED","FOIL","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" );
+		setColumns("CARD", "EDITION", "NEEDED", "FOIL", "MAX_BID", "OFFERS", "DAILY", "WEEKLY", "PC_DAILY");
 	}
-
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-		case 0:
-			return MTGAlert.class;
-		case 1:
-			return MTGEdition.class;
-		case 2:
-			return Integer.class;
-		case 3:
-			return Boolean.class;
-		case 4:
-			return Double.class;
-		case 5:
-			return Integer.class;
-		case 6:
-			return Double.class;
-		case 7:
-			return Double.class;
-		case 8:
-			return Double.class;
-		default:
-			return super.getColumnClass(columnIndex);
+			case 0 :
+				return MTGAlert.class;
+			case 1 :
+				return MTGEdition.class;
+			case 2 :
+				return Integer.class;
+			case 3 :
+				return Boolean.class;
+			case 4 :
+				return Double.class;
+			case 5 :
+				return Integer.class;
+			case 6 :
+				return Double.class;
+			case 7 :
+				return Double.class;
+			case 8 :
+				return Double.class;
+			default :
+				return super.getColumnClass(columnIndex);
 		}
 
 	}
 
-
-
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return (column==2 || column==3 || column==4);
+		return (column == 2 || column == 3 || column == 4);
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
 
-		if(getItems().isEmpty())
+		if (getItems().isEmpty())
 			return null;
 
-
 		switch (column) {
-		case 0:
-			return getItems().get(row);
-		case 1:
-			return getItems().get(row).getCard().getEdition();
-		case 2:
-			return getItems().get(row).getQty();
-		case 3:
-			return getItems().get(row).isFoil();
-		case 4:
-			return getItems().get(row).getPrice();
-		case 5:
-			return getItems().get(row).getOffers().size();
-		case 6:
-			return getItems().get(row).getShake().getPriceDayChange();
-		case 7:
-			return getItems().get(row).getShake().getPriceWeekChange();
-		case 8:
-			return getItems().get(row).getShake().getPercentDayChange();
-		default:
-			return "";
+			case 0 :
+				return getItems().get(row);
+			case 1 :
+				return getItems().get(row).getCard().getEdition();
+			case 2 :
+				return getItems().get(row).getQty();
+			case 3 :
+				return getItems().get(row).isFoil();
+			case 4 :
+				return getItems().get(row).getPrice();
+			case 5 :
+				return getItems().get(row).getOffers().size();
+			case 6 :
+				return getItems().get(row).getShake().getPriceDayChange();
+			case 7 :
+				return getItems().get(row).getShake().getPriceWeekChange();
+			case 8 :
+				return getItems().get(row).getShake().getPercentDayChange();
+			default :
+				return "";
 		}
 
 	}
@@ -87,12 +83,10 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		MTGAlert alert = getItems().get(row);
-		if (column == 1)
-		{
+		if (column == 1) {
 			MTGEdition ed = (MTGEdition) aValue;
 			try {
-				if(!ed.equals(alert.getCard().getEdition()))
-				{
+				if (!ed.equals(alert.getCard().getEdition())) {
 					getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 					MTGCard mc = CardsManagerService.switchEditions(alert.getCard(), ed);
 					var alert2 = new MTGAlert();
@@ -102,46 +96,39 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 
 				}
 			} catch (Exception e) {
-				logger.error("error {}" ,aValue, e);
+				logger.error("error {}", aValue, e);
 			}
 		}
 
-		if(column==2)
-		{
+		if (column == 2) {
 			alert.setQty(Integer.parseInt(aValue.toString()));
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error setting set {}",aValue, e);
+				logger.error("error setting set {}", aValue, e);
 			}
 		}
 
-
-		if(column==3)
-		{
+		if (column == 3) {
 			alert.setFoil(Boolean.parseBoolean(aValue.toString()));
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error setting foil for {}",aValue, e);
+				logger.error("error setting foil for {}", aValue, e);
 			}
 		}
 
-		if(column==4)
-		{
+		if (column == 4) {
 			alert.setPrice(Double.parseDouble(aValue.toString()));
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error setting price for {}",aValue, e);
+				logger.error("error setting price for {}", aValue, e);
 			}
 		}
-
-
 
 		fireTableDataChanged();
 
 	}
-
 
 }

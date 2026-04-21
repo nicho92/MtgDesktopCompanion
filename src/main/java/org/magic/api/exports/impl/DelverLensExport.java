@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
@@ -19,11 +18,9 @@ import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
-public class DelverLensExport extends AbstractFormattedFileCardExport{
+public class DelverLensExport extends AbstractFormattedFileCardExport {
 
-
-	
-	private String columns= "Name; Edition; Price; Language; Collector's number; Condition; Currency; Edition code; Foil; List name; Quantity; Scryfall ID";
+	private String columns = "Name; Edition; Price; Language; Collector's number; Condition; Currency; Edition code; Foil; List name; Quantity; Scryfall ID";
 
 	@Override
 	public String getStockFileExtension() {
@@ -34,22 +31,23 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
-	
+
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var temp = new StringBuilder(columns);
 		temp.append(System.lineSeparator());
-		stock.forEach(st->{
+		stock.forEach(st -> {
 			temp.append(st.getProduct().getName()).append(getSeparator());
-			temp.append(aliases.getSetNameFor(this,st.getProduct().getEdition())).append(getSeparator());
+			temp.append(aliases.getSetNameFor(this, st.getProduct().getEdition())).append(getSeparator());
 			temp.append(UITools.formatDouble(st.getValue().doubleValue())).append(getSeparator());
 			temp.append(st.getLanguage()).append(getSeparator());
 			temp.append(st.getProduct().getNumber()).append(getSeparator());
-			temp.append(aliases.getConditionFor(this,st.getCondition())).append(getSeparator());
-			temp.append(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode()).append(getSeparator());
-			temp.append(aliases.getSetIdFor(this,st.getProduct().getEdition())).append(getSeparator());
-			temp.append(st.isFoil()?"Foil":"").append(getSeparator());
+			temp.append(aliases.getConditionFor(this, st.getCondition())).append(getSeparator());
+			temp.append(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode())
+					.append(getSeparator());
+			temp.append(aliases.getSetIdFor(this, st.getProduct().getEdition())).append(getSeparator());
+			temp.append(st.isFoil() ? "Foil" : "").append(getSeparator());
 			temp.append(st.getMagicCollection()).append(getSeparator());
 			temp.append(st.getQte()).append(getSeparator());
 			temp.append(st.getProduct().getScryfallId()).append(getSeparator());
@@ -58,28 +56,26 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		FileTools.saveFile(f, temp.toString());
 	}
 
-
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		List<MTGCardStock> list = new ArrayList<>();
 
-		matches(content,true).forEach(m->{
+		matches(content, true).forEach(m -> {
 
-			MTGCard mc=null;
-				try {
-					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(12));
-				} catch (Exception e) {
-					logger.error(e);
-				}
+			MTGCard mc = null;
+			try {
+				mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(12));
+			} catch (Exception e) {
+				logger.error(e);
+			}
 
-			if(mc!=null)
-			{
+			if (mc != null) {
 				var st = MTGControler.getInstance().getDefaultStock();
 				st.setProduct(mc);
 				st.setLanguage(m.group(4));
 				st.setQte(Integer.parseInt(m.group(11)));
-				st.setFoil(m.group(9).equalsIgnoreCase("foil")	);
-				st.setCondition(aliases.getReversedConditionFor(this, m.group(6), EnumCondition.NEAR_MINT)  );
+				st.setFoil(m.group(9).equalsIgnoreCase("foil"));
+				st.setCondition(aliases.getReversedConditionFor(this, m.group(6), EnumCondition.NEAR_MINT));
 				st.setPrice(UITools.parseDouble(m.group(3).trim()));
 				list.add(st);
 			}
@@ -117,9 +113,8 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
 		var m = super.getDefaultAttributes();
-			 m.get("SEPARATOR").setDefaultValue(";");
-			return m;
+		m.get("SEPARATOR").setDefaultValue(";");
+		return m;
 	}
-	
 
 }

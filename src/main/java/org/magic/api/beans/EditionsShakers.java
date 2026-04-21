@@ -17,8 +17,7 @@ public class EditionsShakers implements Iterable<CardShake> {
 		shakes = new ArrayList<>();
 	}
 
-	public void addShake(CardShake shake)
-	{
+	public void addShake(CardShake shake) {
 		shakes.add(shake);
 	}
 
@@ -63,20 +62,18 @@ public class EditionsShakers implements Iterable<CardShake> {
 		return shakes.isEmpty();
 	}
 
-	public int getSize()
-	{
+	public int getSize() {
 		return shakes.size();
 	}
 
-	public CardShake getShakeFor(MTGCard mc, boolean foil)
-	{
-		Optional<CardShake> opt = shakes.stream().filter(s->s.getName().equalsIgnoreCase(mc.getName()) && s.isFoil()==foil).findAny();
-		if(opt.isPresent())
+	public CardShake getShakeFor(MTGCard mc, boolean foil) {
+		Optional<CardShake> opt = shakes.stream()
+				.filter(s -> s.getName().equalsIgnoreCase(mc.getName()) && s.isFoil() == foil).findAny();
+		if (opt.isPresent())
 			return opt.get();
 		else
 			return null;
 
 	}
-
 
 }

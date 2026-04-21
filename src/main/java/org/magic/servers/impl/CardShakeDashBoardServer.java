@@ -7,9 +7,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.Icon;
-
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -22,7 +20,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 	private static final String THREAD_PAUSE = "THREAD_PAUSE";
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
 	private static final String AUTOSTART = "AUTOSTART";
-	private static final String COLLECTION="COLLECTION";
+	private static final String COLLECTION = "COLLECTION";
 	private Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
@@ -50,43 +48,40 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 			@Override
 			public void run() {
 
-					File dest;
-					CollectionEvaluator evaluator;
+				File dest;
+				CollectionEvaluator evaluator;
+				try {
+					evaluator = new CollectionEvaluator(new MTGCollection(getString(COLLECTION)));
+					logger.debug("backuping files");
+					dest = new File(evaluator.getDirectory(), new SimpleDateFormat("yyyyMMdd").format(new Date()));
+				} catch (IOException e1) {
+					logger.error(e1);
+					return;
+				}
+
+				for (File f : evaluator.getDirectory().listFiles(pathname -> !pathname.isDirectory())) {
 					try {
-						evaluator = new CollectionEvaluator(new MTGCollection(getString(COLLECTION)));
-						logger.debug("backuping files");
-						dest = new File(evaluator.getDirectory(),new SimpleDateFormat("yyyyMMdd").format(new Date()));
-					} catch (IOException e1) {
-						logger.error(e1);
-						return;
-					}
-
-
-					for(File f : evaluator.getDirectory().listFiles(pathname->!pathname.isDirectory())){
-						try {
-							FileTools.moveFileToDirectory(f, dest, true);
-						} catch (IOException e) {
-							logger.error(e);
-						}
-					}
-
-					logger.debug("updating cache");
-					try {
-						evaluator.initCache();
+						FileTools.moveFileToDirectory(f, dest, true);
 					} catch (IOException e) {
 						logger.error(e);
 					}
-					logger.info("cache update done");
+				}
 
+				logger.debug("updating cache");
+				try {
+					evaluator.initCache();
+				} catch (IOException e) {
+					logger.error(e);
+				}
+				logger.info("cache update done");
 
 			}
 		};
 
 		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString(TIMEOUT_MINUTE)) * 60000);
-		logger.info(()->"Server start with {} min timeout "+getString(TIMEOUT_MINUTE));
+		logger.info(() -> "Server start with {} min timeout " + getString(TIMEOUT_MINUTE));
 
 	}
-
 
 	@Override
 	public void stop() {
@@ -113,17 +108,17 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run server at startup"),
-							   TIMEOUT_MINUTE, MTGProperty.newIntegerProperty("1440","Timeout in minute when server will do the job",1,-1),
-							   THREAD_PAUSE,MTGProperty.newIntegerProperty("2000","Timeout in minute between each query. Used when external source block for ddos",2000,-1),
-							   COLLECTION,new MTGProperty("Library","Choose the collection for the price caching"));
+		return Map.of(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run server at startup"), TIMEOUT_MINUTE,
+				MTGProperty.newIntegerProperty("1440", "Timeout in minute when server will do the job", 1, -1),
+				THREAD_PAUSE,
+				MTGProperty.newIntegerProperty("2000",
+						"Timeout in minute between each query. Used when external source block for ddos", 2000, -1),
+				COLLECTION, new MTGProperty("Library", "Choose the collection for the price caching"));
 	}
 
 	@Override
 	public String getVersion() {
 		return "1.5";
 	}
-
-
 
 }

@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGTokensProvider;
@@ -21,7 +20,7 @@ public class EternalizeActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public EternalizeActions(DisplayableCard card) {
-		super(card,"Eternalize");
+		super(card, "Eternalize");
 		putValue(SHORT_DESCRIPTION, "Eternalize a creature");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}

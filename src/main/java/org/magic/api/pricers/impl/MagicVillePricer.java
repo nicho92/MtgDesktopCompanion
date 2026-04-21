@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
@@ -27,7 +26,6 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		return STATUT.DEV;
 	}
 
-
 	public MagicVillePricer() {
 		super();
 		httpclient = URLTools.newClient();
@@ -38,27 +36,26 @@ public class MagicVillePricer extends AbstractPricesProvider {
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 		var list = new ArrayList<MTGPrice>();
 
-		var res = httpclient.toString(httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", Map.of("recherche_titre", card.getName()), null));
-		if(res.length()>100)
-		{
+		var res = httpclient.toString(httpclient.doPost(WEBSITE + "/fr/resultats.php?zbob=1",
+				Map.of("recherche_titre", card.getName()), null));
+		if (res.length() > 100) {
 			logger.error("too much result");
 			return list;
 		}
 
 		var key = "ref=";
 		var code = res.substring(res.indexOf(key), res.indexOf("\";"));
-		var url = WEBSITE+"/fr/register/show_card_sale?"+code;
+		var url = WEBSITE + "/fr/register/show_card_sale?" + code;
 
-		logger.info("{} looking for prices {}",getName(),card);
+		logger.info("{} looking for prices {}", getName(), card);
 
-
-		var doc =URLTools.extractAsHtml(url);
+		var doc = URLTools.extractAsHtml(url);
 
 		Element table = null;
 		try {
 			table = doc.select("table[width=98%]").get(2); // select the first table.
 		} catch (IndexOutOfBoundsException _) {
-			logger.info("{} no sellers",getName());
+			logger.info("{} no sellers", getName());
 			return list;
 		}
 
@@ -75,7 +72,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 			mp.setCardData(card);
 			mp.setCurrency("EUR");
 			mp.setSeller(cols.get(0).text());
-			mp.setSellerUrl(WEBSITE+"/fr/register/cards_to_sell?user="+mp.getSeller());
+			mp.setSellerUrl(WEBSITE + "/fr/register/cards_to_sell?user=" + mp.getSeller());
 			mp.setSite(getName());
 			mp.setUrl(url);
 			mp.setQuality(aliases.getReversedConditionFor(this, cols.get(2).text(), EnumCondition.NEAR_MINT));
@@ -87,11 +84,10 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 		}
 
-
 		if (list.size() > getInt(MAX) && getInt(MAX) > -1)
 			return list.subList(0, getInt(MAX));
 
-		logger.info("{} found {} offers",getName(),list.size());
+		logger.info("{} found {} offers", getName(), list.size());
 
 		return list;
 	}
@@ -101,11 +97,9 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		return "Magic-Ville";
 	}
 
-
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of(MAX, MTGProperty.newIntegerProperty("5","max results to return",1,25));
-
+		return Map.of(MAX, MTGProperty.newIntegerProperty("5", "max results to return", 1, 25));
 
 	}
 
@@ -113,6 +107,5 @@ public class MagicVillePricer extends AbstractPricesProvider {
 	public String getVersion() {
 		return "2.0";
 	}
-
 
 }

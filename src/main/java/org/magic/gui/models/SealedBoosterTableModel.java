@@ -3,7 +3,6 @@ package org.magic.gui.models;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.util.List;
-
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
@@ -14,39 +13,38 @@ public class SealedBoosterTableModel extends GenericTableModel<MutableTriple<MTG
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final String[] COLUMNS = { "EDITION","TYPE","QTY" };
-
+	private static final String[] COLUMNS = {"EDITION", "TYPE", "QTY"};
 
 	public void add(MTGEdition ed, EnumExtra extra, Integer qty) {
-		items.add(MutableTriple.of(ed, extra,qty));
+		items.add(MutableTriple.of(ed, extra, qty));
 		fireTableDataChanged();
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-		case 0:
-			return MTGEdition.class;
-		case 1:
-			return EnumExtra.class;
-		case 2:
-			return Integer.class;
-		default:
-			return super.getColumnClass(columnIndex);
+			case 0 :
+				return MTGEdition.class;
+			case 1 :
+				return EnumExtra.class;
+			case 2 :
+				return Integer.class;
+			default :
+				return super.getColumnClass(columnIndex);
 		}
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
 		switch (column) {
-		case 0:
-			return items.get(row).getLeft();
-		case 1:
-			return items.get(row).getMiddle();
-		case 2:
-			return items.get(row).getRight();
-		default:
-			return "";
+			case 0 :
+				return items.get(row).getLeft();
+			case 1 :
+				return items.get(row).getMiddle();
+			case 2 :
+				return items.get(row).getRight();
+			default :
+				return "";
 		}
 	}
 
@@ -63,7 +61,7 @@ public class SealedBoosterTableModel extends GenericTableModel<MutableTriple<MTG
 				items.remove(row);
 			}
 		}
-		
+
 		fireTableDataChanged();
 	}
 
@@ -86,6 +84,5 @@ public class SealedBoosterTableModel extends GenericTableModel<MutableTriple<MTG
 	public int getColumnCount() {
 		return COLUMNS.length;
 	}
-
 
 }

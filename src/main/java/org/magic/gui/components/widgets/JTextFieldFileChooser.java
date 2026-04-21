@@ -2,7 +2,6 @@ package org.magic.gui.components.widgets;
 
 import java.awt.BorderLayout;
 import java.io.File;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -13,21 +12,20 @@ public class JTextFieldFileChooser extends JComponent {
 	private JTextField textField;
 	private int mode = JFileChooser.FILES_ONLY;
 
-
 	public JTextFieldFileChooser() {
 		init();
 	}
 
-	public JTextFieldFileChooser(int size,int mode) {
+	public JTextFieldFileChooser(int size, int mode) {
 		init();
 		textField.setColumns(size);
-		this.mode=mode;
+		this.mode = mode;
 	}
 
-	public JTextFieldFileChooser(int size,int mode,String def) {
+	public JTextFieldFileChooser(int size, int mode, String def) {
 		init();
 		textField.setColumns(size);
-		this.mode=mode;
+		this.mode = mode;
 		textField.setText(def);
 	}
 
@@ -35,23 +33,18 @@ public class JTextFieldFileChooser extends JComponent {
 		this.mode = mode;
 	}
 
-
-	private void init()
-	{
+	private void init() {
 		setLayout(new BorderLayout(0, 0));
 		var btnOpenDialog = new JButton("...");
-		btnOpenDialog.addActionListener(_->{
+		btnOpenDialog.addActionListener(_ -> {
 			var f = new JFileChooser(textField.getText());
-			 			 f.setFileSelectionMode(mode);
+			f.setFileSelectionMode(mode);
 
 			int res = f.showOpenDialog(null);
-			if(res==JFileChooser.APPROVE_OPTION)
+			if (res == JFileChooser.APPROVE_OPTION)
 				textField.setText(f.getSelectedFile().getAbsolutePath());
 
-
 		});
-
-
 
 		add(btnOpenDialog, BorderLayout.EAST);
 
@@ -60,15 +53,12 @@ public class JTextFieldFileChooser extends JComponent {
 		textField.setColumns(10);
 	}
 
-
 	public JTextField getTextField() {
 		return textField;
 	}
 
-	public File getFile()
-	{
+	public File getFile() {
 		return new File(textField.getText());
 	}
-
 
 }

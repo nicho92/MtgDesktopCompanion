@@ -2,24 +2,21 @@ package org.magic.gui.components.card;
 
 import java.awt.BorderLayout;
 import java.util.List;
-
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGRuling;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
 
-public class RulesPanel extends MTGUIComponent{
+public class RulesPanel extends MTGUIComponent {
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextPane txtRulesArea;
-
 
 	public RulesPanel() {
 		setLayout(new BorderLayout());
@@ -49,17 +46,16 @@ public class RulesPanel extends MTGUIComponent{
 			builder.append(mr.getText());
 			builder.append("<br/><br/>");
 		}
-		
+
 		builder.append("</html>");
-		
+
 		txtRulesArea.setText(builder.toString());
-		
-		
+
 	}
 
 	public void init(MTGCard selectedCard) {
 
-		if(selectedCard !=null)
+		if (selectedCard != null)
 			init(selectedCard.getRulings());
 
 	}

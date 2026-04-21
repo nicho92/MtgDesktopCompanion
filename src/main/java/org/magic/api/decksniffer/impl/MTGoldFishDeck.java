@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -19,7 +18,6 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
@@ -38,56 +36,48 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	@Override
 	public String[] listFilter() {
 		if (metagames)
-			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, COMMANDER, BRAWL,ARENA_STANDARD };
+			return new String[]{STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, COMMANDER, BRAWL, ARENA_STANDARD};
 		else
-			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, ARENA_STANDARD,"block", COMMANDER, "limited",
-					 "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form","pioneer"};
+			return new String[]{STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, ARENA_STANDARD, "block", COMMANDER,
+					"limited", "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form", "pioneer"};
 	}
-
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
-		logger.debug("sniff url : {} ",info.getUrl());
+		logger.debug("sniff url : {} ", info.getUrl());
 
 		MTGDeck deck = info.toBaseDeck();
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 		var txt = d.getElementById("deck_input_deck").attr("value");
-		
-		var sideboard=false;
-		for(var line : UITools.stringLineSplit(txt, true))
-		{
-			if(line.equalsIgnoreCase("sideboard"))
-			{
-				sideboard=true;
-			}
-			else
-			{
+
+		var sideboard = false;
+		for (var line : UITools.stringLineSplit(txt, true)) {
+			if (line.equalsIgnoreCase("sideboard")) {
+				sideboard = true;
+			} else {
 				var entry = parseString(line);
-					try {
-						var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
-						
-						if(!sideboard)
-							deck.getMain().put(mc, entry.getValue());
-						else
-							deck.getSideBoard().put(mc, entry.getValue());
-						
-						notify(mc);
-					}catch(Exception _)
-					{
-						logger.error("error getting card for {}",line);
-					}
-				
+				try {
+					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true)
+							.get(0);
+
+					if (!sideboard)
+						deck.getMain().put(mc, entry.getValue());
+					else
+						deck.getSideBoard().put(mc, entry.getValue());
+
+					notify(mc);
+				} catch (Exception _) {
+					logger.error("error getting card for {}", line);
+				}
+
 			}
-			
 
 		}
-		
-		
+
 		return deck;
 	}
-	
-	
+
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 		var url = "";
@@ -100,15 +90,15 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		if (metagames)
 			maxPage = 1;
 
-		var baseUrl="https://www.mtggoldfish.com/";
+		var baseUrl = "https://www.mtggoldfish.com/";
 		for (var i = 1; i <= maxPage; i++) {
-			
+
 			if (!metagames)
-				url = baseUrl + "/deck/custom/" + filter + "?page=" + nbPage + "#"+ getString(SUPPORT);
+				url = baseUrl + "/deck/custom/" + filter + "?page=" + nbPage + "#" + getString(SUPPORT);
 			else
 				url = baseUrl + "metagame/" + filter + "#" + getString(SUPPORT);
 
-			logger.debug("sniff url : {} ",url);
+			logger.debug("sniff url : {} ", url);
 
 			var d = URLTools.extractAsHtml(url);
 			logger.trace(d);
@@ -118,8 +108,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			for (Element cont : e) {
 
 				var deck = new RetrievableDeck();
-				try
-				{
+				try {
 					var desc = cont.select("span.deck-price-" + getString(SUPPORT) + "> a");
 					var colors = cont.select("span.manacost").attr("aria-label");
 					var deckColor = new StringBuilder();
@@ -139,7 +128,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					if (colors.contains("green"))
 						deckColor.append("{G}");
 
-
 					deck.setName(desc.get(0).text());
 					deck.setUrl(new URI(baseUrl + desc.get(0).attr("href")));
 
@@ -153,7 +141,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					list.add(deck);
 
 				} catch (URISyntaxException _) {
-					logger.error("Error setting url for {}",deck.getName());
+					logger.error("Error setting url for {}", deck.getName());
 				}
 
 			}
@@ -162,7 +150,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		return list;
 	}
 
-
 	@Override
 	public String getName() {
 		return "MTGoldFish";
@@ -170,18 +157,14 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
-		
-		m.put(SUPPORT,new MTGProperty("paper","get physical decks or MTGO","paper","online"));
+
+		m.put(SUPPORT, new MTGProperty("paper", "get physical decks or MTGO", "paper", "online"));
 		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
 		m.put("METAGAME", MTGProperty.newBooleanProperty("false", "load metagames deck (true) or user's deck (false)"));
 		return m;
 	}
-
-
-
-
 
 	@Override
 	public String getVersion() {

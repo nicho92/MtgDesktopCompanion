@@ -12,13 +12,13 @@ public class TransactionBalanceChartPanel extends Abstract2DBarChart<Transaction
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public CategoryDataset  getDataSet() {
+	public CategoryDataset getDataSet() {
 		var dataset = new DefaultCategoryDataset();
-					for(var type : EnumTransactionDirection.values())
-					{
-						dataset.addValue(items.stream().filter(t->t.getTypeTransaction()==type).mapToDouble(Transaction::total).sum(), type.name(), BALANCE);
-					}
-					
+		for (var type : EnumTransactionDirection.values()) {
+			dataset.addValue(
+					items.stream().filter(t -> t.getTypeTransaction() == type).mapToDouble(Transaction::total).sum(),
+					type.name(), BALANCE);
+		}
 
 		return dataset;
 	}

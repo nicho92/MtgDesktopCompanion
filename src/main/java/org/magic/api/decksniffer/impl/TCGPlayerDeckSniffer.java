@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGCard;
@@ -23,16 +22,16 @@ import org.magic.services.network.URLTools;
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private static final String SUBDECK_GROUP_CARD_QTY = "subdeck-group__card-qty";
-		
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "standard", "modern", "legacy", "vintage", "commander","pioneer","pauper","historic","brawl"};
+		return new String[]{"standard", "modern", "legacy", "vintage", "commander", "pioneer", "pauper", "historic",
+				"brawl"};
 	}
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		logger.debug("get deck at {}",info.getUrl());
+		logger.debug("get deck at {}", info.getUrl());
 		MTGDeck deck = info.toBaseDeck();
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 		for (Element e : d.select("span.singleTag")) {
@@ -46,19 +45,17 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			var qte = Integer.parseInt(main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 			String cardName = main.get(0).getElementsByClass("subdeck-group__card-name").get(i).text();
 
-
 			if (cardName.contains("//"))
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
 			MTGCard mc;
 			try {
-				mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
+				mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
 				deck.getMain().put(mc, qte);
 				notify(mc);
 			} catch (IndexOutOfBoundsException e1) {
-				logger.error("{} is not found",cardName,e1);
+				logger.error("{} is not found", cardName, e1);
 			}
-
 
 		}
 
@@ -68,16 +65,14 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				var qte = Integer.parseInt(main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 				String cardName = main.get(1).getElementsByClass("subdeck-group__card-name").get(i).text();
 
-
 				if (cardName.contains("//"))
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 				try {
-					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
+					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
 					deck.getSideBoard().put(mc, qte);
 
-				}
-				 catch (IndexOutOfBoundsException e1) {
-					 logger.error("{} is not found",cardName,e1);
+				} catch (IndexOutOfBoundsException e1) {
+					logger.error("{} is not found", cardName, e1);
 				}
 
 			}
@@ -89,11 +84,11 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
-		
-		var baseUrl="https://decks.tcgplayer.com";
-		
+
+		var baseUrl = "https://decks.tcgplayer.com";
+
 		String url = baseUrl + "/magic/deck/search?format=" + filter;
-		logger.debug("get List deck at {}",url);
+		logger.debug("get List deck at {}", url);
 		var list = new ArrayList<RetrievableDeck>();
 
 		for (var i = 1; i <= getInt(MAX_PAGE); i++) {
@@ -118,7 +113,8 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 					mana += "{G}";
 
 				String deckName = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-				String link = baseUrl + tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
+				String link = baseUrl
+						+ tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
 				String deckPlayer = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text();
 				String deckDesc = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text();
 
@@ -143,7 +139,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	}
 
-
 	@Override
 	public String getName() {
 		return "TCGPlayer";
@@ -151,7 +146,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
 		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("1", "number of page to query", 1, 10));
 		return m;

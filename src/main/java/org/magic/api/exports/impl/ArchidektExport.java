@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
@@ -19,43 +18,40 @@ import org.magic.services.tools.UITools;
 
 public class ArchidektExport extends AbstractFormattedFileCardExport {
 
-	private static final String COLUMNS ="Quantity,Name,Finish,Condition,Date Added,Language,Purchase Price,Tags,Edition Name,Edition Code,Multiverse Id,Scryfall ID,Collector Number";
+	private static final String COLUMNS = "Quantity,Name,Finish,Condition,Date Added,Language,Purchase Price,Tags,Edition Name,Edition Code,Multiverse Id,Scryfall ID,Collector Number";
 	@Override
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
 
-
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
 		var ret = new ArrayList<MTGCardStock>();
-		matches(content, true).forEach(m->{
+		matches(content, true).forEach(m -> {
 
 			var st = MTGControler.getInstance().getDefaultStock();
-				  st.setQte(Integer.parseInt(m.group(1)));
+			st.setQte(Integer.parseInt(m.group(1)));
 
-			MTGCard mc=null;
+			MTGCard mc = null;
 			try {
 				mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(10));
 			} catch (IOException e) {
 				logger.error(e);
 			}
 
-			 if(mc!=null)
-			 {
+			if (mc != null) {
 
-				 st.setProduct(mc);
-				 st.setFoil(m.group(3).equalsIgnoreCase("Foil"));
-				 st.setCondition(aliases.getReversedConditionFor(this, m.group(4),EnumCondition.GOOD));
-				 st.setLanguage(m.group(5));
-				 ret.add(st);
-				 notify(mc);
-			 }
+				st.setProduct(mc);
+				st.setFoil(m.group(3).equalsIgnoreCase("Foil"));
+				st.setCondition(aliases.getReversedConditionFor(this, m.group(4), EnumCondition.GOOD));
+				st.setLanguage(m.group(5));
+				ret.add(st);
+				notify(mc);
+			}
 		});
 		return ret;
 	}
-
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
@@ -63,12 +59,11 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		var temp = new StringBuilder(COLUMNS);
 		temp.append(System.lineSeparator());
 
-		for(var mcs : stock)
-		{
+		for (var mcs : stock) {
 			temp.append(mcs.getQte()).append(getSeparator());
 			temp.append(commated(mcs.getProduct().getName())).append(getSeparator());
-			temp.append(mcs.isFoil()?"Foil":"Normal").append(getSeparator());
-			temp.append(aliases.getConditionFor(this,mcs.getCondition())).append(getSeparator());
+			temp.append(mcs.isFoil() ? "Foil" : "Normal").append(getSeparator());
+			temp.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
 			temp.append(UITools.formatDate(new Date(), "yyyy-MM-dd")).append(getSeparator());
 			temp.append(mcs.getLanguage()).append(getSeparator());
 			temp.append(UITools.roundDouble(mcs.getValue().doubleValue())).append(getSeparator());
@@ -84,13 +79,12 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 
 		FileTools.saveFile(f, temp.toString());
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "Build Id - 205f7eb";
 	}
-	
-	
+
 	@Override
 	public String getName() {
 		return "Archidekt";
@@ -111,10 +105,9 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		return ",";
 	}
 
-
 	@Override
 	public String getStockFileExtension() {
-		 return ".csv";
+		return ".csv";
 	}
 
 }
