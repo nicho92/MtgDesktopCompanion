@@ -726,6 +726,21 @@
 			</resource>
 		</resources>
 		<plugins>
+
+			<plugin>
+			    <groupId>com.diffplug.spotless</groupId>
+			    <artifactId>spotless-maven-plugin</artifactId>
+			    <version>3.4.0</version>
+			    <configuration>
+			       <java>
+			            <googleJavaFormat/>
+						<importOrder/>
+					    <removeUnusedImports />
+					    <formatAnnotations />
+					    <trimTrailingWhitespace/>
+			        </java>
+			    </configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>3.8.1</version>
