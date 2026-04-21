@@ -184,7 +184,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 		new FileDropDecorator().init(panneauCenter, (File[] files) -> {
 			buzy.start(files.length);
-			SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {
+			var sw = new SwingWorker<Void, GedEntry<T>>() {
 				@Override
 				protected Void doInBackground() throws Exception {
 					for (File f : files) {

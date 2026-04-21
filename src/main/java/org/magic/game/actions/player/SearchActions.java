@@ -13,7 +13,7 @@ public class SearchActions extends AbstractAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	ZoneEnum pos;
+	private ZoneEnum pos;
 
 	public SearchActions(ZoneEnum pos) {
 		putValue(NAME, "Search in " + pos);
