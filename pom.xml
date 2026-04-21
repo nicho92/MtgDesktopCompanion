@@ -733,7 +733,7 @@
 			    <version>3.4.0</version>
 			    <configuration>
 			       <java>
-			            <googleJavaFormat/>
+			            <eclipse/>
 						<importOrder/>
 					    <removeUnusedImports />
 					    <formatAnnotations />
