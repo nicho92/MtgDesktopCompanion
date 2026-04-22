@@ -89,6 +89,11 @@
 	  <version>${telegram.version}</version>
 	</dependency>
 	<dependency>
+	  <groupId>org.telegram</groupId>
+	  <artifactId>telegrambots-abilities</artifactId>
+	  <version>${telegram.version}</version>
+	</dependency>
+	<dependency>
 	    <groupId>com.squareup.okio</groupId>
 	    <artifactId>okio-jvm</artifactId>
 	    <version>3.17.0</version>

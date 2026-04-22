@@ -10,6 +10,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
+import org.telegram.telegrambots.abilitybots.api.util.AbilityExtension;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
@@ -20,7 +21,10 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-public class TelegramBotServer extends AbstractMTGServer implements LongPollingSingleThreadUpdateConsumer {
+public class TelegramBotServer extends AbstractMTGServer
+		implements
+			LongPollingSingleThreadUpdateConsumer,
+			AbilityExtension {
 
 	private TelegramClient telegramClient;
 	private TelegramBotsLongPollingApplication pool;
