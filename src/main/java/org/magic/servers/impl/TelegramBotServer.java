@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -64,8 +63,10 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingS
 
 	private void response(Message message) {
 		var m = p.matcher(message.getText());
+
 		if (m.find())
 			sendCard(message, m.group(1));
+
 	}
 
 	private void sendCard(Message message, String cardName) {
@@ -74,20 +75,19 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingS
 			if (!ret.isEmpty()) {
 				var card = ret.get(0);
 				var msgResponse = SendPhoto.builder().chatId(message.getChatId()).photo(new InputFile(card.getUrl()))
-						.caption(card.getName() + " " + card.getEdition()).build();
+						.caption(card.getName() + "/" + card.getEdition()).build();
 				telegramClient.execute(msgResponse);
 			}
 		} catch (Exception e) {
 			logger.error(e);
 		}
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(TelegramClient.class,
 				"/META-INF/maven/org.telegram/telegrambots-meta/pom.properties");
 	}
-	
 
 	private void init() {
 		if (telegramClient == null)

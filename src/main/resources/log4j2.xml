@@ -61,7 +61,8 @@
 	    <Logger name="com.github.sarxos.webcam" level="ERROR"></Logger>
 	    <Logger name="nl.basjes.parse.useragent" level="ERROR"></Logger>
 	    <Logger name="org.jsoup" level="ERROR" ></Logger>
-		
+	    <Logger name="org.telegram.telegrambots" level="ERROR"></Logger>
+	    
         <Root level="INFO">
         	<AppenderRef ref="APPS"/>
             <AppenderRef ref="CONSOLE"/>

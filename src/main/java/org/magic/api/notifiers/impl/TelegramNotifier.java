@@ -3,7 +3,6 @@ package org.magic.api.notifiers.impl;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGProperty;
@@ -29,18 +28,14 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 
-		var message = SendMessage
-	                .builder()
-	                .chatId(getString("CHANNEL"))
-	                .text(notification.getMessage())
-	                .build();
-		 
-		 try {
-			 	new OkHttpTelegramClient(getAuthenticator().get("TOKEN")).execute(message);
-			} catch (TelegramApiException e) {
-				logger.error(e);
-			}
-	
+		var message = SendMessage.builder().chatId(getString("CHANNEL")).text(notification.getMessage()).build();
+
+		try {
+			new OkHttpTelegramClient(getAuthenticator().get("TOKEN")).execute(message);
+		} catch (TelegramApiException e) {
+			logger.error(e);
+		}
+
 	}
 
 	@Override
@@ -65,6 +60,5 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		return POMReader.readVersionFromPom(TelegramClient.class,
 				"/META-INF/maven/org.telegram/telegrambots-meta/pom.properties");
 	}
-	
-	
+
 }
