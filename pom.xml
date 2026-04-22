@@ -65,6 +65,7 @@
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.28.0</commonmark.version>
 		<langchain4j.version>1.13.0</langchain4j.version>
+		<telegram.version>9.5.0</telegram.version>
 	</properties>
 	
 	
@@ -77,12 +78,22 @@
 	</repositories>
 	
 <dependencies>
-<dependency>
-    <groupId>com.squareup.okio</groupId>
-    <artifactId>okio-jvm</artifactId>
-    <version>3.17.0</version>
-    <scope>runtime</scope>
-</dependency>
+	<dependency>
+	  <groupId>org.telegram</groupId>
+	  <artifactId>telegrambots-client</artifactId>
+	  <version>${telegram.version}</version>
+	</dependency>
+	<dependency>
+	  <groupId>org.telegram</groupId>
+	  <artifactId>telegrambots-longpolling</artifactId>
+	  <version>${telegram.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.squareup.okio</groupId>
+	    <artifactId>okio-jvm</artifactId>
+	    <version>3.17.0</version>
+	    <scope>runtime</scope>
+	</dependency>
 	<dependency>
 	    <groupId>dev.langchain4j</groupId>
 	    <artifactId>langchain4j</artifactId>
