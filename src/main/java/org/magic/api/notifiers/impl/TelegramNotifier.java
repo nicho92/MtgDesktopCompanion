@@ -33,7 +33,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		try {
 			new OkHttpTelegramClient(getAuthenticator().get("TOKEN")).execute(message);
 		} catch (TelegramApiException e) {
-			logger.error(e);
+			throw new IOException(e);
 		}
 
 	}
