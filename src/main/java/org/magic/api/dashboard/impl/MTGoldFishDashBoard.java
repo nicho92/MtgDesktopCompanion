@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -252,23 +254,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		var res = q.select("a span").html();
 
-		try {
-			res = res.substring(res.indexOf("d += "), res.indexOf("g = "));
-		} catch (StringIndexOutOfBoundsException _) {
-			logger.error("can't found any data for {}", cardid);
-			return;
-		}
-		res = RegExUtils.replaceAll(res, "d \\+\\= ", "");
-		res = RegExUtils.replaceAll(res, ";", "");
-		res = RegExUtils.replaceAll(res, "\"", "");
-
-		for (var l : res.split("\\\\n")) {
-			l = l.replace(" window.", "");
-			if (!StringUtils.isEmpty(l)) {
-				var content = l.split(",");
-				history.put(UITools.parseDate(content[0], "yyyy-MM-dd"), UITools.parseDouble(content[1]));
-			}
-		}
+	
+		var m = Pattern.compile("d \\+= \\\"\\\\n(.*?), (.*?)\\\";").matcher(res);
+		
+		while(m.find())
+			history.put(UITools.parseDate(m.group(1), "yyyy-MM-dd"), UITools.parseDouble(m.group(2)));
+		
 	}
 
 	@Override
