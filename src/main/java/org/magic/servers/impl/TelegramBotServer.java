@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.POMReader;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
@@ -34,10 +36,11 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingS
 			if (pool == null) {
 				pool = new TelegramBotsLongPollingApplication();
 				pool.registerBot(getAuthenticator().get("TOKEN"), this);
-			} else
+			} else {
 				pool.start();
+			}
 
-			logger.info("{} is started", getName());
+			logger.info("{}Bot is started", getName());
 
 		} catch (TelegramApiException e) {
 			throw new IOException(e);
@@ -61,27 +64,30 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingS
 
 	private void response(Message message) {
 		var m = p.matcher(message.getText());
-		if (m.find()) {
+		if (m.find())
+			sendCard(message, m.group(1));
+	}
 
-			try {
-				var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(1), null, true);
-
-				if (!ret.isEmpty()) {
-
-					var card = ret.get(0);
-
-					var msgResponse = SendPhoto.builder().chatId(message.getChatId())
-							.photo(new InputFile(card.getUrl())).caption(card.getName() + " " + card.getEdition())
-							.build();
-
-					telegramClient.execute(msgResponse);
-
-				}
-			} catch (Exception e) {
-				logger.error(e);
+	private void sendCard(Message message, String cardName) {
+		try {
+			var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true);
+			if (!ret.isEmpty()) {
+				var card = ret.get(0);
+				var msgResponse = SendPhoto.builder().chatId(message.getChatId()).photo(new InputFile(card.getUrl()))
+						.caption(card.getName() + " " + card.getEdition()).build();
+				telegramClient.execute(msgResponse);
 			}
+		} catch (Exception e) {
+			logger.error(e);
 		}
 	}
+	
+	@Override
+	public String getVersion() {
+		return POMReader.readVersionFromPom(TelegramClient.class,
+				"/META-INF/maven/org.telegram/telegrambots-meta/pom.properties");
+	}
+	
 
 	private void init() {
 		if (telegramClient == null)

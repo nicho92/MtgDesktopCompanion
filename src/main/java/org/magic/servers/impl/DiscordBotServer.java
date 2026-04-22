@@ -84,6 +84,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String PRICE_KEYWORDS = "PRICE_KEYWORDS";
 	private static final String RESULTS_SHAKES = "RESULTS_SHAKES";
 	private static final String REGEX = "\\{(.*?)\\}";
+
+	private final Pattern p = Pattern.compile(REGEX);
 	private JDA jda;
 	private ListenerAdapter listener;
 
@@ -142,7 +144,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 		info.setMessage(event.getMessage().getContentRaw());
 
-		var p = Pattern.compile(REGEX);
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if (m.find()) {
 
@@ -262,7 +263,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 		logger.debug("search {} with nofoil={} and foilOnly={}", name, noFoil, foilOnly);
 
-		String ed = name.substring(name.indexOf('|') + 1, name.length()).toUpperCase().trim();
+		var ed = name.substring(name.indexOf('|') + 1, name.length()).toUpperCase().trim();
 		var eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MTGEdition(ed));
 		var chks = eds.getShakes().stream().filter(cs -> cs.getPriceDayChange() != 0)
 				.sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE, false)).toList();
