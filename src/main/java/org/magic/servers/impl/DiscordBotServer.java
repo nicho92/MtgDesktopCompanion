@@ -3,8 +3,6 @@ package org.magic.servers.impl;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.listEnabledPlugins;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -22,31 +20,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.JDAInfo;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Activity.ActivityType;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
-import net.dv8tion.jda.api.events.session.ReadyEvent;
-import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.GatewayIntent;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
-import org.api.mkm.modele.InsightElement;
-import org.api.mkm.services.InsightService;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -55,7 +35,7 @@ import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGProperty;
-import org.magic.api.beans.technical.audit.DiscordInfo;
+import org.magic.api.beans.technical.audit.MessageInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -70,6 +50,29 @@ import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Activity.ActivityType;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
@@ -122,9 +125,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 		if (isAlive()) {
 
 			var arrGuilds = new JsonArray();
-			jda.getGuilds().forEach(g -> arrGuilds.add(DiscordInfo.parse(g)));
+			jda.getGuilds().forEach(g -> arrGuilds.add(parse(g)));
 			jo.add("guilds", arrGuilds);
-			jo.add("user", DiscordInfo.parse(jda.getSelfUser()));
+			jo.add("user", parse(jda.getSelfUser()));
 			try {
 				jo.addProperty("presenceActivity", String.valueOf(jda.getPresence().getActivity()));
 				jo.addProperty("presenceValue", jda.getPresence().getActivity().getName());
@@ -137,10 +140,39 @@ public class DiscordBotServer extends AbstractMTGServer {
 		return jo;
 	}
 
+	private JsonObject parse(User author) {
+		var user = new JsonObject();
+		user.addProperty("id", author.getId());
+		user.addProperty("name", author.getName());
+		user.addProperty("mention", author.getAsMention());
+		user.addProperty("avatar", author.getAvatarUrl());
+		return user;
+	}
+
+	private JsonObject parse(Guild g) {
+		var guild = new JsonObject();
+		guild.addProperty("id", g.getId());
+		guild.addProperty("banner", g.getBannerUrl());
+		guild.addProperty("icon", g.getIconUrl());
+		guild.addProperty("name", g.getName());
+		guild.addProperty("description", g.getDescription());
+		guild.addProperty("etest", g.getVanityUrl());
+		return guild;
+	}
+
+	private JsonObject parse(MessageChannel c) {
+		var channel = new JsonObject();
+		channel.addProperty("name", c.getName());
+		channel.addProperty("id", c.getId());
+		channel.addProperty("type",c.getType().toString());
+		return channel;
+	}
+
 	private void analyseMessage(MessageReceivedEvent event) {
-		var info = new DiscordInfo();
-		info.setUser(DiscordInfo.parse(event.getAuthor()));
-		info.setChannel(DiscordInfo.parse(event.getChannel()));
+		var info = new MessageInfo();
+		info.setSource(getName());
+		info.setUser(parse(event.getAuthor()));
+		info.setChannel(parse(event.getChannel()));
 
 		info.setMessage(event.getMessage().getContentRaw());
 
@@ -148,7 +180,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		if (m.find()) {
 
 			if (event.isFromGuild()) {
-				info.setGuild(DiscordInfo.parse(event.getGuild()));
+				info.setGuild(parse(event.getGuild()));
 				logger.info("Received channel message : {} from {} in {}#{}", event.getMessage().getContentRaw(),
 						event.getAuthor().getName(), event.getGuild().getName(), event.getChannel().getName());
 			} else
@@ -196,19 +228,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 				return;
 			}
 
-			if (name.toLowerCase().startsWith("mkm")) {
-				try {
-					responseMkmStock(event);
-				} catch (IOException e) {
-					info.setError(e.getMessage());
-					event.getChannel().sendMessage(e.getMessage()).queue();
-				}
-				info.setEnd(Instant.now());
-				AbstractTechnicalServiceManager.inst().store(info);
-
-				return;
-			}
-
 			responseSearch(event, name, info);
 			info.setEnd(Instant.now());
 			AbstractTechnicalServiceManager.inst().store(info);
@@ -236,23 +255,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 			logger.error(e);
 			throw new IOException("Hoopsy Error ");
 		}
-
-	}
-
-	private void responseMkmStock(MessageReceivedEvent event) throws IOException {
-		event.getChannel().sendTyping().queue();
-		var serv = new InsightService();
-
-		Collections.sort(serv.getHighestPercentStockReduction(), (InsightElement o1, InsightElement o2) -> {
-			if (o1.getChangeValue() > o2.getChangeValue())
-				return -1;
-			else
-				return 1;
-		});
-
-		var res = StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN,
-				serv.getHighestPercentStockReduction(), InsightElement.class), 0, MTGConstants.DISCORD_MAX_CHARACTER);
-		event.getChannel().sendMessage(StringUtils.substring(res, 0, MTGConstants.DISCORD_MAX_CHARACTER)).queue();
 
 	}
 
@@ -295,7 +297,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	}
 
-	private void responseSearch(MessageReceivedEvent event, String name, DiscordInfo info) {
+	private void responseSearch(MessageReceivedEvent event, String name, MessageInfo info) {
 		boolean priceask = !StringUtils.isEmpty(getString(PRICE_KEYWORDS))
 				&& Strings.CS.containsAny(event.getMessage().getContentRaw().toLowerCase(), getArray(PRICE_KEYWORDS));
 		final List<MTGCard> liste = new ArrayList<>();
@@ -386,7 +388,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		}
 	}
 
-	private MessageEmbed parseCard(MTGCard mc, boolean price, DiscordInfo info) {
+	private MessageEmbed parseCard(MTGCard mc, boolean price, MessageInfo info) {
 
 		var eb = new EmbedBuilder();
 		eb.setDescription("");

@@ -1,12 +1,16 @@
 package org.magic.servers.impl;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.beans.technical.audit.MessageInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
@@ -17,9 +21,13 @@ import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateC
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+
+import com.google.gson.JsonObject;
 
 public class TelegramBotServer extends AbstractMTGServer
 		implements
@@ -50,26 +58,67 @@ public class TelegramBotServer extends AbstractMTGServer
 		}
 	}
 
+	public static JsonObject parse(User author) {
+		var user = new JsonObject();
+		
+		if(author!=null)
+		{
+			user.addProperty("id", author.getId());
+			user.addProperty("name", author.getUserName());
+		}
+		else
+		{
+			user.addProperty("id", "");
+			user.addProperty("name", "");
+			
+		}
+		
+		user.addProperty("avatar", "");
+		return user;
+	}
+	
+
+	private JsonObject parse(Chat c) {
+		var channel = new JsonObject();
+		
+		channel.addProperty("name", c.getTitle()==null?c.getUserName():c.getTitle());
+		channel.addProperty("id", c.getId());
+		channel.addProperty("type", c.getType());
+		return channel;
+	}
+
+
 	@Override
 	public void consume(Update update) {
 
 		logger.debug("read {}", update);
-
-		var message = update.getMessage();
-
-		if (!update.hasMessage())
+		var message = update.getMessage(); // return null if message is send to a Channel.
+		
+		if (message==null)
 			message = update.getChannelPost();
+		
+		if (message != null && message.hasText()) {
 
-		if (message.hasText())
-			response(message);
+			var info = new MessageInfo();
+			info.setSource(getName());
+			info.setUser(parse(message.getFrom()));
+			info.setChannel(parse(message.getChat()));
+			info.setMessage(message.getText());
+
+			response(message, info);
+
+		}
 
 	}
 
-	private void response(Message message) {
+	private void response(Message message, MessageInfo info) {
 		var m = p.matcher(message.getText());
 
 		if (m.find())
 			sendCard(message, m.group(1));
+
+		info.setEnd(Instant.now());
+		AbstractTechnicalServiceManager.inst().store(info);
 
 	}
 

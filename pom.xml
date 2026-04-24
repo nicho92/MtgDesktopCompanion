@@ -331,7 +331,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mkm-api-java</artifactId>
-			<version>0.23</version>
+			<version>0.25</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jooq</groupId>

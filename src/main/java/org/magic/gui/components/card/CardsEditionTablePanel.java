@@ -26,6 +26,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.sorters.CardsEditionSorter;
+import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -68,8 +69,7 @@ public class CardsEditionTablePanel extends JPanel {
 
 		UITools.initTableVisibility(table, model);
 
-		// UITools.setSorter(table, 6, new NumberSorter()) --> make error with set
-		// "Unknow event"
+		UITools.setSorter(table, 6, new NumberSorter()); // --> make error with set "Unknow event"
 
 		panneauHaut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);

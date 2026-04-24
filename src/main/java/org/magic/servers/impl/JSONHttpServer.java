@@ -808,7 +808,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var ret = new JsonObject();
 			var serv = (DiscordBotServer) MTG.getPlugin("Discord", MTGServer.class);
 			ret.add("server", serv.toJsonDetails());
-			ret.add("queries", converter.toJsonElement(AbstractTechnicalServiceManager.inst().getDiscordInfos()));
+			ret.add("queries", converter.toJsonElement(AbstractTechnicalServiceManager.inst().getMessagesInfo()));
 			return ret;
 		}, transformer);
 

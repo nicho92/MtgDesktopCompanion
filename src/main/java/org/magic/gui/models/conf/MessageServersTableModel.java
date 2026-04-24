@@ -1,15 +1,15 @@
 package org.magic.gui.models.conf;
 
 import java.time.Instant;
-import org.magic.api.beans.technical.audit.DiscordInfo;
+import org.magic.api.beans.technical.audit.MessageInfo;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class DiscordInfoTableModel extends GenericTableModel<DiscordInfo> {
+public class MessageServersTableModel extends GenericTableModel<MessageInfo> {
 
 	private static final long serialVersionUID = 1L;
 
-	public DiscordInfoTableModel() {
-		setColumns("start", "end", "duration", "message", "user", "guild", "channel");
+	public MessageServersTableModel() {
+		setColumns("start", "end", "duration", "message", "user", "guild", "channel", "source");
 		setWritable(false);
 	}
 
@@ -39,6 +39,9 @@ public class DiscordInfoTableModel extends GenericTableModel<DiscordInfo> {
 					return (items.get(row).getChannel() != null)
 							? items.get(row).getChannel().get("name").getAsString()
 							: "";
+				case 7 :
+					return items.get(row).getSource();
+
 				default :// do nothing
 			}
 		}

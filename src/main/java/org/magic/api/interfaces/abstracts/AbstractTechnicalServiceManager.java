@@ -13,9 +13,9 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.technical.audit.DAOInfo;
-import org.magic.api.beans.technical.audit.DiscordInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.JsonQueryInfo;
+import org.magic.api.beans.technical.audit.MessageInfo;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.exports.impl.JsonExport;
@@ -36,7 +36,7 @@ public abstract class AbstractTechnicalServiceManager {
 	private List<DAOInfo> daoInfos;
 	private List<NetworkInfo> networkInfos;
 	private List<TaskInfo> tasksInfos;
-	private List<DiscordInfo> discordInfos;
+	private List<MessageInfo> messageInfos;
 	private List<FileAccessInfo> fileInfos;
 	private List<TalkMessage> jsonMessages;
 
@@ -96,8 +96,8 @@ public abstract class AbstractTechnicalServiceManager {
 		networkInfos.clear();
 		getNetworkInfos().addAll(readItems(NetworkInfo.class, start, end));
 
-		discordInfos.clear();
-		getDiscordInfos().addAll(readItems(DiscordInfo.class, start, end));
+		messageInfos.clear();
+		getMessagesInfo().addAll(readItems(MessageInfo.class, start, end));
 
 		fileInfos.clear();
 		getFileInfos().addAll(readItems(FileAccessInfo.class, start, end));
@@ -114,7 +114,7 @@ public abstract class AbstractTechnicalServiceManager {
 		daoInfos = new ArrayList<>();
 		tasksInfos = new ArrayList<>();
 		fileInfos = new ArrayList<>();
-		discordInfos = new ArrayList<>();
+		messageInfos = new ArrayList<>();
 		jsonMessages = new ArrayList<>();
 
 		if (isEnable()) {
@@ -149,8 +149,8 @@ public abstract class AbstractTechnicalServiceManager {
 				if (persisteEnableFor(TaskInfo.class))
 					storeItems(TaskInfo.class, getTasksInfos().stream().filter(it -> !it.isStored()).toList());
 
-				if (persisteEnableFor(DiscordInfo.class))
-					storeItems(DiscordInfo.class, getDiscordInfos().stream().filter(it -> !it.isStored()).toList());
+				if (persisteEnableFor(MessageInfo.class))
+					storeItems(MessageInfo.class, getMessagesInfo().stream().filter(it -> !it.isStored()).toList());
 
 				if (persisteEnableFor(FileAccessInfo.class))
 					storeItems(FileAccessInfo.class, getFileInfos().stream().filter(it -> !it.isStored()).toList());
@@ -177,8 +177,8 @@ public abstract class AbstractTechnicalServiceManager {
 		if (item instanceof JsonQueryInfo info) {
 			info.setLocation(IPTranslator.getInstance().getLocationFor(info.getIp()));
 			getJsonInfo().add(info);
-		} else if (item instanceof DiscordInfo info) {
-			getDiscordInfos().add(info);
+		} else if (item instanceof MessageInfo info) {
+			getMessagesInfo().add(info);
 		} else if (item instanceof FileAccessInfo info) {
 			getFileInfos().add(info);
 		} else if (item instanceof NetworkInfo info) {
@@ -205,8 +205,8 @@ public abstract class AbstractTechnicalServiceManager {
 		return fileInfos;
 	}
 
-	public List<DiscordInfo> getDiscordInfos() {
-		return discordInfos;
+	public List<MessageInfo> getMessagesInfo() {
+		return messageInfos;
 	}
 
 	public List<JsonQueryInfo> getJsonInfo() {
