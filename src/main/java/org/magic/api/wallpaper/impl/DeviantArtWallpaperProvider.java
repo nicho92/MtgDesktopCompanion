@@ -9,11 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.apache.logging.log4j.Level;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -222,14 +225,15 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		return URI.create(baseUri + c + (!token.isEmpty() ? "?token=" + token : ""));
 	}
 
-	private String extractCsrfToken(Elements el) {
-		var m = Pattern.compile("window.__CSRF_TOKEN__ = '(.*?)';").matcher(el.html());
+	public static void main(String[] args) {
 
-		if (m.find())
-			return m.group(1);
+		MTGControler.getInstance().loadAccountsConfiguration();
+		MTGLogger.changeLevel(Level.INFO);
+		var deviant = new DeviantArtWallpaperProvider();
 
-		logger.warn("no CSRF found ! : {}", el.select("div.content p").text());
-		return null;
+		deviant.authenticatedClient();
+
+		System.exit(0);
 	}
 
 	private void authenticatedClient() {
@@ -240,41 +244,52 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					.addContent("response_type", "code").toHtml().select("input[type=hidden]")
 					.forEach(el -> maps.put(el.attr("name"), el.attr("value")));
 
-			logger.debug("Step 0 done.  init data maps {}", maps);
+			logger.debug("Step 1 done.  init data maps {}", maps);
 
 			if (maps.containsKey("challenge") && !maps.get("challenge").equals("0"))
 				logger.error("Login requires solving a CAPTCHA");
 
-			var bstep1 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/step2");
-			maps.entrySet().forEach(e -> bstep1.addContent(e.getKey(), e.getValue()));
-			bstep1.addContent("username", getAuthenticator().getLogin());
-			bstep1.addContent("remember", "on");
-			bstep1.toHtml().select("input[type=hidden]").forEach(el -> maps.put(el.attr("name"), el.attr("value")));
+			var bstep2 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/step2");
+			maps.entrySet().forEach(e -> bstep2.addContent(e.getKey(), e.getValue()));
+			bstep2.addContent("username", getAuthenticator().getLogin());
+			bstep2.addContent("remember", "on");
+			bstep2.toHtml().select("input[type=hidden]").forEach(el -> maps.put(el.attr("name"), el.attr("value")));
 
-			logger.debug("Step 1 done.  completing data maps {}. Waiting 2 sec", maps);
+			logger.debug("Step 2 done.  Completing data maps {}. Waiting 2 sec", maps);
 		} catch (Exception ex) {
-			logger.error("error at step 1 : {}", ex.getMessage());
+			logger.error("error at step 2 : {}", ex.getMessage());
 		}
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(4000);
 		} catch (InterruptedException _) {
 			Thread.currentThread().interrupt();
 		}
 
 		try {
-			var bstep2 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/signin")
-					.addContent("remember", "on").addContent("password", getAuthenticator().getPassword());
+			var bstep3 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/signin")
+					.addContent("remember", "on").addContent("referer", BASE_URL).addContent("referer_type", "")
+					.addContent("password", getAuthenticator().getPassword());
 
-			maps.entrySet().forEach(e -> bstep2.addContent(e.getKey(), e.getValue()));
+			maps.entrySet().forEach(e -> bstep3.addContent(e.getKey(), e.getValue()));
 
-			var b = bstep2.toHtml();
+			var b = bstep3.toHtml();
 			maps.put(CSRF_TOKEN, extractCsrfToken(b.getAllElements()));
 
-			logger.debug("Step 2 done. with csrf {}", maps.get(CSRF_TOKEN));
+			logger.debug("Step signin done. with csrf {}", maps.get(CSRF_TOKEN));
 		} catch (Exception ex) {
-			logger.error("error at step 2 : {}", ex.getMessage());
+			logger.error("error at signin : {}", ex.getMessage());
 		}
+	}
+
+	private String extractCsrfToken(Elements el) {
+		var m = Pattern.compile("window.__CSRF_TOKEN__ = '(.*?)';").matcher(el.html());
+
+		if (m.find())
+			return m.group(1);
+
+		logger.warn("no CSRF found ! : {}", el.select("div.content p").text());
+		return null;
 	}
 
 	private void initToken() {

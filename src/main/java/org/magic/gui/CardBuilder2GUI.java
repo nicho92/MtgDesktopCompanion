@@ -38,6 +38,7 @@ import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ImagePanel2;
+import org.magic.gui.components.card.MagicCardSubDetailPanel;
 import org.magic.gui.components.card.MagicEditionDetailPanel;
 import org.magic.gui.components.dialog.importer.CardImporterDialog;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
@@ -74,6 +75,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent buzySet;
 	private JButton btnRemoveCard;
 	private ImagePanel2 imageThumbnail;
+	private MagicCardSubDetailPanel panelDetails;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -113,6 +115,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		var panelSets = new JPanel();
 		var splitcardEdPanel = new JSplitPane();
 		var panelCards = new JPanel();
+		panelDetails = new MagicCardSubDetailPanel();
+
 		var panelCardsHaut = new JPanel();
 		var tabbedCards = new JTabbedPane(SwingConstants.TOP);
 
@@ -194,11 +198,13 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		panelCards.add(tabbedResult, BorderLayout.EAST);
 		tabbedPane.addTab("Set", MTGConstants.ICON_TAB_BACK, panelSets, null);
 		tabbedPane.addTab("Cards", MTGConstants.ICON_TAB_DECK, panelCards, null);
+
 		tabbedResult.addTab("Pictures", MTGConstants.ICON_TAB_PICTURE, panelPictures, null);
 		tabbedResult.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 
 		panelCards.add(tabbedCards, BorderLayout.CENTER);
 		tabbedCards.addTab("Details", MTGConstants.ICON_TAB_DETAILS, magicCardEditorPanel, null);
+		tabbedCards.addTab("Data", MTGConstants.ICON_TAB_DETAILS, panelDetails, null);
 		splitcardEdPanel.setLeftComponent(new JScrollPane(editionsTable));
 		splitcardEdPanel.setRightComponent(panelTableCards);
 
@@ -511,6 +517,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					img = get();
 					loadPicture(img, panelPictures);
 					jsonPanel.init(magicCardEditorPanel.getMagicCard());
+					panelDetails.init(magicCardEditorPanel.getMagicCard());
 
 				} catch (InterruptedException _) {
 					Thread.currentThread().interrupt();
@@ -526,6 +533,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	protected void initCard(MTGCard mc) {
 		magicCardEditorPanel.setMagicCard(mc);
+		panelDetails.init(mc);
 		cboSets.setSelectedItem(mc.getEdition());
 		jsonPanel.init(mc);
 

@@ -387,7 +387,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 			var description = JOptionPane.showInputDialog("Description of your deck ?");
 
-			if (description.isEmpty())
+			if (description == null)
 				return;
 
 			buzyLabel.start();
