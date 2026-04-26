@@ -142,8 +142,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboTypes.setModel(model);
 		MTGCard.superTypes().forEach(modelSt::addElement);
 		MTGCard.types().forEach(model::addElement);
-		FlowLayout flpanelButton = (FlowLayout) panelButton.getLayout();
-		flpanelButton.setAlignment(FlowLayout.LEFT);
+		((FlowLayout) panelButton.getLayout()).setAlignment(FlowLayout.LEFT);
 		textEditorPanel.setLayout(new BorderLayout());
 		cboReversedCards.setVisible(false);
 		scrollPane.setPreferredSize(new Dimension(textEditorPanel.getWidth(), 60));

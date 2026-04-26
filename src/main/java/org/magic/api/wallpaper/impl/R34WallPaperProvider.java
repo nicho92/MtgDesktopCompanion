@@ -23,8 +23,28 @@ public class R34WallPaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected RequestBuilder createQuery(String search, int pidStart) {
+		
+		
+		var s = search.toLowerCase();
+		
+		
+		
+		if(search.indexOf("+")>-1)
+		{
+			var builder = new StringBuilder();
+			for(var st : search.split("\\+"))
+				builder.append(st.trim().toLowerCase().replace(" ", "_")).append(" ");
+			
+			s = builder.toString();
+		}
+		else
+		{
+			s = search.replace(" ", "_");
+		}
+		
+		
 		return RequestBuilder.build().newClient().url("https://api.rule34.xxx/index.php").get()
-				.addContent("page", "dapi").addContent("tags", search.toLowerCase().replace(" ", "_"))
+				.addContent("page", "dapi").addContent("tags", s)
 				.addContent("limit", String.valueOf(getResultsPerPage()))
 				.addContent(getPaginationKey(), String.valueOf(pidStart)).addContent("json", "1")
 				.addContent("s", "post").addContent("q", "index")
