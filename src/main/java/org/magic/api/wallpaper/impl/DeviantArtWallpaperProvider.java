@@ -225,17 +225,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		return URI.create(baseUri + c + (!token.isEmpty() ? "?token=" + token : ""));
 	}
 
-	public static void main(String[] args) {
-
-		MTGControler.getInstance().loadAccountsConfiguration();
-		MTGLogger.changeLevel(Level.INFO);
-		var deviant = new DeviantArtWallpaperProvider();
-
-		deviant.authenticatedClient();
-
-		System.exit(0);
-	}
-
 	private void authenticatedClient() {
 		try {
 			RequestBuilder.build().get().setClient(httpclient).url(BASE_URL + "/users/login")
@@ -251,7 +240,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 			var bstep2 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/step2");
 			maps.entrySet().forEach(e -> bstep2.addContent(e.getKey(), e.getValue()));
-			bstep2.addContent("username", getAuthenticator().getLogin());
+			bstep2.addContent("username", getAuthenticator().getLogin()).addContent("referer", BASE_URL);
 			bstep2.addContent("remember", "on");
 			bstep2.toHtml().select("input[type=hidden]").forEach(el -> maps.put(el.attr("name"), el.attr("value")));
 
