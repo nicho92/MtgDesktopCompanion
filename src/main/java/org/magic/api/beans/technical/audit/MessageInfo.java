@@ -9,7 +9,7 @@ public class MessageInfo extends AbstractAuditableItem {
 	private JsonObject user;
 	private JsonObject guild;
 	private JsonObject channel;
-	
+
 	private String message;
 	private String error;
 	private String source;

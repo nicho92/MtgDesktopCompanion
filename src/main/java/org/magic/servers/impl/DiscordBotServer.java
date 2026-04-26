@@ -3,6 +3,8 @@ package org.magic.servers.impl;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.listEnabledPlugins;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -20,10 +22,27 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Activity.ActivityType;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
@@ -50,29 +69,6 @@ import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.JDAInfo;
-import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Activity.ActivityType;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
-import net.dv8tion.jda.api.events.session.ReadyEvent;
-import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
@@ -164,7 +160,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		var channel = new JsonObject();
 		channel.addProperty("name", c.getName());
 		channel.addProperty("id", c.getId());
-		channel.addProperty("type",c.getType().toString());
+		channel.addProperty("type", c.getType().toString());
 		return channel;
 	}
 

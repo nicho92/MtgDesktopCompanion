@@ -1,11 +1,11 @@
 package org.magic.servers.impl;
 
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.MessageInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -26,8 +26,6 @@ import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-
-import com.google.gson.JsonObject;
 
 public class TelegramBotServer extends AbstractMTGServer
 		implements
@@ -60,43 +58,38 @@ public class TelegramBotServer extends AbstractMTGServer
 
 	public static JsonObject parse(User author) {
 		var user = new JsonObject();
-		
-		if(author!=null)
-		{
+
+		if (author != null) {
 			user.addProperty("id", author.getId());
 			user.addProperty("name", author.getUserName());
-		}
-		else
-		{
+		} else {
 			user.addProperty("id", "");
 			user.addProperty("name", "");
-			
+
 		}
-		
+
 		user.addProperty("avatar", "");
 		return user;
 	}
-	
 
 	private JsonObject parse(Chat c) {
 		var channel = new JsonObject();
-		
-		channel.addProperty("name", c.getTitle()==null?c.getUserName():c.getTitle());
+
+		channel.addProperty("name", c.getTitle() == null ? c.getUserName() : c.getTitle());
 		channel.addProperty("id", c.getId());
 		channel.addProperty("type", c.getType());
 		return channel;
 	}
-
 
 	@Override
 	public void consume(Update update) {
 
 		logger.debug("read {}", update);
 		var message = update.getMessage(); // return null if message is send to a Channel.
-		
-		if (message==null)
+
+		if (message == null)
 			message = update.getChannelPost();
-		
+
 		if (message != null && message.hasText()) {
 
 			var info = new MessageInfo();
