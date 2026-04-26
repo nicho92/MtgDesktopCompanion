@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -23,6 +24,7 @@ import javax.swing.KeyStroke;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
 import org.magic.gui.components.wallpaper.WrapLayout;
 import org.magic.services.MTGControler;
 
@@ -165,12 +167,13 @@ public class JTagsPanel extends JComponent {
 	}
 
 	private void addLabel(String s) {
-		var tab = new TagLabel(s, fontForeground, fontBackground, componentFont);
+		var tab = new TagLabel(s, componentFont);
 
 		if (isEditable)
 			tab.addMouseListener(new TagMouseListener(tab));
 
 		panelTags.add(tab);
+	
 		revalidate();
 		repaint();
 	}
@@ -207,22 +210,19 @@ class TagLabel extends JLabel {
 
 	private static final long serialVersionUID = 1L;
 
-	public TagLabel(String t, Color f, Color b, Font font) {
+	public TagLabel(String t, Font font) {
 		super(t);
 		setFont(font);
-		init(f, b);
+		init();
 	}
 
 	public TagLabel(String t) {
 		super(t);
-		init(Color.BLACK, Color.WHITE);
 	}
 
-	private void init(Color f, Color b) {
-		setForeground(f);
-		setBackground(b);
+	private void init() {
 		setBounds(new Rectangle(2, 2, 7, 2));
-		setBorder(new CompoundBorder(new LineBorder(f, 1, true), new EmptyBorder(5, 5, 5, 5)));
+		setBorder(new CompoundBorder(new LineBorder(getForeground(), 1, true), new EmptyBorder(5, 5, 5, 5)));
 		setOpaque(true);
 	}
 
