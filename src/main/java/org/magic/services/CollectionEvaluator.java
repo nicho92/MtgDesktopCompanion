@@ -176,7 +176,7 @@ public class CollectionEvaluator extends Observable {
 				list = new EditionsShakers();
 			}
 			var shakesByName = list.getShakes().stream()
-					.collect(Collectors.toMap(CardShake::getName, Function.identity(), (left, right) -> left));
+					.collect(Collectors.toMap(CardShake::getName, Function.identity(), (left, _) -> left));
 			var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
 			for (MTGCard mc : cards) {
 				var shak = shakesByName.get(mc.getName());

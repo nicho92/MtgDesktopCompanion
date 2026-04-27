@@ -2,11 +2,11 @@ package org.magic.api.beans.technical;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -23,7 +23,7 @@ public class TCache<T> {
 		var builder = CacheBuilder.newBuilder();
 
 		if (timeoutMinute > -1)
-			builder = builder.expireAfterAccess(timeoutMinute, TimeUnit.MINUTES);
+			builder = builder.expireAfterAccess(Duration.ofMinutes(timeoutMinute));
 
 		loader = builder.build();
 	}

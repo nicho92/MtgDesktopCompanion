@@ -3,7 +3,6 @@ package org.magic.gui.components.deck;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGDao;
@@ -189,7 +190,6 @@ public class JDeckChooserDialog extends JDialog {
 		panelTree.add(new JScrollPane(tree));
 		tagsPanel = new JTagsPanel();
 		tagsPanel.setFontSize(11);
-		tagsPanel.setColors(Color.DARK_GRAY, Color.WHITE);
 		tagsPanel.setEditable(false);
 		panelTree.add(tagsPanel, BorderLayout.SOUTH);
 

@@ -16,9 +16,9 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 	public MagicCardTableModel() {
 		setColumns("CARD_NAME", "CARD_LANGUAGE", "CARD_MANA", "CARD_TYPES", "CARD_POWER", "CARD_RARITY", "CARD_NUMBER",
 				"CARD_EDITION", "CARD_COLOR", "RESERVED LIST", "LAYOUT", "SHOWCASE", "EXTENDED ART", "BORDERLESS",
-				"TIMESHIFTED", "RETRO", "SIDE","SUBSETS");
+				"TIMESHIFTED", "RETRO", "SIDE", "SUBSETS");
 
-		setDefaultHiddenComlumns(1, 8, 9, 10, 11, 12, 13, 14, 15, 16,17);
+		setDefaultHiddenComlumns(1, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17);
 
 	}
 

@@ -1,13 +1,11 @@
 package org.magic.gui.components.editor;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,8 +30,6 @@ public class JTagsPanel extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 	private boolean isEditable;
-	private Color fontForeground = Color.BLACK;
-	private Color fontBackground = SystemColor.control;
 	private Font componentFont;
 	private JPanel panelTags;
 	private JPanel panelAdds;
@@ -102,14 +98,6 @@ public class JTagsPanel extends JComponent {
 		componentFont = new Font(componentFont.getName(), componentFont.getStyle(), s);
 	}
 
-	public void setForegroundColor(Color f) {
-		this.fontForeground = f;
-	}
-
-	public void setBackgroundColor(Color b) {
-		this.fontBackground = b;
-	}
-
 	public List<String> getValues() {
 		return tags;
 	}
@@ -119,18 +107,6 @@ public class JTagsPanel extends JComponent {
 		this.tags = tagsList;
 		tags.forEach(this::addLabel);
 
-	}
-
-	public void setColors(Color background, Color foreground) {
-		this.fontBackground = background;
-		this.fontForeground = foreground;
-		for (Component c : getComponents()) {
-			if (c instanceof TagLabel) {
-				c.setBackground(background);
-				c.setForeground(foreground);
-			}
-
-		}
 	}
 
 	public void setEditable(boolean l) {
@@ -173,7 +149,7 @@ public class JTagsPanel extends JComponent {
 			tab.addMouseListener(new TagMouseListener(tab));
 
 		panelTags.add(tab);
-	
+
 		revalidate();
 		repaint();
 	}

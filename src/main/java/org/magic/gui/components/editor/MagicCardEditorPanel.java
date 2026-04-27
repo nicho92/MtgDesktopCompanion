@@ -71,7 +71,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField txtSubTypes;
 	private JTextField toughnessJTextField;
 	private JTextField subsetJTextField;
-	
+
 	private MagicTextPane textJEditorPane;
 	private JSpinner spinnerTextSize;
 	private JButton btnImage;
@@ -164,8 +164,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(new JLangLabel("COLOR_INDICATOR", true), UITools.createGridBagConstraints(null, null, 2, 10));
 		add(new JLangLabel("BORDER", true), UITools.createGridBagConstraints(null, null, 2, 11));
 		add(new JLangLabel("SUBSET", true), UITools.createGridBagConstraints(null, null, 2, 9));
-		
-		
+
 		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 		add(costJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 0));
 		add(artistJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
@@ -181,10 +180,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 8));
 		add(UITools.createFlowPanel(numberJTextField, cboSide),
 				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
-		
-		add(subsetJTextField,
-				UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
-		
+
+		add(subsetJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
+
 		add(chkMatureContent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 10));
 		add(pictureEditorPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
 		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
@@ -424,14 +422,12 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding22 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, numberTxtProperty);
 		autoBinding22.bind();
-		
+
 		BeanProperty<MTGCard, String> subsetProperty = BeanProperty.create("subsets");
 		BeanProperty<JTextField, String> subsetTxtProperty = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding23 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, subsetProperty, subsetJTextField, subsetTxtProperty);
 		autoBinding23.bind();
-		
-		
 
 		var bindingGroup = new BindingGroup();
 		bindingGroup.addBinding(autoBinding);
@@ -447,7 +443,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding20);
 		bindingGroup.addBinding(autoBinding22);
 		bindingGroup.addBinding(autoBinding23);
-		
+
 		return bindingGroup;
 	}
 }
