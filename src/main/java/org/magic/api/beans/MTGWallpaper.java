@@ -8,8 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MTGWallpaper implements Comparable<MTGWallpaper> {
+import org.magic.api.interfaces.extra.MTGSerializable;
 
+public class MTGWallpaper implements Comparable<MTGWallpaper>,MTGSerializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient BufferedImage picture;
 	private URI url;
 	private URI urlThumb;
@@ -27,6 +33,13 @@ public class MTGWallpaper implements Comparable<MTGWallpaper> {
 		headers = new HashMap<>();
 	}
 
+
+	@Override
+	public String getStoreId() {
+		return name;
+	}
+
+	
 	public void addHeader(String k, String v) {
 		headers.put(k, v);
 	}
