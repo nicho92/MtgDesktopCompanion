@@ -1,0 +1,524 @@
+openapi: 3.0.3
+info:
+  title: MTG Desktop Companion - JSONHttpServer API
+  version: "1.0.0"
+  description: |
+    Spécification OpenAPI générée à partir des routes déclarées dans
+    `org.magic.servers.impl.JSONHttpServer`.
+servers:
+  - url: http://localhost:8080
+    description: Instance locale par défaut
+  - url: https://localhost:8080
+    description: Instance locale avec SSL
+
+paths:
+  /services/connect:
+    post: { summary: Authentification legacy }
+  /services/auth:
+    post: { summary: Générer des tokens JWT }
+    get: { summary: Valider le token JWT cookie x-auth-token }
+
+  /custom/sets:
+    get: { summary: Lister les éditions custom }
+  /custom/cards/{idSet}:
+    get:
+      summary: Lister les cartes custom d'une édition
+      parameters: [ { $ref: '#/components/parameters/idSet' } ]
+  /custom/picture/{idCard}:
+    get:
+      summary: Récupérer l'image custom d'une carte
+      parameters: [ { $ref: '#/components/parameters/idCard' } ]
+      responses:
+        '200': { description: Image PNG }
+
+  /ged/uploadPic/{class}/{id}:
+    post:
+      summary: Upload d'image GED via base64
+      parameters:
+        - { $ref: '#/components/parameters/className' }
+        - { $ref: '#/components/parameters/id' }
+  /ged/{class}/{id}:
+    post:
+      summary: Upload GED multipart
+      parameters:
+        - { $ref: '#/components/parameters/className' }
+        - { $ref: '#/components/parameters/id' }
+    get:
+      summary: Lister les documents GED
+      parameters:
+        - { $ref: '#/components/parameters/className' }
+        - { $ref: '#/components/parameters/id' }
+
+  /dash/collection:
+    get: { summary: Dashboard de la collection par défaut }
+  /dash/collection/{collection}:
+    get:
+      summary: Dashboard d'une collection
+      parameters: [ { $ref: '#/components/parameters/collection' } ]
+  /dash/variations/card/{scryfallId}:
+    get:
+      summary: Variations de prix d'une carte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /dash/edition/{idEd}:
+    get:
+      summary: Shakes pour une édition
+      parameters: [ { $ref: '#/components/parameters/idEd' } ]
+  /dash/format/{format}:
+    get:
+      summary: Shaker par format
+      parameters: [ { $ref: '#/components/parameters/format' } ]
+
+  /alerts/list:
+    get: { summary: Lister les alertes }
+  /alerts/{scryfallId}:
+    get:
+      summary: Vérifier l'existence d'une alerte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+    delete:
+      summary: Supprimer une alerte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /alerts/update/{scryfallId}:
+    put:
+      summary: Mettre à jour une alerte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /alerts/add/{scryfallId}:
+    post:
+      summary: Ajouter une alerte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+
+  /decks/list:
+    get: { summary: Lister les decks }
+  /decks/import:
+    post: { summary: Importer un deck depuis URL/provider }
+  /deck/export/{provider}/{idDeck}:
+    get:
+      summary: Exporter un deck
+      parameters:
+        - { $ref: '#/components/parameters/provider' }
+        - { $ref: '#/components/parameters/idDeck' }
+  /deck/{idDeck}:
+    get:
+      summary: Récupérer un deck
+      parameters: [ { $ref: '#/components/parameters/idDeck' } ]
+    delete:
+      summary: Supprimer un deck
+      parameters: [ { $ref: '#/components/parameters/idDeck' } ]
+  /deck/filters/{provider}:
+    get:
+      summary: Lister les filtres de deck sniffer
+      parameters: [ { $ref: '#/components/parameters/provider' } ]
+  /deck/search/{provider}/{filter}:
+    get:
+      summary: Rechercher des decks
+      parameters:
+        - { $ref: '#/components/parameters/provider' }
+        - { $ref: '#/components/parameters/filter' }
+  /deck/stats/{idDeck}:
+    get:
+      summary: Statistiques d'un deck
+      parameters: [ { $ref: '#/components/parameters/idDeck' } ]
+
+  /collections/{name}/count:
+    get:
+      summary: Compter les cartes d'une collection
+      parameters: [ { $ref: '#/components/parameters/name' } ]
+  /collections/list:
+    get: { summary: Lister les collections }
+  /collections/default:
+    get: { summary: Nom de la collection par défaut }
+  /collections/cards/{scryfallId}:
+    get:
+      summary: Collections contenant une carte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /collections/add/{name}:
+    put:
+      summary: Ajouter une collection
+      parameters: [ { $ref: '#/components/parameters/name' } ]
+
+  /metadata/recognition/list:
+    get: { summary: Lister les datasets de reconnaissance }
+  /metadata/recognition/download/{idSet}:
+    get:
+      summary: Télécharger les données de reconnaissance d'une édition
+      parameters: [ { $ref: '#/components/parameters/idSet' } ]
+  /metadata/conditions:
+    get: { summary: Lister les conditions }
+  /metadata/indexDate:
+    get: { summary: Date d'indexation }
+  /metadata/keywords:
+    get: { summary: Mots-clés }
+  /metadata/categories:
+    get: { summary: Catégories }
+  /metadata/git:
+    get: { summary: Releases GitHub }
+  /metadata/version:
+    get: { summary: Version applicative }
+
+  /prices/wizard/{provider}:
+    post:
+      summary: Prix par lot de cartes
+      parameters: [ { $ref: '#/components/parameters/provider' } ]
+  /prices/{scryfallId}:
+    get:
+      summary: Prix multi-fournisseurs
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /prices/details/{provider}/{scryfallId}:
+    get:
+      summary: Prix détaillés par fournisseur
+      parameters:
+        - { $ref: '#/components/parameters/provider' }
+        - { $ref: '#/components/parameters/scryfallId' }
+  /partner/{scryfallId}:
+    get:
+      summary: Meilleurs prix partenaires
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+
+  /admin/logs/{start}/{end}:
+    post:
+      summary: Restaurer les logs entre deux timestamps
+      parameters:
+        - { $ref: '#/components/parameters/start' }
+        - { $ref: '#/components/parameters/end' }
+  /admin/qwartz:
+    get: { summary: État serveur Qwartz }
+  /admin/activemq/{all}:
+    get:
+      summary: Messages ActiveMQ
+      parameters: [ { $ref: '#/components/parameters/all' } ]
+  /admin/currency:
+    get: { summary: Rafraîchir les devises }
+  /admin/files:
+    get: { summary: Infos fichiers }
+  /admin/discord:
+    get: { summary: État Discord + requêtes }
+  /admin/caches:
+    get: { summary: Entrées de cache }
+  /admin/jdbc:
+    get: { summary: Infos JDBC }
+  /admin/jsonQueries:
+    get: { summary: Requêtes JSON historiques }
+  /admin/threads:
+    get: { summary: État des threads }
+  /admin/network:
+    get: { summary: Infos réseau }
+  /admin/clearCache:
+    get: { summary: Vider le cache }
+  /admin/plugins/list:
+    get: { summary: Lister les plugins }
+  /admin/plugins/{type}/{name}/{enable}:
+    put:
+      summary: Activer/désactiver un plugin
+      parameters:
+        - { $ref: '#/components/parameters/type' }
+        - { $ref: '#/components/parameters/name' }
+        - { $ref: '#/components/parameters/enable' }
+  /admin/reindexation:
+    get: { summary: Réindexation des cartes }
+  /admin/recognize/caching/{setId}:
+    get:
+      summary: Télécharger dataset de reconnaissance
+      parameters: [ { $ref: '#/components/parameters/setId' } ]
+  /admin/recognize/list:
+    get: { summary: Lister les datasets reconnus }
+
+  /editions/list:
+    get: { summary: Lister les éditions }
+  /editions/{idSet}:
+    get:
+      summary: Détails d'une édition
+      parameters: [ { $ref: '#/components/parameters/idSet' } ]
+  /editions/list/{colName}:
+    get:
+      summary: Éditions présentes dans une collection
+      parameters: [ { $ref: '#/components/parameters/colName' } ]
+
+  /announces/new:
+    post: { summary: Créer une annonce }
+  /announces/{id}:
+    delete:
+      summary: Supprimer une annonce
+      parameters: [ { $ref: '#/components/parameters/id' } ]
+  /announces/get/{id}:
+    get:
+      summary: Lire une annonce
+      parameters: [ { $ref: '#/components/parameters/id' } ]
+  /announces/stats:
+    get: { summary: Stats des annonces }
+  /announces/list:
+    get: { summary: Lister les annonces }
+  /announces/last/{qty}:
+    get:
+      summary: Dernières annonces
+      parameters: [ { $ref: '#/components/parameters/qty' } ]
+  /announces/keyword/{search}:
+    get:
+      summary: Rechercher des annonces par mot-clé
+      parameters: [ { $ref: '#/components/parameters/search' } ]
+  /announces/category/{type}:
+    get:
+      summary: Annonces par catégorie
+      parameters: [ { $ref: '#/components/parameters/type' } ]
+  /announces/contact/{id}:
+    get:
+      summary: Annonces d'un contact
+      parameters: [ { $ref: '#/components/parameters/id' } ]
+  /share/announce/{id}:
+    get:
+      summary: Partage HTML d'une annonce
+      parameters: [ { $ref: '#/components/parameters/id' } ]
+
+  /sealed/list:
+    get:
+      summary: Lister le stock scellé
+      parameters:
+        - { $ref: '#/components/parameters/pageQuery' }
+        - { $ref: '#/components/parameters/paginateQuery' }
+  /sealed/list/{collection}:
+    get:
+      summary: Lister le stock scellé d'une collection
+      parameters:
+        - { $ref: '#/components/parameters/collection' }
+        - { $ref: '#/components/parameters/pageQuery' }
+        - { $ref: '#/components/parameters/paginateQuery' }
+  /sealed/list/{collection}/{idSet}:
+    get:
+      summary: Lister le stock scellé d'une collection et édition
+      parameters:
+        - { $ref: '#/components/parameters/collection' }
+        - { $ref: '#/components/parameters/idSet' }
+  /sealed/get/{id}:
+    get:
+      summary: Lire un stock scellé
+      parameters: [ { $ref: '#/components/parameters/id' } ]
+
+  /pics/cards/{idEd}/{cardNumber}:
+    get:
+      summary: Récupérer l'image d'une carte par numéro
+      parameters:
+        - { $ref: '#/components/parameters/idEd' }
+        - { $ref: '#/components/parameters/cardNumber' }
+  /cards/token/{scryfallId}:
+    get:
+      summary: Générer token de carte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /cards/suggestcard/{val}:
+    get:
+      summary: Suggestions de cartes
+      parameters: [ { $ref: '#/components/parameters/val' } ]
+  /cards/moreLike/{scryfallId}:
+    get:
+      summary: Cartes similaires
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /cards/light/{name}:
+    get:
+      summary: Recherche light de cartes
+      parameters: [ { $ref: '#/components/parameters/name' } ]
+  /cards/scryfall/{scryfallId}:
+    get:
+      summary: Carte par Scryfall ID
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /cards/import/{provider}:
+    post:
+      summary: Importer un deck/cartes via provider
+      parameters: [ { $ref: '#/components/parameters/provider' } ]
+  /cards/recognize/{threeshold}:
+    post:
+      summary: Reconnaissance de carte depuis image
+      parameters: [ { $ref: '#/components/parameters/threeshold' } ]
+  /cards/move/{from}/{to}/{scryfallId}:
+    put:
+      summary: Déplacer une carte entre collections
+      parameters:
+        - { $ref: '#/components/parameters/from' }
+        - { $ref: '#/components/parameters/to' }
+        - { $ref: '#/components/parameters/scryfallId' }
+  /cards/add/{scryfallId}:
+    put:
+      summary: Ajouter une carte dans la collection par défaut
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /cards/add/{to}/{scryfallId}:
+    put:
+      summary: Ajouter une carte dans une collection cible
+      parameters:
+        - { $ref: '#/components/parameters/to' }
+        - { $ref: '#/components/parameters/scryfallId' }
+  /cards/list/{col}:
+    get:
+      summary: Lister les cartes d'une collection
+      parameters: [ { $ref: '#/components/parameters/col' } ]
+  /cards/list/{col}/{idEd}:
+    get:
+      summary: Lister les cartes d'une collection et édition
+      parameters:
+        - { $ref: '#/components/parameters/col' }
+        - { $ref: '#/components/parameters/idEd' }
+  /cards/{idSet}/cards:
+    get:
+      summary: Lister les cartes d'une édition
+      parameters: [ { $ref: '#/components/parameters/idSet' } ]
+
+  /stock/{type}/update:
+    put:
+      summary: Mettre à jour un stock
+      parameters: [ { $ref: '#/components/parameters/type' } ]
+  /stock/add/{scryfallId}:
+    post:
+      summary: Ajouter un stock pour une carte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /stock/{idStock}:
+    delete:
+      summary: Supprimer un stock
+      parameters: [ { $ref: '#/components/parameters/idStock' } ]
+  /stock/list:
+    get:
+      summary: Lister les stocks
+      parameters:
+        - { $ref: '#/components/parameters/pageQuery' }
+        - { $ref: '#/components/parameters/paginateQuery' }
+  /stock/get/{idStock}:
+    get:
+      summary: Lire un stock par id
+      parameters: [ { $ref: '#/components/parameters/idStock' } ]
+  /stock/list/{collection}:
+    get:
+      summary: Lister les stocks par collection
+      parameters:
+        - { $ref: '#/components/parameters/collection' }
+        - { $ref: '#/components/parameters/pageQuery' }
+        - { $ref: '#/components/parameters/paginateQuery' }
+  /stock/latest/{number}/{collection}:
+    get:
+      summary: Derniers stocks saisis
+      parameters:
+        - { $ref: '#/components/parameters/number' }
+        - { $ref: '#/components/parameters/collection' }
+  /stock/list/{collection}/{idSet}:
+    get:
+      summary: Lister les stocks par collection et édition
+      parameters:
+        - { $ref: '#/components/parameters/collection' }
+        - { $ref: '#/components/parameters/idSet' }
+  /stock/card/{scryfallId}:
+    get:
+      summary: Lister les stocks d'une carte
+      parameters: [ { $ref: '#/components/parameters/scryfallId' } ]
+  /stock/search/{collection}/{cardName}:
+    get:
+      summary: Rechercher un stock par nom de carte
+      parameters:
+        - { $ref: '#/components/parameters/collection' }
+        - { $ref: '#/components/parameters/cardName' }
+
+  /transaction/add:
+    post: { summary: Créer une transaction }
+  /transaction/paid/{provider}:
+    post:
+      summary: Marquer une transaction comme payée
+      parameters: [ { $ref: '#/components/parameters/provider' } ]
+  /transactions/contact:
+    post: { summary: Lister transactions d'un contact }
+
+  /extShop/products/{provider}/{search}:
+    get:
+      summary: Produits d'un shop externe
+      parameters:
+        - { $ref: '#/components/parameters/provider' }
+        - { $ref: '#/components/parameters/search' }
+  /extShop/list/stock/{provider}:
+    get:
+      summary: Stock d'un shop externe
+      parameters: [ { $ref: '#/components/parameters/provider' } ]
+  /extShop/stock/{provider}/{id}:
+    get:
+      summary: Stock externe par id
+      parameters:
+        - { $ref: '#/components/parameters/provider' }
+        - { $ref: '#/components/parameters/id' }
+  /extShop/transactions/from/{provider}:
+    get:
+      summary: Transactions d'un shop externe
+      parameters: [ { $ref: '#/components/parameters/provider' } ]
+  /extShop/transactions/{provider}/{id}:
+    get:
+      summary: Transaction externe par id
+      parameters:
+        - { $ref: '#/components/parameters/provider' }
+        - { $ref: '#/components/parameters/id' }
+  /extShop/transactions/{to}/save:
+    post:
+      summary: Sauvegarder des transactions vers un shop externe
+      parameters: [ { $ref: '#/components/parameters/to' } ]
+
+  /contact/validation/{token}:
+    get:
+      summary: Valider un contact
+      parameters: [ { $ref: '#/components/parameters/token' } ]
+  /contact/save:
+    post: { summary: Créer/mettre à jour un contact }
+
+  /webshop/config:
+    get: { summary: Configuration webshop }
+  /webshop/transaction/{id}:
+    get:
+      summary: Transaction webshop par id
+      parameters: [ { $ref: '#/components/parameters/id' } ]
+  /webshop/{dest}/categories:
+    get:
+      summary: Catégories webshop d'une destination
+      parameters: [ { $ref: '#/components/parameters/dest' } ]
+  /webshop/transaction/cancel/{id}:
+    post:
+      summary: Annuler une transaction webshop
+      parameters: [ { $ref: '#/components/parameters/id' } ]
+
+  /wallpaper/{search}:
+    get:
+      summary: Rechercher des wallpapers
+      parameters: [ { $ref: '#/components/parameters/search' } ]
+  /track/{provider}/{number}:
+    get:
+      summary: Tracking colis
+      parameters:
+        - { $ref: '#/components/parameters/provider' }
+        - { $ref: '#/components/parameters/number' }
+  /robots.txt:
+    get: { summary: Robots.txt }
+  /:
+    get: { summary: Index des routes (si INDEX_ROUTES activé) }
+
+components:
+  parameters:
+    id: { name: id, in: path, required: true, schema: { type: string } }
+    idCard: { name: idCard, in: path, required: true, schema: { type: string } }
+    idSet: { name: idSet, in: path, required: true, schema: { type: string } }
+    idEd: { name: idEd, in: path, required: true, schema: { type: string } }
+    idDeck: { name: idDeck, in: path, required: true, schema: { type: integer } }
+    idStock: { name: idStock, in: path, required: true, schema: { type: integer, format: int64 } }
+    scryfallId: { name: scryfallId, in: path, required: true, schema: { type: string } }
+    provider: { name: provider, in: path, required: true, schema: { type: string } }
+    className: { name: class, in: path, required: true, schema: { type: string } }
+    collection: { name: collection, in: path, required: true, schema: { type: string } }
+    col: { name: col, in: path, required: true, schema: { type: string } }
+    colName: { name: colName, in: path, required: true, schema: { type: string } }
+    name: { name: name, in: path, required: true, schema: { type: string } }
+    type: { name: type, in: path, required: true, schema: { type: string } }
+    format: { name: format, in: path, required: true, schema: { type: string } }
+    filter: { name: filter, in: path, required: true, schema: { type: string } }
+    search: { name: search, in: path, required: true, schema: { type: string } }
+    cardName: { name: cardName, in: path, required: true, schema: { type: string } }
+    token: { name: token, in: path, required: true, schema: { type: string } }
+    number: { name: number, in: path, required: true, schema: { type: string } }
+    qty: { name: qty, in: path, required: true, schema: { type: integer } }
+    from: { name: from, in: path, required: true, schema: { type: string } }
+    to: { name: to, in: path, required: true, schema: { type: string } }
+    dest: { name: dest, in: path, required: true, schema: { type: string } }
+    val: { name: val, in: path, required: true, schema: { type: string } }
+    threeshold: { name: threeshold, in: path, required: true, schema: { type: integer } }
+    all: { name: all, in: path, required: true, schema: { type: boolean } }
+    enable: { name: enable, in: path, required: true, schema: { type: boolean } }
+    setId: { name: setId, in: path, required: true, schema: { type: string } }
+    start: { name: start, in: path, required: true, schema: { type: integer, format: int64 } }
+    end: { name: end, in: path, required: true, schema: { type: integer, format: int64 } }
+    cardNumber: { name: cardNumber, in: path, required: true, schema: { type: string } }
+    pageQuery: { name: page, in: query, required: false, schema: { type: integer, minimum: 1 } }
+    paginateQuery: { name: paginate, in: query, required: false, schema: { type: integer, minimum: 1 } }
