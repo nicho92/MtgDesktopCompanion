@@ -24,7 +24,7 @@ public class R34WallPaperProvider extends AbstractJsonWallpaperProvider {
 	@Override
 	protected RequestBuilder createQuery(String search, int pidStart) {
 
-		var s = search.toLowerCase();
+		String s;
 
 		if (search.indexOf("+") > -1) {
 			var builder = new StringBuilder();

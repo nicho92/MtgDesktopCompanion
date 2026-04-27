@@ -19,7 +19,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 	public MagicEditionsTableModel() {
 		initColumns();
-		mapCount = new TreeMap<MTGEdition, Integer>();
+		mapCount = new TreeMap<>();
 	}
 
 	@Override

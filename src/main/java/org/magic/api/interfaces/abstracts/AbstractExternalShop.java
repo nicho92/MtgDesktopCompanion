@@ -56,7 +56,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 				for (var extComName : it.getTiersAppIds().keySet().stream().filter(s -> !s.equalsIgnoreCase(getName()))
 						.toList()) {
 					logger.debug("Updating {} on {} with id={}", it.getProduct().getName(), extComName,
-							it.getTiersAppIds(extComName));
+							it.getTiersAppIds());
 					it.setId(Integer.parseInt(it.getTiersAppIds(extComName)));
 					MTG.getPlugin(extComName, MTGExternalShop.class).saveOrUpdateStock(it, false);
 				}

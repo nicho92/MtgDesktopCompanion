@@ -378,9 +378,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		logger.debug("{} need to use {} exporter to send card Stock", getName(), exp.getName());
 
 		var listCards = stocks.stream().filter(mci -> mci.getProduct().getTypeProduct() == EnumItems.CARD)
-				.map(mci -> (MTGCardStock) mci).toList();
+				.map(MTGCardStock.class::cast).toList();
 		var listSealed = stocks.stream().filter(mci -> mci.getProduct().getTypeProduct() != EnumItems.CARD)
-				.map(mci -> (MTGSealedStock) mci).toList();
+				.map(MTGSealedStock.class::cast).toList();
 
 		exp.exportStock(listCards, null);
 

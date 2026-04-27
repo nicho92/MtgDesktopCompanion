@@ -65,8 +65,6 @@ public class MTGCardSmithEditor extends AbstractPicturesEditorProvider {
 				.addHeader(URLTools.ACCEPT, "application/json, text/javascript, */*; q=0.01")
 				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
 				.addHeader(URLTools.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8")
-				// .addContent("session_data_card",
-				// "{\"dimensions\":{\"width\":316,\"height\":232},\"frame\":\"m15\",\"image_path\":"+imgPath+"\",\"status\":\"new\"}")
 				.addContent("slug", "").addContent("create_date", "")
 				.addContent("frame", "/moderator/tmp/" + getFrame(mc)).addContent("pos_pt_f", "")
 				.addContent("pos_pt_ts", "34").addContent("pos_sub_f", "beleren-bold_P1.01.ttf")
