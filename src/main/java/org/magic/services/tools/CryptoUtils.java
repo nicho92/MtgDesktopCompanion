@@ -97,6 +97,17 @@ public class CryptoUtils {
 		return ret;
 	}
 
+	
+
+	public static double randomDouble() {
+		try {
+			return SecureRandom.getInstanceStrong().nextDouble();
+		} catch (NoSuchAlgorithmException e) {
+			return -1.0;
+		}
+	}
+
+	
 	public static Double randomDouble(double bound) {
 		try {
 			return SecureRandom.getInstanceStrong().nextDouble(bound);

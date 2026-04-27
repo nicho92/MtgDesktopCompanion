@@ -14,6 +14,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 
 public class SimulatedWebcam extends Webcam {
@@ -55,12 +56,10 @@ class DummyWebcamDevice implements WebcamDevice {
 
 	private Dimension[] dimensions;
 	private boolean open;
-	private Random r;
 
 	public DummyWebcamDevice(Image ic) {
 		bounce = ic;
 		init();
-		r = new SecureRandom();
 	}
 
 	private void init() {
@@ -68,8 +67,8 @@ class DummyWebcamDevice implements WebcamDevice {
 		buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		display = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = buffer.createGraphics();
-		xvel = (r.nextDouble() - 0.5) * MAX_VEL * 2;
-		yvel = (r.nextDouble() - 0.5) * MAX_VEL * 2;
+		xvel = (CryptoUtils.randomDouble() - 0.5) * MAX_VEL * 2;
+		yvel = (CryptoUtils.randomDouble() - 0.5) * MAX_VEL * 2;
 		dimensions = new Dimension[1];
 		dimensions[0] = new Dimension(display.getWidth(), display.getHeight());
 		open = false;
