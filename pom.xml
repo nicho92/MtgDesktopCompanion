@@ -64,7 +64,7 @@
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.28.0</commonmark.version>
-		<langchain4j.version>1.13.0</langchain4j.version>
+		<langchain4j.version>1.13.1</langchain4j.version>
 		<telegram.version>9.5.0</telegram.version>
 	</properties>
 	
@@ -539,7 +539,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.12.0</version>
+			<version>0.13.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -566,7 +566,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.21.0</version>
+			<version>1.22.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -581,7 +581,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.21.0</version>
+			<version>2.22.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -611,7 +611,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.13.2</version>
+			<version>2.14.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
