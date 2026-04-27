@@ -36,7 +36,7 @@ public class MTGWallpaper implements Comparable<MTGWallpaper>,MTGSerializable {
 
 	@Override
 	public String getStoreId() {
-		return name;
+		return (getName()+getPublishDate());
 	}
 
 	
