@@ -118,11 +118,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						  .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
 						  .addHeader("priority","u=1, i")
 						  .toJson().getAsJsonArray();
-	 
+		  
 		 var q = arr.asList().stream().filter(je->je.getAsJsonObject().get("oracle_name").getAsString().equals(c.getName()) || je.getAsJsonObject().get("name").getAsString().equals(c.getName()))
-			;
-	 
-		 //  .filter(je->je.getAsJsonObject().get("set_code").getAsString().equalsIgnoreCase(aliases.getReversedSetIdFor(this, c.getEdition())))
+				 .filter(je->je.getAsJsonObject().get("set_code").getAsString().equalsIgnoreCase(aliases.getReversedSetIdFor(this, c.getEdition())));
 		 
 		 if(foil) 
 			 q =q.filter(je->je.getAsJsonObject().get("finish").getAsString().contains("foil"));
@@ -136,7 +134,18 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	  }
 	  else if(res.size()>1)
 	  {
-		  return res.stream().filter(je->je.getAsJsonObject().get("card_num").getAsString().equals(c.getNumber())).toList().getFirst().getAsJsonObject().get("id").getAsString();
+		  try {
+			  var l = res.stream().filter(je->!je.getAsJsonObject().get("card_num").isJsonNull())
+					  			.filter(je->je.getAsJsonObject().get("card_num").getAsString().equals(c.getNumber())).toList();
+			  
+			  logger.info("filtering by num return {}",l);
+			  
+			  return l.getFirst().getAsJsonObject().get("id").getAsString();
+		  }
+		  catch(Exception e)
+		  {
+			  logger.error(e);
+		  }
 	  }
 	   
 	  logger.warn("no id found for {}",c);
