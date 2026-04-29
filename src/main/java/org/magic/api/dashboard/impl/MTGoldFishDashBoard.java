@@ -1,6 +1,7 @@
 package org.magic.api.dashboard.impl;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +23,14 @@ import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
@@ -108,36 +112,43 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		return token;
 	}
-	/*
-	 * private String suggestId(MTGCard c,boolean foil) throws IOException { var arr
-	 * = RequestBuilder.build().url(WEBSITE+"/autocomplete").setClient(client).get()
-	 * .addContent("term",c.getName()) .addHeader("referer", WEBSITE)
-	 * .addHeader("x-requested-with", "XMLHttpRequest")
-	 * .addHeader(URLTools.ACCEPT,"application/json, text/javascrip td")
-	 * .addHeader("priority","u=1, i") .addHeader("x-csrf-token", readXcrf())
-	 * .toJson().getAsJsonArray();
-	 *
-	 * var q =
-	 * arr.asList().stream().filter(je->je.getAsJsonObject().get("id").getAsString()
-	 * .contains(aliases.getReversedSetIdFor(this, c.getEdition())));
-	 *
-	 * if(foil) q =
-	 * q.filter(je->je.getAsJsonObject().get("finish").getAsString().contains("foil"
-	 * ));
-	 *
-	 *
-	 * var res = q.toList();
-	 *
-	 * logger.info("return {}" , res);
-	 *
-	 *
-	 * if(res.size()==1) return
-	 * res.get(0).getAsJsonObject().get("id").getAsString();
-	 *
-	 *
-	 * return ""; }
-	 *
-	 */
+
+	private String suggestCardId(MTGCard c,boolean foil) throws IOException { 
+		  var arr	  = RequestBuilder.build().url(WEBSITE+"/autocomplete").setClient(client).get()
+						  .addContent("term",c.getName()).addHeader(URLTools.REFERER, WEBSITE)
+						  .addHeader("x-requested-with", "XMLHttpRequest")
+						  .addHeader(URLTools.ACCEPT,"*/*")
+						  .addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7")
+						  .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
+						  .addHeader("priority","u=1, i")
+						  .toJson().getAsJsonArray();
+	 
+		 var q = arr.asList().stream().filter(je->je.getAsJsonObject().get("oracle_name").getAsString().equals(c.getName()) || je.getAsJsonObject().get("name").getAsString().equals(c.getName()))
+			;
+	 
+		 //  .filter(je->je.getAsJsonObject().get("set_code").getAsString().equalsIgnoreCase(aliases.getReversedSetIdFor(this, c.getEdition())))
+		 
+		 if(foil) 
+			 q =q.filter(je->je.getAsJsonObject().get("finish").getAsString().contains("foil"));
+		 
+	  var res = q.toList();
+	  logger.debug("return {}" , res);
+	 
+	  if(res.size()==1) 
+	  {
+		  return res.get(0).getAsJsonObject().get("id").getAsString();
+	  }
+	  else if(res.size()>1)
+	  {
+		  return res.stream().filter(je->je.getAsJsonObject().get("card_num").getAsString().equals(c.getNumber())).toList().getFirst().getAsJsonObject().get("id").getAsString();
+	  }
+	   
+	  logger.warn("no id found for {}",c);
+	  return "";
+	  
+	  }
+	 
+	 
 
 	private void parsing(HistoryPrice<?> history) throws IOException {
 
@@ -147,40 +158,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		var pricetype = "card";
 
 		if (history.getItem() instanceof MTGCard card) {
-			var variant = "";
-
-			if (card.isTimeshifted())
-				variant = "<futureshifted>";
-			else if (card.isBasicLand() && !card.isExtraCard())
-				variant = "<" + card.getNumber() + ">";
-			else if (card.isShowCase())
-				variant = "<showcase>";
-			else if (card.isBorderLess())
-				variant = "<borderless" + (card.getPromotypes().contains(EnumPromoType.STEPANDCOMPLEAT)
-						? " Step and Compleat Foil"
-						: "") + ">";
-			else if (card.isExtendedArt())
-				variant = "<extended>";
-			else if (card.isRetro())
-				variant = "<retro>";
-			else if (card.isJapanese())
-				variant = "<Japanese>";
-
-			if (card.getPromotypes().contains(EnumPromoType.POSTER))
-				variant = "<borderless poster>";
-			if (card.getPromotypes().contains(EnumPromoType.PRERELEASE))
-				variant = "<prerelease>";
-			if (card.getPromotypes().contains(EnumPromoType.SERIALIZED))
-				variant = "<serialized>";
-			if (card.getPromotypes().contains(EnumPromoType.FIRSTPLACEFOIL))
-				variant = "<first place" + (card.isShowCase() ? " showcase>" : ">");
-			if (card.getPromotypes().contains(EnumPromoType.FRACTUREFOIL))
-				variant = "<" + (card.isShowCase() ? "showcase - " : "") + "fracture foil>";
-			if (card.getPromotypes().contains(EnumPromoType.TEXTURED))
-				variant = "<textured>";
-
-			cardid = card.getName() + (variant.isEmpty() ? "" : " " + variant) + " ["
-					+ aliases.getReversedSetIdFor(this, card.getEdition()) + "] " + (history.isFoil() ? "(F)" : "");
+			cardid = suggestCardId(card, history.isFoil());
 		} else if (history.getItem() instanceof MTGEdition set) {
 			cardid = set.getId() + "-main_set";
 			pricetype = "set";
@@ -249,7 +227,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				.addContent("type", getString(FORMAT).toLowerCase()).addContent("price_type", pricetype)
 				.addHeader("referer", WEBSITE).addHeader("x-requested-with", "XMLHttpRequest")
 				.addHeader("x-csrf-token", readXcrf()).toHtml();
-
+		
 		var res = q.select("a span").html();
 
 		var m = Pattern.compile("d \\+= \\\"\\\\n(.*?), (.*?)\\\";").matcher(res);
