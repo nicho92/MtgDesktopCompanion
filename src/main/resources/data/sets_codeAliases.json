@@ -1,6 +1,11 @@
 {
+	"SOS" : [
+		"ASOS",
+		"FSOS"
+	],
 	"TMC" : [
-		"FTMC"
+		"FTMC",
+		"ATMT"
 	],
 	"ECL" : [
 		"AECL"

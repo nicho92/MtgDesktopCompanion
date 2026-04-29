@@ -37,13 +37,21 @@ public class GithubUtils {
 	private void update() {
 
 		var selected = 0;
-
+		try {
+			
+		
 		if (!updatetoprerelease)
 			while (releases.get(selected).getAsJsonObject().get("prerelease").getAsBoolean())
 				selected++;
 
 		setSelectedRelease(selected);
-
+		}
+		catch(Exception _)
+		{
+			//do nothing
+		}
+		
+		
 	}
 
 	public JsonArray getReleases() {
