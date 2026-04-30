@@ -37,7 +37,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
 		var line = new StringBuilder(columns);
 		for (MTGCardStock mc : stock) {
-			String name = mc.getProduct().getName();
+			var name = mc.getProduct().getName();
 			if (mc.getProduct().getName().contains(getSeparator()))
 				name = "\"" + mc.getProduct().getName() + "\"";
 
@@ -65,7 +65,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MTGCardStock> list = new ArrayList<>();
+		var list = new ArrayList<MTGCardStock>();
 
 		matches(content, true).forEach(m -> {
 
@@ -105,7 +105,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			}
 
 			if (mc != null) {
-				MTGCardStock mcs = MTGControler.getInstance().getDefaultStock();
+				var mcs = MTGControler.getInstance().getDefaultStock();
 				mcs.setQte(Integer.parseInt(m.group(1)));
 				mcs.setProduct(mc);
 				mcs.setCondition(aliases.getReversedConditionFor(this, m.group(7), null));

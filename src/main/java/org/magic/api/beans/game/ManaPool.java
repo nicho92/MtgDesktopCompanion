@@ -19,9 +19,11 @@ public class ManaPool extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Map<String, Integer> pool;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private Pattern p;
 
 	public ManaPool() {
 		pool = new HashMap<>();
+		p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
 
 	}
 
@@ -52,13 +54,11 @@ public class ManaPool extends Observable implements Serializable {
 	public void useMana(MTGCard mc) {
 		if (mc.getCmc() == null)
 			return;
-
-		var p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
+		
 		var m = p.matcher(mc.getCost());
 
 		while (m.find()) {
-			String c = m.group();
-			useMana(c, 1);
+			useMana(m.group(), 1);
 		}
 		notifyObservers(this);
 	}

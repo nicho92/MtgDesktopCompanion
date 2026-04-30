@@ -151,7 +151,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	}
 
 	private void writeExtraMap(MTGCard mc, StringBuilder bw) {
-		for (String k : getArray(EXTRA_PROPERTIES)) {
+		for (var k : getArray(EXTRA_PROPERTIES)) {
 			String val = null;
 			try {
 				val = BeanUtils.getNestedProperty(mc, k);
@@ -174,16 +174,16 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		deck.setName(n);
 		var isSide = false;
 
-		for (String line : UITools.stringLineSplit(content, false)) {
+		for (var line : UITools.stringLineSplit(content, false)) {
 
 			if (line.isBlank()) {
 				isSide = true;
 			} else {
-				String[] part = line.split(getSeparator());
-				String name = cleanName(part[0]);
-				String qte = part[2];
-				String set = part[1];
-				MTGEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
+				var part = line.split(getSeparator());
+				var name = cleanName(part[0]);
+				var qte = part[2];
+				var set = part[1];
+				var ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
 				MTGCard mc = null;
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);

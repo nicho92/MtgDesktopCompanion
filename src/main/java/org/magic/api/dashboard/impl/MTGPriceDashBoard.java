@@ -32,12 +32,18 @@ import org.magic.services.tools.UITools;
 public class MTGPriceDashBoard extends AbstractDashBoard {
 	private static final String WEBSITE = "https://www.mtgprice.com";
 	private Date updateTime;
+	private Pattern p;
 
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
 
+	public MTGPriceDashBoard() {
+		p = Pattern.compile("\\[(.*?)\\]");
+	}
+	
+	
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
 		var list = new ArrayList<CardShake>();
@@ -202,7 +208,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String html = js.html();
 		html = StringUtils.substringBetween(html, "[[", "]]");
 
-		var p = Pattern.compile("\\[(.*?)\\]");
 		var m = p.matcher(html);
 		while (m.find()) {
 
