@@ -7,13 +7,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.magic.api.interfaces.extra.MTGSerializable;
 
-public class MTGWallpaper implements Comparable<MTGWallpaper>,MTGSerializable {
+public class MTGWallpaper implements Comparable<MTGWallpaper>, MTGSerializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient BufferedImage picture;
@@ -33,13 +32,11 @@ public class MTGWallpaper implements Comparable<MTGWallpaper>,MTGSerializable {
 		headers = new HashMap<>();
 	}
 
-
 	@Override
 	public String getStoreId() {
-		return (getName()+getPublishDate());
+		return (getName() + getPublishDate());
 	}
 
-	
 	public void addHeader(String k, String v) {
 		headers.put(k, v);
 	}

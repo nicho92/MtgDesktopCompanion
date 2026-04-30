@@ -97,8 +97,6 @@ public class CryptoUtils {
 		return ret;
 	}
 
-	
-
 	public static double randomDouble() {
 		try {
 			return SecureRandom.getInstanceStrong().nextDouble();
@@ -107,7 +105,6 @@ public class CryptoUtils {
 		}
 	}
 
-	
 	public static Double randomDouble(double bound) {
 		try {
 			return SecureRandom.getInstanceStrong().nextDouble(bound);

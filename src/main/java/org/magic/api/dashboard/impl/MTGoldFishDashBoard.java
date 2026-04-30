@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -109,51 +108,46 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return token;
 	}
 
-	private String suggestCardId(MTGCard c,boolean foil) throws IOException { 
-		  var arr	  = RequestBuilder.build().url(WEBSITE+"/autocomplete").setClient(client).get()
-						  .addContent("term",c.getName()).addHeader(URLTools.REFERER, WEBSITE)
-						  .addHeader("x-requested-with", "XMLHttpRequest")
-						  .addHeader(URLTools.ACCEPT,"*/*")
-						  .addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7")
-						  .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
-						  .addHeader("priority","u=1, i")
-						  .toJson().getAsJsonArray();
-		  
-		 var q = arr.asList().stream().filter(je->je.getAsJsonObject().get("oracle_name").getAsString().equals(c.getName()) || je.getAsJsonObject().get("name").getAsString().equals(c.getName()))
-				 .filter(je->je.getAsJsonObject().get("set_code").getAsString().equalsIgnoreCase(aliases.getReversedSetIdFor(this, c.getEdition())));
-		 
-		 if(foil) 
-			 q =q.filter(je->je.getAsJsonObject().get("finish").getAsString().contains("foil"));
-		 
-	  var res = q.toList();
-	  logger.debug("return {}" , res);
-	 
-	  if(res.size()==1) 
-	  {
-		  return res.get(0).getAsJsonObject().get("id").getAsString();
-	  }
-	  else if(res.size()>1)
-	  {
-		  try {
-			  var l = res.stream().filter(je->!je.getAsJsonObject().get("card_num").isJsonNull())
-					  			.filter(je->je.getAsJsonObject().get("card_num").getAsString().equals(c.getNumber())).toList();
-			  
-			  logger.info("filtering by num return {}",l);
-			  
-			  return l.getFirst().getAsJsonObject().get("id").getAsString();
-		  }
-		  catch(Exception e)
-		  {
-			  logger.error(e);
-		  }
-	  }
-	   
-	  logger.warn("no id found for {}",c);
-	  return "";
-	  
-	  }
-	 
-	 
+	private String suggestCardId(MTGCard c, boolean foil) throws IOException {
+		var arr = RequestBuilder.build().url(WEBSITE + "/autocomplete").setClient(client).get()
+				.addContent("term", c.getName()).addHeader(URLTools.REFERER, WEBSITE)
+				.addHeader("x-requested-with", "XMLHttpRequest").addHeader(URLTools.ACCEPT, "*/*")
+				.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7")
+				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd").addHeader("priority", "u=1, i").toJson()
+				.getAsJsonArray();
+
+		var q = arr.asList().stream()
+				.filter(je -> je.getAsJsonObject().get("oracle_name").getAsString().equals(c.getName())
+						|| je.getAsJsonObject().get("name").getAsString().equals(c.getName()))
+				.filter(je -> je.getAsJsonObject().get("set_code").getAsString()
+						.equalsIgnoreCase(aliases.getReversedSetIdFor(this, c.getEdition())));
+
+		if (foil)
+			q = q.filter(je -> je.getAsJsonObject().get("finish").getAsString().contains("foil"));
+
+		var res = q.toList();
+		logger.debug("return {}", res);
+
+		if (res.size() == 1) {
+			return res.get(0).getAsJsonObject().get("id").getAsString();
+		} else if (res.size() > 1) {
+			try {
+				var l = res.stream().filter(je -> !je.getAsJsonObject().get("card_num").isJsonNull())
+						.filter(je -> je.getAsJsonObject().get("card_num").getAsString().equals(c.getNumber()))
+						.toList();
+
+				logger.debug("filtering by num return {}", l);
+
+				return l.getFirst().getAsJsonObject().get("id").getAsString();
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		}
+
+		logger.warn("no id found for {}", c);
+		return "";
+
+	}
 
 	private void parsing(HistoryPrice<?> history) throws IOException {
 
@@ -232,7 +226,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				.addContent("type", getString(FORMAT).toLowerCase()).addContent("price_type", pricetype)
 				.addHeader("referer", WEBSITE).addHeader("x-requested-with", "XMLHttpRequest")
 				.addHeader("x-csrf-token", readXcrf()).toHtml();
-		
+
 		var res = q.select("a span").html();
 
 		var m = Pattern.compile("d \\+= \\\"\\\\n(.*?), (.*?)\\\";").matcher(res);

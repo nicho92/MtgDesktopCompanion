@@ -1,4 +1,6 @@
 package org.magic.services.webcam;
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamDevice;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -8,14 +10,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
-
-import com.github.sarxos.webcam.Webcam;
-import com.github.sarxos.webcam.WebcamDevice;
 
 public class SimulatedWebcam extends Webcam {
 
