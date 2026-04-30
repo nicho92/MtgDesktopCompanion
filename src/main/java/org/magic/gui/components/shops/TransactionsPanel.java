@@ -223,7 +223,7 @@ public class TransactionsPanel extends MTGUIComponent {
 
 		trackPanel.getComboBox().addItemListener((ItemEvent event) -> {
 
-			Transaction transaction = trackPanel.getTransaction();
+			var transaction = trackPanel.getTransaction();
 			transaction.setTransporter(trackPanel.getComboBox().getSelectedItem().toString());
 
 			var sw = new SwingWorker<Void, Void>() {
