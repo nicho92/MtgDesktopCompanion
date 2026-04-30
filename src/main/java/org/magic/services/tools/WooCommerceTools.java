@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.http.HttpResponse;
-import org.apache.http.entity.ByteArrayEntity;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
@@ -99,7 +99,7 @@ public class WooCommerceTools {
 					Map<String, String> header = new HashMap<>();
 					header.put(URLTools.CONTENT_TYPE, contentType);
 
-					HttpResponse resp = null;
+					ClassicHttpResponse resp = null;
 
 					if (object.get("post") == null) {
 						resp = c.doPost(url + "?" + OAuthSignature.getAsQueryString(config, url, HttpMethod.POST),

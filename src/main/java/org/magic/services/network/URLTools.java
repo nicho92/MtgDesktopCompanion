@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
+import org.apache.hc.core5.http.Header;
 import org.apache.logging.log4j.Logger;
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
@@ -180,7 +180,7 @@ public class URLTools {
 		int resp;
 		try {
 			var client = URLTools.newClient();
-			resp = RequestBuilder.build().setClient(client).url(url).get().execute().getStatusLine().getStatusCode();
+			resp = RequestBuilder.build().setClient(client).url(url).get().execute().getCode();
 			return resp >= 200 && resp < 300;
 		} catch (IOException e) {
 			logger.error(e);

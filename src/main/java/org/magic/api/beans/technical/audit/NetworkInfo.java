@@ -3,12 +3,12 @@ package org.magic.api.beans.technical.audit;
 import com.google.gson.JsonObject;
 import java.net.URI;
 import java.time.Instant;
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.message.BasicHttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ProtocolVersion;
+import org.apache.hc.core5.http.StatusLine;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.core5.http.io.entity.BasicHttpEntity;
+import org.apache.hc.core5.http.message.BasicClassicHttpResponse;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 
 public class NetworkInfo extends AbstractAuditableItem {
@@ -19,21 +19,21 @@ public class NetworkInfo extends AbstractAuditableItem {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient HttpResponse response;
-	private transient HttpRequestBase request;
+	private transient ClassicHttpResponse response;
+	private transient HttpUriRequestBase request;
 
-	public HttpResponse getResponse() {
+	public ClassicHttpResponse getResponse() {
 		return response;
 	}
-	public void setReponse(HttpResponse response) {
+	public void setReponse(ClassicHttpResponse response) {
 		this.response = response;
 	}
 
-	public void setRequest(HttpRequestBase req) {
+	public void setRequest(HttpUriRequestBase req) {
 		this.request = req;
 	}
 
-	public HttpRequestBase getRequest() {
+	public HttpUriRequestBase getRequest() {
 		return request;
 	}
 
@@ -49,13 +49,13 @@ public class NetworkInfo extends AbstractAuditableItem {
 
 		try {
 
-			request = new HttpRequestBase() {
+			request = new HttpUriRequestBase(o.get("method").getAsString(), o.get("url").getAsString()) {
 				@Override
 				public String getMethod() {
 					return o.get("method").getAsString();
 				}
 			};
-			request.setURI(URI.create(o.get("url").getAsString()));
+			request.setUri(URI.create(o.get("url").getAsString()));
 
 		} catch (Exception _) {
 			// do nothing
@@ -83,7 +83,7 @@ public class NetworkInfo extends AbstractAuditableItem {
 			}
 		};
 
-		response = new BasicHttpResponse(sl);
+		response = new BasicClassicHttpResponse(sl.getStatusCode(), sl.getReasonPhrase());
 
 		var entity = new BasicHttpEntity();
 		entity.setContentType(o.get(CONTENT_TYPE).getAsString());
@@ -103,8 +103,8 @@ public class NetworkInfo extends AbstractAuditableItem {
 		jo.addProperty("start", getStart().toEpochMilli());
 		jo.addProperty("end", getEnd().toEpochMilli());
 		jo.addProperty("duration", getDuration());
-		jo.addProperty("aborted", getRequest().isAborted());
-		jo.addProperty("protocol", getRequest().getRequestLine().getProtocolVersion().toString());
+		jo.addProperty("aborted", false);
+		jo.addProperty("protocol", getRequest().getVersion() != null ? getRequest().getVersion().toString() : "HTTP/1.1");
 		jo.addProperty("host", getRequest().getURI().getHost());
 
 		if (getResponse() != null) {
@@ -119,8 +119,8 @@ public class NetworkInfo extends AbstractAuditableItem {
 			}
 
 			jo.addProperty(SERVER_TYPE, servT != null ? servT.getValue() : "");
-			jo.addProperty(REPONSES_MESSAGE, getResponse().getStatusLine().getReasonPhrase());
-			jo.addProperty("reponsesCode", getResponse().getStatusLine().getStatusCode());
+			jo.addProperty(REPONSES_MESSAGE, getResponse().getReasonPhrase());
+			jo.addProperty("reponsesCode", getResponse().getCode());
 		}
 		return jo;
 

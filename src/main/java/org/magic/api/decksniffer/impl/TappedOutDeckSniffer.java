@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.RegExUtils;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
@@ -62,7 +62,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		var resp = httpclient.execute(b);
 		EntityUtils.consume(resp.getEntity());
 		logger.debug("Connection with user = {} : {}", getAuthenticator().getLogin(),
-				resp.getStatusLine().getReasonPhrase());
+				resp.getReasonPhrase());
 	}
 
 	@Override

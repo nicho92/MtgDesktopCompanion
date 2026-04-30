@@ -8,7 +8,7 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import org.apache.http.entity.StringEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumCondition;

@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
@@ -70,7 +70,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 		var resp = httpclient.doPost(u, new UrlEncodedFormEntity(nvps), headers);
 
-		logger.debug("Connection : {}", resp.getStatusLine().getReasonPhrase());
+		logger.debug("Connection : {}", resp.getReasonPhrase());
 
 	}
 
@@ -226,7 +226,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		try {
 			logger.debug("generate {}", build.build());
 			var resp = httpclient.doGet(build.build().toASCIIString());
-			logger.info("generate {}", resp.getStatusLine().getReasonPhrase());
+			logger.info("generate {}", resp.getReasonPhrase());
 			BufferedImage im = ImageTools.read(resp.getEntity().getContent());
 			EntityUtils.consume(resp.getEntity());
 			return im;

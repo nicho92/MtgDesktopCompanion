@@ -7,30 +7,30 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.conn.HttpClientConnectionManager;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.DefaultHttpResponseFactory;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ProtocolVersion;
+import org.apache.hc.core5.http.StatusLine;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.cookie.StandardCookieSpec;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.apache.hc.client5.http.cookie.Cookie;
+import org.apache.hc.core5.http.impl.io.DefaultClassicHttpResponseFactory;
+import org.apache.hc.client5.http.cookie.BasicCookieStore;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.LaxRedirectStrategy;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
@@ -44,14 +44,14 @@ public class MTGHttpClient {
 	private HttpClientContext httpContext;
 	private BasicCookieStore cookieStore;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private HttpResponse response;
+	private ClassicHttpResponse response;
 	private HttpClientConnectionManager connectionManager;
 
 	public HttpClient getHttpclient() {
 		return httpclient;
 	}
 
-	public HttpResponse getResponse() {
+	public ClassicHttpResponse getResponse() {
 		return response;
 	}
 
@@ -66,24 +66,24 @@ public class MTGHttpClient {
 
 		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
 				.setRedirectStrategy(LaxRedirectStrategy.INSTANCE).setConnectionManager(connectionManager)
-				.setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD)
-						.setConnectTimeout(MTGConstants.CONNECTION_TIMEOUT)
-						.setSocketTimeout(MTGConstants.CONNECTION_TIMEOUT)
-						.setConnectionRequestTimeout(MTGConstants.CONNECTION_TIMEOUT).build())
+				.setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(StandardCookieSpec.STRICT)
+						.setConnectTimeout(org.apache.hc.core5.util.Timeout.ofMilliseconds(MTGConstants.CONNECTION_TIMEOUT))
+						.setResponseTimeout(org.apache.hc.core5.util.Timeout.ofMilliseconds(MTGConstants.CONNECTION_TIMEOUT))
+						.setConnectionRequestTimeout(org.apache.hc.core5.util.Timeout.ofMilliseconds(MTGConstants.CONNECTION_TIMEOUT)).build())
 				.build();
 
-		httpContext = new HttpClientContext();
+		httpContext = HttpClientContext.create();
 		cookieStore = new BasicCookieStore();
 		httpContext.setCookieStore(cookieStore);
 	}
 
-	public String toString(HttpResponse response) throws IOException {
+	public String toString(ClassicHttpResponse response) throws IOException {
 		var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
 		return ret;
 	}
 
-	private HttpResponse execute(HttpRequestBase req) throws IOException {
+	private ClassicHttpResponse execute(HttpUriRequestBase req) throws IOException {
 		var info = new NetworkInfo();
 		info.setRequest(req);
 		info.setStart(Instant.now());
@@ -93,7 +93,7 @@ public class MTGHttpClient {
 			info.setReponse(response);
 		} catch (Exception e) {
 			logger.error("uri={}", req.getURI(), e);
-			info.setReponse(DefaultHttpResponseFactory.INSTANCE.newHttpResponse(new StatusLine() {
+			info.setReponse(DefaultClassicHttpResponseFactory.INSTANCE.newHttpResponse(new StatusLine() {
 
 				@Override
 				public int getStatusCode() {
@@ -116,7 +116,7 @@ public class MTGHttpClient {
 		return response;
 	}
 
-	public HttpResponse execute(RequestBuilder builder) throws IOException {
+	public ClassicHttpResponse execute(RequestBuilder builder) throws IOException {
 
 		if (builder.getMethod() == METHOD.GET)
 			return doGet(builder.getUrl(), builder.getHeaders(), builder.getContent());
@@ -131,14 +131,14 @@ public class MTGHttpClient {
 
 	}
 
-	public HttpResponse doPut(String url, Map<String, String> entities, Map<String, String> headers)
+	public ClassicHttpResponse doPut(String url, Map<String, String> entities, Map<String, String> headers)
 			throws IOException {
 		return doPut(url, new UrlEncodedFormEntity(
 				entities.entrySet().stream().map(e -> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),
 				headers);
 	}
 
-	public HttpResponse doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
+	public ClassicHttpResponse doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
 		var putReq = new HttpPut(string);
 		try {
 			if (entities != null)
@@ -153,14 +153,14 @@ public class MTGHttpClient {
 		}
 	}
 
-	public HttpResponse doPost(String url, Map<String, String> entities, Map<String, String> headers)
+	public ClassicHttpResponse doPost(String url, Map<String, String> entities, Map<String, String> headers)
 			throws IOException {
 		return doPost(url, new UrlEncodedFormEntity(
 				entities.entrySet().stream().map(e -> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),
 				headers);
 	}
 
-	public HttpResponse doPost(String url, HttpEntity entities, Map<String, String> headers) throws IOException {
+	public ClassicHttpResponse doPost(String url, HttpEntity entities, Map<String, String> headers) throws IOException {
 		var postReq = new HttpPost(url);
 		try {
 			if (entities != null)
@@ -177,7 +177,7 @@ public class MTGHttpClient {
 
 	}
 
-	public HttpResponse doGet(String url, Map<String, String> headers, Map<String, String> entities)
+	public ClassicHttpResponse doGet(String url, Map<String, String> headers, Map<String, String> entities)
 			throws IOException {
 		var getReq = new HttpGet(url);
 
@@ -201,7 +201,7 @@ public class MTGHttpClient {
 
 	}
 
-	public HttpResponse doGet(String url) throws IOException {
+	public ClassicHttpResponse doGet(String url) throws IOException {
 		return doGet(url, null, null);
 	}
 

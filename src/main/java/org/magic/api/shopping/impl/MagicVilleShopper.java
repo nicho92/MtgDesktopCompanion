@@ -47,7 +47,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 						.addContent("pass", getAuthenticator().getPassword()).addContent("return_url", urlLogin)
 						.addContent("data", "1").addContent("x", "14").addContent("y", "11").execute();
 
-				logger.debug("Connexion : {}", res.getStatusLine().getReasonPhrase());
+				logger.debug("Connexion : {}", res.getReasonPhrase());
 			} catch (IOException e) {
 				logger.error(e);
 			}

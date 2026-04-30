@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 import org.apache.groovy.util.Maps;
-import org.apache.http.HttpResponse;
-import org.apache.http.entity.StringEntity;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionStatus;
@@ -291,7 +291,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		addresses.add(imageObj);
 		prodobj.add("addresses", addresses);
 
-		HttpResponse res = null;
+		ClassicHttpResponse res = null;
 
 		if (c.getId() < 0) {
 			res = client.doPost(getBaseUrl() + "customers.json", new StringEntity(obj.toString()), headers());
@@ -321,7 +321,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected void saveOrUpdateStock(List<MTGStockItem> it) throws IOException {
-		HttpResponse res = null;
+		ClassicHttpResponse res = null;
 
 		for (MTGStockItem c : it) {
 

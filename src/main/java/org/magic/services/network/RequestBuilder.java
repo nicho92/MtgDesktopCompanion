@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import org.apache.commons.io.input.BoundedInputStream;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.jsoup.nodes.Document;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.Chrono;
@@ -174,7 +174,7 @@ public class RequestBuilder {
 
 	}
 
-	public HttpResponse execute() throws IOException {
+	public ClassicHttpResponse execute() throws IOException {
 		if (client != null)
 			return client.execute(this);
 

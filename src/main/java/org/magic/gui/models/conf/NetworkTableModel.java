@@ -33,9 +33,9 @@ public class NetworkTableModel extends GenericTableModel<NetworkInfo> {
 			case 1 :
 				return items.get(row).getRequest().getURI();
 			case 5 :
-				return items.get(row).getResponse().getStatusLine().getReasonPhrase();
+				return items.get(row).getResponse().getReasonPhrase();
 			case 6 :
-				return items.get(row).getResponse().getStatusLine().getStatusCode();
+				return items.get(row).getResponse().getCode();
 			case 7 :
 				return items.get(row).getServer();
 			case 8 :
