@@ -1,5 +1,6 @@
-<project xmlns="https://maven.apache.org/POM/4.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="https://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>MagicDesktopCompanion</name>
 	<description>Cards manager for magic the gathering</description>
@@ -37,7 +38,8 @@
 	</licenses>
 	<scm>
 		<connection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</connection>
-		<developerConnection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</developerConnection>
+		<developerConnection>
+			scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</developerConnection>
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
 		<tag>HEAD</tag>
 	</scm>
@@ -52,7 +54,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.organization>nicho92-github</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		
+
 		<jwt.version>0.13.0</jwt.version>
 		<lucene.version>10.4.0</lucene.version>
 		<artemis.version>2.53.0</artemis.version>
@@ -64,11 +66,11 @@
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.28.0</commonmark.version>
-		<langchain4j.version>1.13.1</langchain4j.version>
+		<langchain4j.version>1.14.0</langchain4j.version>
 		<telegram.version>9.5.0</telegram.version>
 	</properties>
-	
-	
+
+
 	<repositories>
 		<repository>
 			<id>reposilite-repository-releases</id>
@@ -76,83 +78,83 @@
 			<url>https://repo.panda-lang.org/releases</url>
 		</repository>
 	</repositories>
-	
-<dependencies>
-	<dependency>
-	  <groupId>org.telegram</groupId>
-	  <artifactId>telegrambots-client</artifactId>
-	  <version>${telegram.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.telegram</groupId>
-	  <artifactId>telegrambots-longpolling</artifactId>
-	  <version>${telegram.version}</version>
-	</dependency>
-	<dependency>
-	  <groupId>org.telegram</groupId>
-	  <artifactId>telegrambots-abilities</artifactId>
-	  <version>${telegram.version}</version>
-	</dependency>
-	<dependency>
-	    <groupId>com.squareup.okio</groupId>
-	    <artifactId>okio-jvm</artifactId>
-	    <version>3.17.0</version>
-	    <scope>runtime</scope>
-	</dependency>
-	<dependency>
-	    <groupId>dev.langchain4j</groupId>
-	    <artifactId>langchain4j</artifactId>
-	    <version>${langchain4j.version}</version>
-	</dependency>
-	<dependency>
-	    <groupId>dev.langchain4j</groupId>
-	    <artifactId>langchain4j-google-ai-gemini</artifactId>
-	    <version>${langchain4j.version}</version>
-	</dependency>
-	<dependency>
-	    <groupId>dev.langchain4j</groupId>
-	    <artifactId>langchain4j-mistral-ai</artifactId>
-	    <version>${langchain4j.version}</version>
-	</dependency>
-	<dependency>
-	    <groupId>dev.langchain4j</groupId>
-	    <artifactId>langchain4j-open-ai</artifactId>
-	    <version>${langchain4j.version}</version>
-	</dependency>
-	<dependency>
-    <groupId>dev.langchain4j</groupId>
-    <artifactId>langchain4j-ollama</artifactId>
-    <version>${langchain4j.version}</version>
-</dependency>
-<dependency>
-    <groupId>dev.langchain4j</groupId>
-    <artifactId>langchain4j-anthropic</artifactId>
-    <version>${langchain4j.version}</version>
-</dependency>
-	<dependency>
-	    <groupId>org.mindrot</groupId>
-	    <artifactId>jbcrypt</artifactId>
-	    <version>0.4</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.drjekyll</groupId>
-	    <artifactId>fontchooser</artifactId>
-	    <version>3.1.0</version>
-	 </dependency>
+
+	<dependencies>
 		<dependency>
-		    <groupId>io.trino</groupId>
-		    <artifactId>trino-jdbc</artifactId>
-		    <version>480</version>
+			<groupId>org.telegram</groupId>
+			<artifactId>telegrambots-client</artifactId>
+			<version>${telegram.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.apache.tomcat</groupId>
-    		<artifactId>tomcat-jdbc</artifactId>
-    		<version>11.0.21</version>
+			<groupId>org.telegram</groupId>
+			<artifactId>telegrambots-longpolling</artifactId>
+			<version>${telegram.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.firebirdsql.jdbc</groupId>
-		    <artifactId>jaybird</artifactId>
-		    <version>6.0.5</version>
+			<groupId>org.telegram</groupId>
+			<artifactId>telegrambots-abilities</artifactId>
+			<version>${telegram.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okio</groupId>
+			<artifactId>okio-jvm</artifactId>
+			<version>3.17.0</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-google-ai-gemini</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-mistral-ai</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-open-ai</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-ollama</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-anthropic</artifactId>
+			<version>${langchain4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drjekyll</groupId>
+			<artifactId>fontchooser</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.trino</groupId>
+			<artifactId>trino-jdbc</artifactId>
+			<version>480</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+			<version>11.0.21</version>
+		</dependency>
+		<dependency>
+			<groupId>org.firebirdsql.jdbc</groupId>
+			<artifactId>jaybird</artifactId>
+			<version>6.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.yaml</groupId>
@@ -262,7 +264,7 @@
 			<artifactId>yauaa</artifactId>
 			<version>8.1.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
@@ -401,9 +403,9 @@
 			<version>${commonmark.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.commonmark</groupId>
-		    <artifactId>commonmark-ext-gfm-tables</artifactId>
-		    <version>${commonmark.version}</version>
+			<groupId>org.commonmark</groupId>
+			<artifactId>commonmark-ext-gfm-tables</artifactId>
+			<version>${commonmark.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -441,9 +443,9 @@
 			<version>1.14.1</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-fileupload2-jakarta</artifactId>
-		    <version>2.0.0-M1</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-fileupload2-jakarta</artifactId>
+			<version>2.0.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -487,9 +489,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-		    <groupId>org.zoomba-lang</groupId>
-		    <artifactId>spark-core</artifactId>
-		    <version>3.0.4</version>
+			<groupId>org.zoomba-lang</groupId>
+			<artifactId>spark-core</artifactId>
+			<version>3.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -744,18 +746,18 @@
 		<plugins>
 
 			<plugin>
-			    <groupId>com.diffplug.spotless</groupId>
-			    <artifactId>spotless-maven-plugin</artifactId>
-			    <version>3.4.0</version>
-			    <configuration>
-			       <java>
-			            <eclipse/>
-						<importOrder/>
-					    <removeUnusedImports />
-					    <formatAnnotations />
-					    <trimTrailingWhitespace/>
-			        </java>
-			    </configuration>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<java>
+						<eclipse />
+						<importOrder />
+						<removeUnusedImports />
+						<formatAnnotations />
+						<trimTrailingWhitespace />
+					</java>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -788,12 +790,12 @@
 				<version>2.1.0</version>
 				<configuration>
 					<programs>
-						
+
 						<program>
 							<mainClass>org.magic.main.MtgDesktopCompanion</mainClass>
 							<id>${program.id}</id>
 						</program>
-						
+
 						<program>
 							<mainClass>org.magic.main.ServerLauncher</mainClass>
 							<id>web-ui</id>
@@ -801,17 +803,17 @@
 								<commandLineArgument>"Web UI Server"</commandLineArgument>
 							</commandLineArguments>
 						</program>
-						
+
 						<program>
 							<mainClass>org.magic.main.ServerLauncher</mainClass>
 							<id>server-launch</id>
 						</program>
-						
+
 						<program>
 							<mainClass>org.magic.main.ScriptsUIClient</mainClass>
 							<id>script-launch</id>
 						</program>
-						
+
 					</programs>
 					<generateRepository>true</generateRepository>
 					<repositoryName>lib</repositoryName>
