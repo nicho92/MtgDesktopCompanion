@@ -229,4 +229,11 @@ public class URLTools {
 		return new String(content.readAllBytes(), StandardCharsets.UTF_8);
 	}
 
+	public static Map<String, String> createSecHeaders() {
+		
+		return Map.of("sec-ch-ua","\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"","sec-ch-ua-mobile","?0","sec-ch-ua-platform","\"Windows\"","sec-ch-viewport-height","368","sec-ch-viewport-width","1740","sec-fetch-dest","document","sec-fetch-mode","navigate","sec-fetch-site","same-origin","sec-fetch-user","?1","upgrade-insecure-requests","1");
+		
+		
+	}
+
 }
