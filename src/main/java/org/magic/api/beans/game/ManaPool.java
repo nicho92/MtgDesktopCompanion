@@ -54,7 +54,7 @@ public class ManaPool extends Observable implements Serializable {
 	public void useMana(MTGCard mc) {
 		if (mc.getCmc() == null)
 			return;
-		
+
 		var m = p.matcher(mc.getCost());
 
 		while (m.find()) {

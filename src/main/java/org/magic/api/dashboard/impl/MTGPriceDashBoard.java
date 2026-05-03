@@ -42,8 +42,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public MTGPriceDashBoard() {
 		p = Pattern.compile("\\[(.*?)\\]");
 	}
-	
-	
+
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
 		var list = new ArrayList<CardShake>();

@@ -34,9 +34,8 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	public List<Category> listCategories() throws IOException {
 		var cat = new ArrayList<Category>();
 		int i = 1;
-		for (var item : EnumItems.values()) 
+		for (var item : EnumItems.values())
 			cat.add(new Category(i++, item.name()));
-		
 
 		return cat;
 	}

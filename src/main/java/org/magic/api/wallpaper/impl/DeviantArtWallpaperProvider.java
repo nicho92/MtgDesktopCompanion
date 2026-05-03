@@ -1,5 +1,6 @@
 package org.magic.api.wallpaper.impl;
 
+import com.google.gson.JsonObject;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
@@ -19,8 +19,6 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
-
-import com.google.gson.JsonObject;
 
 public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
@@ -226,19 +224,16 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	}
 
 	public static void main(String[] args) {
-		
+
 		MTGControler.getInstance().loadAccountsConfiguration();
-				
+
 		var deviant = new DeviantArtWallpaperProvider();
-		
+
 		deviant.authenticatedClient();
-		
-		
+
 		System.exit(0);
 	}
-	
-	
-	
+
 	private void authenticatedClient() {
 		try {
 			RequestBuilder.build().get().setClient(httpclient).url(BASE_URL + "/users/login")
@@ -256,17 +251,16 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			maps.entrySet().forEach(e -> bstep2.addContent(e.getKey(), e.getValue()));
 			bstep2.addContent("username", getAuthenticator().getLogin()).addContent("referer", BASE_URL);
 			bstep2.addContent("remember", "on");
-			
-			bstep2.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-			.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
-			.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9");
+
+			bstep2.addHeader(URLTools.ACCEPT,
+					"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+					.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
+					.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9");
 			bstep2.addHeaders(URLTools.createSecHeaders());
 			bstep2.toHtml().select("input[type=hidden]").forEach(el -> maps.put(el.attr("name"), el.attr("value")));
-			
-			
-			httpclient.getCookies().forEach(c->System.out.println(c.getName() + " " + c.getValue()));
-			
-			
+
+			httpclient.getCookies().forEach(c -> System.out.println(c.getName() + " " + c.getValue()));
+
 			logger.debug("Step 2 done.  Completing data maps {}. Waiting 2 sec", maps);
 		} catch (Exception ex) {
 			logger.error("error at step 2 : {}", ex.getMessage());
@@ -280,28 +274,18 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 		try {
 			var bstep3 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/signin")
-					.addContent("remember", "on")
-					.addContent("referer", BASE_URL)
-					.addContent("referer_type", "")
+					.addContent("remember", "on").addContent("referer", BASE_URL).addContent("referer_type", "")
 					.addContent("password", getAuthenticator().getPassword())
-					.addHeader(URLTools.ACCEPT, "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+					.addHeader(URLTools.ACCEPT,
+							"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
 					.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
-					.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9")
-					.addHeaders(URLTools.createSecHeaders())
-					;
+					.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9").addHeaders(URLTools.createSecHeaders());
 
 			maps.entrySet().forEach(e -> bstep3.addContent(e.getKey(), e.getValue()));
 			var b = bstep3.toHtml();
-			
-			
-			
-			
+
 			maps.put(CSRF_TOKEN, extractCsrfToken(b.getAllElements()));
 
-			
-			
-			
-			
 			logger.debug("Step signin done. with csrf {}", maps.get(CSRF_TOKEN));
 		} catch (Exception ex) {
 			logger.error("error at signin : {}", ex.getMessage());
