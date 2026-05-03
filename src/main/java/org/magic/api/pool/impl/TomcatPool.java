@@ -76,7 +76,7 @@ public class TomcatPool extends AbstractPoolProvider {
 
 	@Override
 	public String getVersion() {
-		return "11.0.15";
+		return "11.0.21";
 	}
 
 	@Override
