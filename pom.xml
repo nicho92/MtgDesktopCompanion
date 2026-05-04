@@ -2,7 +2,7 @@
 	xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<name>MagicDesktopCompanion</name>
+	<name>MTGCompanion</name>
 	<description>Cards manager for magic the gathering</description>
 	<url>https://www.mtgcompanion.org</url>
 	<groupId>com.github.nicho92</groupId>
@@ -39,7 +39,8 @@
 	<scm>
 		<connection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</connection>
 		<developerConnection>
-			scm:git:https://github.com/nicho92/MtgDesktopCompanion.git</developerConnection>
+			scm:git:https://github.com/nicho92/MtgDesktopCompanion.git
+		</developerConnection>
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
 		<tag>HEAD</tag>
 	</scm>
@@ -54,7 +55,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.organization>nicho92-github</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
 		<jwt.version>0.13.0</jwt.version>
 		<lucene.version>10.4.0</lucene.version>
 		<artemis.version>2.53.0</artemis.version>
@@ -70,21 +70,19 @@
 		<telegram.version>9.5.0</telegram.version>
 	</properties>
 
-
 	<repositories>
 		<repository>
 			<id>reposilite-repository-releases</id>
 			<name>Panda-Lang repository</name>
 			<url>https://repo.panda-lang.org/releases</url>
 		</repository>
+		<repository>
+		        <id>github-swingx</id>
+		        <name>wumpz/swingx</name>
+		        <url>https://maven.pkg.github.com/wumpz/swingx</url>
+		    </repository>
+		</repositories>
 		
-	<repository>
-	        <id>github-swingx</id>
-	        <name>wumpz/swingx</name>
-	        <url>https://maven.pkg.github.com/wumpz/swingx</url>
-	    </repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 		  <groupId>org.swinglabs.swingx</groupId>
@@ -702,7 +700,6 @@
 			<artifactId>rome-utils</artifactId>
 			<version>${rome.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>net.coderazzi</groupId>
 			<artifactId>tablefilter-swing</artifactId>
@@ -730,6 +727,7 @@
 			<version>2.7.4</version>
 		</dependency>
 	</dependencies>
+	
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<resources>
@@ -843,6 +841,5 @@
 						
 		</plugins>
 	</build>
-
 
 </project>
