@@ -10,33 +10,27 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import org.jdatepicker.JDatePicker;
-import org.jdatepicker.UtilDateModel;
+import org.jdesktop.swingx.JXDatePicker;
 import org.magic.services.tools.UITools;
 
 public class DateTableCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
-	private JDatePicker picker;
-	private UtilDateModel model;
+	private JXDatePicker picker;
 	private boolean enableTime;
 	private JLabel l;
 
 	@Override
 	public Object getCellEditorValue() {
-		return model.getValue();
-
+		return picker.getDate();
 	}
 
 	public DateTableCellEditorRenderer() {
 		this(false);
-
 	}
 
 	public DateTableCellEditorRenderer(boolean enableTime) {
-		model = new UtilDateModel();
-		picker = new JDatePicker(model);
-		
+		picker = new JXDatePicker();
 		this.enableTime = enableTime;
 		l = new JLabel();
 		l.setOpaque(true);
@@ -70,7 +64,7 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		model.setValue((Date) value);
+		picker.setDate((Date)value);
 
 		return picker;
 	}
