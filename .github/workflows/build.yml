@@ -30,6 +30,17 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      - name: Setup settings.xml
+        uses: s4u/maven-settings-action@v2.4.1
+        with:
+          servers: |
+            [
+               {
+                  "id":"github-swingx",
+                  "username":"nicho92",
+                  "password":"${{ secrets.REPO_SWINGX_TOKEN }}"
+               }
+            ]
       - name: Sonar Sending
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
