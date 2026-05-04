@@ -730,7 +730,6 @@
 			<version>2.7.4</version>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<resources>
@@ -750,7 +749,8 @@
 			</resource>
 		</resources>
 		<plugins>
-
+			
+			<!-- Plugin to optimize source code-->
 			<plugin>
 				<groupId>com.diffplug.spotless</groupId>
 				<artifactId>spotless-maven-plugin</artifactId>
@@ -765,31 +765,8 @@
 					</java>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.8.1</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.14.1</version>
-				<executions>
-					<execution>
-						<id>log4j-plugin-processor</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<phase>process-classes</phase>
-						<configuration>
-							<proc>only</proc>
-							<annotationProcessors>
-								<annotationProcessor>
-									org.apache.logging.log4j.core.config.plugins.processor.PluginProcessor</annotationProcessor>
-							</annotationProcessors>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			
+			<!-- Plugin to create executable scripts-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
@@ -850,9 +827,11 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- Plugin put all needed jars in /lib directory in package goal-->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.3.1</version>
+				<version>3.5.0</version>
 				<executions>
 					<execution>
 						<id>copy-resources-system-jar</id>
@@ -873,24 +852,18 @@
 					</execution>
 				</executions>
 			</plugin>
+			
+			<!-- create a zip file with params : assembly:single-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.7.1</version>
+				<version>3.8.0</version>
 				<configuration>
 					<descriptors>
 						<descriptor>src/assembly/zip.xml</descriptor>
 					</descriptors>
 					<finalName>mtg-desktop-companion</finalName>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
