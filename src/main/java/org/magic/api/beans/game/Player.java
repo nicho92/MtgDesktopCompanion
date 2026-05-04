@@ -224,10 +224,8 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public void drawCard(int number) {
-		for (var i = 0; i < number; i++) {
-			hand.add(library.getCards().get(i));
-			library.getCards().remove(i);
-		}
+		for (var i = 0; i < number; i++) 
+			hand.add(library.getCards().remove(i));
 
 		if (number > 1)
 			logAction("Draw " + number + " cards");
@@ -269,10 +267,10 @@ public class Player extends Observable implements Serializable {
 
 		List<MTGCard> ret = new ArrayList<>();
 		for (var i = 0; i < parseInt; i++) {
-			MTGCard mc = library.getCards().get(i);
+			var mc = library.getCards().remove(i);
 			ret.add(mc);
 			graveyard.add(mc);
-			library.getCards().remove(i);
+			
 
 		}
 		logAction(DISCARD_TERM + parseInt + " cards from library");
