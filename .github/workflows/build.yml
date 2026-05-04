@@ -29,9 +29,13 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+          server-id: swingx-package
+          server-username: nicho92
+          server-password: MAVEN_TOKEN
       - name: Build and analyze
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.REPO_SWINGX_TOKEN }}
+          MAVEN_TOKEN: ${{ secrets.REPO_SWINGX_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=org.magic:magic-api
+     
