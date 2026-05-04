@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 23
+          distribution: 'oracle'
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
         with:
