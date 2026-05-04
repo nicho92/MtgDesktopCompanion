@@ -16,8 +16,10 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import org.apache.logging.log4j.Logger;
+import org.api.manapool.model.enums.EnumFinish;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
@@ -209,7 +211,8 @@ public class MTGJsonPricerProvider {
 			return ret;
 		}
 
-		for (var b : new Boolean[]{true, false}) {
+		for (var b : new Boolean[]{true, false}) 
+		{
 			try {
 				var mp = new MTGPrice();
 				mp.setCountry("None");

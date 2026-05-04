@@ -80,6 +80,25 @@
 	</repositories>
 
 	<dependencies>
+	<dependency>
+		    <groupId>io.github.homebeaver</groupId>
+		    <artifactId>swingx-core</artifactId>
+		    <version>1.7.9</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.jdatepicker</groupId>
+		    <artifactId>jdatepicker</artifactId>
+		    <version>2.0.0</version>
+		</dependency>
+<!-- 
+		<dependency>
+			<groupId>org.swinglabs.swingx</groupId>
+			<artifactId>swingx-all</artifactId>
+			<version>1.6.5-1</version>
+		</dependency>
+-->
+
 		<dependency>
 			<groupId>org.telegram</groupId>
 			<artifactId>telegrambots-client</artifactId>
@@ -692,11 +711,6 @@
 			<version>${rome.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.swinglabs.swingx</groupId>
-			<artifactId>swingx-all</artifactId>
-			<version>1.6.5-1</version>
-		</dependency>
 		<dependency>
 			<groupId>net.coderazzi</groupId>
 			<artifactId>tablefilter-swing</artifactId>

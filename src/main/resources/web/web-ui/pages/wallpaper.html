@@ -67,14 +67,27 @@
 			        url: restserver+"/wallpaper/"+$("#txtSearch").val()
 			    }).then(function(data) {
 			       	$(data).each(function( index,value ){
-			    		$(".gallery-container").append("<a href='"+value.url+"' target='_blank'><img src='"+value.urlThumb+"' alt='"+value.name+"' /></a>");
+			    		$(".gallery-container").append("<a class='gallery-entry' href='"+value.url+"' target='_blank' provider='"+value.provider+"'><img src='"+value.urlThumb+"' alt='"+(value.name + "/" + value.provider)+"' /></a>");
 					});
-			    	
 			       	$(".gallery-container").justifiedGallery();
-			       	
   	 			});
 			});
       		
+      		$.ajax({
+	  	        url: restserver+"/admin/plugins/list"
+	  	    }).then(function(data) {
+	  	    	
+	  	    	$(data.WALLPAPER).each(function( index,value ){
+	  	    		if(value.enabled)
+		    			$("#filterContainer").append("<button class='btn btn-info btn-circle filterBtn' prov ='"+value.name+"'>"+value.name+"</button> ");
+				});
+	  	    	
+	  	    	
+	  	    	$( ".filterBtn" ).click(function() {
+					var prov = $(this).attr('prov');
+					
+	  	    	} );
+	  	    });
 		});
 		
 		</script>
@@ -107,6 +120,22 @@
           </div>
         </div>
         
+        
+        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">filter</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Filter</p>
+                <br/>
+       			<div id="filterContainer"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
         
         
       </div>

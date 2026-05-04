@@ -185,7 +185,9 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			case 16 :
 				items.get(row).setComment(String.valueOf(aValue));
 				break;
-
+			case 18 :
+				items.get(row).setDateUpdate((Date)aValue);
+				break;
 			default :
 				break;
 		}

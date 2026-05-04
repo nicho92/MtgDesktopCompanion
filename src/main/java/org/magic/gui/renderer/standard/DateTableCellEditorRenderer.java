@@ -3,24 +3,28 @@ package org.magic.gui.renderer.standard;
 import java.awt.Component;
 import java.time.Instant;
 import java.util.Date;
+
 import javax.swing.AbstractCellEditor;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import org.jdesktop.swingx.JXDatePicker;
+
+import org.jdatepicker.JDatePicker;
+import org.jdatepicker.UtilDateModel;
 import org.magic.services.tools.UITools;
 
 public class DateTableCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
-	private JXDatePicker picker;
+	private JDatePicker picker;
+	private UtilDateModel model;
 	private boolean enableTime;
 	private JLabel l;
 
 	@Override
 	public Object getCellEditorValue() {
-		return picker.getDate();
+		return model.getValue();
 
 	}
 
@@ -30,7 +34,9 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 	}
 
 	public DateTableCellEditorRenderer(boolean enableTime) {
-		picker = new JXDatePicker();
+		model = new UtilDateModel();
+		picker = new JDatePicker(model);
+		
 		this.enableTime = enableTime;
 		l = new JLabel();
 		l.setOpaque(true);
@@ -64,7 +70,7 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		picker.setDate((Date) value);
+		model.setValue((Date) value);
 
 		return picker;
 	}
