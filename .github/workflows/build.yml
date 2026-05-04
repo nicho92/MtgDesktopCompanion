@@ -34,5 +34,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=org.magic:magic-api -Drepo.id=github-swingx -Drepo.login=nicho92 -Drepo.pwd=${{ secrets.REPO_SWINGX_TOKEN }}
+          MVN_TOKEN: ${{ secrets.REPO_SWINGX_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=org.magic:magic-api -Drepo.id=github-swingx -Drepo.login=nicho92 -Drepo.pwd=${MVN_TOKEN}
      
