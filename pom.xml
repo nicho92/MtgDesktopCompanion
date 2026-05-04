@@ -44,8 +44,8 @@
 		<tag>HEAD</tag>
 	</scm>
 	<ciManagement>
-		<system>Travis CI</system>
-		<url>https://travis-ci.org/nicho92/MtgDesktopCompanion</url>
+		<system>SonardCloud</system>
+		<url>https://sonarcloud.io/project/overview?id=org.magic:magic-api</url>
 	</ciManagement>
 
 	<properties>
@@ -750,23 +750,7 @@
 		</resources>
 		<plugins>
 			
-			<!-- Plugin to optimize source code-->
-			<plugin>
-				<groupId>com.diffplug.spotless</groupId>
-				<artifactId>spotless-maven-plugin</artifactId>
-				<version>3.4.0</version>
-				<configuration>
-					<java>
-						<eclipse />
-						<importOrder />
-						<removeUnusedImports />
-						<formatAnnotations />
-						<trimTrailingWhitespace />
-					</java>
-				</configuration>
-			</plugin>
-			
-			<!-- Plugin to create executable scripts-->
+			<!-- Plugin to create executable scripts package goal-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
@@ -827,33 +811,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			
-			<!-- Plugin put all needed jars in /lib directory in package goal-->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.5.0</version>
-				<executions>
-					<execution>
-						<id>copy-resources-system-jar</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>
-								${project.build.directory}/executable/lib
-							</outputDirectory>
-							<resources>
-								<resource>
-									<directory>lib</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<!-- create a zip file with params : assembly:single-->
+	
+			<!-- create a zip file: : assembly:single-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -865,6 +824,23 @@
 					<finalName>mtg-desktop-companion</finalName>
 				</configuration>
 			</plugin>
+			
+			<!-- Reformat source code : spotless:apply-->
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<java>
+						<eclipse />
+						<importOrder />
+						<removeUnusedImports />
+						<formatAnnotations />
+						<trimTrailingWhitespace />
+					</java>
+				</configuration>
+			</plugin>
+						
 		</plugins>
 	</build>
 
