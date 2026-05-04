@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Setup settings.xml
-        uses: s4u/maven-settings-action@v2.4.1
+        uses: s4u/maven-settings-action@v4.0.0
         with:
           servers: |
             [
