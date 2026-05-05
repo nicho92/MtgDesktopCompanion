@@ -1,548 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Magic The Gathering card manager">
-  <meta name="author" content="Nicolas Pihen">
-
-  <title>MTG Companion | Magic Cards Collections manager</title>
-  <meta name='impact-site-verification' value='0d409fce-1b91-4c41-a0df-03d765485202' />
-  <link rel="icon" href="favicon.ico" />
-  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.9.0/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
-  <link href="https://cdn.jsdelivr.net/npm/magnific-popup@latest/dist/magnific-popup.css" rel="stylesheet">
-  <link href="css/creative.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@latest/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery.easing@latest/jquery.easing.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/magnific-popup@latest/dist/jquery.magnific-popup.min.js"></script>
-  	<meta property="og:url"           content="https://www.mtgcompanion.org" />
+  	<meta charset="UTF-8" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MTG Companion | Magic Cards Collections manager</title>
+     <meta name='impact-site-verification' value='0d409fce-1b91-4c41-a0df-03d765485202' />
+	<meta property="og:url"           content="https://www.mtgcompanion.org" />
 	<meta property="og:type"          content="website" />
 	<meta property="og:title"         content="MTG Companion" />
 	<meta property="og:description"   content="Magic The Gathering card manager" />
 	<meta property="og:image"         content="https://www.mtgcompanion.org/img/logo.png" />
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-80494557-1"></script>
-	<script>
+	<link rel="icon" href="favicon.ico" />
+  	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  	<link href="css/mtgcomp.css" rel="stylesheet">
+  	<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.9.0/css/all.min.css" rel="stylesheet" type="text/css">
+  	
+  <style>
+ 
+
+  </style>
+  
+  <script>
 	  window.dataLayer = window.dataLayer || [];
 	  function gtag(){dataLayer.push(arguments);}
 	  gtag('js', new Date());
 	
 	  gtag('config', 'UA-80494557-1');
 	</script>
-<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+  
+</head>
+<body>
+
+<header>
+  <div class="logo">MTG Companion</div>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#portfolio">PortFolio</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+  	<img src="img/logo.png"><br/>
+    <h1>Your MTG Collection, Reinvented</h1>
+    <p>Stock. Track. Build. Master your collection.</p>
+    <div class="cta">
+      <button onclick="location.href='https://github.com/nicho92/MtgDesktopCompanion/releases'">Download Now</button>
+    </div>
+  </div>
+</section>
+
+<section class="features"  id="features">
+  
+  <div class="card" style="--i:2"><div class="icon">📚</div><h3>Collection Manager</h3><p>Organize and track your entire MTG inventory.</p></div>
+  <div class="card" style="--i:3"><div class="icon">🧠</div><h3>Deck Builder</h3><p>Create powerful decks with smart suggestions.</p></div>
+  <div class="card" style="--i:1"><div class="icon">📸</div><h3>Card Scanner</h3><p>Instantly scan your cards and add them to your collection.</p></div>
+  <div class="card" style="--i:4"><div class="icon">🌐</div><h3>Multi-source Search</h3><p>Search across multiple providers like Scryfall, MTGJSON and more.</p></div>
+  <div class="card" style="--i:5"><div class="icon">💰</div><h3>Real-time Prices</h3><p>Track live card prices and monitor your collection value.</p></div>
+  <div class="card" style="--i:6"><div class="icon">📱</div><h3>Mobility</h3><p>Access your collection anywhere, anytime across devices.</p></div>
+  <div class="card" style="--i:7"><div class="icon">🔔</div><h3>Alerts</h3><p>Get notified about price changes, new cards, and market trends.</p></div>
+  <div class="card" style="--i:8"><div class="icon">🔄</div><h3>Import / Export</h3><p>Support for many formats to easily migrate or share your data.</p></div>
+  <div class="card" style="--i:9"><div class="icon">📊</div><h3>Advanced Analysis</h3><p>Analyze your collection, decks, and performance with powerful tools.</p></div>
+  <div class="card" style="--i:10"><div class="icon">🧩</div><h3>Modularity</h3><p>Customize your experience with dozens of available plugins.</p></div>
+  <div class="card" style="--i:11"><div class="icon">🤖</div><h3>Automation Bots</h3><p>Integrations with Telegram, Discord, Chrome and more.</p></div>
+  <div class="card" style="--i:12"><div class="icon">🛒</div><h3>Order Management</h3><p>Track and manage your orders from online shops.</p></div>
+  <div class="card" style="--i:13"><div class="icon">🏪</div><h3>Online Store</h3><p>Browse and manage your own MTG online store.</p></div>
+</section>
+
+
+<section class="portfolio" id="portfolio">
+  <h2>Portfolio</h2>
+  <div class="portfolio-grid">
+    <div class="portfolio-item">
+      <img src="img/portfolio/fullsize/1.png" alt="Project 1">
+      <h4>Collection Management</h4>
+    </div>
+    <div class="portfolio-item">
+      <img src="img/portfolio/fullsize/2.png" alt="Project 2">
+      <h4>Web UI</h4>
+    </div>
+    <div class="portfolio-item">
+      <img src="img/portfolio/fullsize/3.png" alt="Project 3">
+      <h4>Deck Builder</h4>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Let's Get In Touch!</h2>
+   <div class="card" style="--i:1">
+   		<a href='https://twitter.com/mtgdesktopcomp1'> <div class="icon"><i class="fab fa-twitter fa-2x mb-3 text-muted"></i></div></a>
+    	<a href='https://www.facebook.com/profile.php?id=100070123874113'> <div class="icon"><i class="fab fa-facebook fa-2x mb-3 text-muted"></i></div></a>
+    	<a href='mailto:mtgdesktopcompanion@gmail.com'> <div class="icon"><i class="fas fa-envelope fa-2x mb-3 text-muted"></i></div></a>
+   		<a href='https://discord.com/api/oauth2/authorize?client_id=448196866774007808&permissions=0&scope=bot"'> <div class="icon"><i class="fas fa-robot fa-2x mb-3 text-muted"></i></div></a>
+   	</div>
+ 
+   
+</section>
+
+
+<footer>
+  © 2026 MTG Companion - All rights reserved
+</footer>
+
 <script>
-  kofiWidgetOverlay.draw('mtgcompanion', {
-    'type': 'floating-chat',
-    'floating-chat.donateButton.text': 'Support me',
-    'floating-chat.donateButton.background-color': '#f45d22',
-    'floating-chat.donateButton.text-color': '#fff'
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('section, .card, .portfolio-item').forEach(el => {
+    el.classList.add('reveal');
+    observer.observe(el);
   });
 </script>
-</head>
-
-<body id="page-top">
-	<a href="https://github.com/nicho92/MtgDesktopCompanion"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 1100" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_orange_ff7600.png?resize=149%2C149" alt="Fork me on GitHub"></a>
-<!-- Messenger Plugin de discussion Code -->
-    <div id="fb-root"></div>
-
-    <!-- Your Plugin de discussion code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
-    </div>
-
-    <script>
-      var chatbox = document.getElementById('fb-customer-chat');
-      chatbox.setAttribute("page_id", "100844705605708");
-      chatbox.setAttribute("attribution", "biz_inbox");
-    </script>
-
-    <!-- Your SDK code -->
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml            : true,
-          version          : 'v13.0'
-        });
-      };
-
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/fr_FR/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    </script>
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
-    <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top"><img src="img/logo.png"/>&nbsp;MTG Companion</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto my-2 my-lg-0">
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
-          </li>
-          <li class="nav-item">
-          	<a class="nav-link js-scroll-trigger" href="#download">Download</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="https://www.paypal.com/donate/?business=ZXJKNZZQ2S7US&no_recurring=0&item_name=Help+me+to+continue+MTGCompanion+developpement%2C+and+online+service+like+Discord+bot+&currency_code=EUR">Donation</a>
-          </li>
-          
-          
-          
-        </ul>
-      </div>
-     </div>
-  </nav>
-
-  <!-- Masthead -->
-  <header class="masthead">
-    <div class="container h-100">
-      <div class="row h-100 align-items-center justify-content-center text-center">
-        <div class="col-lg-10 align-self-end">
-          <h1 class="text-uppercase text-white font-weight-bold">Magic The Gathering Companion</h1>
-          <hr class="divider my-4">
-        </div>
-        <div class="col-lg-8 align-self-baseline">
-          <p class="text-white-75 font-weight-light mb-5">Collection Manager for Magic The Gathering : Prices, Stats, Decks builder, multi import/export</p>
-          <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- About Section -->
-  <section class="page-section bg-primary" id="about">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8 text-center">
-          <h2 class="text-white mt-0">I provided what you need!</h2>
-          <hr class="divider light my-4">
-          <p class="text-white-50 mb-4">MTG Companion has everything you need for your Magic Cards Collection : Search Engine, personnal Dashboard, DeckBuilder, Prices Checker, Stock Management, all import/export</p>
-          <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services Section -->
-  <section class="page-section" id="services">
-    <div class="container">
-      <h2 class="text-center mt-0">At Your Service</h2>
-      <hr class="divider my-5">
-      <div class="row">
-        <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-search text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Multi provider search engines</h3>
-            <p class="text-muted mb-0">Scryfall, Mtgjson,...</p>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-money-bill-wave text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Real time prices</h3>
-            <p class="text-muted mb-0">Check cards values from many online providers</p>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-hammer text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Deck Builder</h3>
-            <p class="text-muted mb-0">Create your deck, or import it from websites</p>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-mobile-alt text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Mobility</h3>
-            <p class="text-muted mb-0">Manage your collection on your mobile</p>
-          </div>
-        </div>
-		<div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-bell text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Alert</h3>
-            <p class="text-muted mb-0">Be notified for your alerted cards</p>
-          </div>
-        </div>
-		<div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-cubes text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Stock</h3>
-            <p class="text-muted mb-0">Manage your stock, foils, quality,...</p>
-          </div>
-        </div>
-		<div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-file-import text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Import/Export</h3>
-            <p class="text-muted mb-0">Many online services import/export</p>
-          </div>
-        </div>
-		
-		<div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-chart-line text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Analysis</h3>
-            <p class="text-muted mb-0">Analyze your collection, cards, spikes</p>
-          </div>
-        </div>	
-        	
-		<div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-plug text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Modularity</h3>
-            <p class="text-muted mb-0">Choose your configuration among dozens of plugins</p>
-          </div>
-        </div>
-        
-       <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-comment-alt text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Crossplatform</h3>
-            <p class="text-muted mb-0">Telegram, Discord bot, Chrome plugin,...</p>
-          </div>
-        </div>		
-       <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-newspaper text-primary mb-4"></i>
-            <h3 class="h4 mb-2">News</h3>
-            <p class="text-muted mb-0">News reader from rss, twitter,...</p>
-          </div>
-        </div>		
-         <div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-piggy-bank text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Orders</h3>
-            <p class="text-muted mb-0">get your financial Dashboards</p>
-          </div>
-        </div> 
-         
-  		<div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-store text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Online Store</h3>
-            <p class="text-muted mb-0">Get your one click online store</p>
-          </div>
-        </div> 
-		
-		<div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <i class="fas fa-4x fa-external-link-alt text-primary mb-4"></i>
-            <h3 class="h4 mb-2">Multi-Services</h3>
-            <p class="text-muted mb-0">manage your external stock and transactions</p>
-          </div>
-        </div> 
-		<div class="col-lg-3 col-md-6 text-center">
-          <div class="mt-5">
-            <img src="https://static.cardmarket.com/img/5d8d1b8b4cacaf8f53f62ec483d7b124/Downloads/Logos/CardmarketLogoTagline_Blue_Vertical_V23042018.png" width="90" height="90"/>
-            <h3 class="h4 mb-2">Mkm Power</h3>
-            <p class="text-muted mb-0">full integration with the Plateform</p>
-          </div>
-        </div> 
-
-        		
-      </div>
-    </div>
-  </section>
-
-  <!-- Portfolio Section -->
-  <section id="portfolio">
-  <h2 class="text-center mt-0">Portfolio</h2>
-    <hr class="divider my-5"></hr>
-    <div class="container-fluid p-0">
-      <div class="row no-gutters">
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/1.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/1.png" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Search
-              </div>
-              <div class="project-name">
-                PowerFull multi-engines
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/2.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/2.png" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Web
-              </div>
-              <div class="project-name">
-                Embedded WEb Ui
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/3.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/3.png" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                DeckBuilding
-              </div>
-              <div class="project-name">
-                Sealed and draft
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/4.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/4.png" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Analysis
-              </div>
-              <div class="project-name">
-                Everything you need to evaluate your collections and deck
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/5.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/5.png" alt="">
-            <div class="portfolio-box-caption">
-              <div class="project-category text-white-50">
-                Alert !
-              </div>
-              <div class="project-name">
-                Stay tuned with your searched cards prices variations
-              </div>
-            </div>
-          </a>
-        </div>
-        <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/6.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/6.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-               Complete your collection !
-              </div>
-            </div>
-          </a>
-        </div>
-
-		<div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/8.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/8.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-               Be aware of prices variations
-              </div>
-            </div>
-          </a>
-        </div>
-
-		<div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/10.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/10.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-               Have fun and build your own cards
-              </div>
-            </div>
-          </a>
-        </div>
-
- 		
-		<div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/9.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/9.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-               Search for best prices
-              </div>
-            </div>
-          </a>
-        </div>
-	
-		 <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/13.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/13.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-                Build your deck and try it 
-              </div>
-            </div>
-          </a>
-        </div>
-		
-		 <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/12.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/12.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-                Chat with your app throught Discord !!
-              </div>
-            </div>
-          </a>
-        </div>
-		
-		
-		 <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/14.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/14.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-                Manage your stock with mass modification
-              </div>
-            </div>
-          </a>
-        </div>
-
- 		<div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/15.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/15.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-                Personnalize your thematic dashbord, evaluate your collection
-              </div>
-            </div>
-          </a>
-        </div>
-
-		<div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/17.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/17.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-               Watch your spending and sells 
-              </div>
-            </div>
-          </a>
-        </div>
-		
-
-		 <div class="col-lg-4 col-sm-6">
-          <a class="portfolio-box" href="img/portfolio/fullsize/7.png">
-            <img class="img-fluid" src="img/portfolio/fullsize/7.png" alt="">
-            <div class="portfolio-box-caption p-3">
-              <div class="project-category text-white-50">
-               Collect
-              </div>
-              <div class="project-name">
-                One click online web commerce
-              </div>
-            </div>
-          </a>
-        </div>
-
-
-
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Call to Action Section -->
-  <section class="page-section bg-dark text-white" id="download">
-    <div class="container text-center">
-      <h2 class="mb-4">Free Download at Github</h2>
-      <a class="btn btn-light btn-xl" href="https://github.com/nicho92/MtgDesktopCompanion/releases">Download Now!</a>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section class="page-section" id="contact">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8 text-center">
-          <h2 class="mt-0">Let's Get In Touch!</h2>
-          <hr class="divider my-4">
-          <p class="text-muted mb-5">Ready to use ? any question ? you can follow or contact me </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 ml-auto text-center mb-5 mb-lg-0">
-          <i class="fab fa-twitter fa-3x mb-3 text-muted"></i>
-		  <a class="d-block" href="https://twitter.com/mtgdesktopcomp1">@mtgdesktopcomp1</a>
-        </div>
-        <div class="col-lg-4 mr-auto text-center">
-          <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
-          <a class="d-block" href="mailto:mtgdesktopcompanion@gmail.com">mtgdesktopcompanion@gmail.com</a>
-        </div>
-        <div class="col-lg-4 mr-auto text-center">
-          <i class="fab fa-discord fa-3x mb-3 text-muted"></i>
-          <a class="d-block" href="https://discord.gg/VKrUYah">Discord</a>
-        </div>
-        <div class="col-lg-4 mr-auto text-center">
-          <i class="fab fa-facebook fa-3x mb-3 text-muted"></i>
-          <a class="d-block" href="https://www.facebook.com/profile.php?id=100070123874113">Facebook</a>
-        </div>
-        <div class="col-lg-4 mr-auto text-center">
-          <i class="fab fa-patreon fa-3x mb-3 text-muted"></i>
-          <a class="d-block" href="https://www.patreon.com/mtgcompanion">Patreon</a>
-        </div>
- 		<div class="col-lg-4 mr-auto text-center">
-          <i class="fas fa-robot fa-3x mb-3 text-muted"></i>
-          <a class="d-block" href="https://discord.com/api/oauth2/authorize?client_id=448196866774007808&permissions=0&scope=bot">Try the discord bot</a>
-        </div>
-		</div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-light py-5">
-    <div class="container">
-      <div class="small text-center text-muted">Copyright &copy; 2024 - Magic Companion</div>
-    </div>
-  </footer>
-
-
-  <script src="js/creative.min.js"></script>
 
 </body>
-
 </html>
