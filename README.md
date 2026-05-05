@@ -1,5 +1,4 @@
-<img width="973" height="514" alt="399291cf-25b4-40ee-bf47-bda9fa25742e" src="https://github.com/user-attachments/assets/285f8499-bab1-4495-bfeb-02e31502fea9" />
-
+<img width="972" height="514" alt="399291cf-25b4-40ee-bf47-bda9fa25742e" src="https://github.com/user-attachments/assets/ce6ff292-9905-4d4b-80ae-0ffd7b012f13" />
 
 # Magic The Gathering Desktop Companion
 
