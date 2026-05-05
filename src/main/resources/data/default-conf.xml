@@ -493,10 +493,6 @@
       <class>org.magic.api.dao.impl.FirebirdDAO</class>
       <enable>false</enable>
     </dao>
-    <dao>
-      <class>org.magic.api.dao.impl.TrinoDBDAO</class>
-      <enable>false</enable>
-    </dao>
   </daos>
   <pictures>
     <picture>

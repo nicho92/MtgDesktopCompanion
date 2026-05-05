@@ -151,14 +151,9 @@
 			<version>3.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>io.trino</groupId>
-			<artifactId>trino-jdbc</artifactId>
-			<version>480</version>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
-			<version>11.0.21</version>
+			<version>11.0.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.firebirdsql.jdbc</groupId>
@@ -347,7 +342,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.21.2</version>
+			<version>3.21.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
