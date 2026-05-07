@@ -103,7 +103,7 @@ public class ImageTools {
 								if (distance <= thickness) {
 									int neighbor = result.getRGB(nx, ny);
 									int neighborAlpha = (neighbor >> 24) & 0xff;
-									if (neighborAlpha == 0) 
+									if (neighborAlpha == 0)
 										result.setRGB(nx, ny, outlineRGB);
 								}
 							}
@@ -113,9 +113,9 @@ public class ImageTools {
 			}
 		}
 		var g2d = result.createGraphics();
-			 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			 g2d.drawImage(sourceImage, 0, 0, null);
-			 g2d.dispose();
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.drawImage(sourceImage, 0, 0, null);
+		g2d.dispose();
 		return new ImageIcon(result);
 	}
 
