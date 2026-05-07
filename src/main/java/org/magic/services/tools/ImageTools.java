@@ -113,8 +113,7 @@ public class ImageTools {
 							if (nx >= 0 && nx < width &&
 									ny >= 0 && ny < height) {
 
-								double distance =
-										Math.sqrt(dx * dx + dy * dy);
+								double distance = Math.sqrt((double)dx * (double)dx + (double)dy * (double)dy);
 
 								if (distance <= thickness) {
 
