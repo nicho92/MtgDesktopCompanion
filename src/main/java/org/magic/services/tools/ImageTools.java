@@ -73,6 +73,86 @@ public class ImageTools {
 		}
 	}
 
+	public static ImageIcon addOutline(ImageIcon sourceIcon,Color outlineColor, int thickness) {
+
+		int width = sourceIcon.getIconWidth();
+		int height = sourceIcon.getIconHeight();
+
+		// Convertit ImageIcon -> BufferedImage
+		BufferedImage sourceImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D gSource = sourceImage.createGraphics();
+		sourceIcon.paintIcon(null, gSource, 0, 0);
+		gSource.dispose();
+
+		// Image résultat
+		BufferedImage result = new BufferedImage(
+				width,
+				height,
+				BufferedImage.TYPE_INT_ARGB
+				);
+
+		int outlineRGB = outlineColor.getRGB();
+
+		// Création du contour
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+
+				int pixel = sourceImage.getRGB(x, y);
+				int alpha = (pixel >> 24) & 0xff;
+
+				// Pixel visible
+				if (alpha > 0) {
+
+					for (int dx = -thickness; dx <= thickness; dx++) {
+						for (int dy = -thickness; dy <= thickness; dy++) {
+
+							int nx = x + dx;
+							int ny = y + dy;
+
+							if (nx >= 0 && nx < width &&
+									ny >= 0 && ny < height) {
+
+								double distance =
+										Math.sqrt(dx * dx + dy * dy);
+
+								if (distance <= thickness) {
+
+									int neighbor =
+											result.getRGB(nx, ny);
+
+									int neighborAlpha =
+											(neighbor >> 24) & 0xff;
+
+									if (neighborAlpha == 0) {
+										result.setRGB(nx, ny, outlineRGB);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Dessine l'image originale par-dessus
+		Graphics2D g2d = result.createGraphics();
+
+		g2d.setRenderingHint(
+				RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON
+				);
+
+		g2d.drawImage(sourceImage, 0, 0, null);
+
+		g2d.dispose();
+
+		// Retourne un nouvel ImageIcon
+		return new ImageIcon(result);
+	}
+
+
+
 	public static BufferedImage rotate(BufferedImage img, double angle) {
 		double angleRadians = Math.toRadians(angle);
 		int width = img.getWidth();

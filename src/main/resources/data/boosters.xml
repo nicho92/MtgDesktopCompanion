@@ -2866,6 +2866,29 @@
 		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/5DBkWOEJ02sWQGXU6Xm2Nd/55d67acb6851a177b90fb032cdc306c6/3H8hMTEhhnho_660x237.png"/>
 	</edition>
 	
+	<edition id="TMT">
+		<set lang="en" num="1" url="https://images.ctfassets.net/0piqveu8x9oj/41W98yCyjZDPNiljePlNXH/2045384c2d3a7b6639fe22cb4ac2a171/MTGTMT_EN_MSL_4C.png"/>
+	</edition>
+	
+	<edition id="SOS">
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/6O0T3skU73PlysUcjb6J6H/cb3c1c9ca5eaf1a561c96feef40e5ec7/aGSsV8XgZARtbGS_660x237_EN.png"/>
+	</edition>
+	
+		<edition id="MSH">
+		<set lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_wXkCkDvAqW.webp"/>
+	</edition>
+	
+	<edition id="HOB">
+		<set lang="en" num="1" url="https://media.wizards.com/2025/images/daily/en_i8gefwH6n7.webp"/>
+	</edition>
+	
+		<edition id="FRA">
+		<set lang="en" num="1" url="https://media.wizards.com/2025/images/daily/sIFj3DEdVS.webp"/>
+	</edition>
+	
+	
+	
+	
 	
 
 </boosterUrls>

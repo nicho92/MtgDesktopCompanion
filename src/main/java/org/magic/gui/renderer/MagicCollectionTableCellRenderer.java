@@ -11,6 +11,7 @@ import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
@@ -30,7 +31,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 			pane = new DoubleCellEditorRenderer(true, false).getTableCellRendererComponent(table, value, isSelected,
 					hasFocus, row, column);
 		} else if (value instanceof ImageIcon ic) {
-			pane = new JLabel(ic);
+			pane = new JLabel(ImageTools.addOutline(ic, Color.WHITE, 1));
 			((JLabel) pane).setOpaque(true);
 		} else if (value instanceof Boolean) {
 			pane = new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,
