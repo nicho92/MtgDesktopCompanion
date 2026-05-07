@@ -3,13 +3,11 @@ package org.magic.gui.renderer.standard;
 import java.awt.Component;
 import java.time.Instant;
 import java.util.Date;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-
 import org.jdesktop.swingx.JXDatePicker;
 import org.magic.services.tools.UITools;
 
@@ -64,7 +62,7 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		picker.setDate((Date)value);
+		picker.setDate((Date) value);
 
 		return picker;
 	}

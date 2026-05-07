@@ -73,24 +73,20 @@ public class ImageTools {
 		}
 	}
 
-	public static ImageIcon addOutline(ImageIcon sourceIcon,Color outlineColor, int thickness) {
+	public static ImageIcon addOutline(ImageIcon sourceIcon, Color outlineColor, int thickness) {
 
 		int width = sourceIcon.getIconWidth();
 		int height = sourceIcon.getIconHeight();
 
 		// Convertit ImageIcon -> BufferedImage
-		BufferedImage sourceImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+		BufferedImage sourceImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D gSource = sourceImage.createGraphics();
 		sourceIcon.paintIcon(null, gSource, 0, 0);
 		gSource.dispose();
 
 		// Image résultat
-		BufferedImage result = new BufferedImage(
-				width,
-				height,
-				BufferedImage.TYPE_INT_ARGB
-				);
+		BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
 		int outlineRGB = outlineColor.getRGB();
 
@@ -110,18 +106,15 @@ public class ImageTools {
 							int nx = x + dx;
 							int ny = y + dy;
 
-							if (nx >= 0 && nx < width &&
-									ny >= 0 && ny < height) {
+							if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
 
-								double distance = Math.sqrt((double)dx * (double)dx + (double)dy * (double)dy);
+								double distance = Math.sqrt((double) dx * (double) dx + (double) dy * (double) dy);
 
 								if (distance <= thickness) {
 
-									int neighbor =
-											result.getRGB(nx, ny);
+									int neighbor = result.getRGB(nx, ny);
 
-									int neighborAlpha =
-											(neighbor >> 24) & 0xff;
+									int neighborAlpha = (neighbor >> 24) & 0xff;
 
 									if (neighborAlpha == 0) {
 										result.setRGB(nx, ny, outlineRGB);
@@ -137,10 +130,7 @@ public class ImageTools {
 		// Dessine l'image originale par-dessus
 		Graphics2D g2d = result.createGraphics();
 
-		g2d.setRenderingHint(
-				RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON
-				);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		g2d.drawImage(sourceImage, 0, 0, null);
 
@@ -149,8 +139,6 @@ public class ImageTools {
 		// Retourne un nouvel ImageIcon
 		return new ImageIcon(result);
 	}
-
-
 
 	public static BufferedImage rotate(BufferedImage img, double angle) {
 		double angleRadians = Math.toRadians(angle);

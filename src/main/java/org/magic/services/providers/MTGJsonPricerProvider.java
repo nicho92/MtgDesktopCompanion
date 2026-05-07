@@ -1,5 +1,10 @@
 package org.magic.services.providers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
@@ -24,12 +28,6 @@ import org.magic.services.providers.MTGJsonPricerProvider.SUPPORT;
 import org.magic.services.providers.MTGJsonPricerProvider.VENDOR;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 
 public class MTGJsonPricerProvider {
 	public enum SUPPORT {
@@ -211,8 +209,7 @@ public class MTGJsonPricerProvider {
 			return ret;
 		}
 
-		for (var b : new Boolean[]{true, false}) 
-		{
+		for (var b : new Boolean[]{true, false}) {
 			try {
 				var mp = new MTGPrice();
 				mp.setCountry("None");

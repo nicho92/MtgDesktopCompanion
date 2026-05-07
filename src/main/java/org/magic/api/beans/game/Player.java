@@ -224,7 +224,7 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public void drawCard(int number) {
-		for (var i = 0; i < number; i++) 
+		for (var i = 0; i < number; i++)
 			hand.add(library.getCards().remove(i));
 
 		if (number > 1)
@@ -270,7 +270,6 @@ public class Player extends Observable implements Serializable {
 			var mc = library.getCards().remove(i);
 			ret.add(mc);
 			graveyard.add(mc);
-			
 
 		}
 		logAction(DISCARD_TERM + parseInt + " cards from library");

@@ -41,7 +41,7 @@ public enum EnumPromoType implements MTGEnumeration {
 	DRAFTWEEKEND, @SerializedName(alternate = "duels", value = "DUELS")
 	DUELS, @SerializedName(alternate = "embossed", value = "EMBOSSED")
 	EMBOSSED, @SerializedName(alternate = "event", value = "EVENT")
-	EVENT,  @SerializedName(alternate = "facetfoil", value = "FACETFOIL")
+	EVENT, @SerializedName(alternate = "facetfoil", value = "FACETFOIL")
 	FACETFOIL, @SerializedName(alternate = "ffi", value = "FFI")
 	FFI, @SerializedName(alternate = "ffii", value = "FFII")
 	FFII, @SerializedName(alternate = "ffiii", value = "FFIII")
