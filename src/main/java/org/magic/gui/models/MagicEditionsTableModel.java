@@ -1,5 +1,6 @@
 package org.magic.gui.models;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconsProvider;
+import org.magic.services.tools.ImageTools;
 
 public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
@@ -87,7 +89,8 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 	public Object getValueAt(int row, int column) {
 		MTGEdition e = items.get(row);
 		if (column == 0)
-			return IconsProvider.getInstance().get24(e.getId());
+			return ImageTools.addOutline(IconsProvider.getInstance().get24(e.getId()), new Color(255, 255, 255, 180),
+					1);
 
 		if (column == 1)
 			return e;

@@ -11,7 +11,6 @@ import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
@@ -21,50 +20,61 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Color c;
-	private Component pane;
+
+	// Reuse renderers
+	private DoubleCellEditorRenderer doubleRenderer;
+	private BooleanCellEditorRenderer booleanRenderer;
+	private DateTableCellEditorRenderer dateRenderer;
+	private JLabel iconLabel;
+
+	public MagicCollectionTableCellRenderer() {
+
+		doubleRenderer = new DoubleCellEditorRenderer(true, false);
+		booleanRenderer = new BooleanCellEditorRenderer();
+		dateRenderer = new DateTableCellEditorRenderer();
+		iconLabel = new JLabel();
+		iconLabel.setOpaque(true);
+	}
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
+		Component pane;
+
 		if (value instanceof Double) {
-			pane = new DoubleCellEditorRenderer(true, false).getTableCellRendererComponent(table, value, isSelected,
-					hasFocus, row, column);
+			pane = doubleRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		} else if (value instanceof ImageIcon ic) {
-			pane = new JLabel(ImageTools.addOutline(ic, Color.WHITE, 1));
-			((JLabel) pane).setOpaque(true);
+			iconLabel.setIcon(ic);
+			pane = iconLabel;
 		} else if (value instanceof Boolean) {
-			pane = new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,
-					row, column);
+			pane = booleanRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		} else if (value instanceof Date) {
-			pane = new DateTableCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,
-					row, column);
+			pane = dateRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		} else {
 			pane = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
 
 		pane.setBackground(c);
+		pane.setForeground(Color.BLACK);
 
 		double val = (double) table.getValueAt(row, 4);
 
-		if (val > 0.0 && val < 0.5) {
-			pane.setBackground(MTGConstants.COLLECTION_1PC);
-			pane.setForeground(Color.BLACK);
-		}
-
-		if (val >= 0.5) {
-			pane.setBackground(MTGConstants.COLLECTION_50PC);
-			pane.setForeground(Color.BLACK);
-		}
-
-		if (val >= 0.9) {
-			pane.setBackground(MTGConstants.COLLECTION_90PC);
-			pane.setForeground(Color.BLACK);
-		}
-
-		if (val >= 1) {
+		if (val >= 1.0) {
 			pane.setBackground(MTGConstants.COLLECTION_100PC);
-			pane.setForeground(Color.BLACK);
+
+		} else if (val >= 0.9) {
+			pane.setBackground(MTGConstants.COLLECTION_90PC);
+
+		} else if (val >= 0.5) {
+			pane.setBackground(MTGConstants.COLLECTION_50PC);
+
+		} else if (val > 0.0) {
+			pane.setBackground(MTGConstants.COLLECTION_1PC);
+
+		} else {
+			pane.setBackground(table.getBackground());
+			pane.setForeground(table.getForeground());
 		}
 
 		if (isSelected)
