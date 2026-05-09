@@ -70,6 +70,7 @@ import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
+import org.magic.gui.components.dialog.PromptDialog;
 import org.magic.gui.components.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.components.prices.DeckPricePanel;
 import org.magic.gui.components.tech.CriteriaComponent;
@@ -385,9 +386,16 @@ public class ConstructPanel extends MTGUIComponent {
 
 		btnIA.addActionListener(_ -> {
 
-			var description = JOptionPane.showInputDialog("Description of your deck ?");
+//			var description = JOptionPane.showInputDialog("Description of your deck ?");
+			
+			PromptDialog diag = new PromptDialog();
+			diag.setVisible(true);
+			
+			var description = diag.getPrompt();
+			
+			
 
-			if (description == null)
+			if (description == null || description.isEmpty())
 				return;
 
 			buzyLabel.start();
