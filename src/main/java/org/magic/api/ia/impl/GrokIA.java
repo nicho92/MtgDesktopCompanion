@@ -3,6 +3,7 @@ package org.magic.api.ia.impl;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import org.magic.api.beans.technical.MTGProperty;
@@ -47,6 +48,11 @@ public class GrokIA extends AbstractIA {
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return List.of(API_KEY);
+	}
+
+	@Override
+	public Color getChatColor() {
+		return new Color(20, 103, 181);
 	}
 
 }

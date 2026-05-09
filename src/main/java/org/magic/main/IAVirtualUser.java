@@ -2,7 +2,6 @@ package org.magic.main;
 
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.service.AiServices;
-import java.awt.Color;
 import java.io.IOException;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.TalkMessage;
@@ -31,7 +30,7 @@ public class IAVirtualUser {
 
 		var p = new Player(plug.getName());
 		p.setAvatar(ImageTools.toImage(plug.getIcon()));
-		p.setColor(Color.ORANGE);
+		p.setColor(plug.getChatColor());
 
 		client.join(p, address, ActiveMQServer.DEFAULT_TOPIC);
 

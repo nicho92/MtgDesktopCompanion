@@ -4,6 +4,7 @@ import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.mistralai.MistralAiChatModel;
 import dev.langchain4j.model.mistralai.MistralAiChatModelName;
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,11 @@ public class MistralAI extends AbstractIA {
 		map.put("MODEL", new MTGProperty(MistralAiChatModelName.MISTRAL_SMALL_LATEST.name(), "choose langage model",
 				Arrays.stream(MistralAiChatModelName.values()).map(Enum::name).toList().toArray(new String[0])));
 		return map;
+	}
+
+	@Override
+	public Color getChatColor() {
+		return Color.ORANGE;
 	}
 
 }

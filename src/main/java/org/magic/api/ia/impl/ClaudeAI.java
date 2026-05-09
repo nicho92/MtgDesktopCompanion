@@ -4,6 +4,7 @@ import dev.langchain4j.model.anthropic.AnthropicChatModel;
 import dev.langchain4j.model.anthropic.AnthropicChatModelName;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,11 @@ public class ClaudeAI extends AbstractIA {
 				"choose langage model",
 				Arrays.stream(AnthropicChatModelName.values()).map(Enum::name).toList().toArray(new String[0])));
 		return map;
+	}
+
+	@Override
+	public Color getChatColor() {
+		return new Color(128, 55, 10);
 	}
 
 }

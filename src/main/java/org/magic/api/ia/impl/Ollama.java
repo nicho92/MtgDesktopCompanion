@@ -3,6 +3,7 @@ package org.magic.api.ia.impl;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.ollama.OllamaChatModel;
+import java.awt.Color;
 import java.util.Map;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
@@ -49,6 +50,11 @@ public class Ollama extends AbstractIA {
 			b.responseFormat(format);
 
 		return b.build();
+	}
+
+	@Override
+	public Color getChatColor() {
+		return Color.BLACK;
 	}
 
 }

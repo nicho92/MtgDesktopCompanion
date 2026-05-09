@@ -3,6 +3,7 @@ package org.magic.api.ia.impl;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
+import java.awt.Color;
 import java.util.List;
 import java.util.Map;
 import org.magic.api.beans.technical.MTGProperty;
@@ -39,6 +40,11 @@ public class Gemini extends AbstractIA {
 				new MTGProperty("gemini-2.5-flash", "choose langage model", "gemini-3-pro-preview", "gemini-2.5-pro",
 						"gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash", "gemini-2.0-flash-lite"));
 		return map;
+	}
+
+	@Override
+	public Color getChatColor() {
+		return new Color(82, 20, 181);
 	}
 
 }

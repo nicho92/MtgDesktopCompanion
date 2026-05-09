@@ -27,7 +27,7 @@ public class ManaPanel extends JPanel {
 		setLayout(fl);
 		p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
 	}
-	
+
 	public String getManaCost() {
 		return manaCost;
 	}
@@ -40,7 +40,6 @@ public class ManaPanel extends JPanel {
 
 		manaCost = manaCost.replace("{}", "");
 
-		
 		var m = p.matcher(manaCost);
 
 		fl.setVgap(0);
@@ -59,7 +58,7 @@ public class ManaPanel extends JPanel {
 			lab.setIcon(new ImageIcon(img.getScaledInstance(w, MTGConstants.TABLE_ROW_HEIGHT, Image.SCALE_DEFAULT)));
 			lab.setHorizontalAlignment(SwingConstants.CENTER);
 			add(lab);
-			
+
 			revalidate();
 			repaint();
 

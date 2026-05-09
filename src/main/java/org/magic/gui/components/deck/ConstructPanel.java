@@ -386,14 +386,12 @@ public class ConstructPanel extends MTGUIComponent {
 
 		btnIA.addActionListener(_ -> {
 
-//			var description = JOptionPane.showInputDialog("Description of your deck ?");
-			
+			// var description = JOptionPane.showInputDialog("Description of your deck ?");
+
 			PromptDialog diag = new PromptDialog();
 			diag.setVisible(true);
-			
+
 			var description = diag.getPrompt();
-			
-			
 
 			if (description == null || description.isEmpty())
 				return;

@@ -4,6 +4,7 @@ import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
+import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,11 @@ public class ChatGPT extends AbstractIA {
 			b.responseFormat(format.toString());
 
 		return b.build();
+	}
+
+	@Override
+	public Color getChatColor() {
+		return Color.BLACK;
 	}
 
 }
