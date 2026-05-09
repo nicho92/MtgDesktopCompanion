@@ -1,6 +1,9 @@
 package org.magic.api.interfaces.abstracts;
 
 import com.google.gson.JsonObject;
+
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.chat.request.ResponseFormatType;
 import dev.langchain4j.model.chat.request.json.JsonArraySchema;
@@ -8,6 +11,8 @@ import dev.langchain4j.model.chat.request.json.JsonObjectSchema;
 import dev.langchain4j.model.chat.request.json.JsonSchema;
 import dev.langchain4j.model.chat.request.json.JsonSchemaElement;
 import dev.langchain4j.model.chat.request.json.JsonStringSchema;
+import dev.langchain4j.service.AiServices;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +61,9 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
+	
+	protected abstract ChatModel getEngine(ResponseFormat format);
+	
 
 	private JsonSchemaElement getCardElement() {
 		return JsonObjectSchema.builder().addStringProperty(NAME)
@@ -195,6 +203,17 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		return map;
 	}
 
+	@Override
+	public MTGIA toAssistant() {
+		return AiServices.builder(MTGIA.class)
+							.chatModel(getEngine(null))
+							.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
+							.systemMessage("You are a Magic The Gathering Assistant")
+							.build();
+	}
+	
+	
+	
 	private void readJson(MTGCard mc, JsonObject obj, MTGEdition set) {
 		try {
 			mc.setName(obj.get(NAME).getAsString());

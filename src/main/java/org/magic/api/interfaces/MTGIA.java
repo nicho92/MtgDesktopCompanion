@@ -1,10 +1,9 @@
 package org.magic.api.interfaces;
 
-import dev.langchain4j.model.chat.ChatModel;
-import dev.langchain4j.model.chat.request.ResponseFormat;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
@@ -15,6 +14,6 @@ public interface MTGIA extends MTGPlugin {
 	public List<MTGCard> generateSet(String description, MTGEdition mtgEdition, int qty) throws IOException;
 	public MTGDeck generateDeck(String description) throws IOException;
 	public String ask(String prompt) throws IOException;
-	public ChatModel getEngine(ResponseFormat format);
-	public Color getChatColor();;
+	public Color getChatColor();
+	public MTGIA toAssistant();;
 }

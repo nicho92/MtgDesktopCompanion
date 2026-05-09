@@ -1,8 +1,7 @@
 package org.magic.main;
 
-import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.service.AiServices;
 import java.io.IOException;
+
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGIA;
@@ -24,9 +23,7 @@ public class IAVirtualUser {
 
 		var client = new ActiveMQNetworkClient();
 		var plug = MTG.getEnabledPlugin(MTGIA.class);
-		var ia = AiServices.builder(MTGIA.class).chatModel(plug.getEngine(null))
-				.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
-				.systemMessage("You are a Magic The Gathering Assistant").build();
+		var ia = plug.toAssistant();
 
 		var p = new Player(plug.getName());
 		p.setAvatar(ImageTools.toImage(plug.getIcon()));

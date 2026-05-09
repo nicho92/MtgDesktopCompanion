@@ -4,11 +4,14 @@ import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+
+import org.magic.api.beans.MTGEdition;
 import org.magic.services.MTGConstants;
 public class PromptDialog extends JDialog {
 
@@ -50,4 +53,12 @@ public class PromptDialog extends JDialog {
 		});
 	}
 
+	public void showCardBuilderDialog(MTGEdition set) {
+		
+		setTitle("Generates cards for set " + set);
+		setVisible(true);
+		
+	}
+	
+	
 }

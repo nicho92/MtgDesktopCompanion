@@ -40,6 +40,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ImagePanel2;
 import org.magic.gui.components.card.MagicCardSubDetailPanel;
 import org.magic.gui.components.card.MagicEditionDetailPanel;
+import org.magic.gui.components.dialog.PromptDialog;
 import org.magic.gui.components.dialog.importer.CardImporterDialog;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;
@@ -319,8 +320,12 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			if (set == null)
 				return;
 
-			var text = JOptionPane.showInputDialog("Prompt");
-			if (text.isEmpty())
+			var diag = new  PromptDialog();
+				diag.showCardBuilderDialog(set);
+			
+				var text =  diag.getPrompt();
+
+			if (text == null || text.isEmpty())
 				return;
 
 			var qty = JOptionPane.showInputDialog("How Many cards ?");

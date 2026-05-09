@@ -150,7 +150,7 @@ public class ScriptPanel extends MTGUIComponent {
 							appendResult("Return :" + ret + "\n");
 
 					} catch (Exception e) {
-						logger.error("error scriptinng", e);
+						logger.error("error scripting", e);
 						appendResult(e.getMessage() + "\n", Color.RED);
 					}
 
