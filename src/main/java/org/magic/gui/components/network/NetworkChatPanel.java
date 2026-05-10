@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
@@ -74,7 +75,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnColorChoose;
 	private JButton btnSearch;
 	private JButton btnDeck;
-	private JButton btnIa;
+	private JToggleButton btnIa;
 	private DefaultListModel<AbstractMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
 	private transient MTGNetworkClient client;
@@ -103,7 +104,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				.filter(s -> s != EnumPlayerStatus.DISCONNECTED).toList());
 		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_S, "searchquery");
 		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK, KeyEvent.VK_F, "sharedeck");
-		btnIa = UITools.createBindableJButton("", MTGConstants.ICON_IA, KeyEvent.VK_I, "callAssistant");
+		btnIa =  new JToggleButton("", MTGConstants.ICON_IA);
 
 		var lblIp = new JLangLabel("HOST", true);
 
@@ -250,9 +251,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		});
 
-		btnIa.addActionListener(_ -> {
-			btnIa.setEnabled(false);
-			ThreadManager.getInstance().executeThread(new MTGRunnable() {
+		btnIa.addItemListener(ev -> {
+			
+			if(ev.getStateChange()==ItemEvent.SELECTED)
+			{
+				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
 				@Override
 				protected void auditedRun() {
@@ -262,10 +265,18 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 					} catch (IOException e) {
 						MTGControler.getInstance().notify(e);
-						btnIa.setEnabled(true);
 					}
 				}
 			}, "MTGAssistant Agent");
+			}
+			else
+			{
+				try {
+					IAVirtualUser.stop();
+				} catch (IOException e) {
+					MTGControler.getInstance().notify(e);
+				}
+			}
 		});
 
 		btnLogout.addActionListener(_ -> {

@@ -36,6 +36,11 @@
   	</conf>
   </technical-log>
   
+  <iaAgentConfig>
+  	<systemPrompt>You are a Magic the Gathering Assistant</systemPrompt>
+  	<memorySize>20</memorySize>
+  </iaAgentConfig>
+  
   <default-library>Library</default-library>
   <loglevel>INFO</loglevel>
   <allow-nsfw>false</allow-nsfw>

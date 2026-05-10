@@ -187,5 +187,4 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		}
 
 	}
-
 }

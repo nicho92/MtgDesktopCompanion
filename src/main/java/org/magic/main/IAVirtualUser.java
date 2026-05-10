@@ -14,14 +14,23 @@ import org.magic.services.tools.MTG;
 
 public class IAVirtualUser {
 
+	private static ActiveMQNetworkClient client;
+
+
 	public static void main(String[] args) throws Exception {
 		MTGControler.getInstance().init();
 		init(MTGConstants.MTG_CHAT_DEFAULT_URI);
 	}
+	
+	public static void stop() throws IOException
+	{
+		client.logout();
+	}
+	
 
 	public static void init(String address) throws IOException {
 
-		var client = new ActiveMQNetworkClient();
+		client = new ActiveMQNetworkClient();
 		var plug = MTG.getEnabledPlugin(MTGIA.class);
 		var ia = plug.toAssistant();
 

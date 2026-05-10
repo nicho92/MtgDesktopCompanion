@@ -24,8 +24,10 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.interfaces.MTGAssistant;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGIA;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.MTG;
@@ -204,11 +206,12 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	}
 
 	@Override
-	public MTGIA toAssistant() {
+	public MTGAssistant toAssistant() {
+		
 		return AiServices.builder(MTGIA.class)
 							.chatModel(getEngine(null))
-							.chatMemory(MessageWindowChatMemory.withMaxMessages(20))
-							.systemMessage("You are a Magic The Gathering Assistant")
+							.chatMemory(MessageWindowChatMemory.withMaxMessages(Integer.parseInt(MTGControler.getInstance().get("iaAgentConfig/memorySize","20"))))
+							.systemMessage(MTGControler.getInstance().get("iaAgentConfig/systemPrompt"))
 							.build();
 	}
 	

@@ -67,7 +67,7 @@
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.28.0</commonmark.version>
 		<langchain4j.version>1.14.1</langchain4j.version>
-		<telegram.version>9.5.0</telegram.version>
+		<telegram.version>9.6.0</telegram.version>
 	</properties>
 
 	<repositories>
@@ -322,22 +322,22 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mtgstock-api-java</artifactId>
-			<version>1.1.7</version>
+			<version>1.1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>cardtrader-api-java</artifactId>
-			<version>0.0.51</version>
+			<version>0.0.52</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>manapool-api-java</artifactId>
-			<version>0.0.11</version>
+			<version>0.0.13</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mkm-api-java</artifactId>
-			<version>0.25</version>
+			<version>0.26</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jooq</groupId>

@@ -11,6 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager2;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -30,7 +31,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -43,6 +46,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 import org.drjekyll.fontchooser.FontDialog;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -184,17 +189,20 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		networkPanelLayout.rowHeights = new int[]{23, 0, 0, 0, 0, 0, 0, 0};
 		networkPanelLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
 		networkPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-
-		var panelDAO = createBoxPanel("DATABASES", MTGConstants.ICON_TAB_DAO, daoPanelLayout, true);
+	
+	
 		var panelConfig = createBoxPanel("CONFIGURATION", MTGConstants.ICON_TAB_ADMIN, configPanelLayout, false);
 		var panelLogs = createBoxPanel("LOG", MTGConstants.ICON_TAB_RULES, new BorderLayout(), true);
 		var panelWebSite = createBoxPanel("WEBSITE", MTGConstants.ICON_WEBSITE_24, websitePanelLayout, true);
+		var panelDAO = createBoxPanel("DATABASES", MTGConstants.ICON_TAB_DAO, daoPanelLayout, true);
 		var panelGameProfil = createBoxPanel("GAME", MTGConstants.ICON_TAB_GAME, gameProfilPanelLayout, true);
 		var panelModule = createBoxPanel("Modules", MTGConstants.ICON_TAB_PLUGIN, modulesPanelLayout, true);
 		var panelCurrency = createBoxPanel("CURRENCY", MTGConstants.ICON_TAB_PRICES, currencyPanelLayout, true);
 		var panelGUI = createBoxPanel("GUI", MTGConstants.ICON_TAB_PICTURE, guiPanelLayout, true);
 		var panelAccounts = createBoxPanel("ACCOUNTS", MTGConstants.ICON_TAB_LOCK, new BorderLayout(), true);
 		var panelNetworks = createBoxPanel("NETWORKS", MTGConstants.ICON_TAB_NETWORK, networkPanelLayout, true);
+		var panelAI = createBoxPanel("IA AGENT", MTGConstants.ICON_TAB_IA, new BorderLayout(), true);
+
 
 		add(panelConfig);
 		add(panelGUI);
@@ -206,11 +214,36 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		add(panelGameProfil);
 		add(panelCurrency);
 		add(panelLogs);
+		add(panelAI);
 
 		var gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 4);
 		gbclblLoading.gridwidth = 2;
 		add(lblLoading, gbclblLoading);
-
+		
+		
+		
+		///IA BOX
+		var editor = new RSyntaxTextArea();
+		var modelMemory = new SpinnerNumberModel(20, 2, 200, 1);
+		var nbMsgMemory = new JSpinner(modelMemory);
+		var btnSaveIA = UITools.createBindableJButton("Save", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "saveIAgent");
+		editor.setText(MTGControler.getInstance().get("iaAgentConfig/systemPrompt", MTGConstants.DEFAULT_IA_PROMPT));
+		modelMemory.setValue(Integer.parseInt(MTGControler.getInstance().get("iaAgentConfig/memorySize","20")));
+		
+		panelAI.add(new RTextScrollPane(editor), BorderLayout.CENTER);
+		panelAI.add(UITools.createFlowPanel(new JLangLabel("MEMORY_SIZE", true),  nbMsgMemory, btnSaveIA),BorderLayout.SOUTH);
+		
+		
+		btnSaveIA.addActionListener(_->{
+			MTGControler.getInstance().setProperty("iaAgentConfig/systemPrompt", editor.getText());
+			MTGControler.getInstance().setProperty("iaAgentConfig/memorySize", modelMemory.getValue());
+			
+		});
+		
+		
+		
+		
+		
 		///ACCOUNT BOX
 		panelAccounts.add(new MTGAuthenticatorEditor(), BorderLayout.CENTER);
 
@@ -246,7 +279,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var tableLoggers = UITools.createNewTable(model, true);
 		panelLogs.add(panelMainLogger, BorderLayout.NORTH);
 		panelLogs.add(new JScrollPane(tableLoggers), BorderLayout.CENTER);
-
+		
 		///DAO BOX
 		var lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO", getEnabledPlugin(MTGDao.class)));
 		var btnDuplicate = new JButton((capitalize(EXPORT)));

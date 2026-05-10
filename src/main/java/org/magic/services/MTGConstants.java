@@ -35,7 +35,9 @@ public class MTGConstants {
 			+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
 	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36";
 	public static final Version FREEMARKER_VERSION = Configuration.VERSION_2_3_32;
-
+	public static final String DEFAULT_IA_PROMPT = "You are a Magic the Gathering Assistant";
+	
+	
 	// CONFIG FILES CONSTANTS
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
@@ -428,6 +430,8 @@ public class MTGConstants {
 			ICON_HELP.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_SCRIPT = new ImageIcon(
 			ICON_SCRIPT.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+
+	
 
 	public static ImageIcon getIconFor(Class<?> c) {
 		try {
