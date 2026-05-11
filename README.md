@@ -23,7 +23,7 @@ Magic The Gathering Desktop Companion is an open-source Java application to mana
 
 - Website: <https://www.mtgcompanion.org/>
 - Releases: <https://github.com/nicho92/MtgDesktopCompanion/releases>
-- Wiki: <https://github.com/nicho92/MtgDesktopCompanion/wiki>
+- Online Help: <https://github.com/nicho92/MtgDesktopCompanion/wiki>
 - Issues: <https://github.com/nicho92/MtgDesktopCompanion/issues>
 - Security policy: [SECURITY.md](SECURITY.md)
 
