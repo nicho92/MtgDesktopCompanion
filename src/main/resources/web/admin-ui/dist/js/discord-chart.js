@@ -57,19 +57,27 @@ server = {
 		
 		
 		var messageCount = datas.reduce(function (result, d) {
-								    var u = d.message.match(/\{(.*)\}/)[1];
-								  
-								  	if(u.indexOf("|")>0)
-								  		u=u.substring(u.indexOf("|")+1);
-								  
-								  	u=u.toLowerCase();
-								  
-								    if (!result[u]) {
-								        result[u] = 0;
-								    }
-								    result[u]++;
-								    return result;
-									}, {});
+												
+												var res = d.message.match(/\{(.*)\}/);
+												var u=null;
+												if(res==null)
+													u="";
+												else
+													u = res[1];
+												
+												if(u.indexOf("|")>0)
+													u=u.substring(u.indexOf("|")+1);
+										  
+												u=u.toLowerCase();
+										  
+												if (!result[u]) {
+													result[u] = 0;
+												}
+												result[u]++;
+												
+												return result;
+												
+											}, {});
 		var words =[];
 		
 		

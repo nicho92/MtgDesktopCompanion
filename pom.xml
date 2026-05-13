@@ -81,7 +81,7 @@
 		        <name>wumpz/swingx</name>
 		        <url>https://maven.pkg.github.com/wumpz/swingx</url>
 		    </repository>
-		</repositories>
+	</repositories>
 		
 	<dependencies>
 		<dependency>
@@ -342,7 +342,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.21.3</version>
+			<version>3.21.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
