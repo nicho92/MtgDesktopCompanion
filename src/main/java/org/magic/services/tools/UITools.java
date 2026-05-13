@@ -108,7 +108,9 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicCardMainDetailPanel;
 import org.magic.gui.renderer.ContactRenderer;
 import org.magic.gui.renderer.GradingCellRenderer;
+import org.magic.gui.renderer.MTGIconableTableCellRenderer;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
+import org.magic.gui.renderer.MTGStockItemRenderer;
 import org.magic.gui.renderer.MagicEditionCellRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
@@ -235,20 +237,7 @@ public class UITools {
 		table.setDefaultRenderer(MTGGrading.class, new GradingCellRenderer());
 
 		for (var c : List.of(MTGCardStock.class, MTGSealedStock.class))
-			table.setDefaultRenderer(c, (JTable t, Object value, boolean isSelected, boolean _, int _, int _) -> {
-				var obj = (MTGStockItem) value;
-
-				var lab = new JLabel(obj.getId() + " " + (obj.isUpdated() ? "*" : ""));
-				lab.setOpaque(true);
-				lab.setBackground(t.getBackground());
-
-				if (isSelected) {
-					lab.setBackground(t.getSelectionBackground());
-					lab.setForeground(t.getSelectionForeground());
-				}
-
-				return lab;
-			});
+			table.setDefaultRenderer(c, new MTGStockItemRenderer());
 
 		table.setDefaultRenderer(Map.class, (JTable t, Object value, boolean isSelected, boolean _, int _, int _) -> {
 			var pane = new JPanel();
@@ -275,23 +264,7 @@ public class UITools {
 
 		for (var c : List.of(MTGCollection.class, EnumCondition.class, EnumRarity.class, EnumColors.class,
 				EnumTransactionDirection.class, EnumTransactionStatus.class)) {
-			table.setDefaultRenderer(c, (JTable t, Object value, boolean isSelected, boolean _, int _, int _) -> {
-				var lab = new JLabel();
-				lab.setHorizontalAlignment(SwingConstants.LEADING);
-				lab.setOpaque(true);
-				lab.setBackground(table.getBackground());
-
-				if (value != null) {
-					lab.setText(((MTGIconable) value).getName());
-					lab.setIcon(((MTGIconable) value).getIcon());
-				}
-
-				if (isSelected) {
-					lab.setBackground(t.getSelectionBackground());
-					lab.setForeground(t.getSelectionForeground());
-				}
-				return lab;
-			});
+			table.setDefaultRenderer(c, new MTGIconableTableCellRenderer());
 		}
 
 		table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
