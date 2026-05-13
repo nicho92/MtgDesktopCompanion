@@ -215,8 +215,6 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 							.build();
 	}
 	
-	
-	
 	private void readJson(MTGCard mc, JsonObject obj, MTGEdition set) {
 		try {
 			mc.setName(obj.get(NAME).getAsString());

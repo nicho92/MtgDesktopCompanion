@@ -44,12 +44,9 @@ public class IAVirtualUser {
 			var msg = client.consume();
 
 			// response only to my question
-			if (msg instanceof TalkMessage t && !t.getMessage().isEmpty()
-					&& t.getAuthor().getName().equals(MTGControler.getInstance().getProfilPlayer().getName())) {
-				var resp = ia.ask(t.getMessage());
-				var tresp = new TalkMessage(resp);
-				client.sendMessage(tresp);
-			}
+			if (msg instanceof TalkMessage t && !t.getMessage().isEmpty()&& t.getAuthor().getName().equals(MTGControler.getInstance().getProfilPlayer().getName())) 
+				client.sendMessage(new TalkMessage(ia.ask(t.getMessage())));
+			
 		}
 
 	}

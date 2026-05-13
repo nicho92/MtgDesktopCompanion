@@ -61,11 +61,9 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
-
 	}
 
 	public void saveCustomCard(MTGEdition me, MTGCard mc) throws IOException {
-
 		mc.setEdition(me);
 
 		if (mc.getId() == null)

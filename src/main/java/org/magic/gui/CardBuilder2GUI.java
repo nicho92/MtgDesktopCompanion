@@ -328,15 +328,14 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			if (text == null || text.isEmpty())
 				return;
 
-			var qty = JOptionPane.showInputDialog("How Many cards ?");
+			var qty =diag.getCardsCreationSize();
 
 			buzySet.start();
 			buzySet.setText("generating set from IA");
 			ThreadManager.getInstance().runInEdt(new SwingWorker<List<MTGCard>, Void>() {
 				@Override
 				protected List<MTGCard> doInBackground() throws Exception {
-					return MTG.getEnabledPlugin(MTGIA.class).generateSet(text, set,
-							Integer.parseInt(qty.isEmpty() ? "10" : qty));
+					return MTG.getEnabledPlugin(MTGIA.class).generateSet(text, set,qty);
 				}
 
 				@Override
