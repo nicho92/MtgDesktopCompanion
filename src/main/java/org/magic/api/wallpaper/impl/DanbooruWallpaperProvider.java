@@ -16,7 +16,7 @@ public class DanbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 	private String userAgent = MTGConstants.MTG_APP_NAME + "/1.0";
 
 	@Override
-	protected MTGWallpaper parse(JsonObject el) {
+	protected List<MTGWallpaper> parse(JsonObject el) {
 		var pic = new MTGWallpaper();
 		pic.setAuthor(el.get("tag_string_artist").getAsString());
 		pic.setFormat(el.get("file_ext").getAsString());
@@ -31,7 +31,7 @@ public class DanbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 		for (var s : el.get("tag_string").getAsString().split(" "))
 			pic.getTags().add(s);
 
-		return pic;
+		return List.of(pic);
 	}
 
 	@Override

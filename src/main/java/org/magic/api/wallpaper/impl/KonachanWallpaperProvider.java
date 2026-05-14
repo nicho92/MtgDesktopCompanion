@@ -3,6 +3,8 @@ package org.magic.api.wallpaper.impl;
 import com.google.gson.JsonObject;
 import java.net.URI;
 import java.util.Date;
+import java.util.List;
+
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.abstracts.extra.AbstractJsonWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
@@ -10,7 +12,7 @@ import org.magic.services.network.RequestBuilder;
 public class KonachanWallpaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
-	protected MTGWallpaper parse(JsonObject el) {
+	protected List<MTGWallpaper> parse(JsonObject el) {
 		var pic = new MTGWallpaper();
 		pic.setAuthor(el.get("author").getAsString());
 		pic.setFormat(el.get("file_url").getAsString().substring(el.get("file_url").getAsString().length() - 3));
@@ -22,7 +24,7 @@ public class KonachanWallpaperProvider extends AbstractJsonWallpaperProvider {
 		for (var s : el.get("tags").getAsString().split(" "))
 			pic.getTags().add(s);
 
-		return pic;
+		return List.of(pic);
 	}
 
 	@Override

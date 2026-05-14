@@ -21,13 +21,19 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 				new MTGProperty("", "don't return results with this comma separated tags"));
 	}
 
-	protected abstract MTGWallpaper parse(JsonObject obj);
+	protected abstract List<MTGWallpaper> parse(JsonObject obj);
 	protected abstract RequestBuilder createQuery(String search, int pidStart);
 	protected abstract String getPaginationKey();
 
 	protected int getResultsPerPage() {
 		return 100;
 	}
+	
+	protected int getOffsetSequence()
+	{
+		return 1;
+	}
+	
 
 	protected JsonArray extractArrayFromQuery(RequestBuilder req) {
 		var je = req.toJson();
@@ -55,18 +61,21 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 			filtered = 0;
 			for (var e : arr) {
 				try {
-					var wall = parse(e.getAsJsonObject());
-					if (!wall.getFormat().endsWith("mp4")
-							&& !CollectionUtils.containsAny(wall.getTags(), getList("FILTER"))) {
-						results.add(wall);
-						notify(wall);
-					} else {
-						filtered++;
+					
+					for(var wall : parse(e.getAsJsonObject()))
+					{
+						if (!wall.getFormat().endsWith("mp4")&& !CollectionUtils.containsAny(wall.getTags(), getList("FILTER"))) 
+						{
+							results.add(wall);
+							notify(wall);
+						} else {
+							filtered++;
+						}
 					}
-
+					
 					if (results.size() >= getInt(LIMIT))
 						break;
-
+					
 				} catch (Exception ex) {
 					logger.error("Error getting wall for {} : {}", e, ex.getMessage());
 				}
@@ -77,15 +86,25 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 			if (arr.size() < getResultsPerPage())
 				break;
 
-			pidStart = pidStart + 1;
+			pidStart = pidStart + getOffsetSequence();
 
 			req = req.updateContent(getPaginationKey(), String.valueOf(pidStart));
-
+			
+			sleep();
+			
+			
 		}
 
 		logger.info("Return {} results", results.size());
 		return results;
 
 	}
+
+	protected void sleep()
+	{
+		//do nothing by default
+	}
+
+	
 
 }

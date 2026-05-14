@@ -211,8 +211,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		add(panelWebSite);
 		add(panelGameProfil);
 		add(panelCurrency);
-		add(panelLogs);
 		add(panelAI);
+		add(panelLogs);
 
 		var gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 4);
 		gbclblLoading.gridwidth = 2;

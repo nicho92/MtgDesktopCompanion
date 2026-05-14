@@ -57,7 +57,7 @@ public class R34WallPaperProvider extends AbstractJsonWallpaperProvider {
 	}
 
 	@Override
-	protected MTGWallpaper parse(JsonObject obj) {
+	protected List<MTGWallpaper> parse(JsonObject obj) {
 		var wall = new MTGWallpaper();
 
 		wall.setProvider(getName());
@@ -69,7 +69,7 @@ public class R34WallPaperProvider extends AbstractJsonWallpaperProvider {
 		wall.setFormat(obj.get("image").getAsString().substring(obj.get("image").getAsString().indexOf(".") + 1));
 		wall.setPublishDate(new Date(obj.get("change").getAsLong() * 1000));
 		Stream.of(obj.get("tags").getAsString().split(" ")).forEach(wall.getTags()::add);
-		return wall;
+		return List.of(wall);
 	}
 
 }

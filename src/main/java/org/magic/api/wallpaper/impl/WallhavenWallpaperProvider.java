@@ -38,7 +38,7 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 	}
 
 	@Override
-	protected MTGWallpaper parse(JsonObject obj) {
+	protected List<MTGWallpaper> parse(JsonObject obj) {
 		var wall = new MTGWallpaper();
 		wall.setProvider(getName());
 		wall.setName(obj.get("id").getAsString());
@@ -50,7 +50,7 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 		wall.setUrlThumb(URI.create(obj.get("thumbs").getAsJsonObject().get("small").getAsString()));
 		wall.getTags().add(obj.get("category").getAsString());
 		wall.setAuthor("");
-		return wall;
+		return List.of(wall);
 	}
 
 	@Override

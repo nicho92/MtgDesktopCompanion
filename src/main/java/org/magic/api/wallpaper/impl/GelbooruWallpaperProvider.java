@@ -28,7 +28,7 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 	}
 
 	@Override
-	protected MTGWallpaper parse(JsonObject el) {
+	protected List<MTGWallpaper> parse(JsonObject el) {
 		try {
 			var pic = new MTGWallpaper();
 			pic.setAuthor(el.get("owner").getAsString());
@@ -42,7 +42,7 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 			for (var s : el.get("tags").getAsString().split(" "))
 				pic.getTags().add(s);
 
-			return pic;
+			return List.of(pic);
 		} catch (Exception _) {
 			logger.error("error parsing json for {}", el);
 			return null;
