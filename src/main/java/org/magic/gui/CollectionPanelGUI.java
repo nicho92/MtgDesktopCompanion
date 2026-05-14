@@ -216,13 +216,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		/// CONFIGURE COMPONENTS
 		magicCardDetailPanel.setMinimumSize(
-				new Dimension(750, (int) MTGControler.getInstance().getCardsGameDimension().getHeight() + 85)); // used
-																												// to
-																												// rereduce
-																												// the
-																												// vertical
-																												// split
-																												// bar
+				new Dimension(750, (int) MTGControler.getInstance().getPictureProviderDimension().getHeight() + 85)); 
+																											
 		splitListPanel.setDividerLocation(0.5);
 		splitListPanel.setResizeWeight(0.5);
 		tree.setRootVisible(false);
@@ -232,7 +227,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
 		magicCardDetailPanel.enableThumbnail(true);
-		UITools.setDefaultRenderer(tableEditions, render);
+		for (var i = 0; i < tableEditions.getColumnCount(); i++) {
+			tableEditions.getColumnModel().getColumn(i).setCellRenderer(render);
+		}
 		tableEditions.setRowHeight(25);
 
 		/// LAYOUT

@@ -78,7 +78,10 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		}
 
 		if (isSelected)
-			UITools.applyDefaultSelection(pane);
+		{
+			pane.setForeground(table.getSelectionForeground());
+			pane.setBackground(table.getSelectionBackground());
+		}
 
 		return pane;
 	}

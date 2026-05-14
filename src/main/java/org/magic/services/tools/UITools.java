@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.listEnabledPlugins;
 import static org.magic.services.tools.MTG.listPlugins;
 
-import com.github.sarxos.webcam.Webcam;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,7 +15,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -42,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -58,16 +57,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.xml.bind.DatatypeConverter;
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.FilterSettings;
-import net.coderazzi.filters.gui.TableFilterHeader;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.Level;
@@ -100,7 +95,6 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
-import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.GenericTableModel;
@@ -132,6 +126,12 @@ import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.panda_lang.pandomium.Pandomium;
 
+import com.github.sarxos.webcam.Webcam;
+
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.FilterSettings;
+import net.coderazzi.filters.gui.TableFilterHeader;
+
 @SuppressWarnings("unchecked")
 public class UITools {
 
@@ -152,13 +152,6 @@ public class UITools {
 		}
 
 		return -1;
-	}
-
-	public static void setDefaultRenderer(JTable table, TableCellRenderer render) {
-
-		for (var i = 0; i < table.getColumnCount(); i++) {
-			table.getColumnModel().getColumn(i).setCellRenderer(render);
-		}
 	}
 
 	public static String humanReadableSize(long bytes) {
@@ -654,11 +647,6 @@ public class UITools {
 
 	public static <T> T getModelValueAt(JTable tableCards, int row, int column) {
 		return (T) tableCards.getModel().getValueAt(tableCards.convertRowIndexToModel(row), column);
-	}
-
-	public static void applyDefaultSelection(Component pane) {
-		pane.setForeground(SystemColor.textHighlightText);
-		pane.setBackground(SystemColor.inactiveCaption);
 	}
 
 	public static Date parseGMTDate(String gmtDate) {
