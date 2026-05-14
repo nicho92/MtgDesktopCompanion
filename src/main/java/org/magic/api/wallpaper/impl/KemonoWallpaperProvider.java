@@ -1,8 +1,6 @@
 package org.magic.api.wallpaper.impl;
 
-import java.io.IOException;
 import java.net.URI;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class KemonoWallpaperProvider extends AbstractJsonWallpaperProvider {
 				 wall.setProvider(getName());
 				 wall.setPublishDate(UITools.parseDate(obj.get("published").getAsString(), "yyyy-MM-dd'T'HH:mm:ss"));
 				 wall.setName(att.getAsJsonObject().get("name").getAsString());
-				 wall.setUrlThumb(URI.create("https://img.kemono.cr/thumbnail/data/"+att.getAsJsonObject().get("path").getAsString()));
+				 wall.setUrlThumb(URI.create("https://img.kemono.cr/thumbnail/data"+att.getAsJsonObject().get("path").getAsString()));
 				 wall.setUrl(URI.create("https://img.kemono.cr/thumbnail/data"+att.getAsJsonObject().get("path").getAsString()));
 				 wall.setAuthor(obj.get("user").getAsString());
 				 wall.setFormat(FilenameUtils.getExtension(wall.getName()));

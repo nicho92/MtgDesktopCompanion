@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
@@ -15,11 +17,15 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 
 	protected static final String LIMIT = "LIMIT";
 
+	private Set<String> rejectExt=Set.of("mp4", "zip", "bin", "psd", "rar", "pdf", "docx", "mp3");
+	
+	
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of(LIMIT, MTGProperty.newIntegerProperty("500", "Max results to return", 1, -1), "FILTER",
 				new MTGProperty("", "don't return results with this comma separated tags"));
 	}
+	
 
 	protected abstract List<MTGWallpaper> parse(JsonObject obj);
 	protected abstract RequestBuilder createQuery(String search, int pidStart);
@@ -100,8 +106,9 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 
 	}
 
+	
 	private boolean isBinary(String format) {
-		return format.endsWith("mp4") || format.endsWith("zip") || format.endsWith("bin") || format.endsWith("psd") || format.endsWith("rar");
+		return rejectExt.stream().anyMatch(format::endsWith);
 	}
 
 	protected void sleep()
