@@ -64,7 +64,7 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 					
 					for(var wall : parse(e.getAsJsonObject()))
 					{
-						if (!wall.getFormat().endsWith("mp4")&& !CollectionUtils.containsAny(wall.getTags(), getList("FILTER"))) 
+						if (!isBinary(wall.getFormat())&& !CollectionUtils.containsAny(wall.getTags(), getList("FILTER"))) 
 						{
 							results.add(wall);
 							notify(wall);
@@ -98,6 +98,10 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 		logger.info("Return {} results", results.size());
 		return results;
 
+	}
+
+	private boolean isBinary(String format) {
+		return format.endsWith("mp4") || format.endsWith("zip") || format.endsWith("bin") || format.endsWith("psd") || format.endsWith("rar");
 	}
 
 	protected void sleep()
