@@ -105,13 +105,13 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		for (var t : cards.stream().filter(MTGCard::isToken).toList()) {
 			t.setNumber("T" + (i++));
 		}
-		
-		for (var b : cards.stream().filter(c->c.getSide().equals("b")).toList()) {
-				var opt = cards.stream().filter(a->a.getName().equals(b.getRotatedCard().getName())).findFirst();
-				if(opt.isPresent()) {
-					var faceACard = opt.get();
-					b.setNumber(faceACard.getNumber());
-				}
+
+		for (var b : cards.stream().filter(c -> c.getSide().equals("b")).toList()) {
+			var opt = cards.stream().filter(a -> a.getName().equals(b.getRotatedCard().getName())).findFirst();
+			if (opt.isPresent()) {
+				var faceACard = opt.get();
+				b.setNumber(faceACard.getNumber());
+			}
 		}
 		saveCustomSet(ed, cards);
 	}

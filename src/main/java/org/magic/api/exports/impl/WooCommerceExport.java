@@ -85,6 +85,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		return wooCommerce;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		init();

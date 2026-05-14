@@ -104,7 +104,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				.filter(s -> s != EnumPlayerStatus.DISCONNECTED).toList());
 		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_S, "searchquery");
 		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK, KeyEvent.VK_F, "sharedeck");
-		btnIa =  new JToggleButton("", MTGConstants.ICON_IA);
+		btnIa = new JToggleButton("", MTGConstants.ICON_IA);
 
 		var lblIp = new JLangLabel("HOST", true);
 
@@ -252,25 +252,22 @@ public class NetworkChatPanel extends MTGUIComponent {
 		});
 
 		btnIa.addItemListener(ev -> {
-			
-			if(ev.getStateChange()==ItemEvent.SELECTED)
-			{
+
+			if (ev.getStateChange() == ItemEvent.SELECTED) {
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
-				@Override
-				protected void auditedRun() {
+					@Override
+					protected void auditedRun() {
 
-					try {
-						IAVirtualUser.init(txtServer.getText());
+						try {
+							IAVirtualUser.init(txtServer.getText());
 
-					} catch (IOException e) {
-						MTGControler.getInstance().notify(e);
+						} catch (IOException e) {
+							MTGControler.getInstance().notify(e);
+						}
 					}
-				}
-			}, "MTGAssistant Agent");
-			}
-			else
-			{
+				}, "MTGAssistant Agent");
+			} else {
 				try {
 					IAVirtualUser.stop();
 				} catch (IOException e) {

@@ -189,8 +189,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		networkPanelLayout.rowHeights = new int[]{23, 0, 0, 0, 0, 0, 0, 0};
 		networkPanelLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
 		networkPanelLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-	
-	
+
 		var panelConfig = createBoxPanel("CONFIGURATION", MTGConstants.ICON_TAB_ADMIN, configPanelLayout, false);
 		var panelLogs = createBoxPanel("LOG", MTGConstants.ICON_TAB_RULES, new BorderLayout(), true);
 		var panelWebSite = createBoxPanel("WEBSITE", MTGConstants.ICON_WEBSITE_24, websitePanelLayout, true);
@@ -202,7 +201,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var panelAccounts = createBoxPanel("ACCOUNTS", MTGConstants.ICON_TAB_LOCK, new BorderLayout(), true);
 		var panelNetworks = createBoxPanel("NETWORKS", MTGConstants.ICON_TAB_NETWORK, networkPanelLayout, true);
 		var panelAI = createBoxPanel("IA AGENT", MTGConstants.ICON_TAB_IA, new BorderLayout(), true);
-
 
 		add(panelConfig);
 		add(panelGUI);
@@ -219,31 +217,25 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 4);
 		gbclblLoading.gridwidth = 2;
 		add(lblLoading, gbclblLoading);
-		
-		
-		
+
 		///IA BOX
 		var editor = new RSyntaxTextArea();
 		var modelMemory = new SpinnerNumberModel(20, 2, 200, 1);
 		var nbMsgMemory = new JSpinner(modelMemory);
 		var btnSaveIA = UITools.createBindableJButton("Save", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "saveIAgent");
 		editor.setText(MTGControler.getInstance().get("iaAgentConfig/systemPrompt", MTGConstants.DEFAULT_IA_PROMPT));
-		modelMemory.setValue(Integer.parseInt(MTGControler.getInstance().get("iaAgentConfig/memorySize","20")));
-		
+		modelMemory.setValue(Integer.parseInt(MTGControler.getInstance().get("iaAgentConfig/memorySize", "20")));
+
 		panelAI.add(new RTextScrollPane(editor), BorderLayout.CENTER);
-		panelAI.add(UITools.createFlowPanel(new JLangLabel("MEMORY_SIZE", true),  nbMsgMemory, btnSaveIA),BorderLayout.SOUTH);
-		
-		
-		btnSaveIA.addActionListener(_->{
+		panelAI.add(UITools.createFlowPanel(new JLangLabel("MEMORY_SIZE", true), nbMsgMemory, btnSaveIA),
+				BorderLayout.SOUTH);
+
+		btnSaveIA.addActionListener(_ -> {
 			MTGControler.getInstance().setProperty("iaAgentConfig/systemPrompt", editor.getText());
 			MTGControler.getInstance().setProperty("iaAgentConfig/memorySize", modelMemory.getValue());
-			
+
 		});
-		
-		
-		
-		
-		
+
 		///ACCOUNT BOX
 		panelAccounts.add(new MTGAuthenticatorEditor(), BorderLayout.CENTER);
 
@@ -279,7 +271,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var tableLoggers = UITools.createNewTable(model, true);
 		panelLogs.add(panelMainLogger, BorderLayout.NORTH);
 		panelLogs.add(new JScrollPane(tableLoggers), BorderLayout.CENTER);
-		
+
 		///DAO BOX
 		var lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO", getEnabledPlugin(MTGDao.class)));
 		var btnDuplicate = new JButton((capitalize(EXPORT)));

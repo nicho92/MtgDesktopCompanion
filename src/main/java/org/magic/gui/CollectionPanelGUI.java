@@ -216,8 +216,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		/// CONFIGURE COMPONENTS
 		magicCardDetailPanel.setMinimumSize(
-				new Dimension(750, (int) MTGControler.getInstance().getPictureProviderDimension().getHeight() + 85)); 
-																											
+				new Dimension(750, (int) MTGControler.getInstance().getPictureProviderDimension().getHeight() + 85));
+
 		splitListPanel.setDividerLocation(0.5);
 		splitListPanel.setResizeWeight(0.5);
 		tree.setRootVisible(false);

@@ -5,6 +5,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.listEnabledPlugins;
 import static org.magic.services.tools.MTG.listPlugins;
 
+import com.github.sarxos.webcam.Webcam;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -40,7 +41,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Callable;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -62,7 +62,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.xml.bind.DatatypeConverter;
-
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.FilterSettings;
+import net.coderazzi.filters.gui.TableFilterHeader;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.Level;
@@ -125,12 +127,6 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.panda_lang.pandomium.Pandomium;
-
-import com.github.sarxos.webcam.Webcam;
-
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.FilterSettings;
-import net.coderazzi.filters.gui.TableFilterHeader;
 
 @SuppressWarnings("unchecked")
 public class UITools {

@@ -11,7 +11,6 @@ import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.tools.UITools;
 
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
@@ -77,8 +76,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 			pane.setForeground(table.getForeground());
 		}
 
-		if (isSelected)
-		{
+		if (isSelected) {
 			pane.setForeground(table.getSelectionForeground());
 			pane.setBackground(table.getSelectionBackground());
 		}

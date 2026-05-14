@@ -1,10 +1,8 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
-
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.components.renderer.CardListPanel;
 
@@ -24,7 +22,7 @@ public class MagicCardListRenderer extends CardListPanel implements ListCellRend
 			setBackground(list.getBackground());
 			setForeground(list.getForeground());
 		}
-	
+
 		return this;
 	}
 

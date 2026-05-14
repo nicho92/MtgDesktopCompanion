@@ -1,7 +1,6 @@
 package org.magic.main;
 
 import java.io.IOException;
-
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGIA;
@@ -16,17 +15,14 @@ public class IAVirtualUser {
 
 	private static ActiveMQNetworkClient client;
 
-
 	public static void main(String[] args) throws Exception {
 		MTGControler.getInstance().init();
 		init(MTGConstants.MTG_CHAT_DEFAULT_URI);
 	}
-	
-	public static void stop() throws IOException
-	{
+
+	public static void stop() throws IOException {
 		client.logout();
 	}
-	
 
 	public static void init(String address) throws IOException {
 
@@ -44,9 +40,10 @@ public class IAVirtualUser {
 			var msg = client.consume();
 
 			// response only to my question
-			if (msg instanceof TalkMessage t && !t.getMessage().isEmpty()&& t.getAuthor().getName().equals(MTGControler.getInstance().getProfilPlayer().getName())) 
+			if (msg instanceof TalkMessage t && !t.getMessage().isEmpty()
+					&& t.getAuthor().getName().equals(MTGControler.getInstance().getProfilPlayer().getName()))
 				client.sendMessage(new TalkMessage(ia.ask(t.getMessage())));
-			
+
 		}
 
 	}

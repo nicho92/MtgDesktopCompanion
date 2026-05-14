@@ -248,6 +248,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String id) throws SQLException {
 		try (var c = pool.getConnection();
@@ -391,18 +392,16 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteCustomSet(MTGEdition ed) throws SQLException {
-	
+
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customcards where idSet=?")) {
 			pst.setString(1, ed.getId());
 			executeUpdate(pst, false);
 		}
-		
+
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM customsets where id=?")) {
 			pst.setString(1, ed.getId());
 			executeUpdate(pst, false);
 		}
-
-	
 
 	}
 
