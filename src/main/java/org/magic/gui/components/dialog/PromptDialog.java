@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
+
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
@@ -69,6 +71,12 @@ public class PromptDialog extends JDialog {
 
 	public Integer getCardsCreationSize() {
 		return (Integer) qtyModel.getValue();
+	}
+
+	public void showCardBuilderDialog() {
+		
+		setVisible(true);
+		
 	}
 
 }
