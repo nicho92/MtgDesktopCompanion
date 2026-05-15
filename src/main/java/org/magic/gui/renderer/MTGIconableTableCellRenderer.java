@@ -26,6 +26,11 @@ public class MTGIconableTableCellRenderer extends JLabel implements TableCellRen
 			setText(((MTGIconable) value).getName());
 			setIcon(((MTGIconable) value).getIcon());
 		}
+		else
+		{
+			setText("");
+			setIcon(null);
+		}
 
 		if (isSelected) {
 			setBackground(t.getSelectionBackground());

@@ -157,9 +157,7 @@ public class DeckSnifferDialog extends JDialog {
 				}
 
 				@Override
-				protected void done() {
-					super.done();
-
+				protected void notifyEnd() {
 					importedDeck = getResult();
 					btnImport.setEnabled(true);
 					dispose();
