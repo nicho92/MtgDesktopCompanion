@@ -14,8 +14,6 @@ import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
