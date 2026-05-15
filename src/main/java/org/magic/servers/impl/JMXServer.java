@@ -52,7 +52,7 @@ public class JMXServer extends AbstractMTGServer {
 
 		logger.debug("{} is stopping", getName());
 		var ok = true;
-		for (ObjectName n : names) {
+		for (var n : names) {
 			try {
 				mbs.unregisterMBean(n);
 				logger.debug("unloading {}", n);

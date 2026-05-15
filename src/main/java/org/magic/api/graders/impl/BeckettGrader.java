@@ -36,7 +36,7 @@ public class BeckettGrader extends AbstractGradersProvider {
 				.addContent("email", getAuthenticator().getLogin())
 				.addContent("password", getAuthenticator().getPassword()).toHtml();
 
-		boolean connected = !d.getElementsByTag("title").html().equalsIgnoreCase("Member Login");
+		var connected = !d.getElementsByTag("title").html().equalsIgnoreCase("Member Login");
 
 		if (!connected)
 			throw new IOException("Error when login to website");

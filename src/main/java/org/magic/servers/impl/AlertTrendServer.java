@@ -55,7 +55,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 			@Override
 			public void run() {
 				var ret = new ArrayList<CardShake>();
-				for (MTGAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
+				for (var alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 					try {
 						var cpv = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(),
 								alert.isFoil());
@@ -88,7 +88,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 					notif.setTitle("Alert Trend Cards");
 					notif.setType(MESSAGE_TYPE.INFO);
 
-					for (String not : getArray(NOTIFIER)) {
+					for (var not : getArray(NOTIFIER)) {
 						if (!not.isEmpty()) {
 							logger.debug("notify with {} ", not);
 							var notifier = getPlugin(not, MTGNotifier.class);

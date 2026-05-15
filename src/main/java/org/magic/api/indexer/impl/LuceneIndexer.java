@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -28,7 +29,6 @@ import org.apache.lucene.queries.mlt.MoreLikeThis;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
@@ -79,7 +79,6 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	}
 
 	public LuceneIndexer() {
-		super();
 		serializer = new JsonExport();
 		analyzer = new StandardAnalyzer();
 
@@ -109,7 +108,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public List<String> suggestCardName(String q) {
 
 		var query = new StringBuilder("");
-		String[] split = q.split(" ");
+		var split = q.split(" ");
 		for (var i = 0; i < split.length; i++) {
 			query.append("name:").append(split[i]);
 
@@ -160,7 +159,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		if (dir == null)
 			open();
 
-		Map<String, Long> map = new LinkedHashMap<>();
+		var map = new LinkedHashMap<String, Long>();
 
 		logger.debug("looking terms for {}", field);
 
@@ -211,7 +210,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 				logger.trace("Like query={}", like);
 				var likes = searcher.search(like, getInt(MAX_RESULTS));
 
-				for (ScoreDoc l : likes.scoreDocs)
+				for (var l : likes.scoreDocs)
 					ret.put(serializer.fromJson(searcher.storedFields().document(l.doc).get("data"), MTGCard.class),
 							l.score);
 
@@ -246,7 +245,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		iwc.setOpenMode(OpenMode.CREATE);
 		var indexWriter = new IndexWriter(dir, iwc);
 
-		for (MTGCard mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards()) {
+		for (var mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards()) {
 			try {
 				indexWriter.addDocument(toDocuments(mc));
 			} catch (IllegalArgumentException e) {

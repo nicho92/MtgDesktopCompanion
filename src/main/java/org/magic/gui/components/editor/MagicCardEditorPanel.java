@@ -103,6 +103,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				0.0, 0.0, 0.0};
 		setLayout(gridBagLayout);
 
+		var panelButton = new JPanel();
+		var textEditorPanel = new JPanel();
+		var pictureEditorPanel = new JPanel();
+
 		nameJTextField = new JTextField();
 		costJTextField = new JTextField();
 		artistJTextField = new JTextField();
@@ -112,9 +116,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboTypes = new JCheckableListBox<>();
 		cboSubtypes = new JCheckableListBox<>();
 		txtSubTypes = new JTextField(10);
-		var panelButton = new JPanel();
-		var textEditorPanel = new JPanel();
-		var pictureEditorPanel = new JPanel();
 		textJEditorPane = new MagicTextPane(false);
 		flavorJTextField = new JTextField();
 		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());

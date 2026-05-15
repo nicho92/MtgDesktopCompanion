@@ -426,7 +426,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		}
 		mc.setMkmId(rs.getInt(MCM_ID));
 		mc.setMtgArenaId(rs.getInt("mtgArenaId"));
-
 		mc.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 		mc.setPromoCard(rs.getBoolean(IS_PROMO));
 		mc.setOversized(rs.getBoolean(IS_OVERSIZED));
@@ -522,7 +521,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				}
 			}
 
-		int split = mc.getName().indexOf("//");
+		var split = mc.getName().indexOf("//");
 		if (split > 1 && load) {
 			initRotatedCard(mc, rs.getString("otherFaceIds"), mc.getSide());
 		}
