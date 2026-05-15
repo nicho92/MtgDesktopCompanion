@@ -15,6 +15,7 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -221,17 +222,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			}
 		}
 		return URI.create(baseUri + c + (!token.isEmpty() ? "?token=" + token : ""));
-	}
-
-	public static void main(String[] args) {
-
-		MTGControler.getInstance().loadAccountsConfiguration();
-
-		var deviant = new DeviantArtWallpaperProvider();
-
-		deviant.authenticatedClient();
-
-		System.exit(0);
 	}
 
 	private void authenticatedClient() {

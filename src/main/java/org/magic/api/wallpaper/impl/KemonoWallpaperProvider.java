@@ -24,10 +24,6 @@ public class KemonoWallpaperProvider extends AbstractJsonWallpaperProvider {
 		return "Kemono";
 	}
 
-	public static void main(String[] args) {
-		new KemonoWallpaperProvider().search("lara croft");
-	}
-	
 	@Override
 	protected int getOffsetSequence() {
 		return getResultsPerPage();
