@@ -81,7 +81,7 @@ public class FileTools {
 
 	public static void saveFile(File f, String data, Charset enc) throws IOException {
 		var info = new FileAccessInfo(f);
-		String correctFilename = f.getName().replaceAll(CORRECT_REGEX, "_");
+		var correctFilename = f.getName().replaceAll(CORRECT_REGEX, "_");
 		f = new File(f.getParentFile(), correctFilename);
 		logger.debug("saving file {}", f);
 		FileUtils.write(f, data, enc);
@@ -134,7 +134,7 @@ public class FileTools {
 
 	public static void deleteFile(File f) throws IOException {
 		var info = new FileAccessInfo(f);
-		String correctFilename = f.getName().replaceAll(CORRECT_REGEX, "_");
+		var correctFilename = f.getName().replaceAll(CORRECT_REGEX, "_");
 		f = new File(f.getParentFile(), correctFilename);
 		logger.debug("deleting file {}", f);
 		FileUtils.forceDelete(f);
