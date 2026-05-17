@@ -20,8 +20,14 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class CryptoUtils {
 
-	private CryptoUtils() {
+	private static SecureRandom random;
 
+	static {
+		try {
+			random = SecureRandom.getInstanceStrong();
+		} catch (NoSuchAlgorithmException e) {
+			
+		}
 	}
 
 	public static String encrypt(String strToEncrypt, String secret) {
@@ -67,19 +73,11 @@ public class CryptoUtils {
 	}
 
 	public static int randomInt(int i) {
-		try {
-			return SecureRandom.getInstanceStrong().nextInt(i);
-		} catch (NoSuchAlgorithmException _) {
-			return -1;
-		}
+			return random.nextInt(i);
 	}
 
 	public static Long randomLong() {
-		try {
-			return SecureRandom.getInstanceStrong().nextLong();
-		} catch (NoSuchAlgorithmException _) {
-			return -1L;
-		}
+			return random.nextLong();
 	}
 
 	public static List<X509Certificate> getCertificates(File keystoreFile, String password)
@@ -98,27 +96,15 @@ public class CryptoUtils {
 	}
 
 	public static double randomDouble() {
-		try {
-			return SecureRandom.getInstanceStrong().nextDouble();
-		} catch (NoSuchAlgorithmException e) {
-			return -1.0;
-		}
+		return random.nextDouble();
 	}
 
 	public static Double randomDouble(double bound) {
-		try {
-			return SecureRandom.getInstanceStrong().nextDouble(bound);
-		} catch (NoSuchAlgorithmException _) {
-			return -1.0;
-		}
+			return random.nextDouble(bound);
 	}
 
 	public static boolean randomBoolean() {
-		try {
-			return SecureRandom.getInstanceStrong().nextBoolean();
-		} catch (NoSuchAlgorithmException _) {
-			return false;
-		}
+			return random.nextBoolean();
 	}
 
 	public static String randomString(Integer tokensize) {
