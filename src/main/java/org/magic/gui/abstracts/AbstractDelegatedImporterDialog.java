@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
@@ -57,7 +59,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 		setIconImage(MTGConstants.ICON_IMPORT.getImage());
 		setModal(true);
 		setLocationRelativeTo(null);
-
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		ThreadManager.getInstance().invokeLater(new MTGRunnable() {

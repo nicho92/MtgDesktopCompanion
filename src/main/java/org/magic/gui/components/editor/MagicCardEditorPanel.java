@@ -335,6 +335,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				? magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)
 				: "");
 		chkMatureContent.setSelected(magicCard.isHasContentWarning());
+		cboBorders.setSelectedItem(magicCard.getBorder());
 		cboSuperType.setSelectedElements(magicCard.getSupertypes());
 		cboTypes.setSelectedElements(magicCard.getTypes());
 		magicCard.getSubtypes().forEach(s -> cboSubtypes.addElement(s, true));
@@ -406,12 +407,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, valueProperty5);
 		autoBinding17.bind();
 
-		BeanProperty<MTGCard, Object> borderProperty = BeanProperty.create("border");
-		BeanProperty<JComboBox<EnumBorders>, Object> selectedIndexProperty2 = BeanProperty.create("selectedItem");
-		AutoBinding<MTGCard, Object, JComboBox<EnumBorders>, Object> autoBinding18 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, borderProperty, cboBorders, selectedIndexProperty2);
-		autoBinding18.bind();
-
 		BeanProperty<MTGCard, String> loyaltyProperty = BeanProperty.create("loyalty");
 		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(
@@ -440,7 +435,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding15);
 		bindingGroup.addBinding(autoBinding16);
 		bindingGroup.addBinding(autoBinding17);
-		bindingGroup.addBinding(autoBinding18);
 		bindingGroup.addBinding(autoBinding20);
 		bindingGroup.addBinding(autoBinding22);
 		bindingGroup.addBinding(autoBinding23);
