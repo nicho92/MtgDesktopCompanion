@@ -27,7 +27,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	private static final String LAYOUT_OLD_MODERN = "LAYOUT_OLD_MODERN";
 	private static final String DOMAIN = "funcardmaker.thaledric.fr";
-	private static final String WEBSITE = "http://" + DOMAIN;
+	private static final String WEBSITE = "https://" + DOMAIN;
 	private static final String GENERATE_URL = WEBSITE + "/generate.php";
 	private static final String UPLOAD_URL = WEBSITE + "/upload.php";
 
