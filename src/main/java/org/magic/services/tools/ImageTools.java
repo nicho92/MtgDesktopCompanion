@@ -468,35 +468,34 @@ public class ImageTools {
 	public static BufferedImage trimAlpha(BufferedImage img) {
 
 		if (img == null)
+			return null;
+
+		var width = img.getWidth();
+		var height = img.getHeight();
+
+		var left = 0;
+		while (left < width && isColumnTransparent(img, left, height))
+			left++;
+
+		if (left == width)
 			return img;
 
-		int width = img.getWidth();
-		int height = img.getHeight();
-		int x0;
-		int x1;
-		int j;
-		int i;
+		var right = width - 1;
+		while (right >= left && isColumnTransparent(img, right, height))
+			right--;
 
-		leftLoop : for (i = 0; i < width; i++) {
+		if (left == 0 && right == width - 1)
+			return img;
 
-			for (j = 0; j < height; j++) {
-				if (new Color(img.getRGB(i, j), true).getAlpha() != 0) {
-					break leftLoop;
-				}
-			}
+		return img.getSubimage(left, 0, right - left + 1, height);
+	}
+
+	private static boolean isColumnTransparent(BufferedImage img, int x, int height) {
+		for (var y = 0; y < height; y++) {
+			if (((img.getRGB(x, y) >>> 24) & 0xFF) != 0)
+				return false;
 		}
-		x0 = i;
-		rightLoop : for (i = width - 1; i >= 0; i--) {
-
-			for (j = 0; j < height; j++) {
-				if (new Color(img.getRGB(i, j), true).getAlpha() != 0) {
-					break rightLoop;
-				}
-			}
-		}
-		x1 = i + 1;
-
-		return img.getSubimage(x0, 0, x1 - x0, height);
+		return true;
 	}
 
 	public static BufferedImage scaleResize(BufferedImage img, int width) {
