@@ -3,6 +3,7 @@ package org.magic.api.wallpaper.impl;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.magic.api.beans.MTGWallpaper;
@@ -45,7 +46,7 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 			return List.of(pic);
 		} catch (Exception _) {
 			logger.error("error parsing json for {}", el);
-			return null;
+			return new ArrayList<>();
 		}
 
 	}

@@ -247,8 +247,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			bstep2.addHeaders(URLTools.createSecHeaders());
 			bstep2.toHtml().select("input[type=hidden]").forEach(el -> maps.put(el.attr("name"), el.attr("value")));
 
-			httpclient.getCookies().forEach(c -> System.out.println(c.getName() + " " + c.getValue()));
-
 			logger.debug("Step 2 done.  Completing data maps {}. Waiting 2 sec", maps);
 		} catch (Exception ex) {
 			logger.error("error at step 2 : {}", ex.getMessage());

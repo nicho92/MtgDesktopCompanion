@@ -32,6 +32,7 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 		return List.of("API_KEY");
 	}
 
+	@Override
 	protected int getResultsPerPage() {
 		return getInt("RESULTS_PER_PAGE");
 
