@@ -21,7 +21,11 @@ import org.mindrot.jbcrypt.BCrypt;
 public class CryptoUtils {
 
 	private static SecureRandom random;
-
+	
+	private CryptoUtils() {
+		// do nothing
+	}
+	
 	static {
 		try {
 			random = SecureRandom.getInstanceStrong();

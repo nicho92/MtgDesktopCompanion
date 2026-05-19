@@ -50,8 +50,7 @@
 	</ciManagement>
 
 	<properties>
-		<maven.compiler.source>23</maven.compiler.source>
-		<maven.compiler.target>23</maven.compiler.target>
+		<maven.compiler.release>25</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.organization>nicho92-github</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
