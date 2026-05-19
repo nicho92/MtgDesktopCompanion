@@ -51,7 +51,7 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException;
 
-	public List<MTGCard> searchByCriteria(List<MTGCrit> crits) throws IOException;
+	public List<MTGCard> searchByCriteria(List<MTGCrit<?>> crits) throws IOException;
 
 	public MTGQueryBuilder<?> getMTGQueryManager();
 

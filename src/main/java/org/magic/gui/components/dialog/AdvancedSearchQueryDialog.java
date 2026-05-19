@@ -22,7 +22,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 	private GridLayout layout;
 	private JPanel pContent;
-	private transient List<MTGCrit> crits;
+	private transient List<MTGCrit<?>> crits;
 	private JComboBox<MTGCollection> cboCollection;
 	private JCheckBox chkSearchInCollection;
 
@@ -98,7 +98,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		btnNewButton.doClick();
 	}
 
-	public List<MTGCrit> getCrits() {
+	public List<MTGCrit<?>> getCrits() {
 		return crits;
 	}
 

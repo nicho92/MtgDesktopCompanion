@@ -22,7 +22,7 @@ public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 	}
 
 	@Override
-	public T build(List<MTGCrit> crits) {
+	public T build(List<MTGCrit<?>> crits) {
 		return build(crits.stream().toArray(MTGCrit[]::new));
 	}
 

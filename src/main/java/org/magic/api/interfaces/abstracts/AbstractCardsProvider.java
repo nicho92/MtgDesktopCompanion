@@ -167,7 +167,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 
 	@Override
-	public List<MTGCard> searchByCriteria(List<MTGCrit> crits) throws IOException {
+	public List<MTGCard> searchByCriteria(List<MTGCrit<?>> crits) throws IOException {
 		return searchByCriteria(crits.stream().toArray(MTGCrit[]::new));
 	}
 
