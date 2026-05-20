@@ -229,9 +229,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 			var keys = BeanUtils.describe(mc).keySet();
 
-			return keys.stream().map(k -> {
-				return new QueryAttribute(k, String.class);
-			}).sorted().collect(Collectors.toList());
+			return keys.stream().map(k -> new QueryAttribute(k, String.class)).sorted().collect(Collectors.toList());
 
 		} catch (Exception e) {
 			logger.error(e);

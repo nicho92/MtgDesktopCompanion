@@ -226,7 +226,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		try {
 			RequestBuilder.build().get().setClient(httpclient).url(BASE_URL + "/users/login")
 					.addContent("client_id", getAuthenticator().get(CLIENT_ID))
-					.addContent("redirect_uri", MTGConstants.MTG_DESKTOP_WEBSITE).addContent("referer", BASE_URL)
+					.addContent("redirect_uri", MTGConstants.MTG_DESKTOP_WEBSITE).addContent(URLTools.REFERER, BASE_URL)
 					.addContent("response_type", "code").toHtml().select("input[type=hidden]")
 					.forEach(el -> maps.put(el.attr("name"), el.attr("value")));
 
@@ -237,7 +237,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 			var bstep2 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/step2");
 			maps.entrySet().forEach(e -> bstep2.addContent(e.getKey(), e.getValue()));
-			bstep2.addContent("username", getAuthenticator().getLogin()).addContent("referer", BASE_URL);
+			bstep2.addContent("username", getAuthenticator().getLogin()).addContent(URLTools.REFERER, BASE_URL);
 			bstep2.addContent("remember", "on");
 
 			bstep2.addHeader(URLTools.ACCEPT,
@@ -260,7 +260,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 		try {
 			var bstep3 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/signin")
-					.addContent("remember", "on").addContent("referer", BASE_URL).addContent("referer_type", "")
+					.addContent("remember", "on").addContent(URLTools.REFERER, BASE_URL).addContent("referer_type", "")
 					.addContent("password", getAuthenticator().getPassword())
 					.addHeader(URLTools.ACCEPT,
 							"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")

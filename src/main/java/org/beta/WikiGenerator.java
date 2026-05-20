@@ -15,7 +15,7 @@ public class WikiGenerator {
 	private static final String USER_HOME_VAR = "$USER_HOME";
 	private static final String WIKIDIR = "D:\\programmation\\GIT\\MtgDesktopCompanion.wiki";
 
-	public static void main(String[] args) throws IOException {
+	public static void main() throws IOException {
 
 		MTGControler.getInstance();
 
