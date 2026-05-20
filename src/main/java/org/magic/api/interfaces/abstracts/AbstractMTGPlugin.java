@@ -106,7 +106,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	}
 
-	public String getProperty(String k, String defaultVal) {
+	protected String getProperty(String k, String defaultVal) {
 
 		if (props.getProperty(k) == null || props.getProperty(k).isEmpty())
 			return defaultVal;
@@ -119,7 +119,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return confFile;
 	}
 
-	public File getConfdir() {
+	protected File getConfdir() {
 		return confdir;
 	}
 
@@ -160,7 +160,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		save();
 	}
 
-	public Integer getInt(String k) {
+	protected Integer getInt(String k) {
 		try {
 			return Integer.parseInt(getString(k));
 		} catch (NumberFormatException _) {
@@ -168,7 +168,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		}
 	}
 
-	public Long getLong(String k) {
+	protected Long getLong(String k) {
 		try {
 			return Long.parseLong(getString(k));
 		} catch (NumberFormatException _) {
@@ -176,26 +176,26 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		}
 	}
 
-	public double getDouble(String k) {
+	protected double getDouble(String k) {
 		return UITools.parseDouble(getString(k));
 	}
 
-	public boolean getBoolean(String k) {
+	protected boolean getBoolean(String k) {
 		if (StringUtils.isEmpty(getString(k)))
 			return false;
 
 		return getString(k).equalsIgnoreCase("true") || getString(k).equalsIgnoreCase("yes");
 	}
 
-	public String[] getArray(String k) {
+	protected String[] getArray(String k) {
 		return getString(k).split(",");
 	}
 
-	public List<String> getList(String k) {
+	protected List<String> getList(String k) {
 		return List.of(getString(k).split(","));
 	}
 
-	public File getFile(String k) {
+	protected File getFile(String k) {
 		return new File(getString(k));
 	}
 
@@ -212,7 +212,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return getProperty(k, "").trim();
 	}
 
-	public char getChar(String k) {
+	protected char getChar(String k) {
 		return getString(k).charAt(0);
 	}
 

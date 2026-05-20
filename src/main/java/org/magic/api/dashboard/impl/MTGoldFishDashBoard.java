@@ -29,6 +29,7 @@ import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
+	private static final String CARD_NUM = "card_num";
 	private static final String FORMAT = "FORMAT";
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
 	private static final String WEBSITE = "https://www.mtggoldfish.com";
@@ -108,7 +109,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return token;
 	}
 
-	private String suggestCardId(MTGCard c, boolean foil) throws IOException {
+	private String suggestCardId(MTGCard c, boolean foil) {
 		var arr = RequestBuilder.build().url(WEBSITE + "/autocomplete").setClient(client).get()
 				.addContent("term", c.getName()).addHeader(URLTools.REFERER, WEBSITE)
 				.addHeader("x-requested-with", "XMLHttpRequest").addHeader(URLTools.ACCEPT, "*/*")
@@ -132,8 +133,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			return res.get(0).getAsJsonObject().get("id").getAsString();
 		} else if (res.size() > 1) {
 			try {
-				var l = res.stream().filter(je -> !je.getAsJsonObject().get("card_num").isJsonNull())
-						.filter(je -> je.getAsJsonObject().get("card_num").getAsString().equals(c.getNumber()))
+				var l = res.stream().filter(je -> !je.getAsJsonObject().get(CARD_NUM).isJsonNull())
+						.filter(je -> je.getAsJsonObject().get(CARD_NUM).getAsString().equals(c.getNumber()))
 						.toList();
 
 				logger.debug("filtering by num return {}", l);
@@ -332,8 +333,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			cs.setEd(edition.getId());
 			cs.setProviderName(getName());
 
-			if (!obj.get("card_num").isJsonNull())
-				cs.setNumber(obj.get("card_num").getAsString());
+			if (!obj.get(CARD_NUM).isJsonNull())
+				cs.setNumber(obj.get(CARD_NUM).getAsString());
 
 			try {
 
