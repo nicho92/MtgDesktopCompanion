@@ -58,7 +58,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	public DeviantArtWallpaperProvider() {
 		httpclient = URLTools.newClient();
 		maps = new HashMap<>();
-	};
+	}
 
 	@Override
 	public List<MTGWallpaper> search(String search) {

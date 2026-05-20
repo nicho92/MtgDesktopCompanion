@@ -14,7 +14,7 @@ public class ShortKeysCellRenderer extends JLabel implements TableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
 
-	private final int ICON_SIZE = 32;
+	private static final int ICON_SIZE = 32;
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,

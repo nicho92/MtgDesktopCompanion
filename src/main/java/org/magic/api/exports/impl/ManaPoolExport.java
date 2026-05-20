@@ -120,8 +120,7 @@ public class ManaPoolExport extends AbstractCardExport {
 	private MTGCardStock filter(List<MTGCardStock> stock, Product p) {
 		var opt = stock.stream().filter(mcs ->
 
-		mcs.getProduct().getScryfallId().equals(p.getScryfallId())
-				&& (p.getFinishId() == EnumFinish.FO ? mcs.isFoil() : true) && (p.getCondition() == EnumCondition
+		mcs.getProduct().getScryfallId().equals(p.getScryfallId()) && (p.getFinishId() == EnumFinish.FO ? mcs.isFoil() : true) && (p.getCondition() == EnumCondition
 						.valueOf(aliases.getConditionFor(this, mcs.getCondition(), p.getCondition().name())))
 
 		).findFirst();

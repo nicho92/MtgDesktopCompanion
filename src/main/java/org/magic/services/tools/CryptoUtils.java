@@ -13,15 +13,19 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.logging.log4j.Logger;
 import org.jasypt.util.text.AES256TextEncryptor;
+import org.magic.services.logging.MTGLogger;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class CryptoUtils {
 
 	private static SecureRandom random;
-	
+	private static Logger logger = MTGLogger.getLogger(CryptoUtils.class);
+
 	private CryptoUtils() {
 		// do nothing
 	}
@@ -29,8 +33,8 @@ public class CryptoUtils {
 	static {
 		try {
 			random = SecureRandom.getInstanceStrong();
-		} catch (NoSuchAlgorithmException e) {
-			
+		} catch (NoSuchAlgorithmException _) {
+			logger.error("Can't generate Strong Instance");
 		}
 	}
 

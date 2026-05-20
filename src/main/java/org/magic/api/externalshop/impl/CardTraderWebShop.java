@@ -254,7 +254,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public String saveOrUpdateTransaction(Transaction t) throws IOException {
-		// TODO Auto-generated method stub
+		// do nothing
 		return "";
 	}
 
@@ -271,7 +271,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public void saveOrUpdateStock(List<MTGStockItem> stock) throws IOException {
-		// TODO Auto-generated method stub
+		// do nothing
 
 	}
 

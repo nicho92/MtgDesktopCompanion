@@ -30,7 +30,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 	private static final long serialVersionUID = 1L;
 	private ImageGalleryPanel panel;
 	private AbstractBuzyIndicatorComponent buzy;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public WallPaperChooseDialog() {
 		super();
