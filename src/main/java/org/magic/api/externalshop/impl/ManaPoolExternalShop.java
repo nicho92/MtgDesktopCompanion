@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.api.manapool.listener.URLCallInfo;
 import org.api.manapool.model.InventoryItem;
@@ -61,38 +63,33 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		// TODO Auto-generated method stub
-		return new ArrayList<>();
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
-		// TODO Auto-generated method stub
+		throw new NotImplementedException();
 
 	}
 
 	@Override
 	public Contact getContactByLogin(String login, String passw) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public String saveOrUpdateTransaction(Transaction t) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotImplementedException();
 	}
 
 	@Override
@@ -112,14 +109,12 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return new ArrayList<>();
+		throw new NotImplementedException();
 	}
 
 	@Override
 	public boolean enableContact(String token) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		throw new NotImplementedException();
 	}
 
 	@Override
