@@ -66,7 +66,7 @@ public class KemonoWallpaperProvider extends AbstractJsonWallpaperProvider {
 	protected void sleep() {
 		try {
 			Thread.sleep(6000);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException _) {
 			Thread.currentThread().interrupt();
 		}
 	}

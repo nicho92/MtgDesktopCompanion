@@ -13,6 +13,9 @@ import org.magic.services.network.URLTools;
 
 public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 
+	
+	private static final String BASE_URL="https://gelbooru.com";
+	
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return List.of("API_KEY", "USER_ID");
@@ -39,7 +42,7 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 			pic.setProvider(getName());
 			pic.setUrlThumb(URI.create(el.get("preview_url").getAsString()));
 			pic.setUrl(URI.create(el.get("file_url").getAsString()));
-			pic.addHeader(URLTools.REFERER, "https://gelbooru.com");
+			pic.addHeader(URLTools.REFERER, BASE_URL);
 			for (var s : el.get("tags").getAsString().split(" "))
 				pic.getTags().add(s);
 
@@ -53,7 +56,7 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected RequestBuilder createQuery(String search, int pidStart) {
-		return RequestBuilder.build().newClient().url("https://gelbooru.com/index.php").get().addContent("page", "dapi")
+		return RequestBuilder.build().newClient().url(BASE_URL+"/index.php").get().addContent("page", "dapi")
 				.addContent("s", "post").addContent("q", "index")
 				.addContent("limit", String.valueOf(getResultsPerPage()))
 				.addContent(getPaginationKey(), String.valueOf(pidStart)).addContent("json", "1")

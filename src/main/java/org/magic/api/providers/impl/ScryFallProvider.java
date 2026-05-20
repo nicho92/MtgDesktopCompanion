@@ -249,9 +249,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = new HashMap<String, MTGProperty>();
-		map.put("EXTRA", MTGProperty.newBooleanProperty("false",
+		map.put("EXTRA", MTGProperty.newBooleanProperty(FALSE,
 				"If true, extra cards (tokens, planes, etc) will be included."));
-		map.put("MULTILINGUAL", MTGProperty.newBooleanProperty("false",
+		map.put("MULTILINGUAL", MTGProperty.newBooleanProperty(FALSE,
 				"If true, cards in every language supported by Scryfall will be included."));
 		map.put("VARIATIONS", MTGProperty.newBooleanProperty("true",
 				"If true, rare care variants will be included, like the <a href='https://scryfall.com/card/drk/107%E2%80%A0/runesword'>Hairy Runesword</a>"));
@@ -335,7 +335,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				.addContent("include_extras", getString("EXTRA"))
 				.addContent("include_multilingual", getString("MULTILINGUAL"))
 				.addContent("include_variations", getString("VARIATIONS")).addContent("order", SET)
-				.addContent("format", "json").addContent("pretty", "false").addContent("q", q);
+				.addContent("format", "json").addContent("pretty", FALSE).addContent("q", q);
 	}
 
 	@Override
