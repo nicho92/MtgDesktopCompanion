@@ -41,6 +41,7 @@ import org.magic.services.network.URLTools;
 
 public class ActiveMQServer extends AbstractMTGServer {
 
+	private static final String ADRESSES = "ADRESSES";
 	private static final String LISTENERS_TCP = "LISTENERS_TCP";
 	private static final String LOG_DIR = "LOG_DIR";
 	public static final String DEFAULT_TOPIC = "welcome";
@@ -60,7 +61,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 		m.put("SECURITY_ENABLED",
 				MTGProperty.newBooleanProperty("false", "Sets whether security is enabled for this server."));
 		m.put(LOG_DIR, MTGProperty.newDirectoryProperty(new File(MTGConstants.DATA_DIR, "activemq")));
-		m.put("ADRESSES", new MTGProperty(DEFAULT_TOPIC, "defaults adresses of messaging"));
+		m.put(ADRESSES, new MTGProperty(DEFAULT_TOPIC, "defaults adresses of messaging"));
 		m.put("RETENTION_DAYS", MTGProperty.newIntegerProperty("7", "retention days for the log", 1, -1));
 		m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
 		return m;
@@ -81,7 +82,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 			server.getConfiguration().setLargeMessagesDirectory(getString(LOG_DIR));
 			server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
 
-			for (String add : ArrayUtils.add(getArray("ADRESSES"), DEFAULT_TOPIC)) {
+			for (String add : ArrayUtils.add(getArray(ADRESSES), DEFAULT_TOPIC)) {
 				var addr = new CoreAddressConfiguration();
 				addr.setName(add);
 				addr.addRoutingType(RoutingType.MULTICAST);
@@ -248,7 +249,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 
 					var onlineMsgs = new TechnicalMessage();
 					onlineMsgs.setPlayers(getOnlinesPlayers());
-					onlineMsgs.setChannels(List.of(getArray("ADRESSES")));
+					onlineMsgs.setChannels(List.of(getArray(ADRESSES)));
 					client.sendMessage(onlineMsgs);
 				} catch (IOException e) {
 					logger.error("Error sending online users", e);

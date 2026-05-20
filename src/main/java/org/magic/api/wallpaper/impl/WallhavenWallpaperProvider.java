@@ -14,6 +14,9 @@ import org.magic.services.tools.UITools;
 
 public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 
+	private static final String PURITY = "PURITY";
+	private static final String CATEGORIES = "CATEGORIES";
+
 	@Override
 	public String getName() {
 		return "Wallhaven";
@@ -22,8 +25,8 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of(LIMIT, MTGProperty.newIntegerProperty("500", "Max results to return", 1, -1), "RESULTS_PER_PAGE",
-				new MTGProperty("24", "Defined pagination in profil", "24", "32", "64"), "CATEGORIES",
-				new MTGProperty("GENERAL,ANIME,PEOPLE", "Filter by categories", "GENERAL", "ANIME", "PEOPLE"), "PURITY",
+				new MTGProperty("24", "Defined pagination in profil", "24", "32", "64"), CATEGORIES,
+				new MTGProperty("GENERAL,ANIME,PEOPLE", "Filter by categories", "GENERAL", "ANIME", "PEOPLE"), PURITY,
 				new MTGProperty("SFW", "Filter by purity", "SFW", "SKETCHY", "NSFW"));
 	}
 
@@ -70,11 +73,11 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 		var catBuilder = new StringBuilder();
 		var pBuilder = new StringBuilder();
 
-		for (var c : getDefaultAttributes().get("CATEGORIES").getAllowedProperties())
-			catBuilder.append(ArrayUtils.contains(getArray("CATEGORIES"), c) ? "1" : "0");
+		for (var c : getDefaultAttributes().get(CATEGORIES).getAllowedProperties())
+			catBuilder.append(ArrayUtils.contains(getArray(CATEGORIES), c) ? "1" : "0");
 
-		for (var c : getDefaultAttributes().get("PURITY").getAllowedProperties())
-			pBuilder.append(ArrayUtils.contains(getArray("PURITY"), c) ? "1" : "0");
+		for (var c : getDefaultAttributes().get(PURITY).getAllowedProperties())
+			pBuilder.append(ArrayUtils.contains(getArray(PURITY), c) ? "1" : "0");
 
 		return RequestBuilder.build().get().newClient().url("https://wallhaven.cc/api/v1/search")
 				.addContent(getPaginationKey(), String.valueOf(page + 1)).addContent("q", search)

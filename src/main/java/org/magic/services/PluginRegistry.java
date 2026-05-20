@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.logging.log4j.Logger;
@@ -274,14 +274,14 @@ public class PluginRegistry {
 	}
 
 	public List<MTGPlugin> listPlugins() {
-		List<MTGPlugin> list = new ArrayList<>();
-		PluginRegistry.inst().listClasses().stream()
+		var list = new ArrayList<MTGPlugin>();
+		PluginRegistry.inst().listClasses()
 				.forEach(c -> PluginRegistry.inst().listPlugins(c).forEach(list::add));
 		return list;
 	}
 
-	public List<Class> getClasses(String packageName) {
-		ArrayList<Class> classes = new ArrayList<>();
+	public List<Class<? extends MTGPlugin>> getClasses(String packageName) {
+		var classes = new ArrayList<Class<? extends MTGPlugin>>();
 		var classReflections = new Reflections(packageName);
 		for (Class<? extends MTGPlugin> c : classReflections.getSubTypesOf(MTGPlugin.class)) {
 			if (!c.isInterface() && !Modifier.isAbstract(c.getModifiers()))
@@ -302,12 +302,11 @@ public class PluginRegistry {
 
 	private List<Class> extractMissing(String packages, String k) {
 
-		List<Class> retour = new ArrayList<>();
+		var retour = new ArrayList<Class>();
 		for (var c : getClasses(packages)) {
 			if (!c.isAnonymousClass() && !c.getName().contains("$")) {
-				String path = k + "[class='" + c.getName() + "']/class";
-				String s = MTGControler.getInstance().get(path);
-				if (s.isEmpty()) {
+				var path = k + "[class='" + c.getName() + "']/class";
+				if (MTGControler.getInstance().get(path).isEmpty()) {
 					hasUpdated = true;
 					retour.add(c);
 				}
@@ -318,7 +317,7 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> T getPlugin(String name, Class<T> type) {
-		Optional<T> r = listPlugins(type).stream().filter(s -> s.getName().equalsIgnoreCase(name)).findFirst();
+		var r = listPlugins(type).stream().filter(s -> s.getName().equalsIgnoreCase(name)).findFirst();
 
 		if (r.isPresent())
 			return r.get();

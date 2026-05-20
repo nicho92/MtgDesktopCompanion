@@ -25,7 +25,7 @@ public class RemoveCounterActions extends AbstractCardAction {
 		card.initActions();
 		card.revalidate();
 		card.repaint();
-		GamePanelGUI.getInstance().getPlayer().logAction("remove a " + counter);
+		GamePanelGUI.getInstance().getPlayer().logAction("remove " + counter);
 
 	}
 

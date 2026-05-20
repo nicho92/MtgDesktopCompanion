@@ -26,6 +26,7 @@ import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
+	private static final String PW_TEXT = "pw-text";
 	private static final String CARD_ACCENT = "card-accent";
 	private static final String CARD_TEMPLATE = "card-template";
 	private static final String FALSE = "false";
@@ -165,10 +166,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 						build.addParameter("rules-text", String.valueOf(abs.get(i).getCost()).replace("+", "") + ": "
 								+ abs.get(i).getEffect() + '\u00a0');
 					} else {
-						build.addParameter("pw-text" + (i + 1), String.valueOf(abs.get(i).getCost()).replace("+", "")
+						build.addParameter(PW_TEXT + (i + 1), String.valueOf(abs.get(i).getCost()).replace("+", "")
 								+ ": " + abs.get(i).getEffect() + '\u00a0');
 					}
-					build.addParameter((i == 0) ? "rules-text" : "pw-text" + (i + 1),
+					build.addParameter((i == 0) ? "rules-text" : PW_TEXT + (i + 1),
 							String.valueOf(abs.get(i).getCost()).replace("+", "") + ": " + abs.get(i).getEffect()
 									+ '\u00a0');
 				}
@@ -183,7 +184,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 					if (i == 0)
 						build.addParameter("rules-text", abs.get(i).getEffect().toString());
 					else
-						build.addParameter("pw-text" + (i + 1), abs.get(i).getEffect().toString());
+						build.addParameter(PW_TEXT + (i + 1), abs.get(i).getEffect().toString());
 				}
 			} else {
 				build.addParameter("rules-text", mc.getText());
