@@ -29,7 +29,7 @@ public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 
 		var d = new MTGDeck();
 		d.setName("Export Alerts");
-		export.stream().forEach(mc -> d.getMain().put(mc, 1));
+		export.forEach(mc -> d.getMain().put(mc, 1));
 
 		init(exp, d, buzy, f);
 	}

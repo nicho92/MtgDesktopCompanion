@@ -56,9 +56,7 @@ public class PromptDialog extends JDialog {
 			dispose();
 		});
 
-		btnImport.addActionListener(_ -> {
-			dispose();
-		});
+		btnImport.addActionListener(_ -> dispose());
 	}
 
 	public void showCardBuilderDialog(MTGEdition set) {

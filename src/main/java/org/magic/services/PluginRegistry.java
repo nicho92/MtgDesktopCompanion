@@ -259,7 +259,7 @@ public class PluginRegistry {
 		}
 
 		if (needUpdate) {
-			listRemoved.stream().forEach(config::clearTree);
+			listRemoved.forEach(config::clearTree);
 		}
 
 		return entry.getPlugins().stream().toList();

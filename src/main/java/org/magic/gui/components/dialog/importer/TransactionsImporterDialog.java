@@ -97,7 +97,7 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 				protected List<Transaction> doInBackground() throws Exception {
 					var ret = new ArrayList<Transaction>();
 
-					rts.stream().forEach(rt -> {
+					rts.forEach(rt -> {
 
 						try {
 							ret.add(plug.getTransaction(rt));

@@ -389,9 +389,9 @@ public class UITools {
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 		JComboBox<T> combo = new JComboBox<>(model);
 		if (all)
-			listPlugins(classe).stream().forEach(model::addElement);
+			listPlugins(classe).forEach(model::addElement);
 		else
-			listEnabledPlugins(classe).stream().forEach(model::addElement);
+			listEnabledPlugins(classe).forEach(model::addElement);
 
 		combo.setRenderer(new PluginIconListRenderer());
 		return combo;
@@ -437,7 +437,7 @@ public class UITools {
 		var model = new DefaultComboBoxModel<T>();
 		var combo = new JComboBox<T>(model);
 
-		items.stream().forEach(model::addElement);
+		items.forEach(model::addElement);
 
 		combo.setRenderer((list, value, _, isSelected, _) -> {
 			JLabel l;

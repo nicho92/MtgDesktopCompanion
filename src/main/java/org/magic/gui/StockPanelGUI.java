@@ -284,7 +284,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				var cdSearch = new CardImporterDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.hasSelected()) {
-					cdSearch.getSelectedItems().stream().forEach(this::addCard);
+					cdSearch.getSelectedItems().forEach(this::addCard);
 				}
 			});
 			menu.add(mnuImportSearch);
