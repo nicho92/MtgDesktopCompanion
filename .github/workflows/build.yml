@@ -16,7 +16,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
-          java-version: 23
+          java-version: 25
           distribution: 'oracle'
       - name: Cache SonarCloud packages
         uses: actions/cache@v5
