@@ -35,7 +35,7 @@ Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=Pa
 
 ## Requirements
 
-- Java 23+
+- Java 25+
 - Maven 3.9+
 
 ## Quick start (from source)
