@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import javax.swing.Icon;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -229,7 +230,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 			var keys = BeanUtils.describe(mc).keySet();
 
-			return keys.stream().map(k -> new QueryAttribute(k, String.class)).sorted().collect(Collectors.toList());
+			return keys.stream().map(k -> new QueryAttribute(k, String.class)).sorted().toList();
 
 		} catch (Exception e) {
 			logger.error(e);
