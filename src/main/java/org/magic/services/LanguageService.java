@@ -7,8 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 public class LanguageService {
 
 	private ResourceBundle rbundle;
-	private StringBuilder temp;
-
+	
 	public String get(String k, Object... values) {
 		String t = get(k);
 
@@ -23,21 +22,18 @@ public class LanguageService {
 	}
 
 	public String combine(String... keys) {
-		temp.setLength(0);
-
-		for (String k : keys)
-			temp.append(get(k)).append(" ");
-
-		return temp.toString();
+				var sb = new StringBuilder();
+				for (var k : keys) 
+					sb.append(get(k)).append(" ");
+				
+				return sb.toString();
 	}
 
 	public LanguageService() {
-		temp = new StringBuilder();
 		rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, getDefault());
 	}
 
 	public LanguageService(Locale l) {
-		temp = new StringBuilder();
 		rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, l);
 	}
 
