@@ -91,10 +91,16 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		}
 
 		if (mc.isHybride() || !mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "").isEmpty())
+		{ 	
+			if(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
 			colorBase = new StringBuilder()
 					.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/")
-					.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
-
+					.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1])
+					.toString();
+			} else {
+				colorBase = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+			}
+		}
 		build.addContent("fields[background-base]", colorBase.toLowerCase());
 		build.addContent("fields[background-texture]", colorBase.toLowerCase());
 
