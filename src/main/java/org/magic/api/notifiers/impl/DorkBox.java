@@ -20,20 +20,11 @@ public class DorkBox extends AbstractMTGNotifier {
 			n.setTheme(Theme.Companion.getDefaultDark());
 
 		switch (notification.getType()) {
-			case WARNING :
-				n.showWarning();
-				break;
-			case ERROR :
-				n.showError();
-				break;
-			case INFO :
-				n.showInformation();
-				break;
-			case NONE :
-				break;
-			default :
-				n.showInformation();
-				break;
+			case WARNING -> n.showWarning();
+			case ERROR -> n.showError();
+			case INFO -> n.showInformation();
+			case NONE -> {}
+			default -> n.showInformation();
 		}
 
 	}

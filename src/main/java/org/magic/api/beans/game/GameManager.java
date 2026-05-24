@@ -36,7 +36,7 @@ public class GameManager {
 	public Turn getActualTurn() {
 		if (turns.isEmpty())
 			return new Turn();
-		return turns.get(turns.size() - 1);
+		return turns.getLast();
 	}
 
 	public Player getCurrentPlayer() {
@@ -44,7 +44,7 @@ public class GameManager {
 			players.add(new Player("Random"));
 		}
 
-		return players.get(0);
+		return players.getFirst();
 
 	}
 

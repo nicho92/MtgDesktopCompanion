@@ -199,13 +199,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			converter.removePrettyString();
 
 		ua = UserAgentAnalyzer.newBuilder().build();
-		transformer = new ResponseTransformer() {
-			@Override
-			public String render(Object model) throws Exception {
-
-				return converter.toJson(model);
-			}
-		};
+		transformer = model -> converter.toJson(model);
 	}
 
 	@Override
@@ -448,28 +442,25 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/ged/:class/:id", URLTools.HEADER_JSON,
-				(request, _) -> getCached(request.servletPath(), new Callable<Object>() {
-					@Override
-					public JsonArray call() throws Exception {
-						var arr = new JsonArray();
+				(request, _) -> getCached(request.servletPath(), () -> {
+					var arr = new JsonArray();
 
-						var classename = request.params(CLASS);
-						if (!classename.startsWith("org.magic.api.beans"))
-							classename = BEANS_PACKAGE + request.params(CLASS);
+					var classename = request.params(CLASS);
+					if (!classename.startsWith("org.magic.api.beans"))
+						classename = BEANS_PACKAGE + request.params(CLASS);
 
-						MTG.getEnabledPlugin(MTGGedStorage.class)
-								.listDirectory(Path.of(classename, request.params(":id"))).forEach(p -> {
-									try {
-										var e = MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
-										if (e.isImage()) {
-											arr.add(e.toJson());
-										}
-									} catch (Exception e) {
-										logger.error(e);
+					MTG.getEnabledPlugin(MTGGedStorage.class)
+							.listDirectory(Path.of(classename, request.params(":id"))).forEach(p -> {
+								try {
+									var e = MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
+									if (e.isImage()) {
+										arr.add(e.toJson());
 									}
-								});
-						return arr;
-					}
+								} catch (Exception e) {
+									logger.error(e);
+								}
+							});
+					return arr;
 				}), transformer);
 
 	}
@@ -710,12 +701,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/metadata/git", URLTools.HEADER_JSON, (_, _) -> GithubUtils.inst().getReleases(), transformer);
 
-		get("/metadata/version", "text", (request, _) -> getCached(request.servletPath(), new Callable<Object>() {
-			@Override
-			public String call() throws Exception {
-				return new VersionChecker().getVersion();
-			}
-		}));
+		get("/metadata/version", "text", (request, _) -> getCached(request.servletPath(), () -> new VersionChecker().getVersion()));
 	}
 
 	private void initPricers() {
@@ -725,44 +711,33 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/prices/:scryfallId", URLTools.HEADER_JSON,
-				(request, _) -> getCached(request.servletPath(), new Callable<Object>() {
-
-					@Override
-					public List<MTGPrice> call() throws Exception {
-						var mc = getEnabledPlugin(MTGCardsProvider.class)
-								.getCardByScryfallId(request.params(SCRYFALL_ID));
-						List<MTGPrice> pricesret = new ArrayList<>();
-						for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class)) {
-							try {
-								pricesret.addAll(prices.getPrice(mc));
-							} catch (Exception e) {
-								logger.error(e);
-							}
+				(request, _) -> getCached(request.servletPath(), () -> {
+					var mc = getEnabledPlugin(MTGCardsProvider.class)
+							.getCardByScryfallId(request.params(SCRYFALL_ID));
+					List<MTGPrice> pricesret = new ArrayList<>();
+					for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class)) {
+						try {
+							pricesret.addAll(prices.getPrice(mc));
+						} catch (Exception e) {
+							logger.error(e);
 						}
-						return pricesret;
 					}
+					return pricesret;
 				}), transformer);
 
 		get("/prices/details/:provider/:scryfallId", URLTools.HEADER_JSON,
-				(request, _) -> getCached(request.servletPath(), new Callable<Object>() {
-
-					@Override
-					public List<MTGPrice> call() throws Exception {
-						var mc = getEnabledPlugin(MTGCardsProvider.class)
-								.getCardByScryfallId(request.params(SCRYFALL_ID));
-						return MTG.getPlugin(request.params(PROVIDER).trim(), MTGPricesProvider.class).getPrice(mc);
-					}
+				(request, _) -> getCached(request.servletPath(), () -> {
+					var mc = getEnabledPlugin(MTGCardsProvider.class)
+							.getCardByScryfallId(request.params(SCRYFALL_ID));
+					return MTG.getPlugin(request.params(PROVIDER).trim(), MTGPricesProvider.class).getPrice(mc);
 				}), transformer);
 
 		get("/partner/:scryfallId", URLTools.HEADER_JSON,
-				(request, _) -> getCached(request.servletPath(), new Callable<Object>() {
-					@Override
-					public List<MTGPrice> call() throws Exception {
-						MTGCard mc = getEnabledPlugin(MTGCardsProvider.class)
-								.getCardByScryfallId(request.params(SCRYFALL_ID));
-						return MTG.listEnabledPlugins(MTGPricesProvider.class).stream().filter(MTGPlugin::isPartner)
-								.map(pricer -> pricer.getBestPrice(mc)).toList();
-					}
+				(request, _) -> getCached(request.servletPath(), () -> {
+					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class)
+							.getCardByScryfallId(request.params(SCRYFALL_ID));
+					return MTG.listEnabledPlugins(MTGPricesProvider.class).stream().filter(MTGPlugin::isPartner)
+							.map(pricer -> pricer.getBestPrice(mc)).toList();
 				}), transformer);
 
 	}

@@ -12,35 +12,20 @@ public class RaritySorter implements MTGComparator<MTGCard> {
 
 	@Override
 	public int compare(MTGCard mc1, MTGCard mc2) {
-
-		if (getWeight(mc1) < getWeight(mc2))
-			return -1;
-
-		if (getWeight(mc1) == getWeight(mc2))
-			return 0;
-
-		return 1;
+		return Integer.compare(getWeight(mc1), getWeight(mc2));
 	}
 
 	@Override
 	public int getWeight(MTGCard mc) {
-		switch (mc.getRarity()) {
-
-			case COMMON :
-				return 1;
-			case UNCOMMON :
-				return 2;
-			case RARE :
-				return 3;
-			case MYTHIC :
-				return 4;
-			case SPECIAL :
-				return 5;
-			case BONUS :
-				return 6;
-			default :
-				return 1;
-		}
+		return switch (mc.getRarity()) {
+			case COMMON -> 1;
+			case UNCOMMON -> 2;
+			case RARE -> 3;
+			case MYTHIC -> 4;
+			case SPECIAL -> 5;
+			case BONUS -> 6;
+			default -> 1;
+		};
 
 	}
 

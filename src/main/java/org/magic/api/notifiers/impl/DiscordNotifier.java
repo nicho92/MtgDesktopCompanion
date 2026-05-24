@@ -40,20 +40,12 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			notification.setSender(String.valueOf(jda.getSelfUser()));
 			var msg = new StringBuilder();
 
-			var emoji = "";
-			switch (notification.getType()) {
-				case ERROR :
-					emoji = ":error:";
-					break;
-				case WARNING :
-					emoji = ":warning:";
-					break;
-				case INFO :
-					emoji = ":information_source:";
-					break;
-				default :
-					emoji = "";
-			}
+			var emoji = switch (notification.getType()) {
+				case ERROR -> ":error:";
+				case WARNING -> ":warning:";
+				case INFO -> ":information_source:";
+				default -> "";
+			};
 
 			msg.append(emoji).append(notification.getMessage());
 			msg.append("*").append(notification.getTitle()).append("*\n");

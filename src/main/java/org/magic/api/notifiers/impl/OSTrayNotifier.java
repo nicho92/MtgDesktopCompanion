@@ -52,18 +52,12 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 	}
 
 	private MessageType convert(MESSAGE_TYPE type) {
-		switch (type) {
-			case ERROR :
-				return MessageType.ERROR;
-			case INFO :
-				return MessageType.INFO;
-			case WARNING :
-				return MessageType.WARNING;
-			case NONE :
-				return MessageType.NONE;
-			default :
-				return MessageType.INFO;
-		}
+		return switch (type) {
+			case ERROR -> MessageType.ERROR;
+			case WARNING -> MessageType.WARNING;
+			case NONE -> MessageType.NONE;
+			default -> MessageType.INFO;
+		};
 	}
 
 	@Override

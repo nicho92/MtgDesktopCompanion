@@ -814,17 +814,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public Contact getContactById(int id) throws SQLException {
 
 		try {
-			return listContacts.get(String.valueOf(id), new Callable<Contact>() {
-
-				@Override
-				public Contact call() throws Exception {
-					try (var c = pool.getConnection();
-							var pst = c.prepareStatement("SELECT * from contacts where contact_id=?")) {
-						pst.setInt(1, id);
-						ResultSet rsC = executeQuery(pst);
-						rsC.next();
-						return readContact(rsC);
-					}
+			return listContacts.get(String.valueOf(id), () -> {
+				try (var c = pool.getConnection();
+						var pst = c.prepareStatement("SELECT * from contacts where contact_id=?")) {
+					pst.setInt(1, id);
+					ResultSet rsC = executeQuery(pst);
+					rsC.next();
+					return readContact(rsC);
 				}
 			});
 		} catch (ExecutionException e) {

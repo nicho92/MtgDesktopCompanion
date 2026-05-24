@@ -15,18 +15,10 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 		switch (notification.getType()) {
-			case ERROR :
-				logger.error(notification.getMessage());
-				break;
-			case INFO :
-				logger.info(notification.getMessage());
-				break;
-			case WARNING :
-				logger.warn(notification.getMessage());
-				break;
-			default :
-				logger.debug(notification.getMessage());
-				break;
+			case ERROR -> logger.error(notification.getMessage());
+			case INFO -> logger.info(notification.getMessage());
+			case WARNING -> logger.warn(notification.getMessage());
+			default -> logger.debug(notification.getMessage());
 		}
 	}
 

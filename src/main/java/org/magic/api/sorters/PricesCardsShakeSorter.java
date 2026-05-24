@@ -33,16 +33,11 @@ public class PricesCardsShakeSorter implements Comparator<CardShake> {
 	}
 
 	private double getValFor(CardShake cs) {
-		switch (t) {
-			case DAY_PERCENT_CHANGE :
-				return cs.getPercentDayChange();
-			case DAY_PRICE_CHANGE :
-				return Math.abs(cs.getPriceDayChange());
-			case PRICE :
-				return cs.getPrice().doubleValue();
-			default :
-				return 0;
-		}
+		return switch (t) {
+			case DAY_PERCENT_CHANGE -> cs.getPercentDayChange();
+			case DAY_PRICE_CHANGE -> Math.abs(cs.getPriceDayChange());
+			case PRICE -> cs.getPrice().doubleValue();
+		};
 	}
 
 }
