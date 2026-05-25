@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -62,7 +61,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	public boolean isSetLoaded(MTGEdition ed) {
 		return dataList.containsKey(ed.getId());
 	}
-	
+
 	protected List<DescContainer> allDatas() {
 		return dataList.values().stream().flatMap(List::stream).toList();
 	}

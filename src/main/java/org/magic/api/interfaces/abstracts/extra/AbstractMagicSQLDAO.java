@@ -3,6 +3,8 @@ package org.magic.api.interfaces.abstracts.extra;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.getPlugin;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,7 +22,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
 import org.jooq.SQLDialect;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGAnnounce;
@@ -60,9 +61,6 @@ import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.SQLTools;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 

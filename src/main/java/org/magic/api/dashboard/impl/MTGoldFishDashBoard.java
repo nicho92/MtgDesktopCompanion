@@ -134,8 +134,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		} else if (res.size() > 1) {
 			try {
 				var l = res.stream().filter(je -> !je.getAsJsonObject().get(CARD_NUM).isJsonNull())
-						.filter(je -> je.getAsJsonObject().get(CARD_NUM).getAsString().equals(c.getNumber()))
-						.toList();
+						.filter(je -> je.getAsJsonObject().get(CARD_NUM).getAsString().equals(c.getNumber())).toList();
 
 				logger.debug("filtering by num return {}", l);
 

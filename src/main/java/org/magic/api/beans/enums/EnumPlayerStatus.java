@@ -7,8 +7,11 @@ import org.magic.services.tools.UITools;
 
 public enum EnumPlayerStatus implements MTGIconable {
 
-	ONLINE("Online", new Color(76, 181, 108)), BUSY("Buzy", Color.RED), AWAY("Away", Color.ORANGE), GAMING("Gaming",
-			Color.CYAN), DISCONNECTED("Disconnected", Color.GRAY);
+	ONLINE("Online", new Color(76, 181, 108)), 
+	BUSY("Buzy", Color.RED), 
+	AWAY("Away", Color.ORANGE), 
+	GAMING("Gaming", Color.CYAN), 
+	DISCONNECTED("Disconnected", Color.GRAY);
 
 	private String name;
 	private Color color;

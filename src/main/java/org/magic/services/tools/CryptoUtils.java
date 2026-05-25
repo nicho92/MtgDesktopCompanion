@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +28,7 @@ public class CryptoUtils {
 	private CryptoUtils() {
 		// do nothing
 	}
-	
+
 	static {
 		try {
 			random = SecureRandom.getInstanceStrong();
@@ -81,11 +80,11 @@ public class CryptoUtils {
 	}
 
 	public static int randomInt(int i) {
-			return random.nextInt(i);
+		return random.nextInt(i);
 	}
 
 	public static Long randomLong() {
-			return random.nextLong();
+		return random.nextLong();
 	}
 
 	public static List<X509Certificate> getCertificates(File keystoreFile, String password)
@@ -108,11 +107,11 @@ public class CryptoUtils {
 	}
 
 	public static Double randomDouble(double bound) {
-			return random.nextDouble(bound);
+		return random.nextDouble(bound);
 	}
 
 	public static boolean randomBoolean() {
-			return random.nextBoolean();
+		return random.nextBoolean();
 	}
 
 	public static String randomString(Integer tokensize) {

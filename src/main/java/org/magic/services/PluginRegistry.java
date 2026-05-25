@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.logging.log4j.Logger;
@@ -275,8 +274,7 @@ public class PluginRegistry {
 
 	public List<MTGPlugin> listPlugins() {
 		var list = new ArrayList<MTGPlugin>();
-		PluginRegistry.inst().listClasses()
-				.forEach(c -> PluginRegistry.inst().listPlugins(c).forEach(list::add));
+		PluginRegistry.inst().listClasses().forEach(c -> PluginRegistry.inst().listPlugins(c).forEach(list::add));
 		return list;
 	}
 

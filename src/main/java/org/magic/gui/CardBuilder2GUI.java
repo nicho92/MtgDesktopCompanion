@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,7 +26,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
-
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -83,8 +81,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private MagicCardSubDetailPanel panelDetails;
 	private ManaRepartitionPanel colorChart;
 	private RarityRepartitionPanel rarityChart;
-	
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_BUILDER;
@@ -143,8 +140,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		var panelTableCards = new JPanel();
 		var panelEast = new JPanel();
 		var editionDetailsTabbedPane = new JTabbedPane();
-		
-		
+
 		/// INIT GLOBAL COMPONENTS
 		buzyCard = AbstractBuzyIndicatorComponent.createLabelComponent();
 		buzySet = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -166,7 +162,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		panelPictures.setPreferredSize(new Dimension(500, 10));
 		colorChart = new ManaRepartitionPanel(false);
 		rarityChart = new RarityRepartitionPanel(false);
-		
+
 		/// LAYOUT CONFIGURATION
 		setLayout(new BorderLayout(0, 0));
 		panelSets.setLayout(new BorderLayout(0, 0));
@@ -223,8 +219,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		editionDetailsTabbedPane.addTab("Details", magicEditionDetailPanel);
 		editionDetailsTabbedPane.addTab("Rarities", rarityChart);
 		editionDetailsTabbedPane.addTab("Colors", colorChart);
-		
-		
+
 		panelEast.add(editionDetailsTabbedPane);
 		panelEast.add(imageThumbnail);
 
@@ -411,7 +406,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			}
 		});
-		
+
 		cardsTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
@@ -456,9 +451,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
 			try {
-				
+
 				var cards = provider.searchCardByEdition(ed);
-				initEdition(ed,cards);
+				initEdition(ed, cards);
 				btnGenerateSet.setEnabled(true);
 				cardsModel.bind(cards);
 				cardsModel.fireTableDataChanged();
@@ -471,10 +466,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		});
 
 		btnGenerateCard.addActionListener(_ -> {
-			
+
 			var promptDialog = new PromptDialog();
 			promptDialog.showCardBuilderDialog();
-			
+
 			var text = promptDialog.getPrompt();
 
 			if (text == null || text.isEmpty())
@@ -596,9 +591,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	protected void initEdition(MTGEdition ed, List<MTGCard> cards) {
 		magicEditionDetailPanel.init(ed);
-			colorChart.init(cards);
-			rarityChart.init(cards);
-	
+		colorChart.init(cards);
+		rarityChart.init(cards);
+
 	}
 
 }

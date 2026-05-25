@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 public class LanguageService {
 
 	private ResourceBundle rbundle;
-	
+
 	public String get(String k, Object... values) {
 		String t = get(k);
 
@@ -22,11 +22,11 @@ public class LanguageService {
 	}
 
 	public String combine(String... keys) {
-				var sb = new StringBuilder();
-				for (var k : keys) 
-					sb.append(get(k)).append(" ");
-				
-				return sb.toString();
+		var sb = new StringBuilder();
+		for (var k : keys)
+			sb.append(get(k)).append(" ");
+
+		return sb.toString();
 	}
 
 	public LanguageService() {

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
-
 import org.magic.services.tools.UITools;
 
 public class MoneyValue extends Number implements Serializable, Comparable<MoneyValue> {
@@ -46,25 +45,24 @@ public class MoneyValue extends Number implements Serializable, Comparable<Money
 		this.value = BigDecimal.valueOf(value);
 		this.currency = currency;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
-		if(obj==null)
+
+		if (obj == null)
 			return false;
-		
-		if(obj instanceof MoneyValue mv)
-		{
+
+		if (obj instanceof MoneyValue mv) {
 			return (mv.getValue().equals(getValue()) && mv.getCurrency().equals(getCurrency()));
 		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(getValue(),getCurrency());
+		return Objects.hash(getValue(), getCurrency());
 	}
-	
+
 	public boolean isPositive() {
 		return value.doubleValue() > 0;
 	}

@@ -489,7 +489,7 @@ public class ImageTools {
 
 		return img.getSubimage(left, 0, right - left + 1, height);
 	}
-	
+
 	private static boolean isColumnTransparent(BufferedImage img, int x, int height) {
 		for (var y = 0; y < height; y++) {
 			if (((img.getRGB(x, y) >>> 24) & 0xFF) != 0)

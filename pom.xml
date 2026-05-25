@@ -44,6 +44,7 @@
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
 		<tag>HEAD</tag>
 	</scm>
+	
 	<ciManagement>
 		<system>SonardCloud</system>
 		<url>https://sonarcloud.io/project/overview?id=org.magic:magic-api</url>
@@ -82,7 +83,120 @@
 		    </repository>
 	</repositories>
 		
-	<dependencies>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>version</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>version</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			
+			<!-- Plugin to create executable scripts package goal-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>2.1.0</version>
+				<configuration>
+					<programs>
+
+						<program>
+							<mainClass>org.magic.main.MtgDesktopCompanion</mainClass>
+							<id>${program.id}</id>
+						</program>
+
+						<program>
+							<mainClass>org.magic.main.ServerLauncher</mainClass>
+							<id>web-ui</id>
+							<commandLineArguments>
+								<commandLineArgument>"Web UI Server"</commandLineArgument>
+							</commandLineArguments>
+						</program>
+
+						<program>
+							<mainClass>org.magic.main.ServerLauncher</mainClass>
+							<id>server-launch</id>
+						</program>
+
+						<program>
+							<mainClass>org.magic.main.ScriptsUIClient</mainClass>
+							<id>script-launch</id>
+						</program>
+
+					</programs>
+					<generateRepository>true</generateRepository>
+					<repositoryName>lib</repositoryName>
+					<repositoryLayout>flat</repositoryLayout>
+					<useWildcardClassPath>true</useWildcardClassPath>
+					<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+					<assembleDirectory>${project.build.directory}/executable</assembleDirectory>
+					<binFileExtensions>
+						<unix>.sh</unix>
+					</binFileExtensions>
+					<extraJvmArguments>
+						-Xmx4096m
+						-Dlog4j2.formatMsgNoLookups=true
+						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
+						-Djava.library.path="./natives"
+						-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
+						--enable-native-access=ALL-UNNAMED
+						--add-modules jdk.incubator.vector
+					</extraJvmArguments>
+					<showConsoleWindow>true</showConsoleWindow>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+	
+			<!-- create a zip file: : assembly:single-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/assembly/zip.xml</descriptor>
+					</descriptors>
+					<finalName>mtg-desktop-companion</finalName>
+				</configuration>
+			</plugin>
+			
+			<!-- Reformat source code : spotless:apply-->
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<java>
+						<eclipse />
+						<importOrder />
+						<removeUnusedImports />
+						<trimTrailingWhitespace />
+					</java>
+				</configuration>
+			</plugin>
+						
+		</plugins>
+	</build>
+
+    <dependencies>
 		<dependency>
 		  <groupId>org.swinglabs.swingx</groupId>
 		  <artifactId>swingx-core</artifactId>
@@ -267,7 +381,6 @@
 			<artifactId>yauaa</artifactId>
 			<version>8.1.1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
@@ -721,119 +834,5 @@
 			<version>2.7.4</version>
 		</dependency>
 	</dependencies>
-	
-	<build>
-		<finalName>${project.artifactId}</finalName>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>version</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<excludes>
-					<exclude>version</exclude>
-				</excludes>
-			</resource>
-		</resources>
-		<plugins>
-			
-			<!-- Plugin to create executable scripts package goal-->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>2.1.0</version>
-				<configuration>
-					<programs>
-
-						<program>
-							<mainClass>org.magic.main.MtgDesktopCompanion</mainClass>
-							<id>${program.id}</id>
-						</program>
-
-						<program>
-							<mainClass>org.magic.main.ServerLauncher</mainClass>
-							<id>web-ui</id>
-							<commandLineArguments>
-								<commandLineArgument>"Web UI Server"</commandLineArgument>
-							</commandLineArguments>
-						</program>
-
-						<program>
-							<mainClass>org.magic.main.ServerLauncher</mainClass>
-							<id>server-launch</id>
-						</program>
-
-						<program>
-							<mainClass>org.magic.main.ScriptsUIClient</mainClass>
-							<id>script-launch</id>
-						</program>
-
-					</programs>
-					<generateRepository>true</generateRepository>
-					<repositoryName>lib</repositoryName>
-					<repositoryLayout>flat</repositoryLayout>
-					<useWildcardClassPath>true</useWildcardClassPath>
-					<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-					<assembleDirectory>${project.build.directory}/executable</assembleDirectory>
-					<binFileExtensions>
-						<unix>.sh</unix>
-					</binFileExtensions>
-					<extraJvmArguments>
-						-Xmx4096m
-						-Dlog4j2.formatMsgNoLookups=true
-						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
-						-Djava.library.path="./natives"
-						-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
-						--enable-native-access=ALL-UNNAMED
-						--add-modules jdk.incubator.vector
-					</extraJvmArguments>
-					<showConsoleWindow>true</showConsoleWindow>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>assemble</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-	
-			<!-- create a zip file: : assembly:single-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<descriptors>
-						<descriptor>src/assembly/zip.xml</descriptor>
-					</descriptors>
-					<finalName>mtg-desktop-companion</finalName>
-				</configuration>
-			</plugin>
-			
-			<!-- Reformat source code : spotless:apply-->
-			<plugin>
-				<groupId>com.diffplug.spotless</groupId>
-				<artifactId>spotless-maven-plugin</artifactId>
-				<version>3.4.0</version>
-				<configuration>
-					<java>
-						<eclipse />
-						<importOrder />
-						<removeUnusedImports />
-						<formatAnnotations />
-						<trimTrailingWhitespace />
-					</java>
-				</configuration>
-			</plugin>
-						
-		</plugins>
-	</build>
 
 </project>

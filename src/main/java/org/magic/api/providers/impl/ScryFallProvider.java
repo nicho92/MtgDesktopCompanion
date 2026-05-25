@@ -249,8 +249,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = new HashMap<String, MTGProperty>();
-		map.put("EXTRA", MTGProperty.newBooleanProperty(FALSE,
-				"If true, extra cards (tokens, planes, etc) will be included."));
+		map.put("EXTRA",
+				MTGProperty.newBooleanProperty(FALSE, "If true, extra cards (tokens, planes, etc) will be included."));
 		map.put("MULTILINGUAL", MTGProperty.newBooleanProperty(FALSE,
 				"If true, cards in every language supported by Scryfall will be included."));
 		map.put("VARIATIONS", MTGProperty.newBooleanProperty("true",

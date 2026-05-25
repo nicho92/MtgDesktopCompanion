@@ -268,7 +268,7 @@ public class Player extends Observable implements Serializable {
 		List<MTGCard> ret = new ArrayList<>();
 		for (var i = 0; i < number; i++) {
 			var mc = library.getCards().remove(i);
-			if(mc!=null) {
+			if (mc != null) {
 				ret.add(mc);
 				graveyard.add(mc);
 			}

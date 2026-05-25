@@ -25,9 +25,7 @@ public class MTGIconableTableCellRenderer extends JLabel implements TableCellRen
 		if (value != null) {
 			setText(((MTGIconable) value).getName());
 			setIcon(((MTGIconable) value).getIcon());
-		}
-		else
-		{
+		} else {
 			setText("");
 			setIcon(null);
 		}
