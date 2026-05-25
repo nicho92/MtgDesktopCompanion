@@ -3,6 +3,8 @@ package org.magic.api.beans.technical;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.Objects;
+
 import org.magic.services.tools.UITools;
 
 public class MoneyValue extends Number implements Serializable, Comparable<MoneyValue> {
@@ -58,7 +60,11 @@ public class MoneyValue extends Number implements Serializable, Comparable<Money
 		return false;
 	}
 	
-
+	@Override
+	public int hashCode() {
+		return Objects.hash(getValue(),getCurrency());
+	}
+	
 	public boolean isPositive() {
 		return value.doubleValue() > 0;
 	}
