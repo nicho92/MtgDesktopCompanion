@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,7 +29,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -41,8 +41,8 @@ import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 import org.drjekyll.fontchooser.FontDialog;
@@ -70,6 +70,7 @@ import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.components.widgets.JResizerPanel;
 import org.magic.gui.components.widgets.JTextFieldFileChooser;
 import org.magic.gui.models.MapTableModel;
+import org.magic.gui.renderer.standard.LocalListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
@@ -541,8 +542,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		var cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
 
-		cboLocales.setRenderer((JList<? extends Locale> _, Locale value, int _, boolean _, boolean _) -> new JLabel(
-				StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale()))));
+		cboLocales.setRenderer(new LocalListRenderer());
 
 		var lblCardsLanguage = new JLangLabel("CARD_LANGUAGE", true);
 		var cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
