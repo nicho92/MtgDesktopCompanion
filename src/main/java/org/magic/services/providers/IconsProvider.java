@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
@@ -214,7 +213,7 @@ public class IconsProvider {
 	}
 
 	private void initCache() throws IOException {
-		for (MTGEdition e : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+		for (var e : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
 			var im = extract(e.getId().toUpperCase());
 			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)) {
 				private static final long serialVersionUID = 1L;

@@ -9,6 +9,7 @@ import org.magic.services.tools.UITools;
 
 public class JWallThumb extends JLabel {
 
+	private static final String BR = "<br/>";
 	private static final long serialVersionUID = 1L;
 	private boolean selected = false;
 	private transient MTGWallpaper wall;
@@ -44,13 +45,14 @@ public class JWallThumb extends JLabel {
 		setText(w.getName());
 
 		var b = new StringBuilder("<html>");
-		b.append("<b>").append(w.getName()).append("</b><br/>");
-		b.append("Author : ").append(w.getAuthor()).append("<br/>");
-		b.append("Date : ").append(UITools.formatDateTime(w.getPublishDate())).append("<br/>");
-		b.append("Nsfw : ").append(w.isMature()).append("<br/>");
-		b.append("Provider : ").append(w.getProvider()).append("<br/>");
-		b.append("Extension : ").append(w.getFormat()).append("<br/>");
-
+		b.append("<b>").append(w.getName()).append("</b>").append(BR);
+		b.append("Author : ").append(w.getAuthor()).append(BR);
+		b.append("Date : ").append(UITools.formatDateTime(w.getPublishDate())).append(BR);
+		b.append("Nsfw : ").append(w.isMature()).append(BR);
+		b.append("Provider : ").append(w.getProvider()).append(BR);
+		b.append("Extension : ").append(w.getFormat()).append(BR);
+		b.append("</html>");
+		
 		setToolTipText(b.toString());
 	}
 

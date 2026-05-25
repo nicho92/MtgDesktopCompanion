@@ -14,6 +14,7 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
+import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
@@ -56,11 +57,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				.addContent("fields[illustrator]", mc.getArtist())
 				.addContent("fields[copyright]", getString("COPYRIGHT")).addContent("fields[cm]", mc.getCost());
 
-		if (getString(LAYOUT_OLD_MODERN).equalsIgnoreCase("old"))
-			mc.setFrameVersion("1993");
-		else
-			mc.setFrameVersion("2003");
-
+		postEditing(mc, me);
+		
+		
 		if (mc.isPlaneswalker()) {
 			List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
 			build.addContent("template", "modern-planeswalker" + abs.size());
@@ -131,6 +130,17 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		return ImageTools.readBase64(el.getAsJsonObject().get("image").getAsString());
 	}
 
+	private void postEditing(MTGCard mc, MTGEdition me) {
+		if (getString(LAYOUT_OLD_MODERN).equalsIgnoreCase("old"))
+			mc.setFrameVersion("1993");
+		else
+			mc.setFrameVersion("2003");
+		
+		mc.setSecurityStamp(EnumSecurityStamp.NONE);
+		
+		
+	}
+
 	private String upload(File f) throws IOException {
 		if (httpclient == null)
 			connect();
@@ -158,7 +168,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("COPYRIGHT", new MTGProperty("(c)2025-Wizards of the coast", "Bottom card information"),
+		return Map.of("COPYRIGHT", new MTGProperty("(c)2026-Wizards of the coast", "Bottom card information"),
 				LAYOUT_OLD_MODERN, new MTGProperty("modern", "choose the layout of the card", "old", "modern"));
 	}
 
@@ -190,5 +200,5 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 		return hashCode() == obj.hashCode();
 	}
-
+	
 }

@@ -17,6 +17,8 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.factories.AbilitiesFactory;
@@ -88,7 +90,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		var build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");
 
-		mc.setFrameVersion("2015");
+		postEditing(mc,me);
+		
 
 		if (me != null) {
 			build.addParameter("card-number", !mc.getNumber().isEmpty() ? mc.getNumber() : "1");
@@ -224,11 +227,13 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 		build.addParameter("edit", FALSE);
 
+	//	build.addParameter("set-symbol","https://funcardmaker.thaledric.fr/resource/seThumb/promo/shooting-star-"+mc.getRarity().name().substring(0, 1).toLowerCase()+".png")
+		
 		try {
 			logger.debug("generate {}", build.build());
 			var resp = httpclient.doGet(build.build().toASCIIString());
 			logger.info("generate {}", resp.getStatusLine().getReasonPhrase());
-			BufferedImage im = ImageTools.read(resp.getEntity().getContent());
+			var im = ImageTools.read(resp.getEntity().getContent());
 			EntityUtils.consume(resp.getEntity());
 			return im;
 		} catch (Exception e) {
@@ -236,6 +241,18 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 			return null;
 		}
 
+	}
+
+	private void postEditing(MTGCard mc, MTGEdition me) {
+		mc.setFrameVersion("2015");
+		
+		if(mc.getRarity()==EnumRarity.MYTHIC ||  mc.getRarity()==EnumRarity.RARE)
+			mc.setSecurityStamp(EnumSecurityStamp.OVAL);
+		else
+			mc.setSecurityStamp(EnumSecurityStamp.NONE);
+		
+		
+		
 	}
 
 	private String getFrame(MTGCard mc) {

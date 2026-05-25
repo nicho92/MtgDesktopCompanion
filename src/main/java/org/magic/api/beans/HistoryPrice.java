@@ -69,7 +69,7 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date, Double>> {
 		if (isEmpty())
 			return null;
 
-		List<Entry<Date, Double>> res = new ArrayList<>(entrySet());
+		var res = new ArrayList<Entry<Date, Double>>(entrySet());
 		return res.get(res.size() - val).getKey();
 	}
 
