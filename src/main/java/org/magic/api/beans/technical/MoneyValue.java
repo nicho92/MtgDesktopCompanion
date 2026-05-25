@@ -44,6 +44,20 @@ public class MoneyValue extends Number implements Serializable, Comparable<Money
 		this.value = BigDecimal.valueOf(value);
 		this.currency = currency;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj==null)
+			return false;
+		
+		if(obj instanceof MoneyValue mv)
+		{
+			return (mv.getValue().equals(getValue()) && mv.getCurrency().equals(getCurrency()));
+		}
+		return false;
+	}
+	
 
 	public boolean isPositive() {
 		return value.doubleValue() > 0;

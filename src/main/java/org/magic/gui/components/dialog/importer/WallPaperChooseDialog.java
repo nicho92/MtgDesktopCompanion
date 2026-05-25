@@ -54,7 +54,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 							return Stream.empty();
 						}
 
-					}).collect(Collectors.toList());
+					}).toList();
 				}
 
 				@Override

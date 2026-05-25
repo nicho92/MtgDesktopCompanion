@@ -23,7 +23,9 @@ public class DorkBox extends AbstractMTGNotifier {
 			case WARNING -> n.showWarning();
 			case ERROR -> n.showError();
 			case INFO -> n.showInformation();
-			case NONE -> {}
+			case NONE -> {
+				// do nothing
+			}
 			default -> n.showInformation();
 		}
 

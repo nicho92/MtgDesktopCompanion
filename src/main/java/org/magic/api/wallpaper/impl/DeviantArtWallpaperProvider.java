@@ -211,7 +211,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			c = types.get(0).getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
 		} else {
 			for (var t : types) {
-				if (t.getAsJsonObject().get("t").getAsString().equals("fullview") && !b) {
+				if (t.getAsJsonObject().get("t").getAsString().equals("fullview")) {
 					if (t.getAsJsonObject().get("c") != null)
 						c = t.getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
 

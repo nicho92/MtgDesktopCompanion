@@ -62,9 +62,9 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	public boolean isSetLoaded(MTGEdition ed) {
 		return dataList.containsKey(ed.getId());
 	}
-
+	
 	protected List<DescContainer> allDatas() {
-		return dataList.values().stream().flatMap(List::stream).collect(Collectors.toList());
+		return dataList.values().stream().flatMap(List::stream).toList();
 	}
 
 	protected void add(DescContainer dc) {
