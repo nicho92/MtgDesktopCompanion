@@ -89,7 +89,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				colorBase = mc.getColors().get(0).getCode();
 		}
 
-		if (mc.isHybride() || !mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "").isEmpty()) {
+		if (mc.isHybride()) 
+		{
 			if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
 				colorBase = new StringBuilder()
 						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/")
@@ -97,6 +98,18 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			} else {
 				colorBase = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			}
+		}
+		
+		if(mc.isLand())
+		{
+			if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
+				colorBase = new StringBuilder("l")
+						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/l")
+						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
+			} else {
+				colorBase = "l"+mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+			}
+
 		}
 		build.addContent("fields[background-base]", colorBase.toLowerCase());
 		build.addContent("fields[background-texture]", colorBase.toLowerCase());
