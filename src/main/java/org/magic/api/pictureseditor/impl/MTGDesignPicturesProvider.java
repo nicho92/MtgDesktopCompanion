@@ -25,6 +25,7 @@ import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.SMFIconsSetProvider;
 import org.magic.services.tools.ImageTools;
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
@@ -226,8 +227,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 
 		build.addParameter("edit", FALSE);
-
-	//	build.addParameter("set-symbol","https://funcardmaker.thaledric.fr/resource/seThumb/promo/shooting-star-"+mc.getRarity().name().substring(0, 1).toLowerCase()+".png")
+		
+		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true"))
+			build.addParameter("set-symbol",new SMFIconsSetProvider().getSetFor(me, mc.getRarity()).toASCIIString());
 		
 		try {
 			logger.debug("generate {}", build.build());

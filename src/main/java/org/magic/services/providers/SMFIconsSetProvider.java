@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumRarity;
@@ -15,7 +16,7 @@ public class SMFIconsSetProvider {
 	private HashMap<String, String> map;
 
 	public SMFIconsSetProvider() {
-		map = new HashMap<String, String>();
+		map = new HashMap<>();
 		map.put("LEA", "base/alpha");
 		map.put("LEB", "base/beta");
 		map.put("2ED", "base/unlimited");
@@ -45,7 +46,7 @@ public class SMFIconsSetProvider {
 		map.put("ICE", "first-extensions/ice-age");
 		map.put("ALL", "first-extensions/alliances");
 		map.put("CSP", "first-extensions/coldsnap");
-		
+		 
 		map.put("MIR", "mirage/mirage");
 		map.put("VIS", "mirage/visions");
 		map.put("WTH", "mirage/weatherlight");
@@ -57,17 +58,42 @@ public class SMFIconsSetProvider {
 		map.put("USG", "urza/urzassaga");
 		map.put("ULG", "urza/urzaslegacy");
 		map.put("UDS", "urza/urzasdestiny");
+		
+		map.put("MMQ", "masques/mercadian-masques");
+		map.put("NEM", "masques/nemesis");
+		map.put("PCY", "masques/prophecy");
+		
+		map.put("INV", "invasion/invasion");
+		map.put("PLS", "invasion/planeshift");
+		map.put("APC", "invasion/apocalypse");
+		
+		map.put("ODY", "odyssey/odyssey");
+		map.put("TOR", "odyssey/torment");
+		map.put("JUD", "odyssey/judgment");
+		
+		map.put("ONS", "onslaught/onslaught");
+		map.put("LGN", "onslaught/legions");
+		map.put("SCG", "onslaught/scourge");
+		
+		map.put("MRD", "mirrodin/mirrodin");
+		map.put("DST", "mirrodin/darksteel");
+		map.put("5DN", "mirrodin/fifth-dawn");
 	}
+	
+	public HashMap<String, String> getMap() {
+		return map;
+	}
+	
 	
 	public List<MTGEdition> availableSets()
 	{
 		return map.keySet().stream().map(id->{
 			try {
 				return MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(id);
-			} catch (IOException e) {
+			} catch (IOException _) {
 				return null;
 			}
-		}).sorted().toList();
+		}).filter(Objects::nonNull).sorted().toList();
 	}
 	
 	public URI getSetFor(MTGEdition ed, EnumRarity r) {

@@ -22,6 +22,7 @@ import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.SMFIconsSetProvider;
 import org.magic.services.tools.ImageTools;
 
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
@@ -89,7 +90,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				colorBase = mc.getColors().get(0).getCode();
 		}
 
-		if (mc.isHybride() || !mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).isEmpty()) 
+		if (mc.isHybride() || !mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"").isEmpty()) 
 		{
 			if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
 				colorBase = new StringBuilder()
@@ -111,6 +112,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			}
 
 		}
+		
 		build.addContent("fields[background-base]", colorBase.toLowerCase());
 		build.addContent("fields[background-texture]", colorBase.toLowerCase());
 
@@ -128,6 +130,12 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				build.addContent("fields[illustration]", filename);
 			}
 		}
+
+		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.SHOW_SET_ICON)!=null)
+			build.addContent("fields[se-extension]",new SMFIconsSetProvider().getMap().get(me.getId()));
+
+		
+		
 
 		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 
