@@ -89,7 +89,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				colorBase = mc.getColors().get(0).getCode();
 		}
 
-		if (mc.isHybride()) 
+		if (mc.isHybride() || !mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).isEmpty()) 
 		{
 			if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
 				colorBase = new StringBuilder()
