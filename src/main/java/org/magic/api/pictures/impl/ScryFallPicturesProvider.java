@@ -17,15 +17,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	private static final String LARGE = "large";
 
 	@Override
-	public String generateUrl(MTGCard mc) {
-		try {
-			return generateLink(mc, false).toString();
-		} catch (MalformedURLException _) {
-			return "";
-		}
-	}
-
-	private URL generateLink(MTGCard mc, boolean crop) throws MalformedURLException {
+	public String generateUrl(MTGCard mc, boolean crop) {
 
 		var url = new StringBuilder("https://cards.scryfall.io/");
 
@@ -43,7 +35,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		url.append(mc.getScryfallId().charAt(0)).append("/").append(mc.getScryfallId().charAt(1)).append("/")
 				.append(mc.getScryfallId()).append(".jpg");
 
-		return URI.create(url.toString()).toURL();
+		return url.toString();
 
 	}
 
@@ -56,9 +48,9 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
-		var url = generateLink(mc, false);
+		var url = generateUrl(mc, false);
 		try {
-			return extractAsImage(url.toString());
+			return extractAsImage(url);
 		} catch (Exception _) {
 			return null;
 		}
@@ -71,9 +63,9 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage extractPicture(MTGCard mc) throws IOException {
-		var u = generateLink(mc, true);
+		var u = generateUrl(mc, true);
 		try {
-			return extractAsImage(u.toString());
+			return extractAsImage(u);
 		} catch (Exception e) {
 			logger.error(e);
 			return getBackPicture(mc);

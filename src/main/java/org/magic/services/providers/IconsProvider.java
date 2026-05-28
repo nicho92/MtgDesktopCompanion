@@ -152,14 +152,10 @@ public class IconsProvider {
 		var diagram = universe.getDiagram(uri);
 		var image = new BufferedImage((int)diagram.getWidth(),(int)diagram.getHeight(), BufferedImage.TYPE_INT_ARGB);
         var g = image.createGraphics();
-
         ImageTools.initGraphics(g);
         diagram.render(g);
-        
         g.dispose();
-        
        return image;
-		
 	}
 	
 	private BufferedImage extract(String id) throws IOException {
@@ -173,7 +169,7 @@ public class IconsProvider {
 			logger.trace("load from jar {}", id);
 
 			try {
-				String equivSet = getEquiv(id);
+				var equivSet = getEquiv(id);
 				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
 				ImageTools.saveImage(im, iconFile, "png");
 			} catch (Exception _) {
@@ -181,6 +177,7 @@ public class IconsProvider {
 				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR + "PMTG1_set.png"));
 			}
 			return im;
+			
 		}
 
 	}

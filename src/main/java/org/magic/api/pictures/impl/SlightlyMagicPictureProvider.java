@@ -34,7 +34,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public String generateUrl(MTGCard mc) {
+	public String generateUrl(MTGCard mc,boolean crop) {
 
 		if (!getFile(PICS_DIR).exists())
 			try {
@@ -81,9 +81,9 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
 
 		try {
-			return ImageTools.read(new File(generateUrl(mc)));
+			return ImageTools.read(new File(generateUrl(mc,false)));
 		} catch (Exception _) {
-			logger.debug("{} is not found", generateUrl(mc));
+			logger.debug("{} is not found", generateUrl(mc,false));
 			return null;
 		}
 	}

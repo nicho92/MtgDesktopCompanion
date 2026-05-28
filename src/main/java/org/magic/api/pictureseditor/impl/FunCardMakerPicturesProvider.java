@@ -16,7 +16,6 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
-import org.magic.api.combo.impl.SMFComboProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
@@ -25,8 +24,6 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SMFIconsSetProvider;
 import org.magic.services.tools.ImageTools;
-
-import com.google.gson.JsonElement;
 
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
 
@@ -134,7 +131,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			}
 		}
 
-		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.SHOW_SET_ICON)!=null)
+		if(Boolean.parseBoolean(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false")))
 			build.addContent("fields[se-extension]", new SMFIconsSetProvider().getMap().get(me.getId()));
 		
 		
@@ -149,7 +146,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		String ret = httpclient.toString(httpclient.execute(build));
 		logger.trace("RESPONSE: {}", ret);
 
-		JsonElement el = URLTools.toJson(ret);
+		var el = URLTools.toJson(ret);
 
 		return ImageTools.readBase64(el.getAsJsonObject().get("image").getAsString());
 	}

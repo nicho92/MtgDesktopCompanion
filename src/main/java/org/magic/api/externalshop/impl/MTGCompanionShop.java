@@ -62,7 +62,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		cards.forEach(card -> {
 			card.setEdition(card.getEdition());
 			card.setCategory(new Category(0, EnumItems.CARD.name()));
-			card.setUrl(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
+			card.setUrl(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card,false));
 			card.setProductId(Long.valueOf(card.getScryfallId().hashCode()));
 			notify(card);
 			ret.add(card);

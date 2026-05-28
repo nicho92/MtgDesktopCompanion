@@ -33,6 +33,7 @@ import org.magic.api.interfaces.MTGIA;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
+import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -304,7 +305,12 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			var l = new CardImporterDialog();
 			l.setVisible(true);
 			if (l.hasSelected())
-				initCard(l.getSelectedItem());
+			{
+				var mc = l.getSelectedItem();
+				mc.setUrl(MTG.getPlugin("Scryfall", MTGPictureProvider.class).generateUrl(mc, true));
+				
+				initCard(mc);
+			}
 
 		});
 
