@@ -356,7 +356,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		chkMatureContent.addItemListener(_ -> magicCard.setHasContentWarning(chkMatureContent.isSelected()));
 		chkShowSetIcon.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SHOW_SET_ICON,""+chkShowSetIcon.isSelected()));
 		
-	    cboBorders.addItemListener(_ -> magicCard.setBorder(EnumBorders.valueOf(cboBorders.getSelectedItem().toString())));
+	    cboBorders.addItemListener(_ -> {
+	    	if(cboBorders.getSelectedItem()!=null)
+	    		magicCard.setBorder(EnumBorders.valueOf(String.valueOf(cboBorders.getSelectedItem())));
+	    });
+	    
 		BeanProperty<MTGCard, String> artistProperty = BeanProperty.create("artist");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(
