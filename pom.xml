@@ -372,9 +372,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.formdev</groupId>
-			<artifactId>svgSalamander</artifactId>
-			<version>1.1.4</version>
+		  <groupId>io.github.blackears</groupId>
+		  <artifactId>svg-salamander</artifactId>
+		  <version>1.1.5.5</version>
 		</dependency>
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>

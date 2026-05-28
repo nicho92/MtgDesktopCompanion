@@ -36,6 +36,7 @@ import org.magic.services.tools.ImageTools;
 public class URLTools {
 
 	private static Logger logger = MTGLogger.getLogger(URLTools.class);
+	
 	private static final List<Extension> MARKDOWN_EXTENSIONS = List.of(TablesExtension.create());
 	private static final Parser MARKDOWN_PARSER = Parser.builder().extensions(MARKDOWN_EXTENSIONS).build();
 	private static final HtmlRenderer MARKDOWN_RENDERER = HtmlRenderer.builder().extensions(MARKDOWN_EXTENSIONS)
@@ -45,7 +46,9 @@ public class URLTools {
 	public static final String HEADER_HTML = "text/html";
 	public static final String HEADER_CSS = "text/css";
 	public static final String HEADER_TEXT = "text/plain";
-
+	public static final String HEADER_IMAGE_PNG = "image/png";
+	
+	
 	public static final String REFERER = "Referer";
 	public static final String HOST = "Host";
 	public static final String X_REQUESTED_WITH = "X-Requested-With";

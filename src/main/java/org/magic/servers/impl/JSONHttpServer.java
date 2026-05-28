@@ -59,6 +59,7 @@ import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -103,6 +104,7 @@ import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.Chrono;
@@ -885,7 +887,26 @@ public class JSONHttpServer extends AbstractMTGServer {
 					}
 
 				}), transformer);
-
+		
+		get("/editions/logo/:idSet/:rarity", (request, response) ->  {
+						try {
+							var img = IconsProvider.getInstance().getSetColoredSetImage(EnumRarity.valueOf(request.params(":rarity").toUpperCase()), request.params(":idSet"));
+							
+							var baos = new ByteArrayOutputStream();
+							ImageTools.write(img, "png", baos);
+							baos.flush();
+							byte[] imageInByte = baos.toByteArray();
+							baos.close();
+							response.type(URLTools.HEADER_IMAGE_PNG);
+							
+							return imageInByte;
+							
+						} catch (Exception e) {
+							return null;
+						}
+		});
+		
+		
 	}
 
 	private void initAnnounces() {

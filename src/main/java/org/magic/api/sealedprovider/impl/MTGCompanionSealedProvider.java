@@ -93,7 +93,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider {
 	}
 
 	public synchronized List<MTGSealedProduct> getItemsFor(MTGEdition me) {
-		List<MTGSealedProduct> ret = new ArrayList<>();
+		var ret = new ArrayList<MTGSealedProduct>();
 		if (me == null)
 			return ret;
 
