@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -33,7 +35,6 @@ import org.magic.api.interfaces.MTGIA;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
-import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

@@ -2,15 +2,13 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.Map;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
@@ -41,7 +39,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	private BufferedImage extractAsImage(String url) throws IOException {
 
-		return RequestBuilder.build().newClient().url(url).addHeader("Accept", "application/json;q=0.9,*/*;q=0.8").get()
+		return RequestBuilder.build().newClient().url(url).addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").get()
 				.toImage();
 
 	}

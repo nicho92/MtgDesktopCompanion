@@ -31,6 +31,7 @@ public class ShortKeyManagerUI extends MTGUIComponent {
 	private JTextField textField;
 	private int currentKeyCode;
 
+	@SuppressWarnings("null")
 	public ShortKeyManagerUI() {
 		setLayout(new BorderLayout(0, 0));
 

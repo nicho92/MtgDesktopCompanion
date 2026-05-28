@@ -22,6 +22,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -96,7 +98,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void initListener() {
 		listener = new ListenerAdapter() {
 			@Override
-			public void onMessageReceived(MessageReceivedEvent event) {
+			public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
 				if (event.getAuthor().isBot())
 					return;
 
@@ -110,12 +112,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 			}
 
 			@Override
-			public void onReady(ReadyEvent event) {
+			public void onReady(@Nonnull ReadyEvent event) {
 				logger.info("Server {} started", getName());
 			}
 		};
 	}
 
+	@SuppressWarnings("null")
 	public JsonObject toJsonDetails() {
 		var jo = new JsonObject();
 		if (isAlive()) {
@@ -164,6 +167,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		return channel;
 	}
 
+	@SuppressWarnings("null")
 	private void analyseMessage(MessageReceivedEvent event) {
 		var info = new MessageInfo();
 		info.setSource(getName());
@@ -230,6 +234,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		}
 	}
 
+	@SuppressWarnings("null")
 	private void responseFormats(MessageReceivedEvent event, String content) throws IOException {
 		String format = "";
 		try {
@@ -254,6 +259,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	}
 
+	@SuppressWarnings("null")
 	private void responseChardShake(MessageReceivedEvent event, String name, boolean noFoil, boolean foilOnly)
 			throws IOException {
 
@@ -362,6 +368,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	}
 
+	@SuppressWarnings("null")
 	private void applyControl(String emote, Message message, boolean enabled) {
 		try {
 
@@ -384,6 +391,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		}
 	}
 
+	@SuppressWarnings("null")
 	private MessageEmbed parseCard(MTGCard mc, boolean price, MessageInfo info) {
 
 		var eb = new EmbedBuilder();
@@ -461,6 +469,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		return eb.build();
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void start() throws IOException {
 		try {
@@ -601,6 +610,7 @@ class NavigableEmbed extends ListenerAdapter {
 		return new ArrayList<>(embeds);
 	}
 
+	@SuppressWarnings("null")
 	private void sendMessage() {
 		MessageEmbed embed = embeds.get(xindex).get(yindex).get();
 		try {
@@ -704,8 +714,9 @@ class ReactionListener extends ListenerAdapter {
 		actionMap.put(reaction, cb);
 	}
 
+	@SuppressWarnings("null")
 	@Override
-	public void onGenericMessageReaction(GenericMessageReactionEvent event) {
+	public void onGenericMessageReaction(@Nonnull GenericMessageReactionEvent event) {
 
 		if (message == null || event.getMessageIdLong() != message.getIdLong() || event.getUser() == null
 				|| !controllers.contains(event.getUser().getId()))

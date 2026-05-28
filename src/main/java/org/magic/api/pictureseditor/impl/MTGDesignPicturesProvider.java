@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -23,7 +24,6 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.AccountsManager;
-import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;

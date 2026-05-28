@@ -30,6 +30,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 		sendMessage(notification, getLong("CHANNELID"));
 	}
 
+	@SuppressWarnings("null")
 	public void sendMessage(MTGNotification notification, long chanID) {
 
 		JDA jda = null;
