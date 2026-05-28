@@ -146,7 +146,6 @@ public class IconsProvider {
 	
 	public BufferedImage getSetColoredSetImage(EnumRarity r, String setCode) throws Exception {
 		var universe = new  SVGUniverse();
-		
 		var svgString = URLTools.extractAsString("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+ getEquiv(setCode).toLowerCase() + ".svg");
 		svgString = svgString.replaceAll("fill=\"#[^\"]+\"", "fill=\"" + r.getColorHexa() + "\"");
 		var uri = universe.loadSVG(new StringReader(svgString),setCode);

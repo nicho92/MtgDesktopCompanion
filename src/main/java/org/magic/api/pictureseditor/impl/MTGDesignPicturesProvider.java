@@ -23,9 +23,9 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.AccountsManager;
+import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.providers.SMFIconsSetProvider;
 import org.magic.services.tools.ImageTools;
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
@@ -229,7 +229,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		build.addParameter("edit", FALSE);
 		
 		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true"))
-			build.addParameter("set-symbol",new SMFIconsSetProvider().getSetFor(me, mc.getRarity()).toASCIIString());
+			build.addParameter("set-symbol", "https://my.mtgcompanion.org:1234/editions/logo/"+(me!=null?me.getId():"pmei")+"/"+mc.getRarity().name());
+		
 		
 		try {
 			logger.debug("generate {}", build.build());

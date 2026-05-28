@@ -1,11 +1,11 @@
 package org.magic.api.pictureseditor.impl;
 
-import com.google.gson.JsonElement;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -16,6 +16,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.combo.impl.SMFComboProvider;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
@@ -24,6 +25,8 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SMFIconsSetProvider;
 import org.magic.services.tools.ImageTools;
+
+import com.google.gson.JsonElement;
 
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
 
@@ -132,8 +135,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		}
 
 		if(mc.getCustomMetadata().get(EnumExtraCardMetaData.SHOW_SET_ICON)!=null)
-			build.addContent("fields[se-extension]",new SMFIconsSetProvider().getMap().get(me.getId()));
-
+			build.addContent("fields[se-extension]", new SMFIconsSetProvider().getMap().get(me.getId()));
+		
 		
 		
 

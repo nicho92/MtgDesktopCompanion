@@ -902,7 +902,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 							return imageInByte;
 							
 						} catch (Exception e) {
-							return null;
+							return error(request, response, e, 0);
 						}
 		});
 		
