@@ -228,7 +228,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 		build.addParameter("edit", FALSE);
 		
-		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true"))
+		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,FALSE).equals("true"))
 			build.addParameter("set-symbol", "https://my.mtgcompanion.org:1234/editions/logo/"+(me!=null?me.getId():"pmei")+"/"+mc.getRarity().name());
 		
 		

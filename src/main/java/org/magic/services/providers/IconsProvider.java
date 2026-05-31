@@ -25,6 +25,7 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonObject;
+import com.kitfox.svg.SVGException;
 import com.kitfox.svg.SVGUniverse;
 
 public class IconsProvider {
@@ -144,7 +145,7 @@ public class IconsProvider {
 	}
 	
 	
-	public BufferedImage getSetColoredSetImage(EnumRarity r, String setCode) throws Exception {
+	public BufferedImage getSetColoredSetImage(EnumRarity r, String setCode) throws IOException {
 		var universe = new  SVGUniverse();
 		var svgString = URLTools.extractAsString("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+ getEquiv(setCode).toLowerCase() + ".svg");
 		svgString = svgString.replaceAll("fill=\"#[^\"]+\"", "fill=\"" + r.getColorHexa() + "\"");
@@ -153,7 +154,11 @@ public class IconsProvider {
 		var image = new BufferedImage((int)diagram.getWidth(),(int)diagram.getHeight(), BufferedImage.TYPE_INT_ARGB);
         var g = image.createGraphics();
         ImageTools.initGraphics(g);
-        diagram.render(g);
+        try {
+			diagram.render(g);
+		} catch (SVGException e) {
+			throw new IOException(e);
+		}
         g.dispose();
        return image;
 	}

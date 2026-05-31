@@ -890,7 +890,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/editions/logo/:idSet/:rarity", (request, response) ->  {
 						try {
-							var img = IconsProvider.getInstance().getSetColoredSetImage(EnumRarity.valueOf(request.params(":rarity").toUpperCase()), request.params(":idSet"));
+							var img = IconsProvider.getInstance().getSetColoredSetImage(EnumRarity.valueOf(request.params(":rarity").toUpperCase()), request.params(ID_SET));
 							
 							var baos = new ByteArrayOutputStream();
 							ImageTools.write(img, "png", baos);
