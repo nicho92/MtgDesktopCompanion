@@ -1,13 +1,11 @@
 package org.magic.api.externalshop.impl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.StreamSupport;
+
 import org.apache.groovy.util.Maps;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
@@ -27,6 +25,10 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class ShopifyExternalShop extends AbstractExternalShop {
 
@@ -291,21 +293,18 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		addresses.add(imageObj);
 		prodobj.add("addresses", addresses);
 
-		HttpResponse res = null;
-
 		if (c.getId() < 0) {
-			res = client.doPost(getBaseUrl() + "customers.json", new StringEntity(obj.toString()), headers());
+			var res = client.doPost(getBaseUrl() + "customers.json", obj, headers());
 
 			try {
-				var content = URLTools.toJson(res.getEntity().getContent());
-				c.setId(content.getAsJsonObject().get(CUSTOMER).getAsJsonObject().get("id").getAsInt());
+				c.setId(res.getAsJsonObject().get(CUSTOMER).getAsJsonObject().get("id").getAsInt());
 				return c.getId();
 			} catch (Exception e) {
 				logger.error(e);
 				return null;
 			}
 		} else {
-			res = client.doPut(getBaseUrl() + "customers/" + c.getId() + JSON, new StringEntity(obj.toString()),
+			var res = client.doPut(getBaseUrl() + "customers/" + c.getId() + JSON, new StringEntity(obj.toString()),
 					headers());
 
 			try {
@@ -340,13 +339,11 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			objVariant.addProperty(INVENTORY_QUANTITY, c.getQte());
 
 			if (c.getId() < 0) {
-				res = client.doPost(getBaseUrl() + "products/" + c.getProduct().getProductId() + "/variants.json",
-						new StringEntity(obj.toString()), headers());
+				var ret = client.doPost(getBaseUrl() + "products/" + c.getProduct().getProductId() + "/variants.json",obj, headers());
 
 				try {
-					var content = URLTools.toJson(res.getEntity().getContent());
-					logger.info("ret={}", content);
-					c.setId(content.getAsJsonObject().get(VARIANT).getAsJsonObject().get("id").getAsInt());
+					logger.info("ret={}", ret);
+					c.setId(ret.getAsJsonObject().get(VARIANT).getAsJsonObject().get("id").getAsInt());
 				} catch (Exception e) {
 					logger.error(e);
 				}

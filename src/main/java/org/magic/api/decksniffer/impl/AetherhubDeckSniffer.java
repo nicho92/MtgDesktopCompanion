@@ -116,11 +116,10 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		var headers = new HashMap<String, String>();
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		headers.put(URLTools.USER_AGENT, MTGConstants.USER_AGENT);
-		var resp = httpclient.doPost(uriPost + formats.get(filter), new StringEntity(postReqData), headers);
-		var ret = httpclient.toString(resp);
+		var ret = httpclient.doPost(uriPost + formats.get(filter), URLTools.toJson(postReqData), headers);
 
 		logger.trace(ret);
-		var el = URLTools.toJson(ret).getAsJsonObject();
+		var el = ret.getAsJsonObject();
 		var arr = el.get("metadecks").getAsJsonArray();
 
 		for (JsonElement je : arr) {

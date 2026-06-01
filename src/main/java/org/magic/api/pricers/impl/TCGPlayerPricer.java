@@ -107,9 +107,8 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 				}
 					""".replace("$MAX", getString("MAX"));
 
-		var res = c.doPost("https://mp-search-api.tcgplayer.com/v1/product/" + idResults + "/listings",
-				new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
-		var jsonResult = URLTools.toJson(res.getEntity().getContent());
+		var jsonResult = c.doPost("https://mp-search-api.tcgplayer.com/v1/product/" + idResults + "/listings",URLTools.toJson(json), Maps.of("content-type", URLTools.HEADER_JSON));
+		
 		if (jsonResult == null)
 			return new JsonArray();
 
@@ -172,9 +171,9 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 					}
 					""".replace("$cardName", card.getName() + extra).replace("$setName", setName);
 
-		var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", new StringEntity(json),
+		var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", URLTools.toJson(json),
 				Maps.of("content-type", URLTools.HEADER_JSON));
-		var arr = URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get(RESULTS).getAsJsonArray().get(0)
+		var arr = res.getAsJsonObject().get(RESULTS).getAsJsonArray().get(0)
 				.getAsJsonObject().get(RESULTS).getAsJsonArray();
 
 		if (arr.isEmpty())

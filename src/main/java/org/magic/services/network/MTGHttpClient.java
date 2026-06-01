@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
@@ -23,6 +24,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -37,6 +39,8 @@ import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
+
+import com.google.gson.JsonElement;
 
 public class MTGHttpClient {
 
@@ -159,6 +163,31 @@ public class MTGHttpClient {
 				entities.entrySet().stream().map(e -> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),
 				headers);
 	}
+	
+
+	public JsonElement doPost(String url, JsonElement obj, Map<String, String> headers) throws IOException {
+		var postReq = new HttpPost(url);
+		
+		try {
+			postReq.setEntity(new StringEntity(obj.toString()));
+
+			if (headers != null)
+				headers.entrySet().forEach(e -> postReq.addHeader(e.getKey(), e.getValue()));
+
+			postReq.addHeader(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
+			
+			
+			var ret = execute(postReq);
+			
+			return URLTools.toJson(EntityUtils.toString(ret.getEntity()));
+
+		} catch (Exception e1) {
+			throw new IOException(e1);
+		}
+		
+	}
+
+	
 
 	public HttpResponse doPost(String url, HttpEntity entities, Map<String, String> headers) throws IOException {
 		var postReq = new HttpPost(url);
@@ -207,7 +236,7 @@ public class MTGHttpClient {
 
 	public String getCookieValue(String cookieName) {
 		String value = null;
-		for (Cookie cookie : cookieStore.getCookies()) {
+		for (var cookie : cookieStore.getCookies()) {
 			if (cookie.getName().equals(cookieName)) {
 				value = cookie.getValue();
 				break;

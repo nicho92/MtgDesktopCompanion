@@ -45,8 +45,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 				.put("Origin", BASE_URL).put("Content-Type", "application/json")
 				.put("User-Agent", MTGConstants.USER_AGENT).build();
 
-		var resp = c.doPost("https://essearchapi-na.hawksearch.com/api/v2/search", new StringEntity(payload), hds);
-		var json = URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject().get("Results").getAsJsonArray();
+		var json = c.doPost("https://essearchapi-na.hawksearch.com/api/v2/search", URLTools.toJson(payload), hds).getAsJsonObject().get("Results").getAsJsonArray();
 
 		json.forEach(je -> {
 

@@ -122,6 +122,12 @@ public class MTGWallpaper implements Comparable<MTGWallpaper>, MTGSerializable {
 
 	}
 
+	
+	@Override
+	public String toString() {
+		return getName() + " - "+  getAuthor();
+	}
+	
 	@Override
 	public int compareTo(MTGWallpaper o) {
 		if (getPublishDate() != null && o != null && o.getPublishDate() != null)
