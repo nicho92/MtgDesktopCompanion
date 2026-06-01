@@ -140,7 +140,7 @@ public class URLTools {
 	}
 
 	public static Document extractAsHtml(String url) throws IOException {
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().toHtml();
+		return RequestBuilder.build().newClient().url(url).get().toHtml();
 
 	}
 

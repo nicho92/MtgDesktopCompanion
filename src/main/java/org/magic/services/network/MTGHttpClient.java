@@ -166,25 +166,8 @@ public class MTGHttpClient {
 	
 
 	public JsonElement doPost(String url, JsonElement obj, Map<String, String> headers) throws IOException {
-		var postReq = new HttpPost(url);
-		
-		try {
-			postReq.setEntity(new StringEntity(obj.toString()));
-
-			if (headers != null)
-				headers.entrySet().forEach(e -> postReq.addHeader(e.getKey(), e.getValue()));
-
-			postReq.addHeader(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
-			
-			
-			var ret = execute(postReq);
-			
-			return URLTools.toJson(EntityUtils.toString(ret.getEntity()));
-
-		} catch (Exception e1) {
-			throw new IOException(e1);
-		}
-		
+		var resp = doPost(url, new StringEntity(obj.toString()), headers);
+		return URLTools.toJson(resp.getEntity().getContent());
 	}
 
 	
