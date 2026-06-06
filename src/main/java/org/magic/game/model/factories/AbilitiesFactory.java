@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.enums.EnumCardsPatterns;
@@ -45,7 +46,6 @@ public class AbilitiesFactory implements Serializable {
 	}
 
 	public List<AbstractAbilities> getAbilities(MTGCard mc) {
-
 		mc.setText(removeParenthesis(mc.getText()));
 		List<AbstractAbilities> ret = new ArrayList<>();
 		ret.addAll(getActivatedAbilities(mc));

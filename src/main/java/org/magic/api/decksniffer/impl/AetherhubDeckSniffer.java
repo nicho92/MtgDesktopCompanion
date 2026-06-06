@@ -2,7 +2,6 @@ package org.magic.api.decksniffer.impl;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import com.google.gson.JsonElement;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
@@ -22,6 +21,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonElement;
 
 public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 

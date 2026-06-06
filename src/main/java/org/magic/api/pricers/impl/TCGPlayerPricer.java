@@ -1,15 +1,13 @@
 package org.magic.api.pricers.impl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 import org.apache.groovy.util.Maps;
-import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumCondition;
@@ -18,6 +16,9 @@ import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
 public class TCGPlayerPricer extends AbstractPricesProvider {
 
