@@ -22,7 +22,7 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
-import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.game.model.factories.AbilityFactory;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
@@ -162,7 +162,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		if (!mc.getText().isEmpty()) {
 			if (mc.isPlaneswalker()) {
 
-				var abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
+				var abs = AbilityFactory.getInstance().getLoyaltyAbilities(mc);
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 
 				for (var i = 0; i < abs.size(); i++) {
@@ -182,7 +182,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 				build.addParameter("saga-reminder",
 						"(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)");
 
-				var abs = AbilitiesFactory.getInstance().getSagaAbilities(mc);
+				var abs = AbilityFactory.getInstance().getSagaAbilities(mc);
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 				for (var i = 0; i < abs.size(); i++) {
 					if (i == 0)

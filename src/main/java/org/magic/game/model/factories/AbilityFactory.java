@@ -20,20 +20,20 @@ import org.magic.game.model.costs.ActionCost;
 import org.magic.game.model.costs.LoyaltyCost;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 
-public class AbilitiesFactory implements Serializable {
+public class AbilityFactory implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static AbilitiesFactory inst;
+	private static AbilityFactory inst;
 
-	public static AbilitiesFactory getInstance() {
+	public static AbilityFactory getInstance() {
 
 		if (inst == null)
-			inst = new AbilitiesFactory();
+			inst = new AbilityFactory();
 
 		return inst;
 	}
 
-	private AbilitiesFactory() {
+	private AbilityFactory() {
 
 	}
 

@@ -57,7 +57,7 @@ import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
-import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.game.model.factories.AbilityFactory;
 import org.magic.game.model.factories.CountersFactory;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.PluginRegistry;
@@ -366,7 +366,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 				if (magicCard.isPlaneswalker()) {
 					var mnuModifier = new JMenu("Loyalty");
-					AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard())
+					AbilityFactory.getInstance().getLoyaltyAbilities(getMagicCard())
 							.forEach(la -> mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
 					menu.add(mnuModifier);
 				}
@@ -379,7 +379,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 			}
 
-			List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getActivatedAbilities(getMagicCard());
+			List<AbstractAbilities> abs = AbilityFactory.getInstance().getActivatedAbilities(getMagicCard());
 			if (!abs.isEmpty()) {
 				var mnuAbilities = new JMenu("Activate");
 				abs.stream().filter(c -> !c.isLoyalty()).forEach(c -> mnuAbilities.add(new AbilitiesActions(c)));

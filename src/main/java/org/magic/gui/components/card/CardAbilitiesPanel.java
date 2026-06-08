@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import org.magic.api.beans.MTGCard;
-import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.game.model.factories.AbilityFactory;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.keywords.AbstractKeyWordsManager;
@@ -55,7 +55,7 @@ public class CardAbilitiesPanel extends MTGUIComponent {
 
 		});
 
-		temp.append("\nABILITIES:\n").append(AbilitiesFactory.getInstance().getAbilities(mc));
+		temp.append("\nABILITIES:\n").append(AbilityFactory.getInstance().getAbilities(mc));
 		textPane.setText(temp.toString());
 	}
 

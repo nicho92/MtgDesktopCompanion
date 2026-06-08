@@ -17,7 +17,7 @@ import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.RollAD20Actions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
 import org.magic.game.actions.battlefield.UnselectAllAction;
-import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.game.model.factories.AbilityFactory;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;
 
@@ -88,7 +88,7 @@ public class BattleFieldPanel extends DraggablePanel {
 		c.setPosition(getOrigine());
 		c.initActions();
 		GameManager.getInstance().getStack().put(new CardSpell(c));
-		AbilitiesFactory.getInstance().getTriggeredAbility(c.getMagicCard())
+		AbilityFactory.getInstance().getTriggeredAbility(c.getMagicCard())
 				.forEach(ta -> GameManager.getInstance().getStack().put(ta));
 	}
 

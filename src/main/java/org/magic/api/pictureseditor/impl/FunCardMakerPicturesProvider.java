@@ -18,7 +18,7 @@ import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
-import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.game.model.factories.AbilityFactory;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -62,7 +62,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		
 		
 		if (mc.isPlaneswalker()) {
-			List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
+			List<LoyaltyAbilities> abs = AbilityFactory.getInstance().getLoyaltyAbilities(mc);
 			build.addContent("template", "modern-planeswalker" + abs.size());
 			build.addContent("fields[loyalty-base]", String.valueOf(mc.getLoyalty()));
 			for (var i = 0; i < abs.size(); i++) {
