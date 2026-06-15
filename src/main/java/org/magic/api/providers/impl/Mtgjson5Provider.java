@@ -1,26 +1,16 @@
 package org.magic.api.providers.impl;
 
-import com.google.gson.JsonArray;
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.Option;
-import com.jayway.jsonpath.PathNotFoundException;
-import com.jayway.jsonpath.ReadContext;
-import com.jayway.jsonpath.spi.cache.CacheProvider;
-import com.jayway.jsonpath.spi.cache.LRUCache;
-import com.jayway.jsonpath.spi.json.GsonJsonProvider;
-import com.jayway.jsonpath.spi.json.JsonProvider;
-import com.jayway.jsonpath.spi.mapper.GsonMappingProvider;
-import com.jayway.jsonpath.spi.mapper.MappingProvider;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
@@ -47,6 +37,19 @@ import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonArray;
+import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.Option;
+import com.jayway.jsonpath.PathNotFoundException;
+import com.jayway.jsonpath.ReadContext;
+import com.jayway.jsonpath.spi.cache.CacheProvider;
+import com.jayway.jsonpath.spi.cache.LRUCache;
+import com.jayway.jsonpath.spi.json.GsonJsonProvider;
+import com.jayway.jsonpath.spi.json.JsonProvider;
+import com.jayway.jsonpath.spi.mapper.GsonMappingProvider;
+import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class Mtgjson5Provider extends AbstractMTGJsonProvider {
 
@@ -629,7 +632,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider {
 				ed.setPreview(false);
 			else
 				ed.setPreview(LocalDate.parse(ed.getReleaseDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-						.isAfter(LocalDate.now()));
+						.isAfter(LocalDate.now(ZoneId.systemDefault())));
 
 		}
 

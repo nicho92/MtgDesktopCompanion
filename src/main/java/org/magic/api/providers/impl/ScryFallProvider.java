@@ -1,13 +1,9 @@
 package org.magic.api.providers.impl;
 
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
@@ -47,6 +44,12 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
+
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
@@ -611,7 +614,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(RELEASED_AT) != null) {
 			ed.setReleaseDate(obj.get(RELEASED_AT).getAsString());
 			ed.setPreview(LocalDate.parse(obj.get(RELEASED_AT).getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-					.isAfter(LocalDate.now()));
+					.isAfter(LocalDate.now(ZoneId.systemDefault())));
 		}
 
 		ed.getBooster().add(EnumExtra.DRAFT);

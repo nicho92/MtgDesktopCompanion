@@ -91,7 +91,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		var build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");
 
-		postEditing(mc,me);
+		postEditing(mc);
 		
 
 		if (me != null) {
@@ -246,7 +246,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 	}
 
-	private void postEditing(MTGCard mc, MTGEdition me) {
+	private void postEditing(MTGCard mc) {
 		mc.setFrameVersion("2015");
 		
 		if(mc.getRarity()==EnumRarity.MYTHIC ||  mc.getRarity()==EnumRarity.RARE)

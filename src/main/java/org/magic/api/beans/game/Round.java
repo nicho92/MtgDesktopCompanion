@@ -3,6 +3,7 @@ package org.magic.api.beans.game;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,11 +18,11 @@ public class Round implements Serializable {
 	private int roundNumber;
 
 	public void start() {
-		startTime = LocalDateTime.now();
+		startTime = LocalDateTime.now(ZoneId.systemDefault());
 	}
 
 	public void stop() {
-		endTime = LocalDateTime.now();
+		endTime = LocalDateTime.now(ZoneId.systemDefault());
 	}
 
 	public Round(int roundNumber) {

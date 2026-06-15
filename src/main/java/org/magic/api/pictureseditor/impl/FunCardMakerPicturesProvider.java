@@ -58,7 +58,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				.addContent("fields[illustrator]", mc.getArtist())
 				.addContent("fields[copyright]", getString("COPYRIGHT")).addContent("fields[cm]", mc.getCost());
 
-		postEditing(mc, me);
+		postEditing(mc);
 		
 		
 		if (mc.isPlaneswalker()) {
@@ -151,7 +151,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		return ImageTools.readBase64(el.getAsJsonObject().get("image").getAsString());
 	}
 
-	private void postEditing(MTGCard mc, MTGEdition me) {
+	private void postEditing(MTGCard mc) {
 		if (getString(LAYOUT_OLD_MODERN).equalsIgnoreCase("old"))
 			mc.setFrameVersion("1993");
 		else
