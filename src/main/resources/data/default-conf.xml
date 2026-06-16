@@ -70,7 +70,7 @@
     </cards>
     <player-profil>
       <name>$username</name>
-      <foreground/>
+      <foreground>-16777216</foreground>
       <background/>
       <avatar/>
     </player-profil>

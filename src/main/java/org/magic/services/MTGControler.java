@@ -337,7 +337,7 @@ public class MTGControler {
 	public Player getProfilPlayer() {
 		var p = new Player("Player");
 		p.setName(config.getString("/game/player-profil/name"));
-		p.setColor(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
+		p.setColor(new Color(Integer.parseInt(get("/game/player-profil/foreground","-16777216"))));
 
 		var url = config.getString("/game/player-profil/avatar");
 		try {
