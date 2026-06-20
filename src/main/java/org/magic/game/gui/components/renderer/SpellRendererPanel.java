@@ -7,8 +7,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.magic.api.beans.enums.EnumColors;
-import org.magic.api.beans.game.AbstractSpell;
-import org.magic.game.model.abilities.AbstractAbilities;
+import org.magic.game.interfaces.AbstractAbilities;
+import org.magic.game.interfaces.AbstractSpell;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.services.MTGConstants;
 

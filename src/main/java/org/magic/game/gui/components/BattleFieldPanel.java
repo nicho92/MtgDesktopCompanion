@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import org.magic.api.beans.game.CardSpell;
-import org.magic.api.beans.game.GameManager;
-import org.magic.api.beans.game.ZoneEnum;
+
+import org.magic.api.game.beans.CardSpell;
+import org.magic.api.game.beans.GameManager;
+import org.magic.api.game.beans.ZoneEnum;
 import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.RollAD20Actions;

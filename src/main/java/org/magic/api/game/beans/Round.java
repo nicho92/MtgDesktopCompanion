@@ -1,4 +1,4 @@
-package org.magic.api.beans.game;
+package org.magic.api.game.beans;
 
 import java.io.Serializable;
 import java.time.Duration;

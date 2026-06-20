@@ -1,4 +1,4 @@
-package org.magic.api.beans.game;
+package org.magic.api.game.beans;
 
 import java.util.ArrayList;
 import java.util.Collections;

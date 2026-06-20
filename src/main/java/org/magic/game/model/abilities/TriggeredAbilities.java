@@ -3,6 +3,7 @@ package org.magic.game.model.abilities;
 import java.util.Arrays;
 import java.util.List;
 import org.magic.api.beans.enums.EnumCardsPatterns;
+import org.magic.game.interfaces.AbstractAbilities;
 import org.magic.game.model.factories.EffectsFactory;
 
 public class TriggeredAbilities extends AbstractAbilities {

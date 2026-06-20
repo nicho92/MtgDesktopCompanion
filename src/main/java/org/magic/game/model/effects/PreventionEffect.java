@@ -1,5 +1,7 @@
 package org.magic.game.model.effects;
 
+import org.magic.game.interfaces.AbstractEffect;
+
 public class PreventionEffect extends AbstractEffect {
 
 	/**

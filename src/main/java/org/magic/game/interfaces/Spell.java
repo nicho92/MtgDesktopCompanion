@@ -1,9 +1,7 @@
-package org.magic.api.beans.game;
+package org.magic.game.interfaces;
 
 import java.io.Serializable;
 import java.util.List;
-import org.magic.game.model.costs.Cost;
-import org.magic.game.model.effects.AbstractEffect;
 
 public interface Spell extends Serializable {
 

@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.enums.EnumCardsPatterns;
-import org.magic.game.model.abilities.AbstractAbilities;
+import org.magic.game.interfaces.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.abilities.SagaAbilities;

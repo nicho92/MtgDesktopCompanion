@@ -1,10 +1,12 @@
-package org.magic.api.beans.game;
+package org.magic.api.game.beans;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import org.magic.game.interfaces.AbstractSpell;
 import org.utils.patterns.observer.Observable;
 
 public class TriggerManager extends Observable {

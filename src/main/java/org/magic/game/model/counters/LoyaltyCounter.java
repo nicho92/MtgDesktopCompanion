@@ -2,6 +2,7 @@ package org.magic.game.model.counters;
 
 import javax.swing.JOptionPane;
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.game.interfaces.AbstractCounter;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.costs.LoyaltyCost;
 

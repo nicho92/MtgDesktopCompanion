@@ -1,6 +1,7 @@
-package org.magic.api.beans.game;
+package org.magic.api.game.beans;
 
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.game.interfaces.AbstractSpell;
 import org.magic.game.model.effects.OneShotEffect;
 import org.magic.game.model.factories.CostsFactory;
 

@@ -1,6 +1,7 @@
 package org.magic.game.model.abilities;
 
 import org.magic.api.beans.MTGKeyWord;
+import org.magic.game.interfaces.AbstractAbilities;
 
 public class StaticAbilities extends AbstractAbilities {
 

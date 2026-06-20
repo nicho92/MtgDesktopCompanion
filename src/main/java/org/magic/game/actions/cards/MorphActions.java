@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGRuling;
-import org.magic.api.beans.game.ZoneEnum;
+import org.magic.api.game.beans.ZoneEnum;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;

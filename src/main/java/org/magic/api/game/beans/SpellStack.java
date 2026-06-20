@@ -1,8 +1,10 @@
-package org.magic.api.beans.game;
+package org.magic.api.game.beans;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
+
+import org.magic.game.interfaces.AbstractSpell;
 import org.utils.patterns.observer.Observable;
 
 public class SpellStack extends Observable {

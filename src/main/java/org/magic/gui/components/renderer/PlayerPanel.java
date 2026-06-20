@@ -6,7 +6,8 @@ import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import org.magic.api.beans.game.Player;
+
+import org.magic.api.game.beans.Player;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;
 import org.ocpsoft.prettytime.PrettyTime;

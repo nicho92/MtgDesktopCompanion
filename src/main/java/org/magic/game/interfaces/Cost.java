@@ -1,4 +1,4 @@
-package org.magic.game.model.costs;
+package org.magic.game.interfaces;
 
 import java.io.Serializable;
 

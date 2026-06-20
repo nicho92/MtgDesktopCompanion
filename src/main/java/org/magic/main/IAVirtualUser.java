@@ -1,8 +1,9 @@
 package org.magic.main;
 
 import java.io.IOException;
-import org.magic.api.beans.game.Player;
+
 import org.magic.api.beans.messages.TalkMessage;
+import org.magic.api.game.beans.Player;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.servers.impl.ActiveMQServer;

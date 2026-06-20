@@ -1,6 +1,7 @@
 package org.magic.game.model.counters;
 
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.game.interfaces.AbstractCounter;
 
 public class ItemCounter extends AbstractCounter {
 

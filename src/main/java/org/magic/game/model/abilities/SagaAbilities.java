@@ -1,6 +1,6 @@
 package org.magic.game.model.abilities;
 
-import org.magic.game.model.effects.AbstractEffect;
+import org.magic.game.interfaces.AbstractEffect;
 
 public class SagaAbilities extends ActivatedAbilities {
 

@@ -8,9 +8,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
-import org.magic.api.beans.game.AbstractSpell;
-import org.magic.api.beans.game.GameManager;
+
+import org.magic.api.game.beans.GameManager;
 import org.magic.game.gui.components.renderer.StackItemRenderer;
+import org.magic.game.interfaces.AbstractSpell;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;

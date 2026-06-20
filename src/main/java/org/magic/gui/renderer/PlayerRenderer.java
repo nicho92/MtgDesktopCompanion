@@ -9,7 +9,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-import org.magic.api.beans.game.Player;
+
+import org.magic.api.game.beans.Player;
 import org.magic.gui.components.renderer.PlayerPanel;
 
 public class PlayerRenderer extends JPanel implements TableCellRenderer, ListCellRenderer<Player> {

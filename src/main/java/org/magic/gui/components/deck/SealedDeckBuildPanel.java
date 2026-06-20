@@ -33,7 +33,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
-import org.magic.api.beans.game.ZoneEnum;
+import org.magic.api.game.beans.ZoneEnum;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.extra.MTGComparator;
 import org.magic.api.sorters.CmcSorter;

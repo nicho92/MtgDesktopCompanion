@@ -1,10 +1,8 @@
-package org.magic.api.beans.game;
+package org.magic.game.interfaces;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.magic.api.beans.MTGCard;
-import org.magic.game.model.costs.Cost;
-import org.magic.game.model.effects.AbstractEffect;
 
 public abstract class AbstractSpell implements Spell {
 

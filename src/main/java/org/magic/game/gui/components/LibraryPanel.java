@@ -6,7 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.JMenuItem;
-import org.magic.api.beans.game.ZoneEnum;
+
+import org.magic.api.game.beans.ZoneEnum;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.cards.ScryActions;
 import org.magic.game.actions.library.DrawActions;

@@ -1,4 +1,4 @@
-package org.magic.game.model.counters;
+package org.magic.game.interfaces;
 
 import java.io.Serializable;
 import org.apache.logging.log4j.Logger;

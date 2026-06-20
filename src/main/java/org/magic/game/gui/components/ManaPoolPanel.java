@@ -5,8 +5,9 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import org.magic.api.beans.game.ManaPool;
-import org.magic.api.beans.game.Player;
+
+import org.magic.api.game.beans.ManaPool;
+import org.magic.api.game.beans.Player;
 import org.magic.gui.components.card.ManaPanel;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;

@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.UUID;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.game.Player;
 import org.magic.api.beans.technical.audit.Location;
+import org.magic.api.game.beans.Player;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.CryptoUtils;
 

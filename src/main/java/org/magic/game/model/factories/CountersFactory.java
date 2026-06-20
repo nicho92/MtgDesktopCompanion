@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
-import org.magic.game.model.counters.AbstractCounter;
+import org.magic.game.interfaces.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
 

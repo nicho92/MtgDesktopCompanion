@@ -3,7 +3,7 @@ package org.magic.game.model.factories;
 import java.util.ArrayList;
 import java.util.List;
 import org.magic.api.beans.MTGCard;
-import org.magic.game.model.effects.AbstractEffect;
+import org.magic.game.interfaces.AbstractEffect;
 import org.magic.game.model.effects.OneShotEffect;
 
 public class EffectsFactory {

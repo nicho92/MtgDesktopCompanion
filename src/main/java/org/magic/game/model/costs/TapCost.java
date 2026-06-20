@@ -1,5 +1,7 @@
 package org.magic.game.model.costs;
 
+import org.magic.game.interfaces.Cost;
+
 public class TapCost implements Cost {
 
 	/**

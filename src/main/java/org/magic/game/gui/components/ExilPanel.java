@@ -6,7 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JMenuItem;
 import javax.swing.border.LineBorder;
-import org.magic.api.beans.game.ZoneEnum;
+
+import org.magic.api.game.beans.ZoneEnum;
 import org.magic.game.actions.player.SearchActions;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
