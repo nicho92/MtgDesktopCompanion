@@ -65,7 +65,7 @@
 		<poi.version>5.5.1</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.9.1</rhino.version>
-		<commonmark.version>0.28.0</commonmark.version>
+		<commonmark.version>0.29.0</commonmark.version>
 		<langchain4j.version>1.16.3</langchain4j.version>
 		<telegram.version>10.0.0</telegram.version>
 	</properties>
@@ -76,11 +76,6 @@
 			<name>Panda-Lang repository</name>
 			<url>https://repo.panda-lang.org/releases</url>
 		</repository>
-		<repository>
-		        <id>github-swingx</id>
-		        <name>wumpz/swingx</name>
-		        <url>https://maven.pkg.github.com/wumpz/swingx</url>
-		    </repository>
 	</repositories>
 		
 	<build>
@@ -205,12 +200,12 @@
     	<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mtg-ast-java</artifactId>
-		  <version>0.0.15</version>
+		  <version>0.0.16</version>
 		</dependency>
   		<dependency>
-		  <groupId>org.swinglabs.swingx</groupId>
-		  <artifactId>swingx-core</artifactId>
-		  <version>2.0.1</version>
+		    <groupId>com.github.wumpz.swingx</groupId>
+		    <artifactId>swingx-all</artifactId>
+		    <version>2.1</version>
 		</dependency>
  		<dependency>
 			<groupId>org.telegram</groupId>
@@ -276,7 +271,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
-			<version>11.0.22</version>
+			<version>11.0.23</version>
 		</dependency>
 		<dependency>
 			<groupId>org.firebirdsql.jdbc</groupId>

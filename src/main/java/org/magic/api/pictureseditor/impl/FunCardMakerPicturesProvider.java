@@ -11,14 +11,13 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
+import org.magic.api.ast.engine.OracleParser;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
-import org.magic.game.model.abilities.LoyaltyAbilities;
-import org.magic.game.model.factories.AbilityFactory;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -62,12 +61,12 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		
 		
 		if (mc.isPlaneswalker()) {
-			List<LoyaltyAbilities> abs = AbilityFactory.getInstance().getLoyaltyAbilities(mc);
+			var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
 			build.addContent("template", "modern-planeswalker" + abs.size());
 			build.addContent("fields[loyalty-base]", String.valueOf(mc.getLoyalty()));
 			for (var i = 0; i < abs.size(); i++) {
-				build.addContent("fields[capa" + (i + 1) + "-cost]", abs.get(i).getCost().toString().trim());
-				build.addContent("fields[capa" + (i + 1) + "]", abs.get(i).getEffect().toString().trim());
+				build.addContent("fields[capa" + (i + 1) + "-cost]", abs.get(i).loyalty());
+				build.addContent("fields[capa" + (i + 1) + "]", abs.get(i).effects().getFirst().text());
 			}
 		} else {
 			build.addContent("template", getString(LAYOUT_OLD_MODERN).toLowerCase() + "-basic");

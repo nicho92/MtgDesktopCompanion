@@ -13,6 +13,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.magic.api.ast.engine.OracleParser;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
@@ -22,7 +23,6 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
-import org.magic.game.model.factories.AbilityFactory;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
@@ -161,34 +161,30 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 		if (!mc.getText().isEmpty()) {
 			if (mc.isPlaneswalker()) {
-
-				var abs = AbilityFactory.getInstance().getLoyaltyAbilities(mc);
+				
+				var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 
 				for (var i = 0; i < abs.size(); i++) {
 					if (i == 0) {
-						build.addParameter("rules-text", String.valueOf(abs.get(i).getCost()).replace("+", "") + ": "
-								+ abs.get(i).getEffect() + '\u00a0');
+						build.addParameter("rules-text", abs.get(i).loyalty().replace("+", "") + ": "+ abs.get(i).effects().getFirst().text() + '\u00a0');
 					} else {
-						build.addParameter(PW_TEXT + (i + 1), String.valueOf(abs.get(i).getCost()).replace("+", "")
-								+ ": " + abs.get(i).getEffect() + '\u00a0');
+						build.addParameter(PW_TEXT + (i + 1), abs.get(i).loyalty().replace("+", "")+ ": " + abs.get(i).effects().getFirst().text() + '\u00a0');
 					}
-					build.addParameter((i == 0) ? "rules-text" : PW_TEXT + (i + 1),
-							String.valueOf(abs.get(i).getCost()).replace("+", "") + ": " + abs.get(i).getEffect()
-									+ '\u00a0');
+					build.addParameter((i == 0) ? "rules-text" : PW_TEXT + (i + 1),abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).effects().getFirst().text()+ '\u00a0');
 				}
 			} else if (mc.isSaga()) {
 				build.addParameter("type", "Enchantment Saga");
 				build.addParameter("saga-reminder",
 						"(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)");
 
-				var abs = AbilityFactory.getInstance().getSagaAbilities(mc);
+				var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getSagaAbilities();
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 				for (var i = 0; i < abs.size(); i++) {
 					if (i == 0)
-						build.addParameter("rules-text", abs.get(i).getEffect().toString());
+						build.addParameter("rules-text", abs.get(i).effects().get(0).text());
 					else
-						build.addParameter(PW_TEXT + (i + 1), abs.get(i).getEffect().toString());
+						build.addParameter(PW_TEXT + (i + 1), abs.get(i).effects().get(0).text());
 				}
 			} else {
 				build.addParameter("rules-text", mc.getText());
