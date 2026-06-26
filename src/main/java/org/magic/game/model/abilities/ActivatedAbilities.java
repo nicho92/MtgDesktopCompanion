@@ -2,6 +2,7 @@ package org.magic.game.model.abilities;
 
 import org.magic.game.interfaces.AbstractAbilities;
 
+@Deprecated
 public class ActivatedAbilities extends AbstractAbilities {
 
 	private static final long serialVersionUID = 1L;

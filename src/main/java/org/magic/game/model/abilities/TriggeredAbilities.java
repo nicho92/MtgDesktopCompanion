@@ -6,6 +6,7 @@ import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.interfaces.AbstractAbilities;
 import org.magic.game.model.factories.EffectsFactory;
 
+@Deprecated
 public class TriggeredAbilities extends AbstractAbilities {
 
 	/**

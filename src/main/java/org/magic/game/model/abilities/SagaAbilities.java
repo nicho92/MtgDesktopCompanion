@@ -2,6 +2,7 @@ package org.magic.game.model.abilities;
 
 import org.magic.game.interfaces.AbstractEffect;
 
+@Deprecated
 public class SagaAbilities extends ActivatedAbilities {
 
 	/**

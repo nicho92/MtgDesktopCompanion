@@ -2,6 +2,7 @@ package org.magic.game.model.effects;
 
 import org.magic.game.interfaces.AbstractEffect;
 
+@Deprecated
 public class OneShotEffect extends AbstractEffect {
 
 	/**

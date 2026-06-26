@@ -1,5 +1,5 @@
 package org.magic.game.model.costs;
-
+@Deprecated
 public class LifeCost extends NumberCost {
 
 	/**

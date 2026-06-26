@@ -1,5 +1,7 @@
 package org.magic.game.model.costs;
 
+
+@Deprecated
 public class EnergyCost extends NumberCost {
 
 	/**

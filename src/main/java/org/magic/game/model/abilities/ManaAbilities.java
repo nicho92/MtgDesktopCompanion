@@ -1,5 +1,6 @@
 package org.magic.game.model.abilities;
 
+@Deprecated
 public abstract class ManaAbilities extends ActivatedAbilities {
 
 	/**

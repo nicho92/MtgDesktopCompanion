@@ -2,6 +2,7 @@ package org.magic.game.model.costs;
 
 import org.magic.game.interfaces.Cost;
 
+@Deprecated
 public class ActionCost implements Cost {
 
 	/**
