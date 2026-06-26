@@ -19,7 +19,7 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 	public String toString() {
 		var build = new StringBuilder();
 		build.append("\nLOYALTY: WHEN ").append("PUT ").append(getCosts()).append(" COUNTER DO ")
-				.append(getEffects().get(0)).append(" END");
+				.append(getEffects().getFirst()).append(" END");
 		return build.toString();
 	}
 
