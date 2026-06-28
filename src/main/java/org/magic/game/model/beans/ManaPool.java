@@ -1,9 +1,8 @@
-package org.magic.game.beans;
+package org.magic.game.model.beans;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
@@ -71,7 +70,7 @@ public class ManaPool extends Observable implements Serializable {
 	public String toString() {
 
 		var build = new StringBuilder();
-		for (Entry<String, Integer> key : pool.entrySet())
+		for (var key : pool.entrySet())
 			for (var i = 0; i < key.getValue(); i++)
 				build.append(key.getKey());
 

@@ -1,4 +1,4 @@
-package org.magic.game.beans;
+package org.magic.game.model.beans;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.interfaces.AbstractSpell;

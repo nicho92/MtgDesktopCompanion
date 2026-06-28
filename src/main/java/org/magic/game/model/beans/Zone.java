@@ -1,4 +1,4 @@
-package org.magic.game.beans;
+package org.magic.game.model.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;

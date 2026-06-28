@@ -1,4 +1,4 @@
-package org.magic.game.beans;
+package org.magic.game.model.beans;
 
 import java.util.EnumMap;
 import java.util.List;
