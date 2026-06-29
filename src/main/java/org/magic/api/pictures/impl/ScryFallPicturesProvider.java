@@ -31,7 +31,12 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			url.append("/front/");
 
 		url.append(mc.getScryfallId().charAt(0)).append("/").append(mc.getScryfallId().charAt(1)).append("/")
-				.append(mc.getScryfallId()).append(".jpg");
+				.append(mc.getScryfallId());
+		
+		if(getString("PIC_SIZE").equals("display"))
+				url.append(".webp");
+		else
+			url.append(".jpg");
 
 		return url.toString();
 
@@ -73,7 +78,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("PIC_SIZE",
-				new MTGProperty(LARGE, "Image quality to download from scryfall", LARGE, "normal", "small"));
+				new MTGProperty(LARGE, "Image quality to download from scryfall", LARGE, "normal", "small","display"));
 	}
 
 	@Override
