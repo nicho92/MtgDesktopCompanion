@@ -10,12 +10,13 @@ import org.magic.services.tools.UITools;
 
 public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIconable {
 
-	@SerializedName(alternate = "common", value = "COMMON") COMMON(Color.BLACK, 1), 
-	@SerializedName(alternate = "uncommon", value = "UNCOMMON")	UNCOMMON(new Color(112, 120, 131), 2), 
-	@SerializedName(alternate = "rare", value = "RARE")	RARE(new Color(230, 214, 74), 3), 
-	@SerializedName(alternate = "mythic", value = "MYTHIC")	MYTHIC(new Color(191, 68, 39), 4), 
-	@SerializedName(alternate = {"Special", "special"}, value = "SPECIAL")	SPECIAL(new Color(130, 113, 245), 5), 
-	@SerializedName(alternate = {"Bonus", "bonus"}, value = "BONUS")	BONUS(new Color(238, 130, 238), 6);
+	@SerializedName(alternate = "common", value = "COMMON")
+	COMMON(Color.BLACK, 1), @SerializedName(alternate = "uncommon", value = "UNCOMMON")
+	UNCOMMON(new Color(112, 120, 131), 2), @SerializedName(alternate = "rare", value = "RARE")
+	RARE(new Color(230, 214, 74), 3), @SerializedName(alternate = "mythic", value = "MYTHIC")
+	MYTHIC(new Color(191, 68, 39), 4), @SerializedName(alternate = {"Special", "special"}, value = "SPECIAL")
+	SPECIAL(new Color(130, 113, 245), 5), @SerializedName(alternate = {"Bonus", "bonus"}, value = "BONUS")
+	BONUS(new Color(238, 130, 238), 6);
 
 	private Color color;
 	private int position;
@@ -29,12 +30,10 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIco
 	public Color getColor() {
 		return color;
 	}
-	
-	public String getColorHexa()
-	{
+
+	public String getColorHexa() {
 		return String.format("#%06x", color.getRGB() & 0x00FFFFFF);
 	}
-	
 
 	public static EnumRarity rarityByName(String s) {
 		try {

@@ -15,11 +15,11 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
-		return URLTools.extractAsImage(generateUrl(mc,false));
+		return URLTools.extractAsImage(generateUrl(mc, false));
 	}
 
 	@Override
-	public String generateUrl(MTGCard mc,boolean crop) {
+	public String generateUrl(MTGCard mc, boolean crop) {
 		return "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + mc.getMultiverseid() + "&type=card";
 	}
 

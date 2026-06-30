@@ -11,8 +11,8 @@ import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.messages.TechnicalMessage;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.game.beans.Player;
 import org.magic.api.interfaces.MTGNetworkClient;
+import org.magic.game.model.beans.Player;
 import org.magic.services.network.URLTools;
 
 public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implements MTGNetworkClient {

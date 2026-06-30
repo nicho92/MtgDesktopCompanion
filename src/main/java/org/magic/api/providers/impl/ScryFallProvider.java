@@ -1,5 +1,10 @@
 package org.magic.api.providers.impl;
 
+import com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -14,7 +19,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
@@ -44,12 +48,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
-
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 

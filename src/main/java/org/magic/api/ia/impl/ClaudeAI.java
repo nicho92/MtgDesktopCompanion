@@ -45,8 +45,7 @@ public class ClaudeAI extends AbstractIA {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = super.getDefaultAttributes();
-		map.put("MODEL", new MTGProperty(AnthropicChatModelName.CLAUDE_SONNET_4_6.name(),
-				"choose langage model",
+		map.put("MODEL", new MTGProperty(AnthropicChatModelName.CLAUDE_SONNET_4_6.name(), "choose langage model",
 				Arrays.stream(AnthropicChatModelName.values()).map(Enum::name).toList().toArray(new String[0])));
 		return map;
 	}

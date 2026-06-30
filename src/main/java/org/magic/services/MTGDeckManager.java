@@ -206,10 +206,10 @@ public class MTGDeckManager extends Observable {
 			var formats = sniffer.listFilter();
 			var f = formats[random.nextInt(formats.length)];
 			var availableDecks = sniffer.getDeckList(f, null);
-			
-			if(availableDecks.isEmpty())
-				throw new IOException("No deck found for "+sniffer + " " + f);
-			
+
+			if (availableDecks.isEmpty())
+				throw new IOException("No deck found for " + sniffer + " " + f);
+
 			var d = availableDecks.get(random.nextInt(availableDecks.size()));
 
 			logger.info("Generating random deck from {} : {} ", sniffer, d.getName());

@@ -1,5 +1,6 @@
 package org.magic.api.pricers.impl;
 
+import com.google.common.collect.ImmutableMap;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -7,7 +8,6 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumCondition;
@@ -17,8 +17,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
-
-import com.google.common.collect.ImmutableMap;
 
 public class StarCityGamesPricer extends AbstractPricesProvider {
 
@@ -46,7 +44,8 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 				.put("Origin", BASE_URL).put("Content-Type", "application/json")
 				.put("User-Agent", MTGConstants.USER_AGENT).build();
 
-		var json = c.doPost("https://essearchapi-na.hawksearch.com/api/v2/search", URLTools.toJson(payload), hds).getAsJsonObject().get("Results").getAsJsonArray();
+		var json = c.doPost("https://essearchapi-na.hawksearch.com/api/v2/search", URLTools.toJson(payload), hds)
+				.getAsJsonObject().get("Results").getAsJsonArray();
 
 		json.forEach(je -> {
 

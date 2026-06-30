@@ -52,7 +52,7 @@ public class JWallThumb extends JLabel {
 		b.append("Provider : ").append(w.getProvider()).append(BR);
 		b.append("Extension : ").append(w.getFormat()).append(BR);
 		b.append("</html>");
-		
+
 		setToolTipText(b.toString());
 	}
 

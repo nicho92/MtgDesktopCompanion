@@ -1,16 +1,14 @@
 package org.magic.api.ia.impl;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.Map;
-
-import org.magic.api.beans.technical.MTGProperty;
-import org.magic.api.interfaces.abstracts.AbstractIA;
-import org.magic.services.tools.POMReader;
-
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
+import java.awt.Color;
+import java.util.List;
+import java.util.Map;
+import org.magic.api.beans.technical.MTGProperty;
+import org.magic.api.interfaces.abstracts.AbstractIA;
+import org.magic.services.tools.POMReader;
 
 public class Gemini extends AbstractIA {
 
@@ -25,7 +23,6 @@ public class Gemini extends AbstractIA {
 				"/META-INF/maven/dev.langchain4j/langchain4j-google-ai-gemini/pom.properties");
 	}
 
-	
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return List.of("API_KEY");

@@ -46,7 +46,7 @@ public class JWTServices {
 	}
 
 	public static String generateRandomSecret() {
-		return Base64.getEncoder().encodeToString(Jwts.SIG.HS256.key().build().getEncoded());
+		return Base64.getEncoder().encodeToString(Jwts.SIG.HS512.key().build().getEncoded());
 
 	}
 

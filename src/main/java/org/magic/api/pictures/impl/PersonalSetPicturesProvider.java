@@ -67,7 +67,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public String generateUrl(MTGCard mc,boolean crop) {
+	public String generateUrl(MTGCard mc, boolean crop) {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir, mc.getEdition().getId());
 
@@ -78,9 +78,9 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
 
 		try {
-			return ImageTools.read(new File(generateUrl(mc,false)));
+			return ImageTools.read(new File(generateUrl(mc, false)));
 		} catch (Exception _) {
-			logger.debug("{} is not found", generateUrl(mc,false));
+			logger.debug("{} is not found", generateUrl(mc, false));
 			return null;
 		}
 	}

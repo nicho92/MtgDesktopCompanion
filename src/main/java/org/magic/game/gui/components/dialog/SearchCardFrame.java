@@ -5,11 +5,11 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.game.beans.Player;
-import org.magic.api.game.beans.ZoneEnum;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.HandPanel;
+import org.magic.game.model.beans.Player;
+import org.magic.game.model.beans.ZoneEnum;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 

@@ -22,7 +22,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
-
 import javax.annotation.Nonnull;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -426,9 +425,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 		eb.setDescription(temp.toString());
 
 		if (getString(THUMBNAIL_IMAGE).equalsIgnoreCase(THUMBNAIL))
-			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc,false));
+			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
 		else
-			eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc,false));
+			eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
 
 		if (price) {
 

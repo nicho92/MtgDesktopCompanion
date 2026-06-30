@@ -2,6 +2,9 @@ package org.magic.services.providers;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
+import com.google.gson.JsonObject;
+import com.kitfox.svg.SVGException;
+import com.kitfox.svg.SVGUniverse;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,9 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
 import javax.swing.ImageIcon;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -23,10 +24,6 @@ import org.magic.services.network.URLTools;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
-
-import com.google.gson.JsonObject;
-import com.kitfox.svg.SVGException;
-import com.kitfox.svg.SVGUniverse;
 
 public class IconsProvider {
 
@@ -143,26 +140,26 @@ public class IconsProvider {
 
 		return inst;
 	}
-	
-	
+
 	public BufferedImage getSetColoredSetImage(EnumRarity r, String setCode) throws IOException {
-		var universe = new  SVGUniverse();
-		var svgString = URLTools.extractAsString("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+ getEquiv(setCode).toLowerCase() + ".svg");
+		var universe = new SVGUniverse();
+		var svgString = URLTools.extractAsString("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"
+				+ getEquiv(setCode).toLowerCase() + ".svg");
 		svgString = svgString.replaceAll("fill=\"#[^\"]+\"", "fill=\"" + r.getColorHexa() + "\"");
-		var uri = universe.loadSVG(new StringReader(svgString),setCode);
+		var uri = universe.loadSVG(new StringReader(svgString), setCode);
 		var diagram = universe.getDiagram(uri);
-		var image = new BufferedImage((int)diagram.getWidth(),(int)diagram.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        var g = image.createGraphics();
-        ImageTools.initGraphics(g);
-        try {
+		var image = new BufferedImage((int) diagram.getWidth(), (int) diagram.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		var g = image.createGraphics();
+		ImageTools.initGraphics(g);
+		try {
 			diagram.render(g);
 		} catch (SVGException e) {
 			throw new IOException(e);
 		}
-        g.dispose();
-       return image;
+		g.dispose();
+		return image;
 	}
-	
+
 	private BufferedImage extract(String id) throws IOException {
 
 		var iconFile = new File(localDirectory, id + EXT);
@@ -182,7 +179,7 @@ public class IconsProvider {
 				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR + "PMTG1_set.png"));
 			}
 			return im;
-			
+
 		}
 
 	}

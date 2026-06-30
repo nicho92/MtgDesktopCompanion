@@ -2,7 +2,6 @@ package org.magic.game.model.costs;
 
 import java.util.Map;
 import java.util.TreeMap;
-
 import org.magic.game.interfaces.Cost;
 @Deprecated
 public class ManaCost implements Cost {

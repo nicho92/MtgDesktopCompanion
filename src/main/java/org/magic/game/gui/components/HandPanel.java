@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.game.beans.ZoneEnum;
+import org.magic.game.model.beans.ZoneEnum;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 

@@ -190,7 +190,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(cboColorAccent, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 10));
 		add(cboBorders, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 11));
 		add(chkShowSetIcon, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 12));
-		
+
 		add(textEditorPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4, 3, 3));
 
 		textEditorPanel.add(new JScrollPane(textJEditorPane), BorderLayout.CENTER);
@@ -337,8 +337,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				? magicCard.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)
 				: "");
 		chkMatureContent.setSelected(magicCard.isHasContentWarning());
-		
-		chkShowSetIcon.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")));
+
+		chkShowSetIcon.setSelected(Boolean.parseBoolean(
+				magicCard.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")));
 		cboBorders.setSelectedItem(magicCard.getBorder());
 		cboSuperType.setSelectedElements(magicCard.getSupertypes());
 		cboTypes.setSelectedElements(magicCard.getTypes());
@@ -352,15 +353,17 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 		spinnerTextSize.addChangeListener(_ -> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SIZE,
 				spinnerTextSize.getValue().toString()));
-		cboColorAccent.addItemListener(_ -> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,(cboColorAccent.getSelectedItem().toString())));
+		cboColorAccent.addItemListener(_ -> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,
+				(cboColorAccent.getSelectedItem().toString())));
 		chkMatureContent.addItemListener(_ -> magicCard.setHasContentWarning(chkMatureContent.isSelected()));
-		chkShowSetIcon.addItemListener(_->magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SHOW_SET_ICON,""+chkShowSetIcon.isSelected()));
-		
-	    cboBorders.addItemListener(_ -> {
-	    	if(cboBorders.getSelectedItem()!=null)
-	    		magicCard.setBorder(EnumBorders.valueOf(String.valueOf(cboBorders.getSelectedItem())));
-	    });
-	    
+		chkShowSetIcon.addItemListener(_ -> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SHOW_SET_ICON,
+				"" + chkShowSetIcon.isSelected()));
+
+		cboBorders.addItemListener(_ -> {
+			if (cboBorders.getSelectedItem() != null)
+				magicCard.setBorder(EnumBorders.valueOf(String.valueOf(cboBorders.getSelectedItem())));
+		});
+
 		BeanProperty<MTGCard, String> artistProperty = BeanProperty.create("artist");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
 		AutoBinding<MTGCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(

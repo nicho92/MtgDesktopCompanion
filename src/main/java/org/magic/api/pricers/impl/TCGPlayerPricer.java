@@ -1,12 +1,13 @@
 package org.magic.api.pricers.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import org.apache.groovy.util.Maps;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
@@ -16,9 +17,6 @@ import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 
 public class TCGPlayerPricer extends AbstractPricesProvider {
 
@@ -108,8 +106,9 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 				}
 					""".replace("$MAX", getString("MAX"));
 
-		var jsonResult = c.doPost("https://mp-search-api.tcgplayer.com/v1/product/" + idResults + "/listings",URLTools.toJson(json), Maps.of("content-type", URLTools.HEADER_JSON));
-		
+		var jsonResult = c.doPost("https://mp-search-api.tcgplayer.com/v1/product/" + idResults + "/listings",
+				URLTools.toJson(json), Maps.of("content-type", URLTools.HEADER_JSON));
+
 		if (jsonResult == null)
 			return new JsonArray();
 
@@ -174,8 +173,8 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 		var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", URLTools.toJson(json),
 				Maps.of("content-type", URLTools.HEADER_JSON));
-		var arr = res.getAsJsonObject().get(RESULTS).getAsJsonArray().get(0)
-				.getAsJsonObject().get(RESULTS).getAsJsonArray();
+		var arr = res.getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS)
+				.getAsJsonArray();
 
 		if (arr.isEmpty())
 			return null;

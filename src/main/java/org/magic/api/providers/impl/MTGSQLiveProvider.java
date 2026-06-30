@@ -571,7 +571,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
 				ed.setForeignOnly(rs.getBoolean(IS_FOREIGN_ONLY));
 				ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
-				ed.setPreview(LocalDate.parse(ed.getReleaseDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now(ZoneId.systemDefault())));
+				ed.setPreview(LocalDate.parse(ed.getReleaseDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+						.isAfter(LocalDate.now(ZoneId.systemDefault())));
 				eds.add(ed);
 			}
 		} catch (SQLException e) {

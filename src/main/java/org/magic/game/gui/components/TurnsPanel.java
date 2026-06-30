@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import org.magic.api.game.beans.GameManager;
 import org.magic.game.actions.turns.AttackPhase;
 import org.magic.game.actions.turns.BlockPhase;
 import org.magic.game.actions.turns.CleanUpPhase;
@@ -19,6 +17,7 @@ import org.magic.game.actions.turns.EndTurnPhase;
 import org.magic.game.actions.turns.MainPhase;
 import org.magic.game.actions.turns.UntapPhase;
 import org.magic.game.actions.turns.UpkeepPhase;
+import org.magic.game.model.beans.GameManager;
 
 public class TurnsPanel extends JPanel {
 

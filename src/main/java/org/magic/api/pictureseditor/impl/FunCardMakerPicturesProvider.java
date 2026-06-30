@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -57,8 +56,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				.addContent("fields[copyright]", getString("COPYRIGHT")).addContent("fields[cm]", mc.getCost());
 
 		postEditing(mc);
-		
-		
+
 		if (mc.isPlaneswalker()) {
 			var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
 			build.addContent("template", "modern-planeswalker" + abs.size());
@@ -88,8 +86,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				colorBase = mc.getColors().get(0).getCode();
 		}
 
-		if (mc.isHybride() || !mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT,"").isEmpty()) 
-		{
+		if (mc.isHybride() || !mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "").isEmpty()) {
 			if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
 				colorBase = new StringBuilder()
 						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/")
@@ -98,19 +95,18 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				colorBase = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			}
 		}
-		
-		if(mc.isLand())
-		{
+
+		if (mc.isLand()) {
 			if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
 				colorBase = new StringBuilder("l")
 						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/l")
 						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
 			} else {
-				colorBase = "l"+mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+				colorBase = "l" + mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			}
 
 		}
-		
+
 		build.addContent("fields[background-base]", colorBase.toLowerCase());
 		build.addContent("fields[background-texture]", colorBase.toLowerCase());
 
@@ -129,11 +125,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			}
 		}
 
-		if(Boolean.parseBoolean(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false")))
+		if (Boolean.parseBoolean(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")))
 			build.addContent("fields[se-extension]", new SMFIconsSetProvider().getMap().get(me.getId()));
-		
-		
-		
 
 		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 
@@ -154,10 +147,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			mc.setFrameVersion("1993");
 		else
 			mc.setFrameVersion("2003");
-		
+
 		mc.setSecurityStamp(EnumSecurityStamp.NONE);
-		
-		
+
 	}
 
 	private String upload(File f) throws IOException {
@@ -219,5 +211,5 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 		return hashCode() == obj.hashCode();
 	}
-	
+
 }

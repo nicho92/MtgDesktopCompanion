@@ -5,8 +5,8 @@ import java.awt.FlowLayout;
 import java.util.List;
 import javax.swing.JPanel;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.game.beans.GameManager;
-import org.magic.api.game.beans.ZoneEnum;
+import org.magic.game.model.beans.GameManager;
+import org.magic.game.model.beans.ZoneEnum;
 import org.magic.services.MTGControler;
 
 public class BoosterPanel extends JPanel {

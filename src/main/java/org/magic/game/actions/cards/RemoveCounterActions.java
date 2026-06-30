@@ -1,12 +1,11 @@
 package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
-
-import org.magic.api.game.beans.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.interfaces.AbstractCounter;
+import org.magic.game.model.beans.ZoneEnum;
 
 public class RemoveCounterActions extends AbstractCardAction {
 

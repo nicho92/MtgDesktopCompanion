@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -92,7 +91,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		build.setScheme("https").setHost("mtg.design").setPath("render");
 
 		postEditing(mc);
-		
 
 		if (me != null) {
 			build.addParameter("card-number", !mc.getNumber().isEmpty() ? mc.getNumber() : "1");
@@ -161,17 +159,21 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 		if (!mc.getText().isEmpty()) {
 			if (mc.isPlaneswalker()) {
-				
+
 				var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 
 				for (var i = 0; i < abs.size(); i++) {
 					if (i == 0) {
-						build.addParameter("rules-text", abs.get(i).loyalty().replace("+", "") + ": "+ abs.get(i).effects().getFirst().text() + '\u00a0');
+						build.addParameter("rules-text", abs.get(i).loyalty().replace("+", "") + ": "
+								+ abs.get(i).effects().getFirst().text() + '\u00a0');
 					} else {
-						build.addParameter(PW_TEXT + (i + 1), abs.get(i).loyalty().replace("+", "")+ ": " + abs.get(i).effects().getFirst().text() + '\u00a0');
+						build.addParameter(PW_TEXT + (i + 1), abs.get(i).loyalty().replace("+", "") + ": "
+								+ abs.get(i).effects().getFirst().text() + '\u00a0');
 					}
-					build.addParameter((i == 0) ? "rules-text" : PW_TEXT + (i + 1),abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).effects().getFirst().text()+ '\u00a0');
+					build.addParameter((i == 0) ? "rules-text" : PW_TEXT + (i + 1),
+							abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).effects().getFirst().text()
+									+ '\u00a0');
 				}
 			} else if (mc.isSaga()) {
 				build.addParameter("type", "Enchantment Saga");
@@ -223,11 +225,11 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 
 		build.addParameter("edit", FALSE);
-		
-		if(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,FALSE).equals("true"))
-			build.addParameter("set-symbol", "https://my.mtgcompanion.org:1234/editions/logo/"+(me!=null?me.getId():"pmei")+"/"+mc.getRarity().name());
-		
-		
+
+		if (mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, FALSE).equals("true"))
+			build.addParameter("set-symbol", "https://my.mtgcompanion.org:1234/editions/logo/"
+					+ (me != null ? me.getId() : "pmei") + "/" + mc.getRarity().name());
+
 		try {
 			logger.debug("generate {}", build.build());
 			var resp = httpclient.doGet(build.build().toASCIIString());
@@ -244,14 +246,12 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 	private void postEditing(MTGCard mc) {
 		mc.setFrameVersion("2015");
-		
-		if(mc.getRarity()==EnumRarity.MYTHIC ||  mc.getRarity()==EnumRarity.RARE)
+
+		if (mc.getRarity() == EnumRarity.MYTHIC || mc.getRarity() == EnumRarity.RARE)
 			mc.setSecurityStamp(EnumSecurityStamp.OVAL);
 		else
 			mc.setSecurityStamp(EnumSecurityStamp.NONE);
-		
-		
-		
+
 	}
 
 	private String getFrame(MTGCard mc) {

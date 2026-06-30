@@ -27,12 +27,12 @@ import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.PictureDimension;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
-import org.magic.api.game.beans.Player;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
+import org.magic.game.model.beans.Player;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
@@ -337,7 +337,7 @@ public class MTGControler {
 	public Player getProfilPlayer() {
 		var p = new Player("Player");
 		p.setName(config.getString("/game/player-profil/name"));
-		p.setColor(new Color(Integer.parseInt(get("/game/player-profil/foreground","-16777216"))));
+		p.setColor(new Color(Integer.parseInt(get("/game/player-profil/foreground", "-16777216"))));
 
 		var url = config.getString("/game/player-profil/avatar");
 		try {

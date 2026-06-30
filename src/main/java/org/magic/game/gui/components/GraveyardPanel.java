@@ -3,8 +3,7 @@ package org.magic.game.gui.components;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.border.LineBorder;
-
-import org.magic.api.game.beans.ZoneEnum;
+import org.magic.game.model.beans.ZoneEnum;
 import org.magic.services.MTGControler;
 
 public class GraveyardPanel extends DraggablePanel {

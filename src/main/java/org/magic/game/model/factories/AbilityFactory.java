@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
-
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.enums.EnumCardsPatterns;

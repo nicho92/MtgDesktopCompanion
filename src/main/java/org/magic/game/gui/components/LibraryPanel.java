@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.JMenuItem;
-
-import org.magic.api.game.beans.ZoneEnum;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.cards.ScryActions;
 import org.magic.game.actions.library.DrawActions;
@@ -15,6 +13,7 @@ import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.actions.library.MoveGraveyardActions;
 import org.magic.game.actions.library.ShuffleActions;
 import org.magic.game.actions.player.SearchActions;
+import org.magic.game.model.beans.ZoneEnum;
 import org.magic.services.MTGControler;
 
 public class LibraryPanel extends DraggablePanel {

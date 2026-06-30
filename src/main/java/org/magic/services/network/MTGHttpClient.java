@@ -1,5 +1,6 @@
 package org.magic.services.network;
 
+import com.google.gson.JsonElement;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -7,7 +8,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
@@ -39,8 +39,6 @@ import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
-
-import com.google.gson.JsonElement;
 
 public class MTGHttpClient {
 
@@ -163,14 +161,11 @@ public class MTGHttpClient {
 				entities.entrySet().stream().map(e -> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),
 				headers);
 	}
-	
 
 	public JsonElement doPost(String url, JsonElement obj, Map<String, String> headers) throws IOException {
 		var resp = doPost(url, new StringEntity(obj.toString()), headers);
 		return URLTools.toJson(resp.getEntity().getContent());
 	}
-
-	
 
 	public HttpResponse doPost(String url, HttpEntity entities, Map<String, String> headers) throws IOException {
 		var postReq = new HttpPost(url);

@@ -1,11 +1,13 @@
 package org.magic.api.externalshop.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.StreamSupport;
-
 import org.apache.groovy.util.Maps;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
@@ -25,10 +27,6 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class ShopifyExternalShop extends AbstractExternalShop {
 
@@ -339,7 +337,8 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			objVariant.addProperty(INVENTORY_QUANTITY, c.getQte());
 
 			if (c.getId() < 0) {
-				var ret = client.doPost(getBaseUrl() + "products/" + c.getProduct().getProductId() + "/variants.json",obj, headers());
+				var ret = client.doPost(getBaseUrl() + "products/" + c.getProduct().getProductId() + "/variants.json",
+						obj, headers());
 
 				try {
 					logger.info("ret={}", ret);

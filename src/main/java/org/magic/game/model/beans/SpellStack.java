@@ -3,7 +3,6 @@ package org.magic.game.model.beans;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
-
 import org.magic.game.interfaces.AbstractSpell;
 import org.utils.patterns.observer.Observable;
 

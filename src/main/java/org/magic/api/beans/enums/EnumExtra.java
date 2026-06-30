@@ -5,34 +5,13 @@ import org.magic.api.interfaces.extra.MTGEnumeration;
 
 public enum EnumExtra implements MTGEnumeration {
 
-	ARENA("arena"), 
-	BEYOND("beyond"), 
-	BOXTOPPER("box-topper"), 
-	BRAWL("brawl"), 
-	COLLECTOR("collector"), 
-	COLLECTOR_SAMPLE("collector-sample"), 
-	DEFAULT("default"), 
-	DRAFT("draft"), 
-	GIFT("gift-bundle-promo"), 
-	FATPACK("fat-pack"), 
-	INTRO("intro"), 
-	JUMP("jumpstart"), 
-	PLANESWALKER("planeswalker"), 
-	PLAY("play"), 
-	PREMIUM("premium"), 
-	PRERELEASE("prerelease"), 
-	SET("set"), 
-	SIX("six"), 
-	STARTER("starter"), 
-	THEME("theme"), 
-	THEME_W("theme-w"), 
-	THEME_U("theme-u"), 
-	THEME_B("theme-b"), 
-	THEME_R("theme-r"), 
-	THEME_G("theme-g"), 
-	TOURNAMENT("tournament"), 
-	VIP("vip"), 
-	WELCOME("welcome");
+	ARENA("arena"), BEYOND("beyond"), BOXTOPPER("box-topper"), BRAWL("brawl"), COLLECTOR("collector"), COLLECTOR_SAMPLE(
+			"collector-sample"), DEFAULT("default"), DRAFT("draft"), GIFT("gift-bundle-promo"), FATPACK(
+					"fat-pack"), INTRO("intro"), JUMP("jumpstart"), PLANESWALKER("planeswalker"), PLAY("play"), PREMIUM(
+							"premium"), PRERELEASE("prerelease"), SET("set"), SIX("six"), STARTER("starter"), THEME(
+									"theme"), THEME_W("theme-w"), THEME_U("theme-u"), THEME_B("theme-b"), THEME_R(
+											"theme-r"), THEME_G("theme-g"), TOURNAMENT(
+													"tournament"), VIP("vip"), WELCOME("welcome");
 
 	private String mtgjsonname;
 

@@ -20,5 +20,5 @@ public interface MTGPictureProvider extends MTGPlugin {
 
 	public void setSize(Dimension d);
 
-	public String generateUrl(MTGCard mc,boolean crop);
+	public String generateUrl(MTGCard mc, boolean crop);
 }
