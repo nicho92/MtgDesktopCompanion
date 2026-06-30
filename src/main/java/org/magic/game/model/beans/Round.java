@@ -39,7 +39,7 @@ public class Round implements Serializable {
 	}
 
 	public long duration() {
-		return Duration.between(startTime, endTime).toMinutes();
+		return Duration.between(startTime.atZone(ZoneId.systemDefault()), endTime.atZone(ZoneId.systemDefault())).toMinutes();
 	}
 
 	public Integer getScoreFor(Player p) {

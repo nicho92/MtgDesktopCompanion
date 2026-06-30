@@ -192,11 +192,6 @@
 	</build>
 
     <dependencies>
-    	<!--<dependency>
-    		<groupId>io.modelcontextprotocol.sdk</groupId>
-    		<artifactId>mcp-core</artifactId>
-    		<version>2.0.0</version>
-		</dependency>-->
     	<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mtg-ast-java</artifactId>
