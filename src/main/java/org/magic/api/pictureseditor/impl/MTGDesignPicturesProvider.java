@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -13,6 +15,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.ast.engine.OracleParser;
+import org.magic.api.ast.interfaces.EffectNode;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
@@ -168,12 +171,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 						build.addParameter("rules-text", abs.get(i).loyalty().replace("+", "") + ": "
 								+ abs.get(i).effects().getFirst().text() + '\u00a0');
 					} else {
-						build.addParameter(PW_TEXT + (i + 1), abs.get(i).loyalty().replace("+", "") + ": "
-								+ abs.get(i).effects().getFirst().text() + '\u00a0');
+						build.addParameter(PW_TEXT + (i + 1), abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).effects().stream().map(EffectNode::text).collect(Collectors.joining("."))+ '\u00a0');
 					}
 					build.addParameter((i == 0) ? "rules-text" : PW_TEXT + (i + 1),
-							abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).effects().getFirst().text()
-									+ '\u00a0');
+							abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).effects().stream().map(EffectNode::text).collect(Collectors.joining(".")) + '\u00a0');
 				}
 			} else if (mc.isSaga()) {
 				build.addParameter("type", "Enchantment Saga");
