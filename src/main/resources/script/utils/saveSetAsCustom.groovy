@@ -3,7 +3,7 @@ import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 
 /////////SET COPIER : Duplicate a set in card editor, set the edition code here
 
-var id="4ED";
+var id="USG";
 
 ///////////////////////////////////////////
 
@@ -17,7 +17,7 @@ editor.saveCustomSet(edition);
 
 cards.forEach(c->{
 
-	c.setUrl(picture.generateLink(c,true).toString());
+	c.setUrl(picture.generateUrl(c,true).toString());
 
 	////cleaning the unused datas
 	c.getEditions().clear();
