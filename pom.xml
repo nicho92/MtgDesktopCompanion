@@ -485,7 +485,7 @@
 		<dependency>
 			<groupId>org.boofcv</groupId>
 			<artifactId>boofcv-core</artifactId>
-			<version>0.35</version>
+			<version>1.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.sarxos</groupId>
