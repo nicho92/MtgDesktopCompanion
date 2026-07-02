@@ -7,11 +7,12 @@ import boofcv.alg.descriptor.UtilFeature;
 import boofcv.alg.enhance.EnhanceImageOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.ConvertImage;
+import boofcv.factory.feature.associate.ConfigAssociateGreedy;
 import boofcv.factory.feature.associate.FactoryAssociation;
 import boofcv.factory.feature.detdesc.FactoryDetectDescribe;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.feature.AssociatedIndex;
-import boofcv.struct.feature.BrightFeature;
+import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import georegression.struct.point.Point2D_F64;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import org.ddogleg.struct.FastQueue;
+import org.ddogleg.struct.DogArray;
 
 public class ImageDesc {
 
@@ -33,7 +34,7 @@ public class ImageDesc {
 	private static int numberOfOctaves = 4;
 	private static int maxFeaturesPerScale = 50;
 
-	private static DetectDescribePoint<GrayF32, BrightFeature> detDesc = FactoryDetectDescribe
+	private static DetectDescribePoint<GrayF32, TupleDesc_F64> detDesc = FactoryDetectDescribe
 			.surfStable(getHessianConf(), null, null, GrayF32.class);
 
 	private static ConfigFastHessian getHessianConf() {
@@ -41,13 +42,13 @@ public class ImageDesc {
 				initialSize, numberScalesPerOctave, numberOfOctaves);
 	}
 
-	private static ScoreAssociation<BrightFeature> scorer = FactoryAssociation
+	private static ScoreAssociation<TupleDesc_F64> scorer = FactoryAssociation
 			.defaultScore(detDesc.getDescriptionType());
-	private static AssociateDescription<BrightFeature> associate = FactoryAssociation.greedy(scorer, 8, true);
+	private static AssociateDescription<TupleDesc_F64> associate = FactoryAssociation.greedy(new ConfigAssociateGreedy(true), scorer);
 
 	private AverageHash hash;
 	private AverageHash flipped;
-	private FastQueue<BrightFeature> desc = UtilFeature.createQueue(detDesc, 0);
+	private DogArray<TupleDesc_F64> desc = UtilFeature.createArray(detDesc, 0);
 	private List<Point2D_F64> points = new ArrayList<>(0);
 	private int size;
 
@@ -76,7 +77,7 @@ public class ImageDesc {
 		this(in, null);
 	}
 
-	private ImageDesc(FastQueue<BrightFeature> d, List<Point2D_F64> p, AverageHash h) {
+	private ImageDesc(DogArray<TupleDesc_F64> d, List<Point2D_F64> p, AverageHash h) {
 		desc = d;
 		hash = h;
 		points = p;
@@ -86,7 +87,7 @@ public class ImageDesc {
 	public void writeOut(DataOutputStream out) throws IOException {
 		out.writeInt(size);
 		for (var i = 0; i < size; i++) {
-			BrightFeature f = desc.get(i);
+			TupleDesc_F64 f = desc.get(i);
 			for (double val : f.value) {
 				out.writeDouble(val);
 			}
@@ -100,7 +101,7 @@ public class ImageDesc {
 	public static ImageDesc readIn(ByteBuffer buf) {
 		var size = buf.getInt();
 		List<Point2D_F64> points = new ArrayList<>(size);
-		FastQueue<BrightFeature> descs = UtilFeature.createQueue(detDesc, size);
+		DogArray<TupleDesc_F64> descs = UtilFeature.createArray(detDesc, size);
 		for (var i = 0; i < size; i++) {
 			var f = detDesc.createDescription();
 			for (var j = 0; j < f.size(); j++) {
@@ -113,7 +114,7 @@ public class ImageDesc {
 		return new ImageDesc(descs, points, hash);
 	}
 
-	private static int describeImage(GrayF32 input, FastQueue<BrightFeature> descs, List<Point2D_F64> points) {
+	private static int describeImage(GrayF32 input, DogArray<TupleDesc_F64> descs, List<Point2D_F64> points) {
 		detDesc.detect(input);
 		var size = detDesc.getNumberOfFeatures();
 		for (var i = 0; i < size; i++) {
@@ -129,7 +130,7 @@ public class ImageDesc {
 		associate.associate();
 
 		double max = Math.max(desc.size(), i2.desc.size());
-		FastQueue<AssociatedIndex> matches = associate.getMatches();
+		DogArray<AssociatedIndex> matches = associate.getMatches();
 		double score = 0;
 		for (var i = 0; i < matches.size(); i++) {
 			AssociatedIndex match = matches.get(i);

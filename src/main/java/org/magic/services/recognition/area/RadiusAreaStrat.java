@@ -1,21 +1,10 @@
 package org.magic.services.recognition.area;
 import boofcv.abst.feature.detect.line.DetectLineSegment;
-import boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac;
-import boofcv.abst.filter.derivative.ImageGradient;
-import boofcv.alg.feature.detect.line.ConnectLinesGrid;
-import boofcv.alg.feature.detect.line.GridRansacLineDetector;
-import boofcv.alg.feature.detect.line.gridline.Edgel;
-import boofcv.alg.feature.detect.line.gridline.GridLineModelDistance;
-import boofcv.alg.feature.detect.line.gridline.GridLineModelFitter;
-import boofcv.alg.feature.detect.line.gridline.ImplGridRansacLineDetector_S16;
 import boofcv.alg.filter.blur.GBlurImageOps;
 import boofcv.factory.feature.detect.line.ConfigLineRansac;
-import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.feature.detect.line.FactoryDetectLine;
 import boofcv.io.image.ConvertBufferedImage;
-import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
-import georegression.fitting.line.ModelManagerLinePolar2D_F32;
-import georegression.struct.line.LinePolar2D_F32;
 import georegression.struct.line.LineSegment2D_F32;
 import georegression.struct.point.Point2D_F32;
 import georegression.struct.point.Point2D_I32;
@@ -27,8 +16,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.ddogleg.fitting.modelset.ModelMatcher;
-import org.ddogleg.fitting.modelset.ransac.Ransac;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
 import org.magic.services.recognition.ContourBoundingBox;
@@ -89,7 +76,7 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 			GBlurImageOps.gaussian(input, blurred, 0, blurRad, null);
 
 			if (configChanged) {
-				detector = this.lineRansac(config, 60, 2);
+				detector = FactoryDetectLine.lineRansac(config, GrayU8.class);
 				configChanged = false;
 			}
 			frameSegments.addAll(detector.detect(blurred));
@@ -413,31 +400,4 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 		// do nothing
 	}
 
-	/**
-	 * Derived from the BoofCV factory source code, but exposes the RANSAC
-	 * iterations and the max lines per grid region
-	 */
-	private DetectLineSegmentsGridRansac<GrayU8, GrayS16> lineRansac(ConfigLineRansac config, int maxIter,
-			int maxLines) {
-
-		if (config == null)
-			config = new ConfigLineRansac();
-
-		ImageGradient<GrayU8, GrayS16> gradient = FactoryDerivative.sobel(GrayU8.class, GrayS16.class);
-
-		var manager = new ModelManagerLinePolar2D_F32();
-		var distance = new GridLineModelDistance((float) config.thresholdAngle);
-		var fitter = new GridLineModelFitter((float) config.thresholdAngle);
-
-		ModelMatcher<LinePolar2D_F32, Edgel> matcher = new Ransac<>(123123, manager, fitter, distance, maxIter, 0.25);
-
-		GridRansacLineDetector<GrayS16> alg = new ImplGridRansacLineDetector_S16(config.regionSize, maxLines, matcher);
-
-		ConnectLinesGrid connect = null;
-		if (config.connectLines)
-			connect = new ConnectLinesGrid(Math.PI * 0.01, 1, 8);
-
-		return new DetectLineSegmentsGridRansac<>(alg, connect, gradient, config.thresholdEdge, GrayU8.class,
-				GrayS16.class);
-	}
 }
