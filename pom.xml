@@ -195,7 +195,7 @@
     	<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mtg-ast-java</artifactId>
-		  <version>0.0.18</version>
+		  <version>0.0.19</version>
 		</dependency>
   		<dependency>
 		    <groupId>com.github.wumpz.swingx</groupId>
@@ -607,7 +607,7 @@
 		<dependency>
 			<groupId>org.zoomba-lang</groupId>
 			<artifactId>spark-core</artifactId>
-			<version>3.0.4</version>
+			<version>3.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>

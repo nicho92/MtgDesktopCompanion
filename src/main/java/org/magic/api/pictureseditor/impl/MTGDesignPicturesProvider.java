@@ -170,12 +170,12 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 				for (var i = 0; i < abs.size(); i++) {
 					if (i == 0) {
 						build.addParameter("rules-text", abs.get(i).loyalty().replace("+", "") + ": "
-								+ abs.get(i).effects().getFirst().text() + '\u00a0');
+								+ abs.get(i).text() + '\u00a0');
 					} else {
-						build.addParameter(PW_TEXT + (i + 1), abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).effects().stream().map(EffectNode::text).collect(Collectors.joining("."))+ '\u00a0');
+						build.addParameter(PW_TEXT + (i + 1), abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).text()+ '\u00a0');
 					}
 					build.addParameter((i == 0) ? "rules-text" : PW_TEXT + (i + 1),
-							abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).effects().stream().map(EffectNode::text).collect(Collectors.joining(".")) + '\u00a0');
+							abs.get(i).loyalty().replace("+", "") + ": " + abs.get(i).text() + '\u00a0');
 				}
 			} else if (mc.isSaga()) {
 				build.addParameter("type", "Enchantment Saga");
@@ -186,9 +186,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 				for (var i = 0; i < abs.size(); i++) {
 					if (i == 0)
-						build.addParameter("rules-text", abs.get(i).effects().get(0).text());
+						build.addParameter("rules-text", abs.get(i).text());
 					else
-						build.addParameter(PW_TEXT + (i + 1), abs.get(i).effects().get(0).text());
+						build.addParameter(PW_TEXT + (i + 1), abs.get(i).text());
 				}
 			} else {
 				build.addParameter("rules-text", mc.getText());

@@ -63,7 +63,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			build.addContent("fields[loyalty-base]", String.valueOf(mc.getLoyalty()));
 			for (var i = 0; i < abs.size(); i++) {
 				build.addContent("fields[capa" + (i + 1) + "-cost]", abs.get(i).loyalty());
-				build.addContent("fields[capa" + (i + 1) + "]", abs.get(i).effects().getFirst().text());
+				build.addContent("fields[capa" + (i + 1) + "]", abs.get(i).text());
 			}
 		} else {
 			build.addContent("template", getString(LAYOUT_OLD_MODERN).toLowerCase() + "-basic");
