@@ -52,6 +52,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.ImagePoster;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -529,8 +530,27 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			@Override
 			protected BufferedImage doInBackground() throws Exception {
-				return getEnabledPlugin(MTGPictureEditor.class).getPicture(magicCardEditorPanel.getMagicCard(),
-						(MTGEdition) cboSets.getSelectedItem());
+				
+				
+				var card = magicCardEditorPanel.getMagicCard();
+				
+				
+				if(magicCardEditorPanel.isProxied())
+				{
+					var poster = new ImagePoster();
+					if(card.getUrl()!=null && !poster.isProxified(card.getUrl()))
+					{
+						try {
+						var proxyUrl = poster.upload(card.getUrl());
+						card.setUrl(proxyUrl);
+						}
+						catch(Exception e)
+						{
+							logger.error(e);
+						}
+					}
+				}
+				return getEnabledPlugin(MTGPictureEditor.class).getPicture(card,(MTGEdition) cboSets.getSelectedItem());
 			}
 
 			@Override

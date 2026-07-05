@@ -88,6 +88,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JCheckableListBox<String> cboSuperType;
 	private JCheckableListBox<String> cboTypes;
 	private JCheckableListBox<String> cboSubtypes;
+	private JCheckBox chkUseProxy;
 
 	@Override
 	public String getTitle() {
@@ -127,6 +128,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		chkMatureContent = new JCheckBox("Mature");
 		chkShowSetIcon = new JCheckBox("Show Icon Set");
 		spinnerTextSize = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
+		chkUseProxy = new JCheckBox("use proxy");
+		
 		btnUrl = new JButton("URL", MTGConstants.ICON_WEBSITE);
 		btnImage = new JButton("File", MTGConstants.ICON_NEW);
 		btnWallpaper = new JButton("WallPaper", MTGConstants.ICON_WALLPAPER);
@@ -195,7 +198,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 		textEditorPanel.add(new JScrollPane(textJEditorPane), BorderLayout.CENTER);
 		textEditorPanel.add(scrollPane, BorderLayout.SOUTH);
-		pictureEditorPanel.add(UITools.createFlowPanel(btnUrl, btnImage, btnWallpaper));
+		pictureEditorPanel.add(UITools.createFlowPanel(btnUrl, btnImage, btnWallpaper,chkUseProxy));
 		pictureEditorPanel.add(UITools.createFlowPanel(new JLangLabel("SIZE", true), spinnerTextSize));
 
 		for (var s : new String[]{"W", "U", "B", "R", "G", "C", "T", "E"}) {
@@ -254,18 +257,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			wallChooser.setVisible(true);
 
 			if (wallChooser.hasSelected()) {
-
 				magicCard.setUrl(wallChooser.getSelectedItem().getUrl().toASCIIString());
-
-				// protected webhoster.
-				if (wallChooser.getSelectedItem().getHeaders().get(URLTools.USER_AGENT) != null) {
-					try {
-						magicCard.setUrl(
-								new ImagePoster().upload(wallChooser.getSelectedItem().getUrl().toASCIIString()));
-					} catch (IOException e1) {
-						logger.error(e1);
-					}
-				}
 				magicCard.setArtist(wallChooser.getSelectedItem().getAuthor());
 				magicCard.setHasContentWarning(wallChooser.getSelectedItem().isMature());
 				artistJTextField.setText(wallChooser.getSelectedItem().getAuthor());
@@ -299,6 +291,12 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		mbindingGroup = initDataBindings();
 
 	}
+	
+	public boolean isProxied()
+	{
+		return chkUseProxy.isSelected();
+	}
+	
 
 	public MTGCard getMagicCard() {
 		magicCard.setTypes(cboTypes.getSelectedElements());

@@ -10,12 +10,18 @@ import org.magic.services.network.URLTools;
 public class ImagePoster {
 
 	private Logger logger = MTGLogger.getLogger(ImagePoster.class);
-	private int expirationDay = 1;
+	private int expirationDay = 0;
 
 	public void setExpirationDay(int expirationDay) {
 		this.expirationDay = expirationDay;
 	}
-
+	
+	public boolean isProxified(String url)
+	{
+		return url.contains("postimg");
+	}
+	
+	
 	public String upload(String url) throws IOException {
 		var baseUrl = "https://postimages.org/";
 		var client = URLTools.newClient();
@@ -27,7 +33,6 @@ public class ImagePoster {
 				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd").addHeader("priority", "u=1, i")
 				.addHeader("Cache-Control", "no-cache").addHeaders(URLTools.createSecHeaders())
 				.addHeader("x-requested-with", "XMLHttpRequest")
-
 				.addContent("gallery", "").addContent("optsize", "0")
 				.addContent("expire", String.valueOf(expirationDay)).addContent("url", url).addContent("numfiles", "1")
 				.addContent("upload_session",
