@@ -2,9 +2,9 @@ package org.magic.game.model.factories;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.beans.MTGCard;
-import org.magic.game.interfaces.AbstractEffect;
-import org.magic.game.model.effects.OneShotEffect;
+import org.magic.game.model.beans.CardEffect;
 
 public class EffectsFactory {
 
@@ -20,8 +20,8 @@ public class EffectsFactory {
 	private EffectsFactory() {
 	}
 
-	public List<AbstractEffect> parseEffect(MTGCard mc, List<String> sentences) {
-		ArrayList<AbstractEffect> arr = new ArrayList<>();
+	public List<CardEffect> parseEffect(MTGCard mc, List<String> sentences) {
+		ArrayList<CardEffect> arr = new ArrayList<>();
 
 		if (sentences.isEmpty())
 			return arr;
@@ -41,8 +41,8 @@ public class EffectsFactory {
 
 	}
 
-	public AbstractEffect parseEffect(MTGCard mc, String s) {
-		var e = new OneShotEffect();
+	public CardEffect parseEffect(MTGCard mc, String s) {
+		var e = new CardEffect();
 		e.setEffectDescription(s);
 		e.setCard(mc);
 		return e;

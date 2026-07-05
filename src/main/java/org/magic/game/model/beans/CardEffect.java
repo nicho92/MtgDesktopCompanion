@@ -1,24 +1,26 @@
-package org.magic.game.interfaces;
+package org.magic.game.model.beans;
 
-public abstract class AbstractEffect extends AbstractSpell {
+import org.magic.game.interfaces.AbstractSpell;
+
+public class CardEffect extends AbstractSpell {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private String effectDescription;
-	private AbstractEffect childEffect;
+	private CardEffect childEffect;
 
 	@Override
 	public boolean isStackable() {
 		return true;
 	}
 
-	public AbstractEffect getChildEffect() {
+	public CardEffect getChildEffect() {
 		return childEffect;
 	}
 
-	public void setChildEffect(AbstractEffect childEffect) {
+	public void setChildEffect(CardEffect childEffect) {
 		this.childEffect = childEffect;
 	}
 

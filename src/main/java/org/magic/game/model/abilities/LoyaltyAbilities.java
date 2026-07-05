@@ -1,6 +1,6 @@
 package org.magic.game.model.abilities;
 
-import org.magic.game.interfaces.AbstractEffect;
+import org.magic.game.model.beans.CardEffect;
 
 @Deprecated
 public class LoyaltyAbilities extends ActivatedAbilities {
@@ -33,7 +33,7 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 		return getCost() + ":" + getEffects();
 	}
 
-	public AbstractEffect getEffect() {
+	public CardEffect getEffect() {
 		return getEffects().get(0);
 	}
 

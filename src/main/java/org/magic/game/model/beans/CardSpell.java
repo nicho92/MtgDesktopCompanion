@@ -2,7 +2,6 @@ package org.magic.game.model.beans;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.interfaces.AbstractSpell;
-import org.magic.game.model.effects.OneShotEffect;
 import org.magic.game.model.factories.CostsFactory;
 
 public class CardSpell extends AbstractSpell {
@@ -18,7 +17,7 @@ public class CardSpell extends AbstractSpell {
 		this.c = card;
 		setCard(c.getMagicCard());
 		setCost(CostsFactory.getInstance().parseCosts(c.getMagicCard().getCost()));
-		var e = new OneShotEffect();
+		var e = new CardEffect();
 		e.setCard(card.getMagicCard());
 		e.setEffectDescription(card.getMagicCard().getText());
 		e.setCost(CostsFactory.getInstance().parseCosts(card.getMagicCard().getCost()));

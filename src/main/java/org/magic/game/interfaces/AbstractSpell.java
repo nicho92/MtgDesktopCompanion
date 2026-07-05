@@ -2,7 +2,9 @@ package org.magic.game.interfaces;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.beans.MTGCard;
+import org.magic.game.model.beans.CardEffect;
 
 public abstract class AbstractSpell implements Spell {
 
@@ -12,7 +14,7 @@ public abstract class AbstractSpell implements Spell {
 	private static final long serialVersionUID = 1L;
 	protected MTGCard card;
 	protected transient List<Cost> costs;
-	protected transient List<AbstractEffect> effects;
+	protected transient List<CardEffect> effects;
 	protected boolean resolved;
 	protected AbstractSpell target;
 
@@ -58,15 +60,15 @@ public abstract class AbstractSpell implements Spell {
 	}
 
 	@Override
-	public List<AbstractEffect> getEffects() {
+	public List<CardEffect> getEffects() {
 		return effects;
 	}
 
-	public void addEffect(AbstractEffect e) {
+	public void addEffect(CardEffect e) {
 		effects.add(e);
 	}
 
-	public void setEffects(List<AbstractEffect> effects) {
+	public void setEffects(List<CardEffect> effects) {
 		this.effects = effects;
 	}
 

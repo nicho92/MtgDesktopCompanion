@@ -1,6 +1,7 @@
 package org.magic.game.interfaces;
 
 import java.io.Serializable;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.services.logging.MTGLogger;
