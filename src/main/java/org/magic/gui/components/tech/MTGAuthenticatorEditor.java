@@ -122,7 +122,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 
 			if (f.getSelectedFile() != null) {
 				try {
-					FileTools.saveFile(f.getSelectedFile(), AccountsManager.inst().exportConfig());
+					FileTools.saveFile(f.getSelectedFile(), AccountsManager.inst().exportConfig(true));
 					MTGControler.getInstance().notify(new MTGNotification("Export",
 							"File saved at " + f.getSelectedFile().getAbsolutePath(), MESSAGE_TYPE.INFO));
 				} catch (IOException e) {

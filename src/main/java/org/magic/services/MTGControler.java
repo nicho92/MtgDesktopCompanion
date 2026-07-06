@@ -153,7 +153,7 @@ public class MTGControler {
 			return f;
 
 		try {
-			String family = get("/ui/font/family");
+			var family = get("/ui/font/family");
 			var style = Integer.parseInt(get("/ui/font/style"));
 			var size = Integer.parseInt(get("/ui/font/size"));
 			f = new Font(family, style, size);
@@ -165,7 +165,7 @@ public class MTGControler {
 	}
 
 	public void saveAccounts() {
-		setProperty("accounts", AccountsManager.inst().exportConfig());
+		setProperty("accounts", AccountsManager.inst().exportConfig(true));
 
 		logger.debug("accounts saved");
 	}
@@ -268,10 +268,9 @@ public class MTGControler {
 	}
 
 	public <T extends MTGPlugin> void addProperty(String path, Class<T> classname) {
-		String[] k = path.split("/");
-
-		String root = k[1];
-		String elem = k[2];
+		var k = path.split("/");
+		var root = k[1];
+		var elem = k[2];
 		try {
 
 			if (config.childConfigurationsAt("/" + root).isEmpty()) {

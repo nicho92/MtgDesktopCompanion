@@ -99,9 +99,15 @@ public class AccountsManager {
 
 	}
 
-	public String exportConfig() {
+	public String exportConfig(boolean crypted) {
 		try {
-			return CryptoUtils.encrypt(toJson().toString(), getKey());
+		    var data = toJson().toString();
+		    
+			if(crypted)
+			    return CryptoUtils.encrypt(data, getKey());
+			else
+			    return data;
+			
 		} catch (IOException e) {
 			logger.error("Error getting keypass : {}", e.getMessage());
 			return "";
