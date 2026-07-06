@@ -12,7 +12,7 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class ChangeDAO {
-	void main() {
+    static void main() {
 		MTGControler.getInstance().loadAccountsConfiguration();
 
 		var cboDao = UITools.createComboboxPlugins(MTGDao.class, true);

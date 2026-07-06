@@ -15,7 +15,7 @@ public class IAVirtualUser {
 
 	private static ActiveMQNetworkClient client;
 
-	void main() throws Exception {
+	static void main() throws Exception {
 		MTGControler.getInstance().init();
 		init(MTGConstants.MTG_CHAT_DEFAULT_URI);
 	}

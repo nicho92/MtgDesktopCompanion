@@ -28,7 +28,7 @@ public class MtgDesktopCompanion {
 	private MTGSplashScreen launch;
 	private Chrono chrono;
 
-	void main() {
+	static void main() {
 		new MtgDesktopCompanion();
 	}
 

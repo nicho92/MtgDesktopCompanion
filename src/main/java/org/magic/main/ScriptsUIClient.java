@@ -13,7 +13,7 @@ import org.magic.services.threads.ThreadManager;
 
 public class ScriptsUIClient {
 
-	void main() throws SQLException {
+    static void main() throws SQLException {
 
 		MTGControler.getInstance();
 

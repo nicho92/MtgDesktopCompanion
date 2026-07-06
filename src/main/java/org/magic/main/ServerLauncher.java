@@ -19,7 +19,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 
 public class ServerLauncher {
-	void main(String[] args) throws SQLException, IOException {
+    static void main(String[] args) throws SQLException, IOException {
 		MTGControler.getInstance().loadAccountsConfiguration();
 
 		MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
