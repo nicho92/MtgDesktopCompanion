@@ -12,8 +12,8 @@ import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,6 +28,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.BadLocationException;
+
 import org.japura.gui.model.DefaultListCheckModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -49,9 +50,7 @@ import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.gui.components.dialog.importer.WallPaperChooseDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
-import org.magic.services.network.URLTools;
 import org.magic.services.providers.IconsProvider;
-import org.magic.services.tools.ImagePoster;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 

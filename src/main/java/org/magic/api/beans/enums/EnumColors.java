@@ -1,27 +1,29 @@
 package org.magic.api.beans.enums;
 
-import com.google.gson.annotations.SerializedName;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
+
 import javax.swing.Icon;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.services.tools.UITools;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 
-	@SerializedName(alternate = "White", value = "WHITE")
-	WHITE("W", Color.WHITE, 1), @SerializedName(alternate = "Blue", value = "BLUE")
-	BLUE("U", new Color(33, 129, 226), 2), @SerializedName(alternate = "Black", value = "BLACK")
-	BLACK("B", Color.BLACK, 3), @SerializedName(alternate = "Red", value = "RED")
-	RED("R", new Color(214, 10, 10), 4), @SerializedName(alternate = "Green", value = "GREEN")
-	GREEN("G", new Color(52, 211, 16), 5),
-
-	UNCOLOR("C", Color.GRAY, 7), GOLD("", new Color(232, 232, 0), 6);
+	@SerializedName(alternate = "White", value = "WHITE") WHITE("W", Color.WHITE, 1), 
+	@SerializedName(alternate = "Blue", value = "BLUE") BLUE("U", new Color(33, 129, 226), 2), 
+	@SerializedName(alternate = "Black", value = "BLACK") BLACK("B", Color.BLACK, 3), 
+	@SerializedName(alternate = "Red", value = "RED") RED("R", new Color(214, 10, 10), 4), 
+	@SerializedName(alternate = "Green", value = "GREEN") GREEN("G", new Color(52, 211, 16), 5),
+	UNCOLOR("C", Color.GRAY, 7), 
+	GOLD("", new Color(232, 232, 0), 6);
 
 	private String code;
 	private Color color;

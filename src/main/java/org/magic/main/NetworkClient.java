@@ -9,7 +9,7 @@ import org.magic.services.threads.ThreadManager;
 
 public class NetworkClient {
 
-	public static void main() throws SQLException {
+	void main() throws SQLException {
 		MTGControler.getInstance().init();
 		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 
