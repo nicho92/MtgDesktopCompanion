@@ -63,6 +63,7 @@
 	    <Logger name="org.jsoup" level="ERROR" ></Logger>
 	    <Logger name="org.telegram.telegrambots" level="ERROR"></Logger>
 	    <Logger name="org.magic.api.ast" level="ERROR"></Logger>
+	    <Logger name="org.api.cardnexus" level="ERROR"></Logger>
 	    
         <Root level="INFO">
         	<AppenderRef ref="APPS"/>
