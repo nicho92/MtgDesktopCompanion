@@ -44,10 +44,10 @@ public class CardNexusPricer extends AbstractPricesProvider{
 				mp.setCardData(card);
 				mp.setSite(getName());
 				mp.setFoil(f==EnumFinishes.Foil);
-				var n  = c.getPricesByFinish().get(f).getCardnexus();
-				mp.setQty(n.getAvailableQuantity());
-				mp.setCurrency(n.getLow().getCurrency());
-				mp.setValue(n.getLow().getAmount());
+				var n  = c.getPricesByFinish().get(f).cardnexus();
+				mp.setQty(n.availableQuantity());
+				mp.setCurrency(n.low().currency());
+				mp.setValue(n.low().amount());
 				mp.setSeller(getName());
 				
 				ret.add(mp);
