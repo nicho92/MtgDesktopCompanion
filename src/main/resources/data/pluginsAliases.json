@@ -25,7 +25,9 @@
 				"PLAYED":"Played",
 				"LIGHTLY_PLAYED":"Lightly Played",
 				"DAMAGED":"Damaged",
-				"POOR":"Poor"
+				"POOR":"Poor",
+				"DAMAGED":"Heavily Played",
+				"PLAYED":"Moderately Played"
 			}
 		
 	},
