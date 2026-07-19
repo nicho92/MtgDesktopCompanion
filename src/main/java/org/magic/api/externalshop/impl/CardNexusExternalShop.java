@@ -52,6 +52,15 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	
     }
     
+    @Override
+    public STATUT getStatut() {
+          return STATUT.DEV;
+    }
+    
+    @Override
+    public String getVersion() {
+        return NexusConfig.API_VERSION;
+    }
     
     
     @Override
