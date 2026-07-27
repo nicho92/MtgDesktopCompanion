@@ -67,7 +67,7 @@
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.29.0</commonmark.version>
 		<langchain4j.version>1.18.0</langchain4j.version>
-		<telegram.version>10.0.0</telegram.version>
+		<telegram.version>10.1.1</telegram.version>
 	</properties>
 
 	<repositories>
@@ -195,7 +195,7 @@
     	<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>cardnexus-api-java</artifactId>
-		  <version>1.4.14</version>
+		  <version>1.4.15</version>
 		</dependency>
     	<dependency>
 		  <groupId>com.github.nicho92</groupId>
@@ -225,7 +225,7 @@
 		<dependency>
 			<groupId>com.squareup.okio</groupId>
 			<artifactId>okio-jvm</artifactId>
-			<version>3.17.0</version>
+			<version>3.18.0</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -384,7 +384,7 @@
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>
 			<artifactId>yauaa</artifactId>
-			<version>8.1.1</version>
+			<version>8.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jasypt</groupId>
@@ -531,7 +531,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>4.0.0</version>
+			<version>4.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -556,7 +556,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.53.2.0</version>
+			<version>3.53.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -744,7 +744,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext-core</artifactId>
-			<version>9.7.0</version>
+			<version>9.7.1</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
