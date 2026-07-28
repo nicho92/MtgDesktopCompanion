@@ -6,17 +6,19 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
+import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -26,7 +28,6 @@ import org.magic.gui.components.wallpaper.JWallThumb;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class WallpaperGUI extends MTGUIComponent {
@@ -37,6 +38,7 @@ public class WallpaperGUI extends MTGUIComponent {
 	private JTextField txtSearch;
 	private JButton btnImport;
 	private JCheckBox chkSelectAll;
+	private JComboBox<MTGWallpaperProvider> cboProviders;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -47,27 +49,29 @@ public class WallpaperGUI extends MTGUIComponent {
 	public String getTitle() {
 		return capitalize("WALLPAPER");
 	}
-
+	
 	public WallpaperGUI() {
 
 		setLayout(new BorderLayout(0, 0));
 
 		panelThumnail = new ImageGalleryPanel(true, true);
-		var panelNorthh = new JPanel();
 		chkSelectAll = new JCheckBox("Select All");
 		txtSearch = UITools.createSearchField();
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
-		var panelSouth = new JPanel();
-
-		var scroll = new JScrollPane(panelThumnail, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		btnImport = UITools.createBindableJButton(null, MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "wallpaper import");
+		btnImport.setToolTipText(capitalize("IMPORT"));
+		
+		
+		cboProviders = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
+			
+		
+		var scroll = new JScrollPane(panelThumnail, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 
 		add(scroll, BorderLayout.CENTER);
-		add(panelNorthh, BorderLayout.NORTH);
-		add(panelSouth, BorderLayout.SOUTH);
-
-		panelNorthh.add(txtSearch);
+		add(UITools.createFlowCenterPanel(txtSearch,cboProviders,lblLoad), BorderLayout.NORTH);
+		add(UITools.createFlowCenterPanel(chkSelectAll,btnImport), BorderLayout.SOUTH);
+		
 		txtSearch.setColumns(20);
 		txtSearch.addActionListener(_ -> {
 			lblLoad.start();
@@ -76,8 +80,8 @@ public class WallpaperGUI extends MTGUIComponent {
 
 				@Override
 				protected List<MTGWallpaper> doInBackground() throws Exception {
-					return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream()
-							.flatMap(p -> p.search(txtSearch.getText()).stream()).collect(Collectors.toList());
+					//return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p -> p.search(txtSearch.getText()).stream()).collect(Collectors.toList());
+				    return cboProviders.getModel().getElementAt(cboProviders.getSelectedIndex()).search(txtSearch.getText()).stream().sorted(Comparator.reverseOrder()).toList();
 				}
 
 				@Override
@@ -97,13 +101,8 @@ public class WallpaperGUI extends MTGUIComponent {
 			ThreadManager.getInstance().runInEdt(sw, "searching " + txtSearch.getText());
 		});
 
-		panelNorthh.add(lblLoad);
-
-		btnImport = UITools.createBindableJButton(null, MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "wallpaper import");
-		btnImport.setToolTipText(capitalize("IMPORT"));
-		panelSouth.add(chkSelectAll);
-		panelSouth.add(btnImport);
-
+	
+	
 		btnImport.addActionListener(_ -> {
 
 			lblLoad.start();

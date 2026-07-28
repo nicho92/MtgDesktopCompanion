@@ -4,13 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.api.cardnexus.configuration.NexusConfig;
+import org.api.cardnexus.model.AbstractProduct;
 import org.api.cardnexus.model.CardProduct;
+import org.api.cardnexus.model.InventoryLine;
 import org.api.cardnexus.model.SealedProduct;
 import org.api.cardnexus.model.enums.EnumFinishes;
 import org.api.cardnexus.model.enums.EnumSealedType;
 import org.api.cardnexus.model.requests.InventoryRequest;
+import org.api.cardnexus.model.requests.SearchInventoryRequest;
 import org.api.cardnexus.model.requests.SearchProductRequest;
+import org.api.cardnexus.model.requests.UpdateInventoryRequest;
 import org.api.cardnexus.services.InventoryService;
 import org.api.cardnexus.services.ProductsService;
 import org.magic.api.beans.MTGCardStock;
@@ -43,9 +48,9 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
 	NexusConfig.DIRECTORY_FEED=MTGConstants.DATA_DIR;
 	NexusConfig.DEFAULT_GAME_VALUE="mtg";
-	try {
-        	    pService.listExpansion("mtg");
-        	    //pService.cachingProducts("mtg", false);
+	
+		try {
+        	    pService.listExpansion(NexusConfig.DEFAULT_GAME_VALUE); //caching
         	} catch (IOException e) {
         	    logger.error(e);
         	} 
@@ -69,7 +74,6 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	
 	var ret = new ArrayList<MTGProduct>();
 	var req = SearchProductRequest.create().setName(name).contains();
-	     
 	var results = pService.searchProduct(req);
 		
 	results.forEach(p->{
@@ -107,72 +111,89 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 
     private EnumItems parseTypeProduct(EnumSealedType productCategory) {
 	switch(productCategory)
-		{
-	case booster_box: return EnumItems.BOX;
-	case booster_case: return EnumItems.CASE;
-	case booster_pack: return EnumItems.BOOSTER;
-	case bundle: return EnumItems.BUNDLE;
-	case bundle_case: return EnumItems.CASE;
-	case commander_deck: return EnumItems.COMMANDER_DECK;
-	case starter_deck: return EnumItems.STARTER;
-	case preconstructed_deck: return EnumItems.CONSTRUCTPACK;
-	case preconstructed_deck_box: return EnumItems.CONSTRUCTPACK;
-	case prerelease_kit: return EnumItems.PRERELEASEPACK;
-	default : return EnumItems.LOTS; 
-	
-		}
+	{
+                	case booster_box: return EnumItems.BOX;
+                	case booster_case: return EnumItems.CASE;
+                	case booster_pack: return EnumItems.BOOSTER;
+                	case bundle: return EnumItems.BUNDLE;
+                	case bundle_case: return EnumItems.CASE;
+                	case commander_deck: return EnumItems.COMMANDER_DECK;
+                	case starter_deck: return EnumItems.STARTER;
+                	case preconstructed_deck: return EnumItems.CONSTRUCTPACK;
+                	case preconstructed_deck_box: return EnumItems.CONSTRUCTPACK;
+                	case prerelease_kit: return EnumItems.PRERELEASEPACK;
+                	default : return EnumItems.LOTS; 
+	}
     }   
+    
+    
+
+    @Override
+    public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
+	
+	var line = iService.getInventoryLine(id);
+	
+	return null;
+    }
+
+    @Override
+    protected void saveOrUpdateStock(List<MTGStockItem> items) throws IOException {
+	
+	items.forEach(item->{
+	    
+	    var listId = item.getTiersAppIds(getName());
+	    var req = UpdateInventoryRequest.create()
+		    						.setQuantity(item.getQte())
+		    						.setComment(item.getComment())
+		    						.setLanguage(item.getLanguage());
+	    try {
+		var ret = iService.updateInventoryLine(listId, req);
+		
+		logger.info("line updated {}", ret);
+		
+		
+	    } catch (IOException e) {
+		logger.error(e);
+	    }
+	});
+	
+
+    }
+    
     
     @Override
     protected List<MTGStockItem> loadStock(String search) throws IOException {
 	init();
 	var ret = new ArrayList<MTGStockItem>();
 	
-	var req2 = SearchProductRequest.create().setName(search).contains();
-	
-	
-	var products = pService.searchProduct(req2);
-
-	var req = InventoryRequest.create().setProductIds(products.stream().map(ap->ap.getId()).toList());
-	
-	var lines = iService.getInventoryLines(req);
+	List<AbstractProduct>products = pService.searchProduct(SearchProductRequest.create().setName(search).contains());
+	List<InventoryLine> lines;  
+		
+	if(!StringUtils.isEmpty(search))
+	{
+	    lines = iService.inventorySearch(SearchInventoryRequest.create().setName(search).contains());
+	}
+	else
+	{
+	    
+	    lines = iService.getInventoryLines(InventoryRequest.create());
+	}
 	
 	lines.forEach(il->{
 	    
 	    var opt= products.stream().filter(ap->il.productId()==ap.getId()).findAny();
-	    var product=opt.get();
 	    
-	    
-	    if(product instanceof CardProduct c)
+	    if(!opt.isPresent())
 	    {
-		
-		
-			var item = new MTGCardStock();
-				try {
-				    item.setProduct(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(c.getPrintNumber(), pService.getExpansionById(product.getExpansionId()).code()));
-				} catch (IOException e) {
-				   logger.error("cant find product for {}",c);
-				}
-				item.setFoil(il.finish()==EnumFinishes.Foil);
-				item.setCondition(aliases.getReversedConditionFor(this, il.condition().getLabel(), EnumCondition.NEAR_MINT));
-				item.setDateUpdate(il.updatedAt());
-				item.setComment(il.comment());
-				item.setQte(il.quantity());
-				item.setEtched(il.finish()==EnumFinishes.Etched);
-				item.setSigned(il.finish()==EnumFinishes.Signed);
-				item.setLanguage(il.language());
-				item.getTiersAppIds().put("cardNexus",il.id());
-				try {
-				if(!c.getPricesByFinish().isEmpty())
-				    item.setPrice(c.getPricesByFinish().get(il.finish()).cardmarket().marketValue());
-				}
-				catch(Exception e)
-				{
-				    logger.error("error gettings price market for {}",c);
-				}
-				ret.add(item); 
-				
-		
+		logger.error("no product found for id {}",il.productId());
+	    }
+	    else
+	    {
+            	    var product=opt.get();
+            	    if(product instanceof CardProduct c)
+            	    {
+            		ret.add(parseStockItem(c,il)); 
+            	    }
 	    }
 	});
 	
@@ -180,10 +201,32 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	return ret;
     }
 
-    @Override
-    public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+
+    private MTGStockItem parseStockItem(CardProduct c, InventoryLine il) {
+	var item = new MTGCardStock();
+		try {
+		    item.setProduct(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(c.getPrintNumber(), pService.getExpansionById(c.getExpansionId()).code()));
+		} catch (IOException e) {
+		   logger.error("cant find product for {}",c);
+		}
+		item.setFoil(il.finish()==EnumFinishes.Foil);
+		item.setCondition(aliases.getReversedConditionFor(this, il.condition().getLabel(), EnumCondition.NEAR_MINT));
+		item.setDateUpdate(il.updatedAt());
+		item.setComment(il.comment());
+		item.setQte(il.quantity());
+		item.setEtched(il.finish()==EnumFinishes.Etched);
+		item.setSigned(il.finish()==EnumFinishes.Signed);
+		item.setLanguage(il.language());
+		item.getTiersAppIds().put(getName(),il.id());
+		try {
+		if(!c.getPricesByFinish().isEmpty())
+		    item.setPrice(c.getPricesByFinish().get(il.finish()).cardmarket().marketValue());
+		}
+		catch(Exception e)
+		{
+		    logger.error("error gettings price market for {}",c);
+		}
+		return item;
     }
 
     @Override
@@ -273,10 +316,5 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 
   
 
-    @Override
-    protected void saveOrUpdateStock(List<MTGStockItem> it) throws IOException {
-	// TODO Auto-generated method stub
-
-    }
 
 }

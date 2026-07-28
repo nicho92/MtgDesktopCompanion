@@ -46,13 +46,10 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("MATURE",
-				MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"), LIMIT,
-				MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1), "DATE_UPDATE_ORDER",
-				MTGProperty.newBooleanProperty("true", "ordering results by published date (desc)"), "GRANT_TYPE",
-				new MTGProperty(CLIENT,
-						"Grant type for API Access. CODE need user and password, CLIENT needs client_id and client_secret ",
-						"CODE", CLIENT));
+		return Map.of(
+				"MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"), 
+				LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1), 
+				"GRANT_TYPE",new MTGProperty(CLIENT,"Grant type for API Access. CODE need user and password, CLIENT needs client_id and client_secret ","CODE", CLIENT));
 	}
 
 	public DeviantArtWallpaperProvider() {
