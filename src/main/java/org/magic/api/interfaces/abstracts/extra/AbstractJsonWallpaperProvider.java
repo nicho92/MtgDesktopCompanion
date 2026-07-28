@@ -38,7 +38,9 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 
 	protected JsonArray extractArrayFromQuery(RequestBuilder req) {
 		var je = req.toJson();
-
+		
+		logger.debug("ret={}", je);
+		
 		if (je == null || je.isJsonNull())
 			return new JsonArray(0);
 
@@ -80,8 +82,7 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 					logger.error("Error getting wall for {} : {}", e, ex.getMessage());
 				}
 			}
-			logger.debug("read {}={}. return {} items. Filtered={} . Complete ={}/{}.", getPaginationKey(), pidStart,
-					arr.size(), filtered, results.size(), getInt(LIMIT));
+			logger.debug("read {}={}. return {} items. Filtered={} . Complete ={}/{}.", getPaginationKey(), pidStart,arr.size(), filtered, results.size(), getInt(LIMIT));
 
 			if (arr.size() < getResultsPerPage())
 				break;
