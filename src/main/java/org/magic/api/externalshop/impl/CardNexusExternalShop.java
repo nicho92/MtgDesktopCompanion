@@ -245,38 +245,33 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 
     @Override
     public Integer saveOrUpdateContact(Contact c) throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+	throw new IOException("Not Implemented");
     }
 
     @Override
     public Contact getContactByEmail(String email) throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+	throw new IOException("Not Implemented");
     }
 
     @Override
     public List<Contact> listContacts() throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+	return new ArrayList<>();
     }
 
     @Override
     public void deleteContact(Contact contact) throws IOException {
-	// TODO Auto-generated method stub
+	throw new IOException("Not Implemented");
 
     }
 
     @Override
     public Contact getContactByLogin(String login, String passw) throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+	throw new IOException("Not Implemented");
     }
 
     @Override
     public String saveOrUpdateTransaction(Transaction t) throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+	throw new IOException("Not Implemented");
     }
 
     @Override
@@ -294,12 +289,11 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     @Override
     public List<Transaction> listTransactions(Contact c) throws IOException {
 	// TODO Auto-generated method stub
-	return null;
+	return new ArrayList<>();
     }
 
     @Override
     public boolean enableContact(String token) throws IOException {
-	// TODO Auto-generated method stub
 	return false;
     }
 
@@ -311,7 +305,7 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     @Override
     protected List<Transaction> loadTransaction() throws IOException {
 	// TODO Auto-generated method stub
-	return null;
+	return new ArrayList<>();
     }
 
   
