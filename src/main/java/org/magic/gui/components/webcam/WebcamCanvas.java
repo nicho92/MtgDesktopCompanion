@@ -1,14 +1,17 @@
 package org.magic.gui.components.webcam;
-import com.github.sarxos.webcam.Webcam;
-import com.github.sarxos.webcam.WebcamLockException;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JPanel;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
 import org.magic.services.logging.MTGLogger;
+
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamLockException;
 
 public class WebcamCanvas extends JPanel {
 	private static final long serialVersionUID = 1L;

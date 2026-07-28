@@ -3,6 +3,7 @@ package org.magic.api.beans;
 import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
+
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.technical.MoneyValue;
 

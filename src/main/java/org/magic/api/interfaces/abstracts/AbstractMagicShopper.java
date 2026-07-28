@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;

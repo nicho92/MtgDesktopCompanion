@@ -1,17 +1,19 @@
 package org.magic.api.news.impl;
 
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.FeedException;
-import com.rometools.rome.io.SyndFeedInput;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.services.network.URLTools;
 import org.xml.sax.InputSource;
+
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedInput;
 
 public class RSSNewsProvider extends AbstractMagicNewsProvider {
 

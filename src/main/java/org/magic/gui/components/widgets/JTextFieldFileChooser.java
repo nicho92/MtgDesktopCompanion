@@ -2,6 +2,7 @@ package org.magic.gui.components.widgets;
 
 import java.awt.BorderLayout;
 import java.io.File;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;

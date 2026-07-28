@@ -2,9 +2,11 @@ package org.magic.gui.components.card;
 
 import java.awt.BorderLayout;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGRuling;
 import org.magic.gui.abstracts.MTGUIComponent;

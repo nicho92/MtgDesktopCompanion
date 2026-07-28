@@ -2,7 +2,9 @@ package org.magic.services.workers;
 
 import java.io.File;
 import java.util.List;
+
 import javax.swing.SwingWorker;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;

@@ -3,10 +3,12 @@ package org.magic.api.exports.impl;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
+
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;

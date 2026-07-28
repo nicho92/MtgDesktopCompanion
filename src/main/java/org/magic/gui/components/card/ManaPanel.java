@@ -3,10 +3,12 @@ package org.magic.gui.components.card;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.util.regex.Pattern;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconsProvider;

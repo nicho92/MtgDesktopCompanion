@@ -2,14 +2,16 @@ package org.magic.gui.components.dialog.importer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
+
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingWorker;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGNotification;
@@ -21,7 +23,6 @@ import org.magic.gui.components.wallpaper.ImageGalleryPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWallpaper> {
@@ -36,8 +37,10 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 		setPreferredSize(new Dimension(1024, 768));
 		var text = new JTextField(30);
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-
-		getContentPane().add(UITools.createFlowPanel(text, buzy), BorderLayout.NORTH);
+		
+		var cboProviders = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
+		
+		getContentPane().add(UITools.createFlowPanel(cboProviders,text, buzy), BorderLayout.NORTH);
 
 		text.addActionListener(_ -> {
 
@@ -46,14 +49,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 
 				@Override
 				protected List<MTGWallpaper> doInBackground() throws Exception {
-					return MTG.listEnabledPlugins(MTGWallpaperProvider.class).stream().flatMap(p -> {
-						try {
-							return p.search(text.getText().trim()).stream();
-						} catch (Exception _) {
-							return Stream.empty();
-						}
-
-					}).toList();
+					return cboProviders.getModel().getElementAt(cboProviders.getSelectedIndex()).search(text.getText()).stream().sorted(Comparator.reverseOrder()).toList();
 				}
 
 				@Override

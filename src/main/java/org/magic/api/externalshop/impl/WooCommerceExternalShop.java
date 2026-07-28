@@ -1,16 +1,11 @@
 package org.magic.api.externalshop.impl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
-import com.icoderman.woocommerce.EndpointBaseType;
-import com.icoderman.woocommerce.WooCommerce;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCondition;
@@ -33,6 +28,13 @@ import org.magic.services.ProductFactory;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.tools.WooCommerceTools;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.icoderman.woocommerce.EndpointBaseType;
+import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceExternalShop extends AbstractExternalShop {
 

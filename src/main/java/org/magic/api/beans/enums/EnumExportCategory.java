@@ -1,6 +1,7 @@
 package org.magic.api.beans.enums;
 
 import javax.swing.ImageIcon;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.services.MTGConstants;
 

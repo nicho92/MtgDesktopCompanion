@@ -2,6 +2,7 @@ package org.magic.api.notifiers.impl;
 
 import java.io.IOException;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;

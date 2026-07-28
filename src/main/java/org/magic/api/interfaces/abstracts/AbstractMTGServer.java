@@ -1,17 +1,19 @@
 package org.magic.api.interfaces.abstracts;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.RemovalNotification;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
 import org.magic.services.ReportsService;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalNotification;
 
 public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTGServer {
 

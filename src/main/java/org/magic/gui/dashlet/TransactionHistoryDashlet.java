@@ -2,14 +2,15 @@ package org.magic.gui.dashlet;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import com.jogamp.newt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -17,6 +18,8 @@ import org.magic.gui.components.charts.TransactionHistoryChartPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
+
+import com.jogamp.newt.event.KeyEvent;
 
 public class TransactionHistoryDashlet extends AbstractJDashlet {
 

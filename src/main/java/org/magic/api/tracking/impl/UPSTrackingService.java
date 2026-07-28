@@ -2,6 +2,7 @@ package org.magic.api.tracking.impl;
 
 import java.io.IOException;
 import java.util.Date;
+
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;

@@ -3,6 +3,7 @@ package org.magic.gui.models;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.util.List;
+
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;

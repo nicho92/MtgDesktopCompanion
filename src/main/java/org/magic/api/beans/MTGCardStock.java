@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.util.HashMap;
+
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumItems;

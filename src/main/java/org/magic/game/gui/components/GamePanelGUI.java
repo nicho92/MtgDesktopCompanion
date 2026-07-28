@@ -16,6 +16,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -30,6 +31,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
 import org.magic.api.beans.MTGDeck;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;

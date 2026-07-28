@@ -6,8 +6,10 @@ import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.Frame;
 import java.io.IOException;
+
 import javax.swing.JOptionPane;
 import javax.swing.plaf.FontUIResource;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;

@@ -2,6 +2,7 @@ package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 

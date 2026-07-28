@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import java.util.Date;
+
 import org.magic.api.beans.MTGNewsContent;
 import org.magic.gui.abstracts.GenericTableModel;
 

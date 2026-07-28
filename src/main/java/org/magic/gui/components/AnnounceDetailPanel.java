@@ -3,11 +3,13 @@ package org.magic.gui.components;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Currency;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;

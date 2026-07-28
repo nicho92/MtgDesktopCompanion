@@ -1,18 +1,9 @@
 package org.magic.api.exports.impl;
 
-import com.google.gson.internal.LinkedTreeMap;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.converters.extended.NamedMapConverter;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGCardStock;
@@ -24,6 +15,17 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.POMReader;
+
+import com.google.gson.internal.LinkedTreeMap;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.converters.extended.NamedMapConverter;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class XMLExport extends AbstractCardExport {
 

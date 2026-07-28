@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageTypeSpecifier;
@@ -33,6 +34,7 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;

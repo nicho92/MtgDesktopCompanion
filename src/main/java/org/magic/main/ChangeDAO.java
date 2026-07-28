@@ -1,8 +1,10 @@
 package org.magic.main;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;

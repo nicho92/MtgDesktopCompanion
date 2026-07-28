@@ -3,8 +3,10 @@ package org.magic.gui;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
+
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.deck.ConstructPanel;
 import org.magic.gui.components.deck.SealedDeckBuildPanel;

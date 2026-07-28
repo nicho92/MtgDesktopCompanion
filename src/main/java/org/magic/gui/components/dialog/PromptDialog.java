@@ -4,6 +4,7 @@ import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -11,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;

@@ -3,9 +3,11 @@ package org.magic.gui.components.renderer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import org.magic.game.model.beans.Player;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;

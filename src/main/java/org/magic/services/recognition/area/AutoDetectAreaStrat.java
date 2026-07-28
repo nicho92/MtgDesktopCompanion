@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
 import org.magic.services.recognition.ContourBoundingBox;

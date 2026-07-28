@@ -1,7 +1,5 @@
 package org.magic.services.network;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +7,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+
 import org.apache.commons.io.input.BoundedInputStream;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -19,6 +18,9 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 import org.magic.services.tools.XMLTools;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class RequestBuilder {
 

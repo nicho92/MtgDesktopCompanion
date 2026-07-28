@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.interfaces.MTGComboProvider;
 

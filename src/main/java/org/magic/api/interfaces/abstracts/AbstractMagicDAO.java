@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCard;

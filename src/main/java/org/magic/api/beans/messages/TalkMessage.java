@@ -2,6 +2,7 @@ package org.magic.api.beans.messages;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.interfaces.MTGCardsProvider;

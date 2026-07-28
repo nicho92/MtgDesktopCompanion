@@ -1,6 +1,7 @@
 package org.magic.api.graders.impl;
 
 import java.io.IOException;
+
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;

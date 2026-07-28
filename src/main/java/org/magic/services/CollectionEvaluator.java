@@ -3,9 +3,6 @@ package org.magic.services;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.getPlugin;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -16,6 +13,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.core.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
@@ -29,6 +27,10 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 import org.utils.patterns.observer.Observable;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class CollectionEvaluator extends Observable {
 	private static final String PRICE_JSON = "_price.json";

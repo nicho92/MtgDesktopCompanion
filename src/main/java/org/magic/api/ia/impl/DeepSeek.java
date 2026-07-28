@@ -1,12 +1,14 @@
 package org.magic.api.ia.impl;
 
+import java.awt.Color;
+import java.util.List;
+
+import org.magic.api.interfaces.abstracts.AbstractIA;
+import org.magic.services.tools.POMReader;
+
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.chat.request.ResponseFormat;
 import dev.langchain4j.model.openai.OpenAiChatModel;
-import java.awt.Color;
-import java.util.List;
-import org.magic.api.interfaces.abstracts.AbstractIA;
-import org.magic.services.tools.POMReader;
 
 public class DeepSeek extends AbstractIA {
 

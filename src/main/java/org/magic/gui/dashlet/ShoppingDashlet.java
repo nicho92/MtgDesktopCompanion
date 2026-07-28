@@ -5,12 +5,14 @@ import static org.magic.services.tools.MTG.getPlugin;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.util.stream.IntStream;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;

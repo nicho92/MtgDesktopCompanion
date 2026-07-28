@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
@@ -46,6 +47,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;

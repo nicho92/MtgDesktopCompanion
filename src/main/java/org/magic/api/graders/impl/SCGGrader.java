@@ -1,12 +1,14 @@
 package org.magic.api.graders.impl;
 
-import com.google.gson.JsonElement;
 import java.io.IOException;
 import java.util.Map.Entry;
+
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonElement;
 
 public class SCGGrader extends AbstractGradersProvider {
 

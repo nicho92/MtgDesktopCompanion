@@ -3,6 +3,7 @@ package org.magic.gui.models;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;

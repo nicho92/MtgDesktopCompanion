@@ -4,12 +4,14 @@ import java.awt.Component;
 import java.awt.Image;
 import java.util.EnumMap;
 import java.util.Map;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;

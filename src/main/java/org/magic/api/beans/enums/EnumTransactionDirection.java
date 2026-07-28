@@ -1,7 +1,9 @@
 package org.magic.api.beans.enums;
 
 import java.awt.Color;
+
 import javax.swing.Icon;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.services.tools.UITools;

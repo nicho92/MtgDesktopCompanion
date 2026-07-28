@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormatSymbols;
 import java.util.Map;
+
 import javax.swing.Icon;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MTGCard;

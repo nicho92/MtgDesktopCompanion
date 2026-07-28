@@ -10,11 +10,13 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.Callable;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.technical.GedEntry;

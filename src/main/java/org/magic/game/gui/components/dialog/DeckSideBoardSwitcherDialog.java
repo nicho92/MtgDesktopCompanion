@@ -2,6 +2,7 @@ package org.magic.game.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.game.gui.components.LightDescribeCardPanel;

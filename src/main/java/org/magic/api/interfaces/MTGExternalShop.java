@@ -2,6 +2,7 @@ package org.magic.api.interfaces;
 
 import java.io.IOException;
 import java.util.List;
+
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;

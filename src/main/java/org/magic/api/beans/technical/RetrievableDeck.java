@@ -3,6 +3,7 @@ package org.magic.api.beans.technical;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.beans.MTGDeck;
 
 public class RetrievableDeck {

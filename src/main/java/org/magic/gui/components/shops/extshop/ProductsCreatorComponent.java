@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.extra.MTGProduct;

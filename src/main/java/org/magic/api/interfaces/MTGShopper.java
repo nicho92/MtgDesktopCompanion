@@ -2,6 +2,7 @@ package org.magic.api.interfaces;
 
 import java.io.IOException;
 import java.util.List;
+
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 

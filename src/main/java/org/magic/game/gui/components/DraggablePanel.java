@@ -4,7 +4,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JPopupMenu;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.game.model.beans.Player;
 import org.magic.game.transfert.CardTransfertHandler;

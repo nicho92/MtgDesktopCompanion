@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 
 public interface MTGCardsIndexer extends MTGPlugin {

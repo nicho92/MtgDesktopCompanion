@@ -1,11 +1,11 @@
 package org.magic.servers.impl;
 
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.MessageInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -26,6 +26,8 @@ import org.telegram.telegrambots.meta.api.objects.chat.Chat;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+
+import com.google.gson.JsonObject;
 
 public class TelegramBotServer extends AbstractMTGServer
 		implements

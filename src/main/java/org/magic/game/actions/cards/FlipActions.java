@@ -6,7 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;

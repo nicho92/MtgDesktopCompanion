@@ -8,8 +8,10 @@ import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CancellationException;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;

@@ -3,15 +3,17 @@ package org.magic.api.notifiers.impl;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.JDAInfo;
-import net.dv8tion.jda.api.utils.FileUpload;
+
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
+
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.JDAInfo;
+import net.dv8tion.jda.api.utils.FileUpload;
 
 public class DiscordNotifier extends AbstractMTGNotifier {
 

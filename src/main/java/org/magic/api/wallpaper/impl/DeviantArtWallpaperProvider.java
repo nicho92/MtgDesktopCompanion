@@ -1,6 +1,5 @@
 package org.magic.api.wallpaper.impl;
 
-import com.google.gson.JsonObject;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
@@ -18,6 +18,8 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonObject;
 
 public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 

@@ -1,9 +1,11 @@
 package org.magic.services.tools;
 
-import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
+
 import org.magic.services.network.URLTools;
+
+import com.google.gson.JsonObject;
 
 public class MTGArenaTools {
 

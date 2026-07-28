@@ -2,6 +2,7 @@ package org.magic.gui.renderer.standard;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+
 import javax.swing.AbstractCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;

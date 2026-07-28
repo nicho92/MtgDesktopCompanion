@@ -1,18 +1,11 @@
 package org.magic.services.tools;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.icoderman.woocommerce.ApiVersionType;
-import com.icoderman.woocommerce.HttpMethod;
-import com.icoderman.woocommerce.WooCommerce;
-import com.icoderman.woocommerce.oauth.OAuthConfig;
-import com.icoderman.woocommerce.oauth.OAuthSignature;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +15,15 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.icoderman.woocommerce.ApiVersionType;
+import com.icoderman.woocommerce.HttpMethod;
+import com.icoderman.woocommerce.WooCommerce;
+import com.icoderman.woocommerce.oauth.OAuthConfig;
+import com.icoderman.woocommerce.oauth.OAuthSignature;
 
 public class WooCommerceTools {
 

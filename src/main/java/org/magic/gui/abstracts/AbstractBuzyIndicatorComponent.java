@@ -1,7 +1,9 @@
 package org.magic.gui.abstracts;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JComponent;
+
 import org.magic.gui.components.widgets.JBuzyLabel;
 import org.magic.gui.components.widgets.JBuzyProgress;
 import org.utils.patterns.observer.Observable;

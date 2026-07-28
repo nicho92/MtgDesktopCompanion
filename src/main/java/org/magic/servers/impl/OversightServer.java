@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.Icon;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.technical.MTGNotification;

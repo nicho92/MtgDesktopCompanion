@@ -1,16 +1,19 @@
 package org.magic.api.beans.technical;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 public class TCache<T> {
 

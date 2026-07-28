@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.swing.Icon;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;

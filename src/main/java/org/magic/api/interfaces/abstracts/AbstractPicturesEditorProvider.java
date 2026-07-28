@@ -2,6 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;

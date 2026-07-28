@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.services.recognition.DescContainer;
 import org.magic.services.recognition.ImageDesc;

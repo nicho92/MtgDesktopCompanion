@@ -6,12 +6,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGPrice;

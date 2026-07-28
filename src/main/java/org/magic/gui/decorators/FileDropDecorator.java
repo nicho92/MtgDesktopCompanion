@@ -14,9 +14,11 @@ import java.awt.dnd.DropTargetListener;
 import java.io.File;
 import java.util.List;
 import java.util.TooManyListenersException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
 

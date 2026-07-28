@@ -3,10 +3,12 @@ package org.magic.gui.renderer.standard;
 import java.awt.Component;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+
 import org.magic.services.tools.UITools;
 
 public class ComboBoxEditor<T> extends DefaultCellEditor {

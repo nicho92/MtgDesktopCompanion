@@ -1,6 +1,7 @@
 package org.magic.api.beans.technical;
 
 import java.io.Serializable;
+
 import org.magic.services.tools.UITools;
 
 public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {

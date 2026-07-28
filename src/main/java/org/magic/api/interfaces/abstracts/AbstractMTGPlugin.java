@@ -10,10 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGDocumentation;

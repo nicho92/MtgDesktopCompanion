@@ -1,11 +1,11 @@
 package org.magic.gui.components.shops;
 
-import com.jogamp.newt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -18,6 +18,7 @@ import javax.swing.RowFilter;
 import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -36,6 +37,8 @@ import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+import com.jogamp.newt.event.KeyEvent;
 
 public class TransactionsPanel extends MTGUIComponent {
 

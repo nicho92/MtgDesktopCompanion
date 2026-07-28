@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.models.conf.LogTableModel;
 import org.magic.services.MTGConstants;

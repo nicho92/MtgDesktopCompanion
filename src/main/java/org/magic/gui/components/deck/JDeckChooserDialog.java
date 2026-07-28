@@ -10,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGDao;

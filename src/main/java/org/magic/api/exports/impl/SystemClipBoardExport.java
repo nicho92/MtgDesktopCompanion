@@ -8,8 +8,10 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 import java.util.stream.Collectors;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;

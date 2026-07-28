@@ -1,6 +1,5 @@
 package org.magic.gui.dashlet;
 
-import com.google.common.collect.Lists;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
@@ -8,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
@@ -35,6 +36,8 @@ import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
+
+import com.google.common.collect.Lists;
 
 public class MTGCardStockDashlet extends AbstractJDashlet {
 

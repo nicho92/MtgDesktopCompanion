@@ -3,6 +3,7 @@ package org.magic.game.model.factories;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.interfaces.AbstractCounter;

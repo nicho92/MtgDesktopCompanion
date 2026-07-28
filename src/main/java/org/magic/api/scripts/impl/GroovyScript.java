@@ -1,7 +1,8 @@
 package org.magic.api.scripts.impl;
 
-import groovy.lang.GroovySystem;
 import org.magic.api.interfaces.abstracts.extra.AbstractJSR223MTGScript;
+
+import groovy.lang.GroovySystem;
 
 public class GroovyScript extends AbstractJSR223MTGScript {
 

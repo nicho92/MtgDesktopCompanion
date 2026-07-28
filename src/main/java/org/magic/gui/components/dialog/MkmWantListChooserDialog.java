@@ -2,11 +2,13 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.WantsService;
 import org.magic.services.MTGConstants;

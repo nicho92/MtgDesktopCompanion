@@ -1,11 +1,11 @@
 package org.magic.api.dao.impl;
 
-import com.google.gson.JsonArray;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.h2.tools.Server;
@@ -17,6 +17,8 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
+
+import com.google.gson.JsonArray;
 
 public class H2DAO extends AbstractMagicSQLDAO {
 

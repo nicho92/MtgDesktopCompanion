@@ -6,7 +6,9 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
+
 import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGRuling;
 import org.magic.api.interfaces.MTGPictureProvider;

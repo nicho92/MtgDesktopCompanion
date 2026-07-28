@@ -4,6 +4,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCollection;

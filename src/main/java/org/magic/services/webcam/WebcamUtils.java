@@ -1,4 +1,8 @@
 package org.magic.services.webcam;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamCompositeDriver;
 import com.github.sarxos.webcam.ds.buildin.WebcamDefaultDriver;
@@ -6,9 +10,6 @@ import com.github.sarxos.webcam.ds.ipcam.IpCamDevice;
 import com.github.sarxos.webcam.ds.ipcam.IpCamDeviceRegistry;
 import com.github.sarxos.webcam.ds.ipcam.IpCamDriver;
 import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WebcamUtils {
 

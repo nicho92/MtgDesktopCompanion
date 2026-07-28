@@ -5,10 +5,12 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.MapTableModel;

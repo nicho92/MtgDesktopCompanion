@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGPictureProvider;

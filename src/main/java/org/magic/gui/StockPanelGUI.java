@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.listEnabledPlugins;
 
-import com.google.common.collect.Lists;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -14,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -34,6 +34,7 @@ import javax.swing.SortOrder;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
+
 import org.apache.logging.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
@@ -73,6 +74,8 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
+
+import com.google.common.collect.Lists;
 public class StockPanelGUI extends MTGUIComponent {
 	/**
 	 *

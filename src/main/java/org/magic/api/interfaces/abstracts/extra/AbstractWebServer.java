@@ -1,14 +1,14 @@
 package org.magic.api.interfaces.abstracts.extra;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.Icon;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.jetty.ee10.servlet.DefaultServlet;
 import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
@@ -31,6 +31,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.FileTools;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public abstract class AbstractWebServer extends AbstractMTGServer {
 

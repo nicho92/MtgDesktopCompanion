@@ -2,11 +2,13 @@ package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.magic.gui.abstracts.MTGUIComponent;

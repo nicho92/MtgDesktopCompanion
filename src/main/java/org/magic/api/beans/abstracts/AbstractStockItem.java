@@ -3,6 +3,7 @@ package org.magic.api.beans.abstracts;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;

@@ -1,13 +1,14 @@
 package org.magic.gui.components.shops;
 
-import com.jogamp.newt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Contact;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -21,6 +22,8 @@ import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+import com.jogamp.newt.event.KeyEvent;
 
 public class ContactsManagementPanel extends MTGUIComponent {
 

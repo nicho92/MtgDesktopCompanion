@@ -3,9 +3,11 @@ package org.magic.gui.renderer;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.Map.Entry;
+
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
+
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.ImageTools;

@@ -1,11 +1,13 @@
 package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.game.model.beans.Player;
 import org.magic.gui.abstracts.MTGUIComponent;

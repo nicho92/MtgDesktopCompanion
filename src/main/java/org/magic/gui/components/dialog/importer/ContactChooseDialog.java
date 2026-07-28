@@ -5,9 +5,11 @@ import static org.magic.services.tools.MTG.capitalize;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGDao;

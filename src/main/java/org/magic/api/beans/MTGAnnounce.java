@@ -6,6 +6,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionDirection;

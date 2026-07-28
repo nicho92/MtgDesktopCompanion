@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGAnnounce;

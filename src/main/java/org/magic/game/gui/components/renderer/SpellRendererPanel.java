@@ -3,9 +3,11 @@ package org.magic.game.gui.components.renderer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.game.interfaces.AbstractAbilities;
 import org.magic.game.interfaces.AbstractSpell;

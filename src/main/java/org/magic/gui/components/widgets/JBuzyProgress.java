@@ -1,8 +1,10 @@
 package org.magic.gui.components.widgets;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JComponent;
 import javax.swing.JProgressBar;
+
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 
 public class JBuzyProgress extends AbstractBuzyIndicatorComponent {

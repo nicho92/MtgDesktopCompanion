@@ -1,8 +1,10 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
 import org.magic.api.beans.MTGPrice;
 import org.magic.gui.components.renderer.MagicPricePanel;
 

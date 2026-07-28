@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.jooq.SQLDialect;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;

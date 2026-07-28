@@ -1,6 +1,7 @@
 package org.magic.gui.components.charts;
 
 import java.util.Date;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;

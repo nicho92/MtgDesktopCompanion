@@ -1,9 +1,11 @@
 package org.magic.gui.components.shops;
 
 import java.util.List;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.TableModel;
+
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.services.MTGConstants;

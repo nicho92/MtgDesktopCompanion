@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;

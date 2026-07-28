@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,6 +32,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;

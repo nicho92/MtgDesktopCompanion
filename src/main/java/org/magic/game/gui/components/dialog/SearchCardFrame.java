@@ -2,8 +2,10 @@ package org.magic.game.gui.components.dialog;
 
 import java.awt.Dimension;
 import java.util.List;
+
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;

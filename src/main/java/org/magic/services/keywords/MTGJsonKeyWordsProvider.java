@@ -1,12 +1,14 @@
 package org.magic.services.keywords;
 
-import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.network.URLTools;
+
+import com.google.gson.JsonObject;
 
 public class MTGJsonKeyWordsProvider extends AbstractKeyWordsManager {
 

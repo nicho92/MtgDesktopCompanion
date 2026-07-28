@@ -1,6 +1,7 @@
 package org.magic.game.model.factories;
 
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.interfaces.Cost;

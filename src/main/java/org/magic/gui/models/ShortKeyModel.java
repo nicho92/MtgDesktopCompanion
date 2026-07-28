@@ -1,8 +1,10 @@
 package org.magic.gui.models;
 
 import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
+
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.ShortKeyManager;

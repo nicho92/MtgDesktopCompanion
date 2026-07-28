@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.util.Currency;
+
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MoneyValue;
 

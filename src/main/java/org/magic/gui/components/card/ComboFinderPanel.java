@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
@@ -15,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.MTGComboProvider;

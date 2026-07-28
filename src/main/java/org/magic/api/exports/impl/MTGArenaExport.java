@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;

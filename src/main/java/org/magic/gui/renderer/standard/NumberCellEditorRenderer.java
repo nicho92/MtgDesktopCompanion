@@ -2,6 +2,7 @@ package org.magic.gui.renderer.standard;
 
 import java.awt.Component;
 import java.text.NumberFormat;
+
 import javax.swing.AbstractCellEditor;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
@@ -10,6 +11,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class NumberCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {

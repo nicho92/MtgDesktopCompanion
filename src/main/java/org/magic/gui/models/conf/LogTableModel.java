@@ -1,6 +1,7 @@
 package org.magic.gui.models.conf;
 
 import java.util.Date;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.LogEvent;
 import org.magic.gui.abstracts.GenericTableModel;

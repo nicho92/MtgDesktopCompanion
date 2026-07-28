@@ -1,4 +1,13 @@
 package org.magic.services.recognition;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
+
 import boofcv.alg.distort.RemovePerspectiveDistortion;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.Contour;
@@ -13,13 +22,6 @@ import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point2D_I32;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.logging.log4j.Logger;
-import org.magic.services.logging.MTGLogger;
 
 public class ContourBoundingBox {
 	private static Point2D_I32[] farpoints;

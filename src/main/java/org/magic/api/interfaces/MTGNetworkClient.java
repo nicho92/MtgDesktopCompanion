@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.io.IOException;
+
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.messages.SearchMessage;

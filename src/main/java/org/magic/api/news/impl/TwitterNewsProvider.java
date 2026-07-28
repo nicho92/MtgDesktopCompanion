@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGNewsContent;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.Version;

@@ -3,6 +3,7 @@ package org.magic.api.pictures.impl;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.technical.MTGProperty;

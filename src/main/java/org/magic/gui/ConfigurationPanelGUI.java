@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
+
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.technical.PluginEntry;
 import org.magic.api.interfaces.MTGCardRecognition;

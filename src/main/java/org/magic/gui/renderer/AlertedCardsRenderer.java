@@ -2,8 +2,10 @@ package org.magic.gui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 
 public class AlertedCardsRenderer implements TableCellRenderer {

@@ -3,6 +3,7 @@ package org.magic.main;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.sql.SQLException;
+
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;

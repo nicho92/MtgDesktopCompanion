@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;

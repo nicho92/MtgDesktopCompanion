@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -12,6 +13,7 @@ import javax.swing.SwingWorker;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

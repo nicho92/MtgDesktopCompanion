@@ -1,6 +1,5 @@
 package org.magic.api.externalshop.impl;
 
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
@@ -26,6 +26,8 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.CryptoUtils;
+
+import com.google.gson.JsonObject;
 
 public class CsCartExternalShop extends AbstractExternalShop {
 

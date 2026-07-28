@@ -1,10 +1,12 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.services.PluginRegistry;

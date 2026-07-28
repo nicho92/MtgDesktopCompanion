@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.Icon;
+
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MTGNotification;

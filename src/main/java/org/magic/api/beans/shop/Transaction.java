@@ -5,6 +5,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;

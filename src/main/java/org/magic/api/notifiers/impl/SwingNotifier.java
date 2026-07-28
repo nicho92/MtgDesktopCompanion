@@ -1,7 +1,9 @@
 package org.magic.api.notifiers.impl;
 
 import java.io.IOException;
+
 import javax.swing.JOptionPane;
+
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;

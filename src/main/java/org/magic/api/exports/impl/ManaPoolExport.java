@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Currency;
 import java.util.List;
+
 import org.api.manapool.listener.URLCallInfo;
 import org.api.manapool.model.Product;
 import org.api.manapool.model.ProductQueryEntry;

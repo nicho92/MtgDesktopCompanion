@@ -3,6 +3,7 @@ package org.magic.api.tracking.impl;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;

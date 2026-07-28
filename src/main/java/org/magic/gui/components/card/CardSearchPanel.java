@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -40,6 +41,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCollection;

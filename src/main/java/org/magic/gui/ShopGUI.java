@@ -1,8 +1,10 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
+
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.shops.ContactsManagementPanel;
 import org.magic.gui.components.shops.TransactionsPanel;

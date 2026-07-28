@@ -12,6 +12,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGNewsContent;

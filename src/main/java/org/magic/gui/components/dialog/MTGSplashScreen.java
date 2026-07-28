@@ -6,10 +6,12 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
+
 import org.apache.logging.log4j.message.Message;
 import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;

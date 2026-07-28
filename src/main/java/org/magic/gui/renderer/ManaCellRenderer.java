@@ -1,8 +1,10 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.gui.components.card.ManaPanel;
 
 public class ManaCellRenderer extends ManaPanel implements TableCellRenderer {

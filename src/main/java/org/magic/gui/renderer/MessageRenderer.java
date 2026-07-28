@@ -2,9 +2,11 @@ package org.magic.gui.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
+
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.gui.components.renderer.MessageRendererPanel;
 

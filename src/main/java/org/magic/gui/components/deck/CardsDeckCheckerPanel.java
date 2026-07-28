@@ -5,10 +5,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;

@@ -3,7 +3,9 @@ package org.magic.gui.models;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.util.List;
+
 import javax.swing.table.DefaultTableModel;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGDeck.BOARD;

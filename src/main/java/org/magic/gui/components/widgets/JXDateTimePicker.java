@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,6 +15,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.calendar.SingleDaySelectionModel;
 import org.magic.services.tools.MTG;

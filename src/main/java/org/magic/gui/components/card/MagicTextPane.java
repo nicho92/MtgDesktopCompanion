@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -17,6 +18,7 @@ import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.services.providers.IconsProvider;
 

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGBooster;

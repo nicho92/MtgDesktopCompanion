@@ -1,16 +1,18 @@
 package org.magic.api.interfaces.abstracts.extra;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperProvider {
 

@@ -6,10 +6,12 @@ import java.awt.Point;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;

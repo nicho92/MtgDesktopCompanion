@@ -1,11 +1,11 @@
 package org.magic.servers.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+
 import javax.swing.Icon;
+
 import org.eclipse.jetty.ee10.servlet.DefaultServlet;
 import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
@@ -13,6 +13,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.FileTools;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class ShoppingServer extends AbstractWebServer {
 	@Override

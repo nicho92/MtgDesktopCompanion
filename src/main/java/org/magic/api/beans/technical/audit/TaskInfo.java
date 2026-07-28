@@ -1,6 +1,7 @@
 package org.magic.api.beans.technical.audit;
 
 import java.time.Instant;
+
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 
 public class TaskInfo extends AbstractAuditableItem {

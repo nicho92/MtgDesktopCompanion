@@ -1,16 +1,18 @@
 package org.magic.services.adapters;
 
+import java.lang.reflect.Type;
+
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGSealedStock;
+import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGStockItem;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import java.lang.reflect.Type;
-import org.magic.api.beans.MTGCardStock;
-import org.magic.api.beans.MTGSealedStock;
-import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.MTGStockItem;
 
 public final class MTGStockItemAdapter implements JsonDeserializer<MTGStockItem>, JsonSerializer<MTGStockItem> {
 

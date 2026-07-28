@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
+
 import org.magic.services.tools.UITools;
 
 public class MoneyValue extends Number implements Serializable, Comparable<MoneyValue> {

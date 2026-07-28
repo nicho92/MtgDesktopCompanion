@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import java.util.Map;
+
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;

@@ -3,12 +3,14 @@ package org.magic.gui.components.shops;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.sql.SQLException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;

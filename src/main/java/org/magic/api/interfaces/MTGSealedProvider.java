@@ -2,6 +2,7 @@ package org.magic.api.interfaces;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumExtra;

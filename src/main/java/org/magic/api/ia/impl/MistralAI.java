@@ -1,16 +1,18 @@
 package org.magic.api.ia.impl;
 
-import dev.langchain4j.model.chat.ChatModel;
-import dev.langchain4j.model.chat.request.ResponseFormat;
-import dev.langchain4j.model.mistralai.MistralAiChatModel;
-import dev.langchain4j.model.mistralai.MistralAiChatModelName;
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.tools.POMReader;
+
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.request.ResponseFormat;
+import dev.langchain4j.model.mistralai.MistralAiChatModel;
+import dev.langchain4j.model.mistralai.MistralAiChatModelName;
 
 public class MistralAI extends AbstractIA {
 

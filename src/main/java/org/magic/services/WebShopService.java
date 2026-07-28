@@ -1,12 +1,11 @@
 package org.magic.services;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.shop.Contact;
@@ -15,6 +14,9 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class WebShopService {
 

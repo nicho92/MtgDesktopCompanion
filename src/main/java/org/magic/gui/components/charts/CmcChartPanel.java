@@ -1,6 +1,7 @@
 package org.magic.gui.components.charts;
 
 import java.util.Map.Entry;
+
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.MTGCard;

@@ -1,16 +1,18 @@
 package org.magic.api.cache.impl;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
 import org.magic.services.tools.POMReader;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 public class GuavaCache extends AbstractCacheProvider {
 

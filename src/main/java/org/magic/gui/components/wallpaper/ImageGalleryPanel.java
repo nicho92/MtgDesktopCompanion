@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ImagePanel2;

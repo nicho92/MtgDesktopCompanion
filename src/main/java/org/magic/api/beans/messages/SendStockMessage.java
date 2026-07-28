@@ -1,6 +1,7 @@
 package org.magic.api.beans.messages;
 
 import java.util.List;
+
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.abstracts.AbstractMessage;
 

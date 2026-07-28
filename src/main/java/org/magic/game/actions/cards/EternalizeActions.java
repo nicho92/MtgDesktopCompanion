@@ -4,6 +4,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;

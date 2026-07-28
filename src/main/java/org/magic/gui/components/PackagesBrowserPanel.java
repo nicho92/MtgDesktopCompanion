@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;

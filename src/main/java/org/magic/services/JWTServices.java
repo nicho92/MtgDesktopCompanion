@@ -1,18 +1,21 @@
 package org.magic.services;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import javax.crypto.SecretKey;
+
 import org.apache.commons.lang3.time.DateUtils;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 public class JWTServices {
 

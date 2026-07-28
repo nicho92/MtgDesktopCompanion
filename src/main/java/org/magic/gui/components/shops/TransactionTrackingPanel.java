@@ -3,6 +3,7 @@ package org.magic.gui.components.shops;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.IOException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGTrackingService;

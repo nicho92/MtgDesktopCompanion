@@ -3,7 +3,9 @@ package org.magic.gui;
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
+
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.network.NetworkChatPanel;
 import org.magic.services.MTGConstants;

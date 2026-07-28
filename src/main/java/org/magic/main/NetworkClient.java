@@ -1,6 +1,7 @@
 package org.magic.main;
 
 import java.sql.SQLException;
+
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.network.NetworkChatPanel;
 import org.magic.services.MTGControler;

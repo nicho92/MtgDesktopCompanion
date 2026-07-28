@@ -1,7 +1,5 @@
 package org.magic.services.tools;
 
-import com.google.common.io.Files;
-import com.google.gson.JsonElement;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +22,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.FileFileFilter;
@@ -39,6 +38,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.recognition.DescContainer;
+
+import com.google.common.io.Files;
+import com.google.gson.JsonElement;
 
 public class FileTools {
 

@@ -2,12 +2,12 @@ package org.magic.api.decksniffer.impl;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import com.google.gson.JsonElement;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
@@ -18,6 +18,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+
+import com.google.gson.JsonElement;
 
 public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 

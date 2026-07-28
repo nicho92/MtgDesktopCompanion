@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -32,6 +33,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileFilter;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.sealedprovider.impl.MTGCompanionSealedProvider.LOGO;

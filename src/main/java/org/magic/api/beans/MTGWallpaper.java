@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.interfaces.extra.MTGSerializable;
 
 public class MTGWallpaper implements Comparable<MTGWallpaper>, MTGSerializable {

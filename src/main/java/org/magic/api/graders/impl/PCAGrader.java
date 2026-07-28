@@ -3,6 +3,7 @@ package org.magic.api.graders.impl;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;

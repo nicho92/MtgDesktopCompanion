@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;

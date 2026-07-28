@@ -1,12 +1,14 @@
 package org.magic.api.beans.technical;
 
-import com.google.common.io.Files;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.io.Serializable;
+
 import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
+
+import com.google.common.io.Files;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class GedEntry<T extends MTGSerializable> implements Serializable {
 

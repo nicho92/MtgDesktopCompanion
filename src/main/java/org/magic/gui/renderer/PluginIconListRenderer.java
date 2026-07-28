@@ -1,9 +1,11 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
 import org.magic.api.interfaces.MTGPlugin;
 
 public class PluginIconListRenderer extends JLabel implements ListCellRenderer<MTGPlugin> {

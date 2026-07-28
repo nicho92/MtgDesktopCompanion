@@ -1,7 +1,9 @@
 package org.magic.gui.components.dialog.importer;
 
 import java.util.List;
+
 import javax.swing.JComponent;
+
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

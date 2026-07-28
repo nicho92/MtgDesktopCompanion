@@ -3,6 +3,7 @@ package org.magic.api.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.beans.enums.EnumExtra;
 
 public class MTGBooster implements Serializable {

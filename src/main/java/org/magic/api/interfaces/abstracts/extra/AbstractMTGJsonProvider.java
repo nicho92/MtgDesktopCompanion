@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts.extra;
 
-import com.google.common.collect.Lists;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,8 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGKeyWord;
@@ -31,6 +32,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
+
+import com.google.common.collect.Lists;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 	protected static final String BOOSTER_INDEX = "boosterIndex";

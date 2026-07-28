@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -28,6 +29,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.jdesktop.swingx.JXTaskPane;

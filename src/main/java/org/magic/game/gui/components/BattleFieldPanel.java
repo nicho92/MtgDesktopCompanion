@@ -7,8 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
 import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.RollAD20Actions;

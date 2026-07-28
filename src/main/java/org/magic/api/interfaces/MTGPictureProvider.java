@@ -3,6 +3,7 @@ package org.magic.api.interfaces;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 

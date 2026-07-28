@@ -1,8 +1,10 @@
 package org.magic.api.fs.impl;
 
-import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 import java.io.IOException;
+
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;
+
+import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 
 public class MemoryFileStorage extends AbstractFileStorage {
 

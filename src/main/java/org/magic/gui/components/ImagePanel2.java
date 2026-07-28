@@ -9,7 +9,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
 import javax.swing.Timer;
+
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;

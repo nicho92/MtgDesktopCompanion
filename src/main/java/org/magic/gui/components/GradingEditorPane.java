@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -15,6 +16,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;

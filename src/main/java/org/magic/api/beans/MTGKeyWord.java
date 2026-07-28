@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord> {

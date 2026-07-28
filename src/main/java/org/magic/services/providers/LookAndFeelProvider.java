@@ -1,16 +1,15 @@
 package org.magic.services.providers;
 
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import com.jtattoo.plaf.AbstractLookAndFeel;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.plaf.FontUIResource;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.services.MTGConstants;
@@ -18,6 +17,10 @@ import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.reflections.Reflections;
+
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import com.jtattoo.plaf.AbstractLookAndFeel;
 
 public class LookAndFeelProvider {
 

@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGNewsContent;

@@ -3,8 +3,10 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;

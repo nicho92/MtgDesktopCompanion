@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
+
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;

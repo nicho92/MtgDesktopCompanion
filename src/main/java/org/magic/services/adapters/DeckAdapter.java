@@ -1,5 +1,11 @@
 package org.magic.services.adapters;
 
+import java.lang.reflect.Type;
+import java.util.Date;
+
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -9,10 +15,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import java.lang.reflect.Type;
-import java.util.Date;
-import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGDeck;
 
 public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSerializer<MTGDeck> {
 

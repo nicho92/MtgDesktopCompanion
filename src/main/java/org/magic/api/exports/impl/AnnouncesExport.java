@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.Icon;
+
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;

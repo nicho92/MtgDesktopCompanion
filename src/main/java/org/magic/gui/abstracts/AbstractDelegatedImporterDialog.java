@@ -8,11 +8,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;

@@ -1,8 +1,8 @@
 package org.magic.api.beans.technical.audit;
 
-import com.google.gson.JsonObject;
 import java.net.URI;
 import java.time.Instant;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
@@ -10,6 +10,8 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.message.BasicHttpResponse;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
+
+import com.google.gson.JsonObject;
 
 public class NetworkInfo extends AbstractAuditableItem {
 

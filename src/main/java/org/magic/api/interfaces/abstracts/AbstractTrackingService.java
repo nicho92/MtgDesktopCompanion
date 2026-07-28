@@ -1,6 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
+
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.interfaces.MTGTrackingService;
 

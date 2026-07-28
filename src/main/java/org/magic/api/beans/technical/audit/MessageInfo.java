@@ -1,7 +1,8 @@
 package org.magic.api.beans.technical.audit;
 
-import com.google.gson.JsonObject;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
+
+import com.google.gson.JsonObject;
 
 public class MessageInfo extends AbstractAuditableItem {
 

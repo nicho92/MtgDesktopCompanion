@@ -2,6 +2,7 @@ package org.magic.services.tools;
 
 import java.util.Comparator;
 import java.util.List;
+
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGPlugin;

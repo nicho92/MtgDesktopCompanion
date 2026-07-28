@@ -2,6 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
 import java.time.Instant;
+
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.messages.DeckMessage;

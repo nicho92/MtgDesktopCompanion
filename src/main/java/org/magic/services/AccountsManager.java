@@ -1,11 +1,11 @@
 package org.magic.services;
 
-import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
@@ -13,6 +13,8 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.FileTools;
+
+import com.google.gson.JsonObject;
 
 public class AccountsManager {
 

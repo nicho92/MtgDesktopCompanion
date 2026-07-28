@@ -1,6 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.util.AbstractMap;
+
 import org.magic.api.interfaces.MTGDeckSniffer;
 
 public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements MTGDeckSniffer {

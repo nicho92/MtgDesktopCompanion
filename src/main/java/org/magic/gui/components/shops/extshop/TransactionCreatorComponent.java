@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

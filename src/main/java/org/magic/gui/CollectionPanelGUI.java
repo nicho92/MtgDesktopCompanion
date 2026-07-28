@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenu;
@@ -31,6 +32,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;

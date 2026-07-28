@@ -5,6 +5,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;

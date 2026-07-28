@@ -7,11 +7,13 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
+
 import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;

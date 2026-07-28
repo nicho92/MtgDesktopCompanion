@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import java.util.Date;
+
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionDirection;

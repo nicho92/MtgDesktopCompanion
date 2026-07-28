@@ -2,6 +2,7 @@ package org.magic.api.interfaces;
 
 import java.io.IOException;
 import java.util.List;
+
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;

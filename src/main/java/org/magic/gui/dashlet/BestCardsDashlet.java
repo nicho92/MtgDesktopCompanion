@@ -6,12 +6,14 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGFormat;

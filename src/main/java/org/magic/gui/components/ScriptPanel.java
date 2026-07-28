@@ -14,6 +14,7 @@ import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Future;
+
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -28,6 +29,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+
 import org.apache.commons.io.FilenameUtils;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;

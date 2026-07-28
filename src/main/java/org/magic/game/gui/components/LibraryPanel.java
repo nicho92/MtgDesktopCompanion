@@ -5,7 +5,9 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+
 import javax.swing.JMenuItem;
+
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.cards.ScryActions;
 import org.magic.game.actions.library.DrawActions;

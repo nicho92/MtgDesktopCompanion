@@ -2,6 +2,7 @@ package org.magic.services.jobs;
 
 import java.sql.SQLException;
 import java.util.Date;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGAnnounce.STATUS;
 import org.magic.api.interfaces.MTGDao;

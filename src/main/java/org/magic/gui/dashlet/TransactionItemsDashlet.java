@@ -1,15 +1,16 @@
 package org.magic.gui.dashlet;
 
-import com.google.common.collect.Lists;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -18,6 +19,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
+
+import com.google.common.collect.Lists;
 
 public class TransactionItemsDashlet extends AbstractJDashlet {
 

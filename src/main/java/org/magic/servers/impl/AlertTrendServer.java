@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.Icon;
+
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;

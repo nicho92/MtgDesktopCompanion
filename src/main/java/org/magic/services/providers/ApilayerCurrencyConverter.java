@@ -1,6 +1,5 @@
 package org.magic.services.providers;
 
-import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -8,12 +7,15 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.FileTools;
+
+import com.google.gson.JsonObject;
 
 public class ApilayerCurrencyConverter {
 	private Logger logger = MTGLogger.getLogger(this.getClass());

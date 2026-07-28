@@ -7,12 +7,14 @@ import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import javax.management.MBeanServer;
 import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 import javax.management.StandardMBean;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.PluginRegistry;

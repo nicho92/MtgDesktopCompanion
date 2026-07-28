@@ -1,7 +1,9 @@
 package org.magic.gui.components.charts;
 
 import java.util.Map.Entry;
+
 import javax.swing.ImageIcon;
+
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.MTGCard;

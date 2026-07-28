@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.interfaces.extra.MTGSerializable;

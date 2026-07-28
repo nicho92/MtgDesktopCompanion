@@ -1,12 +1,14 @@
 package org.magic.services.network;
 
-import com.google.common.net.InetAddresses;
-import com.google.gson.JsonObject;
 import java.util.concurrent.Callable;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.TCache;
 import org.magic.api.beans.technical.audit.Location;
 import org.magic.services.logging.MTGLogger;
+
+import com.google.common.net.InetAddresses;
+import com.google.gson.JsonObject;
 
 public class IPTranslator {
 

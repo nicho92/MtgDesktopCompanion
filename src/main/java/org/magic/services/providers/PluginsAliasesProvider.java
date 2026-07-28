@@ -1,6 +1,5 @@
 package org.magic.services.providers;
 
-import com.google.gson.JsonObject;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
@@ -8,6 +7,8 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
+
+import com.google.gson.JsonObject;
 
 public class PluginsAliasesProvider {
 

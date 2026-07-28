@@ -2,7 +2,6 @@ package org.magic.gui.components.dialog;
 
 import static org.magic.services.tools.MTG.capitalize;
 
-import com.google.gson.JsonElement;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,12 +12,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -29,6 +30,8 @@ import org.magic.services.network.URLTools;
 import org.magic.services.tools.GithubUtils;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonElement;
 
 public class AboutDialog extends MTGUIComponent {
 

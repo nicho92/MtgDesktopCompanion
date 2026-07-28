@@ -6,8 +6,10 @@ import static org.magic.services.tools.MTG.listPlugins;
 import java.awt.GridLayout;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
+
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.tech.ServerStatePanel;

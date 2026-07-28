@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.shop.Contact;

@@ -3,6 +3,7 @@ package org.magic.gui.abstracts.charts;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGDeckManager;
 

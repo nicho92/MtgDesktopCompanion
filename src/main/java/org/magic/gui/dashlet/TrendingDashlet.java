@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;

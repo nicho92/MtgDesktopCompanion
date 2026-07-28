@@ -2,10 +2,6 @@ package org.magic.api.exports.impl;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.icoderman.woocommerce.EndpointBaseType;
-import com.icoderman.woocommerce.WooCommerce;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import javax.annotation.Nonnull;
+
 import org.apache.commons.collections4.ListUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -32,6 +30,11 @@ import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.WooCommerceTools;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.icoderman.woocommerce.EndpointBaseType;
+import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceExport extends AbstractCardExport {
 

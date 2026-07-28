@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Paths;
 import java.util.Map;
+
 import javax.script.ScriptException;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;

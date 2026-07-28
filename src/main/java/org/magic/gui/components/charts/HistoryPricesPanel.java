@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
+
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
+
 import org.jfree.chart.annotations.XYImageAnnotation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Day;

@@ -1,16 +1,18 @@
 package org.magic.api.wallpaper.impl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.abstracts.extra.AbstractJsonWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class KemonoWallpaperProvider extends AbstractJsonWallpaperProvider {
 

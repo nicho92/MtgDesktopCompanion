@@ -5,6 +5,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.interfaces.MTGPictureCache;

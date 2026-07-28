@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.io.IOException;
+
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 

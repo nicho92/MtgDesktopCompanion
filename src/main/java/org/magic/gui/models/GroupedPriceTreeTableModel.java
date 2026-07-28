@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MoneyValue;

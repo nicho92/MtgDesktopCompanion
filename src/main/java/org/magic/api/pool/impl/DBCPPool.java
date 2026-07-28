@@ -1,12 +1,13 @@
 package org.magic.api.pool.impl;
 
-import com.mchange.v2.c3p0.cfg.C3P0Config;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.pool2.impl.BaseObjectPoolConfig;
@@ -16,6 +17,8 @@ import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
 import org.magic.services.tools.POMReader;
+
+import com.mchange.v2.c3p0.cfg.C3P0Config;
 
 public class DBCPPool extends AbstractPoolProvider {
 

@@ -3,7 +3,9 @@ package org.magic.game.gui.components;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.List;
+
 import javax.swing.JPanel;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.game.model.beans.GameManager;
 import org.magic.game.model.beans.ZoneEnum;

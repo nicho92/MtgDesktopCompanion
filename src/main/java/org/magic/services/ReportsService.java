@@ -1,17 +1,19 @@
 package org.magic.services;
 
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapperBuilder;
-import freemarker.template.TemplateExceptionHandler;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.services.logging.MTGLogger;
+
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapperBuilder;
+import freemarker.template.TemplateExceptionHandler;
 
 public class ReportsService {
 	private Configuration cfg;

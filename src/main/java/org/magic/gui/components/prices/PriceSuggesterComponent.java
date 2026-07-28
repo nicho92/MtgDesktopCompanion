@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.extra.MTGPriceSuggester;

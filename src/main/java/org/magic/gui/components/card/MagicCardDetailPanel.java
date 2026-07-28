@@ -1,8 +1,10 @@
 package org.magic.gui.components.card;
 
 import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;

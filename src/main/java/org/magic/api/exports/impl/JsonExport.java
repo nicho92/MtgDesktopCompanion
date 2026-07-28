@@ -1,9 +1,5 @@
 package org.magic.api.exports.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileWriter;
@@ -12,7 +8,7 @@ import java.io.Reader;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import nl.basjes.parse.useragent.UserAgent;
+
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.audit.NetworkInfo;
@@ -32,6 +28,13 @@ import org.magic.services.adapters.UserAgentAdapter;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.POMReader;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
+import nl.basjes.parse.useragent.UserAgent;
 
 public class JsonExport extends AbstractCardExport {
 

@@ -6,8 +6,10 @@ import java.awt.Insets;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.game.model.beans.ZoneEnum;
 import org.magic.services.MTGControler;

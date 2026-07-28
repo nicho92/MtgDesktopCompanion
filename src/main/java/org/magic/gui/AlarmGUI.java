@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;

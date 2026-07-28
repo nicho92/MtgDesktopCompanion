@@ -1,10 +1,12 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.api.beans.shop.Contact;
 
 public class ContactRenderer extends JLabel implements TableCellRenderer {

@@ -1,6 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
+
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;

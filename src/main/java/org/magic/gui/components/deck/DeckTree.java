@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.Enumeration;
 import java.util.Map;
+
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.border.LineBorder;
@@ -11,6 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.gui.components.card.MagicCardMainDetailPanel;

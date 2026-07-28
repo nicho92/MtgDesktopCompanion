@@ -1,7 +1,5 @@
 package org.magic.services;
 
-import freemarker.template.Configuration;
-import freemarker.template.Version;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -14,14 +12,19 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+
 import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.shop.Contact;
 import org.magic.services.providers.IconsProvider;
+
+import freemarker.template.Configuration;
+import freemarker.template.Version;
 
 public class MTGConstants {
 

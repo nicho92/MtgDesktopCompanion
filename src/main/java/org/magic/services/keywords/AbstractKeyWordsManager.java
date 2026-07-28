@@ -1,18 +1,20 @@
 package org.magic.services.keywords;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.services.logging.MTGLogger;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public abstract class AbstractKeyWordsManager {
 

@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,6 +19,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;

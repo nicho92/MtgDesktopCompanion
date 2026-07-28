@@ -5,12 +5,14 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.gui.components.tech.CriteriaComponent;

@@ -3,6 +3,7 @@ package org.magic.servers.impl;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.jolokia.config.ConfigKey;
 import org.jolokia.jvmagent.JolokiaServer;
 import org.jolokia.jvmagent.JolokiaServerConfig;

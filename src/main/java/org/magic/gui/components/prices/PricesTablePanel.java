@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;

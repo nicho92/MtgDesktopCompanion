@@ -3,6 +3,7 @@ package org.magic.gui.components.dialog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
 import org.jdesktop.swingx.JXTipOfTheDay;
 import org.jdesktop.swingx.tips.TipLoader;
 import org.magic.services.MTGConstants;

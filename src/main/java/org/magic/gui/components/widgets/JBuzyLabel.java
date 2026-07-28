@@ -1,9 +1,11 @@
 package org.magic.gui.components.widgets;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
 

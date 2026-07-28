@@ -1,7 +1,8 @@
 package org.magic.api.beans.enums;
 
-import com.google.gson.annotations.SerializedName;
 import org.magic.api.interfaces.extra.MTGEnumeration;
+
+import com.google.gson.annotations.SerializedName;
 
 public enum EnumBorders implements MTGEnumeration {
 

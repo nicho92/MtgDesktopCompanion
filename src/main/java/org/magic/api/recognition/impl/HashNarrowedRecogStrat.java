@@ -2,6 +2,7 @@ package org.magic.api.recognition.impl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
 import org.magic.services.recognition.DescContainer;

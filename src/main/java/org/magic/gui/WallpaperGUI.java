@@ -69,7 +69,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 
 		add(scroll, BorderLayout.CENTER);
-		add(UITools.createFlowCenterPanel(txtSearch,cboProviders,lblLoad), BorderLayout.NORTH);
+		add(UITools.createFlowCenterPanel(cboProviders,txtSearch,lblLoad), BorderLayout.NORTH);
 		add(UITools.createFlowCenterPanel(chkSelectAll,btnImport), BorderLayout.SOUTH);
 		
 		txtSearch.setColumns(20);

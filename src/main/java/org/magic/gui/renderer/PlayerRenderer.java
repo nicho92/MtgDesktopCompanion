@@ -2,6 +2,7 @@ package org.magic.gui.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -9,6 +10,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.game.model.beans.Player;
 import org.magic.gui.components.renderer.PlayerPanel;
 

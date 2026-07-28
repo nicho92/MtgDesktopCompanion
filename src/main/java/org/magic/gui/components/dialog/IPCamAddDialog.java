@@ -1,17 +1,20 @@
 package org.magic.gui.components.dialog;
 
-import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
 import org.magic.services.webcam.WebcamUtils;
+
+import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
 
 public class IPCamAddDialog extends JDialog {
 	private static final long serialVersionUID = 1L;

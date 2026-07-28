@@ -2,10 +2,12 @@ package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGStockItem;

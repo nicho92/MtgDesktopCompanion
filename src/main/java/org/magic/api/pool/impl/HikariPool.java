@@ -1,15 +1,17 @@
 package org.magic.api.pool.impl;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.POMReader;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class HikariPool extends AbstractPoolProvider {
 

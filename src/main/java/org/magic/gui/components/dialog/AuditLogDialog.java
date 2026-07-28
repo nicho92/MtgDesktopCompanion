@@ -2,9 +2,11 @@ package org.magic.gui.components.dialog;
 
 import java.awt.GridLayout;
 import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+
 import org.magic.services.MTGControler;
 
 public class AuditLogDialog extends JDialog {

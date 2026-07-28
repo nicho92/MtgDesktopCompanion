@@ -4,8 +4,10 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGCardsIndexer;

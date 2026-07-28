@@ -7,11 +7,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;

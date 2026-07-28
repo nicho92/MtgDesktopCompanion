@@ -4,13 +4,13 @@ import static com.jayway.jsonpath.Criteria.where;
 import static com.jayway.jsonpath.Filter.filter;
 import static com.jayway.jsonpath.JsonPath.parse;
 
-import com.jayway.jsonpath.DocumentContext;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
@@ -24,6 +24,8 @@ import org.magic.services.tools.CardKingdomTools;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
+
+import com.jayway.jsonpath.DocumentContext;
 
 public class CardKingdomPricer extends AbstractPricesProvider {
 

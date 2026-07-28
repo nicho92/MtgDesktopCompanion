@@ -1,20 +1,10 @@
 package org.magic.api.interfaces.abstracts;
 
-import com.google.gson.JsonObject;
-import dev.langchain4j.memory.chat.MessageWindowChatMemory;
-import dev.langchain4j.model.chat.ChatModel;
-import dev.langchain4j.model.chat.request.ResponseFormat;
-import dev.langchain4j.model.chat.request.ResponseFormatType;
-import dev.langchain4j.model.chat.request.json.JsonArraySchema;
-import dev.langchain4j.model.chat.request.json.JsonObjectSchema;
-import dev.langchain4j.model.chat.request.json.JsonSchema;
-import dev.langchain4j.model.chat.request.json.JsonSchemaElement;
-import dev.langchain4j.model.chat.request.json.JsonStringSchema;
-import dev.langchain4j.service.AiServices;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
@@ -29,6 +19,19 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.MTG;
+
+import com.google.gson.JsonObject;
+
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.chat.request.ResponseFormat;
+import dev.langchain4j.model.chat.request.ResponseFormatType;
+import dev.langchain4j.model.chat.request.json.JsonArraySchema;
+import dev.langchain4j.model.chat.request.json.JsonObjectSchema;
+import dev.langchain4j.model.chat.request.json.JsonSchema;
+import dev.langchain4j.model.chat.request.json.JsonSchemaElement;
+import dev.langchain4j.model.chat.request.json.JsonStringSchema;
+import dev.langchain4j.service.AiServices;
 
 public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 

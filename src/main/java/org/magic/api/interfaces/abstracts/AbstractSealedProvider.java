@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumExtra;

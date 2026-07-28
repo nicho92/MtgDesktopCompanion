@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumCondition;

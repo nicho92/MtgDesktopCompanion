@@ -2,10 +2,12 @@ package org.magic.gui.renderer;
 
 import java.awt.Component;
 import java.util.List;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.services.tools.UITools;

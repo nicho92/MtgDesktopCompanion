@@ -1,11 +1,13 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;

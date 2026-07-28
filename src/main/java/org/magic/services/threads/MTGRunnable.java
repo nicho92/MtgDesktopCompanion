@@ -1,6 +1,7 @@
 package org.magic.services.threads;
 
 import java.time.Instant;
+
 import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.beans.technical.audit.TaskInfo.STATE;
 

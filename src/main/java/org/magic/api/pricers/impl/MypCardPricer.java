@@ -1,11 +1,10 @@
 package org.magic.api.pricers.impl;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
@@ -16,6 +15,9 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class MypCardPricer extends AbstractPricesProvider {
 

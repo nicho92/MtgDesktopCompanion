@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.ShortKeyModel;

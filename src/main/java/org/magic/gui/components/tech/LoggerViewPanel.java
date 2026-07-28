@@ -4,6 +4,7 @@ import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.util.Date;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -15,6 +16,7 @@ import javax.swing.SortOrder;
 import javax.swing.Timer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 import org.apache.logging.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;

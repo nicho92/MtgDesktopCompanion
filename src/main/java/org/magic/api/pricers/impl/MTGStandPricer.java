@@ -1,9 +1,9 @@
 package org.magic.api.pricers.impl;
 
-import com.google.gson.JsonElement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumCondition;
@@ -12,6 +12,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonElement;
 
 public class MTGStandPricer extends AbstractPricesProvider {
 

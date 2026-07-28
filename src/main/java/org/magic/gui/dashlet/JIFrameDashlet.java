@@ -2,8 +2,10 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;

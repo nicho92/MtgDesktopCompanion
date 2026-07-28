@@ -2,10 +2,12 @@ package org.magic.gui.renderer;
 
 import java.awt.Component;
 import java.util.Map;
+
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
+
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.ImageTools;
 

@@ -1,9 +1,11 @@
 package org.magic.gui.components.wallpaper;
 
 import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.services.tools.UITools;
 

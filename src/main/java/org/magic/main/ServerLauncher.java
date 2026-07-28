@@ -5,6 +5,7 @@ import static org.magic.services.tools.MTG.getPlugin;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;

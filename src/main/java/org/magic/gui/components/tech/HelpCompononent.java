@@ -1,9 +1,11 @@
 package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
+
 import org.apache.commons.lang3.SystemUtils;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;

@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGCardsProvider;

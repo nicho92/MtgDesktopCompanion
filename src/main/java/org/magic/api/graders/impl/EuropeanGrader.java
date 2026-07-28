@@ -1,6 +1,7 @@
 package org.magic.api.graders.impl;
 
 import java.io.IOException;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGGrading;

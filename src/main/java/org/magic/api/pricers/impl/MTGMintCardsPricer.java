@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;

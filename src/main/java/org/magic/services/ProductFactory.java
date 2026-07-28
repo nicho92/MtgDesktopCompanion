@@ -1,6 +1,7 @@
 package org.magic.services;
 
 import javax.annotation.Nonnull;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGSealedProduct;

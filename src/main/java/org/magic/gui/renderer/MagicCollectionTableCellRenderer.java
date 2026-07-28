@@ -3,9 +3,11 @@ package org.magic.gui.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.Date;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;

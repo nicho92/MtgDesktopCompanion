@@ -6,6 +6,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DragSource;
 import java.io.IOException;
+
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataHandler;
 import javax.swing.JComponent;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.Draggable;

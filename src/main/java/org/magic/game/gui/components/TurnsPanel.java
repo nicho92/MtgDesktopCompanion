@@ -2,9 +2,11 @@ package org.magic.game.gui.components;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 import org.magic.game.actions.turns.AttackPhase;
 import org.magic.game.actions.turns.BlockPhase;
 import org.magic.game.actions.turns.CleanUpPhase;

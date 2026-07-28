@@ -2,7 +2,9 @@ package org.magic.gui.abstracts.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
 import javax.swing.JScrollPane;
+
 import org.jfree.chart3d.Chart3D;
 import org.jfree.chart3d.Chart3DPanel;
 import org.jfree.chart3d.Orientation;

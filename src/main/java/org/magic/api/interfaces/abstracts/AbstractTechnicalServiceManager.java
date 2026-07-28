@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.messages.TalkMessage;

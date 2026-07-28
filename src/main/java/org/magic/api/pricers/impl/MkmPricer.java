@@ -3,8 +3,10 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MTGProperty;

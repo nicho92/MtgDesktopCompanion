@@ -1,6 +1,7 @@
 package org.magic.gui.abstracts.charts;
 
 import java.text.NumberFormat;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.data.time.TimeSeriesCollection;

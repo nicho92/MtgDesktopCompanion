@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
+
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;

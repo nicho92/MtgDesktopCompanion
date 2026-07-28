@@ -4,8 +4,10 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.api.cardtrader.services.CardTraderConstants;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;

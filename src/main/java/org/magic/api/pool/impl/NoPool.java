@@ -3,6 +3,7 @@ package org.magic.api.pool.impl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
 
 public class NoPool extends AbstractPoolProvider {

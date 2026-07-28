@@ -1,6 +1,7 @@
 package org.magic.gui.components.editor;
 
 import java.util.List;
+
 import org.japura.gui.CheckComboBox;
 
 public class JCheckableListBox<T> extends CheckComboBox {

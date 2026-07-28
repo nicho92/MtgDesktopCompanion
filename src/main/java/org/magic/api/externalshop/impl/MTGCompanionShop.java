@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.Icon;
+
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;

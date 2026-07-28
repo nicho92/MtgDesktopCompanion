@@ -1,13 +1,15 @@
 package org.magic.api.wallpaper.impl;
 
-import com.google.gson.JsonObject;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
+
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.abstracts.extra.AbstractJsonWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
+
+import com.google.gson.JsonObject;
 
 public class R34WallPaperProvider extends AbstractJsonWallpaperProvider {
 

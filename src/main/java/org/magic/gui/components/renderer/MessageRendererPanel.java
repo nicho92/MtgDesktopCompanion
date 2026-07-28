@@ -7,12 +7,14 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;

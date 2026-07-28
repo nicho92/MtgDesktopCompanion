@@ -2,7 +2,6 @@ package org.magic.gui.components.dialog;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import com.github.sarxos.webcam.Webcam;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -17,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CancellationException;
+
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -31,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingWorker;
+
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
@@ -57,6 +58,8 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.webcam.WebcamUtils;
 import org.magic.services.workers.AbstractObservableWorker;
+
+import com.github.sarxos.webcam.Webcam;
 
 public class WebcamCardImportDialog extends JDialog {
 

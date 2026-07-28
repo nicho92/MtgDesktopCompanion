@@ -1,17 +1,19 @@
 package org.magic.services.recognition.area;
-import georegression.struct.point.Point2D_I32;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
 import org.magic.services.recognition.ContourBoundingBox;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.tools.ImageTools;
+
+import georegression.struct.point.Point2D_I32;
 
 public class ManualAreaStrat extends AbstractRecognitionArea {
 

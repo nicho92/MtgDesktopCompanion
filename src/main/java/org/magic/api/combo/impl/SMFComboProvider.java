@@ -3,6 +3,7 @@ package org.magic.api.combo.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;

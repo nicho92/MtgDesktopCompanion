@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;

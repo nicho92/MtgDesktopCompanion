@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.jooq.SQLDialect;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;

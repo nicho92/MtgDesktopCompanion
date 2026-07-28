@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;

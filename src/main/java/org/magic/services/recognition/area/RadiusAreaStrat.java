@@ -1,4 +1,21 @@
 package org.magic.services.recognition.area;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.magic.api.interfaces.MTGCardRecognition;
+import org.magic.gui.abstracts.AbstractRecognitionArea;
+import org.magic.services.recognition.ContourBoundingBox;
+import org.magic.services.recognition.ImageDesc;
+import org.magic.services.recognition.MatchResult;
+import org.magic.services.recognition.PointCluster;
+import org.magic.services.tools.ImageTools;
+
 import boofcv.abst.feature.detect.line.DetectLineSegment;
 import boofcv.alg.filter.blur.GBlurImageOps;
 import boofcv.factory.feature.detect.line.ConfigLineRansac;
@@ -8,21 +25,6 @@ import boofcv.struct.image.GrayU8;
 import georegression.struct.line.LineSegment2D_F32;
 import georegression.struct.point.Point2D_F32;
 import georegression.struct.point.Point2D_I32;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import org.magic.api.interfaces.MTGCardRecognition;
-import org.magic.gui.abstracts.AbstractRecognitionArea;
-import org.magic.services.recognition.ContourBoundingBox;
-import org.magic.services.recognition.ImageDesc;
-import org.magic.services.recognition.MatchResult;
-import org.magic.services.recognition.PointCluster;
-import org.magic.services.tools.ImageTools;
 
 public class RadiusAreaStrat extends AbstractRecognitionArea {
 

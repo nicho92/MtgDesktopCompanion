@@ -3,6 +3,7 @@ package org.magic.api.cache.impl;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;

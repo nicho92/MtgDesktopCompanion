@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -21,6 +22,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;

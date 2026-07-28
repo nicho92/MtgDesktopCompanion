@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumExtra;

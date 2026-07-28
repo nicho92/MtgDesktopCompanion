@@ -1,13 +1,15 @@
 package org.magic.services.adapters;
 
+import java.lang.reflect.Type;
+
+import org.magic.api.beans.technical.audit.NetworkInfo;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import java.lang.reflect.Type;
-import org.magic.api.beans.technical.audit.NetworkInfo;
 
 public class NetworkInfoAdapter implements JsonSerializer<NetworkInfo>, JsonDeserializer<NetworkInfo> {
 	@Override

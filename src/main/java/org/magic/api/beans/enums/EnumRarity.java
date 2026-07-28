@@ -1,12 +1,15 @@
 package org.magic.api.beans.enums;
 
-import com.google.gson.annotations.SerializedName;
 import java.awt.Color;
 import java.util.Comparator;
+
 import javax.swing.Icon;
+
 import org.magic.api.interfaces.extra.MTGEnumeration;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.annotations.SerializedName;
 
 public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIconable {
 

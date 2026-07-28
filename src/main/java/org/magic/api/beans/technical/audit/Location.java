@@ -1,7 +1,8 @@
 package org.magic.api.beans.technical.audit;
 
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+
+import com.google.gson.annotations.SerializedName;
 
 public class Location implements Serializable {
 

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -19,6 +20,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGKeyWord;

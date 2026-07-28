@@ -3,9 +3,6 @@ package org.magic.gui;
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.listPlugins;
 
-import com.jidesoft.swing.JideTabbedPane;
-import com.jidesoft.swing.TabEditingEvent;
-import com.jidesoft.swing.TabEditingListener;
 import java.awt.BorderLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -18,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
+
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -30,6 +28,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -37,6 +36,10 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.FileTools;
+
+import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.swing.TabEditingEvent;
+import com.jidesoft.swing.TabEditingListener;
 
 public class DashBoardGUI2 extends MTGUIComponent {
 

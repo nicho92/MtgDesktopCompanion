@@ -3,6 +3,7 @@ package org.magic.api.beans.technical;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 
 public class MTGDocumentation {

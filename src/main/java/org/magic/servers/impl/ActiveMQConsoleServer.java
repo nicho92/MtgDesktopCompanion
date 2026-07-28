@@ -2,8 +2,10 @@ package org.magic.servers.impl;
 
 import java.awt.Image;
 import java.util.Map;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
 import org.magic.api.beans.technical.MTGProperty;

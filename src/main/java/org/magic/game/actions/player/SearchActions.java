@@ -2,7 +2,9 @@ package org.magic.game.actions.player;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractAction;
+
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.dialog.SearchCardFrame;
 import org.magic.game.model.beans.ZoneEnum;

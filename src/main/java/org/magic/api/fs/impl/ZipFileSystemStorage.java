@@ -5,6 +5,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;
 import org.magic.services.MTGConstants;

@@ -1,8 +1,8 @@
 package org.magic.gui.components.tech;
 import static org.magic.services.tools.MTG.capitalize;
 
-import com.google.gson.JsonObject;
 import java.awt.BorderLayout;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.table.TableCellRenderer;
+
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
@@ -34,6 +35,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonObject;
 
 public class TechnicalMonitorPanel extends MTGUIComponent {
 	/**

@@ -1,6 +1,7 @@
 package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 

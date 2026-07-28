@@ -1,8 +1,10 @@
 package org.magic.gui.components.dialog.importer;
 
 import java.util.List;
+
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.interfaces.MTGDao;

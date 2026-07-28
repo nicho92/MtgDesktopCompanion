@@ -2,9 +2,11 @@ package org.magic.gui.renderer.standard;
 
 import java.awt.Component;
 import java.util.Locale;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
 import org.apache.commons.lang3.StringUtils;
 import org.magic.services.MTGControler;
 

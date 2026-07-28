@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.event.TreeExpansionEvent;
@@ -17,6 +18,7 @@ import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCollection;

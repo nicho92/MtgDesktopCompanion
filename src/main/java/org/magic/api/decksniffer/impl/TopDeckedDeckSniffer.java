@@ -1,11 +1,11 @@
 package org.magic.api.decksniffer.impl;
 
-import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.MTGProperty;
@@ -15,6 +15,8 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonObject;
 
 public class TopDeckedDeckSniffer extends AbstractDeckSniffer {
 

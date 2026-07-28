@@ -1,15 +1,17 @@
 package org.magic.api.cache.impl;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
+
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 
 public class CaffeineCache extends AbstractCacheProvider {
 

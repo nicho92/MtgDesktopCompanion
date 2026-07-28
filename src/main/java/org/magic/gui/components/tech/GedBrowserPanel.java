@@ -2,6 +2,7 @@ package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGGedStorage;

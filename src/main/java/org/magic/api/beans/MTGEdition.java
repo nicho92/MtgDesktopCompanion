@@ -3,6 +3,7 @@ package org.magic.api.beans;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.extra.MTGSerializable;
 import org.magic.services.tools.UITools;

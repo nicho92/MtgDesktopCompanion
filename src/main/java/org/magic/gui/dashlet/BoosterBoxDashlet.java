@@ -8,6 +8,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,6 +22,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;

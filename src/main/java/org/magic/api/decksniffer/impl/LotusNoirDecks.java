@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;

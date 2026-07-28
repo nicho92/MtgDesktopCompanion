@@ -1,10 +1,12 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
+
 import org.magic.api.beans.MTGNews;
 import org.magic.services.MTGConstants;
 

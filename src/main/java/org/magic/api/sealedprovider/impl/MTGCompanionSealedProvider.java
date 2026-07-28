@@ -4,8 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.Icon;
 import javax.xml.xpath.XPathExpressionException;
+
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumExtra;

@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.Icon;
+
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;

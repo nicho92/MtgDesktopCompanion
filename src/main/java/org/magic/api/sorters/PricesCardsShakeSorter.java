@@ -1,6 +1,7 @@
 package org.magic.api.sorters;
 
 import java.util.Comparator;
+
 import org.magic.api.beans.CardShake;
 
 public class PricesCardsShakeSorter implements Comparator<CardShake> {

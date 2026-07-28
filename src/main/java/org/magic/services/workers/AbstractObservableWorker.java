@@ -2,7 +2,9 @@ package org.magic.services.workers;
 
 import java.util.List;
 import java.util.concurrent.CancellationException;
+
 import javax.swing.SwingWorker;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

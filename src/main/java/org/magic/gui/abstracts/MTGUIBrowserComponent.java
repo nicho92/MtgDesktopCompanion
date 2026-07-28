@@ -1,6 +1,7 @@
 package org.magic.gui.abstracts;
 
 import javax.swing.ImageIcon;
+
 import org.magic.gui.components.browser.ChromiumBrowserComponent;
 import org.magic.gui.components.browser.JEditorPaneBrowser;
 import org.magic.services.MTGConstants;

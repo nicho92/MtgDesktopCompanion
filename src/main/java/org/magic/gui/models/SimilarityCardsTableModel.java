@@ -3,6 +3,7 @@ package org.magic.gui.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.GenericTableModel;
 

@@ -1,7 +1,5 @@
 package org.magic.servers.impl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGProperty;
@@ -24,6 +23,9 @@ import org.quartz.Trigger;
 import org.quartz.core.QuartzScheduler;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class QwartzServer extends AbstractMTGServer {
 

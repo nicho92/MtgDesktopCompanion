@@ -1,11 +1,12 @@
 package org.magic.gui.components.shops;
 
-import com.jogamp.newt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -17,6 +18,8 @@ import org.magic.gui.models.StockItemTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.UITools;
+
+import com.jogamp.newt.event.KeyEvent;
 
 public class StockItemPanel extends MTGUIComponent {
 

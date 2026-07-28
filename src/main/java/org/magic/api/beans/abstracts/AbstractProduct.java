@@ -1,10 +1,11 @@
 package org.magic.api.beans.abstracts;
 
-import com.google.gson.annotations.SerializedName;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.extra.MTGProduct;
+
+import com.google.gson.annotations.SerializedName;
 
 public abstract class AbstractProduct implements MTGProduct {
 

@@ -4,23 +4,6 @@ import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import static org.magic.services.tools.MTG.getPlugin;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Accumulators;
-import com.mongodb.client.model.Aggregates;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Sorts;
-import com.mongodb.client.model.Updates;
-import com.mongodb.event.CommandFailedEvent;
-import com.mongodb.event.CommandListener;
-import com.mongodb.event.CommandStartedEvent;
-import com.mongodb.event.CommandSucceededEvent;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -32,6 +15,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -63,6 +47,24 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
+import com.mongodb.client.model.Updates;
+import com.mongodb.event.CommandFailedEvent;
+import com.mongodb.event.CommandListener;
+import com.mongodb.event.CommandStartedEvent;
+import com.mongodb.event.CommandSucceededEvent;
 
 public class MongoDbDAO extends AbstractMagicDAO {
 

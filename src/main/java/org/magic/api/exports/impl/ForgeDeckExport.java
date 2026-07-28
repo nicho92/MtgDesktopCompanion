@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;

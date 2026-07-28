@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;

@@ -1,12 +1,14 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.tools.ImageTools;
 

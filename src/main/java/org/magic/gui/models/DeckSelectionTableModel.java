@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import java.sql.Date;
+
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGFormat;
 import org.magic.gui.abstracts.GenericTableModel;

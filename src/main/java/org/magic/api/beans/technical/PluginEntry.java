@@ -2,6 +2,7 @@ package org.magic.api.beans.technical;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 

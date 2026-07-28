@@ -2,6 +2,7 @@ package org.magic.services.logging;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Core;
 import org.apache.logging.log4j.core.Filter;

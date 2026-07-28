@@ -5,7 +5,9 @@ import static org.magic.services.tools.MTG.capitalize;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;

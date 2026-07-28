@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
 import org.api.cardtrader.enums.ConditionEnum;
 import org.api.cardtrader.enums.Identifier;
 import org.api.cardtrader.services.CardTraderConstants;

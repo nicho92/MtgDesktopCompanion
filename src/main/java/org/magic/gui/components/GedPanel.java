@@ -2,7 +2,6 @@ package org.magic.gui.components;
 
 import static org.magic.services.tools.MTG.capitalize;
 
-import com.jogamp.newt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
@@ -18,12 +17,14 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
+
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
@@ -40,6 +41,8 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
+
+import com.jogamp.newt.event.KeyEvent;
 public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

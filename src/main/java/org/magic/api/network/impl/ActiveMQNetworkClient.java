@@ -1,6 +1,7 @@
 package org.magic.api.network.impl;
 import java.io.IOException;
 import java.sql.SQLException;
+
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
 import org.apache.activemq.artemis.api.core.RoutingType;

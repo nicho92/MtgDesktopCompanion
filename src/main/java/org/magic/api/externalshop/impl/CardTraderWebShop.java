@@ -3,6 +3,7 @@ package org.magic.api.externalshop.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.api.cardtrader.modele.Categorie;
 import org.api.cardtrader.modele.MarketProduct;
 import org.api.cardtrader.modele.Order;

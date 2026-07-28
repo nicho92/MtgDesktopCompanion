@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
+
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;

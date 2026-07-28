@@ -1,9 +1,11 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.api.interfaces.MTGStockItem;
 
 public class MTGStockItemRenderer extends JLabel implements TableCellRenderer {

@@ -5,9 +5,11 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;

@@ -5,11 +5,13 @@ import static org.magic.services.tools.MTG.capitalize;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.AbstractTableModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;

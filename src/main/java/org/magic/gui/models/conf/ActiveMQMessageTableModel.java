@@ -1,6 +1,7 @@
 package org.magic.gui.models.conf;
 
 import java.time.Instant;
+
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.gui.abstracts.GenericTableModel;
 

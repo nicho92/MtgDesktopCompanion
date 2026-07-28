@@ -9,11 +9,13 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.WrapLayout;

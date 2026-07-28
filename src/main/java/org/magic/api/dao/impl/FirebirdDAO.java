@@ -1,6 +1,7 @@
 package org.magic.api.dao.impl;
 
 import java.util.Map;
+
 import org.jooq.SQLDialect;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;

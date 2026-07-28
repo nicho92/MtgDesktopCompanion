@@ -1,7 +1,9 @@
 package org.magic.gui.components.card;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JScrollPane;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;

@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.stream.Collectors;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -12,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;

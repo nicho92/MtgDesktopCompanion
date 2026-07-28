@@ -5,8 +5,10 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGConstants;

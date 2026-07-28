@@ -3,11 +3,13 @@ package org.magic.gui.components.shops;
 import java.awt.BorderLayout;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;

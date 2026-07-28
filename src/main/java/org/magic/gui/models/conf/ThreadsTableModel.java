@@ -3,6 +3,7 @@ package org.magic.gui.models.conf;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.util.Arrays;
+
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {

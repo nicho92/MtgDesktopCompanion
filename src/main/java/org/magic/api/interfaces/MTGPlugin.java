@@ -1,17 +1,20 @@
 package org.magic.api.interfaces;
 
-import com.google.gson.JsonObject;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.management.ObjectName;
+
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.services.AccountsManager;
 import org.utils.patterns.observer.Observer;
+
+import com.google.gson.JsonObject;
 
 public interface MTGPlugin extends Comparable<MTGPlugin>, MTGIconable {
 

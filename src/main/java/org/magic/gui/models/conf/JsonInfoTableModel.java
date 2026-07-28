@@ -1,6 +1,7 @@
 package org.magic.gui.models.conf;
 
 import java.time.Instant;
+
 import org.magic.api.beans.technical.audit.JsonQueryInfo;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.network.URLTools;

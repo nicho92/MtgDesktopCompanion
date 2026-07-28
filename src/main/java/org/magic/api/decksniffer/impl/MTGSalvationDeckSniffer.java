@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;

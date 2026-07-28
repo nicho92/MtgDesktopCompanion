@@ -1,13 +1,15 @@
 package org.magic.api.pool.impl;
 
-import com.mchange.v2.c3p0.AbstractComboPooledDataSource;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
+
+import com.mchange.v2.c3p0.AbstractComboPooledDataSource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class C3P0Pool extends AbstractPoolProvider {
 

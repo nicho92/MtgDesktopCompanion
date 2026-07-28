@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -28,6 +29,7 @@ import javax.swing.SwingWorker;
 import javax.swing.TransferHandler;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;

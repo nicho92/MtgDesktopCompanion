@@ -10,10 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import javax.management.ObjectName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;

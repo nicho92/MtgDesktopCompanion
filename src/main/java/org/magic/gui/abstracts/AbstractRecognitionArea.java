@@ -2,7 +2,9 @@ package org.magic.gui.abstracts;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.List;
+
 import javax.swing.event.MouseInputListener;
+
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.services.recognition.MatchResult;
 

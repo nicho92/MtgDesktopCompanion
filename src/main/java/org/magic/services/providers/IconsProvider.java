@@ -2,9 +2,6 @@ package org.magic.services.providers;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import com.google.gson.JsonObject;
-import com.kitfox.svg.SVGException;
-import com.kitfox.svg.SVGUniverse;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,7 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import javax.swing.ImageIcon;
+
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -24,6 +23,10 @@ import org.magic.services.network.URLTools;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
+
+import com.google.gson.JsonObject;
+import com.kitfox.svg.SVGException;
+import com.kitfox.svg.SVGUniverse;
 
 public class IconsProvider {
 

@@ -2,6 +2,7 @@ package org.magic.gui.components.browser;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+
 import org.cef.browser.CefBrowser;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;

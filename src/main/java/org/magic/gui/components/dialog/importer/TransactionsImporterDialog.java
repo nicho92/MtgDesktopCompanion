@@ -9,12 +9,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGShopper;

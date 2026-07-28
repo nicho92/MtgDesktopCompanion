@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGSealedProduct;

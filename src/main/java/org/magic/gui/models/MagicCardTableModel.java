@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import java.util.List;
+
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGEdition;

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import org.magic.gui.abstracts.GenericTableModel;
 public class MapTableModel<K, V> extends GenericTableModel<Entry<K, V>> {
 

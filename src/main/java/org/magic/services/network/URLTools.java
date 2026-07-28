@@ -1,8 +1,5 @@
 package org.magic.services.network;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -18,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.logging.log4j.Logger;
@@ -32,6 +30,10 @@ import org.jspecify.annotations.Nullable;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.ImageTools;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class URLTools {
 

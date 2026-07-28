@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.util.Map;
+
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;

@@ -1,13 +1,12 @@
 package org.magic.api.beans;
 
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.Strings;
 import org.magic.api.beans.abstracts.AbstractProduct;
@@ -23,6 +22,9 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
+
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
 public class MTGCard extends AbstractProduct {
 	private static final long serialVersionUID = 1L;

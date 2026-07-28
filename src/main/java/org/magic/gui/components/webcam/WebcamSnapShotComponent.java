@@ -1,6 +1,5 @@
 package org.magic.gui.components.webcam;
 
-import com.github.sarxos.webcam.Webcam;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,11 +7,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
+
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.IPCamAddDialog;
 import org.magic.services.MTGConstants;
@@ -20,6 +21,8 @@ import org.magic.services.recognition.MatchResult;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.webcam.WebcamUtils;
+
+import com.github.sarxos.webcam.Webcam;
 
 public class WebcamSnapShotComponent extends MTGUIComponent {
 

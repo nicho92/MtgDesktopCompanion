@@ -1,16 +1,18 @@
 package org.magic.api.wallpaper.impl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.extra.AbstractJsonWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 
