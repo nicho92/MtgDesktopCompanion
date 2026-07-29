@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.api.cardnexus.configuration.NexusConfig;
+import org.api.cardnexus.listener.URLCallInfo;
+import org.api.cardnexus.listener.URLCallListener;
 import org.api.cardnexus.model.enums.EnumFinishes;
 import org.api.cardnexus.model.enums.EnumMarketPlace;
 import org.api.cardnexus.model.requests.MarketListRequest;
@@ -12,7 +14,9 @@ import org.api.cardnexus.services.ProductsService;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 
 public class CardNexusPricer extends AbstractPricesProvider{
 
@@ -32,6 +36,22 @@ public class CardNexusPricer extends AbstractPricesProvider{
 	NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
 	var ret = new ArrayList<MTGPrice>();
 	var service = new ProductsService();
+	
+	
+	service.setCallListener(new URLCallListener() {
+	    
+	    @Override
+	    public void notify(URLCallInfo callInfo) {
+		var info = new NetworkInfo();
+			
+			info.setStart(callInfo.getStart());
+			info.setEnd(callInfo.getEnd());
+			info.setReponse(callInfo.getResponse());
+			info.setRequest(callInfo.getRequest());
+			AbstractTechnicalServiceManager.inst().store(info);		
+	    }
+	});
+	
 	var ids = service.resolveProductsId(EnumMarketPlace.cardmarket, List.of(card.getMkmId()));
 	var id = ids.get(card.getMkmId());
 	var product = service.getProductById(id);
