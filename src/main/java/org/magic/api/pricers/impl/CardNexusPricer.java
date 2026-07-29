@@ -25,7 +25,6 @@ public class CardNexusPricer extends AbstractPricesProvider{
        return List.of("CARDNEXUS_API_KEY");
     }
     
-    
     @Override
     public String getName() {
 	return "CardNexus";
@@ -38,7 +37,7 @@ public class CardNexusPricer extends AbstractPricesProvider{
 	var service = new ProductsService();
 	
 	
-	service.setCallListener(new URLCallListener() {
+	NexusConfig.LISTENER = new URLCallListener() {
 	    
 	    @Override
 	    public void notify(URLCallInfo callInfo) {
@@ -50,7 +49,7 @@ public class CardNexusPricer extends AbstractPricesProvider{
 			info.setRequest(callInfo.getRequest());
 			AbstractTechnicalServiceManager.inst().store(info);		
 	    }
-	});
+	};
 	
 	var ids = service.resolveProductsId(EnumMarketPlace.cardmarket, List.of(card.getMkmId()));
 	var id = ids.get(card.getMkmId());

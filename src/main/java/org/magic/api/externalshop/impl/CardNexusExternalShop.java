@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.api.cardnexus.configuration.NexusConfig;
+import org.api.cardnexus.listener.URLCallInfo;
+import org.api.cardnexus.listener.URLCallListener;
 import org.api.cardnexus.model.AbstractProduct;
 import org.api.cardnexus.model.CardProduct;
 import org.api.cardnexus.model.InventoryLine;
 import org.api.cardnexus.model.SealedProduct;
 import org.api.cardnexus.model.enums.EnumFinishes;
+import org.api.cardnexus.model.enums.EnumProductType;
 import org.api.cardnexus.model.enums.EnumSealedType;
 import org.api.cardnexus.model.requests.InventoryLinesRequest;
 import org.api.cardnexus.model.requests.SearchInventoryRequest;
@@ -24,10 +27,12 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
@@ -42,6 +47,19 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     static {
 	NexusConfig.DIRECTORY_FEED=MTGConstants.DATA_DIR;
 	NexusConfig.DEFAULT_GAME_VALUE="mtg";
+	NexusConfig.LISTENER= new URLCallListener() {
+	    
+	    @Override
+	    public void notify(URLCallInfo callInfo) {
+		var info = new NetworkInfo();
+			
+			info.setStart(callInfo.getStart());
+			info.setEnd(callInfo.getEnd());
+			info.setReponse(callInfo.getResponse());
+			info.setRequest(callInfo.getRequest());
+			AbstractTechnicalServiceManager.inst().store(info);		
+	    }
+	};
     }
     
     public CardNexusExternalShop() {
@@ -51,7 +69,7 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     
     private void init()
     {
-	NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
+		NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
 	
 		try {
         	    pService.listExpansion(NexusConfig.DEFAULT_GAME_VALUE); //caching
@@ -130,14 +148,13 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	}
     }   
     
-    
-
     @Override
     public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
-	
 	var line = iService.getInventoryLine(id);
+	var p = pService.getProductById(line.productId());
+	return parseStockItem(p, line);
 	
-	return null;
+	
     }
 
     @Override
@@ -170,7 +187,6 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	init();
 	var ret = new ArrayList<MTGStockItem>();
 	
-	List<AbstractProduct>products = pService.searchProduct(SearchProductRequest.create().setName(search).contains());
 	List<InventoryLine> lines;  
 		
 	if(!StringUtils.isEmpty(search))
@@ -184,21 +200,12 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	}
 	
 	lines.forEach(il->{
-	    
-	    var opt= products.stream().filter(ap->il.productId()==ap.getId()).findAny();
-	    
-	    if(!opt.isPresent())
-	    {
-		logger.error("no product found for id {}",il.productId());
-	    }
-	    else
-	    {
-            	    var product=opt.get();
+	    	    var product=pService.getProductById(il.productId());
             	    if(product instanceof CardProduct c)
             	    {
             		ret.add(parseStockItem(c,il)); 
             	    }
-	    }
+	 
 	});
 	
 	
@@ -206,13 +213,35 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     }
 
 
-    private MTGStockItem parseStockItem(CardProduct c, InventoryLine il) {
+    private MTGStockItem parseStockItem(AbstractProduct p, InventoryLine il) {
 	var item = new MTGCardStock();
-		try {
-		    item.setProduct(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(c.getPrintNumber(), pService.getExpansionById(c.getExpansionId()).code()));
-		} catch (IOException e) {
-		   logger.error("cant find product for {}",c);
+			
+		if(p instanceof CardProduct c)
+		{
+		    
+		    try {
+			item.setProduct(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(c.getPrintNumber(), pService.getExpansionById(c.getExpansionId()).code()));
+		    }
+		    catch(Exception e)
+		    {
+			logger.error(e);
+			return null;
+		    }
+		    
+		    
+		
+		    try {
+			
+			if(!c.getPricesByFinish().isEmpty())
+			    item.setPrice(c.getPricesByFinish().get(il.finish()).cardmarket().marketValue());
+			}
+			catch(Exception e)
+			{
+			    logger.error("error gettings price market for {}",c);
+			}
+		
 		}
+		
 		item.setFoil(il.finish()==EnumFinishes.Foil);
 		item.setCondition(aliases.getReversedConditionFor(this, il.condition().getLabel(), EnumCondition.NEAR_MINT));
 		item.setDateUpdate(il.updatedAt());
@@ -222,14 +251,7 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 		item.setSigned(il.finish()==EnumFinishes.Signed);
 		item.setLanguage(il.language());
 		item.getTiersAppIds().put(getName(),il.id());
-		try {
-		if(!c.getPricesByFinish().isEmpty())
-		    item.setPrice(c.getPricesByFinish().get(il.finish()).cardmarket().marketValue());
-		}
-		catch(Exception e)
-		{
-		    logger.error("error gettings price market for {}",c);
-		}
+		
 		return item;
     }
 
