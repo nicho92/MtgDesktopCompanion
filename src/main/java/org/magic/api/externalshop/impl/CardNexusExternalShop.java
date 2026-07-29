@@ -38,6 +38,12 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     private ProductsService pService;
     private InventoryService iService;
 
+    
+    static {
+	NexusConfig.DIRECTORY_FEED=MTGConstants.DATA_DIR;
+	NexusConfig.DEFAULT_GAME_VALUE="mtg";
+    }
+    
     public CardNexusExternalShop() {
 	    pService = new ProductsService();
 	    iService = new InventoryService();
@@ -46,8 +52,6 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     private void init()
     {
 	NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
-	NexusConfig.DIRECTORY_FEED=MTGConstants.DATA_DIR;
-	NexusConfig.DEFAULT_GAME_VALUE="mtg";
 	
 		try {
         	    pService.listExpansion(NexusConfig.DEFAULT_GAME_VALUE); //caching
