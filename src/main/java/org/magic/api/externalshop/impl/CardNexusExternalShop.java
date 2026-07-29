@@ -12,7 +12,7 @@ import org.api.cardnexus.model.InventoryLine;
 import org.api.cardnexus.model.SealedProduct;
 import org.api.cardnexus.model.enums.EnumFinishes;
 import org.api.cardnexus.model.enums.EnumSealedType;
-import org.api.cardnexus.model.requests.InventoryRequest;
+import org.api.cardnexus.model.requests.InventoryLinesRequest;
 import org.api.cardnexus.model.requests.SearchInventoryRequest;
 import org.api.cardnexus.model.requests.SearchProductRequest;
 import org.api.cardnexus.model.requests.UpdateInventoryRequest;
@@ -180,7 +180,7 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	else
 	{
 	    
-	    lines = iService.getInventoryLines(InventoryRequest.create());
+	    lines = iService.getInventoryLines(InventoryLinesRequest.create());
 	}
 	
 	lines.forEach(il->{
