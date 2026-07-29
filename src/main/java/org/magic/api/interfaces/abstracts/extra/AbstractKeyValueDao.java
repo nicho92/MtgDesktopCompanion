@@ -45,7 +45,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	protected void initDefaultData() throws SQLException {
 
 		if (listCollections().isEmpty()) {
-			for (String s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)
+			for (String s : MTGConstants.defaultCollectionsNames())
 				saveCollection(s);
 		}
 

@@ -229,7 +229,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		}
 
 		if (populateCollections)
-			for (String s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)
+			for (var s : MTGConstants.defaultCollectionsNames())
 				try {
 					saveCollection(new MTGCollection(s));
 					setProperty(INIT_DEFAULT_COLS, "false");

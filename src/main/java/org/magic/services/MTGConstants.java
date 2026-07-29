@@ -79,7 +79,14 @@ public class MTGConstants {
 	public static final String MTG_CHAT_DEFAULT_URI = "tcp://my.mtgcompanion.org:61616";
 
 	// DEFAULT CONSTANTS
-	public static final String[] DEFAULT_COLLECTIONS_NAMES = new String[]{"Library", "Needed", "For Sell", "Favorites"};
+	protected static final String[] DEFAULT_COLLECTIONS_NAMES = new String[]{"Library", "Needed", "For Sell", "Favorites"};
+	
+	public static String[] defaultCollectionsNames()
+	{
+	    return DEFAULT_COLLECTIONS_NAMES;
+	}
+	
+	
 	public static final Contact DEFAULT_CONTACT;
 
 	static {

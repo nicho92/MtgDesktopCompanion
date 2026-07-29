@@ -43,7 +43,7 @@ public class SQLTools {
 
 	public String insertDefaultCollections() {
 		var d = ctx.insertInto(table("collections"), field("name"));
-		for (var s : MTGConstants.DEFAULT_COLLECTIONS_NAMES)
+		for (var s : MTGConstants.defaultCollectionsNames())
 			d.values(s);
 
 		return d.getSQL();

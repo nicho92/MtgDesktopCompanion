@@ -93,7 +93,7 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of(DEFAULT_COLLECTION,
-				new MTGProperty(MTGConstants.DEFAULT_COLLECTIONS_NAMES[0],
+				new MTGProperty(MTGConstants.defaultCollectionsNames()[0],
 						"Default Collection to bind imported stock item"),
 				DEFAULT_CONDITION,
 				new MTGProperty(EnumCondition.values()[0].name(), "Default condition to apply to imported stock item",
