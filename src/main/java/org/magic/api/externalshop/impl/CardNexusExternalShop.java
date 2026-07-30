@@ -13,7 +13,6 @@ import org.api.cardnexus.model.CardProduct;
 import org.api.cardnexus.model.InventoryLine;
 import org.api.cardnexus.model.SealedProduct;
 import org.api.cardnexus.model.enums.EnumFinishes;
-import org.api.cardnexus.model.enums.EnumProductType;
 import org.api.cardnexus.model.enums.EnumSealedType;
 import org.api.cardnexus.model.requests.InventoryLinesRequest;
 import org.api.cardnexus.model.requests.SearchInventoryRequest;
@@ -160,8 +159,10 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     @Override
     protected void saveOrUpdateStock(List<MTGStockItem> items) throws IOException {
 	
+	
+	
+	
 	items.forEach(item->{
-	    
 	    var listId = item.getTiersAppIds(getName());
 	    var req = UpdateInventoryRequest.create()
 		    						.setQuantity(item.getQte())
