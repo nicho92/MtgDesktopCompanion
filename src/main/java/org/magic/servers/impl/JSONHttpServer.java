@@ -321,6 +321,26 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 
 	}
+	
+	private void initWebHook() {
+	    
+	    post("/webhook", URLTools.HEADER_JSON, (request, response) -> {
+		var obj = converter.fromJson(request.body(), JsonObject.class);
+		
+		
+		logger.info("webhook : {}", obj);
+		
+		
+		
+		
+		return ok(request, response, response);
+		
+	});
+	  	    
+	    
+	}
+	
+	
 
 	private void initAuthService() {
 
@@ -1461,6 +1481,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		initWebShop();
 
 		initWallpapers();
+		
+		initWebHook();
+		
 
 		get("/track/:provider/:number", URLTools.HEADER_JSON, (request,
 				_) -> getPlugin(request.params(PROVIDER), MTGTrackingService.class).track(request.params(":number")),

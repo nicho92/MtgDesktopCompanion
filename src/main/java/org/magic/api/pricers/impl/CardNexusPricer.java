@@ -29,15 +29,9 @@ public class CardNexusPricer extends AbstractPricesProvider{
     public String getName() {
 	return "CardNexus";
     }
-
-    @Override
-    protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-	NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
-	var ret = new ArrayList<MTGPrice>();
-	var service = new ProductsService();
-	
-	
-	NexusConfig.LISTENER = new URLCallListener() {
+    
+    static {
+	NexusConfig.setListener(new URLCallListener() {
 	    
 	    @Override
 	    public void notify(URLCallInfo callInfo) {
@@ -49,7 +43,16 @@ public class CardNexusPricer extends AbstractPricesProvider{
 			info.setRequest(callInfo.getRequest());
 			AbstractTechnicalServiceManager.inst().store(info);		
 	    }
-	};
+	});
+    }
+    
+
+    @Override
+    protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
+	NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
+	var ret = new ArrayList<MTGPrice>();
+	var service = new ProductsService();
+	
 	
 	var ids = service.resolveProductsId(EnumMarketPlace.cardmarket, List.of(card.getMkmId()));
 	var id = ids.get(card.getMkmId());

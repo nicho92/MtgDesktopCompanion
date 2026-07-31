@@ -44,9 +44,9 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 
     
     static {
-	NexusConfig.DIRECTORY_FEED=MTGConstants.DATA_DIR;
-	NexusConfig.DEFAULT_GAME_VALUE="mtg";
-	NexusConfig.LISTENER= new URLCallListener() {
+	NexusConfig.setDirectoryFeed(MTGConstants.DATA_DIR);
+	NexusConfig.setDefaultGameValue("mtg");
+	NexusConfig.setListener(new URLCallListener() {
 	    
 	    @Override
 	    public void notify(URLCallInfo callInfo) {
@@ -58,7 +58,7 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 			info.setRequest(callInfo.getRequest());
 			AbstractTechnicalServiceManager.inst().store(info);		
 	    }
-	};
+	});
     }
     
     public CardNexusExternalShop() {
@@ -71,7 +71,7 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 		NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
 	
 		try {
-        	    pService.listExpansion(NexusConfig.DEFAULT_GAME_VALUE); //caching
+        	    pService.listExpansion(NexusConfig.getDefaultGameValue()); //caching
         	} catch (IOException e) {
         	    logger.error(e);
         	} 
