@@ -66,7 +66,7 @@
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.29.0</commonmark.version>
-		<langchain4j.version>1.18.0</langchain4j.version>
+		<langchain4j.version>1.18.1</langchain4j.version>
 		<telegram.version>10.1.1</telegram.version>
 	</properties>
 
@@ -225,7 +225,7 @@
 		<dependency>
 			<groupId>com.squareup.okio</groupId>
 			<artifactId>okio-jvm</artifactId>
-			<version>3.18.0</version>
+			<version>3.18.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -551,7 +551,7 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.5.9</version>
+			<version>3.5.10</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>
@@ -689,7 +689,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.22.0</version>
+			<version>1.22.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -775,12 +775,12 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.22.2</version>
+			<version>1.23.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>9.7.0</version>
+			<version>26.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>

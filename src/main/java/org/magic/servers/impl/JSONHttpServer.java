@@ -43,6 +43,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 import org.apache.commons.lang3.ArrayUtils;
+import org.api.cardnexus.webhooks.InventoryQtyChangedHook;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGAnnounce;
@@ -181,10 +182,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		response.status(200);
 
 		var obj = new JsonObject();
-		obj.addProperty("method", req.requestMethod());
-		obj.addProperty("uri", req.servletPath());
-		obj.addProperty("code", 200);
-		obj.addProperty("msg", converter.toJson(msg));
+    		obj.addProperty("method", req.requestMethod());
+    		obj.addProperty("uri", req.servletPath());
+    		obj.addProperty("code", 200);
+ 
 
 		return obj;
 	}
@@ -325,23 +326,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private void initWebHook() {
 	    
 	    post("/webhook", URLTools.HEADER_JSON, (request, response) -> {
-		var obj = converter.fromJson(request.body(), JsonObject.class);
-		
-		
+		var obj = converter.fromJson(request.body(), InventoryQtyChangedHook.class);
 		logger.info("webhook : {}", obj);
-		
-		
-		
-		
 		return ok(request, response, response);
-		
-	});
-	  	    
-	    
+        		
+        	});
 	}
 	
-	
-
 	private void initAuthService() {
 
 		// this one is deprecated
