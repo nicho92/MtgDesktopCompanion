@@ -128,7 +128,9 @@ public class MTGCard extends AbstractProduct {
 	private String subsets;
 	private boolean isJapanese = false;
 	private boolean gameChanger;
-
+	private String producedMana;
+	
+	
 	public MTGCard() {
 		editions = new ArrayList<>();
 		types = new ArrayList<>();
@@ -175,8 +177,15 @@ public class MTGCard extends AbstractProduct {
 		}
 
 		return false;
-
 	}
+	
+	public String getProducedMana() {
+	    return producedMana;
+	}
+	public void setProducedMana(String producedMana) {
+	    this.producedMana = producedMana;
+	}
+	
 
 	public boolean isBundleCard() {
 		return getPromotypes().contains(EnumPromoType.BUNDLE);

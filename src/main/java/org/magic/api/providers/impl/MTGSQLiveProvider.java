@@ -452,7 +452,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		mc.setDefense(rs.getInt(DEFENSE));
 		mc.setAlternative(rs.getBoolean(IS_ALTERNATIVE));
 		mc.setGameChanger(rs.getBoolean(IS_GAME_CHANGER));
-
+		mc.setProducedMana(rs.getString(PRODUCED_MANA));
 		if (rs.getString(FINISHES) != null)
 			mc.getFinishes()
 					.addAll(splitArrayValue(rs.getString(FINISHES)).stream().map(EnumFinishes::parseByLabel).toList());
