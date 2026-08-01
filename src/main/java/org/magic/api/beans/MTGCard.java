@@ -68,6 +68,7 @@ public class MTGCard extends AbstractProduct {
 	private List<EnumColors> colorIdentity;
 	private List<EnumColors> colorIndicator;
 	private List<EnumColors> colors;
+	private List<EnumColors> producedMana;
 	private String cost = "";
 	private Map<EnumExtraCardMetaData, String> customMetadata;
 	private Integer defense;
@@ -128,7 +129,7 @@ public class MTGCard extends AbstractProduct {
 	private String subsets;
 	private boolean isJapanese = false;
 	private boolean gameChanger;
-	private String producedMana;
+	
 	
 	
 	public MTGCard() {
@@ -179,10 +180,10 @@ public class MTGCard extends AbstractProduct {
 		return false;
 	}
 	
-	public String getProducedMana() {
+	public List<EnumColors> getProducedMana() {
 	    return producedMana;
 	}
-	public void setProducedMana(String producedMana) {
+	public void setProducedMana(List<EnumColors> producedMana) {
 	    this.producedMana = producedMana;
 	}
 	

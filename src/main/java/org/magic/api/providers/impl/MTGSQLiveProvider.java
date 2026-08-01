@@ -265,11 +265,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 		if (rs.getString(COLOR_IDENTITY) != null)
 			mc.setColorIdentity(
-					splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).toList());
+					splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).sorted().toList());
 
 		if (rs.getString(COLORS) != null)
-			mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).toList());
-
+			mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).sorted().toList());
+		
+		if (rs.getString(PRODUCED_MANA) != null)
+		    mc.setProducedMana(splitArrayValue(rs.getString(PRODUCED_MANA)).stream().map(EnumColors::colorByCode).sorted().toList());
+	
+		
 		if (rs.getString(KEYWORDS) != null)
 			mc.getKeywords().addAll(
 					splitArrayValue(KEYWORDS).stream().map(s -> new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
@@ -452,7 +456,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		mc.setDefense(rs.getInt(DEFENSE));
 		mc.setAlternative(rs.getBoolean(IS_ALTERNATIVE));
 		mc.setGameChanger(rs.getBoolean(IS_GAME_CHANGER));
-		mc.setProducedMana(rs.getString(PRODUCED_MANA));
+		
 		if (rs.getString(FINISHES) != null)
 			mc.getFinishes()
 					.addAll(splitArrayValue(rs.getString(FINISHES)).stream().map(EnumFinishes::parseByLabel).toList());
@@ -471,14 +475,18 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 		if (rs.getString(COLOR_IDENTITY) != null)
 			mc.setColorIdentity(
-					splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).toList());
+					splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).sorted().toList());
 
 		if (rs.getString(COLORS) != null)
-			mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).toList());
+			mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).sorted().toList());
+		
+		if (rs.getString(PRODUCED_MANA) != null)
+		    mc.setProducedMana(splitArrayValue(rs.getString(PRODUCED_MANA)).stream().map(EnumColors::colorByCode).sorted().toList());
+		
 
 		if (rs.getString(COLOR_INDICATOR) != null)
 			mc.setColorIndicator(
-					splitArrayValue(rs.getString(COLOR_INDICATOR)).stream().map(EnumColors::colorByCode).toList());
+					splitArrayValue(rs.getString(COLOR_INDICATOR)).stream().map(EnumColors::colorByCode).sorted().toList());
 
 		if (rs.getString(SUPERTYPES) != null)
 			mc.getSupertypes().addAll(splitArrayValue(rs.getString(SUPERTYPES)));
