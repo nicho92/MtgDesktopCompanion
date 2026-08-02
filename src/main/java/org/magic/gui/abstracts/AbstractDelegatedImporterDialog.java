@@ -15,8 +15,10 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 
@@ -26,6 +28,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 	private transient List<T> selectedItem;
 	protected JPanel commandePanel;
 	private boolean selected = false;
+	protected transient Logger logger = MTGLogger.getLogger(getClass());
 
 	public T getSelectedItem() {
 		if (selectedItem.isEmpty())

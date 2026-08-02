@@ -60,7 +60,10 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	@Override
 	public void onDestroy() {
 		if (sw2 != null && !sw2.isCancelled())
-			sw2.cancel(false);
+		{
+		    logger.warn("Stopping sw2 thread");
+		    sw2.cancel(false);
+		}
 	}
 
 	public void init(List<MTGWallpaper> list) {

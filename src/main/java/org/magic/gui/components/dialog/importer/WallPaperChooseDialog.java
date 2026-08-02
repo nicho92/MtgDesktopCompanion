@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingWorker;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -21,7 +20,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.ImageGalleryPanel;
 import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
+
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
@@ -30,8 +29,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 	private static final long serialVersionUID = 1L;
 	private ImageGalleryPanel panel;
 	private AbstractBuzyIndicatorComponent buzy;
-	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	
 	public WallPaperChooseDialog() {
 		super();
 		setPreferredSize(new Dimension(1024, 768));
@@ -87,8 +85,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 
 	@Override
 	public JComponent getSelectComponent() {
-		var scroll = new JScrollPane(getGalleryPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		var scroll = new JScrollPane(getGalleryPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		return scroll;
 	}
