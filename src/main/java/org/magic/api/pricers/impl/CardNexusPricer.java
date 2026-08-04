@@ -17,6 +17,7 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
+import org.magic.services.tools.CardNexusTools;
 
 public class CardNexusPricer extends AbstractPricesProvider{
 
@@ -30,27 +31,12 @@ public class CardNexusPricer extends AbstractPricesProvider{
 	return "CardNexus";
     }
     
-    static {
-	NexusConfig.setListener(new URLCallListener() {
-	    
-	    @Override
-	    public void notify(URLCallInfo callInfo) {
-		var info = new NetworkInfo();
-			
-			info.setStart(callInfo.getStart());
-			info.setEnd(callInfo.getEnd());
-			info.setReponse(callInfo.getResponse());
-			info.setRequest(callInfo.getRequest());
-			AbstractTechnicalServiceManager.inst().store(info);		
-	    }
-	});
-    }
-    
 
     @Override
     protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-	NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
 	var ret = new ArrayList<MTGPrice>();
+	CardNexusTools.initConfig();
+	
 	var service = new ProductsService();
 	
 	

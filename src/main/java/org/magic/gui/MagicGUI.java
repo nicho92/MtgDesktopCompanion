@@ -260,20 +260,7 @@ public class MagicGUI extends JFrame {
 		if (MTG.readPropertyAsBoolean("modules/scripts"))
 			addTab(new ScriptPanel());
 
-		if (MTG.readPropertyAsBoolean("modules/mkm")) {
-			try {
-
-				MkmAPIConfig.getInstance().init(
-						AccountsManager.inst().getAuthenticator(new MagicCardMarketPricer2()).getTokensAsProperties());
-			} catch (Exception e) {
-				logger.error(e);
-			}
-			addTab(MTGUIComponent.build(new MkmPanel(), "MKM",
-					new ImageIcon(new ImageIcon(MagicGUI.class.getResource("/icons/plugins/magiccardmarket.png"))
-							.getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE,
-									Image.SCALE_SMOOTH))));
-		}
-
+		
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		getContentPane().add(barStatus, BorderLayout.SOUTH);
 

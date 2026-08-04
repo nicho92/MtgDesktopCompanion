@@ -14,7 +14,6 @@
     <stock>true</stock>
     <wallpaper>true</wallpaper>
     <sealed>true</sealed>
-    <mkm>false</mkm>
     <network>true</network>
     <webshop>true</webshop>
     <announce>true</announce>
@@ -207,6 +206,10 @@
     <dashlet>
       <class>org.magic.gui.dashlet.MkmOversightDashlet</class>
       <enable>true</enable>
+    </dashlet>
+    <dashlet>
+    	<class>org.magic.gui.dashlet.CardMarketDashlet</class>
+    	<enable>true</enable>
     </dashlet>
     <dashlet>
       <class>org.magic.gui.dashlet.IndexationDashlet</class>

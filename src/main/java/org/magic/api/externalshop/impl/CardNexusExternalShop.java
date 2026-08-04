@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.api.cardnexus.configuration.NexusConfig;
-import org.api.cardnexus.listener.URLCallInfo;
-import org.api.cardnexus.listener.URLCallListener;
 import org.api.cardnexus.model.AbstractProduct;
 import org.api.cardnexus.model.CardProduct;
 import org.api.cardnexus.model.InventoryLine;
@@ -26,14 +24,12 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
-import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.interfaces.extra.MTGProduct;
-import org.magic.services.MTGConstants;
+import org.magic.services.tools.CardNexusTools;
 import org.magic.services.tools.MTG;
 
 public class CardNexusExternalShop extends AbstractExternalShop {
@@ -42,25 +38,6 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     private ProductsService pService;
     private InventoryService iService;
 
-    
-    static {
-	NexusConfig.setDirectoryFeed(MTGConstants.DATA_DIR);
-	NexusConfig.setDefaultGameValue("mtg");
-	NexusConfig.setListener(new URLCallListener() {
-	    
-	    @Override
-	    public void notify(URLCallInfo callInfo) {
-		var info = new NetworkInfo();
-			
-			info.setStart(callInfo.getStart());
-			info.setEnd(callInfo.getEnd());
-			info.setReponse(callInfo.getResponse());
-			info.setRequest(callInfo.getRequest());
-			AbstractTechnicalServiceManager.inst().store(info);		
-	    }
-	});
-    }
-    
     public CardNexusExternalShop() {
 	    pService = new ProductsService();
 	    iService = new InventoryService();
@@ -68,9 +45,8 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     
     private void init()
     {
-		NexusConfig.setToken(getAuthenticator().get("CARDNEXUS_API_KEY"));
-	
-		try {
+	CardNexusTools.initConfig();
+	try {
         	    pService.listExpansion(NexusConfig.getDefaultGameValue()); //caching
         	} catch (IOException e) {
         	    logger.error(e);
