@@ -4,12 +4,12 @@ import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;
 
-import org.api.cardnexus.gui.NexusListsPanel;
+import org.api.cardnexus.gui.NexusProductPanel;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.api.pricers.impl.CardNexusPricer;
 import org.magic.services.tools.CardNexusTools;
 
-public class NexusListingDashlet extends AbstractJDashlet {
+public class NexusProductDashlet extends AbstractJDashlet {
 
   
     /**
@@ -26,7 +26,7 @@ public class NexusListingDashlet extends AbstractJDashlet {
     public void initGUI() {
 	CardNexusTools.initConfig();
 	setLayout(new BorderLayout());
-	getContentPane().add(new NexusListsPanel());
+	getContentPane().add(new NexusProductPanel(true,true));
 	
     }
 
@@ -42,7 +42,7 @@ public class NexusListingDashlet extends AbstractJDashlet {
 
     @Override
 	public String getName() {
-		return "NexusLists";
+		return "Nexus Products";
 	}
     
 }
