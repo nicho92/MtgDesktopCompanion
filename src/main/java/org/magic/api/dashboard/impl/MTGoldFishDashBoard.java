@@ -369,42 +369,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<MTGDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException {
-
-		// spells, creatures, all, lands
-
-		String u = WEBSITE + "/format-staples/" + f.name().toLowerCase() + "/full/" + filter;
-
-		if (f == MTGFormat.FORMATS.COMMANDER)
-			u = WEBSITE + "/format-staples/commander_1v1/full/" + filter;
-
-		Document doc = URLTools.extractAsHtml(u);
-
-		logger.debug("get best cards : {}", u);
-		Elements trs = doc.select("table tr");
-		trs.remove(0);
-		List<MTGDominance> ret = new ArrayList<>();
-		for (Element e : trs) {
-			Elements tds = e.select(MTGConstants.HTML_TAG_TD);
-			try {
-				int correct = filter.equalsIgnoreCase("lands") ? 1 : 0;
-
-				var d = new MTGDominance();
-				d.setPosition(Integer.parseInt(tds.get(0).text()));
-				d.setCardName(tds.get(1).text());
-				d.setDecksPercent(UITools.parseDouble(tds.get(3 - correct).text()));
-				d.setPlayers(UITools.parseDouble(tds.get(4 - correct).text()));
-
-				ret.add(d);
-			} catch (Exception ex) {
-				logger.error("Error parsing {}", tds, ex);
-			}
-
-		}
-		return ret;
-	}
-
-	@Override
 	public String getName() {
 		return "MTGoldFish";
 	}
@@ -421,11 +385,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		}
 
 		return null;
-	}
-
-	@Override
-	public String[] getDominanceFilters() {
-		return new String[]{"all", "spells", "creatures", "lands"};
 	}
 
 	@Override

@@ -160,16 +160,6 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public String[] getDominanceFilters() {
-		return new String[]{"magic-reserve-list", "lands", "creatures", "artifacts"};
-	}
-
-	@Override
-	public List<MTGDominance> getBestCards(FORMATS f, String filter) throws IOException {
-		return new ArrayList<>();
-	}
-
-	@Override
 	public Date getUpdatedDate() {
 		return new Date();
 	}

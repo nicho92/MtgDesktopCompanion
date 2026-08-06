@@ -47,13 +47,6 @@ public class DashboardsProviderTests {
 		}
 
 		try {
-			p.getBestCards(MTGFormat.FORMATS.STANDARD, p.getDominanceFilters()[0]);
-			System.out.println("get Best for " + MTGFormat.FORMATS.STANDARD + " OK");
-		} catch (IOException e) {
-			System.out.println("get Best for " + MTGFormat.FORMATS.STANDARD + " ERROR " + e);
-		}
-
-		try {
 			p.getPriceVariation(mc, false);
 			System.out.println("get Variation for " + mc + "(" + mc.getEdition() + ") OK");
 		} catch (IOException e) {

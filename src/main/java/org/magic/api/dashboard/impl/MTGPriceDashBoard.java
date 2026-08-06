@@ -230,11 +230,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<MTGDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException {
-		return new ArrayList<>();
-	}
-
-	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
 		var m = super.getDefaultAttributes();

@@ -80,21 +80,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	}
 
-	@Override
-	public List<MTGDominance> getBestCards(FORMATS f, String filter) throws IOException {
-		List<MTGDominance> ret = new ArrayList<>();
-
-		var i = 1;
-		for (Played p : analyticService.getMostPlayedCard(FORMAT.valueOf(f.name()))) {
-			var cd = new MTGDominance();
-			cd.setCardName(p.getName());
-			cd.setPlayers(p.getQuantity());
-			cd.setPosition(i++);
-			ret.add(cd);
-		}
-		return ret;
-	}
-
 	private SealedProduct guess(List<SealedProduct> products, MTGSealedProduct packaging) {
 		List<SealedProduct> ret = new ArrayList<>();
 

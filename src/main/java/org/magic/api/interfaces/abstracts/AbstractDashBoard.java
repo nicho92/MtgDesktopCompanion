@@ -41,11 +41,6 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	}
 
 	@Override
-	public String[] getDominanceFilters() {
-		return new String[]{""};
-	}
-
-	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
