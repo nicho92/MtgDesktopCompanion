@@ -95,8 +95,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					if (boxP.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PAUPER));
 
-					if (!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected()
-							&& !boxP.isSelected())
+					if (!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected()&& !boxP.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(null));
 
 					int val = (Integer) spinner.getValue();
@@ -114,6 +113,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 				} catch (Exception e) {
 					logger.error(e);
+					e.printStackTrace();
 				}
 				return ret;
 

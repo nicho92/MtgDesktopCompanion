@@ -19,6 +19,7 @@ import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.technical.MTGProperty;
@@ -237,6 +238,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+	    new MTGoldFishDashBoard().getOnlineShakerFor(FORMATS.STANDARD);
+	}
+	
+	
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
 		var list = new ArrayList<CardShake>();
@@ -245,10 +252,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if (f != null)
 			gameFormat = f.name();
 
-		var urlW = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"
-				+ getString(DAILY_WEEKLY);
-		var urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"
-				+ getString(DAILY_WEEKLY);
+		var urlW = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
+		var urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/" + getString(DAILY_WEEKLY);
 
 		logger.trace("Loading Shake {} and {}", urlW, urlL);
 		var doc = URLTools.extractAsHtml(urlW);
@@ -265,15 +270,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 				cs.setProviderName(getName());
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).select("span a").text());
-				cs.setLink(WEBSITE + e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0)
-						.attr("href"));
+				cs.setLink(WEBSITE + e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
 				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));
-				cs.setPercentDayChange(
-						UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()) / 100);
+				cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()) / 100);
 				cs.setFoil(false);
-				var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0)
-						.attr("data-card-id");
+				var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(2).attr("data-card-id");
+				
+				
 				cs.setEd(aliases.getSetIdFor(this, StringUtils.substringBetween(set, "[", "]").toUpperCase()));
 
 				list.add(cs);

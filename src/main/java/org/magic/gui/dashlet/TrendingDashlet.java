@@ -117,8 +117,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 			@Override
 			protected List<CardShake> doInBackground() throws Exception {
-				return getEnabledPlugin(MTGDashBoard.class)
-						.getShakerFor((MTGFormat.FORMATS) cboFormats.getSelectedItem());
+				return getEnabledPlugin(MTGDashBoard.class).getShakerFor((MTGFormat.FORMATS) cboFormats.getSelectedItem());
 			}
 
 			@Override

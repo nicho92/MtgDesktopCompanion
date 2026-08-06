@@ -209,8 +209,8 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 		
 		    try {
 			
-			if(!c.getPricesByFinish().isEmpty())
-			    item.setPrice(c.getPricesByFinish().get(il.finish()).cardmarket().marketValue());
+			if(!c.getPrices().isEmpty())
+			    item.setPrice(c.getPrices().get(il.finish()).cardmarket().marketValue());
 			}
 			catch(Exception e)
 			{
