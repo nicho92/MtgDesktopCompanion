@@ -113,7 +113,6 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 				} catch (Exception e) {
 					logger.error(e);
-					e.printStackTrace();
 				}
 				return ret;
 

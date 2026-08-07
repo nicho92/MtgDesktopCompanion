@@ -1,6 +1,7 @@
 package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
@@ -26,7 +27,12 @@ public class CardMarketDashlet extends AbstractJDashlet {
 	
 	getContentPane().add(new MkmPanel());
 	
-	
+	if (getProperties().size() > 0) {
+		var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+				(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
+
+		setBounds(r);
+	}
 	
     }
     

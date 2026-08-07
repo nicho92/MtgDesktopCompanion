@@ -39,8 +39,8 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 		return toPrettyString();
 	}
 
-	public static EnumColors[] colors() {
-		return new EnumColors[]{WHITE, BLUE, BLACK, RED, GREEN};
+	private static EnumColors[] colors() {
+		return new EnumColors[]{WHITE, BLUE, BLACK, RED, GREEN,UNCOLOR};
 	}
 
 	private EnumColors(String s, Color c, int position) {
@@ -93,7 +93,13 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 	}
 
 	public static EnumColors colorByCode(String s) {
-		return List.of(EnumColors.colors()).stream().filter(c -> c.getCode().contains(s.trim())).findAny().orElse(null);
+		var ret =  List.of(EnumColors.colors()).stream().filter(c -> c.getCode().contains(s.trim())).findAny().orElse(null);
+		
+		if(ret==null)
+		    System.out.println("No code fouond for " + s);
+		
+		
+		return ret;
 	}
 
 	private static List<EnumColors> parse(EnumCardsPatterns p, String c) {

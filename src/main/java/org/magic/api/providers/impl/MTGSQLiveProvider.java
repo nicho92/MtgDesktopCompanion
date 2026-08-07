@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
@@ -482,7 +483,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		
 		if (rs.getString(PRODUCED_MANA) != null)
 		    mc.setProducedMana(splitArrayValue(rs.getString(PRODUCED_MANA)).stream().map(EnumColors::colorByCode).sorted().toList());
-		
 
 		if (rs.getString(COLOR_INDICATOR) != null)
 			mc.setColorIndicator(

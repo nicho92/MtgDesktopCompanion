@@ -1,6 +1,7 @@
 package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 
@@ -28,6 +29,12 @@ public class NexusCartOptimizerDashlet extends AbstractJDashlet {
 	setLayout(new BorderLayout());
 	getContentPane().add(new NexusWizardPanel());
 	
+	if (getProperties().size() > 0) {
+		var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+				(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
+
+		setBounds(r);
+	}
     }
 
     @Override
