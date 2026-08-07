@@ -200,14 +200,6 @@
       <enable>true</enable>
     </dashlet>
     <dashlet>
-      <class>org.magic.gui.dashlet.MkmOversightDashlet</class>
-      <enable>true</enable>
-    </dashlet>
-    <dashlet>
-    	<class>org.magic.gui.dashlet.CardMarketDashlet</class>
-    	<enable>true</enable>
-    </dashlet>
-    <dashlet>
       <class>org.magic.gui.dashlet.IndexationDashlet</class>
     </dashlet>
     <dashlet>
@@ -230,6 +222,18 @@
     </dashlet>
     <dashlet>
       <class>org.magic.gui.dashlet.MTGCardStockDashlet</class>
+    </dashlet>
+     <dashlet>
+      <class>org.magic.gui.dashlet.NexusListingDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.CardMarketDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.NexusProductDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.NexusCartOptimizerDashlet</class>
     </dashlet>
   </dashlets>
   <tokens>
