@@ -9,14 +9,18 @@ import org.api.cardnexus.configuration.NexusConfig;
 import org.api.cardnexus.model.AbstractProduct;
 import org.api.cardnexus.model.CardProduct;
 import org.api.cardnexus.model.InventoryLine;
+import org.api.cardnexus.model.Order;
 import org.api.cardnexus.model.SealedProduct;
+import org.api.cardnexus.model.User;
 import org.api.cardnexus.model.enums.EnumFinishes;
 import org.api.cardnexus.model.enums.EnumSealedType;
 import org.api.cardnexus.model.requests.InventoryLinesRequest;
+import org.api.cardnexus.model.requests.SalesRequest;
 import org.api.cardnexus.model.requests.SearchInventoryRequest;
 import org.api.cardnexus.model.requests.SearchProductRequest;
 import org.api.cardnexus.model.requests.UpdateInventoryRequest;
 import org.api.cardnexus.services.InventoryService;
+import org.api.cardnexus.services.OrdersService;
 import org.api.cardnexus.services.ProductsService;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
@@ -37,10 +41,12 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     
     private ProductsService pService;
     private InventoryService iService;
+    private OrdersService oService;
 
     public CardNexusExternalShop() {
 	    pService = new ProductsService();
 	    iService = new InventoryService();
+	    oService = new OrdersService();
     }
     
     private void init()
@@ -279,14 +285,13 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 
     @Override
     public void deleteTransaction(Transaction t) throws IOException {
-	// TODO Auto-generated method stub
+	throw new IOException("Not Implemented");
 
     }
 
     @Override
     public Transaction getTransactionById(String id) throws IOException {
-	// TODO Auto-generated method stub
-	return null;
+	return parseOrder(oService.getOrder(id));
     }
 
     @Override
@@ -307,8 +312,33 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 
     @Override
     protected List<Transaction> loadTransaction() throws IOException {
-	// TODO Auto-generated method stub
-	return new ArrayList<>();
+	
+	var ret = new ArrayList<Transaction>();
+	
+	oService.listOrders(SalesRequest.create()).forEach(o->{
+	    ret.add(parseOrder(o));
+	});
+	return ret;
+    }
+
+    private Transaction parseOrder(Order o) {
+	 var t = new Transaction();
+	    	t.setCurrency(o.currency());
+	    	t.setDateCreation(o.placedAt());
+	    	t.setDatePayment(o.completedAt());
+	    	t.setDateSend(o.shippedAt());
+	    	t.setSourceShopId(getName());
+	    	t.setContact(parseContact(o.buyer()));
+	    	return t;
+    }
+
+    private Contact parseContact(User buyer) {
+	var c = new Contact();
+		
+	c.setName(buyer.username());
+	c.setCountry(buyer.country());
+	
+	return c;
     }
 
   
