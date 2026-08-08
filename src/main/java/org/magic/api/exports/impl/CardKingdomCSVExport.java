@@ -21,6 +21,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.tools.CardKingdomTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 
@@ -109,7 +110,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				mcs.setAltered(m.group(11) != null);
 
 				if (!m.group(15).isEmpty())
-					mcs.setPrice(Double.parseDouble(m.group(15)));
+					mcs.setPrice(UITools.parseDouble(m.group(15)));
 
 				list.add(mcs);
 			} else {
