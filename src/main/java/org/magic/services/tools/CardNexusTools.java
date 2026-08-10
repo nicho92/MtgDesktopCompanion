@@ -16,7 +16,8 @@ public class CardNexusTools {
     	    
     	    NexusConfig.setDefaultGameValue("mtg");
     	    NexusConfig.setToken(AccountsManager.inst().getAuthenticator(new CardNexusPricer()).get("CARDNEXUS_API_KEY"));
-    	    NexusConfig.setDirectoryFeed(MTGConstants.DATA_DIR);
+    	    NexusConfig.setTempDirectory(MTGConstants.DATA_DIR);
+    	    NexusConfig.setFeedRententionDurationDays(1);
     	    NexusConfig.setListener(new URLCallListener() {
 	    
 	    @Override
