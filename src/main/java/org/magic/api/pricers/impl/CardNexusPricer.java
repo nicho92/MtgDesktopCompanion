@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.api.cardnexus.configuration.NexusConfig;
-import org.api.cardnexus.listener.URLCallInfo;
-import org.api.cardnexus.listener.URLCallListener;
 import org.api.cardnexus.model.enums.EnumFinishes;
 import org.api.cardnexus.model.enums.EnumMarketPlace;
 import org.api.cardnexus.model.requests.MarketListRequest;
@@ -14,9 +12,7 @@ import org.api.cardnexus.services.ProductsService;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.tools.CardNexusTools;
 
 public class CardNexusPricer extends AbstractPricesProvider{
@@ -63,7 +59,7 @@ public class CardNexusPricer extends AbstractPricesProvider{
 				ret.add(mp);
 		
 		});
-	
+	logger.info("{} find {} items",getName(),ret.size());
 	return ret;
     }
     
