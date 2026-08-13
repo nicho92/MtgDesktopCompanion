@@ -56,7 +56,7 @@
 		<sonar.organization>nicho92-github</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<jwt.version>0.13.0</jwt.version>
-		<lucene.version>10.5.0</lucene.version>
+		<lucene.version>10.5.1</lucene.version>
 		<artemis.version>2.55.0</artemis.version>
 		<flatlaf.version>3.7.2</flatlaf.version>
 		<qwartz.version>2.5.2</qwartz.version>
@@ -464,7 +464,7 @@
 		<dependency>
 			<groupId>com.icoderman</groupId>
 			<artifactId>wc-api-java</artifactId>
-			<version>1.4</version>
+			<version>1.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -694,7 +694,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
-			<version>4.5.0</version>
+			<version>4.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

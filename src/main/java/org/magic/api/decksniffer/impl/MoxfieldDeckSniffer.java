@@ -24,7 +24,7 @@ import com.google.gson.JsonObject;
 public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String BASE_URI = "https://api.moxfield.com/v2";
-	MTGHttpClient client;
+	private MTGHttpClient client;
 
 	public MoxfieldDeckSniffer() {
 		client = URLTools.newClient();
