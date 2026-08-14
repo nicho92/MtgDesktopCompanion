@@ -2,22 +2,26 @@ package org.magic.gui.dashlet;
 
 import javax.swing.JComponent;
 
-import org.api.cardnexus.gui.NexusListsPanel;
+import org.api.cardnexus.gui.NexusCartPanel;
 import org.magic.api.interfaces.abstracts.extra.AbstractNexusDashlet;
 
-public class NexusListingDashlet extends AbstractNexusDashlet {
+public class NexusCartDashlet extends AbstractNexusDashlet {
 
   
+
+    /**
+     * 
+     */
     private static final long serialVersionUID = 1L;
 
     @Override
 	public String getName() {
-		return "NexusLists";
+		return "Nexus Cart";
 	}
 
     @Override
     protected JComponent getNexusComponent() {
-	return new NexusListsPanel();
+	return new NexusCartPanel();
     }
     
 }
