@@ -20,7 +20,6 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.wallpaper.ImageGalleryPanel;
 import org.magic.services.MTGControler;
-
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 

@@ -9,7 +9,6 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MTGSealedProduct;

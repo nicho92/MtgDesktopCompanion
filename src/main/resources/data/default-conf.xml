@@ -223,7 +223,7 @@
     <dashlet>
       <class>org.magic.gui.dashlet.MTGCardStockDashlet</class>
     </dashlet>
-     <dashlet>
+    <dashlet>
       <class>org.magic.gui.dashlet.NexusListingDashlet</class>
     </dashlet>
     <dashlet>
@@ -234,6 +234,12 @@
     </dashlet>
     <dashlet>
       <class>org.magic.gui.dashlet.NexusCartOptimizerDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.NexusTagsLocationDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.NexusCartDashlet</class>
     </dashlet>
   </dashlets>
   <tokens>

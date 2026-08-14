@@ -7,7 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.event.MouseAdapter;
@@ -29,13 +28,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
-import org.api.mkm.tools.MkmAPIConfig;
 import org.jdesktop.swingx.JXStatusBar;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
-import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.BinderTagsEditorComponent;
 import org.magic.gui.components.ScriptPanel;
@@ -44,7 +41,6 @@ import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.ChromeDownloader;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
 import org.magic.gui.components.tech.TechnicalMonitorPanel;
-import org.magic.services.AccountsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ShortKeyManager;
@@ -55,7 +51,6 @@ import org.magic.services.tools.GithubUtils;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {
 
