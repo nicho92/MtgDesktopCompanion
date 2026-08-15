@@ -98,8 +98,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		//
-
 		var deck = info.toBaseDeck();
 
 		logger.debug("get deck {}", info.getUrl());
@@ -131,6 +129,27 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public boolean hasCardFilter() {
 		return true;
 	}
+	
+	public static void main(String[] args) {
+	    var mtg = new MTGCard();
+	    mtg.setName("Bilbo's Ring");
+	    mtg.setScryfallId("67a4e16b-df1b-4b57-a388-add58eae5a24");
+	    new DeckstatsDeckSniffer().getCardId(mtg);
+	}
+	
+	
+	public String getCardId(MTGCard card)
+	{
+	    var content = URLTools.extractAsJson(BASE_URL+"/api/cards/autocomplete?q="+URLTools.encode(card.getName())).getAsJsonObject().get("results").getAsJsonArray();
+	    var opt = content.asList().stream().filter(je->je.getAsJsonObject().get("scryfall_id").getAsString().equals(card.getScryfallId())).findFirst();
+	    
+	    if(opt.isPresent())
+		return opt.get().getAsJsonObject().get("idcards").getAsString();
+	    else
+		return content.get(0).getAsJsonObject().get("idcards").getAsString();
+	}
+	
+	
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
@@ -146,7 +165,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 					.addContent("limit", "100");
 
 			if (mc != null)
-				q.addContent("card_ids[]", mc.getName());
+				q.addContent("card_ids[]", getCardId(mc));
 
 			var d = q.toJson();
 
