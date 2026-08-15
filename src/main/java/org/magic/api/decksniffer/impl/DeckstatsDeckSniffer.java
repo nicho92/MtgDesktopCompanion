@@ -4,14 +4,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.MTGProperty;
@@ -21,15 +18,17 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private Map<Integer, String> cacheColor;
 	private HashMap<String, Integer> formats;
-
+	private static final String BASE_URL="https://deckstats.net";
+	
 	public DeckstatsDeckSniffer() {
-		super();
+
 		cacheColor = new HashMap<>();
 		formats = new HashMap<>();
 		initcache();
@@ -96,7 +95,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
 
 	}
-
+	
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		//
@@ -105,73 +104,28 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		logger.debug("get deck {}", info.getUrl());
 		var d = URLTools.extractAsHtml(info.getUrl().toString());
-
-		if (!d.select("div#deck_overview_info").isEmpty())
-			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
-		else
-			deck.setDescription("From " + getName() + " at " + info.getUrl());
-
-		for (Element a : d.select("a.deck_tags_list_tag"))
-			deck.getTags().add(a.text());
-
-		var e = d.select("textarea#deck_code");
-		var content = e.html();
-
-		var arr = content.split("\n");
-
-		arr = ArrayUtils.remove(arr, 0); // remove deck name
-		arr = ArrayUtils.remove(arr, 0); // remove //main
-
-		var p = Pattern.compile(aliases.getRegexFor(this, "default"));
-
-		for (String s : arr) {
-			if (s.isEmpty())
-				continue;
-
-			try {
-				if (s.startsWith("SB: ")) {
-					s = s.replaceFirst("SB: ", "").trim();
-					read(s, p, deck.getSideBoard());
-				} else {
-					read(s, p, deck.getMain());
-				}
-			} catch (Exception ex) {
-				logger.error("error parsing -> {} : {}", s, ex.getMessage());
-			}
+		var jsonContent = URLTools.toJson(d.selectFirst("script[data-page=app]").html()).getAsJsonObject();
+		var props = jsonContent.get("props").getAsJsonObject();
+		
+		for(var entry : props.get("entries").getAsJsonArray())
+		{
+		    var obj = entry.getAsJsonObject();
+		    var zone = obj.get("zone").getAsString();
+		    var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(obj.get("printing").getAsJsonObject().get("scryfall_id").getAsString());
+		    var qty = obj.get("amount").getAsInt();
+		    
+		    notify(card);
+		    switch (zone) {
+		    	case "commander":  deck.setCommander(card);break;
+		    	case "main": deck.getMain().put(card, qty);;break;
+		    	case "sideboard": deck.getSideBoard().put(card, qty);break;
+		    	case "maybeboard": break;
+		    	default : logger.warn("no side for {}",zone);break;
+		    }
 		}
 		return deck;
 	}
 
-	private void read(String s, Pattern regex, Map<MTGCard, Integer> map) {
-
-		var m = regex.matcher(s);
-		if (m.find()) {
-			var qty = Integer.parseInt(m.group(1));
-
-			MTGCard mc = null;
-
-			if (m.group(3) != null) {
-				var idSet = m.group(3).split("#")[0];
-				var number = m.group(3).split("#")[1];
-				try {
-					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, idSet);
-				} catch (IOException e) {
-					logger.error("Error getting card by number {} {} : {}", idSet, number, e.getMessage());
-					return;
-				}
-			} else {
-				try {
-					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4), null, true).get(0);
-				} catch (IOException e) {
-					logger.error("Error getting card by name {} : {}", m.group(4), e.getMessage());
-					return;
-				}
-			}
-			map.put(mc, qty);
-			notify(mc);
-		}
-
-	}
 
 	@Override
 	public boolean hasCardFilter() {
@@ -185,35 +139,30 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		for (var i = 1; i <= getInt(MAX_PAGE); i++) {
 
-			var q = RequestBuilder.build().get().newClient().url("https://deckstats.net/decks/search")
-					.addContent("search_format", "" + formats.get(filter)).addContent("lng", "fr")
-					.addContent("search_order", getString("TYPES_ORDER") + ",desc").addContent("page", "" + i);
+			var q = RequestBuilder.build().get().newClient().url(BASE_URL+"/api/explore")
+					.addContent("format_id", "" + formats.get(filter))
+					.addContent("sort", getString("TYPES_ORDER"))
+					.addContent("offset", "" + i)
+					.addContent("limit", "100");
 
 			if (mc != null)
-				q.addContent("search_cards[]", mc.getName());
+				q.addContent("card_ids[]", mc.getName());
 
-			var d = q.toHtml();
+			var d = q.toJson();
 
-			Elements e = d.select("tr.deck_row");
-
-			for (Element cont : e) {
-				var deck = new RetrievableDeck();
-				var info = cont.select("a").get(0);
-				var idColor = cont.select("img").get(0).attr("src");
-				idColor = idColor.substring(idColor.lastIndexOf('/') + 1, idColor.lastIndexOf('.'));
-				var name = info.text();
-				var url = info.attr("href") + "/fr?get_code=1&code_type=bb_deck&code_extended=0&code_html_nl=off";
-				var auteur = cont.select("a").get(1).text();
-
-				deck.setName(name);
+			for (var item : d.getAsJsonObject().get("items").getAsJsonArray()) {
+			    var deck = new RetrievableDeck();
+			    
+			    var cont = item.getAsJsonObject();
+			    	deck.setName(cont.get("name").getAsString());
 				try {
-					deck.setUrl(new URI(url));
+					deck.setUrl(new URI(BASE_URL+cont.get("url").getAsString()));
 				} catch (URISyntaxException _) {
 					deck.setUrl(null);
 				}
-				deck.setAuthor(auteur);
-				deck.setColor(cacheColor.get(Integer.parseInt(idColor)));
-
+				deck.setAuthor(cont.get("owner_name").getAsString());
+				deck.setColor(cacheColor.get(cont.get("colors").getAsInt()));
+				deck.setDescription(UITools.formatDate(new Date(cont.get("updated").getAsLong()*1000)));
 				list.add(deck);
 			}
 		}
@@ -236,7 +185,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String getVersion() {
-		return "3.0";
+		return "4.0";
 	}
 
 }
