@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import org.api.cardnexus.tools.Utils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.api.pricers.impl.CardNexusPricer;
 import org.magic.services.tools.CardNexusTools;
@@ -39,7 +40,7 @@ public abstract class AbstractNexusDashlet extends AbstractJDashlet {
 
     @Override
     public ImageIcon getDashletIcon() {
-	return (ImageIcon) new CardNexusPricer().getIcon();
+	return new ImageIcon(Utils.getNexusImage());
     }
     
     
