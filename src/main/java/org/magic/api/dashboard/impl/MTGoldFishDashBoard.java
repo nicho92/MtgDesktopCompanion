@@ -312,8 +312,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		for (var e : trs.getAsJsonObject().get("cards").getAsJsonArray()) {
 
 			var obj = e.getAsJsonObject();
-			var nameExtra = obj.get("name").getAsString().toLowerCase();
-
+			var tags = obj.get("tags").getAsJsonArray().asList().stream().map(el->el.getAsString().toLowerCase()).toList();
+			
 			if (obj.get("subset_id").getAsString().equals("sealed"))
 				continue;
 
@@ -322,7 +322,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			cs.setName(obj.get("display_name").getAsString());
 			cs.setLink(WEBSITE + obj.get("links").getAsJsonObject().get("default").getAsString());
 			cs.setFoil(obj.get("foil").getAsBoolean());
-			cs.setEtched(nameExtra.contains("etched"));
+			cs.setEtched(tags.contains("etched"));
 			cs.setEd(edition.getId());
 			cs.setProviderName(getName());
 
@@ -342,19 +342,19 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPrice(0.0);
 			}
 
-			if (nameExtra.contains("extended"))
+			if (tags.contains("extended"))
 				cs.setCardVariation(EnumCardVariation.EXTENDEDART);
-			else if (nameExtra.contains("showcase"))
+			else if (tags.contains("showcase"))
 				cs.setCardVariation(EnumCardVariation.SHOWCASE);
-			else if (nameExtra.contains("borderless"))
+			else if (tags.contains("borderless"))
 				cs.setCardVariation(EnumCardVariation.BORDERLESS);
-			else if (nameExtra.contains("timeshifted"))
+			else if (tags.contains("timeshifted"))
 				cs.setCardVariation(EnumCardVariation.TIMESHIFTED);
-			else if (nameExtra.contains("retro"))
+			else if (tags.contains("retro"))
 				cs.setCardVariation(EnumCardVariation.RETRO);
-			else if (nameExtra.contains("japanese"))
+			else if (tags.contains("japanese"))
 				cs.setCardVariation(EnumCardVariation.JAPANESEALT);
-			else if (nameExtra.contains("serialized"))
+			else if (tags.contains("serialized"))
 				cs.setCardVariation(EnumCardVariation.SERIALIZED);
 
 			list.addShake(cs);

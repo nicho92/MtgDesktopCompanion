@@ -12,8 +12,7 @@ public abstract class Abstract2DHistoChart<B> extends MTGUI2DChartComponent<B, T
 
 	@Override
 	protected void createNewChart() {
-		chart = ChartFactory.createTimeSeriesChart(getTitle(), "Date", "Value", getDataSet(), showLegend(), true,
-				false);
+		chart = ChartFactory.createTimeSeriesChart(getTitle(), "Date", "Value", getDataSet(), showLegend(), true,false);
 
 		var formatter = NumberFormat.getInstance();
 		formatter.setMinimumFractionDigits(2);
