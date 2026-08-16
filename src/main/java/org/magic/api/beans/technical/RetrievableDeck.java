@@ -1,8 +1,6 @@
 package org.magic.api.beans.technical;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.magic.api.beans.MTGDeck;
 
@@ -13,7 +11,6 @@ public class RetrievableDeck {
 	private URI url;
 	private String author;
 	private String color;
-	private List<String> keycards;
 
 	public MTGDeck toBaseDeck() {
 		var deck = new MTGDeck();
@@ -24,7 +21,7 @@ public class RetrievableDeck {
 	}
 
 	public RetrievableDeck() {
-		keycards = new ArrayList<>();
+		
 	}
 
 	public String getAuthor() {
@@ -41,14 +38,6 @@ public class RetrievableDeck {
 
 	public void setColor(String color) {
 		this.color = color;
-	}
-
-	public List<String> getKeycards() {
-		return keycards;
-	}
-
-	public void setKeycards(List<String> keycards) {
-		this.keycards = keycards;
 	}
 
 	public String getName() {
