@@ -1,156 +1,115 @@
 package org.magic.api.decksniffer.impl;
 
-import static org.magic.services.tools.MTG.getEnabledPlugin;
-
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGConstants;
-import org.magic.services.network.URLTools;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.tools.MTG;
+
+import com.google.gson.JsonObject;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
-	private static final String MAX_PAGE = "MAX_PAGE";
-	private static final String SUBDECK_GROUP_CARD_QTY = "subdeck-group__card-qty";
-
+	
 	@Override
 	public String[] listFilter() {
-		return new String[]{"standard", "modern", "legacy", "vintage", "commander", "pioneer", "pauper", "historic",
-				"brawl"};
+		return new String[]{"standard", "modern", "legacy", "vintage", "commander", "pioneer", "pauper", "historic", "brawl"};
 	}
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		logger.debug("get deck at {}", info.getUrl());
 		MTGDeck deck = info.toBaseDeck();
-		Document d = URLTools.extractAsHtml(info.getUrl().toString());
-		for (Element e : d.select("span.singleTag")) {
-			deck.getTags().add(e.text());
-		}
-
-		var main = d.getElementsByClass("subdeck");
-
-		int taille = main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).size();
-		for (var i = 0; i < taille; i++) {
-			var qte = Integer.parseInt(main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
-			String cardName = main.get(0).getElementsByClass("subdeck-group__card-name").get(i).text();
-
-			if (cardName.contains("//"))
-				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-
-			MTGCard mc;
-			try {
-				mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
-				deck.getMain().put(mc, qte);
-				notify(mc);
-			} catch (IndexOutOfBoundsException e1) {
-				logger.error("{} is not found", cardName, e1);
-			}
-
-		}
-
-		if (main.size() > 1) {
-			int tailleSide = main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).size();
-			for (var i = 0; i < tailleSide; i++) {
-				var qte = Integer.parseInt(main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
-				String cardName = main.get(1).getElementsByClass("subdeck-group__card-name").get(i).text();
-
-				if (cardName.contains("//"))
-					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-				try {
-					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
-					deck.getSideBoard().put(mc, qte);
-
-				} catch (IndexOutOfBoundsException e1) {
-					logger.error("{} is not found", cardName, e1);
-				}
-
-			}
-		}
-
+		
+		var obj = RequestBuilder.build().newClient().get().url(info.getUrl())
+			    .addContent("source", "infinite-content")
+			    .addContent("subDecks", "true")
+			    .addContent("cards", "true")
+			    .addContent("stats", "false")
+			    .toJson().getAsJsonObject().get("result").getAsJsonObject();
+		
+		
+		fillData(obj, "maindeck", deck.getMain());
+		fillData(obj, "sideboard", deck.getSideBoard());
+		
 		return deck;
 
+	}
+	
+	private void fillData(JsonObject obj, String side, Map<MTGCard,Integer> data)
+	{
+	    obj.get("deck").getAsJsonObject().get("subDecks").getAsJsonObject().get(side).getAsJsonArray().forEach(je->{
+		    
+		   var id= je.getAsJsonObject().get("cardID").getAsString();
+		   var cardData = obj.get("cards").getAsJsonObject().get(id).getAsJsonObject();
+		   var qty = je.getAsJsonObject().get("quantity").getAsInt();
+		   data.put(parseCard(cardData), qty);
+		});
+	}
+	
+
+	private MTGCard parseCard(JsonObject obj)  {
+
+	    var name = obj.get("name").getAsString();
+		var set = obj.get("set").getAsString();
+	    try {
+		var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(set);
+		var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(obj.get("name").getAsString(), edition, true).getFirst();
+		notify(mc);
+		return mc;
+		
+	    } catch (Exception e) {
+		logger.error("can't find card for {}/{}",name,set);
+	    }
+	    
+	    return null;
 	}
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
-		var baseUrl = "https://decks.tcgplayer.com";
+	    var list = new ArrayList<RetrievableDeck>();
 
-		String url = baseUrl + "/magic/deck/search?format=" + filter;
-		logger.debug("get List deck at {}", url);
-		var list = new ArrayList<RetrievableDeck>();
-
-		for (var i = 1; i <= getInt(MAX_PAGE); i++) {
-			url = baseUrl + "/magic/deck/search?format=" + filter + "&page=" + i;
-			Document d = URLTools.extractAsHtml(url);
-
-			for (Element tr : d.getElementsByClass("gradeA")) {
-				var deck = new RetrievableDeck();
-
-				var mana = "";
-
-				Element manaEl = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0);
-				if (manaEl.toString().contains("white-mana"))
-					mana += "{W}";
-				if (manaEl.toString().contains("blue-mana"))
-					mana += "{U}";
-				if (manaEl.toString().contains("black-mana"))
-					mana += "{B}";
-				if (manaEl.toString().contains("red-mana"))
-					mana += "{R}";
-				if (manaEl.toString().contains("green-mana"))
-					mana += "{G}";
-
-				String deckName = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-				String link = baseUrl
-						+ tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
-				String deckPlayer = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text();
-				String deckDesc = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text();
-
-				deck.setColor(mana);
-				deck.setAuthor(deckPlayer);
-				deck.setName(deckName);
-				deck.setDescription(deckDesc);
-
-				try {
-					deck.setUrl(new URI(link));
-				} catch (URISyntaxException _) {
-					deck.setUrl(null);
-				}
-
-				list.add(deck);
-
-			}
-
-		}
-
-		return list;
-
+	    var obj = RequestBuilder.build().newClient().get().url("https://infinite-api.tcgplayer.com/content/decks/magic")
+	    .addContent("source", "infinite-content")
+	    .addContent("rows", "128")
+	    .addContent("format", filter)
+	    .addContent("isAdmin", "false")
+	    .addContent("td", "false")
+	    .addContent("sort", "latest")
+	    .addContent("offset", "0")
+	    .addContent("order", "desc").toJson().getAsJsonObject();
+	    
+	    
+	    for(var d : obj.get("result").getAsJsonArray())
+	    {
+		var deck = new RetrievableDeck();
+	
+			deck.setAuthor(d.getAsJsonObject().get("deckData").getAsJsonObject().get("playerName").getAsString());
+			deck.setDescription(d.getAsJsonObject().get("date").getAsString());
+			deck.setName(d.getAsJsonObject().get("deckData").getAsJsonObject().get("deckName").getAsString());
+			deck.setUrl(URI.create("https://infinite-api.tcgplayer.com/deck/magic/"+d.getAsJsonObject().get("deckID").getAsString()));
+			
+			if(d.getAsJsonObject().get("deckData").getAsJsonObject().get("colors")!=null)
+			    deck.setColor(Arrays.stream(d.getAsJsonObject().get("deckData").getAsJsonObject().get("colors").getAsString().split(",")).map(s -> "{" + s + "}").collect(Collectors.joining()));
+		
+		list.add(deck);
+	    }
+	 return list;
 	}
 
 	@Override
 	public String getName() {
 		return "TCGPlayer";
-	}
-
-	@Override
-	public Map<String, MTGProperty> getDefaultAttributes() {
-
-		var m = super.getDefaultAttributes();
-		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("1", "number of page to query", 1, 10));
-		return m;
 	}
 
 }
