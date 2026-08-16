@@ -39,11 +39,25 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			    .addContent("stats", "false")
 			    .toJson().getAsJsonObject().get("result").getAsJsonObject();
 		
+		deck.setDescription("Imported from https://www.tcgplayer.com/content"+obj.get("canonicalURL").getAsString());
 		
 		fillData(obj, "maindeck", deck.getMain());
 		fillData(obj, "sideboard", deck.getSideBoard());
 		
-		deck.setDescription("Imported from https://www.tcgplayer.com/content"+obj.get("canonicalURL").getAsString());
+		try {
+		var cmd = obj.get("deck").getAsJsonObject().get("subDecks").getAsJsonObject().get("commandzone");
+		if(cmd!=null)
+		{
+		    var id = cmd.getAsJsonArray().get(0).getAsJsonObject().get("cardID").getAsString();
+		    deck.setCommander(parseCard(obj.get("cards").getAsJsonObject().get(id).getAsJsonObject()));
+		    deck.getMain().put(deck.getCommander(), 1);
+		}
+		}
+		catch(Exception _)
+		{
+		    logger.error("errr getting commander");
+		}
+		
 		
 		return deck;
 
@@ -51,12 +65,19 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	
 	private void fillData(JsonObject obj, String side, Map<MTGCard,Integer> data)
 	{
+	    if( obj.get("deck").getAsJsonObject().get("subDecks").getAsJsonObject().get(side)==null)
+		return;
+	    
 	    obj.get("deck").getAsJsonObject().get("subDecks").getAsJsonObject().get(side).getAsJsonArray().forEach(je->{
 		    
 		   var id= je.getAsJsonObject().get("cardID").getAsString();
 		   var cardData = obj.get("cards").getAsJsonObject().get(id).getAsJsonObject();
 		   var qty = je.getAsJsonObject().get("quantity").getAsInt();
-		   data.put(parseCard(cardData), qty);
+		   
+		   var c = parseCard(cardData);
+		   if(c!=null)
+		       data.put(c, qty);
+		   
 		});
 	}
 	
@@ -64,7 +85,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	private MTGCard parseCard(JsonObject obj)  {
 
 	    var name = obj.get("name").getAsString();
-		var set = obj.get("set").getAsString();
+	    var set = obj.get("set").getAsString();
 	    try {
 		var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(set);
 		var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(obj.get("name").getAsString(), edition, true).getFirst();
