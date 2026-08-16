@@ -2,8 +2,10 @@ package org.magic.api.decksniffer.impl;
 
 import java.io.IOException;
 import java.net.URI;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,6 +42,8 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		
 		fillData(obj, "maindeck", deck.getMain());
 		fillData(obj, "sideboard", deck.getSideBoard());
+		
+		deck.setDescription("Imported from https://www.tcgplayer.com/content"+obj.get("canonicalURL").getAsString());
 		
 		return deck;
 
@@ -101,7 +105,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			
 			if(d.getAsJsonObject().get("deckData").getAsJsonObject().get("colors")!=null)
 			    deck.setColor(Arrays.stream(d.getAsJsonObject().get("deckData").getAsJsonObject().get("colors").getAsString().split(",")).map(s -> "{" + s + "}").collect(Collectors.joining()));
-		
 		list.add(deck);
 	    }
 	 return list;
