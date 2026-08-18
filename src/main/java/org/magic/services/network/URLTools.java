@@ -32,7 +32,6 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class URLTools {
@@ -128,16 +127,8 @@ public class URLTools {
 
 	}
 
-	public static JsonElement extractAsJson(String url) {
-		try {
-			return RequestBuilder.build().newClient().url(url).get()
-					.addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
-		} catch (Exception e) {
-			logger.error("error while extracting json from {}", url, e);
-			var ret = new JsonObject();
-			ret.addProperty("error", e.getMessage());
-			return ret;
-		}
+	public static JsonElement extractAsJson(String url) throws IOException {
+	    return RequestBuilder.build().newClient().url(url).get().addHeader(URLTools.ACCEPT, "application/json;q=0.9,*/*;q=0.8").toJson();
 	}
 
 	public static Document extractAsHtml(String url) throws IOException {

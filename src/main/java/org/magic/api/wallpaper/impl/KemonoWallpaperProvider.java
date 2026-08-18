@@ -1,5 +1,6 @@
 package org.magic.api.wallpaper.impl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,13 +76,19 @@ public class KemonoWallpaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected JsonArray extractArrayFromQuery(RequestBuilder req) {
-		var json = req.toJson();
-		var obj = json.getAsJsonObject();
+		try {
+		    var json = req.toJson();
+		    var obj = json.getAsJsonObject();
 
-		if (obj.get("posts") != null)
-			return obj.get("posts").getAsJsonArray();
-		else
-			return new JsonArray();
+			if (obj.get("posts") != null)
+				return obj.get("posts").getAsJsonArray();
+			else
+				return new JsonArray();
+		} catch (IOException e) {
+		    logger.error(e);
+		    return new JsonArray(0);
+		}
+		
 
 	}
 

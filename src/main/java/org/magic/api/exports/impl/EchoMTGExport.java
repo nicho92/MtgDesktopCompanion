@@ -40,7 +40,7 @@ public class EchoMTGExport extends AbstractCardExport {
 		return false;
 	}
 
-	private void connect() {
+	private void connect() throws IOException {
 		client = URLTools.newClient();
 
 		var con = RequestBuilder.build().post().url(BASE_URL + "/api/user/auth/")
@@ -62,24 +62,31 @@ public class EchoMTGExport extends AbstractCardExport {
 
 		stock.forEach(entry -> {
 
-			var list = RequestBuilder.build().post().url(BASE_URL + "/api/inventory/add/").addContent("auth", authToken)
-					.addContent("mid", entry.getProduct().getMultiverseid())
-					.addContent("quantity", String.valueOf(entry.getQte()))
-					.addContent("condition", aliases.getConditionFor(this, entry.getCondition()))
-					.addContent("foil", entry.isFoil() ? "1" : "0").setClient(client).toJson();
+			try {
+			  var   list = RequestBuilder.build().post().url(BASE_URL + "/api/inventory/add/").addContent("auth", authToken)
+			    		.addContent("mid", entry.getProduct().getMultiverseid())
+			    		.addContent("quantity", String.valueOf(entry.getQte()))
+			    		.addContent("condition", aliases.getConditionFor(this, entry.getCondition()))
+			    		.addContent("foil", entry.isFoil() ? "1" : "0").setClient(client).toJson();
 
-			logger.debug(list);
+				logger.debug(list);
 
-			if (list.getAsJsonObject().get("status").getAsString().equalsIgnoreCase("error"))
-				logger.error("error loading {}: {}", entry.getProduct(),
-						list.getAsJsonObject().get("message").getAsString());
-			else {
-				logger.debug("export: {}", list.getAsJsonObject().get("message").getAsString());
-				entry.getTiersAppIds().put(getName(), list.getAsJsonObject().get("inventory_id").getAsString());
-				entry.setUpdated(true);
+				if (list.getAsJsonObject().get("status").getAsString().equalsIgnoreCase("error"))
+					logger.error("error loading {}: {}", entry.getProduct(),
+							list.getAsJsonObject().get("message").getAsString());
+				else {
+					logger.debug("export: {}", list.getAsJsonObject().get("message").getAsString());
+					entry.getTiersAppIds().put(getName(), list.getAsJsonObject().get("inventory_id").getAsString());
+					entry.setUpdated(true);
 
+				}
+				notify(entry.getProduct());
+			    
+			    
+			} catch (IOException e) {
+			   logger.error(e);
 			}
-			notify(entry.getProduct());
+
 		});
 	}
 

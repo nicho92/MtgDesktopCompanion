@@ -1,6 +1,7 @@
 package org.magic.api.sealedprovider.impl;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,10 +34,10 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 			logger.debug("init data from {}", getName());
 
 			products = new HashMap<>();
-
-			var obj = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_PRODUCTS).getAsJsonObject();
-
-			obj.entrySet().forEach(e -> {
+			try {
+			    var obj = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_PRODUCTS).getAsJsonObject();
+			    
+			    obj.entrySet().forEach(e -> {
 				MTGEdition ed;
 				try {
 					ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(e.getKey());
@@ -112,6 +113,12 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 				products.put(ed, list);
 
 			});
+			    
+			} catch (IOException e) {
+			    logger.error(e);
+			}
+
+			
 		}
 	}
 

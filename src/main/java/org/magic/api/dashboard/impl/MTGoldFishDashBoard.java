@@ -107,7 +107,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return token;
 	}
 
-	private String suggestCardId(MTGCard c, boolean foil) {
+	private String suggestCardId(MTGCard c, boolean foil) throws IOException {
 		var arr = RequestBuilder.build().url(WEBSITE + "/autocomplete").setClient(client).get()
 				.addContent("term", c.getName()).addHeader(URLTools.REFERER, WEBSITE)
 				.addHeader("x-requested-with", "XMLHttpRequest").addHeader(URLTools.ACCEPT, "*/*")

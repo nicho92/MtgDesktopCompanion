@@ -130,15 +130,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		return true;
 	}
 	
-	public static void main(String[] args) {
-	    var mtg = new MTGCard();
-	    mtg.setName("Bilbo's Ring");
-	    mtg.setScryfallId("67a4e16b-df1b-4b57-a388-add58eae5a24");
-	    new DeckstatsDeckSniffer().getCardId(mtg);
-	}
-	
-	
-	public String getCardId(MTGCard card)
+	private String getCardId(MTGCard card) throws IOException
 	{
 	    var content = URLTools.extractAsJson(BASE_URL+"/api/cards/autocomplete?q="+URLTools.encode(card.getName())).getAsJsonObject().get("results").getAsJsonArray();
 	    var opt = content.asList().stream().filter(je->je.getAsJsonObject().get("scryfall_id").getAsString().equals(card.getScryfallId())).findFirst();

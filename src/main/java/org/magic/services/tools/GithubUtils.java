@@ -4,7 +4,9 @@ package org.magic.services.tools;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.services.MTGConstants;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
@@ -18,6 +20,7 @@ public class GithubUtils {
 	private JsonArray releases;
 	private static GithubUtils inst;
 	private boolean updatetoprerelease = false;
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public static GithubUtils inst() {
 		if (inst == null)
@@ -32,7 +35,13 @@ public class GithubUtils {
 	}
 
 	private GithubUtils() {
-		releases = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
+	    	try {
+	    	    releases = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
+	    	}catch(Exception e)
+	    	{
+	    	    logger.error(e.getMessage());
+	    	    releases = new JsonArray();
+	    	}
 		update();
 	}
 
@@ -77,7 +86,10 @@ public class GithubUtils {
 	}
 
 	public String getVersion() {
+	    if(selectedRelease!=null)
 		return selectedRelease.get("tag_name").getAsString();
+	    else
+		return "version unknow";
 	}
 
 	public String getVersionName() {

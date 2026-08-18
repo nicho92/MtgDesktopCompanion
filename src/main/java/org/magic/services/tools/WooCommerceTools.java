@@ -174,8 +174,13 @@ public class WooCommerceTools {
 				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
 				Map<String, JsonElement> map = new HashMap<>();
 
-				var el = URLTools.extractAsJson(securedUrl).getAsJsonObject();
-				el.entrySet().forEach(e -> map.put(e.getKey(), e.getValue()));
+				try {
+				    var el = URLTools.extractAsJson(securedUrl).getAsJsonObject();
+				    el.entrySet().forEach(e -> map.put(e.getKey(), e.getValue()));
+				} catch (IOException e) {
+				    logger.error(e);
+				}
+				
 				return map;
 
 			}

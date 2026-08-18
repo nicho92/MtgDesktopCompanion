@@ -182,7 +182,11 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	private MTGProduct buildProduct(JsonObject jo) {
 
-		jo = getBuilder(API_PRODUCTS + "/" + jo.get("product_id").getAsLong(), METHOD.GET).toJson().getAsJsonObject();
+		try {
+		    jo = getBuilder(API_PRODUCTS + "/" + jo.get("product_id").getAsLong(), METHOD.GET).toJson().getAsJsonObject();
+		} catch (IOException e) {
+		    logger.error(e);
+		}
 
 		var product = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 		product.setProductId(jo.get("product_id").getAsLong());
@@ -237,8 +241,12 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		t.setSourceShopId(jo.get(ORDER_ID).getAsString());
 		t.setSourceShopName(getName());
 		t.setDateCreation(new Date(jo.get("timestamp").getAsLong() * 1000));
-		t.setContact(buildContact(
-				getBuilder(API_USERS + "/" + jo.get("issuer_id").getAsInt(), METHOD.GET).toJson().getAsJsonObject()));
+		try {
+		    t.setContact(buildContact(
+		    		getBuilder(API_USERS + "/" + jo.get("issuer_id").getAsInt(), METHOD.GET).toJson().getAsJsonObject()));
+		} catch (IOException e) {
+		    logger.error(e);
+		}
 		t.setId(jo.get(ORDER_ID).getAsInt());
 
 		if (jo.get("notes").isJsonNull())

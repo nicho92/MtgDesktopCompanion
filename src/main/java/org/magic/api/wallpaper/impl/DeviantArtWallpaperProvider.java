@@ -1,5 +1,6 @@
 package org.magic.api.wallpaper.impl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonObject;
 
@@ -62,10 +62,10 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public List<MTGWallpaper> search(String search) {
 
-		if (getString("GRANT_TYPE").equalsIgnoreCase(CLIENT))
+		// if (getString("GRANT_TYPE").equalsIgnoreCase(CLIENT))
 			return clientSearch(search);
-		else
-			return codeSearch(search);
+		/*else
+			return codeSearch(search);*/
 
 	}
 
@@ -122,7 +122,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 		return returnList(list);
 	}
-
+/*
 	public List<MTGWallpaper> codeSearch(String s) {
 		var list = new ArrayList<MTGWallpaper>();
 
@@ -181,7 +181,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 		return returnList(list);
 	}
-
+*/
 	private List<MTGWallpaper> returnList(ArrayList<MTGWallpaper> list) {
 		if (getBoolean("DATE_UPDATE_ORDER") && !list.isEmpty())
 			Collections.sort(list, Collections.reverseOrder());
@@ -287,7 +287,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		return null;
 	}
 
-	private void initToken() {
+	private void initToken() throws IOException {
 		var obj = RequestBuilder.build().setClient(httpclient).get().url(TOKEN_ENDPOINT)
 				.addContent("grant_type", "client_credentials")
 				.addContent("client_id", getAuthenticator().get(CLIENT_ID))
@@ -297,7 +297,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		bToken = obj.get("access_token").getAsString();
 	}
 
-	private JsonObject readOffset(int offset, String search) {
+	private JsonObject readOffset(int offset, String search) throws IOException {
 		var obj = RequestBuilder.build().setClient(httpclient).get().url(BROWSE_ENDPOINT).addContent("q", search)
 				.addContent("limit", "50").addContent("offset", String.valueOf(offset))
 				.addContent("mature_content", getString("MATURE")).addContent("access_token", bToken).toJson()

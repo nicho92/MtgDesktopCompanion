@@ -1,5 +1,6 @@
 package org.magic.api.wallpaper.impl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
@@ -61,7 +63,12 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected JsonArray extractArrayFromQuery(RequestBuilder req) {
-		var je = req.toJson();
+		JsonElement je=null;
+		try {
+		    je = req.toJson();
+		} catch (IOException e) {
+		   logger.error(e);
+		}
 
 		if (je == null || je.isJsonNull())
 			return new JsonArray(0);

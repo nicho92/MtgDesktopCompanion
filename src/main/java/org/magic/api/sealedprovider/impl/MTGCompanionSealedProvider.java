@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.magic.api.beans.MTGEdition;
@@ -20,6 +21,7 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class MTGCompanionSealedProvider extends AbstractSealedProvider {
 
@@ -36,8 +38,18 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider {
 				document = URLTools.extractAsXml(MTGConstants.MTG_BOOSTERS_URI);
 				logger.debug("Loading sealed data done");
 			} catch (IOException e) {
-				logger.error("Error while loading data from {}", MTGConstants.MTG_BOOSTERS_URI, e);
+				logger.error("Error while loading data from {}. Loading local", MTGConstants.MTG_BOOSTERS_URI, e);
 			}
+			
+			if(document==null)
+			{
+				try {
+				    document = XMLTools.createSecureXMLDocumentBuilder().parse(MTGConstants.MTG_DESKTOP_BOOSTERS_FILE.openStream());
+				} catch (Exception e) {
+				    logger.error(e);
+				} 
+			}
+			
 		}
 	}
 

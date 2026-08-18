@@ -194,7 +194,6 @@ public class IconsProvider {
 		try {
 			obj = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_SET_ALIASES_URL).getAsJsonObject();
 		} catch (Exception e) {
-			logger.error("error getting {}", MTGConstants.MTG_DESKTOP_SET_ALIASES_URL, e);
 			obj = URLTools.toJson(MTGConstants.MTG_DESKTOP_SETS_FILE.openStream()).getAsJsonObject();
 		}
 

@@ -8,7 +8,6 @@ import javax.swing.JComponent;
 
 import org.api.cardnexus.tools.Utils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.api.pricers.impl.CardNexusPricer;
 import org.magic.services.tools.CardNexusTools;
 
 public abstract class AbstractNexusDashlet extends AbstractJDashlet {

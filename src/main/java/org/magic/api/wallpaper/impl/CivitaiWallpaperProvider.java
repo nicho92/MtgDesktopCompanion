@@ -1,5 +1,6 @@
 package org.magic.api.wallpaper.impl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -45,48 +46,57 @@ public class CivitaiWallpaperProvider extends AbstractWallpaperProvider {
 			if (getString(SEARCH_MODE).equals("tag"))
 				build = build.addContent("page", String.valueOf(page++));
 
-			var obj = build.toJson().getAsJsonObject();
+			
+			try {
+			    var  obj = build.toJson().getAsJsonObject();
+			    
 
-			logger.debug("ret = {}", obj);
+				logger.debug("ret = {}", obj);
 
-			if (obj.get("error") != null) {
-				logger.error("error : {}", obj.get("error").getAsString());
-				break;
-			}
+				if (obj.get("error") != null) {
+					logger.error("error : {}", obj.get("error").getAsString());
+					break;
+				}
 
-			if (obj.get("items").getAsJsonArray().isEmpty())
-				break;
+				if (obj.get("items").getAsJsonArray().isEmpty())
+					break;
 
-			for (var el : obj.get("items").getAsJsonArray()) {
-				for (var modelVersion : el.getAsJsonObject().get("modelVersions").getAsJsonArray()) {
-					for (var image : modelVersion.getAsJsonObject().get("images").getAsJsonArray()) {
-						if (image.getAsJsonObject().get("type").getAsString().equals("image")) {
-							var wall = new MTGWallpaper();
-							wall.setProvider(getName());
-							wall.setMature(image.getAsJsonObject().get("nsfwLevel").getAsInt() > 1);
-							wall.setName(el.getAsJsonObject().get("name").getAsString() + "_"+ image.getAsJsonObject().get("id").getAsString());
-							wall.setUrl(URI.create(image.getAsJsonObject().get("url").getAsString()));
-							wall.setUrlThumb(URI.create(wall.getUrl().toASCIIString().replaceAll("width=\\d+", "width=30")));
-							wall.setPublishDate(Date.from(Instant.parse(modelVersion.getAsJsonObject().get("publishedAt").getAsString())));
-							el.getAsJsonObject().get("tags").getAsJsonArray().forEach(t -> wall.getTags().add(t.getAsString()));
-							
-    							try {
-    								wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
-    							} catch (NullPointerException _) {
-    								wall.setAuthor("");
-    							}
+				for (var el : obj.get("items").getAsJsonArray()) {
+					for (var modelVersion : el.getAsJsonObject().get("modelVersions").getAsJsonArray()) {
+						for (var image : modelVersion.getAsJsonObject().get("images").getAsJsonArray()) {
+							if (image.getAsJsonObject().get("type").getAsString().equals("image")) {
+								var wall = new MTGWallpaper();
+								wall.setProvider(getName());
+								wall.setMature(image.getAsJsonObject().get("nsfwLevel").getAsInt() > 1);
+								wall.setName(el.getAsJsonObject().get("name").getAsString() + "_"+ image.getAsJsonObject().get("id").getAsString());
+								wall.setUrl(URI.create(image.getAsJsonObject().get("url").getAsString()));
+								wall.setUrlThumb(URI.create(wall.getUrl().toASCIIString().replaceAll("width=\\d+", "width=30")));
+								wall.setPublishDate(Date.from(Instant.parse(modelVersion.getAsJsonObject().get("publishedAt").getAsString())));
+								el.getAsJsonObject().get("tags").getAsJsonArray().forEach(t -> wall.getTags().add(t.getAsString()));
+								
+	    							try {
+	    								wall.setAuthor(el.getAsJsonObject().get("creator").getAsJsonObject().get("username").getAsString());
+	    							} catch (NullPointerException _) {
+	    								wall.setAuthor("");
+	    							}
 
-							if (ret.size() >= getInt(LIMIT)) {
-								logger.info("{} return {} results", getName(), ret.size());
-								return ret;
-							} else {
-								ret.add(wall);
+								if (ret.size() >= getInt(LIMIT)) {
+									logger.info("{} return {} results", getName(), ret.size());
+									return ret;
+								} else {
+									ret.add(wall);
+								}
 							}
 						}
 					}
-				}
 
+				}
+			    
+			} catch (IOException e) {
+			   logger.error(e);
+			   
 			}
+
 
 		}
 

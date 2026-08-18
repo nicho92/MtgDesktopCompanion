@@ -33,7 +33,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		return STATUT.DEV;
 	}
 
-	private String getCardId(MTGCard mc) {
+	private String getCardId(MTGCard mc) throws IOException {
 
 		var extra = "";
 

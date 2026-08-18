@@ -1,5 +1,6 @@
 package org.magic.api.wallpaper.impl;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,6 +12,7 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
@@ -68,7 +70,12 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected JsonArray extractArrayFromQuery(RequestBuilder req) {
-		var je = req.toJson();
+		JsonElement je=null;
+		try {
+		    je = req.toJson();
+		} catch (IOException e) {
+		    logger.error(e);
+		}
 
 		if (je == null || je.isJsonNull())
 			return new JsonArray(0);

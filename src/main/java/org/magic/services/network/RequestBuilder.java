@@ -20,7 +20,6 @@ import org.magic.services.tools.UITools;
 import org.magic.services.tools.XMLTools;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class RequestBuilder {
 
@@ -158,14 +157,8 @@ public class RequestBuilder {
 		return this;
 	}
 
-	public JsonElement toJson() {
-		try {
-			return URLTools.toJson(toContentString());
-		} catch (Exception e) {
-			var je = new JsonObject();
-			je.addProperty("error", e.getMessage());
-			return je;
-		}
+	public JsonElement toJson() throws IOException {
+		return URLTools.toJson(toContentString());
 	}
 
 	public BufferedImage toImage() throws IOException {

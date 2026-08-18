@@ -1,5 +1,6 @@
 package org.magic.api.interfaces.abstracts.extra;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperProvider {
@@ -39,7 +41,13 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 	}
 
 	protected JsonArray extractArrayFromQuery(RequestBuilder req) {
-		var je = req.toJson();
+		JsonElement je;
+		try {
+		    je = req.toJson();
+		} catch (IOException e) {
+		    logger.error(e);
+		    je = null;
+		}
 		
 		logger.debug("ret={}", je);
 		

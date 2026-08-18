@@ -190,7 +190,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		throw new IOException("No bulk data found for " + t);
 	}
 
-	public JsonObject getJsonFor(MTGCard mc) {
+	public JsonObject getJsonFor(MTGCard mc) throws IOException {
 		return URLTools
 				.extractAsJson(BASE_URI + BASE_SUBURI + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber())
 				.getAsJsonObject();
