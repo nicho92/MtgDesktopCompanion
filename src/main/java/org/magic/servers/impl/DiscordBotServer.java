@@ -212,7 +212,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void responseSearch(SlashCommandInteractionEvent event, MessageInfo info) {
 	    
 	    info.setMessage("/card {" + event.getOption(COMMAND_OPTION_CARDNAME).getAsString() +"} :  " + event.getOption(COMMAND_OPTION_SETNAME));
-	   
+	    event.deferReply().queue();
+	    
+	    
 	    final List<MTGCard> liste = new ArrayList<>();
 		var channel = event.getChannel();
 		var price = event.getOption("price")!=null?event.getOption("price").getAsBoolean():false;
@@ -233,7 +235,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			return;
 		}
 			
-		var reply= event.replyEmbeds(createMessage(liste.get(0), price, info));
+		var reply= event.getHook().sendMessageEmbeds(createMessage(liste.get(0), price, info));
 		
 		var buttnLink = Button.link(getString(EXTERNAL_LINK) + liste.get(0).getScryfallId(), "View Online");
 		var previous = Button.primary("previous", Emoji.fromUnicode("\u2b05"));
@@ -243,7 +245,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 		    reply.addComponents(ActionRow.of(previous,next,buttnLink));
 		else
 		    reply.addComponents(ActionRow.of(buttnLink));
-
 		
 		reply.queue();
 		
@@ -299,8 +300,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 					prices = prov.getPrice(mc);
 					Collections.sort(prices, new MagicPricesComparator());
 					if (!prices.isEmpty())
-						eb.addField(prov.getName(), UITools.formatDouble(prices.get(0).getValue())
-								+ prices.get(0).getCurrency().getCurrencyCode(), true);
+						eb.addField(prov.getName(), UITools.formatDouble(prices.getFirst().getValue())+ prices.getFirst().getCurrency().getCurrencyCode(), true);
+					
 				} catch (Exception e) {
 					logger.error(e);
 					errMsg.append(prov).append(":").append(e);
@@ -310,8 +311,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 					if (prices != null && !prices.isEmpty()) {
 						prices = prices.stream().filter(MTGPrice::isFoil).sorted(new MagicPricesComparator()).toList();
 						if (prices != null && !prices.isEmpty())
-							eb.addField(prov.getName() + " foil", UITools.formatDouble(prices.get(0).getValue()) + " "
-									+ prices.get(0).getCurrency().getCurrencyCode(), true);
+							eb.addField(prov.getName() + " foil", UITools.formatDouble(prices.getFirst().getValue()) + " " + prices.getFirst().getCurrency().getCurrencyCode(), true);
 					}
 				} catch (Exception e) {
 					errMsg.append(prov).append(":").append(e);
