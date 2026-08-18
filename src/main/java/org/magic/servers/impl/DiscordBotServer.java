@@ -12,9 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.swing.Icon;
@@ -24,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.MessageInfo;
@@ -46,21 +45,23 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.components.actionrow.ActionRow;
+import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
@@ -76,6 +77,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
 	private static final String AUTOCOMPLETE_START = "AUTOCOMPLETE_START";
 	private JDA jda;
+	private int RESULT_LIMIT=25;
 
 	@Override
 	public String getVersion() {
@@ -141,7 +143,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			var results = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getFocusedOption().getValue(),null,false).stream()
 						.map(MTGCard::getName)
 						.distinct()
-						.limit(25)
+						.limit(RESULT_LIMIT)
 						.map(s->new Command.Choice(s, s))
 						.toList();
 			 
@@ -156,11 +158,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    {
 		
 		    try {
-			var options = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(),null,false).get(0).getEditions().stream()
+			var options = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(),null,false).getFirst().getEditions().stream()
 				.map(MTGEdition::getSet)
 				.distinct()
 				.filter(set->set.toLowerCase().contains(event.getFocusedOption().getValue().toLowerCase()))
-				.limit(25)
+				.limit(RESULT_LIMIT)
 				.map(s->new Command.Choice(s, s))
 				.toList();
 			
@@ -173,18 +175,20 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    }
 	}
 	
-	
+	private void analyseButtonEvent(ButtonInteractionEvent event) {
+	    event.reply("Not yet implemented").queue(); 
+	}
+		
 	private void analyseMessage(SlashCommandInteractionEvent event) {
 	    
 	    var info = new MessageInfo();
 		info.setSource(getName());
 		info.setUser(parse(event.getUser()));
 		info.setChannel(parse(event.getChannel()));
-		
+		info.setGuild(parse(event.getGuild()));
 		
 	    switch (event.getName()) {
-	    
-	    	case "help" : responseHelp(event,info);break;
+	     	case "help" : responseHelp(event,info);break;
 	    	case "card" : responseSearch(event,info);break;
 	    }
 	    
@@ -192,7 +196,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    AbstractTechnicalServiceManager.inst().store(info);
 	    
 	}
-
 
 	private void responseHelp(SlashCommandInteractionEvent event, MessageInfo info) {
 	    
@@ -227,8 +230,21 @@ public class DiscordBotServer extends AbstractMTGServer {
 			channel.sendMessage("Sorry i can't find " + event.getOption(COMMAND_OPTION_CARDNAME).getAsString()).queue();
 			return;
 		}
+			
+		var reply= event.replyEmbeds(createMessage(liste.get(0), price, info));
 		
-		event.replyEmbeds(createMessage(liste.get(0), price, info)).queue();
+		var buttnLink = Button.link(getString(EXTERNAL_LINK) + liste.get(0).getScryfallId(), "View Online");
+		var previous = Button.primary("previous", Emoji.fromUnicode("\u2b05"));
+                var next = Button.primary("next", Emoji.fromUnicode("\u27a1"));
+				
+		if(liste.size()>1) 
+		    reply.addComponents(ActionRow.of(previous,next,buttnLink));
+		else
+		    reply.addComponents(ActionRow.of(buttnLink));
+
+		
+		reply.queue();
+		
 		
 	}
 
@@ -236,6 +252,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private MessageEmbed createMessage(MTGCard mc, boolean price, MessageInfo info) {
 
 		var eb = new EmbedBuilder();
+		
 		eb.setDescription("");
 		eb.setTitle(mc.getName() + " " + (mc.getCost() != null ? mc.getCost() : ""));
 		eb.setColor(EnumColors.determine(mc.getColors()).toColor());
@@ -244,9 +261,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 		temp.append(mc.getTypes() + "\n");
 		temp.append(mc.getText()).append("\n");
 		temp.append("**Edition:** ").append(mc.getEdition().getSet()).append("\n");
-
-		if (!getString(EXTERNAL_LINK).isEmpty())
-			temp.append("**Url:** ").append(getString(EXTERNAL_LINK) + mc.getScryfallId()).append("\n");
 
 		if (!mc.getExtra().isEmpty())
 			temp.append("**").append(mc.getExtra()).append("** ").append("\n");
@@ -330,7 +344,11 @@ public class DiscordBotServer extends AbstractMTGServer {
                 			public void onCommandAutoCompleteInteraction(@Nonnull CommandAutoCompleteInteractionEvent event) {
                 			    analyseAutoCompletion(event);
                 			}
-					
+                			
+                			@Override
+                			public void onButtonInteraction(@Nonnull ButtonInteractionEvent event) {
+                			    analyseButtonEvent(event);
+                			}
 					
                 		}).build();
 
