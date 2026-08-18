@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import javax.annotation.Nonnull;
 import javax.swing.Icon;
@@ -22,7 +21,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGPrice;
-import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.audit.MessageInfo;
@@ -115,6 +113,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 	private JsonObject parse(Guild g) {
+	    
+	    	if(g==null)
+	    	    return null;
+	    
 		var guild = new JsonObject();
 		guild.addProperty("id", g.getId());
 		guild.addProperty("banner", g.getBannerUrl());
