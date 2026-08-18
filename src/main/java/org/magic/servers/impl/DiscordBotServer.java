@@ -10,12 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -38,7 +34,6 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.sorters.MagicPricesComparator;
-import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -58,18 +53,14 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
-import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
@@ -214,10 +205,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	@SuppressWarnings("null")
 	private void responseSearch(SlashCommandInteractionEvent event, MessageInfo info) {
-		
-	    info.setMessage("/card {" + event.getOption(COMMAND_OPTION_CARDNAME).getAsString() +"} :  " + event.getOption(COMMAND_OPTION_SETNAME));
-		
 	    
+	    info.setMessage("/card {" + event.getOption(COMMAND_OPTION_CARDNAME).getAsString() +"} :  " + event.getOption(COMMAND_OPTION_SETNAME));
+	   
 	    final List<MTGCard> liste = new ArrayList<>();
 		var channel = event.getChannel();
 		var price = event.getOption("price")!=null?event.getOption("price").getAsBoolean():false;
@@ -237,29 +227,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 			channel.sendMessage("Sorry i can't find " + event.getOption(COMMAND_OPTION_CARDNAME).getAsString()).queue();
 			return;
 		}
-
-		var builder = new NavigableEmbed.Builder(event.getChannel());
-		for (var x = 0; x < liste.size(); x++) {
-			var result = liste.get(x);
-			BiFunction<MTGCard, Integer, MessageEmbed> getEmbed = (_, resultIndex) -> 
-			{
-				var embed = parseCard(result, price, info);
-				var eb = new EmbedBuilder(embed);
-				if (liste.size() > 1)
-					eb.setFooter("Result " + (resultIndex + 1) + "/" + liste.size(), null);
-
-				return eb.build();
-			};
-			int finalIndex = x;
-			builder.addEmbed(() -> getEmbed.apply(result, finalIndex));
-		}
-
-		var navEb = builder.build();
+		
+		event.replyEmbeds(createMessage(liste.get(0), price, info)).queue();
 		
 	}
 
 	@SuppressWarnings("null")
-	private MessageEmbed parseCard(MTGCard mc, boolean price, MessageInfo info) {
+	private MessageEmbed createMessage(MTGCard mc, boolean price, MessageInfo info) {
 
 		var eb = new EmbedBuilder();
 		eb.setDescription("");
@@ -438,131 +412,3 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 }
-
-// =================================================================EMBEDED
-// MESSAGE
-class NavigableEmbed extends ListenerAdapter {
-
-	public enum EmbedButton {
-		PREVIOUS("\u2b05"), NEXT("\u27a1");
-
-		private String icon;
-
-		EmbedButton(String icon) {
-			this.icon = icon;
-		}
-
-		public String getIcon() {
-			return icon;
-		}
-	}
-
-	// Preferences
-	private List<List<Supplier<MessageEmbed>>> embeds;
-	private MessageChannel channel;
-
-	// Internals
-	private int xindex;
-	private int yindex;
-	private Message message;
-
-	private NavigableEmbed(List<List<Supplier<MessageEmbed>>> embeds, MessageChannel channel) {
-		this.embeds = new ArrayList<>();
-		this.embeds.addAll(embeds);
-		this.channel = channel;
-		xindex = 0;
-		yindex = 0;
-		sendMessage();
-	}
-
-	public Message getMessage() {
-		return message;
-	}
-
-	public int getX() {
-		return xindex;
-	}
-
-	public int getY() {
-		return yindex;
-	}
-
-	public int getWidth() {
-		return embeds.size();
-	}
-
-	public int getHeight() {
-		return embeds.parallelStream().mapToInt(List::size).max().orElse(0);
-	}
-
-	public List<List<Supplier<MessageEmbed>>> getEmbeds() {
-		return new ArrayList<>(embeds);
-	}
-
-	@SuppressWarnings("null")
-	private void sendMessage() {
-		MessageEmbed embed = embeds.get(xindex).get(yindex).get();
-		try {
-			if (message == null)
-				message = channel.sendMessageEmbeds(embed).submit().get();
-			else {
-				message = message.editMessageEmbeds(embed).submit().get();
-			}
-		} catch (InterruptedException | ExecutionException _) {
-			Thread.currentThread().interrupt();
-		}
-	}
-
-	public void setX(int x) {
-		int newX = Math.min(Math.max(x, 0), getWidth() - 1);
-		if (newX != xindex) {
-			xindex = newX;
-			sendMessage();
-		}
-	}
-
-	public void setY(int y) {
-		int newY = Math.min(Math.max(y, 0), embeds.get(xindex).size() - 1);
-		if (newY != yindex) {
-			yindex = newY;
-			sendMessage();
-		}
-	}
-
-	public void modX(int mod) {
-		setX(getX() + mod);
-	}
-
-	public void right() {
-		modX(1);
-	}
-
-	public void left() {
-		modX(-1);
-	}
-
-	public static class Builder {
-		private List<List<Supplier<MessageEmbed>>> embeds;
-		private MessageChannel channel;
-
-		public Builder(MessageChannel channel) {
-			embeds = new ArrayList<>();
-			this.channel = channel;
-		}
-
-		public Builder addEmbed(Supplier<MessageEmbed> embedSupplier) {
-
-			ArrayList<Supplier<MessageEmbed>> list = new ArrayList<>();
-			list.add(embedSupplier);
-			embeds.add(list);
-			return this;
-		}
-
-		public NavigableEmbed build() {
-			return new NavigableEmbed(embeds, channel);
-		}
-
-	}
-}
-
-
