@@ -35,6 +35,10 @@ import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
+import com.github.ygimenez.method.Pages;
+import com.github.ygimenez.model.InteractPage;
+import com.github.ygimenez.model.Page;
+import com.github.ygimenez.model.PaginatorBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -51,7 +55,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -177,10 +180,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    }
 	}
 	
-	private void analyseButtonEvent(ButtonInteractionEvent event) {
-	    event.reply("Not yet implemented").queue(); 
-	}
-		
 	private void analyseMessage(SlashCommandInteractionEvent event) {
 	    
 	    var info = new MessageInfo();
@@ -235,18 +234,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 			return;
 		}
 			
-		var reply= event.getHook().sendMessageEmbeds(createMessage(liste.get(0), price, info));
+		List<Page> pages = new ArrayList<>();
+		pages.addAll(liste.stream().map(c->InteractPage.of(createMessage(c, price, info))).toList());
 		
-		var buttnLink = Button.link(getString(EXTERNAL_LINK) + liste.get(0).getScryfallId(), "View Online");
-		var previous = Button.primary("previous", Emoji.fromUnicode("\u2b05"));
-                var next = Button.primary("next", Emoji.fromUnicode("\u27a1"));
-				
-		if(liste.size()>1) 
-		    reply.addComponents(ActionRow.of(previous,next,buttnLink));
-		else
-		    reply.addComponents(ActionRow.of(buttnLink));
-		
-		reply.queue();
+		event.getHook().sendMessageEmbeds(createMessage(liste.getFirst(), price, info)).queue(success->{
+		    if(liste.size()>1)
+			Pages.paginate(success, pages, true);
+		});
 		
 		
 	}
@@ -256,38 +250,33 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 		var eb = new EmbedBuilder();
 		
-		eb.setDescription("");
 		eb.setTitle(mc.getName() + " " + (mc.getCost() != null ? mc.getCost() : ""));
 		eb.setColor(EnumColors.determine(mc.getColors()).toColor());
 
-		var temp = new StringBuilder();
-		temp.append(mc.getTypes() + "\n");
-		temp.append(mc.getText()).append("\n");
-		temp.append("**Edition:** ").append(mc.getEdition().getSet()).append("\n");
-
-		if (!mc.getExtra().isEmpty())
-			temp.append("**").append(mc.getExtra()).append("** ").append("\n");
-
-		temp.append("**Reserved:** ");
-		if (mc.isReserved())
-			temp.append(":white_check_mark: \n");
-		else
-			temp.append(":no_entry_sign:  \n");
-
+		
+		eb.addField("**Type**",mc.getFullType(),true);
+		eb.addField("**Oracle**",mc.getText(),false);
+		eb.addField("**Set**",mc.getEdition().getSet(),true);
+		
+		eb.addField("**Reserved**",mc.isReserved()?":white_check_mark:":":no_entry_sign:",true);
+		
+		if(!mc.getExtra().isEmpty())
+		    eb.addField("**Extra**",mc.getExtra().toString().toLowerCase(),true);
+		
+		
 		if (getBoolean(SHOWCOLLECTIONS)) {
 			try {
-				temp.append("**Present in:** " + getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString());
+				eb.addField("**Collections**",getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString(),false);
 			} catch (SQLException e) {
 				logger.error(e);
 			}
 		}
-		eb.setDescription(temp.toString());
-
+	
 		if (getString(THUMBNAIL_IMAGE).equalsIgnoreCase(THUMBNAIL))
 			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
 		else
 			eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
-
+		
 		if (price) 
 		{
 
@@ -319,11 +308,17 @@ public class DiscordBotServer extends AbstractMTGServer {
 				}
 
 			});
-
+			
 			if (!errMsg.isEmpty())
 				info.setError(errMsg.toString());
 
 		}
+		
+		if(!getString(EXTERNAL_LINK).isEmpty())
+		    eb.addField("**view online**",getString(EXTERNAL_LINK)+mc.getScryfallId(),false);
+		
+
+		
 		return eb.build();
 	}
 
@@ -346,19 +341,15 @@ public class DiscordBotServer extends AbstractMTGServer {
                 			public void onCommandAutoCompleteInteraction(@Nonnull CommandAutoCompleteInteractionEvent event) {
                 			    analyseAutoCompletion(event);
                 			}
-                			
-                			@Override
-                			public void onButtonInteraction(@Nonnull ButtonInteractionEvent event) {
-                			    analyseButtonEvent(event);
-                			}
-					
                 		}).build();
-
+			
 			if (!StringUtils.isEmpty(getString(ACTIVITY_TYPE)) && !StringUtils.isEmpty(getString(ACTIVITY)))
 				jda.getPresence().setPresence(Activity.of(ActivityType.valueOf(getString(ACTIVITY_TYPE)), getString(ACTIVITY)), isAlive());
 			
-			
 			initCommands();
+			
+			Pages.activate(PaginatorBuilder.createSimplePaginator(jda));
+			
 			
 		} catch (Exception e) {
 			logger.error(e);
