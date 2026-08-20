@@ -189,6 +189,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    var eb = new EmbedBuilder();
 	    eb.setTitle(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString());
 	    try {
+		
+		if(MTG.getEnabledPlugin(MTGDashBoard.class)==null)
+		    return;
+		
 		var results = MTG.getEnabledPlugin(MTGDashBoard.class).getShakerFor(FORMATS.valueOf(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString()));
 		
 		
