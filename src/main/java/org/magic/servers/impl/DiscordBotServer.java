@@ -88,16 +88,14 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
 	private static final String AUTOCOMPLETE_START = "AUTOCOMPLETE_START";
 	private static final String CARD_SHAKE_LIMIT = "CARD_SHAKE_LIMIT";
-	
-	private JDA jda;
-	private int RESULT_LIMIT=25;
+	private static final int RESULT_LIMIT=25;
 
+	private JDA jda;
+	
 	@Override
 	public String getVersion() {
 		return JDAInfo.VERSION;
 	}
-
-	
 	
 	private void parseInteractionEvent(SlashCommandInteractionEvent event) {
 	    
@@ -189,10 +187,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    
 	    
 	}
-	
-	
-@SuppressWarnings("null")
-private void reponseSetSearch(SlashCommandInteractionEvent event, MessageInfo info) {
+		
+	@SuppressWarnings("null")
+	private void reponseSetSearch(SlashCommandInteractionEvent event, MessageInfo info) {
 	    
 	    info.setMessage("/"+COMMAND_SET + " " + event.getOption(COMMAND_OPTION_SETNAME));
 	    event.deferReply().queue();
@@ -420,7 +417,7 @@ private void reponseSetSearch(SlashCommandInteractionEvent event, MessageInfo in
 	
 	private void initCommands() {
 	    var commands = jda.updateCommands();
-		 commands.addCommands(
+		  commands.addCommands(
 		    Commands.slash(COMMAND_CARD, "get card information")
 		    				.addOption(OptionType.STRING, COMMAND_OPTION_CARDNAME, "the card name", true,true)
 		    				.addOption(OptionType.STRING, COMMAND_OPTION_SETNAME, "the set code", false,true)
@@ -469,6 +466,7 @@ private void reponseSetSearch(SlashCommandInteractionEvent event, MessageInfo in
 		return "Discord";
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = new HashMap<String, MTGProperty>();

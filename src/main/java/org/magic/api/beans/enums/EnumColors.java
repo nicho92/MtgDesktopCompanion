@@ -93,13 +93,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 	}
 
 	public static EnumColors colorByCode(String s) {
-		var ret =  List.of(EnumColors.colors()).stream().filter(c -> c.getCode().contains(s.trim())).findAny().orElse(null);
-		
-		if(ret==null)
-		    System.out.println("No code fouond for " + s);
-		
-		
-		return ret;
+		return  List.of(EnumColors.colors()).stream().filter(c -> c.getCode().contains(s.trim())).findAny().orElse(null);
 	}
 
 	private static List<EnumColors> parse(EnumCardsPatterns p, String c) {
