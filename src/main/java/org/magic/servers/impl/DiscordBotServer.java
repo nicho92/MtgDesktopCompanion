@@ -247,8 +247,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 			       
 		     eb.addField(cs.getName() + " ("+ed+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
 		     
-		    
-		     
 		} catch (Exception e) {
 		    eb.addField(cs.getName() + " ("+cs.getEd()+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
 		}
@@ -266,7 +264,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    info.setMessage("/"+COMMAND_HELP);
 	    event.reply(":face_with_monocle: It's simple \n"
 				+ "/card command with cardname. You can complet with setname value to filter the set. You can set 'price' to True, if you want to get prices of the card\n"
-	    			+ "/format get prices shakers for the selected format and return "+getInt(CARD_SHAKE_LIMIT)+ "biggest and "+getInt(CARD_SHAKE_LIMIT) + "lowest results \n")
+	    			+ "/format get prices shakers for the selected format and return "+getInt(CARD_SHAKE_LIMIT)+ "biggest and "+getInt(CARD_SHAKE_LIMIT) + "lowest movements\n"
+	    			+ "/set get prices shakers for the selected set and return "+getInt(CARD_SHAKE_LIMIT)+ "biggest and "+getInt(CARD_SHAKE_LIMIT) + "lowest movements\n")
 	    .queue();
 
 	}

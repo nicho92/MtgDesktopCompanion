@@ -29,7 +29,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.STABLE;
+		return STATUT.BUGGED;
 	}
 
 	@Override
@@ -45,24 +45,26 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
-		httpclient.doGet(URI_BASE + "/accounts/log-in/?next=/");
-
+		httpclient.doGet(URI_BASE);
+		//TODO FIX 
 		var b = RequestBuilder.build().setClient(httpclient).url(URI_BASE + "/accounts/login/").post()
 				.addContent("username", getAuthenticator().getLogin())
 				.addContent("password", getAuthenticator().getPassword())
 				.addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
 				.addHeader(URLTools.REFERER, URI_BASE + "/accounts/login/?next=/")
-				.addHeader(URLTools.UPGR_INSECURE_REQ, "1").addHeader(URLTools.ORIGIN, URI_BASE)
+				.addHeader(URLTools.UPGR_INSECURE_REQ, "1")
+				.addHeader(URLTools.ORIGIN, URI_BASE)
 				.addHeader(URLTools.REFERER_POLICY, "strict-origin-when-cross-origin")
 				.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
-				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br").addHeader("pragma", "no-cache")
+				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
+				.addHeader("pragma", "no-cache")
 				.addHeader("sec-fetch-dest", "document").addHeader("sec-fetch-mode", "navigate")
 				.addHeader("sec-fetch-site", "same-origin").addHeader("sec-fetch-user", "?1")
 				.addHeader("cache-control", "no-cache");
 
 		var resp = httpclient.execute(b);
 		EntityUtils.consume(resp.getEntity());
-		logger.debug("Connection with user = {} : {}", getAuthenticator().getLogin(),
+		logger.info("Connection with user = {} : {}", getAuthenticator().getLogin(),
 				resp.getStatusLine().getReasonPhrase());
 	}
 
