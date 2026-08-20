@@ -113,7 +113,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 
-		SwingWorker<List<CardShake>, CardShake> sw = new SwingWorker<>() {
+		var sw = new SwingWorker<List<CardShake>, CardShake>() {
 
 			@Override
 			protected List<CardShake> doInBackground() throws Exception {

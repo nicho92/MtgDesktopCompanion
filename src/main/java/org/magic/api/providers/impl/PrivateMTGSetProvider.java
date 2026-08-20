@@ -179,8 +179,13 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		try {
 			if (att.equals("set"))
 				return mc.getEdition().getId().equals(val);
-
-			return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
+			
+			if(BeanUtils.getProperty(mc, att)!=null)
+			    return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
+			
+			
+			return false;
+			
 		} catch (Exception e) {
 			logger.error("error loading {} {} {}", mc, att, val, e);
 			return false;
