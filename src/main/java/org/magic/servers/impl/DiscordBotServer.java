@@ -36,7 +36,6 @@ import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.api.sorters.PricesCardsShakeSorter;
 import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -58,8 +57,6 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.entities.emoji.Emoji.Type;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
@@ -67,15 +64,16 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
-import net.dv8tion.jda.api.utils.data.DataObject;
-import net.dv8tion.jda.internal.entities.emoji.UnicodeEmojiImpl;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
-	private static final String COMMAND_OPTION_FORMATNAME = "formatname";
-	private static final String COMMAND_PRICES = "prices";
+	
+	private static final String COMMAND_FORMAT = "format";
 	private static final String COMMAND_CARD = "card";
 	private static final String COMMAND_HELP = "help";
+	private static final String COMMAND_SET = "set";
+	
+	private static final String COMMAND_OPTION_FORMATNAME = "formatname";
 	private static final String COMMAND_OPTION_CARDNAME = "cardname";
 	private static final String COMMAND_OPTION_SETNAME = "setname";
 	
@@ -89,6 +87,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String TOKEN = "TOKEN";
 	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
 	private static final String AUTOCOMPLETE_START = "AUTOCOMPLETE_START";
+	private static final String CARD_SHAKE_LIMIT = "CARD_SHAKE_LIMIT";
+	
 	private JDA jda;
 	private int RESULT_LIMIT=25;
 
@@ -110,7 +110,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    switch (event.getName()) {
 	     	case COMMAND_HELP : responseHelp(event,info);break;
 	    	case COMMAND_CARD : responseSearch(event,info);break;
-	    	case COMMAND_PRICES: reponsePriceSearch(event,info);break;
+	    	case COMMAND_FORMAT: reponseFormatSearch(event,info);break;
+	    	case COMMAND_SET: reponseSetSearch(event,info);break;
 	    }
 	    
 	    info.setEnd(Instant.now());
@@ -142,9 +143,17 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    
 	    if(event.getFocusedOption().getName().equals(COMMAND_OPTION_SETNAME))
 	    {
-		
-		    try {
-			var options = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(),null,false).getFirst().getEditions().stream()
+		try {
+		    Stream<MTGEdition> sets = Stream.of();
+		    
+		    if(event.getOption(COMMAND_OPTION_CARDNAME)!=null)
+		    	sets=getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(),null,false).getFirst().getEditions().stream();
+		    else
+			sets=getEnabledPlugin(MTGCardsProvider.class).listEditions().stream();
+			
+			
+			
+			var options = sets
 				.map(MTGEdition::getSet)
 				.distinct()
 				.filter(set->set.toLowerCase().contains(event.getFocusedOption().getValue().toLowerCase()))
@@ -175,16 +184,49 @@ public class DiscordBotServer extends AbstractMTGServer {
 		    } catch (Exception e) {
 			logger.error(e);
 		    }
-	    return;
+		    return;
 	    }
 	    
 	    
 	}
 	
-	@SuppressWarnings("null")
-	private void reponsePriceSearch(SlashCommandInteractionEvent event, MessageInfo info) {
+	
+@SuppressWarnings("null")
+private void reponseSetSearch(SlashCommandInteractionEvent event, MessageInfo info) {
 	    
-	    info.setMessage("/format " + event.getOption(COMMAND_OPTION_FORMATNAME));
+	    info.setMessage("/"+COMMAND_SET + " " + event.getOption(COMMAND_OPTION_SETNAME));
+	    event.deferReply().queue();
+	    var eb = new EmbedBuilder();
+	    eb.setTitle(event.getOption(COMMAND_OPTION_SETNAME).getAsString());
+	    try {
+		var ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(event.getOption(COMMAND_OPTION_SETNAME).getAsString());
+		var results = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed).getShakes();
+		
+		
+		var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).limit(getInt(CARD_SHAKE_LIMIT));
+		var down = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,true)).limit(getInt(CARD_SHAKE_LIMIT));
+		 
+		Stream.concat(up, down).forEach(cs->{
+		   var icon = ":heavy_equals_sign: "; 
+		   if(cs.getPercentDayChange()>0)
+		       icon = ":arrow_upper_right: ";
+		   else if(cs.getPercentDayChange()<0)
+		       icon = ":arrow_lower_right: ";
+		   
+   		     eb.addField(cs.getName(), icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
+		});
+		
+	    } catch (Exception e) {
+		logger.error(e);
+	    }
+	    
+	    event.getHook().sendMessageEmbeds(eb.build()).queue();
+	}
+	
+	@SuppressWarnings("null")
+	private void reponseFormatSearch(SlashCommandInteractionEvent event, MessageInfo info) {
+	    
+	    info.setMessage("/"+COMMAND_FORMAT + " " + event.getOption(COMMAND_OPTION_FORMATNAME));
 	    event.deferReply().queue();
 	    var eb = new EmbedBuilder();
 	    eb.setTitle(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString());
@@ -193,18 +235,23 @@ public class DiscordBotServer extends AbstractMTGServer {
 		var results = MTG.getEnabledPlugin(MTGDashBoard.class).getShakerFor(FORMATS.valueOf(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString()));
 		
 		
-		var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).limit(5);
-		var down = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,true)).limit(5);
-		
+		var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).limit(getInt(CARD_SHAKE_LIMIT));
+		var down = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,true)).limit(getInt(CARD_SHAKE_LIMIT));
+		 
 		Stream.concat(up, down).forEach(cs->{
 		   var icon = ":heavy_equals_sign: "; 
 		   if(cs.getPercentDayChange()>0)
 		       icon = ":arrow_upper_right: ";
 		   else if(cs.getPercentDayChange()<0)
 		       icon = ":arrow_lower_right: ";
-		    
+		   
 		   try {
-		    eb.addField(cs.getName() + " ("+MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(cs.getEd())+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
+		       var ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(cs.getEd());
+			       
+		     eb.addField(cs.getName() + " ("+ed+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
+		     
+		    
+		     
 		} catch (Exception e) {
 		    eb.addField(cs.getName() + " ("+cs.getEd()+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
 		}
@@ -217,19 +264,20 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    event.getHook().sendMessageEmbeds(eb.build()).queue();
 	}
 	
-	
 	private void responseHelp(SlashCommandInteractionEvent event, MessageInfo info) {
 	    
-	    info.setMessage("/help");
+	    info.setMessage("/"+COMMAND_HELP);
 	    event.reply(":face_with_monocle: It's simple \n"
-				+ "use /card command with cardname. You can complet with setname value . In exemple 'Black Lotus' and 'LEA'\n").queue();
+				+ "/card command with cardname. You can complet with setname value to filter the set. You can set 'price' to True, if you want to get prices of the card\n"
+	    			+ "/format get prices shakers for the selected format and return "+getInt(CARD_SHAKE_LIMIT)+ "biggest and "+getInt(CARD_SHAKE_LIMIT) + "lowest results \n")
+	    .queue();
 
 	}
 
 	@SuppressWarnings("null")
 	private void responseSearch(SlashCommandInteractionEvent event, MessageInfo info) {
 	    
-	    info.setMessage("/card {" + event.getOption(COMMAND_OPTION_CARDNAME).getAsString() +"} :  " + event.getOption(COMMAND_OPTION_SETNAME));
+	    info.setMessage("/"+COMMAND_CARD + " {" + event.getOption(COMMAND_OPTION_CARDNAME).getAsString() +"} :  " + event.getOption(COMMAND_OPTION_SETNAME));
 	    event.deferReply().queue();
 	    
 	    
@@ -378,8 +426,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 		    				.addOption(OptionType.STRING, COMMAND_OPTION_SETNAME, "the set code", false,true)
 		    				.addOption(OptionType.BOOLEAN, "price", "return prices", false),
 		    
-		    Commands.slash(COMMAND_PRICES, "get cards shake by format")
+		    Commands.slash(COMMAND_FORMAT, "get cards shake by format")
 		    				.addOption(OptionType.STRING, COMMAND_OPTION_FORMATNAME, "the selected format", true,true),
+		    
+		    Commands.slash(COMMAND_SET, "get cards shake by set")
+						.addOption(OptionType.STRING, COMMAND_OPTION_SETNAME, "the selected set", true,true),
 		    				
 		    Commands.slash(COMMAND_HELP, "get help to command")
 		  );
@@ -426,6 +477,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		map.put(ACTIVITY_TYPE, new MTGProperty(ActivityType.WATCHING.name(), "The current activity of the bot", Arrays.stream(ActivityType.values()).map(Enum::name).toList().toArray(new String[0])));
 		map.put(ACTIVITY, new MTGProperty("bees flying", "textual complement of the bot activity"));
 		map.put(AUTOCOMPLETE_START, MTGProperty.newIntegerProperty("3", "Start autocomplete cardname search when user typed x character", 1, -1));
+		map.put(CARD_SHAKE_LIMIT, MTGProperty.newIntegerProperty("5", "number of results to return when calling for shakers", 1, 10));
 		map.put(EXTERNAL_LINK, new MTGProperty("https://my.mtgcompanion.org/prices-ui/pages/index.html?id=","if you want to redirect the response with a external link. Bot will complete the url with scryfallID"));
 		map.put(THUMBNAIL_IMAGE, new MTGProperty(THUMBNAIL, "how is integrate the card picture in the response", THUMBNAIL, "IMAGE"));
 
