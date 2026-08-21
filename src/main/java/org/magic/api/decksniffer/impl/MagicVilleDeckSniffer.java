@@ -8,21 +8,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
-	private String baseUrl = "https://www.magic-ville.com/fr/decks/";
-
+	private static final String BASE_URL = "https://www.magic-ville.com/fr/decks/";
+	
+	private MTGHttpClient client = URLTools.newClient();
 
 	@Override
 	public String[] listFilter() {
@@ -41,8 +42,8 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		var doc = RequestBuilder.build().newClient().get().url(info.getUrl()).toHtml();
-		var urlimport = baseUrl + doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
+		var doc = RequestBuilder.build().setClient(client).get().url(info.getUrl()).toHtml();
+		var urlimport = BASE_URL + doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
 		var content = RequestBuilder.build().newClient().get().url(urlimport).toContentString();
 		var imp = MTG.getPlugin("MagicWorkStation", MTGCardsExport.class);
 		try {
@@ -65,25 +66,37 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
-		List<RetrievableDeck> ret = new ArrayList<>();
+		var ret = new ArrayList<RetrievableDeck>();
 		int maxPage = getInt("MAX_PAGE");
-
+		
+		
+		var resp=RequestBuilder.build().post().setClient(client).url(BASE_URL + "resultats")
+		.addContent("data","1")
+		.addContent("dci", filter.toLowerCase())
+		.addContent("tour_cur","1")
+		.addContent("tour_orig","1")
+		.addContent("MD_check", "1")
+		.execute();
+		
+		logger.info("switch to {} : {}",filter, resp.getStatusLine());
+		
 		for (var currPage = 0; currPage < maxPage; currPage++) {
-			var d = RequestBuilder.build().get().newClient().url(baseUrl + "resultats")
+			var d = RequestBuilder.build().get().setClient(client).url(BASE_URL + "resultats")
 							.addContent("data","1")
-							.addContent("dci", filter)
+							.addContent("dci", filter.toLowerCase())
 							.addContent("tour_cur","1")
 							.addContent("tour_orig","1")
-							.addContent("page_nb",""+currPage)
+							.addContent("MD_check", "1")
+							.addContent("page_nb",""+(currPage+1))
 							.toHtml();
-			Elements trs = d.select("tr[height=33]");
-			for (Element tr : trs) {
-				Elements tds = tr.select("td");
+			var trs = d.select("tr[height=33]");
+			for (var tr : trs) {
+				var tds = tr.select("td");
 
 				try {
 					var de = new RetrievableDeck();
 					de.setName(tds.get(0).text());
-					de.setUrl(new URI(baseUrl + tds.get(0).select("a").attr("href") + "&decklanglocal=eng"));
+					de.setUrl(new URI(BASE_URL + tds.get(0).select("a").attr("href") + "&decklanglocal=eng"));
 					de.setAuthor(tds.get(1).text());
 					var temp = new StringBuilder();
 					tds.get(3).select("img").forEach(e -> {
@@ -100,7 +113,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 					de.setDescription(tds.get(4).text());
 					ret.add(de);
 				} catch (URISyntaxException _) {
-					logger.error("error for url {}", baseUrl + tds.get(0).select("a").attr("href"));
+					logger.error("error for url {}", BASE_URL + tds.get(0).select("a").attr("href"));
 				}
 			}
 		}

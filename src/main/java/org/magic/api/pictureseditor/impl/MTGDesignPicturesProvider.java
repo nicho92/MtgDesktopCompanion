@@ -146,7 +146,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 		build.addParameter(DESIGNER, getString(DESIGNER));
 
-		if (mc.isLand() && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT) != null)
+		if ((mc.isLand() || mc.isConspiracy()) && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT) != null)
 			build.addParameter("land-overlay", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT));
 		else
 			build.addParameter("land-overlay", "C");
@@ -256,6 +256,12 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 	private String getFrame(MTGCard mc) {
 
+	    
+	    	if (mc.getTypes().contains("Conspiracy")) {
+	    	    	mc.setWatermarks("conspiracy");
+			return "conspiracy";
+	    	}
+	    
 		if (mc.getTypes().contains("Token")) {
 			mc.setLayout(EnumLayout.TOKEN);
 			return "token";

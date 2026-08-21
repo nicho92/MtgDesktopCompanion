@@ -510,6 +510,12 @@ public class MTGCard extends AbstractProduct {
 		return arenaCard;
 	}
 
+
+	public boolean isConspiracy() {
+	   return getTypes().contains("Conspiracy");
+	}
+
+	
 	public boolean isHybride() {
 
 		return Strings.CS.containsAny(getCost(), "/W", "/U", "/B", "/R", "/G");
