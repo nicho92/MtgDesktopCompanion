@@ -5,7 +5,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,26 +22,21 @@ import org.magic.services.tools.MTG;
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
 	private String baseUrl = "https://www.magic-ville.com/fr/decks/";
-	private HashMap<String, String> mapCodes;
 
-	public MagicVilleDeckSniffer() {
-		mapCodes = new HashMap<>();
-		mapCodes.put("PIONEER", "resultats?data=1&dci=TP&tour_cur=1&tour_orig=1");
-		mapCodes.put("MODERN", "resultats?data=1&dci=TM&tour_cur=1&tour_orig=1");
-		mapCodes.put("STANDARD", "resultats?data=1&dci=T2&tour_cur=1&tour_orig=1");
-		mapCodes.put("PEASANT", "resultats?data=1&alt=Peasant");
-		mapCodes.put("COMMANDER", "resultats?data=1&dci=1vs1&tour_orig=1");
-		mapCodes.put("LEGACY", "resultats?data=1&dci=T15&tour_cur=1&tour_orig=1");
-		mapCodes.put("VINTAGE", "resultats?data=1&dci=T1&tour_cur=1&tour_orig=1");
-		mapCodes.put("Brawl", "resultats?data=1&alt=Brawl");
-		mapCodes.put("FUN", "resultats?data=1&fun=1");
-		mapCodes.put("TINY LEADERS", "resultats?data=1&alt=TinyLeaders");
-		mapCodes.put("EDH Peasant", "resultats?data=1&alt=EDHPeasant");
-	}
 
 	@Override
 	public String[] listFilter() {
-		return mapCodes.keySet().stream().toArray(String[]::new);
+		return new String[] {
+			"PIONEER",
+			"PREMODERN",
+			"MODERN",
+			"STANDARD",
+			"PEASANT",
+			"ALCHEMY",
+			"LEGACY",
+			"VINTAGE",
+			"DC"
+		};
 	}
 
 	@Override
@@ -75,8 +69,13 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		int maxPage = getInt("MAX_PAGE");
 
 		for (var currPage = 0; currPage < maxPage; currPage++) {
-			var d = RequestBuilder.build().get().newClient()
-					.url(baseUrl + mapCodes.get(filter) + "&pointeur=" + currPage).toHtml();
+			var d = RequestBuilder.build().get().newClient().url(baseUrl + "resultats")
+							.addContent("data","1")
+							.addContent("dci", filter)
+							.addContent("tour_cur","1")
+							.addContent("tour_orig","1")
+							.addContent("page_nb",""+currPage)
+							.toHtml();
 			Elements trs = d.select("tr[height=33]");
 			for (Element tr : trs) {
 				Elements tds = tr.select("td");
