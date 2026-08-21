@@ -150,8 +150,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 		else
 		    sets=getEnabledPlugin(MTGCardsProvider.class).listEditions().stream();
 
-
-
 		var options = sets
 			.map(MTGEdition::getSet)
 			.distinct()
