@@ -3,6 +3,7 @@ package org.magic.servers.impl;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -12,12 +13,14 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.MTGRunnable;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
 import org.telegram.telegrambots.abilitybots.api.util.AbilityExtension;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
-import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -29,10 +32,7 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import com.google.gson.JsonObject;
 
-public class TelegramBotServer extends AbstractMTGServer
-		implements
-			LongPollingSingleThreadUpdateConsumer,
-			AbilityExtension {
+public class TelegramBotServer extends AbstractMTGServer implements LongPollingUpdateConsumer, AbilityExtension {
 
 	private TelegramClient telegramClient;
 	private TelegramBotsLongPollingApplication pool;
@@ -82,28 +82,40 @@ public class TelegramBotServer extends AbstractMTGServer
 		channel.addProperty("type", c.getType());
 		return channel;
 	}
+	
 
 	@Override
-	public void consume(Update update) {
+	public void consume(List<Update> updates) {
+	    updates.forEach(update -> {
+	        
+	                ThreadManager.getInstance().executeThread(new MTGRunnable() {
+			    
+			    @Override
+			    protected void auditedRun() {
+				logger.debug("read {}", update);
+				var message = update.getMessage(); // return null if message is send to a Channel.
 
-		logger.debug("read {}", update);
-		var message = update.getMessage(); // return null if message is send to a Channel.
+				if (message == null)
+					message = update.getChannelPost();
 
-		if (message == null)
-			message = update.getChannelPost();
+				if (message != null && message.hasText()) {
 
-		if (message != null && message.hasText()) {
+					var info = new MessageInfo();
+					info.setSource(getName());
+					info.setUser(parse(message.getFrom()));
+					info.setChannel(parse(message.getChat()));
+					info.setMessage(message.getText());
 
-			var info = new MessageInfo();
-			info.setSource(getName());
-			info.setUser(parse(message.getFrom()));
-			info.setChannel(parse(message.getChat()));
-			info.setMessage(message.getText());
+					response(message, info);
 
-			response(message, info);
+				}
 
-		}
-
+				
+			    }
+			},"read telegram update");
+	         
+	        });
+	    
 	}
 
 	private void response(Message message, MessageInfo info) {
@@ -119,7 +131,7 @@ public class TelegramBotServer extends AbstractMTGServer
 
 	private void sendCard(Message message, String cardName) {
 		try {
-			var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true);
+			var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, false);
 			if (!ret.isEmpty()) {
 				var card = ret.get(0);
 				var msgResponse = SendPhoto.builder().chatId(message.getChatId()).photo(new InputFile(card.getUrl()))
