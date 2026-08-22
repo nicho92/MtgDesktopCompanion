@@ -7,6 +7,7 @@ import javax.swing.Icon;
 import org.magic.api.interfaces.extra.MTGIconable;
 import org.magic.services.MTGConstants;
 
+@SuppressWarnings("rawtypes")
 public class QueryAttribute implements Serializable, Comparable<QueryAttribute>, MTGIconable {
 
 	private static final long serialVersionUID = 1L;

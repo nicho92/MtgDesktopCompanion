@@ -38,6 +38,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 	}
 
+	@SuppressWarnings("unchecked")
 	private Observer createObserver() {
 		// TODO fix error when 2 Worker observing in same time from the same plugin
 		return (Observable _, Object c) -> publish((V) c);

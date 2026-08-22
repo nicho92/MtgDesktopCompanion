@@ -53,6 +53,7 @@ public class MapTableModel<K, V> extends GenericTableModel<Entry<K, V>> {
 			return items.get(row).getValue();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		if (column == 1)

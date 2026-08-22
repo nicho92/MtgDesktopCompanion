@@ -32,7 +32,7 @@ public abstract class Abstract3DPieChart<B, C extends Comparable<C>> extends MTG
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void createNewChart() {
 		chart = Chart3DFactory.createPieChart(getTitle(), "", getDataSet());
 

@@ -292,6 +292,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 		panneauCenter.repaint();
 		buzy.start();
 		SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {
+			@SuppressWarnings("unchecked")
 			protected Void doInBackground() throws Exception {
 
 				try (Stream<Path> s = MTG.getEnabledPlugin(MTGGedStorage.class).listDirectory(p)) {

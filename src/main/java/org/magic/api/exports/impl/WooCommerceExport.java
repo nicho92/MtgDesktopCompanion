@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.annotation.Nonnull;
-
 import org.apache.commons.collections4.ListUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -273,6 +270,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		return productInfo;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void batchExport(List<List<MTGCardStock>> partition) {
 
 		for (List<MTGCardStock> stocks : partition) {
@@ -337,7 +335,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	}
 
-	private MTGCard toForeign(@Nonnull MTGCard mc) {
+	private MTGCard toForeign(MTGCard mc) {
 		MTGCard mc2;
 
 		if (!getString(CARD_LANG_DESCRIPTION).isEmpty())

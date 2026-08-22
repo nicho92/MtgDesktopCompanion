@@ -19,9 +19,11 @@ public class LanguageComboBoxCellEditor extends DefaultCellEditor {
 	private static final long serialVersionUID = 1L;
 	private DefaultComboBoxModel<String> model;
 
+	@SuppressWarnings("unchecked")
 	public LanguageComboBoxCellEditor() {
 		super(new JComboBox<>());
-		model = (DefaultComboBoxModel<String>) ((JComboBox<String>) getComponent()).getModel();
+		if(getComponent() instanceof JComboBox cb)
+		    model = (DefaultComboBoxModel<String>)cb.getModel();
 	}
 
 	@Override

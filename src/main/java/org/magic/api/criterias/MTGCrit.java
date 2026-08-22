@@ -2,6 +2,7 @@ package org.magic.api.criterias;
 
 import java.util.Arrays;
 
+@SuppressWarnings("rawtypes")
 public class MTGCrit<T> {
 
 	private String att;

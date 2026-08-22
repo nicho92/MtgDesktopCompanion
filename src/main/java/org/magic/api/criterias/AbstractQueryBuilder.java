@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 
+	@SuppressWarnings("rawtypes")
 	protected Map<Class, MTGCriteriaConverter> registry;
 
 	protected AbstractQueryBuilder() {

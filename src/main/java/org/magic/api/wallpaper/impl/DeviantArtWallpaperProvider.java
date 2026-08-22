@@ -5,16 +5,12 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
-import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -24,8 +20,6 @@ import com.google.gson.JsonObject;
 public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	private static final String CLIENT_ID = "CLIENT_ID";
-	private static final String CLIENT = "CLIENT";
-	private static final String CSRF_TOKEN = "csrf_token";
 	private static final String LIMIT = "LIMIT";
 	private static final String BASE_URL = "https://www.deviantart.com";
 
@@ -34,7 +28,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	private String bToken;
 	private MTGHttpClient httpclient;
-	private HashMap<String, String> maps;
 
 	@Override
 	public STATUT getStatut() {
@@ -50,23 +43,17 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of(
 				"MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"), 
-				LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1), 
-				"GRANT_TYPE",new MTGProperty(CLIENT,"Grant type for API Access. CODE need user and password, CLIENT needs client_id and client_secret ","CODE", CLIENT));
+				LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1) 
+				);
 	}
 
 	public DeviantArtWallpaperProvider() {
 		httpclient = URLTools.newClient();
-		maps = new HashMap<>();
 	}
 
 	@Override
 	public List<MTGWallpaper> search(String search) {
-
-		// if (getString("GRANT_TYPE").equalsIgnoreCase(CLIENT))
 			return clientSearch(search);
-		/*else
-			return codeSearch(search);*/
-
 	}
 
 	public List<MTGWallpaper> clientSearch(String search) {
@@ -122,66 +109,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 		return returnList(list);
 	}
-/*
-	public List<MTGWallpaper> codeSearch(String s) {
-		var list = new ArrayList<MTGWallpaper>();
 
-		if (getAuthenticator() == null) {
-			logger.error("please fill LOGIN && PASSWORD attributs in config panel");
-			return list;
-		}
-
-		if (maps.isEmpty())
-			authenticatedClient();
-
-		if (maps.get(CSRF_TOKEN) == null) {
-			maps.clear();
-			return returnList(list);
-		}
-
-		while (list.size() < getInt(LIMIT)) {
-
-			var jobj = RequestBuilder.build().get().setClient(httpclient)
-					.url(BASE_URL + "/_puppy/dabrowse/search/deviations").addContent("q", s)
-					.addContent("cursor", maps.get("cursor")).addContent("da_minor_version", "20230710")
-					.addContent(CSRF_TOKEN, maps.get(CSRF_TOKEN)).toJson().getAsJsonObject();
-
-			logger.debug("ret {}", jobj);
-
-			if (jobj.get("error") != null) {
-				maps.clear();
-				logger.error(jobj.get("errorDescription").getAsString());
-				return returnList(list);
-			}
-
-			maps.put("cursor", jobj.get("nextCursor").getAsString());
-
-			for (var e : jobj.get("deviations").getAsJsonArray()) {
-
-				if (e.getAsJsonObject().get("type").getAsString().equals("image")) {
-
-					var wall = new MTGWallpaper();
-					wall.setName(e.getAsJsonObject().get("title").getAsString());
-					wall.setMature(e.getAsJsonObject().get("isMature").getAsBoolean());
-					wall.setPublishDate(UITools.parseDate(e.getAsJsonObject().get("publishedTime").getAsString(),
-							"yyyy-MM-dd'T'HH:mm:ssZ"));
-					wall.setProvider(getName());
-					wall.setFormat(e.getAsJsonObject().get("filetype").getAsString());
-					wall.setAuthor(e.getAsJsonObject().get("author").getAsJsonObject().get("username").getAsString());
-
-					var objMedia = e.getAsJsonObject().get("media").getAsJsonObject();
-					wall.setUrl(createMedia(objMedia, false));
-					wall.setUrlThumb(createMedia(objMedia, true));
-					list.add(wall);
-				}
-			}
-		}
-
-		maps.put("cursor", null);
-
-		return returnList(list);
-	}
-*/
 	private List<MTGWallpaper> returnList(ArrayList<MTGWallpaper> list) {
 		if (getBoolean("DATE_UPDATE_ORDER") && !list.isEmpty())
 			Collections.sort(list, Collections.reverseOrder());
@@ -189,102 +117,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		logger.info("{} return {} results", getName(), list.size());
 
 		return list;
-	}
-
-	private URI createMedia(JsonObject objMedia, boolean b) {
-
-		var baseUri = objMedia.get("baseUri").getAsString();
-		var prettyName = objMedia.get("prettyName").getAsString();
-		var token = "";
-		try {
-			token = objMedia.get("token").getAsJsonArray().get(0).getAsString();
-		} catch (Exception _) {
-			logger.debug("no token for {}", prettyName);
-		}
-
-		var types = objMedia.get("types").getAsJsonArray();
-
-		var c = "";
-
-		if (b) {
-			c = types.get(0).getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
-		} else {
-			for (var t : types) {
-				if (t.getAsJsonObject().get("t").getAsString().equals("fullview")) {
-					if (t.getAsJsonObject().get("c") != null)
-						c = t.getAsJsonObject().get("c").getAsString().replace("<prettyName>", prettyName);
-
-					break;
-				}
-			}
-		}
-		return URI.create(baseUri + c + (!token.isEmpty() ? "?token=" + token : ""));
-	}
-
-	private void authenticatedClient() {
-		try {
-			RequestBuilder.build().get().setClient(httpclient).url(BASE_URL + "/users/login")
-					.addContent("client_id", getAuthenticator().get(CLIENT_ID))
-					.addContent("redirect_uri", MTGConstants.MTG_DESKTOP_WEBSITE).addContent(URLTools.REFERER, BASE_URL)
-					.addContent("response_type", "code").toHtml().select("input[type=hidden]")
-					.forEach(el -> maps.put(el.attr("name"), el.attr("value")));
-
-			logger.debug("Step 1 done.  init data maps {}", maps);
-
-			if (maps.containsKey("challenge") && !maps.get("challenge").equals("0"))
-				logger.error("Login requires solving a CAPTCHA");
-
-			var bstep2 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/step2");
-			maps.entrySet().forEach(e -> bstep2.addContent(e.getKey(), e.getValue()));
-			bstep2.addContent("username", getAuthenticator().getLogin()).addContent(URLTools.REFERER, BASE_URL);
-			bstep2.addContent("remember", "on");
-
-			bstep2.addHeader(URLTools.ACCEPT,
-					"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-					.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
-					.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9");
-			bstep2.addHeaders(URLTools.createSecHeaders());
-			bstep2.toHtml().select("input[type=hidden]").forEach(el -> maps.put(el.attr("name"), el.attr("value")));
-
-			logger.debug("Step 2 done.  Completing data maps {}. Waiting 2 sec", maps);
-		} catch (Exception ex) {
-			logger.error("error at step 2 : {}", ex.getMessage());
-		}
-
-		try {
-			Thread.sleep(4000);
-		} catch (InterruptedException _) {
-			Thread.currentThread().interrupt();
-		}
-
-		try {
-			var bstep3 = RequestBuilder.build().post().setClient(httpclient).url(BASE_URL + "/_sisu/do/signin")
-					.addContent("remember", "on").addContent(URLTools.REFERER, BASE_URL).addContent("referer_type", "")
-					.addContent("password", getAuthenticator().getPassword())
-					.addHeader(URLTools.ACCEPT,
-							"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-					.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd")
-					.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9").addHeaders(URLTools.createSecHeaders());
-
-			maps.entrySet().forEach(e -> bstep3.addContent(e.getKey(), e.getValue()));
-			var b = bstep3.toHtml();
-
-			maps.put(CSRF_TOKEN, extractCsrfToken(b.getAllElements()));
-
-			logger.debug("Step signin done. with csrf {}", maps.get(CSRF_TOKEN));
-		} catch (Exception ex) {
-			logger.error("error at signin : {}", ex.getMessage());
-		}
-	}
-
-	private String extractCsrfToken(Elements el) {
-		var m = Pattern.compile("window.__CSRF_TOKEN__ = '(.*?)';").matcher(el.html());
-
-		if (m.find())
-			return m.group(1);
-
-		logger.warn("no CSRF found ! : {}", el.select("div.content p").text());
-		return null;
 	}
 
 	private void initToken() throws IOException {

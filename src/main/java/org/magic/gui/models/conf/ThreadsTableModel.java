@@ -44,6 +44,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 		}
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public Object getValueAt(int row, int column) {
 		ThreadInfo t = items.get(row);

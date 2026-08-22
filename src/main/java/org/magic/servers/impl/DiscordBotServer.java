@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import javax.annotation.Nonnull;
-
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -385,16 +383,16 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    jda = JDABuilder.createDefault(getAuthenticator().get(TOKEN))
 		    .addEventListeners(new ListenerAdapter() {
 			@Override
-			public void onReady(@Nonnull ReadyEvent event) {
+			public void onReady(ReadyEvent event) {
 			    logger.info("Server {} started", getName());
 			}
 			@Override
-			public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
+			public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 			    logger.info("getting commands {} : {}",event.getFullCommandName(),event.getOptions());
 			    parseInteractionEvent(event);
 			}
 			@Override
-			public void onCommandAutoCompleteInteraction(@Nonnull CommandAutoCompleteInteractionEvent event) {
+			public void onCommandAutoCompleteInteraction(CommandAutoCompleteInteractionEvent event) {
 			    parseAutoComplete(event);
 			}
 		    }).build();

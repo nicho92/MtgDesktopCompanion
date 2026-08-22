@@ -249,6 +249,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return true;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends MTGSerializable> GedEntry<T> readEntry(String classe, String idInstance, String fileName)
 			throws SQLException {
@@ -269,6 +270,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return list(classename, id, null);
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T extends MTGSerializable> List<GedEntry<T>> list(String classename, String id, String fileName) {
 
 		var arr = new ArrayList<GedEntry<T>>();

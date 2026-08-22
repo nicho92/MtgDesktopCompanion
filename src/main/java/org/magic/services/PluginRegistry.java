@@ -49,6 +49,7 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.services.logging.MTGLogger;
 import org.reflections.Reflections;
 
+@SuppressWarnings("rawtypes")
 public class PluginRegistry {
 
 	private Map<Class, PluginEntry> registry;
@@ -289,6 +290,7 @@ public class PluginRegistry {
 		return classes;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean updateConfigWithNewModule() {
 		entrySet().forEach(p -> {
 			for (Class<MTGPlugin> c : extractMissing(p.getValue().getClasspath(), p.getValue().getXpath()))
