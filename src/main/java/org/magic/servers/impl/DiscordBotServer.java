@@ -68,7 +68,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 public class DiscordBotServer extends AbstractMTGServer {
 
 
-  
+
     private static final String COMMAND_FORMAT = "format";
     private static final String COMMAND_CARD = "card";
     private static final String COMMAND_HELP = "help";
@@ -111,6 +111,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	case COMMAND_CARD : responseSearch(event,info);break;
 	case COMMAND_FORMAT: reponseFormatSearch(event,info);break;
 	case COMMAND_SET: reponseSetSearch(event,info);break;
+	default: responseHelp(event, info);break;
 	}
 
 	info.setEnd(Instant.now());
@@ -143,7 +144,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	if(event.getFocusedOption().getName().equals(COMMAND_OPTION_SETNAME))
 	{
 	    try {
-		Stream<MTGEdition> sets = Stream.of();
+		Stream<MTGEdition> sets;
 
 		if(event.getOption(COMMAND_OPTION_CARDNAME)!=null)
 		    sets=getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(),null,false).getFirst().getEditions().stream();
@@ -246,7 +247,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 		    eb.addField(cs.getName() + " ("+ed+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
 
-		} catch (Exception e) {
+		} catch (Exception _) {
 		    eb.addField(cs.getName() + " ("+cs.getEd()+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
 		}
 	    });
