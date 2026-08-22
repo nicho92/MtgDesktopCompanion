@@ -86,7 +86,7 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 
 	@Override
 	public void consume(List<Update> updates) {
-	    updates.forEach(update -> {
+	    updates.forEach(update -> 
 	        
 	                ThreadManager.getInstance().executeThread(new MTGRunnable() {
 			    
@@ -112,9 +112,9 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 
 				
 			    }
-			},"read telegram update");
+			},"read telegram update")
 	         
-	        });
+	        );
 	    
 	}
 

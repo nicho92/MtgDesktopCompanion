@@ -20,10 +20,6 @@ public class RetrievableDeck {
 		return deck;
 	}
 
-	public RetrievableDeck() {
-		
-	}
-
 	public String getAuthor() {
 		return author;
 	}

@@ -218,7 +218,7 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 			if(!c.getPrices().isEmpty())
 			    item.setPrice(c.getPrices().get(il.finish()).cardmarket().marketValue());
 			}
-			catch(Exception e)
+			catch(Exception _)
 			{
 			    logger.error("error gettings price market for {}",c);
 			}
@@ -315,9 +315,9 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 	
 	var ret = new ArrayList<Transaction>();
 	
-	oService.listOrders(SalesRequest.create()).forEach(o->{
-	    ret.add(parseOrder(o));
-	});
+	oService.listOrders(SalesRequest.create()).forEach(o->
+	    ret.add(parseOrder(o))
+	);
 	return ret;
     }
 

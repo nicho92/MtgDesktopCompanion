@@ -8,7 +8,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 import test.TestTools;
 
-public class GradingTester {
+class GradingTest {
 
 	@Before
 	public void initTest() {

@@ -53,11 +53,11 @@ public class PicturesProviderTests {
 		mc.setNumber("232");
 		mc.setMultiverseid("3");
 
-		MTGEdition ed = new MTGEdition();
-		ed.setId("lea");
-		ed.setSet("Limited Edition Alpha");
+		var set = new MTGEdition();
+		set.setId("lea");
+		set.setSet("Limited Edition Alpha");
 
-		mc.getEditions().add(ed);
+		mc.getEditions().add(set);
 	}
 
 	@Test

@@ -8,7 +8,7 @@ import org.magic.services.JWTServices;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class JWTester {
+class JWTTestCase {
 
 	@Test
 	void testConnect() {
