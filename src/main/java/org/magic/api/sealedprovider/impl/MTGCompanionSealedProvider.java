@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.magic.api.beans.MTGEdition;
@@ -21,7 +20,6 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 public class MTGCompanionSealedProvider extends AbstractSealedProvider {
 

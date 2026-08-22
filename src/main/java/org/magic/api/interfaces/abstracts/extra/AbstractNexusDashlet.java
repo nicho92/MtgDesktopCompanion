@@ -33,8 +33,7 @@ public abstract class AbstractNexusDashlet extends AbstractJDashlet {
 
     @Override
     public void init() {
-	// TODO Auto-generated method stub
-
+	//do nothing
     }
 
     @Override
