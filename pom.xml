@@ -67,7 +67,7 @@
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.30.0</commonmark.version>
 		<langchain4j.version>1.19.0</langchain4j.version>
-		<telegram.version>10.2.0</telegram.version>
+		<telegram.version>10.2.1</telegram.version>
 	</properties>
 
 	<repositories>
@@ -281,7 +281,7 @@
 		<dependency>
 			<groupId>org.firebirdsql.jdbc</groupId>
 			<artifactId>jaybird</artifactId>
-			<version>6.0.5</version>
+			<version>6.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.yaml</groupId>
@@ -836,7 +836,7 @@
 		<dependency>
 			<groupId>org.python</groupId>
 			<artifactId>jython-standalone</artifactId>
-			<version>2.7.4</version>
+			<version>2.7.5b1</version>
 		</dependency>
 	</dependencies>
 
