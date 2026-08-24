@@ -51,7 +51,7 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 				pool.start();
 			}
 
-			logger.info("{}Bot is started", getName());
+			logger.info("{} Bot is started", getName());
 
 		} catch (TelegramApiException e) {
 			throw new IOException(e);
@@ -105,7 +105,7 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 					info.setUser(parse(message.getFrom()));
 					info.setChannel(parse(message.getChat()));
 					info.setMessage(message.getText());
-
+					info.setGuild(info.getChannel());
 					response(message, info);
 
 				}

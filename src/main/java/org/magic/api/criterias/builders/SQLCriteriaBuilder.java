@@ -18,7 +18,7 @@ public class SQLCriteriaBuilder extends AbstractQueryBuilder<Query> {
 		Query query = select(table("cards").asterisk(), table("cardIdentifiers").asterisk())
 				.from(table("cards"), table("cardIdentifiers")).where("cardIdentifiers.uuid=cards.uuid");
 
-		for (MTGCrit<?> c : crits) {
+		for (var c : crits) {
 			if (c.isList()) {
 				((SelectWhereStep<Record3<Object, Object, Object>>) query)
 						.where(field(c.getAtt()).in(getValueFor(c.getVal())));

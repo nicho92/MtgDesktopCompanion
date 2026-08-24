@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.AccountsManager;
@@ -45,12 +43,12 @@ public class BeckettGrader extends AbstractGradersProvider {
 		d = RequestBuilder.build().url(urlCheking).setClient(c).get().addContent("item_type", "BGS")
 				.addContent("item_id", identifier).toHtml();
 
-		Element table = d.select("table.cardDetail").first();
+		var table = d.select("table.cardDetail").first();
 
 		if (table == null)
 			return null;
 
-		Elements trs = table.select("tr");
+		var trs = table.select("tr");
 		var grad = new MTGGrading();
 		grad.setGraderName(getName());
 		grad.setNumberID(identifier);
