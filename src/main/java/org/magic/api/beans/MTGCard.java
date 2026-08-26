@@ -129,7 +129,7 @@ public class MTGCard extends AbstractProduct {
 	private String subsets;
 	private boolean isJapanese = false;
 	private boolean gameChanger;
-	
+
 	
 	
 	public MTGCard() {
@@ -154,7 +154,7 @@ public class MTGCard extends AbstractProduct {
 
 	@Override
 	public MTGEdition getEdition() {
-
+	    
 		if (edition == null && !getEditions().isEmpty())
 			edition = getEditions().get(0);
 

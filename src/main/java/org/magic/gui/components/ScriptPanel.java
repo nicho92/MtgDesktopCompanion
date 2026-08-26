@@ -59,6 +59,9 @@ public class ScriptPanel extends MTGUIComponent {
 	private File currentFile;
 	private transient Future<?> f;
 
+	private Color defaultColor;
+
+	
 	@Override
 	public String getTitle() {
 		return "Script";
@@ -68,7 +71,10 @@ public class ScriptPanel extends MTGUIComponent {
 		setLayout(new BorderLayout());
 		editorPane = new RSyntaxTextArea();
 		editorPane.setCodeFoldingEnabled(true);
+		
 		resultPane = new JTextPane();
+		
+		
 		var splitPane = new JSplitPane();
 		var paneHaut = new JPanel();
 		var paneBas = new JPanel();
@@ -229,7 +235,7 @@ public class ScriptPanel extends MTGUIComponent {
 
 			}
 		});
-
+		defaultColor = resultPane.getForeground();
 	}
 
 	private CompletionProvider createCompletionProvider() {
@@ -246,7 +252,6 @@ public class ScriptPanel extends MTGUIComponent {
 		appendResult(msg, defaultColor);
 	}
 
-	private Color defaultColor = StyleContext.getDefaultStyleContext().getForeground(SimpleAttributeSet.EMPTY);
 
 	private void appendResult(String msg, Color c) {
 		var sc = StyleContext.getDefaultStyleContext();
