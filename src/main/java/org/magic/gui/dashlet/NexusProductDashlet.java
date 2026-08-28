@@ -20,7 +20,7 @@ public class NexusProductDashlet extends AbstractNexusDashlet {
 
     @Override
     protected JComponent getNexusComponent() {
-	return new NexusProductPanel(true,true,true);
+	return new NexusProductPanel();
     }
     
 }

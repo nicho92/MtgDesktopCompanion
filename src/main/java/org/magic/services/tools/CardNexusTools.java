@@ -6,6 +6,7 @@ import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.pricers.impl.CardNexusPricer;
 import org.magic.services.AccountsManager;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class CardNexusTools {
 
@@ -16,6 +17,8 @@ public class CardNexusTools {
     	    NexusConfig.setToken(AccountsManager.inst().getAuthenticator(new CardNexusPricer()).get("CARDNEXUS_API_KEY"));
     	    NexusConfig.setTempDirectory(MTGConstants.DATA_DIR);
     	    NexusConfig.setFeedRententionDurationDays(1);
+    	    NexusConfig.setAcceptLanguage(MTGControler.getInstance().getLocale().getCountry());
+    	    
     	    NexusConfig.setListener(callInfo->{
 		var info = new NetworkInfo();
 			

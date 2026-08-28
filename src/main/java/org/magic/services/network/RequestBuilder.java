@@ -141,7 +141,7 @@ public class RequestBuilder {
 	public RequestBuilder updateContent(String k, String v) {
 		return removeContent(k).addContent(k, v);
 	}
-
+	
 	public RequestBuilder addContent(String k, String c) {
 		content.put(k, c);
 		return this;
@@ -213,5 +213,6 @@ public class RequestBuilder {
 		MTGLogger.getLogger(this.getClass()).debug("{} : {} in {}s", getUrl(), size, csi);
 
 	}
+
 
 }
