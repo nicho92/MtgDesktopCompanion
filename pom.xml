@@ -57,7 +57,7 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<jwt.version>0.13.0</jwt.version>
 		<lucene.version>10.5.1</lucene.version>
-		<artemis.version>2.55.0</artemis.version>
+		<artemis.version>2.56.0</artemis.version>
 		<flatlaf.version>3.7.2</flatlaf.version>
 		<qwartz.version>2.5.2</qwartz.version>
 		<rome.version>2.1.0</rome.version>
@@ -541,7 +541,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>autocomplete</artifactId>
-			<version>3.3.3</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.rednoise</groupId>
@@ -729,7 +729,7 @@
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.34</version>
+			<version>2.3.35</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

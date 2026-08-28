@@ -56,12 +56,13 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.FileTools;
-import org.magic.services.tools.ImagePoster;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.PostImage;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
+
+
 public class CardBuilder2GUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -543,30 +544,18 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				
 				if(magicCardEditorPanel.isProxied())
 				{
-					var poster = new ImagePoster();
+					var poster = new PostImage();
 					
 					if(card.getUrl()!=null && !poster.isProxified(card.getUrl()))
-					{
-					    	    try {
-            						var proxyUrl = poster.upload(card.getUrl());
-            						card.setUrl(proxyUrl);
-           						}
-           						catch(Exception e)
-           						{
-           							logger.error(e);
-           						}
-					}
+					    	card.setUrl(poster.upload(card.getUrl()));
 				}
-				return getEnabledPlugin(MTGPictureEditor.class).getPicture(card,(MTGEdition) cboSets.getSelectedItem());
+				return getEnabledPlugin(MTGPictureEditor.class).getPicture(card,editionModel.getItemAt(cboSets.getSelectedIndex()));
 			}
 
 			@Override
 			protected void done() {
-
-				BufferedImage img;
 				try {
-					img = get();
-					loadPicture(img, panelPictures);
+					loadPicture(get(), panelPictures);
 					jsonPanel.init(magicCardEditorPanel.getMagicCard());
 					panelDetails.init(magicCardEditorPanel.getMagicCard());
 
