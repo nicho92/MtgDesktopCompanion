@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +45,7 @@ import org.magic.gui.components.card.MagicCardSubDetailPanel;
 import org.magic.gui.components.card.MagicEditionDetailPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
+import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.PromptDialog;
 import org.magic.gui.components.dialog.importer.CardImporterDialog;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
@@ -54,6 +56,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImagePoster;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
@@ -84,7 +87,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private MagicCardSubDetailPanel panelDetails;
 	private ManaRepartitionPanel colorChart;
 	private RarityRepartitionPanel rarityChart;
-
+	private TypeRepartitionPanel typeChart;
+	
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_BUILDER;
@@ -165,7 +169,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		panelPictures.setPreferredSize(new Dimension(500, 10));
 		colorChart = new ManaRepartitionPanel(false);
 		rarityChart = new RarityRepartitionPanel(false);
-
+		typeChart = new TypeRepartitionPanel(false);
 		/// LAYOUT CONFIGURATION
 		setLayout(new BorderLayout(0, 0));
 		panelSets.setLayout(new BorderLayout(0, 0));
@@ -222,7 +226,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		editionDetailsTabbedPane.addTab("Details", magicEditionDetailPanel);
 		editionDetailsTabbedPane.addTab("Rarities", rarityChart);
 		editionDetailsTabbedPane.addTab("Colors", colorChart);
-
+		editionDetailsTabbedPane.addTab("Types", typeChart);
+		
+		
+		
 		panelEast.add(editionDetailsTabbedPane);
 		panelEast.add(imageThumbnail);
 
@@ -540,16 +547,17 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				if(magicCardEditorPanel.isProxied())
 				{
 					var poster = new ImagePoster();
+					
 					if(card.getUrl()!=null && !poster.isProxified(card.getUrl()))
 					{
-						try {
-						var proxyUrl = poster.upload(card.getUrl());
-						card.setUrl(proxyUrl);
-						}
-						catch(Exception e)
-						{
-							logger.error(e);
-						}
+					    	    try {
+            						var proxyUrl = poster.upload(card.getUrl());
+            						card.setUrl(proxyUrl);
+           						}
+           						catch(Exception e)
+           						{
+           							logger.error(e);
+           						}
 					}
 				}
 				return getEnabledPlugin(MTGPictureEditor.class).getPicture(card,(MTGEdition) cboSets.getSelectedItem());
@@ -619,7 +627,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		magicEditionDetailPanel.init(ed);
 		colorChart.init(cards);
 		rarityChart.init(cards);
-
+		typeChart.init(cards);
 	}
 
 }

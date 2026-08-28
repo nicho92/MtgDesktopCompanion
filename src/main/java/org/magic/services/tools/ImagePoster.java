@@ -32,6 +32,22 @@ public class ImagePoster {
 		return url.contains("postimg");
 	}
 	
+	
+	public String upload(String path) throws IOException
+	{
+	    if(path.startsWith("http"))
+	    {
+		return uploadUrl(path);
+	    }
+	    else
+	    {
+		return upload(new File(path));
+	    }
+		
+	}
+	
+	
+	
 	public String upload(File f) throws IOException {
 	       
 	    var header = Map.of(URLTools.ORIGIN, BASE_URL,
@@ -59,7 +75,7 @@ public class ImagePoster {
 	   return new Date().getTime() + Double.toString(CryptoUtils.randomDouble(Double.MAX_VALUE)).substring(1);
 	}
 
-	public String upload(String url) throws IOException {
+	public String uploadUrl(String url) throws IOException {
 		
 		
 

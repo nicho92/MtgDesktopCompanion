@@ -439,4 +439,10 @@ public class FileTools {
 
 	}
 
+	public static File toFile(String url) {
+	    
+	   return new File(url);
+	    
+	}
+
 }
