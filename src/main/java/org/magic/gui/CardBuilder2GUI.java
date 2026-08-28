@@ -539,10 +539,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			@Override
 			protected BufferedImage doInBackground() throws Exception {
-				
-				
 				var card = magicCardEditorPanel.getMagicCard();
-				
 				
 				if(magicCardEditorPanel.isProxied())
 				{
