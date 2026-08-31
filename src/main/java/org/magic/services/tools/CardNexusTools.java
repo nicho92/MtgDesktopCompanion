@@ -9,7 +9,12 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class CardNexusTools {
-
+    	
+    	private CardNexusTools() {
+	    // can't instanciate
+	}
+    
+    
     	public static void initConfig()
     	{
     	    
