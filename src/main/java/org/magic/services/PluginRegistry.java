@@ -333,11 +333,11 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {
-		return listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst().orElse(null);
+		return listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst().get();
 	}
 
 	public MTGPlugin getPluginById(String id) {
-		return listPlugins().stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+		return listPlugins().stream().filter(p -> p.getId().equals(id)).findFirst().get();
 	}
 
 }

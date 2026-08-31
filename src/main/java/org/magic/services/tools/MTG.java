@@ -36,8 +36,7 @@ public class MTG {
 	}
 
 	public static <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
-		return PluginRegistry.inst().listEnabledPlugins(t).stream().sorted(Comparator.comparing(MTGPlugin::getName))
-				.toList();
+		return PluginRegistry.inst().listEnabledPlugins(t).stream().sorted(Comparator.comparing(MTGPlugin::getName)).toList();
 	}
 
 	public static <T extends MTGPlugin> T getPlugin(String name, Class<T> type) {

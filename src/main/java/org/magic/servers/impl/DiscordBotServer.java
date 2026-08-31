@@ -34,7 +34,6 @@ import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.api.sorters.PricesCardsShakeSorter;
 import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.services.MTGConstants;
-import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 import com.github.ygimenez.method.Pages;
@@ -196,7 +195,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	try {
 	    var ed = getEnabledPlugin(MTGCardsProvider.class)
 		    .getSetByName(event.getOption(COMMAND_OPTION_SETNAME).getAsString());
-	    var results = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed).getShakes();
+	    var results = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed).getShakes();
 
 	    var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE, false))
 		    .limit(getInt(CARD_SHAKE_LIMIT));
@@ -231,7 +230,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	eb.setTitle(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString());
 	try {
 
-	    var results = MTG.getEnabledPlugin(MTGDashBoard.class)
+	    var results = getEnabledPlugin(MTGDashBoard.class)
 		    .getShakerFor(FORMATS.valueOf(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString()));
 
 	    var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE, false))
@@ -247,7 +246,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		    icon = ":arrow_lower_right: ";
 
 		try {
-		    var ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(cs.getEd());
+		    var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(cs.getEd());
 
 		    eb.addField(cs.getName() + " (" + ed + ")",
 			    icon + UITools.formatDouble(cs.getPercentDayChange() * 100) + "% " + " : " + cs.getPrice(),
@@ -343,9 +342,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 	if (getString(THUMBNAIL_IMAGE).equalsIgnoreCase(THUMBNAIL))
-	    eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
+	    eb.setThumbnail(getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
 	else
-	    eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
+	    eb.setImage(getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
 
 	if (price) {
 
