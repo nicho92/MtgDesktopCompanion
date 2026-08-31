@@ -65,8 +65,6 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
-
-
     private static final String COMMAND_FORMAT = "format";
     private static final String COMMAND_CARD = "card";
     private static final String COMMAND_HELP = "help";
@@ -87,7 +85,7 @@ public class DiscordBotServer extends AbstractMTGServer {
     private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
     private static final String AUTOCOMPLETE_START = "AUTOCOMPLETE_START";
     private static final String CARD_SHAKE_LIMIT = "CARD_SHAKE_LIMIT";
-    private static final int RESULT_LIMIT=25;
+    private static final int RESULT_LIMIT = 25;
 
     private JDA jda;
 
@@ -105,11 +103,21 @@ public class DiscordBotServer extends AbstractMTGServer {
 	info.setGuild(parse(event.getGuild()));
 
 	switch (event.getName()) {
-	case COMMAND_HELP : responseHelp(event,info);break;
-	case COMMAND_CARD : responseSearch(event,info);break;
-	case COMMAND_FORMAT: reponseFormatSearch(event,info);break;
-	case COMMAND_SET: reponseSetSearch(event,info);break;
-	default: responseHelp(event, info);break;
+	case COMMAND_HELP:
+	    responseHelp(event, info);
+	    break;
+	case COMMAND_CARD:
+	    responseSearch(event, info);
+	    break;
+	case COMMAND_FORMAT:
+	    reponseFormatSearch(event, info);
+	    break;
+	case COMMAND_SET:
+	    reponseSetSearch(event, info);
+	    break;
+	default:
+	    responseHelp(event, info);
+	    break;
 	}
 
 	info.setEnd(Instant.now());
@@ -120,15 +128,14 @@ public class DiscordBotServer extends AbstractMTGServer {
     @SuppressWarnings("null")
     private void parseAutoComplete(CommandAutoCompleteInteractionEvent event) {
 
-	if(!event.getFocusedOption().getValue().isEmpty() && event.getFocusedOption().getName().equals(COMMAND_OPTION_CARDNAME) && event.getFocusedOption().getValue().length()>=getInt(AUTOCOMPLETE_START))
-	{
+	if (!event.getFocusedOption().getValue().isEmpty()
+		&& event.getFocusedOption().getName().equals(COMMAND_OPTION_CARDNAME)
+		&& event.getFocusedOption().getValue().length() >= getInt(AUTOCOMPLETE_START)) {
 	    try {
 
-		var results = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getFocusedOption().getValue(),null,false).stream()
-			.map(MTGCard::getName)
-			.distinct()
-			.limit(RESULT_LIMIT)
-			.map(s->new Command.Choice(s, s))
+		var results = getEnabledPlugin(MTGCardsProvider.class)
+			.searchCardByName(event.getFocusedOption().getValue(), null, false).stream()
+			.map(MTGCard::getName).distinct().limit(RESULT_LIMIT).map(s -> new Command.Choice(s, s))
 			.toList();
 
 		event.replyChoices(results).queue();
@@ -138,24 +145,20 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    return;
 	}
 
-
-	if(event.getFocusedOption().getName().equals(COMMAND_OPTION_SETNAME))
-	{
+	if (event.getFocusedOption().getName().equals(COMMAND_OPTION_SETNAME)) {
 	    try {
 		Stream<MTGEdition> sets;
 
-		if(event.getOption(COMMAND_OPTION_CARDNAME)!=null)
-		    sets=getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(),null,false).getFirst().getEditions().stream();
+		if (event.getOption(COMMAND_OPTION_CARDNAME) != null)
+		    sets = getEnabledPlugin(MTGCardsProvider.class)
+		    .searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(), null, false)
+		    .getFirst().getEditions().stream();
 		else
-		    sets=getEnabledPlugin(MTGCardsProvider.class).listEditions().stream();
+		    sets = getEnabledPlugin(MTGCardsProvider.class).listEditions().stream();
 
-		var options = sets
-			.map(MTGEdition::getSet)
-			.distinct()
-			.filter(set->set.toLowerCase().contains(event.getFocusedOption().getValue().toLowerCase()))
-			.limit(RESULT_LIMIT)
-			.map(s->new Command.Choice(s, s))
-			.toList();
+		var options = sets.map(MTGEdition::getSet).distinct()
+			.filter(set -> set.toLowerCase().contains(event.getFocusedOption().getValue().toLowerCase()))
+			.limit(RESULT_LIMIT).map(s -> new Command.Choice(s, s)).toList();
 
 		event.replyChoices(options).queue();
 
@@ -165,15 +168,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    return;
 	}
 
-	if(event.getFocusedOption().getName().equals(COMMAND_OPTION_FORMATNAME))
-	{
+	if (event.getFocusedOption().getName().equals(COMMAND_OPTION_FORMATNAME)) {
 
 	    try {
 		var options = Stream.of(MTGFormat.FORMATS.values())
-			.filter(set->set.name().toLowerCase().contains(event.getFocusedOption().getValue().toLowerCase()))
-			.limit(RESULT_LIMIT)
-			.map(s->new Command.Choice(s.name(), s.name()))
-			.toList();
+			.filter(set -> set.name().toLowerCase()
+				.contains(event.getFocusedOption().getValue().toLowerCase()))
+			.limit(RESULT_LIMIT).map(s -> new Command.Choice(s.name(), s.name())).toList();
 
 		event.replyChoices(options).queue();
 
@@ -182,33 +183,36 @@ public class DiscordBotServer extends AbstractMTGServer {
 	    }
 	    return;
 	}
-
 
     }
 
     @SuppressWarnings("null")
     private void reponseSetSearch(SlashCommandInteractionEvent event, MessageInfo info) {
 
-	info.setMessage("/"+COMMAND_SET + " " + event.getOption(COMMAND_OPTION_SETNAME));
+	info.setMessage("/" + COMMAND_SET + " " + event.getOption(COMMAND_OPTION_SETNAME));
 	event.deferReply().queue();
 	var eb = new EmbedBuilder();
 	eb.setTitle(event.getOption(COMMAND_OPTION_SETNAME).getAsString());
 	try {
-	    var ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(event.getOption(COMMAND_OPTION_SETNAME).getAsString());
+	    var ed = getEnabledPlugin(MTGCardsProvider.class)
+		    .getSetByName(event.getOption(COMMAND_OPTION_SETNAME).getAsString());
 	    var results = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed).getShakes();
 
+	    var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE, false))
+		    .limit(getInt(CARD_SHAKE_LIMIT));
+	    var down = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE, true))
+		    .limit(getInt(CARD_SHAKE_LIMIT));
 
-	    var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).limit(getInt(CARD_SHAKE_LIMIT));
-	    var down = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,true)).limit(getInt(CARD_SHAKE_LIMIT));
-
-	    Stream.concat(up, down).forEach(cs->{
-		var icon = ":heavy_equals_sign: "; 
-		if(cs.getPercentDayChange()>0)
+	    Stream.concat(up, down).forEach(cs -> {
+		var icon = ":heavy_equals_sign: ";
+		if (cs.getPercentDayChange() > 0)
 		    icon = ":arrow_upper_right: ";
-		else if(cs.getPercentDayChange()<0)
+		else if (cs.getPercentDayChange() < 0)
 		    icon = ":arrow_lower_right: ";
 
-		eb.addField(cs.getName(), icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
+		eb.addField(cs.getName(),
+			icon + UITools.formatDouble(cs.getPercentDayChange() * 100) + "% " + " : " + cs.getPrice(),
+			false);
 	    });
 
 	} catch (Exception e) {
@@ -221,32 +225,38 @@ public class DiscordBotServer extends AbstractMTGServer {
     @SuppressWarnings("null")
     private void reponseFormatSearch(SlashCommandInteractionEvent event, MessageInfo info) {
 
-	info.setMessage("/"+COMMAND_FORMAT + " " + event.getOption(COMMAND_OPTION_FORMATNAME));
+	info.setMessage("/" + COMMAND_FORMAT + " " + event.getOption(COMMAND_OPTION_FORMATNAME));
 	event.deferReply().queue();
 	var eb = new EmbedBuilder();
 	eb.setTitle(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString());
 	try {
 
-	    var results = MTG.getEnabledPlugin(MTGDashBoard.class).getShakerFor(FORMATS.valueOf(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString()));
+	    var results = MTG.getEnabledPlugin(MTGDashBoard.class)
+		    .getShakerFor(FORMATS.valueOf(event.getOption(COMMAND_OPTION_FORMATNAME).getAsString()));
 
+	    var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE, false))
+		    .limit(getInt(CARD_SHAKE_LIMIT));
+	    var down = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE, true))
+		    .limit(getInt(CARD_SHAKE_LIMIT));
 
-	    var up = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).limit(getInt(CARD_SHAKE_LIMIT));
-	    var down = results.stream().sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,true)).limit(getInt(CARD_SHAKE_LIMIT));
-
-	    Stream.concat(up, down).forEach(cs->{
-		var icon = ":heavy_equals_sign: "; 
-		if(cs.getPercentDayChange()>0)
+	    Stream.concat(up, down).forEach(cs -> {
+		var icon = ":heavy_equals_sign: ";
+		if (cs.getPercentDayChange() > 0)
 		    icon = ":arrow_upper_right: ";
-		else if(cs.getPercentDayChange()<0)
+		else if (cs.getPercentDayChange() < 0)
 		    icon = ":arrow_lower_right: ";
 
 		try {
 		    var ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(cs.getEd());
 
-		    eb.addField(cs.getName() + " ("+ed+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
+		    eb.addField(cs.getName() + " (" + ed + ")",
+			    icon + UITools.formatDouble(cs.getPercentDayChange() * 100) + "% " + " : " + cs.getPrice(),
+			    false);
 
 		} catch (Exception _) {
-		    eb.addField(cs.getName() + " ("+cs.getEd()+")", icon+ UITools.formatDouble(cs.getPercentDayChange()*100)+"% "+ " : " +  cs.getPrice(),false);
+		    eb.addField(cs.getName() + " (" + cs.getEd() + ")",
+			    icon + UITools.formatDouble(cs.getPercentDayChange() * 100) + "% " + " : " + cs.getPrice(),
+			    false);
 		}
 	    });
 
@@ -259,32 +269,35 @@ public class DiscordBotServer extends AbstractMTGServer {
 
     private void responseHelp(SlashCommandInteractionEvent event, MessageInfo info) {
 
-	info.setMessage("/"+COMMAND_HELP);
+	info.setMessage("/" + COMMAND_HELP);
 	event.reply(":face_with_monocle: It's simple \n"
 		+ "/card command with cardname. You can complet with setname value to filter the set. You can set 'price' to True, if you want to get prices of the card\n"
-		+ "/format get prices shakers for the selected format and return "+getInt(CARD_SHAKE_LIMIT)+ "biggest and "+getInt(CARD_SHAKE_LIMIT) + "lowest movements\n"
-		+ "/set get prices shakers for the selected set and return "+getInt(CARD_SHAKE_LIMIT)+ "biggest and "+getInt(CARD_SHAKE_LIMIT) + "lowest movements\n")
-	.queue();
+		+ "/format get prices shakers for the selected format and return " + getInt(CARD_SHAKE_LIMIT)
+		+ "biggest and " + getInt(CARD_SHAKE_LIMIT) + "lowest movements\n"
+		+ "/set get prices shakers for the selected set and return " + getInt(CARD_SHAKE_LIMIT) + "biggest and "
+		+ getInt(CARD_SHAKE_LIMIT) + "lowest movements\n").queue();
 
     }
 
     @SuppressWarnings("null")
     private void responseSearch(SlashCommandInteractionEvent event, MessageInfo info) {
 
-	info.setMessage("/"+COMMAND_CARD + " {" + event.getOption(COMMAND_OPTION_CARDNAME).getAsString() +"} :  " + event.getOption(COMMAND_OPTION_SETNAME));
+	info.setMessage("/" + COMMAND_CARD + " {" + event.getOption(COMMAND_OPTION_CARDNAME).getAsString() + "} :  " + event.getOption(COMMAND_OPTION_SETNAME));
 	event.deferReply().queue();
-
 
 	final List<MTGCard> liste = new ArrayList<>();
 
-	var price = event.getOption(COMMAND_OPTION_PRICE)!=null?event.getOption(COMMAND_OPTION_PRICE).getAsBoolean():false;
+	var price = event.getOption(COMMAND_OPTION_PRICE) != null ? event.getOption(COMMAND_OPTION_PRICE).getAsBoolean(): false;
 
 	try {
 	    MTGEdition ed = null;
-	    if(event.getOption(COMMAND_OPTION_SETNAME)!=null)
-		ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(event.getOption(COMMAND_OPTION_SETNAME).getAsString());
+	    if (event.getOption(COMMAND_OPTION_SETNAME) != null) {
+		ed = getEnabledPlugin(MTGCardsProvider.class)
+			.getSetByName(event.getOption(COMMAND_OPTION_SETNAME).getAsString());
+	    }
 
-	    liste.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(), ed, false));
+	    liste.addAll(getEnabledPlugin(MTGCardsProvider.class)
+		    .searchCardByName(event.getOption(COMMAND_OPTION_CARDNAME).getAsString(), ed, false));
 
 	} catch (Exception e) {
 	    logger.error(e);
@@ -296,13 +309,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 	var pages = new ArrayList<Page>();
-	pages.addAll(liste.stream().map(c->InteractPage.of(createCardEmbedMessage(c, price, info))).toList());
+	pages.addAll(liste.stream().map(c -> InteractPage.of(createCardEmbedMessage(c, price, info))).toList());
 
-	event.getHook().sendMessageEmbeds(createCardEmbedMessage(liste.getFirst(), price, info)).queue(success->{
-	    if(liste.size()>1)
+	event.getHook().sendMessageEmbeds(createCardEmbedMessage(liste.getFirst(), price, info)).queue(success -> {
+	    if (liste.size() > 1)
 		Pages.paginate(success, pages, true);
 	});
-
 
     }
 
@@ -313,18 +325,18 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	eb.setTitle(mc.getName() + " " + (mc.getCost() != null ? mc.getCost() : ""));
 	eb.setColor(EnumColors.determine(mc.getColors()).toColor());
-	eb.addField("**Type**",mc.getFullType(),true);
-	eb.addField("**Oracle**",mc.getText(),false);
-	eb.addField("**Set**",mc.getEdition().getSet(),true);
-	eb.addField("**Reserved**",mc.isReserved()?":white_check_mark:":":no_entry_sign:",true);
+	eb.addField("**Type**", mc.getFullType(), true);
+	eb.addField("**Oracle**", mc.getText(), false);
+	eb.addField("**Set**", mc.getEdition().getSet(), true);
+	eb.addField("**Reserved**", mc.isReserved() ? ":white_check_mark:" : ":no_entry_sign:", true);
 
-	if(!mc.getExtra().isEmpty())
-	    eb.addField("**Extra**",mc.getExtra().toString().toLowerCase(),true);
-
+	if (!mc.getExtra().isEmpty())
+	    eb.addField("**Extra**", mc.getExtra().toString().toLowerCase(), true);
 
 	if (getBoolean(SHOWCOLLECTIONS)) {
 	    try {
-		eb.addField("**Collections**",getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString(),false);
+		eb.addField("**Collections**", getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString(),
+			false);
 	    } catch (SQLException e) {
 		logger.error(e);
 	    }
@@ -335,8 +347,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	else
 	    eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc, false));
 
-	if (price) 
-	{
+	if (price) {
 
 	    var errMsg = new StringBuilder();
 
@@ -346,7 +357,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		    prices = prov.getPrice(mc);
 		    Collections.sort(prices, new MagicPricesComparator());
 		    if (!prices.isEmpty())
-			eb.addField(prov.getName(), UITools.formatDouble(prices.getFirst().getValue())+ prices.getFirst().getCurrency().getCurrencyCode(), true);
+			eb.addField(prov.getName(), UITools.formatDouble(prices.getFirst().getValue())
+				+ prices.getFirst().getCurrency().getCurrencyCode(), true);
 
 		} catch (Exception e) {
 		    logger.error(e);
@@ -356,8 +368,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 		try {
 		    if (prices != null && !prices.isEmpty()) {
 			prices = prices.stream().filter(MTGPrice::isFoil).sorted(new MagicPricesComparator()).toList();
-			if (prices != null && !prices.isEmpty())
-			    eb.addField(prov.getName() + " foil", UITools.formatDouble(prices.getFirst().getValue()) + " " + prices.getFirst().getCurrency().getCurrencyCode(), true);
+			if (prices != null && !prices.isEmpty()) {
+			    eb.addField(prov.getName() + " foil", UITools.formatDouble(prices.getFirst().getValue())+ " " + prices.getFirst().getCurrency().getCurrencyCode(), true);
+			}
 		    }
 		} catch (Exception e) {
 		    errMsg.append(prov).append(":").append(e);
@@ -370,8 +383,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		info.setError(errMsg.toString());
 
 	}
-	if(!getString(EXTERNAL_LINK).isEmpty())
-	    eb.setUrl(getString(EXTERNAL_LINK)+mc.getScryfallId());
+	if (!getString(EXTERNAL_LINK).isEmpty())
+	    eb.setUrl(getString(EXTERNAL_LINK) + mc.getScryfallId());
 
 	return eb.build();
     }
@@ -380,30 +393,31 @@ public class DiscordBotServer extends AbstractMTGServer {
     @Override
     public void start() throws IOException {
 	try {
-	    jda = JDABuilder.createDefault(getAuthenticator().get(TOKEN))
-		    .addEventListeners(new ListenerAdapter() {
-			@Override
-			public void onReady(ReadyEvent event) {
-			    logger.info("Server {} started", getName());
-			}
-			@Override
-			public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-			    logger.info("getting commands {} : {}",event.getFullCommandName(),event.getOptions());
-			    parseInteractionEvent(event);
-			}
-			@Override
-			public void onCommandAutoCompleteInteraction(CommandAutoCompleteInteractionEvent event) {
-			    parseAutoComplete(event);
-			}
-		    }).build();
+	    jda = JDABuilder.createDefault(getAuthenticator().get(TOKEN)).addEventListeners(new ListenerAdapter() {
+		@Override
+		public void onReady(ReadyEvent event) {
+		    logger.info("Server {} started", getName());
+		}
+
+		@Override
+		public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+		    logger.info("getting commands {} : {}", event.getFullCommandName(), event.getOptions());
+		    parseInteractionEvent(event);
+		}
+
+		@Override
+		public void onCommandAutoCompleteInteraction(CommandAutoCompleteInteractionEvent event) {
+		    parseAutoComplete(event);
+		}
+	    }).build();
 
 	    if (!StringUtils.isEmpty(getString(ACTIVITY_TYPE)) && !StringUtils.isEmpty(getString(ACTIVITY)))
-		jda.getPresence().setPresence(Activity.of(ActivityType.valueOf(getString(ACTIVITY_TYPE)), getString(ACTIVITY)), isAlive());
+		jda.getPresence().setPresence(
+			Activity.of(ActivityType.valueOf(getString(ACTIVITY_TYPE)), getString(ACTIVITY)), isAlive());
 
 	    initCommands();
 
 	    Pages.activate(PaginatorBuilder.createSimplePaginator(jda));
-
 
 	} catch (Exception e) {
 	    logger.error(e);
@@ -416,18 +430,17 @@ public class DiscordBotServer extends AbstractMTGServer {
 	var commands = jda.updateCommands();
 	commands.addCommands(
 		Commands.slash(COMMAND_CARD, "get card information")
-		.addOption(OptionType.STRING, COMMAND_OPTION_CARDNAME, "the card name", true,true)
-		.addOption(OptionType.STRING, COMMAND_OPTION_SETNAME, "the set code", false,true)
+		.addOption(OptionType.STRING, COMMAND_OPTION_CARDNAME, "the card name", true, true)
+		.addOption(OptionType.STRING, COMMAND_OPTION_SETNAME, "the set code", false, true)
 		.addOption(OptionType.BOOLEAN, COMMAND_OPTION_PRICE, "return prices", false),
 
-		Commands.slash(COMMAND_FORMAT, "get cards shake by format")
-		.addOption(OptionType.STRING, COMMAND_OPTION_FORMATNAME, "the selected format", true,true),
+		Commands.slash(COMMAND_FORMAT, "get cards shake by format").addOption(OptionType.STRING,
+			COMMAND_OPTION_FORMATNAME, "the selected format", true, true),
 
-		Commands.slash(COMMAND_SET, "get cards shake by set")
-		.addOption(OptionType.STRING, COMMAND_OPTION_SETNAME, "the selected set", true,true),
+		Commands.slash(COMMAND_SET, "get cards shake by set").addOption(OptionType.STRING,
+			COMMAND_OPTION_SETNAME, "the selected set", true, true),
 
-		Commands.slash(COMMAND_HELP, "get help to command")
-		);
+		Commands.slash(COMMAND_HELP, "get help to command"));
 	commands.queue();
 
     }
@@ -468,13 +481,19 @@ public class DiscordBotServer extends AbstractMTGServer {
     public Map<String, MTGProperty> getDefaultAttributes() {
 	var map = new HashMap<String, MTGProperty>();
 	map.put(AUTOSTART, MTGProperty.newBooleanProperty(FALSE, "Run bot at startup"));
-	map.put(SHOWCOLLECTIONS, MTGProperty.newBooleanProperty(FALSE, "return the collections where the searched card is present"));
-	map.put(ACTIVITY_TYPE, new MTGProperty(ActivityType.WATCHING.name(), "The current activity of the bot", Arrays.stream(ActivityType.values()).map(Enum::name).toList().toArray(new String[0])));
+	map.put(SHOWCOLLECTIONS,
+		MTGProperty.newBooleanProperty(FALSE, "return the collections where the searched card is present"));
+	map.put(ACTIVITY_TYPE, new MTGProperty(ActivityType.WATCHING.name(), "The current activity of the bot",
+		Arrays.stream(ActivityType.values()).map(Enum::name).toList().toArray(new String[0])));
 	map.put(ACTIVITY, new MTGProperty("bees flying", "textual complement of the bot activity"));
-	map.put(AUTOCOMPLETE_START, MTGProperty.newIntegerProperty("3", "Start autocomplete cardname search when user typed x character", 1, -1));
-	map.put(CARD_SHAKE_LIMIT, MTGProperty.newIntegerProperty("5", "number of results to return when calling for shakers", 1, 10));
-	map.put(EXTERNAL_LINK, new MTGProperty("https://my.mtgcompanion.org/prices-ui/pages/index.html?id=","if you want to redirect the response with a external link. Bot will complete the url with scryfallID"));
-	map.put(THUMBNAIL_IMAGE, new MTGProperty(THUMBNAIL, "how is integrate the card picture in the response", THUMBNAIL, "IMAGE"));
+	map.put(AUTOCOMPLETE_START, MTGProperty.newIntegerProperty("3",
+		"Start autocomplete cardname search when user typed x character", 1, -1));
+	map.put(CARD_SHAKE_LIMIT,
+		MTGProperty.newIntegerProperty("5", "number of results to return when calling for shakers", 1, 10));
+	map.put(EXTERNAL_LINK, new MTGProperty("https://my.mtgcompanion.org/prices-ui/pages/index.html?id=",
+		"if you want to redirect the response with a external link. Bot will complete the url with scryfallID"));
+	map.put(THUMBNAIL_IMAGE,
+		new MTGProperty(THUMBNAIL, "how is integrate the card picture in the response", THUMBNAIL, "IMAGE"));
 
 	return map;
     }
@@ -511,7 +530,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
     private JsonObject parse(Guild g) {
 
-	if(g==null)
+	if (g == null)
 	    return null;
 
 	var guild = new JsonObject();

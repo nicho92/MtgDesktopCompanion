@@ -77,8 +77,10 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	    var qty = je.getAsJsonObject().get("quantity").getAsInt();
 
 	    var c = parseCard(cardData);
-	    if(c!=null)
+	    
+	    if(c!=null) {
 		data.put(c, qty);
+            }
 
 	});
     }
@@ -126,8 +128,10 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	    deck.setName(d.getAsJsonObject().get(DECK_DATA).getAsJsonObject().get("deckName").getAsString());
 	    deck.setUrl(URI.create("https://infinite-api.tcgplayer.com/deck/magic/"+d.getAsJsonObject().get("deckID").getAsString()));
 
-	    if(d.getAsJsonObject().get(DECK_DATA).getAsJsonObject().get("colors")!=null)
+	    if(d.getAsJsonObject().get(DECK_DATA).getAsJsonObject().get("colors")!=null) {
 		deck.setColor(Arrays.stream(d.getAsJsonObject().get(DECK_DATA).getAsJsonObject().get("colors").getAsString().split(",")).map(s -> "{" + s + "}").collect(Collectors.joining()));
+	    }
+	    
 	    list.add(deck);
 	}
 	return list;
