@@ -3,7 +3,6 @@ package org.magic.api.wallpaper.impl;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -111,11 +110,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	}
 
 	private List<MTGWallpaper> returnList(ArrayList<MTGWallpaper> list) {
-		if (getBoolean("DATE_UPDATE_ORDER") && !list.isEmpty())
-			Collections.sort(list, Collections.reverseOrder());
-
 		logger.info("{} return {} results", getName(), list.size());
-
 		return list;
 	}
 
