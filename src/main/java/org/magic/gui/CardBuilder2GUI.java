@@ -255,7 +255,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		cardsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		cardsModel.setDefaultHiddenComlumns(1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+		cardsModel.setDefaultHiddenComlumns(1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,18);
 		UITools.initTableVisibility(cardsTable, cardsModel);
 
 		editionModel.setDefaultHiddenComlumns(0, 2, 4, 5, 8, 9);

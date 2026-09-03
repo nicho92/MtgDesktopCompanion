@@ -38,6 +38,11 @@ public class ThreadManager {
 
 		return inst;
 	}
+	
+	public ThreadPoolExecutor getExecutor() {
+	    return executor;
+	}
+	
 
 	public void executeThread(MTGRunnable task, String name) {
 

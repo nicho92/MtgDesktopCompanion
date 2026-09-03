@@ -204,11 +204,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		var ret = new ArrayList<MTGCard>();
 
 		for (var obj : URLTools.toJson(FileTools.readFile(f)).getAsJsonArray()) {
-			try {
-				ret.add(generateCard(obj.getAsJsonObject(), true));
-			} catch (ExecutionException e) {
-				logger.error("error generating", e);
-			}
+			ret.add(generateCard(obj.getAsJsonObject(), true));
+		
 		}
 
 		return ret;
@@ -224,7 +221,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public MTGCard getCardByScryfallId(String crit) throws IOException {
 		return getCardById(crit);
 	}
-
+	
+	public MTGCard randomCard() throws IOException {
+		return generateCard(URLTools.extractAsJson(BASE_URI + BASE_SUBURI + "random").getAsJsonObject(),false);
+	}
+	
+	
+	
 	@Override
 	public MTGCard getCardById(String id) throws IOException {
 		try {
@@ -314,11 +317,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		while (hasMore) {
 			var arr = obj.get("data").getAsJsonArray();
 			for (var e : arr) {
-				try {
-					list.add(generateCard(e.getAsJsonObject(), true));
-				} catch (ExecutionException e1) {
-					logger.error(e1);
-				}
+				list.add(generateCard(e.getAsJsonObject(), true));
+				
 			}
 
 			hasMore = obj.get("has_more").getAsBoolean();
@@ -431,7 +431,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 
-	private MTGCard generateCard(JsonObject obj, boolean loadMeld) throws ExecutionException {
+	private MTGCard generateCard(JsonObject obj, boolean loadMeld)  {
 
 		var mc = new MTGCard();
 		mc.setId(obj.get(ID).getAsString());
