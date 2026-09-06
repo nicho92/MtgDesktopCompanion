@@ -109,7 +109,7 @@ public class GuessGameService {
 	    current.setText(anonymise(result.getText()));
 	    
 	} catch (Exception e) {
-	    e.printStackTrace();
+	   //do nothing
 	}
 
     }
