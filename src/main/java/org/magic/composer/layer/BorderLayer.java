@@ -1,8 +1,10 @@
-package org.beta.composer.layer;
+package org.magic.composer.layer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
+
+import com.google.gson.JsonObject;
 
 public class BorderLayer extends AbstractLayer {
 
@@ -43,5 +45,16 @@ public class BorderLayer extends AbstractLayer {
     public double getRadius() {
 	return radius;
     }
+    
+    @Override
+    public JsonObject toJson() {
+       var obj = super.toJson();
+       
+       obj.addProperty("color", color.getRGB());
+       obj.addProperty("radius", radius);
+       
+       return obj;
+    }
+    
     
 }

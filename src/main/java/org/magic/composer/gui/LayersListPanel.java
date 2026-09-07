@@ -1,16 +1,18 @@
-package org.beta.composer.gui;
+package org.magic.composer.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -18,8 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-import org.beta.composer.layer.Layer;
-import org.magic.api.exports.impl.JsonExport;
+import org.magic.composer.layer.Layer;
+import org.magic.services.tools.FileTools;
+
+import com.google.gson.JsonArray;
 
 public class LayersListPanel extends JPanel {
 
@@ -36,19 +40,11 @@ public class LayersListPanel extends JPanel {
 
 	setLayout(new BorderLayout());
 
-	// =================================================================
-	// Title
-	// =================================================================
-
 	JLabel title = new JLabel("Layers");
 
 	title.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 	add(title, BorderLayout.NORTH);
-
-	// =================================================================
-	// List
-	// =================================================================
 
 	model = new DefaultListModel<>();
 
@@ -60,10 +56,6 @@ public class LayersListPanel extends JPanel {
 
 	add(new JScrollPane(list), BorderLayout.CENTER);
 
-	// =================================================================
-	// Buttons
-	// =================================================================
-
 	JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 3, 3));
 
 	JButton upButton = new JButton("↑");
@@ -71,28 +63,55 @@ public class LayersListPanel extends JPanel {
 	JButton downButton = new JButton("↓");
 
 	JButton deleteButton = new JButton("✕");
+	
+	JButton saveButton = new JButton("\uD83D\uDCBE");
+	
 
 	buttons.add(upButton);
 	buttons.add(downButton);
 	buttons.add(deleteButton);
+	buttons.add(saveButton);
 	
 	
 	add(buttons, BorderLayout.SOUTH);
-
-	// =================================================================
-	// Actions
-	// =================================================================
 
 	upButton.addActionListener(_ -> moveSelectedUp());
 
 	downButton.addActionListener(_ -> moveSelectedDown());
 
 	deleteButton.addActionListener(_ -> removeSelected());
-	
-	// =================================================================
-	// Double click -> rename
-	// =================================================================
 
+	saveButton.addActionListener(_->{
+	    
+	    JFileChooser chose = new JFileChooser();
+	    	chose.showSaveDialog(this);
+	    
+	    
+	    	
+	    	var arr = new JsonArray();
+	    	
+	    	for(var lay: canvas.getLayers())
+	    	{
+	    	  arr.add(lay.toJson());
+	    	}
+	    	  
+	    	
+	    	
+	    	
+    	    try {
+		FileTools.saveFile(chose.getSelectedFile(), arr.toString());
+	    } catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    	
+	    	
+	    	
+	    	
+	});
+	
+	
+	
 	list.addMouseListener(new MouseAdapter() {
 
 	    @Override
@@ -162,10 +181,6 @@ public class LayersListPanel extends JPanel {
 
 	list.setSelectedValue(layer, true);
     }
-
-    // =====================================================================
-    // Actions
-    // =====================================================================
 
     private void moveSelectedUp() {
 
@@ -245,11 +260,7 @@ public class LayersListPanel extends JPanel {
 	return list;
     }
 
-    // =====================================================================
-    // Renderer
-    // =====================================================================
-
-    private static class LayerCellRenderer extends DefaultListCellRenderer {
+    private class LayerCellRenderer extends DefaultListCellRenderer {
 
 	/**
 	 * 

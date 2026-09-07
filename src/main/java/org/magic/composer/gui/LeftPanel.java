@@ -1,4 +1,4 @@
-package org.beta.composer.gui;
+package org.magic.composer.gui;
 
 import java.awt.BorderLayout;
 
@@ -20,10 +20,6 @@ public class LeftPanel extends JPanel {
 
 	setLayout(new BorderLayout());
 
-	// =================================================================
-	// Tree
-	// =================================================================
-
 	var treeScrollPane = new JScrollPane(tree);
 
 	treeScrollPane.setBorder(BorderFactory.createTitledBorder("Resources"));
@@ -31,10 +27,6 @@ public class LeftPanel extends JPanel {
 	var treePanel = new JPanel(new BorderLayout());
 
 	treePanel.add(treeScrollPane, BorderLayout.CENTER);
-
-	// =================================================================
-	// Layers
-	// =================================================================
 
 	var layersPanel = new JPanel(new BorderLayout());
 	layersPanel.setBorder(BorderFactory.createTitledBorder("Composition"));

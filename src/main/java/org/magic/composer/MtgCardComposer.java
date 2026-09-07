@@ -1,4 +1,4 @@
-package org.beta.composer;
+package org.magic.composer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -6,25 +6,32 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.beta.composer.gui.CardCanvas;
-import org.beta.composer.gui.LayerDetailPanel;
-import org.beta.composer.gui.LayersListPanel;
-import org.beta.composer.gui.LeftPanel;
-import org.beta.composer.gui.TextLayerDialog;
-import org.beta.composer.layer.BorderLayer;
-import org.beta.composer.layer.ImageLayer;
-import org.beta.composer.layer.TextLayer;
+import org.magic.composer.gui.CardCanvas;
+import org.magic.composer.gui.LayerDetailPanel;
+import org.magic.composer.gui.LayersListPanel;
+import org.magic.composer.gui.LeftPanel;
+import org.magic.composer.gui.TextLayerDialog;
+import org.magic.composer.layer.BorderLayer;
+import org.magic.composer.layer.FrameLayer;
+import org.magic.composer.layer.IllustrationLayer;
+import org.magic.composer.layer.TextLayer;
 
 public class MtgCardComposer extends JPanel {
     /**
@@ -35,6 +42,7 @@ public class MtgCardComposer extends JPanel {
     private final CardCanvas imageCanvas;
     private final LayersListPanel layerList;
     private final LayerDetailPanel inspector;
+    private JSlider sldZoom;
     
     
     public MtgCardComposer(File rootDirectory) {
@@ -45,17 +53,22 @@ public class MtgCardComposer extends JPanel {
 
 	setLayout(new BorderLayout());
 
-	var rootNode = createTreeNode(rootDirectory);
+	var rootNode = initTree(rootDirectory);
 
 	
-	var rootColors = new DefaultMutableTreeNode("Borders");
+	var rootColors = new DefaultMutableTreeNode("borders");
 		rootColors.add(new DefaultMutableTreeNode(Color.BLACK));
 		rootColors.add(new DefaultMutableTreeNode(Color.WHITE));
-		rootColors.add(new DefaultMutableTreeNode(Color.GRAY));
-		rootColors.add(new DefaultMutableTreeNode(Color.YELLOW));
+		rootColors.add(new DefaultMutableTreeNode(Color.LIGHT_GRAY));
+		rootColors.add(new DefaultMutableTreeNode(new Color(186, 142, 35)));
 		
 	rootNode.add(rootColors);
 	
+	
+	var rootImage = new DefaultMutableTreeNode("images");
+		rootImage.add(new DefaultMutableTreeNode("URL"));
+	
+		rootNode.add(rootImage);
 	
 	tree = new JTree(new DefaultTreeModel(rootNode));
 
@@ -74,7 +87,6 @@ public class MtgCardComposer extends JPanel {
 	});
 	
 	imageCanvas = new CardCanvas();
-	imageCanvas.setZoom(0.20);
 	
 	layerList = new LayersListPanel();
 	layerList.setCanvas(imageCanvas);
@@ -94,6 +106,22 @@ public class MtgCardComposer extends JPanel {
 	imageCanvas.setLayerSelectionListener(layer -> {
 	    layerList.selectLayer(layer);
 	});
+	
+	sldZoom = new JSlider(0,100,100);
+	sldZoom.setMajorTickSpacing(10);
+	sldZoom.setMinorTickSpacing(1);
+	sldZoom.setPaintTicks(true);
+	sldZoom.setPaintLabels(true);
+	sldZoom.addChangeListener(new ChangeListener() {
+		public void stateChanged(ChangeEvent e) {
+			imageCanvas.setZoom((double)sldZoom.getValue()/100);
+		
+		}
+	});
+	
+	sldZoom.setValue(20);
+	
+	add(sldZoom, BorderLayout.SOUTH);
 
 	layerList.getList().addListSelectionListener(e -> {
 
@@ -125,7 +153,7 @@ public class MtgCardComposer extends JPanel {
 		if (object instanceof File file)
 		{
 	    		if(isImageFile(file))
-	    		    imageCanvas.addLayer(new ImageLayer(file));
+	    		    imageCanvas.addLayer(new FrameLayer(file));
 		
         		if(isFontFile(file))
         		{
@@ -140,7 +168,21 @@ public class MtgCardComposer extends JPanel {
 		{
 		    imageCanvas.addLayer(new BorderLayer(c));
 		}
-
+		
+		if (object.toString().equals("URL"))
+		{
+		    
+		  var url = JOptionPane.showInputDialog("URL ?");
+		    
+		    try {
+			imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
+		    } catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		    }
+		}
+		
+		
 
 		layerList.setLayers(imageCanvas.getLayers());
 	    }
@@ -151,7 +193,7 @@ public class MtgCardComposer extends JPanel {
     // Tree
     // =====================================================================
 
-    private DefaultMutableTreeNode createTreeNode(File file) {
+    private DefaultMutableTreeNode initTree(File file) {
 
 	DefaultMutableTreeNode node = new DefaultMutableTreeNode(file);
 
@@ -177,7 +219,7 @@ public class MtgCardComposer extends JPanel {
 	});
 
 	for (File child : children) {
-	    node.add(createTreeNode(child));
+	    node.add(initTree(child));
 	}
 
 	return node;
@@ -206,21 +248,20 @@ public class MtgCardComposer extends JPanel {
 
     public static void main(String[] args) {
 
+	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
+	var directry="D:\\programmation\\GIT\\mtg-card-generator-main\\assets";
+	
 	SwingUtilities.invokeLater(() -> {
 
-	    File directory = new File("D:\\programmation\\GIT\\mtg-card-generator-main\\assets");
-
-	    JFrame frame = new JFrame("MTG Card Composer");
-
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-	    frame.setContentPane(new MtgCardComposer(directory));
-
-	    frame.setSize(1200, 900);
-
-	    frame.setLocationRelativeTo(null);
-
-	    frame.setVisible(true);
+	    var frame = new JFrame("MTG Card Composer");
+	    	 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    	frame.setContentPane(new MtgCardComposer(new File(directry)));
+	    	 
+	    	 
+	    	 
+	    	 frame.setSize(1200, 900);
+	    	 frame.setLocationRelativeTo(null);
+	    	 frame.setVisible(true);
 	});
     }
 }

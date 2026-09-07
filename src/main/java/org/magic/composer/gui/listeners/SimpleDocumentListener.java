@@ -1,4 +1,4 @@
-package org.beta.composer.gui.listeners;
+package org.magic.composer.gui.listeners;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

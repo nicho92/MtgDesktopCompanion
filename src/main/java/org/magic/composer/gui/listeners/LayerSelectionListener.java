@@ -1,6 +1,6 @@
-package org.beta.composer.gui.listeners;
+package org.magic.composer.gui.listeners;
 
-import org.beta.composer.layer.Layer;
+import org.magic.composer.layer.Layer;
 
 public interface LayerSelectionListener { 
     void layerSelected(Layer layer); 

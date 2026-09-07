@@ -1,4 +1,4 @@
-package org.beta.composer.layer;
+package org.magic.composer.layer;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 
+import com.google.gson.JsonObject;
+
 public class TextLayer extends AbstractLayer {
 
     private Font font;
@@ -14,8 +16,7 @@ public class TextLayer extends AbstractLayer {
     private int maxWidth = 600;
     private String text;
     private int alignment;
-    
-    
+        
     public TextLayer(String text, File source) {
         super(source);
         this.text = text;
@@ -33,6 +34,21 @@ public class TextLayer extends AbstractLayer {
 	} 
         
     }
+    
+    @Override
+    public JsonObject toJson() {
+       var obj= super.toJson();
+       	    obj.addProperty("text", text);
+       	    obj.addProperty("fontName", font.getFontName());
+       	    obj.addProperty("fontFamily", font.getFamily());
+       	    obj.addProperty("fontstyle", font.getStyle());
+   	    obj.addProperty("fontsyze", font.getSize());
+       	    obj.addProperty("alignment", alignment);
+       	    obj.addProperty("color", color.getRGB());
+       return obj;
+    }
+    
+    
     
     public int getAlignment() {
 	return alignment;

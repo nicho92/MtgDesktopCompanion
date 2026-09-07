@@ -1,6 +1,9 @@
-package org.beta.composer.layer;
+package org.magic.composer.layer;
 
 import java.awt.Graphics2D;
+
+import com.google.gson.JsonObject;
+
 
 public interface Layer {
     
@@ -27,4 +30,8 @@ public interface Layer {
     int getWidth();
 
     int getHeight();
+
+    JsonObject toJson();
+    
+    
 }

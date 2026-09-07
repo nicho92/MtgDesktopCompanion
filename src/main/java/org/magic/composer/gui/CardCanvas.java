@@ -1,4 +1,4 @@
-package org.beta.composer.gui;
+package org.magic.composer.gui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,10 +13,10 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import org.beta.composer.gui.listeners.LayerChangeListener;
-import org.beta.composer.gui.listeners.LayerSelectionListener;
-import org.beta.composer.layer.ImageLayer;
-import org.beta.composer.layer.Layer;
+import org.magic.composer.gui.listeners.LayerChangeListener;
+import org.magic.composer.gui.listeners.LayerSelectionListener;
+import org.magic.composer.layer.FrameLayer;
+import org.magic.composer.layer.Layer;
 
 public class CardCanvas extends JPanel {
 
@@ -86,7 +86,6 @@ public class CardCanvas extends JPanel {
     }
 
     public void setZoom(double zoom) {
-
 	if (zoom <= 0) {
 	    throw new IllegalArgumentException("Zoom must be greater than 0");
 	}
@@ -251,20 +250,6 @@ public class CardCanvas extends JPanel {
 	repaint();
     }
 
-    // =====================================================================
-    // Visibility
-    // =====================================================================
-
-    public void setLayerVisible(ImageLayer layer, boolean visible) {
-
-	if (layer == null) {
-	    return;
-	}
-
-	layer.setVisible(visible);
-
-	repaint();
-    }
 
     // =====================================================================
     // Mouse selection

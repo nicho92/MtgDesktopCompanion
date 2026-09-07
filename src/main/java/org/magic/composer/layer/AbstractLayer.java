@@ -1,9 +1,11 @@
-package org.beta.composer.layer;
+package org.magic.composer.layer;
 
 import java.io.File;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
+
+import com.google.gson.JsonObject;
 
 public abstract class AbstractLayer implements Layer {
 
@@ -11,9 +13,25 @@ public abstract class AbstractLayer implements Layer {
     protected int x=0;
     protected int y=0;
     protected boolean visible = true;
-    protected File source;
-    protected Logger logger = MTGLogger.getLogger(this.getClass());
-
+    protected transient File source;
+    protected transient Logger logger = MTGLogger.getLogger(this.getClass());
+    
+    @Override
+    public JsonObject toJson() {
+        var obj = new JsonObject();
+        	obj.addProperty("type", getClass().getName());
+        	obj.addProperty("name", name);
+        	obj.addProperty("x", x);
+        	obj.addProperty("y", y);
+        	obj.addProperty("visible", visible);
+        	if(source!=null)
+        	    obj.addProperty("path", source.getAbsolutePath());
+        	
+        	
+        return obj;
+    }
+    
+    
     public AbstractLayer(File source) {
 	this.source=source;
 	
@@ -25,8 +43,6 @@ public abstract class AbstractLayer implements Layer {
     public File getSource() {
 	return source;
     }
-    
-    
     
     public String getName() {
         return name;

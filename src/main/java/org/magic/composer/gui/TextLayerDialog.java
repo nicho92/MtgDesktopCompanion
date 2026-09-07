@@ -1,4 +1,4 @@
-package org.beta.composer.gui;
+package org.magic.composer.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,8 +25,8 @@ import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
-import org.beta.composer.gui.listeners.SimpleDocumentListener;
-import org.beta.composer.layer.TextLayer;
+import org.magic.composer.gui.listeners.SimpleDocumentListener;
+import org.magic.composer.layer.TextLayer;
 
 public class TextLayerDialog extends JDialog {
 
