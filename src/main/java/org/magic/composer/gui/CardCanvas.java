@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 
 import org.magic.composer.gui.listeners.LayerChangeListener;
 import org.magic.composer.gui.listeners.LayerSelectionListener;
-import org.magic.composer.layer.FrameLayer;
 import org.magic.composer.layer.Layer;
 
 public class CardCanvas extends JPanel {
@@ -92,22 +91,8 @@ public class CardCanvas extends JPanel {
 
 	this.zoom = zoom;
 
-	
-
 	revalidate();
 	repaint();
-    }
-
-    public void zoomIn() {
-	setZoom(zoom + 0.25);
-    }
-
-    public void zoomOut() {
-	setZoom(Math.max(0.25, zoom - 0.25));
-    }
-
-    public void resetZoom() {
-	setZoom(1.0);
     }
 
     // =====================================================================
