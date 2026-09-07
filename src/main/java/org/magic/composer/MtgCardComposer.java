@@ -23,6 +23,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.composer.gui.CardCanvas;
 import org.magic.composer.gui.LayerDetailPanel;
 import org.magic.composer.gui.LayersListPanel;
@@ -32,6 +33,7 @@ import org.magic.composer.layer.BorderLayer;
 import org.magic.composer.layer.FrameLayer;
 import org.magic.composer.layer.IllustrationLayer;
 import org.magic.composer.layer.TextLayer;
+import org.magic.services.logging.MTGLogger;
 
 public class MtgCardComposer extends JPanel {
     /**
@@ -43,6 +45,7 @@ public class MtgCardComposer extends JPanel {
     private final LayersListPanel layerList;
     private final LayerDetailPanel inspector;
     private JSlider sldZoom;
+    protected transient Logger logger = MTGLogger.getLogger(this.getClass());
     
     
     public MtgCardComposer(File rootDirectory) {
@@ -177,8 +180,7 @@ public class MtgCardComposer extends JPanel {
 		    try {
 			imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
 		    } catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			logger.error(e1);
 		    }
 		}
 		

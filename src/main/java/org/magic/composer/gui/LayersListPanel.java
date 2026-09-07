@@ -20,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.composer.layer.Layer;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 
 import com.google.gson.JsonArray;
@@ -33,7 +35,8 @@ public class LayersListPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private final DefaultListModel<Layer> model;
     private final JList<Layer> list;
-
+    protected transient Logger logger = MTGLogger.getLogger(this.getClass());
+    
     private CardCanvas canvas;
 
     public LayersListPanel() {
@@ -101,8 +104,7 @@ public class LayersListPanel extends JPanel {
     	    try {
 		FileTools.saveFile(chose.getSelectedFile(), arr.toString());
 	    } catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		logger.error(e);
 	    }
 	    	
 	    	
