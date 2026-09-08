@@ -33,6 +33,7 @@ import org.magic.composer.layer.BorderLayer;
 import org.magic.composer.layer.FrameLayer;
 import org.magic.composer.layer.IllustrationLayer;
 import org.magic.composer.layer.TextLayer;
+import org.magic.composer.models.BorderColor;
 import org.magic.services.logging.MTGLogger;
 
 public class MtgCardComposer extends JPanel {
@@ -60,10 +61,11 @@ public class MtgCardComposer extends JPanel {
 
 	
 	var rootColors = new DefaultMutableTreeNode("borders");
-		rootColors.add(new DefaultMutableTreeNode(Color.BLACK));
-		rootColors.add(new DefaultMutableTreeNode(Color.WHITE));
-		rootColors.add(new DefaultMutableTreeNode(Color.LIGHT_GRAY));
-		rootColors.add(new DefaultMutableTreeNode(new Color(186, 142, 35)));
+		
+	for(var bc : BorderColor.values())
+	{
+		rootColors.add(new DefaultMutableTreeNode(bc));
+	}
 		
 	rootNode.add(rootColors);
 	
@@ -82,7 +84,7 @@ public class MtgCardComposer extends JPanel {
 		    var node = (DefaultMutableTreeNode) value;
 		    String text;
 		    if (node.getUserObject() instanceof File file) {
-			text = file.getName();
+		    	text = file.getName();
 		    } else {
 			text = node.getUserObject().toString();
 		    }
@@ -167,7 +169,7 @@ public class MtgCardComposer extends JPanel {
         		}
 		}
 		
-		if (object instanceof Color c)
+		if (object instanceof BorderColor c)
 		{
 		    imageCanvas.addLayer(new BorderLayer(c));
 		}
@@ -239,8 +241,8 @@ public class MtgCardComposer extends JPanel {
     }
     
     private boolean isFontFile(File file) {
-	var name = file.getName().toLowerCase();
-	return name.endsWith(".ttf");
+		var name = file.getName().toLowerCase();
+		return name.endsWith(".ttf");
     }
     
 
@@ -251,7 +253,7 @@ public class MtgCardComposer extends JPanel {
     public static void main(String[] args) {
 
 	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
-	var directry="D:\\programmation\\GIT\\mtg-card-generator-main\\assets";
+	var directry="C:\\Users\\nicolas.pihen\\Downloads\\card-rendering\\assets";
 	
 	SwingUtilities.invokeLater(() -> {
 

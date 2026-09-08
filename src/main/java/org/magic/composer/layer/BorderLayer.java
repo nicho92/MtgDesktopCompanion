@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
 
+import org.magic.composer.models.BorderColor;
+
 import com.google.gson.JsonObject;
 
 public class BorderLayer extends AbstractLayer {
@@ -14,10 +16,15 @@ public class BorderLayer extends AbstractLayer {
     private Color color = Color.BLACK; 
     
     
-    public BorderLayer(Color c) {
-	super(null);
-	this.color=c;
-	setName(c.toString());;
+    public BorderLayer(BorderColor c) {
+		super(null);
+		this.color=c.getColor();
+		setName(c.toString());
+    }
+    
+    @Override
+    public String toString() {
+    	return "Border " + getName();
     }
 
     @Override

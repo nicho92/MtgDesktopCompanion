@@ -42,7 +42,7 @@ public class TextLayer extends AbstractLayer {
        	    obj.addProperty("fontName", font.getFontName());
        	    obj.addProperty("fontFamily", font.getFamily());
        	    obj.addProperty("fontstyle", font.getStyle());
-   	    obj.addProperty("fontsyze", font.getSize());
+       	    obj.addProperty("fontstyle", font.getSize());
        	    obj.addProperty("alignment", alignment);
        	    obj.addProperty("color", color.getRGB());
        return obj;
