@@ -38,6 +38,7 @@ import org.magic.composer.layer.TextLayer;
 import org.magic.composer.models.BorderColor;
 import org.magic.composer.models.TextRole;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.UITools;
 
 public class MtgCardComposer extends JPanel {
     /**
@@ -58,16 +59,7 @@ public class MtgCardComposer extends JPanel {
 	    throw new IllegalArgumentException("rootDirectory must be a valid directory");
 	}
 	
-	for(var f : new File(rootDirectory,"fonts").listFiles())
-	{
-		
-	    try {
-	    	var font = Font.createFont(Font.TRUETYPE_FONT, f);
-	    	GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
-	      } catch (Exception e) {
-	    	logger.error("Error loading font {}", f.getName(), e);
-	    }
-	}
+	UITools.loadFonts();
 	
 
 	setLayout(new BorderLayout());
@@ -175,22 +167,20 @@ public class MtgCardComposer extends JPanel {
 
 		if (object instanceof File file && isImageFile(file))
 		{
-	    	imageCanvas.addLayer(new FrameLayer(file));
+	    	    imageCanvas.addLayer(new FrameLayer(file));
 		}
 		else if (object instanceof TextRole role) {
-		    var flayer = new TextLayer(role.name().toLowerCase(),role);
-		    var dialog = new TextLayerDialog(null, flayer);
-		    dialog.setVisible(true);
-		    imageCanvas.addLayer(flayer);
+    		    var flayer = new TextLayer(role.name().toLowerCase(),role);
+    		    var dialog = new TextLayerDialog(null, flayer);
+    		    dialog.setVisible(true);
+    		    imageCanvas.addLayer(flayer);
 		} 
 		else if (object instanceof BorderColor c) {
 			
-			if(c==BorderColor.CUSTOM)
-			{
+			if(c==BorderColor.CUSTOM){
 				 var color = JColorChooser.showDialog(MtgCardComposer.this, "Choose a color", c.getColor());
 				 c.setColor(color);
 			}
-			
 		    imageCanvas.addLayer(new BorderLayer(c));
 		}
 		
@@ -266,12 +256,7 @@ public class MtgCardComposer extends JPanel {
     public static void main(String[] args) {
 
 	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
-	var directry="C:\\Users\\nicolas\\Downloads\\card-rendering\\assets\\";
-	
-	
-	
-	
-	
+	var directry="D:\\programmation\\GIT\\mtg-card-generator-main\\assets";
 	
 	SwingUtilities.invokeLater(() -> {
 

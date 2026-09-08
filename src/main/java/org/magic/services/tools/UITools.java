@@ -11,8 +11,10 @@ import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
@@ -141,7 +143,31 @@ public class UITools {
 
 	private UITools() {
 	}
+	
+	public static void loadFonts() {
 
+	        List<String> fonts = List.of(
+	            "/fonts/beleren-bold_P1.01.ttf",
+	            "/fonts/belerensmallcaps-bold.ttf",
+	            "/fonts/GothamPro-Medium.ttf",
+	            "/fonts/MatrixBold.ttf",
+	            "/fonts/mplantin.ttf",
+	            "/fonts/MPlantin-Italic.ttf",
+	            "/fonts/NDPMTG.ttf"
+	        );
+
+	        var ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+	        for (var path : fonts) {
+	            try (var is = UITools.class.getResourceAsStream(path)) {
+	                ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, is));
+	            } catch (Exception e) {
+	                logger.error("Unable to load font: {}",path,e);
+	            }
+	        }
+	    }
+	
+	
 	public static final int getComponentIndex(Component component) {
 		if (component != null && component.getParent() != null) {
 			var c = component.getParent();
