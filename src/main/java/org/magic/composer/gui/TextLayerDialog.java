@@ -30,357 +30,352 @@ import org.magic.composer.layer.TextLayer;
 
 public class TextLayerDialog extends JDialog {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
-    private final JTextArea textArea = new JTextArea();
-
-    private final JComboBox<String> styleComboBox = new JComboBox<>(
-	    new String[] { "Normal", "Bold", "Italic", "Bold Italic" });
-
-    private final JSpinner sizeSpinner = new JSpinner(new SpinnerNumberModel(24, 1, 500, 1));
-
-    private final JComboBox<String> alignmentComboBox = new JComboBox<>(new String[] { "Left", "Center", "Right" });
-
-    private final JButton colorButton = new JButton(" ");
-
-    private final JLabel fontLabel = new JLabel("-");
-
-    private final JPanel previewPanel = new JPanel(new BorderLayout());
-
-    private Color textColor = Color.BLACK;
-
-    private Font selectedFont;
-
-    private boolean confirmed = false;
-
-    private final TextLayer layer;
-
-    public TextLayerDialog(Window owner, TextLayer layer) {
-	super(owner, "Text Layer", ModalityType.APPLICATION_MODAL);
-	this.layer = layer;
-
-	
-	initialize();
-	loadLayer();
-	pack();
-	setMinimumSize(new Dimension(500, 550));
-	setLocationRelativeTo(owner);
-    }
-
-    private void initialize() {
-
-	setLayout(new BorderLayout(10, 10));
-
-	JPanel content = new JPanel();
-
-	content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
-
-	content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-	/*
-	 * Text
+	/**
+	 * 
 	 */
+	private static final long serialVersionUID = 1L;
 
-	content.add(createLabel("Text"));
+	private final JTextArea textArea = new JTextArea();
 
-	textArea.setLineWrap(true);
-	textArea.setWrapStyleWord(true);
+	private final JComboBox<String> styleComboBox = new JComboBox<>(
+			new String[] { "Normal", "Bold", "Italic", "Bold Italic" });
 
-	textArea.setRows(4);
+	private final JSpinner sizeSpinner = new JSpinner(new SpinnerNumberModel(24, 1, 500, 1));
 
-	content.add(new JScrollPane(textArea));
+	private final JComboBox<String> alignmentComboBox = new JComboBox<>(new String[] { "Left", "Center", "Right" });
 
-	content.add(Box.createVerticalStrut(10));
+	private final JButton colorButton = new JButton(" ");
 
-	/*
-	 * Font
-	 */
+	private final JLabel fontLabel = new JLabel("-");
 
-	content.add(createLabel("Font"));
+	private final JPanel previewPanel = new JPanel(new BorderLayout());
 
-	JPanel fontPanel = new JPanel(new BorderLayout(5, 0));
+	private Color textColor = Color.BLACK;
 
-	fontPanel.add(fontLabel, BorderLayout.CENTER);
+	private Font selectedFont;
 
-	JButton chooseFontButton = new JButton("Choose...");
+	private boolean confirmed = false;
 
-	chooseFontButton.addActionListener(this::chooseFont);
+	private final TextLayer layer;
 
-	fontPanel.add(chooseFontButton, BorderLayout.EAST);
+	public TextLayerDialog(Window owner, TextLayer layer) {
+		super(owner, "Text Layer", ModalityType.APPLICATION_MODAL);
+		this.layer = layer;
 
-	content.add(fontPanel);
-
-	content.add(Box.createVerticalStrut(10));
-
-	/*
-	 * Size
-	 */
-
-	content.add(createLabel("Size"));
-
-	content.add(sizeSpinner);
-
-	content.add(Box.createVerticalStrut(10));
-
-	/*
-	 * Style
-	 */
-
-	content.add(createLabel("Style"));
-
-	content.add(styleComboBox);
-
-	content.add(Box.createVerticalStrut(10));
-
-	/*
-	 * Alignment
-	 */
-
-	content.add(createLabel("Alignment"));
-
-	content.add(alignmentComboBox);
-
-	content.add(Box.createVerticalStrut(10));
-
-	/*
-	 * Color
-	 */
-
-	content.add(createLabel("Color"));
-
-	colorButton.setPreferredSize(new Dimension(60, 30));
-
-	colorButton.addActionListener(_ -> chooseColor());
-
-	content.add(colorButton);
-
-	content.add(Box.createVerticalStrut(15));
-
-	/*
-	 * Preview
-	 */
-
-	content.add(createLabel("Preview"));
-
-	previewPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-
-	previewPanel.setPreferredSize(new Dimension(450, 150));
-
-	content.add(previewPanel);
-
-	add(content, BorderLayout.CENTER);
-
-	/*
-	 * Buttons
-	 */
-
-	var buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-	var cancelButton = new JButton("Cancel");
-
-	var okButton = new JButton("OK");
-
-	cancelButton.addActionListener(_ -> cancel());
-
-	okButton.addActionListener(_ -> confirm());
-
-	buttons.add(cancelButton);
-	buttons.add(okButton);
-
-	add(buttons, BorderLayout.SOUTH);
-
-	/*
-	 * Live preview
-	 */
-
-	textArea.getDocument().addDocumentListener(new SimpleDocumentListener(this::updatePreview));
-
-	sizeSpinner.addChangeListener(_ -> updatePreview());
-
-	styleComboBox.addActionListener(_ -> updatePreview());
-
-	alignmentComboBox.addActionListener(_ -> updatePreview());
-    }
-
-    private JLabel createLabel(String text) {
-
-	JLabel label = new JLabel(text);
-
-	label.setFont(label.getFont().deriveFont(Font.BOLD));
-
-	label.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
-
-	return label;
-    }
-
-    private void loadLayer() {
-
-	textArea.setText(layer.getText());
-
-	selectedFont = layer.getFont();
-
-	if (selectedFont != null) {
-
-	    fontLabel.setText(selectedFont.getFontName());
-
-	    sizeSpinner.setValue(selectedFont.getSize());
-
-	    styleComboBox.setSelectedIndex(getStyleIndex(selectedFont.getStyle()));
+		initialize();
+		loadLayer();
+		pack();
+		setMinimumSize(new Dimension(500, 550));
+		setLocationRelativeTo(owner);
 	}
 
-	textColor = layer.getColor();
+	private void initialize() {
 
-	updateColorButton();
+		setLayout(new BorderLayout(10, 10));
 
-	alignmentComboBox.setSelectedIndex(getAlignmentIndex(layer.getAlignment()));
+		JPanel content = new JPanel();
 
-	updatePreview();
-    }
+		content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
 
-    private void chooseFont(ActionEvent event) {
+		content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-	GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		/*
+		 * Text
+		 */
 
-	String[] fonts = environment.getAvailableFontFamilyNames();
+		content.add(createLabel("Text"));
 
-	String current = selectedFont != null ? selectedFont.getFamily() : fonts[0];
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
 
-	String selected = (String) JOptionPane.showInputDialog(this, "Select font:", "Font", JOptionPane.PLAIN_MESSAGE,
-		null, fonts, current);
+		textArea.setRows(4);
 
-	if (selected == null) {
-	    return;
+		content.add(new JScrollPane(textArea));
+
+		content.add(Box.createVerticalStrut(10));
+
+		/*
+		 * Font
+		 */
+
+		content.add(createLabel("Font"));
+
+		JPanel fontPanel = new JPanel(new BorderLayout(5, 0));
+
+		fontPanel.add(fontLabel, BorderLayout.CENTER);
+
+		JButton chooseFontButton = new JButton("Choose...");
+
+		chooseFontButton.addActionListener(this::chooseFont);
+
+		fontPanel.add(chooseFontButton, BorderLayout.EAST);
+
+		content.add(fontPanel);
+
+		content.add(Box.createVerticalStrut(10));
+
+		/*
+		 * Size
+		 */
+
+		content.add(createLabel("Size"));
+
+		content.add(sizeSpinner);
+
+		content.add(Box.createVerticalStrut(10));
+
+		/*
+		 * Style
+		 */
+
+		content.add(createLabel("Style"));
+
+		content.add(styleComboBox);
+
+		content.add(Box.createVerticalStrut(10));
+
+		/*
+		 * Alignment
+		 */
+
+		content.add(createLabel("Alignment"));
+
+		content.add(alignmentComboBox);
+
+		content.add(Box.createVerticalStrut(10));
+
+		/*
+		 * Color
+		 */
+
+		content.add(createLabel("Color"));
+
+		colorButton.setPreferredSize(new Dimension(60, 30));
+
+		colorButton.addActionListener(_ -> chooseColor());
+
+		content.add(colorButton);
+
+		content.add(Box.createVerticalStrut(15));
+
+		/*
+		 * Preview
+		 */
+
+		content.add(createLabel("Preview"));
+
+		previewPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
+		previewPanel.setPreferredSize(new Dimension(450, 150));
+
+		content.add(previewPanel);
+
+		add(content, BorderLayout.CENTER);
+
+		/*
+		 * Buttons
+		 */
+
+		var buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+		var cancelButton = new JButton("Cancel");
+
+		var okButton = new JButton("OK");
+
+		cancelButton.addActionListener(_ -> cancel());
+
+		okButton.addActionListener(_ -> confirm());
+
+		buttons.add(cancelButton);
+		buttons.add(okButton);
+
+		add(buttons, BorderLayout.SOUTH);
+
+		/*
+		 * Live preview
+		 */
+
+		textArea.getDocument().addDocumentListener(new SimpleDocumentListener(this::updatePreview));
+
+		sizeSpinner.addChangeListener(_ -> updatePreview());
+
+		styleComboBox.addActionListener(_ -> updatePreview());
+
+		alignmentComboBox.addActionListener(_ -> updatePreview());
 	}
 
-	int style = getSelectedStyle();
+	private JLabel createLabel(String text) {
 
-	int size = (Integer) sizeSpinner.getValue();
+		JLabel label = new JLabel(text);
 
-	selectedFont = new Font(selected, style, size);
+		label.setFont(label.getFont().deriveFont(Font.BOLD));
 
-	fontLabel.setText(selectedFont.getFontName());
+		label.setBorder(BorderFactory.createEmptyBorder(3, 0, 3, 0));
 
-	updatePreview();
-    }
-
-    private void chooseColor() {
-
-	Color color = JColorChooser.showDialog(this, "Text Color", textColor);
-
-	if (color == null) {
-	    return;
+		return label;
 	}
 
-	textColor = color;
+	private void loadLayer() {
 
-	updateColorButton();
+		textArea.setText(layer.getText());
 
-	updatePreview();
-    }
+		selectedFont = layer.getFont();
 
-    private void updateColorButton() {
+		if (selectedFont != null) {
 
-	colorButton.setBackground(textColor);
+			fontLabel.setText(selectedFont.getFontName());
 
-	colorButton.setOpaque(true);
-    }
+			sizeSpinner.setValue(selectedFont.getSize());
 
-    private void updatePreview() {
+			styleComboBox.setSelectedIndex(getStyleIndex(selectedFont.getStyle()));
+		}
 
-	if (selectedFont == null) {
-	    return;
+		textColor = layer.getColor();
+
+		updateColorButton();
+
+		alignmentComboBox.setSelectedIndex(getAlignmentIndex(layer.getAlignment()));
+
+		updatePreview();
 	}
 
-	int size = (Integer) sizeSpinner.getValue();
+	private void chooseFont(ActionEvent event) {
 
-	int style = getSelectedStyle();
+		GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-	selectedFont = selectedFont.deriveFont(style, (float) size);
+		String[] fonts = environment.getAvailableFontFamilyNames();
 
-	JLabel preview = new JLabel("<html>" + escapeHtml(textArea.getText()).replace("\n", "<br>") + "</html>");
+		String current = selectedFont != null ? selectedFont.getFamily() : fonts[0];
 
-	preview.setFont(selectedFont);
-	preview.setForeground(textColor);
+		String selected = (String) JOptionPane.showInputDialog(this, "Select font:", "Font", JOptionPane.PLAIN_MESSAGE,	null, fonts, current);
 
-	preview.setHorizontalAlignment(getSelectedAlignment());
+		if (selected == null) {
+			return;
+		}
 
-	previewPanel.removeAll();
+		int style = getSelectedStyle();
 
-	previewPanel.add(preview, BorderLayout.CENTER);
+		int size = (Integer) sizeSpinner.getValue();
 
-	previewPanel.revalidate();
-	previewPanel.repaint();
-    }
+		selectedFont = new Font(selected, style, size);
 
-    private void confirm() {
+		fontLabel.setText(selectedFont.getFontName());
 
-	layer.setText(textArea.getText());
+		updatePreview();
+	}
 
-	layer.setFont(selectedFont);
+	private void chooseColor() {
 
-	layer.setColor(textColor);
+		Color color = JColorChooser.showDialog(this, "Text Color", textColor);
 
-	layer.setAlignment(getSelectedAlignment());
+		if (color == null) {
+			return;
+		}
 
-	confirmed = true;
+		textColor = color;
 
-	dispose();
-    }
+		updateColorButton();
 
-    private void cancel() {
+		updatePreview();
+	}
 
-	confirmed = false;
+	private void updateColorButton() {
 
-	dispose();
-    }
+		colorButton.setBackground(textColor);
 
-    public boolean isConfirmed() {
-	return confirmed;
-    }
+		colorButton.setOpaque(true);
+	}
 
-    private int getSelectedStyle() {
+	private void updatePreview() {
 
-	return switch (styleComboBox.getSelectedIndex()) {
-	case 1 -> Font.BOLD;
-	case 2 -> Font.ITALIC;
-	case 3 -> Font.BOLD | Font.ITALIC;
-	default -> Font.PLAIN;
-	};
-    }
+		if (selectedFont == null) {
+			return;
+		}
 
-    private int getStyleIndex(int style) {
+		int size = (Integer) sizeSpinner.getValue();
 
-	return switch (style) {
-	case Font.BOLD -> 1;
-	case Font.ITALIC -> 2;
-	case Font.BOLD | Font.ITALIC -> 3;
-	default -> 0;
-	};
-    }
+		int style = getSelectedStyle();
 
-    private int getSelectedAlignment() {
+		selectedFont = selectedFont.deriveFont(style, (float) size);
 
-	return switch (alignmentComboBox.getSelectedIndex()) {
-	case 1 -> SwingConstants.CENTER;
-	case 2 -> SwingConstants.RIGHT;
-	default -> SwingConstants.LEFT;
-	};
-    }
+		var preview = new JLabel("<html>" + escapeHtml(textArea.getText()).replace("\n", "<br>") + "</html>");
 
-    private int getAlignmentIndex(int alignment) {
+		preview.setFont(selectedFont);
+		preview.setForeground(textColor);
 
-	return switch (alignment) {
-	case SwingConstants.CENTER -> 1;
-	case SwingConstants.RIGHT -> 2;
-	default -> 0;
-	};
-    }
+		preview.setHorizontalAlignment(getSelectedAlignment());
 
-    private String escapeHtml(String text) {
+		previewPanel.removeAll();
 
-	return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
-    }
+		previewPanel.add(preview, BorderLayout.CENTER);
+
+		previewPanel.revalidate();
+		previewPanel.repaint();
+	}
+
+	private void confirm() {
+
+		layer.setText(textArea.getText());
+		layer.setFont(selectedFont);
+		layer.setColor(textColor);
+		layer.setAlignment(getSelectedAlignment());
+
+		confirmed = true;
+
+		dispose();
+	}
+
+	private void cancel() {
+
+		confirmed = false;
+
+		dispose();
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	private int getSelectedStyle() {
+
+		return switch (styleComboBox.getSelectedIndex()) {
+		case 1 -> Font.BOLD;
+		case 2 -> Font.ITALIC;
+		case 3 -> Font.BOLD | Font.ITALIC;
+		default -> Font.PLAIN;
+		};
+	}
+
+	private int getStyleIndex(int style) {
+
+		return switch (style) {
+		case Font.BOLD -> 1;
+		case Font.ITALIC -> 2;
+		case Font.BOLD | Font.ITALIC -> 3;
+		default -> 0;
+		};
+	}
+
+	private int getSelectedAlignment() {
+
+		return switch (alignmentComboBox.getSelectedIndex()) {
+		case 1 -> SwingConstants.CENTER;
+		case 2 -> SwingConstants.RIGHT;
+		default -> SwingConstants.LEFT;
+		};
+	}
+
+	private int getAlignmentIndex(int alignment) {
+
+		return switch (alignment) {
+		case SwingConstants.CENTER -> 1;
+		case SwingConstants.RIGHT -> 2;
+		default -> 0;
+		};
+	}
+
+	private String escapeHtml(String text) {
+
+		return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+	}
 }

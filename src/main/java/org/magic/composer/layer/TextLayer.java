@@ -21,15 +21,10 @@ public class TextLayer extends AbstractLayer {
       
         this.text = text;
         setName(role.name().toLowerCase());
-        try {
+        var basefont =role.getFont();
+        this.font = basefont.deriveFont(24f);
 	    
-		    var basefont =role.getFont();
-		    this.font = basefont.deriveFont(24f);
-	    
-		} catch (Exception e) {
-		   logger.error(e);
-		    font = new Font("Serif", Font.PLAIN, 24);
-		} 
+		
         
     }
     
@@ -96,11 +91,7 @@ public class TextLayer extends AbstractLayer {
     public int getWidth() {
         return maxWidth;
     }
-        
-    public int getHeight(Graphics2D g2) {
-	    return g2.getFontMetrics(font).getHeight();
-	}
-
+    
     public int getHeight() {
         return new Canvas().getFontMetrics(font).getHeight();
     }

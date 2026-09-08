@@ -7,12 +7,12 @@ public enum TextRole {
 	TITLE (24,"Beleren Bold",Font.PLAIN),
     TYPE_LINE (20,"Beleren Bold",Font.PLAIN),
     TEXT (18,"MatrixBold",Font.PLAIN),
-    FLAVOR (19,"MatrixBold",Font.ITALIC),
+    FLAVOR (16,"MatrixBold",Font.ITALIC),
     POWER_TOUGHNESS(20,"Beleren Bold",Font.PLAIN),
 	
 	ARTIST (8,"Beleren Small Caps",Font.PLAIN),
-	COPYRIGHT (8,"Plantin MT Pro",Font.PLAIN),
-	COLLECTOR_INFO (8,"Gotham Medium",Font.PLAIN);
+	COPYRIGHT (8,"MPlantin",Font.PLAIN),
+	COLLECTOR_INFO (8,"GothamPro-Medium",Font.PLAIN);
 	
 	private int size;
 	private String fontname;
