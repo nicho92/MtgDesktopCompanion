@@ -53,8 +53,6 @@ public class TextLayerDialog extends JDialog {
 		sizeSpinner.setValue(layer.getFont().getSize());
 		updatePreview();
 		
-		
-		
 		pack();
 		setMinimumSize(new Dimension(500, 550));
 		setLocationRelativeTo(owner);
@@ -64,8 +62,14 @@ public class TextLayerDialog extends JDialog {
 
 		getContentPane().setLayout(new BorderLayout(10, 10));
 
-		JPanel content = new JPanel();
-
+		var content = new JPanel();
+		var buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		var cancelButton = new JButton("Cancel");
+		var okButton = new JButton("OK");
+		var btnColor = new JButton("Color");
+		
+		
+		
 		content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
 
 		content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -75,26 +79,30 @@ public class TextLayerDialog extends JDialog {
 		textArea.setRows(4);
 
 		content.add(new JScrollPane(textArea));
-
 		content.add(Box.createVerticalStrut(10));
-
 		content.add(sizeSpinner);
-
 		content.add(Box.createVerticalStrut(10));
-
+		content.add(btnColor);
+		content.add(Box.createVerticalStrut(10));
+		
 		previewPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		previewPanel.setPreferredSize(new Dimension(450, 150));
 		content.add(previewPanel);
 
 		getContentPane().add(content, BorderLayout.CENTER);
 
-		var buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		var cancelButton = new JButton("Cancel");
-		var okButton = new JButton("OK");
-
+	
 		cancelButton.addActionListener(_ -> cancel());
 		okButton.addActionListener(_ -> confirm());
-
+		btnColor.addActionListener(_->{
+		    
+		    Color color = JColorChooser.showDialog(this, "Text Color", layer.getColor());
+		    
+		    layer.setColor(color);
+		    
+		    updatePreview();
+		    
+		});
 		buttons.add(cancelButton);
 		buttons.add(okButton);
 
@@ -107,12 +115,8 @@ public class TextLayerDialog extends JDialog {
 	private void updatePreview() {
 
 		size = (Integer) sizeSpinner.getValue();
-		
-		
 		layer.setFontSize(size);
-		
 		var preview = new JLabel("<html>" + escapeHtml(textArea.getText()).replace("\n", "<br>") + "</html>");
-
 		preview.setFont(layer.getFont());
 		preview.setForeground(layer.getColor());
 		preview.setHorizontalAlignment(layer.getRole().getAlignement());
@@ -129,16 +133,12 @@ public class TextLayerDialog extends JDialog {
 
 		layer.setText(textArea.getText());
 		layer.setFontSize( (float) size);
-		
 		confirmed = true;
-
 		dispose();
 	}
 
 	private void cancel() {
-
 		confirmed = false;
-
 		dispose();
 	}
 
