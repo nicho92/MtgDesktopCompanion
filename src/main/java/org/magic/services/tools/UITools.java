@@ -160,7 +160,7 @@ public class UITools {
 
 	        for (var path : fonts) {
 	            try (var is = UITools.class.getResourceAsStream(path)) {
-	                ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, is));
+	        	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, is));
 	            } catch (Exception e) {
 	                logger.error("Unable to load font: {}",path,e);
 	            }

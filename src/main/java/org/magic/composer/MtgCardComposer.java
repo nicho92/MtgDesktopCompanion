@@ -171,9 +171,13 @@ public class MtgCardComposer extends JPanel {
 		}
 		else if (object instanceof TextRole role) {
     		    var flayer = new TextLayer(role.name().toLowerCase(),role);
+    		    	 flayer.setColor(role.getColor());
+    		    	 
     		    var dialog = new TextLayerDialog(null, flayer);
     		    dialog.setVisible(true);
-    		    imageCanvas.addLayer(flayer);
+    		    
+    		    if(dialog.isConfirmed())
+    			imageCanvas.addLayer(flayer);
 		} 
 		else if (object instanceof BorderColor c) {
 			
