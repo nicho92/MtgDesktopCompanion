@@ -266,7 +266,7 @@ public class MtgCardComposer extends JPanel {
     public static void main(String[] args) {
 
 	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
-	var directry="C:\\Users\\nicolas.pihen\\Downloads\\card-rendering\\assets\\";
+	var directry="C:\\Users\\nicolas\\Downloads\\card-rendering\\assets\\";
 	
 	
 	
