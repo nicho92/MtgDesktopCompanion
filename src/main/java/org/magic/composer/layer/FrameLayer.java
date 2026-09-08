@@ -12,24 +12,24 @@ import com.google.gson.JsonObject;
 public class FrameLayer extends AbstractLayer {
 
     private transient BufferedImage image;
-     
+    protected transient File source; 
+    
     public FrameLayer(File source) {
 	
-	super(source);
-	
-        try {
-	    this.image =  ImageIO.read(source);
-	} catch (IOException e) {
-	   logger.error(e);
-	}
+    	try {
+		    this.image =  ImageIO.read(source);
+		    setName(source.getName());
+		} catch (IOException e) {
+		   logger.error(e);
+		}
         
     }
     
     @Override
     public JsonObject toJson() {
        var obj =super.toJson();
-       	obj.addProperty("width", getWidth());
-       	obj.addProperty("height", getHeight());
+      
+   	    obj.addProperty("path", source.getAbsolutePath());
        return obj;
        
     }
@@ -40,10 +40,12 @@ public class FrameLayer extends AbstractLayer {
         return image;
     }
 
+    @Override
     public int getWidth() {
         return image.getWidth();
     }
-
+    
+    @Override
     public int getHeight() {
         return image.getHeight();
     }

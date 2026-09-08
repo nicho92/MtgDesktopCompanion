@@ -1,7 +1,5 @@
 package org.magic.composer.layer;
 
-import java.io.File;
-
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
 
@@ -13,7 +11,7 @@ public abstract class AbstractLayer implements Layer {
     protected int x=0;
     protected int y=0;
     protected boolean visible = true;
-    protected transient File source;
+
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
     
     @Override
@@ -23,25 +21,13 @@ public abstract class AbstractLayer implements Layer {
         	obj.addProperty("name", name);
         	obj.addProperty("x", x);
         	obj.addProperty("y", y);
+         	obj.addProperty("width", getWidth());
+           	obj.addProperty("height", getHeight());
         	obj.addProperty("visible", visible);
-        	if(source!=null)
-        	    obj.addProperty("path", source.getAbsolutePath());
+        	
         	
         	
         return obj;
-    }
-    
-    
-    public AbstractLayer(File source) {
-	this.source=source;
-	
-	if(source!=null)
-	    this.name = source.getName();
-	
-    }
-    
-    public File getSource() {
-	return source;
     }
     
     public String getName() {

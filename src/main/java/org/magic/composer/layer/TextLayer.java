@@ -4,8 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.io.File;
+
+import org.magic.composer.models.TextRole;
 
 import com.google.gson.JsonObject;
 
@@ -17,21 +17,19 @@ public class TextLayer extends AbstractLayer {
     private String text;
     private int alignment;
         
-    public TextLayer(String text, File source) {
-        super(source);
+    public TextLayer(String text, TextRole role) {
+      
         this.text = text;
-        
+        setName(role.name().toLowerCase());
         try {
-	    var basefont = Font.createFont(Font.TRUETYPE_FONT, source);
-	    GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(basefont);
 	    
+		    var basefont =role.getFont();
+		    this.font = basefont.deriveFont(24f);
 	    
-	    this.font = basefont.deriveFont(24f);
-	    
-	} catch (Exception e) {
-	   logger.error(e);
-	    font = new Font("Serif", Font.PLAIN, 24);
-	} 
+		} catch (Exception e) {
+		   logger.error(e);
+		    font = new Font("Serif", Font.PLAIN, 24);
+		} 
         
     }
     
@@ -41,8 +39,8 @@ public class TextLayer extends AbstractLayer {
        	    obj.addProperty("text", text);
        	    obj.addProperty("fontName", font.getFontName());
        	    obj.addProperty("fontFamily", font.getFamily());
-       	    obj.addProperty("fontstyle", font.getStyle());
-       	    obj.addProperty("fontstyle", font.getSize());
+       	    obj.addProperty("fontStyle", font.getStyle());
+       	    obj.addProperty("fontSize", font.getSize());
        	    obj.addProperty("alignment", alignment);
        	    obj.addProperty("color", color.getRGB());
        return obj;
@@ -51,11 +49,11 @@ public class TextLayer extends AbstractLayer {
     
     
     public int getAlignment() {
-	return alignment;
+    	return alignment;
     }
     
     public void setAlignment(int alignement) {
-	this.alignment = alignement;
+    	this.alignment = alignement;
     }
     
     

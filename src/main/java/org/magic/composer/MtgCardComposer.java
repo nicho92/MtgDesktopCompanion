@@ -1,8 +1,9 @@
 package org.magic.composer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -10,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Arrays;
 
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,6 +36,7 @@ import org.magic.composer.layer.FrameLayer;
 import org.magic.composer.layer.IllustrationLayer;
 import org.magic.composer.layer.TextLayer;
 import org.magic.composer.models.BorderColor;
+import org.magic.composer.models.TextRole;
 import org.magic.services.logging.MTGLogger;
 
 public class MtgCardComposer extends JPanel {
@@ -50,27 +53,42 @@ public class MtgCardComposer extends JPanel {
     
     
     public MtgCardComposer(File rootDirectory) {
-
+    	
 	if (rootDirectory == null || !rootDirectory.isDirectory()) {
 	    throw new IllegalArgumentException("rootDirectory must be a valid directory");
 	}
+	
+	for(var f : new File(rootDirectory,"fonts").listFiles())
+	{
+		
+	    try {
+	    	var font = Font.createFont(Font.TRUETYPE_FONT, f);
+	    	GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+	      } catch (Exception e) {
+	    	logger.error("Error loading font {}", f.getName(), e);
+	    }
+	}
+	
 
 	setLayout(new BorderLayout());
 
 	var rootNode = initTree(rootDirectory);
-
 	
-	var rootColors = new DefaultMutableTreeNode("borders");
-		
+	
+	var rootColors = new DefaultMutableTreeNode("Borders");
 	for(var bc : BorderColor.values())
-	{
 		rootColors.add(new DefaultMutableTreeNode(bc));
-	}
-		
+
 	rootNode.add(rootColors);
 	
+	var textNodes = new DefaultMutableTreeNode("Text Lines");
+	for(var bc : TextRole.values())
+		textNodes.add(new DefaultMutableTreeNode(bc));
 	
-	var rootImage = new DefaultMutableTreeNode("images");
+	rootNode.add(textNodes);
+
+	
+	var rootImage = new DefaultMutableTreeNode("Illustrations");
 		rootImage.add(new DefaultMutableTreeNode("URL"));
 	
 		rootNode.add(rootImage);
@@ -155,22 +173,24 @@ public class MtgCardComposer extends JPanel {
 		var node = (DefaultMutableTreeNode) path.getLastPathComponent();
 		var object = node.getUserObject();
 
-		if (object instanceof File file)
+		if (object instanceof File file && isImageFile(file))
 		{
-	    		if(isImageFile(file))
-	    		    imageCanvas.addLayer(new FrameLayer(file));
-		
-        		if(isFontFile(file))
-        		{
-        		    var flayer = new TextLayer("A Sample Text",file);
-        		    var dialog = new TextLayerDialog(null, flayer);
-        		    dialog.setVisible(true);
-        		    imageCanvas.addLayer(flayer);
-        		}
+	    	imageCanvas.addLayer(new FrameLayer(file));
 		}
-		
-		if (object instanceof BorderColor c)
-		{
+		else if (object instanceof TextRole role) {
+		    var flayer = new TextLayer(role.name().toLowerCase(),role);
+		    var dialog = new TextLayerDialog(null, flayer);
+		    dialog.setVisible(true);
+		    imageCanvas.addLayer(flayer);
+		} 
+		else if (object instanceof BorderColor c) {
+			
+			if(c==BorderColor.CUSTOM)
+			{
+				 var color = JColorChooser.showDialog(MtgCardComposer.this, "Choose a color", c.getColor());
+				 c.setColor(color);
+			}
+			
 		    imageCanvas.addLayer(new BorderLayer(c));
 		}
 		
@@ -234,17 +254,10 @@ public class MtgCardComposer extends JPanel {
     // =====================================================================
 
     private boolean isImageFile(File file) {
-
-	var name = file.getName().toLowerCase();
-
-	return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif") || name.endsWith(".bmp") || name.endsWith(".webp");
+ 		var name = file.getName().toLowerCase();
+		return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif") || name.endsWith(".bmp") || name.endsWith(".webp");
     }
-    
-    private boolean isFontFile(File file) {
-		var name = file.getName().toLowerCase();
-		return name.endsWith(".ttf");
-    }
-    
+   
 
     // =====================================================================
     // Demo
@@ -253,16 +266,18 @@ public class MtgCardComposer extends JPanel {
     public static void main(String[] args) {
 
 	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
-	var directry="C:\\Users\\nicolas.pihen\\Downloads\\card-rendering\\assets";
+	var directry="C:\\Users\\nicolas.pihen\\Downloads\\card-rendering\\assets\\";
+	
+	
+	
+	
+	
 	
 	SwingUtilities.invokeLater(() -> {
 
 	    var frame = new JFrame("MTG Card Composer");
 	    	 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    	frame.setContentPane(new MtgCardComposer(new File(directry)));
-	    	 
-	    	 
-	    	 
+	    	 frame.setContentPane(new MtgCardComposer(new File(directry)));
 	    	 frame.setSize(1200, 900);
 	    	 frame.setLocationRelativeTo(null);
 	    	 frame.setVisible(true);

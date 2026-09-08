@@ -25,5 +25,9 @@ public enum BorderColor {
 		return name().substring(0, 1).toUpperCase() + name().substring(1).toLowerCase();
 	}
 	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
 	
 }

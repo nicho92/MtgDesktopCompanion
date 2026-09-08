@@ -1,5 +1,6 @@
 package org.magic.composer.gui;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,6 +17,7 @@ import javax.swing.JPanel;
 import org.magic.composer.gui.listeners.LayerChangeListener;
 import org.magic.composer.gui.listeners.LayerSelectionListener;
 import org.magic.composer.layer.Layer;
+import org.magic.services.tools.ImageTools;
 
 public class CardCanvas extends JPanel {
 
@@ -295,8 +297,10 @@ public class CardCanvas extends JPanel {
 	var g2 = (Graphics2D) g.create();
 	try {
 
-	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	    g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+	 //   g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	 //   g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		ImageTools.initGraphics(g2);
+	    	 
 	    g2.scale(zoom, zoom);
 
 	    // -------------------------------------------------------------
