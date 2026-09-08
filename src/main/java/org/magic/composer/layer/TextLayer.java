@@ -33,9 +33,9 @@ public class TextLayer extends AbstractLayer {
     @Override
     public JsonObject toJson() {
        var obj= super.toJson();
+  	    obj.addProperty("role", role.name());
        	    obj.addProperty("text", text);
-       	    obj.addProperty("roleName", role.name());
-       	    obj.addProperty("fontSize", size);
+       	    obj.addProperty("size", size);
        	    obj.addProperty("color", color.getRGB());
        return obj;
     }
