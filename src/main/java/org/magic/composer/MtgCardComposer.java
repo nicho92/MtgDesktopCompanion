@@ -107,6 +107,7 @@ public class MtgCardComposer extends JPanel {
 	layerList.setCanvas(imageCanvas);
 
 	inspector = new LayerDetailPanel();
+	inspector.setLayerChangeListener(layer -> imageCanvas.repaint());
 	
 	
 	imageCanvas.setLayerChangeListener(layer-> inspector.refresh(layer));
