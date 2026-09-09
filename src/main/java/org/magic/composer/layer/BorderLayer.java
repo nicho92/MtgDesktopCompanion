@@ -6,19 +6,19 @@ import java.awt.geom.RoundRectangle2D;
 
 import org.magic.composer.models.BorderColor;
 
-import com.google.gson.JsonObject;
-
 public class BorderLayer extends AbstractLayer {
 
-    private final int CARD_WIDTH = 2990;
-    private final int CARD_HEIGHT = 4180;
     
     private double radius=116.5;
     private Color color = Color.BLACK; 
     
     
     public BorderLayer(BorderColor c) {
-		this.color=c.getColor();
+    	
+    	width = 2990;
+    	height = 4180;
+  
+    	this.color=c.getColor();
 		setName(c.toString());
     }
     
@@ -30,21 +30,11 @@ public class BorderLayer extends AbstractLayer {
     @Override
     public void paint(Graphics2D g2) {
 		g2.setColor(color);
-		g2.fill(new RoundRectangle2D.Double(x, y, CARD_WIDTH, CARD_HEIGHT, radius, radius));
+		g2.fill(new RoundRectangle2D.Double(x, y, width, height, radius, radius));
 
     }
 
-    @Override
-    public int getWidth() {
-    	return CARD_WIDTH;
-    }
-
-    @Override
-    public int getHeight() {
-    	return CARD_HEIGHT;
-    }
-
-    
+ 
     public Color getColor() {
 	return color;
     }
@@ -53,15 +43,5 @@ public class BorderLayer extends AbstractLayer {
 	return radius;
     }
     
-    @Override
-    public JsonObject toJson() {
-       var obj = super.toJson();
-       
-       obj.addProperty("color", color.getRGB());
-       obj.addProperty("radius", radius);
-       
-       return obj;
-    }
-    
-    
+   
 }

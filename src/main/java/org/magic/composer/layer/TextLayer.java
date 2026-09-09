@@ -5,16 +5,16 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
-import java.awt.font.TextLayout;
 import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
 import java.text.AttributedString;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.composer.models.TextRole;
+import javax.swing.SwingConstants;
 
-import com.google.gson.JsonObject;
+import org.magic.composer.models.TextRole;
 
 /**
  * A text layer rendered inside a rectangular zone.
@@ -28,14 +28,13 @@ public class TextLayer extends AbstractLayer {
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
     private static final int DEFAULT_ORACLE_TEXT_WIDTH = 500;
     private static final int DEFAULT_ORACLE_TEXT_HEIGHT = 220;
-    private static final float MIN_FONT_SIZE = 1.0f;
+    private static final float MIN_FONT_SIZE = 18.0f;
 
     private String text;
     private float size;
     private Color color;
     private final TextRole role;
-    private int width;
-    private int height;
+
 
     public TextLayer(String text, TextRole role) {
         this.role = role;
@@ -58,15 +57,6 @@ public class TextLayer extends AbstractLayer {
         }
     }
 
-    @Override
-    public JsonObject toJson() {
-        var obj = super.toJson();
-        obj.addProperty("role", role.name());
-        obj.addProperty("text", text);
-        obj.addProperty("size", size);
-        obj.addProperty("color", color.getRGB());
-        return obj;
-    }
 
     public TextRole getRole() {
         return role;
@@ -123,8 +113,8 @@ public class TextLayer extends AbstractLayer {
             float baseline = y + layout.lineHeight();
             for (var line : layout.lines()) {
                 float lineX = switch (role.getAlignement()) {
-                case javax.swing.SwingConstants.CENTER -> x + (width - line.getAdvance()) / 2;
-                case javax.swing.SwingConstants.RIGHT -> x + width - line.getAdvance();
+                case SwingConstants.CENTER -> x + (width - line.getAdvance()) / 2;
+                case SwingConstants.RIGHT -> x + width - line.getAdvance();
                 default -> x;
                 };
                 line.draw(zoneGraphics, lineX, baseline);

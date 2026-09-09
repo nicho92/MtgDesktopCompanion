@@ -13,6 +13,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
@@ -439,8 +440,9 @@ public class MTGConstants {
 			ICON_CLEAR.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_HELP = new ImageIcon(
 			ICON_HELP.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-	public static final ImageIcon ICON_SMALL_SCRIPT = new ImageIcon(
-			ICON_SCRIPT.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_SMALL_SCRIPT = new ImageIcon(ICON_SCRIPT.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final Icon ICON_SMALL_SAVE = new ImageIcon(ICON_SAVE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	public static final Icon ICON_SMALL_OPEN = new ImageIcon(ICON_OPEN.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 	public static ImageIcon getIconFor(Class<?> c) {
 		try {

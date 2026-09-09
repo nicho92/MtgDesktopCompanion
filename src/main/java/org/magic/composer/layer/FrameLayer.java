@@ -7,33 +7,27 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.google.gson.JsonObject;
-
 public class FrameLayer extends AbstractLayer {
 
     private transient BufferedImage image;
-    protected transient File source; 
+    protected File source; 
     
     public FrameLayer(File source) {
 	
     	try {
-    	    	    this.source=source;
+    	    this.source=source;
 		    this.image =  ImageIO.read(source);
 		    setName(source.getName());
+		    
+		    width = image.getWidth();
+		    height = image.getHeight();
 		} catch (IOException e) {
 		   logger.error(e);
 		}
         
     }
     
-    @Override
-    public JsonObject toJson() {
-       var obj =super.toJson();
-      
-   	    obj.addProperty("path", source.getAbsolutePath());
-       return obj;
-       
-    }
+  
     
     
 
@@ -41,16 +35,6 @@ public class FrameLayer extends AbstractLayer {
         return image;
     }
 
-    @Override
-    public int getWidth() {
-        return image.getWidth();
-    }
-    
-    @Override
-    public int getHeight() {
-        return image.getHeight();
-    }
-       
 
     @Override
     public void paint(Graphics2D g2) {

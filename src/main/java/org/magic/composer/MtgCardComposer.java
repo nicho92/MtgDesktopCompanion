@@ -2,8 +2,6 @@ package org.magic.composer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -214,13 +212,13 @@ public class MtgCardComposer extends JPanel {
 
     private DefaultMutableTreeNode initTree(File file) {
 
-	DefaultMutableTreeNode node = new DefaultMutableTreeNode(file);
+	var node = new DefaultMutableTreeNode(file);
 
 	if (!file.isDirectory()) {
 	    return node;
 	}
 
-	File[] children = file.listFiles();
+	var children = file.listFiles();
 
 	if (children == null) {
 	    return node;
@@ -237,7 +235,7 @@ public class MtgCardComposer extends JPanel {
 	    return a.getName().compareToIgnoreCase(b.getName());
 	});
 
-	for (File child : children) {
+	for (var child : children) {
 	    node.add(initTree(child));
 	}
 
@@ -261,10 +259,9 @@ public class MtgCardComposer extends JPanel {
     public static void main(String[] args) {
 
 	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
-	var directry="D:\\programmation\\GIT\\mtg-card-generator-main\\assets";
+	var directry="C:\\Users\\nicolas.pihen\\Downloads\\card-rendering\\assets";
 	
 	SwingUtilities.invokeLater(() -> {
-
 	    var frame = new JFrame("MTG Card Composer");
 	    	 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    	 frame.setContentPane(new MtgCardComposer(new File(directry)));

@@ -30,8 +30,5 @@ public interface Layer {
     int getWidth();
 
     int getHeight();
-
-    JsonObject toJson();
-    
     
 }

@@ -34,8 +34,7 @@ public class LayerDetailPanel extends JPanel {
     private final JSpinner widthSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
     private final JSpinner heightSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
     private final JCheckBox visibleCheckBox =  new JCheckBox("Visible");
-    private final TextLayerDetailPanel textLayerDetailPanel = new TextLayerDetailPanel();
-
+  
     private Layer layer;
     private LayerChangeListener layerChangeListener;
     private boolean updating = false;
@@ -63,9 +62,8 @@ public class LayerDetailPanel extends JPanel {
         content.add(Box.createVerticalStrut(10));
 
         content.add(createSectionTitle("Properties"));
-        content.add(visibleCheckBox,BorderLayout.WEST);
-        content.add(textLayerDetailPanel);
-
+        	content.add(visibleCheckBox,BorderLayout.WEST);
+       	
         content.add(Box.createVerticalStrut(10));
 
         content.add(createSectionTitle("Source"));
@@ -81,8 +79,7 @@ public class LayerDetailPanel extends JPanel {
          */
 
         installListeners();
-        textLayerDetailPanel.setChangeListener(this::notifyLayerChanged);
-
+      
         clear();
     }
 
@@ -194,8 +191,10 @@ public class LayerDetailPanel extends JPanel {
         visibleCheckBox.addActionListener(
             _ -> updateVisibility()
         );
+       
     }
-
+    
+ 
     private void updateName() {
 
         if (updating || layer == null) {
@@ -300,7 +299,8 @@ public class LayerDetailPanel extends JPanel {
     public void refresh(Layer layer) {
 
         updating = true;
-
+        
+        
         try {
 
             this.layer = layer;
@@ -310,49 +310,14 @@ public class LayerDetailPanel extends JPanel {
                 return;
             }
 
-            /*
-             * Identity
-             */
-
-            nameField.setText(
-                layer.getName()
-            );
-
-            typeValue.setText(
-                layer.getClass().getSimpleName()
-            );
-
-            /*
-             * Transform
-             */
-
-            xSpinner.setValue(
-                layer.getX()
-            );
-
-            ySpinner.setValue(
-                layer.getY()
-            );
-
-            widthSpinner.setValue(
-                layer.getWidth()
-            );
-
-            heightSpinner.setValue(
-                layer.getHeight()
-            );
-
-            /*
-             * Properties
-             */
-
-            visibleCheckBox.setSelected(
-                layer.isVisible()
-            );
-
-            textLayerDetailPanel.refresh(
-                layer instanceof TextLayer textLayer ? textLayer : null
-            );
+			nameField.setText(layer.getName());
+			typeValue.setText(layer.getClass().getSimpleName());
+			xSpinner.setValue(layer.getX());
+			ySpinner.setValue(layer.getY());
+			widthSpinner.setValue(layer.getWidth());
+			heightSpinner.setValue(layer.getHeight());
+			visibleCheckBox.setSelected(layer.isVisible());
+           
 
         } finally {
 
@@ -377,7 +342,7 @@ public class LayerDetailPanel extends JPanel {
             heightSpinner.setValue(1);
 
             visibleCheckBox.setSelected(false);
-            textLayerDetailPanel.refresh(null);
+          
 
         } finally {
 

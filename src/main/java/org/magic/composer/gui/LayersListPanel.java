@@ -21,7 +21,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import org.apache.logging.log4j.Logger;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.composer.layer.Layer;
+import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 
@@ -62,18 +64,16 @@ public class LayersListPanel extends JPanel {
 	JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 3, 3));
 
 	JButton upButton = new JButton("↑");
-
 	JButton downButton = new JButton("↓");
-
-	JButton deleteButton = new JButton("✕");
-	
-	JButton saveButton = new JButton("\uD83D\uDCBE");
-	
+	JButton deleteButton = new JButton(MTGConstants.ICON_SMALL_DELETE);
+	JButton saveButton = new JButton(MTGConstants.ICON_SMALL_SAVE);
+	JButton openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
 
 	buttons.add(upButton);
 	buttons.add(downButton);
 	buttons.add(deleteButton);
 	buttons.add(saveButton);
+	buttons.add(openButton);
 	
 	
 	add(buttons, BorderLayout.SOUTH);
@@ -88,30 +88,28 @@ public class LayersListPanel extends JPanel {
 	    
 	    JFileChooser chose = new JFileChooser();
 	    	chose.showSaveDialog(this);
-	    
-	    
-	    	
-	    	var arr = new JsonArray();
-	    	
-	    	for(var lay: canvas.getLayers())
-	    	{
-	    	  arr.add(lay.toJson());
-	    	}
-	    	  
-	    	
-	    	
-	    	
+	    	var s = new JsonExport().toJson(canvas.getLayers());
+
     	    try {
-		FileTools.saveFile(chose.getSelectedFile(), arr.toString());
-	    } catch (IOException e) {
-		logger.error(e);
-	    }
-	    	
-	    	
-	    	
-	    	
+    	    	FileTools.saveFile(chose.getSelectedFile(), s);
+			    } catch (IOException e) {
+			    	logger.error(e);
+			    }
 	});
 	
+	openButton.addActionListener(_->{
+	    
+	    JFileChooser chose = new JFileChooser();
+	    	chose.showOpenDialog(this);
+	    	
+	    	try {
+	    			var s = FileTools.readFile(chose.getSelectedFile());
+	    			var layers = new JsonExport().fromJsonList(s, Layer.class);
+	    			setLayers(layers);
+			    } catch (IOException e) {
+			    	logger.error(e);
+			    }
+	});
 	
 	
 	list.addMouseListener(new MouseAdapter() {

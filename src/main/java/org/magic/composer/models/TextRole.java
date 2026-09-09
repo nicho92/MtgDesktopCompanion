@@ -16,8 +16,8 @@ public enum TextRole {
 	ARTIST (8,"Beleren Small Caps",Font.PLAIN,SwingConstants.LEFT,Color.WHITE),
 	COPYRIGHT (8,"MPlantin",Font.PLAIN, SwingConstants.RIGHT,Color.WHITE),
 	COLLECTOR_INFO (8,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
-    	SET_AND_LANG (8,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
-    	SEPARATOR(8,"NDPMTG",Font.PLAIN,SwingConstants.CENTER,Color.WHITE);
+    SET_AND_LANG (8,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
+    SEPARATOR(8,"NDPMTG",Font.PLAIN,SwingConstants.CENTER,Color.WHITE);
     	
     
 	private int size;

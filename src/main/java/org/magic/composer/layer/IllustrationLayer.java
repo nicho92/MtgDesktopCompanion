@@ -7,29 +7,20 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import com.google.gson.JsonObject;
+import org.magic.services.network.URLTools;
 
 public class IllustrationLayer extends AbstractLayer {
 
 	private transient BufferedImage image;
-	private int width;
-	private int height;
 	private URL url;
 
-	@Override
-	public JsonObject toJson() {
-		var obj = super.toJson();
-		obj.addProperty("url", url.toString());
-		return obj;
-
-	}
-
+	
 	public IllustrationLayer(URL source) {
 
 		this.url = source;
 
 		try {
-			this.image = ImageIO.read(source);
+			this.image = URLTools.extractAsImage(source.toString());
 		} catch (IOException e) {
 			logger.error(e);
 		}
@@ -55,14 +46,5 @@ public class IllustrationLayer extends AbstractLayer {
 		this.height = height;
 	}
 
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
-	}
 
 }

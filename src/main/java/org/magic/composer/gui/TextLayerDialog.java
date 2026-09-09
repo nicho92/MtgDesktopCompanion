@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Window;
-import java.awt.Dialog.ModalityType;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -22,7 +21,6 @@ import javax.swing.SpinnerNumberModel;
 
 import org.magic.composer.gui.listeners.SimpleDocumentListener;
 import org.magic.composer.layer.TextLayer;
-import org.magic.composer.models.TextRole;
 
 public class TextLayerDialog extends JDialog {
 

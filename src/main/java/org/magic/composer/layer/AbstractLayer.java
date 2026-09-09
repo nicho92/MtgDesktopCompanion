@@ -3,32 +3,22 @@ package org.magic.composer.layer;
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
 
-import com.google.gson.JsonObject;
-
 public abstract class AbstractLayer implements Layer {
 
     protected String name;
     protected int x=0;
     protected int y=0;
+    protected int width;
+    protected int height;
+    
     protected boolean visible = true;
-
+    private String layerType = this.getClass().getSimpleName();
+    
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
     
-    @Override
-    public JsonObject toJson() {
-        var obj = new JsonObject();
-        	obj.addProperty("type", getClass().getName());
-        	obj.addProperty("name", name);
-        	obj.addProperty("x", x);
-        	obj.addProperty("y", y);
-         	obj.addProperty("width", getWidth());
-           	obj.addProperty("height", getHeight());
-        	obj.addProperty("visible", visible);
-        	
-        	
-        	
-        return obj;
-    }
+    public String getLayerType() {
+		return layerType;
+	}
     
     public String getName() {
         return name;
@@ -62,6 +52,14 @@ public abstract class AbstractLayer implements Layer {
         this.visible = visible;
     }
 
+    @Override
+    public int getHeight() {
+    	return height;
+    }
+    @Override
+    public int getWidth() {
+    	return width;
+    }
 
     public boolean contains(int px, int py) {
 
