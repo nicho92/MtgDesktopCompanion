@@ -13,28 +13,28 @@ public class FrameLayer extends AbstractLayer {
     protected File source; 
     
     public FrameLayer(File source) {
-	
-    	try {
-    	    	    this.source=source;
-		    this.image =  ImageIO.read(source);
-		    setName(source.getName());
-		    
-		    width = image.getWidth();
-		    height = image.getHeight();
-		} catch (IOException e) {
-		   logger.error(e);
-		}
-        
+	this.source=source;
+	setName(source.getName());
+	reload();
     }
-    
-  
-    
-    
 
     public BufferedImage getImage() {
         return image;
     }
-
+    
+    @Override
+    public void reload() {
+	try {
+	    this.image =  ImageIO.read(source);
+	   
+	    width = image.getWidth();
+	    height = image.getHeight();
+	    
+            } catch (IOException e) {
+        	   logger.error(e);
+        	}
+        }
+    
 
     @Override
     public void paint(Graphics2D g2) {

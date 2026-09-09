@@ -83,5 +83,11 @@ public abstract class AbstractLayer implements Layer {
     public String toString() {
         return name;
     }
+    
+    @Override
+    public void reload() {
+     // do nothing by default;
+        
+    }
 
 }

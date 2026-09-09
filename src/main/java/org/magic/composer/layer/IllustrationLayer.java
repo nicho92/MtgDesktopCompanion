@@ -15,12 +15,8 @@ public class IllustrationLayer extends AbstractLayer {
 	public IllustrationLayer(URL source) {
 
 		this.url = source;
-
-		try {
-			this.image = URLTools.extractAsImage(source.toString());
-		} catch (IOException e) {
-			logger.error(e);
-		}
+		setName("Illustration");
+		reload();
 		width = image.getWidth();
 		height = image.getHeight();
 	}
@@ -28,7 +24,18 @@ public class IllustrationLayer extends AbstractLayer {
 	public BufferedImage getImage() {
 		return image;
 	}
+	
+	@Override
+	public void reload() {
 
+		try {
+			this.image = URLTools.extractAsImage(url.toString());
+		} catch (IOException e) {
+			logger.error(e);
+		}
+		
+	}
+	
 	@Override
 	public void paint(Graphics2D g2) {
 		g2.drawImage(getImage(), getX(), getY(), getWidth(), getHeight(), null);

@@ -14,12 +14,11 @@ public class BorderLayer extends AbstractLayer {
     
     
     public BorderLayer(BorderColor c) {
-    	
     	width = 2990;
     	height = 4180;
   
     	this.color=c.getColor();
-		setName(c.toString());
+	setName(c.toString());
     }
     
     @Override

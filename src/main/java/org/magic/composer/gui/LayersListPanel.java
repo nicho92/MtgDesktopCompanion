@@ -97,13 +97,15 @@ public class LayersListPanel extends JPanel {
 	
 	openButton.addActionListener(_->{
 	    
-	    JFileChooser chose = new JFileChooser();
-	    	chose.showOpenDialog(this);
+	    var chose = new JFileChooser();
+	    			chose.showOpenDialog(this);
 	    	
 	    	try {
 	    			var s = FileTools.readFile(chose.getSelectedFile());
 	    			var layers = new JsonExport().fromJsonList(s, Layer.class);
 	    			setLayers(layers);
+	    			
+	    			layers.forEach(Layer::reload);
 	    			
 	    			layers.forEach(canvas::addLayer);
 	    			

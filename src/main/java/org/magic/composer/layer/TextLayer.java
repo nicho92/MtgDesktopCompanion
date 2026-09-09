@@ -16,13 +16,7 @@ import javax.swing.SwingConstants;
 
 import org.magic.composer.models.TextRole;
 
-/**
- * A text layer rendered inside a rectangular zone.
- *
- * <p>The preferred font size is reduced when necessary so every wrapped line
- * fits in the zone. Explicit line breaks are preserved, which makes the layer
- * suitable for multi-line oracle text.</p>
- */
+
 public class TextLayer extends AbstractLayer {
 
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);

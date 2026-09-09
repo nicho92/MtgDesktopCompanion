@@ -33,5 +33,6 @@ public interface Layer {
 
     void setWidth(int width);
     
+    void reload();
     
 }
