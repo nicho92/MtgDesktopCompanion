@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Arrays;
 
+import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -28,6 +29,7 @@ import org.magic.composer.gui.CardCanvas;
 import org.magic.composer.gui.LayerDetailPanel;
 import org.magic.composer.gui.LayersListPanel;
 import org.magic.composer.gui.LeftPanel;
+import org.magic.composer.gui.RenderingHintsDialog;
 import org.magic.composer.gui.TextLayerDialog;
 import org.magic.composer.layer.BorderLayer;
 import org.magic.composer.layer.FrameLayer;
@@ -135,8 +137,31 @@ public class MtgCardComposer extends JPanel {
 	
 	sldZoom.setValue(20);
 	
-	add(sldZoom, BorderLayout.SOUTH);
-
+	
+	var btnRender = new JButton("Render Config");
+	
+	JPanel paneSouth = new JPanel();
+	paneSouth.setLayout(new BorderLayout());
+	paneSouth.add(sldZoom,BorderLayout.CENTER);
+	paneSouth.add(btnRender,BorderLayout.EAST);
+	
+	add(paneSouth, BorderLayout.SOUTH);
+	
+	
+	btnRender.addActionListener(_->{
+	    
+	    var diag = new RenderingHintsDialog(null,imageCanvas.getHints());
+	    diag.setVisible(true);
+	    
+	    var res = diag.getRenderingHints();
+	    
+	    if(res!=null)
+		imageCanvas.setHints(res);
+	    
+	    
+	});
+	
+	
 	layerList.getList().addListSelectionListener(e -> {
 
 	    if (e.getValueIsAdjusting()) {
@@ -259,7 +284,7 @@ public class MtgCardComposer extends JPanel {
     public static void main(String[] args) {
 
 	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
-	var directry="C:\\Users\\nicolas.pihen\\Downloads\\card-rendering\\assets";
+	var directry="D:\\programmation\\GIT\\mtg-card-generator-main\\assets";
 	
 	SwingUtilities.invokeLater(() -> {
 	    var frame = new JFrame("MTG Card Composer");

@@ -66,17 +66,9 @@ public class LayerDetailPanel extends JPanel {
        	
         content.add(Box.createVerticalStrut(10));
 
-        content.add(createSectionTitle("Source"));
-
         var scrollPane = new JScrollPane(content);
         scrollPane.setBorder(null);
         add(scrollPane,BorderLayout.CENTER );
-
-        /*
-         * -------------------------------------------------------------
-         * Listeners
-         * -------------------------------------------------------------
-         */
 
         installListeners();
       
@@ -257,14 +249,8 @@ public class LayerDetailPanel extends JPanel {
             return;
         }
 
-        int height =
-            (Integer) heightSpinner.getValue();
-
-        if(layer instanceof IllustrationLayer illustration)
-            illustration.setHeight(height);
-        else if (layer instanceof TextLayer textLayer)
-            textLayer.setHeight(height);
-
+        int height =(Integer) heightSpinner.getValue();
+        layer.setHeight(height);
         notifyLayerChanged();
     }
 

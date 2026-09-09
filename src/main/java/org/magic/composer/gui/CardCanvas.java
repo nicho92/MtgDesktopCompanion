@@ -1,6 +1,5 @@
 package org.magic.composer.gui;
 
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,13 +10,13 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
 import org.magic.composer.gui.listeners.LayerChangeListener;
 import org.magic.composer.gui.listeners.LayerSelectionListener;
 import org.magic.composer.layer.Layer;
-import org.magic.services.tools.ImageTools;
 
 public class CardCanvas extends JPanel {
 
@@ -37,6 +36,8 @@ public class CardCanvas extends JPanel {
 
     private LayerSelectionListener selectionListener;
     private LayerChangeListener layerChangeListener;
+
+    private RenderingHints  hints;
     
     
     
@@ -44,6 +45,12 @@ public class CardCanvas extends JPanel {
 
 	setBackground(Color.LIGHT_GRAY);
 
+	hints = new RenderingHints(Map.of(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON,
+							    RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED, 
+							    RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, 
+							    RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC));
+		 
+	
 	var mouseHandler = new MouseAdapter() {
 
 	    @Override
@@ -85,6 +92,15 @@ public class CardCanvas extends JPanel {
     public double getZoom() {
 	return zoom;
     }
+    
+    public void setHints(RenderingHints hints) {
+	this.hints = hints;
+    }
+    
+    public RenderingHints getHints() {
+	return hints;
+    }
+    
 
     public void setZoom(double zoom) {
 	if (zoom <= 0) {
@@ -296,11 +312,8 @@ public class CardCanvas extends JPanel {
 	super.paintComponent(g);
 	var g2 = (Graphics2D) g.create();
 	try {
-
-	 //   g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-	 //   g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-		ImageTools.initGraphics(g2);
-	    	 
+	    
+	    g2.setRenderingHints(hints);
 	    g2.scale(zoom, zoom);
 
 	    // -------------------------------------------------------------

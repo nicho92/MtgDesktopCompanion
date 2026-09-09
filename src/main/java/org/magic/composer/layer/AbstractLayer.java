@@ -60,6 +60,16 @@ public abstract class AbstractLayer implements Layer {
     public int getWidth() {
     	return width;
     }
+    
+    @Override
+    public void setHeight(int height) {
+	this.height = height;
+    }
+    
+    @Override
+    public void setWidth(int width) {
+	this.width = width;
+    }
 
     public boolean contains(int px, int py) {
 

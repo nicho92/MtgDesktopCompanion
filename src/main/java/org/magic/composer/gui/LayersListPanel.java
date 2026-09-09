@@ -27,8 +27,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 
-import com.google.gson.JsonArray;
-
 public class LayersListPanel extends JPanel {
 
     /**
@@ -106,6 +104,9 @@ public class LayersListPanel extends JPanel {
 	    			var s = FileTools.readFile(chose.getSelectedFile());
 	    			var layers = new JsonExport().fromJsonList(s, Layer.class);
 	    			setLayers(layers);
+	    			
+	    			layers.forEach(canvas::addLayer);
+	    			
 			    } catch (IOException e) {
 			    	logger.error(e);
 			    }

@@ -15,7 +15,7 @@ public class FrameLayer extends AbstractLayer {
     public FrameLayer(File source) {
 	
     	try {
-    	    this.source=source;
+    	    	    this.source=source;
 		    this.image =  ImageIO.read(source);
 		    setName(source.getName());
 		    

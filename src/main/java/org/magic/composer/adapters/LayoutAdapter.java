@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 
 import org.magic.composer.layer.BorderLayer;
 import org.magic.composer.layer.FrameLayer;
+import org.magic.composer.layer.IllustrationLayer;
 import org.magic.composer.layer.Layer;
 import org.magic.composer.layer.TextLayer;
 
@@ -22,6 +23,7 @@ public class LayoutAdapter implements JsonDeserializer<Layer> {
 				case "BorderLayer" : return context.deserialize(json, BorderLayer.class);
 				case "FrameLayer" : return context.deserialize(json, FrameLayer.class);
 				case "TextLayer" : return context.deserialize(json, TextLayer.class);
+				case "IllustrationLayer" : return context.deserialize(json, IllustrationLayer.class);
 			}
 			
 			throw new JsonParseException("Unknown layer type: " + json.getAsJsonObject().get("layerType").getAsString());
