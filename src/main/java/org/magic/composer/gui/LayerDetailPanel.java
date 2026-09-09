@@ -20,6 +20,8 @@ import javax.swing.event.DocumentListener;
 
 import org.magic.composer.layer.IllustrationLayer;
 import org.magic.composer.layer.Layer;
+import org.magic.composer.layer.TextLayer;
+import org.magic.composer.gui.listeners.LayerChangeListener;
 
 public class LayerDetailPanel extends JPanel {
 
@@ -29,11 +31,13 @@ public class LayerDetailPanel extends JPanel {
     private final JLabel typeValue = new JLabel("-");
     private final JSpinner xSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
     private final JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
-    private final JSpinner widthSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
-    private final JSpinner heightSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
+    private final JSpinner widthSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
+    private final JSpinner heightSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
     private final JCheckBox visibleCheckBox =  new JCheckBox("Visible");
+    private final TextLayerDetailPanel textLayerDetailPanel = new TextLayerDetailPanel();
 
     private Layer layer;
+    private LayerChangeListener layerChangeListener;
     private boolean updating = false;
 
     public LayerDetailPanel() {
@@ -60,6 +64,7 @@ public class LayerDetailPanel extends JPanel {
 
         content.add(createSectionTitle("Properties"));
         content.add(visibleCheckBox,BorderLayout.WEST);
+        content.add(textLayerDetailPanel);
 
         content.add(Box.createVerticalStrut(10));
 
@@ -76,6 +81,7 @@ public class LayerDetailPanel extends JPanel {
          */
 
         installListeners();
+        textLayerDetailPanel.setChangeListener(this::notifyLayerChanged);
 
         clear();
     }
@@ -240,6 +246,8 @@ public class LayerDetailPanel extends JPanel {
         
         if(layer instanceof IllustrationLayer illustration)
             illustration.setWidth(width);
+        else if (layer instanceof TextLayer textLayer)
+            textLayer.setWidth(width);
 
         notifyLayerChanged();
     }
@@ -255,6 +263,8 @@ public class LayerDetailPanel extends JPanel {
 
         if(layer instanceof IllustrationLayer illustration)
             illustration.setHeight(height);
+        else if (layer instanceof TextLayer textLayer)
+            textLayer.setHeight(height);
 
         notifyLayerChanged();
     }
@@ -273,7 +283,14 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private void notifyLayerChanged() {
+        if (layerChangeListener != null) {
+            layerChangeListener.layerChanged(layer);
+        }
         repaint();
+    }
+
+    public void setLayerChangeListener(LayerChangeListener listener) {
+        layerChangeListener = listener;
     }
 
     public Layer getLayer() {
@@ -333,6 +350,10 @@ public class LayerDetailPanel extends JPanel {
                 layer.isVisible()
             );
 
+            textLayerDetailPanel.refresh(
+                layer instanceof TextLayer textLayer ? textLayer : null
+            );
+
         } finally {
 
             updating = false;
@@ -352,10 +373,11 @@ public class LayerDetailPanel extends JPanel {
 
             xSpinner.setValue(0);
             ySpinner.setValue(0);
-            widthSpinner.setValue(0);
-            heightSpinner.setValue(0);
+            widthSpinner.setValue(1);
+            heightSpinner.setValue(1);
 
             visibleCheckBox.setSelected(false);
+            textLayerDetailPanel.refresh(null);
 
         } finally {
 
