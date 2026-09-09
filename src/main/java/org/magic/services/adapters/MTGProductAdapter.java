@@ -17,8 +17,7 @@ import com.google.gson.JsonSerializer;
 public final class MTGProductAdapter implements JsonDeserializer<MTGProduct>, JsonSerializer<MTGProduct> {
 
 	@Override
-	public MTGProduct deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context)
-			throws JsonParseException {
+	public MTGProduct deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context)	throws JsonParseException {
 		try {
 			return context.deserialize(elem,
 					typeForName(EnumItems.valueOf(elem.getAsJsonObject().get("typeProduct").getAsString())));

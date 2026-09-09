@@ -16,6 +16,8 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.extra.MTGProduct;
+import org.magic.composer.adapters.LayoutAdapter;
+import org.magic.composer.layer.Layer;
 import org.magic.services.adapters.ColorAdapter;
 import org.magic.services.adapters.DeckAdapter;
 import org.magic.services.adapters.FileAdapter;
@@ -44,6 +46,7 @@ public class JsonExport extends AbstractCardExport {
 		return new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
 				.registerTypeAdapter(Instant.class, new InstantAdapter())
 				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
+				.registerTypeAdapter(Layer.class, new LayoutAdapter())
 				.registerTypeAdapter(StackTraceElement.class, new StackTraceElementAdapter())
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
 				.registerTypeHierarchyAdapter(File.class, new FileAdapter())
