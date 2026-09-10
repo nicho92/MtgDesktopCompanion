@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.Arrays;
 
 import javax.swing.JButton;
@@ -40,6 +39,7 @@ import org.magic.composer.layer.TextLayer;
 import org.magic.composer.models.BorderColor;
 import org.magic.composer.models.TextRole;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.UITools;
@@ -57,18 +57,15 @@ public class MtgCardComposer extends JPanel {
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
     
     
-    public MtgCardComposer(File rootDirectory) {
+    public MtgCardComposer() {
     	
-	if (rootDirectory == null || !rootDirectory.isDirectory()) {
-	    throw new IllegalArgumentException("rootDirectory must be a valid directory");
-	}
 	
 	UITools.loadFonts();
 	
 
 	setLayout(new BorderLayout());
 
-	var rootNode = initTree(rootDirectory);
+	var rootNode = initTree(new File(MTGConstants.DATA_DIR,"composer"));
 	
 	
 	var rootColors = new DefaultMutableTreeNode("Borders");
@@ -294,13 +291,11 @@ public class MtgCardComposer extends JPanel {
 
     public static void main(String[] args) throws Exception {
 	MTGControler.getInstance().init();
-	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
-	var directry="D:\\programmation\\GIT\\mtg-card-generator-main\\assets";
 	
 	SwingUtilities.invokeLater(() -> {
 	    var frame = new JFrame("MTG Card Composer");
 	    	 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    	 frame.setContentPane(new MtgCardComposer(new File(directry)));
+	    	 frame.setContentPane(new MtgCardComposer());
 	    	 frame.setSize(1200, 900);
 	    	 frame.setLocationRelativeTo(null);
 	    	 frame.setVisible(true);

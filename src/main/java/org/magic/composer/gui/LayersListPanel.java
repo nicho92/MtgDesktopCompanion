@@ -23,7 +23,9 @@ import javax.swing.ListSelectionModel;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.composer.layer.Layer;
+import org.magic.composer.tools.ComposerUtils;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 
@@ -86,36 +88,27 @@ public class LayersListPanel extends JPanel {
 	    
 	    JFileChooser chose = new JFileChooser();
 	    	chose.showSaveDialog(this);
-	    	var s = new JsonExport().toJson(canvas.getLayers());
-
-    	    try {
-    	    	FileTools.saveFile(chose.getSelectedFile(), s);
-			    } catch (IOException e) {
-			    	logger.error(e);
-			    }
+	    	
+	    	try {
+		    ComposerUtils.save(chose.getSelectedFile(), canvas.getLayers());
+		} catch (IOException e) {
+		   MTGControler.getInstance().notify(e);
+		}
 	});
 	
 	openButton.addActionListener(_->{
 	    
 	    var chose = new JFileChooser();
-	    			chose.showOpenDialog(this);
+	    	chose.showOpenDialog(this);
 	    	
 	    	try {
-	    			var s = FileTools.readFile(chose.getSelectedFile());
-	    			var layers = new JsonExport().fromJsonList(s, Layer.class);
-	    			canvas.clear();
-	    			
-	    			setLayers(layers);
-	    			
-	    			layers.forEach(Layer::reload);
-	    			
-	    			
-	    			
-	    			layers.forEach(canvas::addLayer);
-	    			
-			    } catch (IOException e) {
-			    	logger.error(e);
-			    }
+	    	    	var layers = ComposerUtils.open(chose.getSelectedFile());
+            	    	canvas.clear();
+            	    	setLayers(layers);
+            	    	layers.forEach(canvas::addLayer);
+	    	} catch (IOException e) {
+			logger.error(e);
+		}
 	});
 	
 	

@@ -16,12 +16,8 @@ public class FrameLayer extends AbstractLayer {
 	this.source=source;
 	setName(source.getName());
 	reload();
-	
-	    width = image.getWidth();
-	    height = image.getHeight();
-	
-	    
-	    
+	setWidth(image.getWidth());
+	setHeight(image.getHeight());
     }
 
     public BufferedImage getImage() {
@@ -32,13 +28,10 @@ public class FrameLayer extends AbstractLayer {
     public void reload() {
 	try {
 	    this.image =  ImageIO.read(source);
-	   
-	    
-            } catch (IOException e) {
+          } catch (IOException e) {
         	   logger.error(e);
-        	}
-        }
-    
+       	}
+     }
 
     @Override
     public void paint(Graphics2D g2) {
