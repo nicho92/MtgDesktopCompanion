@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import javax.swing.JButton;
@@ -34,9 +35,12 @@ import org.magic.composer.gui.TextLayerDialog;
 import org.magic.composer.layer.BorderLayer;
 import org.magic.composer.layer.FrameLayer;
 import org.magic.composer.layer.IllustrationLayer;
+import org.magic.composer.layer.SymbolLayer;
 import org.magic.composer.layer.TextLayer;
 import org.magic.composer.models.BorderColor;
 import org.magic.composer.models.TextRole;
+import org.magic.gui.components.dialog.importer.ManaCostDialog;
+import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.UITools;
 
@@ -84,6 +88,12 @@ public class MtgCardComposer extends JPanel {
 		rootImage.add(new DefaultMutableTreeNode("URL"));
 	
 		rootNode.add(rootImage);
+		
+	var rootCost = new DefaultMutableTreeNode("Cost");
+		rootCost.add(new DefaultMutableTreeNode("Cost"));
+	
+		rootNode.add(rootCost);	
+		
 	
 	tree = new JTree(new DefaultTreeModel(rootNode));
 
@@ -207,8 +217,7 @@ public class MtgCardComposer extends JPanel {
 			}
 		    imageCanvas.addLayer(new BorderLayer(c));
 		}
-		
-		if (object.toString().equals("URL"))
+		else if (object.toString().equals("URL"))
 		{
 		    
 		  var url = JOptionPane.showInputDialog("URL ?");
@@ -219,9 +228,15 @@ public class MtgCardComposer extends JPanel {
 			logger.error(e1);
 		    }
 		}
-		
-		
-
+		else if (object.toString().equals("Cost"))
+		{
+		    ManaCostDialog diag = new ManaCostDialog();
+		    diag.setVisible(true);
+		    
+		   
+		    
+			imageCanvas.addLayer(new SymbolLayer( diag.getSelectedItem()));
+		}
 		layerList.setLayers(imageCanvas.getLayers());
 	    }
 	});
@@ -277,8 +292,8 @@ public class MtgCardComposer extends JPanel {
     // Demo
     // =====================================================================
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception {
+	MTGControler.getInstance().init();
 	//var directry = "D:\\Téléchargements\\Full-Magic-Pack-main\\data";
 	var directry="D:\\programmation\\GIT\\mtg-card-generator-main\\assets";
 	

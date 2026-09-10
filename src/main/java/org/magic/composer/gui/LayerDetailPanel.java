@@ -18,10 +18,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.magic.composer.layer.IllustrationLayer;
-import org.magic.composer.layer.Layer;
-import org.magic.composer.layer.TextLayer;
 import org.magic.composer.gui.listeners.LayerChangeListener;
+import org.magic.composer.layer.Layer;
 
 public class LayerDetailPanel extends JPanel {
 
@@ -33,12 +31,14 @@ public class LayerDetailPanel extends JPanel {
     private final JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
     private final JSpinner widthSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
     private final JSpinner heightSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
+    private final JSpinner scaleSpinner = new JSpinner(new SpinnerNumberModel(1.0, 1.0, 10, 0.1));
     private final JCheckBox visibleCheckBox =  new JCheckBox("Visible");
   
     private Layer layer;
     private LayerChangeListener layerChangeListener;
     private boolean updating = false;
-
+    private double previousScale = 1.0;
+    
     public LayerDetailPanel() {
 
         setLayout(new BorderLayout());
@@ -58,6 +58,7 @@ public class LayerDetailPanel extends JPanel {
         content.add(createProperty("Y", ySpinner));
         content.add(createProperty("Width", widthSpinner));
         content.add(createProperty("Height", heightSpinner));
+        content.add(createProperty("Scale", scaleSpinner));
 
         content.add(Box.createVerticalStrut(10));
 
@@ -183,7 +184,10 @@ public class LayerDetailPanel extends JPanel {
         visibleCheckBox.addActionListener(
             _ -> updateVisibility()
         );
-       
+        scaleSpinner.addChangeListener(
+                _ -> updateScale()
+                );
+        
     }
     
  
@@ -226,6 +230,30 @@ public class LayerDetailPanel extends JPanel {
         notifyLayerChanged();
     }
 
+    private void updateScale() {
+
+
+	    if (updating || layer == null) {
+	        return;
+	    }
+
+	    double newScale = ((Number) scaleSpinner.getValue()).doubleValue();
+
+	    if (newScale <= 0) {
+	        return;
+	    }
+
+	    // Le spinner représente un scale absolu.
+	    // layer.scale() attend un facteur relatif.
+	    double factor = newScale / previousScale;
+
+	    layer.scale(factor);
+
+	    previousScale = newScale;
+
+	    notifyLayerChanged();
+    }
+    
     private void updateWidth() {
 
         if (updating || layer == null) {
@@ -233,13 +261,7 @@ public class LayerDetailPanel extends JPanel {
         }
 
         int width = (Integer) widthSpinner.getValue();
-        
-        
-        if(layer instanceof IllustrationLayer illustration)
-            illustration.setWidth(width);
-        else if (layer instanceof TextLayer textLayer)
-            textLayer.setWidth(width);
-
+        layer.setWidth(width);
         notifyLayerChanged();
     }
 
@@ -285,7 +307,7 @@ public class LayerDetailPanel extends JPanel {
     public void refresh(Layer layer) {
 
         updating = true;
-        
+        previousScale = 1.0;
         
         try {
 
@@ -321,7 +343,9 @@ public class LayerDetailPanel extends JPanel {
 
             nameField.setText("-");
             typeValue.setText("-");
-
+            
+            previousScale = 1.0;
+            scaleSpinner.setValue(1.0);
             xSpinner.setValue(0);
             ySpinner.setValue(0);
             widthSpinner.setValue(1);

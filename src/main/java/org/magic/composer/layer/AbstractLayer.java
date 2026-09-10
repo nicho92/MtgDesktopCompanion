@@ -16,13 +16,26 @@ public abstract class AbstractLayer implements Layer {
     
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
     
+    @Override
     public String getLayerType() {
 		return layerType;
 	}
     
+    @Override
     public String getName() {
         return name;
     }
+    
+    @Override
+    public void scale(double scale) {
+	    if (scale <= 0) {
+	        throw new IllegalArgumentException("Scale must be greater than 0");
+	    }
+
+	    setWidth((int) Math.round(getWidth() * scale));
+	    setHeight((int) Math.round(getHeight() * scale));
+	}
+    
 
     public void setName(String name) {
         this.name = name;

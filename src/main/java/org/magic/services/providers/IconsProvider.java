@@ -246,7 +246,7 @@ public class IconsProvider {
 		return cache16.get(id);
 	}
 
-	public Image getManaSymbol(String el) {
+	public BufferedImage getManaSymbol(String el) {
 		var val = 0;
 		try {
 			val = Integer.parseInt(el);

@@ -34,5 +34,9 @@ public interface Layer {
     void setWidth(int width);
     
     void reload();
+
+    String getLayerType();
+
+    void scale(double scale);
     
 }
