@@ -42,5 +42,8 @@ public class BorderLayer extends AbstractLayer {
 	return radius;
     }
     
+    public void setRadius(double radius) {
+	this.radius = radius;
+    }
    
 }

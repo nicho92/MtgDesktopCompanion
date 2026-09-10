@@ -57,7 +57,7 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<jwt.version>0.13.0</jwt.version>
 		<lucene.version>10.5.1</lucene.version>
-		<artemis.version>2.56.0</artemis.version>
+		<artemis.version>2.57.0</artemis.version>
 		<flatlaf.version>3.7.2</flatlaf.version>
 		<qwartz.version>2.5.2</qwartz.version>
 		<rome.version>2.1.0</rome.version>
@@ -67,7 +67,7 @@
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.30.0</commonmark.version>
 		<langchain4j.version>1.20.0</langchain4j.version>
-		<telegram.version>10.2.1</telegram.version>
+		<telegram.version>10.3.0</telegram.version>
 	</properties>
 
 	<repositories>
@@ -439,7 +439,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.4.240</version>
+			<version>2.5.250</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
@@ -606,7 +606,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>6.5.0</version>
+			<version>6.6.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>

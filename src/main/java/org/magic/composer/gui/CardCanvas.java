@@ -302,6 +302,7 @@ public class CardCanvas extends JPanel {
 	    selectionListener.layerSelected(selectedLayer);
 	}
     }
+   
 
     // =====================================================================
     // Painting
@@ -348,6 +349,13 @@ public class CardCanvas extends JPanel {
 	g2.setColor(Color.WHITE);
 	g2.drawRect(x, y, width, height);
 	g2.setStroke(oldStroke);
+    }
+
+    public void clear() {
+	layers.clear();
+	notifyLayerChanged();
+	repaint();
+	
     }
 
 }

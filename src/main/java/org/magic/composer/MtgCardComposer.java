@@ -107,7 +107,7 @@ public class MtgCardComposer extends JPanel {
 	layerList.setCanvas(imageCanvas);
 
 	inspector = new LayerDetailPanel();
-	inspector.setLayerChangeListener(layer -> imageCanvas.repaint());
+	inspector.setLayerChangeListener(_ -> imageCanvas.repaint());
 	
 	
 	imageCanvas.setLayerChangeListener(layer-> inspector.refresh(layer));
@@ -152,13 +152,9 @@ public class MtgCardComposer extends JPanel {
 	    
 	    var diag = new RenderingHintsDialog(null,imageCanvas.getHints());
 	    diag.setVisible(true);
-	    
 	    var res = diag.getRenderingHints();
-	    
 	    if(res!=null)
 		imageCanvas.setHints(res);
-	    
-	    
 	});
 	
 	

@@ -7,17 +7,17 @@ import javax.swing.SwingConstants;
 
 public enum TextRole {
 
-	TITLE (24,"Beleren Bold",SwingConstants.LEFT, Font.PLAIN),
-	TYPE_LINE (20,"Beleren Bold",SwingConstants.LEFT,Font.PLAIN),
-	TEXT (18,"MatrixBold",SwingConstants.LEFT,Font.PLAIN),
-	FLAVOR (16,"MatrixBold",SwingConstants.LEFT,Font.ITALIC),
-	POWER_TOUGHNESS(20,"Beleren Bold",SwingConstants.CENTER,Font.PLAIN),
+	TITLE (124,"Beleren Bold",SwingConstants.LEFT, Font.PLAIN),
+	TYPE_LINE (120,"Beleren Bold",SwingConstants.LEFT,Font.PLAIN),
+	TEXT (118,"MatrixBold",SwingConstants.LEFT,Font.PLAIN),
+	FLAVOR (116,"MatrixBold",SwingConstants.LEFT,Font.ITALIC),
+	POWER_TOUGHNESS(120,"Beleren Bold",SwingConstants.CENTER,Font.PLAIN),
 	
-	ARTIST (8,"Beleren Small Caps",Font.PLAIN,SwingConstants.LEFT,Color.WHITE),
-	COPYRIGHT (8,"MPlantin",Font.PLAIN, SwingConstants.RIGHT,Color.WHITE),
-	COLLECTOR_INFO (8,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
-    SET_AND_LANG (8,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
-    SEPARATOR(8,"NDPMTG",Font.PLAIN,SwingConstants.CENTER,Color.WHITE);
+	ARTIST (118,"Beleren Small Caps",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
+	COPYRIGHT (118,"MPlantin",SwingConstants.RIGHT,Font.PLAIN,Color.WHITE),
+	COLLECTOR_INFO (118,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
+	SET_AND_LANG (118,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
+    	SEPARATOR(118,"NDPMTG",SwingConstants.CENTER,Font.PLAIN,Color.WHITE);
     	
     
 	private int size;

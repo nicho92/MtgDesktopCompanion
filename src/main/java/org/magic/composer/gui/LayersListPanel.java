@@ -103,9 +103,13 @@ public class LayersListPanel extends JPanel {
 	    	try {
 	    			var s = FileTools.readFile(chose.getSelectedFile());
 	    			var layers = new JsonExport().fromJsonList(s, Layer.class);
+	    			canvas.clear();
+	    			
 	    			setLayers(layers);
 	    			
 	    			layers.forEach(Layer::reload);
+	    			
+	    			
 	    			
 	    			layers.forEach(canvas::addLayer);
 	    			
