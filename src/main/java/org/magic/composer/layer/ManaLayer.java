@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
 
-public class SymbolLayer extends AbstractLayer{
+public class ManaLayer extends AbstractLayer{
     
     private String cost;
     private transient BufferedImage manaImage;
     
-    public SymbolLayer(String cost)
+    public ManaLayer(String cost)
     {
 	setCost(cost);
 	setName("Symbole " + cost);
@@ -57,14 +57,12 @@ public class SymbolLayer extends AbstractLayer{
         while (matcher.find()) {
 
             String symbol = matcher.group(1);
-
             var manaSymbol =IconsProvider.getInstance().getManaSymbol(symbol);
             
             if (manaSymbol != null) {
                 symbols.add(manaSymbol);
             }
-            else
-            {
+            else {
         	logger.error("no symbol for {}", symbol);
             }
         }

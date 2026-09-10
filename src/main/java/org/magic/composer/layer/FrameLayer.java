@@ -16,6 +16,12 @@ public class FrameLayer extends AbstractLayer {
 	this.source=source;
 	setName(source.getName());
 	reload();
+	
+	    width = image.getWidth();
+	    height = image.getHeight();
+	
+	    
+	    
     }
 
     public BufferedImage getImage() {
@@ -27,8 +33,6 @@ public class FrameLayer extends AbstractLayer {
 	try {
 	    this.image =  ImageIO.read(source);
 	   
-	    width = image.getWidth();
-	    height = image.getHeight();
 	    
             } catch (IOException e) {
         	   logger.error(e);
@@ -42,6 +46,8 @@ public class FrameLayer extends AbstractLayer {
 	        getImage(),
 	        getX(),
 	        getY(),
+	        getWidth(),
+	        getHeight(),
 	        null
 	    );
 	

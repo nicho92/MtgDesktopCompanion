@@ -35,7 +35,7 @@ import org.magic.composer.gui.TextLayerDialog;
 import org.magic.composer.layer.BorderLayer;
 import org.magic.composer.layer.FrameLayer;
 import org.magic.composer.layer.IllustrationLayer;
-import org.magic.composer.layer.SymbolLayer;
+import org.magic.composer.layer.ManaLayer;
 import org.magic.composer.layer.TextLayer;
 import org.magic.composer.models.BorderColor;
 import org.magic.composer.models.TextRole;
@@ -235,7 +235,7 @@ public class MtgCardComposer extends JPanel {
 		    
 		   
 		    
-			imageCanvas.addLayer(new SymbolLayer( diag.getSelectedItem()));
+			imageCanvas.addLayer(new ManaLayer( diag.getSelectedItem()));
 		}
 		layerList.setLayers(imageCanvas.getLayers());
 	    }

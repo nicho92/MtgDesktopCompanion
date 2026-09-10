@@ -6,7 +6,7 @@ import org.magic.composer.layer.BorderLayer;
 import org.magic.composer.layer.FrameLayer;
 import org.magic.composer.layer.IllustrationLayer;
 import org.magic.composer.layer.Layer;
-import org.magic.composer.layer.SymbolLayer;
+import org.magic.composer.layer.ManaLayer;
 import org.magic.composer.layer.TextLayer;
 
 import com.google.gson.JsonDeserializationContext;
@@ -25,7 +25,7 @@ public class LayoutAdapter implements JsonDeserializer<Layer> {
 				case "FrameLayer" : return context.deserialize(json, FrameLayer.class);
 				case "TextLayer" : return context.deserialize(json, TextLayer.class);
 				case "IllustrationLayer" : return context.deserialize(json, IllustrationLayer.class);
-				case "SymbolLayer" : return context.deserialize(json, SymbolLayer.class);
+				case "ManaLayer" : return context.deserialize(json, ManaLayer.class);
 			}
 			
 			throw new JsonParseException("Unknown layer type: " + json.getAsJsonObject().get("layerType").getAsString());
