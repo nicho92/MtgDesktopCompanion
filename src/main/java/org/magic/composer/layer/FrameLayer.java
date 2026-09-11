@@ -23,6 +23,15 @@ public class FrameLayer extends AbstractLayer {
     public BufferedImage getImage() {
         return image;
     }
+
+    public File getSource() {
+        return source;
+    }
+
+    public void setSource(File source) {
+        this.source = source;
+        reload();
+    }
     
     @Override
     public void reload() {

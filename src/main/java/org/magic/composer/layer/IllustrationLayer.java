@@ -24,6 +24,15 @@ public class IllustrationLayer extends AbstractLayer {
 	public BufferedImage getImage() {
 		return image;
 	}
+
+    public URL getSource() {
+        return url;
+    }
+
+    public void setSource(URL source) {
+        this.url = source;
+        reload();
+    }
 	
 	@Override
 	public void reload() {
