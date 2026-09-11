@@ -45,8 +45,6 @@ public class ManaLayer extends AbstractLayer{
     @Override
     public void reload() {
         manaImage = ImageTools.joinBufferedImage(parseManaCost(cost));
-	
-
     }
     
     private List<Image> parseManaCost(String manaCost) {

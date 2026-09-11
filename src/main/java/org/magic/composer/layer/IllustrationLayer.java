@@ -17,8 +17,8 @@ public class IllustrationLayer extends AbstractLayer {
 		this.url = source;
 		setName("Illustration");
 		reload();
-		width = image.getWidth();
-		height = image.getHeight();
+		setWidth(image.getWidth());
+		setHeight(image.getHeight());
 	}
 
 	public BufferedImage getImage() {

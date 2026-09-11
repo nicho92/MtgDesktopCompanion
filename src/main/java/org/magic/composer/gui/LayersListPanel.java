@@ -2,7 +2,7 @@ package org.magic.composer.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -23,11 +23,11 @@ import javax.swing.ListSelectionModel;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.composer.layer.Layer;
-import org.magic.composer.tools.ComposerUtils;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
 
 public class LayersListPanel extends JPanel {
 
@@ -61,19 +61,23 @@ public class LayersListPanel extends JPanel {
 
 	add(new JScrollPane(list), BorderLayout.CENTER);
 
-	JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER, 3, 3));
+	JPanel buttons = new JPanel();
 
 	JButton upButton = new JButton("↑");
 	JButton downButton = new JButton("↓");
 	JButton deleteButton = new JButton(MTGConstants.ICON_SMALL_DELETE);
 	JButton saveButton = new JButton(MTGConstants.ICON_SMALL_SAVE);
 	JButton openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
-
+	JButton exportButton = new JButton(MTGConstants.ICON_SMALL_EXPORT);
+	buttons.setLayout(new GridLayout(0, 3, 0, 0));
+	
 	buttons.add(upButton);
 	buttons.add(downButton);
 	buttons.add(deleteButton);
 	buttons.add(saveButton);
 	buttons.add(openButton);
+	buttons.add(exportButton);
+	
 	
 	
 	add(buttons, BorderLayout.SOUTH);
@@ -86,15 +90,29 @@ public class LayersListPanel extends JPanel {
 
 	saveButton.addActionListener(_->{
 	    
-	    JFileChooser chose = new JFileChooser();
+	    var chose = new JFileChooser();
 	    	chose.showSaveDialog(this);
 	    	
 	    	try {
-		    ComposerUtils.save(chose.getSelectedFile(), canvas.getLayers());
+	    	var s = new JsonExport().toJson(canvas.getLayers());
+		    FileTools.saveFile(chose.getSelectedFile(), s);
 		} catch (IOException e) {
 		   MTGControler.getInstance().notify(e);
 		}
 	});
+	
+	exportButton.addActionListener(_->{
+	    
+	    JFileChooser chose = new JFileChooser();
+	    	chose.showSaveDialog(this);
+	    	
+	    	try {
+		    ImageTools.saveImageInPng(canvas.getCardImage(), chose.getSelectedFile());
+		} catch (IOException e) {
+		   MTGControler.getInstance().notify(e);
+		}
+	});
+	
 	
 	openButton.addActionListener(_->{
 	    
@@ -102,8 +120,10 @@ public class LayersListPanel extends JPanel {
 	    	chose.showOpenDialog(this);
 	    	
 	    	try {
-	    	    	var layers = ComposerUtils.open(chose.getSelectedFile());
-            	    	canvas.clear();
+	    	    	var s = FileTools.readFile(chose.getSelectedFile());
+			var layers= new JsonExport().fromJsonList(s, Layer.class);
+			layers.forEach(Layer::reload);
+			canvas.clear();
             	    	setLayers(layers);
             	    	layers.forEach(canvas::addLayer);
 	    	} catch (IOException e) {

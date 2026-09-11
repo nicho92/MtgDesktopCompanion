@@ -31,7 +31,7 @@ public class LayerDetailPanel extends JPanel {
     private final JSpinner ySpinner = new JSpinner(new SpinnerNumberModel(0, 0, 10000, 1));
     private final JSpinner widthSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
     private final JSpinner heightSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 10000, 1));
-    private final JSpinner scaleSpinner = new JSpinner(new SpinnerNumberModel(1.0, 1.0, 10, 0.1));
+    private final JSpinner scaleSpinner = new JSpinner(new SpinnerNumberModel(1.0, -5.0, 10, 0.1));
     private final JCheckBox visibleCheckBox =  new JCheckBox("Visible");
   
     private Layer layer;
@@ -238,10 +238,6 @@ public class LayerDetailPanel extends JPanel {
 	    }
 
 	    double newScale = ((Number) scaleSpinner.getValue()).doubleValue();
-
-	    if (newScale <= 0) {
-	        return;
-	    }
 
 	    // Le spinner représente un scale absolu.
 	    // layer.scale() attend un facteur relatif.

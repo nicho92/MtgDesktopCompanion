@@ -5,26 +5,25 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
-import javax.swing.JFrame;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.composer.gui.CardCanvas;
 import org.magic.composer.gui.LayerDetailPanel;
 import org.magic.composer.gui.LayersListPanel;
@@ -38,13 +37,13 @@ import org.magic.composer.layer.ManaLayer;
 import org.magic.composer.layer.TextLayer;
 import org.magic.composer.models.BorderColor;
 import org.magic.composer.models.TextRole;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
-public class MtgCardComposer extends JPanel {
+public class MtgCardComposer extends MTGUIComponent {
     /**
      * 
      */
@@ -54,19 +53,15 @@ public class MtgCardComposer extends JPanel {
     private final LayersListPanel layerList;
     private final LayerDetailPanel inspector;
     private JSlider sldZoom;
-    protected transient Logger logger = MTGLogger.getLogger(this.getClass());
     
     
     public MtgCardComposer() {
     	
-	
 	UITools.loadFonts();
 	
-
 	setLayout(new BorderLayout());
 
 	var rootNode = initTree(new File(MTGConstants.DATA_DIR,"composer"));
-	
 	
 	var rootColors = new DefaultMutableTreeNode("Borders");
 	for(var bc : BorderColor.values())
@@ -147,7 +142,7 @@ public class MtgCardComposer extends JPanel {
 	
 	var btnRender = new JButton("Render Config");
 	
-	JPanel paneSouth = new JPanel();
+	var paneSouth = new JPanel();
 	paneSouth.setLayout(new BorderLayout());
 	paneSouth.add(sldZoom,BorderLayout.CENTER);
 	paneSouth.add(btnRender,BorderLayout.EAST);
@@ -208,11 +203,20 @@ public class MtgCardComposer extends JPanel {
 		} 
 		else if (object instanceof BorderColor c) {
 			
-			if(c==BorderColor.CUSTOM){
-				 var color = JColorChooser.showDialog(MtgCardComposer.this, "Choose a color", c.getColor());
-				 c.setColor(color);
+		    var border = new BorderLayer(c);
+		    
+			if(c==BorderColor.BORDERLESS){
+				var url = JOptionPane.showInputDialog("URL");
+				try {
+				    border.setImage(URLTools.extractAsImage(url));
+				    border.fitImage();
+				} catch (IOException e1) {
+				  logger.error(e1);
+				}
+				
+				
 			}
-		    imageCanvas.addLayer(new BorderLayer(c));
+		    imageCanvas.addLayer(border);
 		}
 		else if (object.toString().equals("URL"))
 		{
@@ -227,12 +231,9 @@ public class MtgCardComposer extends JPanel {
 		}
 		else if (object.toString().equals("Cost"))
 		{
-		    ManaCostDialog diag = new ManaCostDialog();
+		    var diag = new ManaCostDialog();
 		    diag.setVisible(true);
-		    
-		   
-		    
-			imageCanvas.addLayer(new ManaLayer( diag.getSelectedItem()));
+		    imageCanvas.addLayer(new ManaLayer( diag.getSelectedItem()));
 		}
 		layerList.setLayers(imageCanvas.getLayers());
 	    }
@@ -283,22 +284,11 @@ public class MtgCardComposer extends JPanel {
  		var name = file.getName().toLowerCase();
 		return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif") || name.endsWith(".bmp") || name.endsWith(".webp");
     }
+
+    @Override
+    public String getTitle() {
+	return "Composer";
+    }
    
 
-    // =====================================================================
-    // Demo
-    // =====================================================================
-
-    public static void main(String[] args) throws Exception {
-	MTGControler.getInstance().init();
-	
-	SwingUtilities.invokeLater(() -> {
-	    var frame = new JFrame("MTG Card Composer");
-	    	 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    	 frame.setContentPane(new MtgCardComposer());
-	    	 frame.setSize(1200, 900);
-	    	 frame.setLocationRelativeTo(null);
-	    	 frame.setVisible(true);
-	});
-    }
 }

@@ -204,9 +204,9 @@ public class RenderingHintsDialog extends JDialog {
         JButton cancelButton = new JButton("Cancel");
         JButton okButton = new JButton("Apply");
 
-        resetButton.addActionListener(e -> reset());
+        resetButton.addActionListener(_ -> reset());
 
-        cancelButton.addActionListener(e -> {
+        cancelButton.addActionListener(_ -> {
             result = null;
             dispose();
         });

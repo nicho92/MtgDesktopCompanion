@@ -42,12 +42,12 @@ public class TextLayer extends AbstractLayer {
         }
 
         if (role == TextRole.TEXT) {
-            width = DEFAULT_ORACLE_TEXT_WIDTH;
-            height = DEFAULT_ORACLE_TEXT_HEIGHT;
+           setWidth(DEFAULT_ORACLE_TEXT_WIDTH);
+           setHeight(DEFAULT_ORACLE_TEXT_HEIGHT);
         } else {
             var metrics = getFont().getLineMetrics("Ag", FRC);
-            width = Math.max(1, (int) Math.ceil(getFont().getStringBounds(this.text, FRC).getWidth()));
-            height = Math.max(1, (int) Math.ceil(metrics.getHeight()));
+            setWidth( Math.max(1, (int) Math.ceil(getFont().getStringBounds(this.text, FRC).getWidth())));
+            setHeight(Math.max(1, (int) Math.ceil(metrics.getHeight())));
         }
     }
 
@@ -77,18 +77,16 @@ public class TextLayer extends AbstractLayer {
     }
 
     public void setFontSize(float size) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("Font size must be greater than 0");
-        }
-        this.size = size;
+	if(size>0)
+	    this.size = size;
     }
 
     public void setWidth(int width) {
-        this.width = requirePositiveDimension(width, "Width");
+       super.setWidth(requirePositiveDimension(width, "Width"));
     }
 
     public void setHeight(int height) {
-        this.height = requirePositiveDimension(height, "Height");
+	super.setHeight(requirePositiveDimension(height, "Height"));
     }
 
     @Override
@@ -100,16 +98,16 @@ public class TextLayer extends AbstractLayer {
         var layout = layoutText();
         var zoneGraphics = (Graphics2D) g2.create();
         try {
-            zoneGraphics.clipRect(x, y, width, height);
+            zoneGraphics.clipRect(getX(), getY(), getWidth(), getHeight());
             zoneGraphics.setColor(color);
             zoneGraphics.setFont(layout.font());
 
-            float baseline = y + layout.lineHeight();
+            float baseline = getY() + layout.lineHeight();
             for (var line : layout.lines()) {
                 float lineX = switch (role.getAlignement()) {
-                case SwingConstants.CENTER -> x + (width - line.getAdvance()) / 2;
-                case SwingConstants.RIGHT -> x + width - line.getAdvance();
-                default -> x;
+                case SwingConstants.CENTER -> getX() + (getWidth() - line.getAdvance()) / 2;
+                case SwingConstants.RIGHT -> getX() + getWidth() - line.getAdvance();
+                default -> getX();
                 };
                 line.draw(zoneGraphics, lineX, baseline);
                 baseline += layout.lineHeight();
@@ -119,21 +117,11 @@ public class TextLayer extends AbstractLayer {
         }
     }
 
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
     private TextLayoutData layoutText() {
         for (float candidateSize = size; candidateSize >= MIN_FONT_SIZE; candidateSize -= 0.5f) {
             var font = role.getFont().deriveFont(candidateSize);
             var layout = createLayout(font);
-            if (layout.height() <= height && layout.maxWidth() <= width) {
+            if (layout.height() <= getHeight() && layout.maxWidth() <= getWidth()) {
                 return layout;
             }
         }
@@ -165,7 +153,7 @@ public class TextLayer extends AbstractLayer {
         attributedText.addAttribute(TextAttribute.FONT, font);
         var measurer = new LineBreakMeasurer(attributedText.getIterator(), BreakIterator.getLineInstance(), FRC);
         while (measurer.getPosition() < paragraph.length()) {
-            lines.add(measurer.nextLayout(width));
+            lines.add(measurer.nextLayout(getWidth()));
         }
     }
 

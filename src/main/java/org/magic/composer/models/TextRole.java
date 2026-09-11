@@ -9,8 +9,9 @@ public enum TextRole {
 
 	TITLE (134,"Beleren Bold",SwingConstants.LEFT, Font.PLAIN),
 	TYPE_LINE (130,"Beleren Bold",SwingConstants.LEFT,Font.PLAIN),
-	TEXT (128,"MatrixBold",SwingConstants.LEFT,Font.PLAIN),
-	FLAVOR (126,"MatrixBold",SwingConstants.LEFT,Font.ITALIC),
+	TEXT (128,"MPlantin",SwingConstants.LEFT,Font.PLAIN),
+	REMINDER(128,"MPlantin-Italic",SwingConstants.LEFT,Font.ITALIC),
+	FLAVOR (126,"MPlantin-Italic",SwingConstants.LEFT,Font.ITALIC),
 	POWER_TOUGHNESS(130,"Beleren Bold",SwingConstants.CENTER,Font.PLAIN),
 	
 	ARTIST (128,"Beleren Small Caps",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),

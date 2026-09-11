@@ -174,7 +174,7 @@ public class MTGConstants {
 
 	// ICONS CONSTANTS
 	private static String iconPack = "flat";
-
+	
 	public static final ImageIcon ICON_GAME_HAND = new ImageIcon(
 			MTGConstants.class.getResource(ICON_DIR + "/game/hand.png"));
 	public static final ImageIcon ICON_GAME_LIBRARY = new ImageIcon(
@@ -443,7 +443,9 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SMALL_SCRIPT = new ImageIcon(ICON_SCRIPT.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final Icon ICON_SMALL_SAVE = new ImageIcon(ICON_SAVE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final Icon ICON_SMALL_OPEN = new ImageIcon(ICON_OPEN.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-
+	public static final Icon ICON_SMALL_EXPORT = new ImageIcon(ICON_EXPORT.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
+	
+	
 	public static ImageIcon getIconFor(Class<?> c) {
 		try {
 

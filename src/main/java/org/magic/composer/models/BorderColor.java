@@ -8,7 +8,7 @@ public enum BorderColor {
 	WHITE(Color.WHITE),
 	SILVER(Color.LIGHT_GRAY),
 	YELLOW(new Color(186, 142, 35)),
-	CUSTOM(Color.BLUE);
+	BORDERLESS(Color.BLUE);
 
 	private Color color;
 

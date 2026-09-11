@@ -6,10 +6,10 @@ import org.magic.services.logging.MTGLogger;
 public abstract class AbstractLayer implements Layer {
 
     protected String name;
-    protected int x=0;
-    protected int y=0;
-    protected int width;
-    protected int height;
+    private int x=0;
+    private int y=0;
+    private int width;
+    private int height;
     
     protected boolean visible = true;
     private String layerType = this.getClass().getSimpleName();

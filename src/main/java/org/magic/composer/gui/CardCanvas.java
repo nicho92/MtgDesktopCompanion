@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -252,6 +253,43 @@ public class CardCanvas extends JPanel {
 
 	repaint();
     }
+    
+   
+    public BufferedImage getCardImage()
+    {
+	    int minX = getLayers().stream()
+	            .mapToInt(Layer::getX)
+	            .min()
+	            .orElse(0);
+
+	    int minY = getLayers().stream()
+	            .mapToInt(Layer::getY)
+	            .min()
+	            .orElse(0);
+
+	    int maxX = getLayers().stream()
+	            .mapToInt(layer -> layer.getX() + layer.getWidth())
+	            .max()
+	            .orElse(0);
+
+	    int maxY = getLayers().stream()
+	            .mapToInt(layer -> layer.getY() + layer.getHeight())
+	            .max()
+	            .orElse(0);
+
+	    int width = maxX - minX;
+	    int height = maxY - minY;
+	
+	var awtImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	var g = awtImage.createGraphics();
+	 g.translate(-minX, -minY);
+	 paintCard(g);
+
+	return awtImage;
+	
+	
+    }
+    
 
 
     // =====================================================================
@@ -320,13 +358,8 @@ public class CardCanvas extends JPanel {
 	    // -------------------------------------------------------------
 	    // Layers
 	    // -------------------------------------------------------------
-
-	    for (var layer : layers) {
-		if (!layer.isVisible()) {
-		    continue;
-		}
-		layer.paint(g2);
-	    }
+	    paintCard(g2);
+	   
 	    
 	    if (selectedLayer != null) {
 		drawSelection(g2, selectedLayer);
@@ -334,6 +367,16 @@ public class CardCanvas extends JPanel {
 	} finally {
 	    g2.dispose();
 	}
+    }
+
+    private void paintCard(Graphics2D g2) {
+	 for (var layer : layers) {
+		if (!layer.isVisible()) {
+		    continue;
+		}
+		layer.paint(g2);
+	    }
+	
     }
 
     private void drawSelection(Graphics2D g2, Layer layer) {
