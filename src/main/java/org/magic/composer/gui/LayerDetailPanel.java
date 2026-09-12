@@ -6,7 +6,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
+import java.util.function.DoubleConsumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -171,7 +173,7 @@ public class LayerDetailPanel extends JPanel {
 
     private void updateIllustrationSource(IllustrationLayer illustrationLayer, String value) {
         try {
-            URL source = new URL(value);
+            URL source = URI.create(value).toURL();
             update(() -> illustrationLayer.setSource(source));
         } catch (MalformedURLException exception) {
             // Keep the current image and restore its valid URL in the editor.
@@ -203,13 +205,13 @@ public class LayerDetailPanel extends JPanel {
         var radius = new JSpinner(new SpinnerNumberModel(borderLayer.getRadius(), 0.0, 10000.0, 1.0));
         radius.addChangeListener(_ -> update(() -> borderLayer.setRadius(((Number) radius.getValue()).doubleValue())));
         propertiesPanel.add(createProperty("Radius", radius));
-        addDoubleProperty("Image scale", borderLayer.getImageScale(), 0.01, borderLayer::setImageScale);
+        addDoubleProperty("Image scale", borderLayer.getImageScale(), 0.0, borderLayer::setImageScale);
         addDoubleProperty("Image X", borderLayer.getImageOffsetX(), -MAX_DIMENSION, borderLayer::setImageOffsetX);
         addDoubleProperty("Image Y", borderLayer.getImageOffsetY(), -MAX_DIMENSION, borderLayer::setImageOffsetY);
     }
 
-    private void addDoubleProperty(String name, double value, double minimum, java.util.function.DoubleConsumer setter) {
-        var spinner = new JSpinner(new SpinnerNumberModel(value, minimum, MAX_DIMENSION, 0.1));
+    private void addDoubleProperty(String name, double value, double minimum, DoubleConsumer setter) {
+	var spinner = new JSpinner(new SpinnerNumberModel(value, minimum, MAX_DIMENSION, 0.1));
         spinner.addChangeListener(_ -> update(() -> setter.accept(((Number) spinner.getValue()).doubleValue())));
         propertiesPanel.add(createProperty(name, spinner));
     }

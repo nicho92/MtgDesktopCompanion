@@ -4,16 +4,21 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
+import java.io.IOException;
+import java.net.URI;
 
 import org.magic.composer.models.BorderColor;
+import org.magic.services.network.URLTools;
 
 public class BorderLayer extends AbstractLayer {
 
     private double radius = 116.5;
 
-    private Color color = Color.BLACK;
-    private Image image;
-
+    private BorderColor color;
+    private transient Image image;
+    private URI uri;
+    
+    
     /*
      * Paramètres de positionnement de l'image
      */
@@ -25,8 +30,7 @@ public class BorderLayer extends AbstractLayer {
 
         setWidth(2990);
         setHeight(4180);
-
-        this.color = c.getColor();
+        this.color = c;
         setName(c.toString());
     }
 
@@ -35,10 +39,14 @@ public class BorderLayer extends AbstractLayer {
         return "Border " + getName();
     }
 
+    public void setUri(URI uri) {
+	this.uri = uri;
+    }
+    
     @Override
     public void paint(Graphics2D g2) {
 
-        Graphics2D graphics = (Graphics2D) g2.create();
+        var graphics = (Graphics2D) g2.create();
 
         try {
 
@@ -77,7 +85,7 @@ public class BorderLayer extends AbstractLayer {
 
             } else {
 
-                graphics.setColor(color);
+                graphics.setColor(color.getColor());
                 graphics.fill(border);
             }
 
@@ -87,11 +95,11 @@ public class BorderLayer extends AbstractLayer {
     }
 
     public Color getColor() {
-        return color;
+        return color.getColor();
     }
 
     public void setColor(Color color) {
-        this.color = color;
+        this.color.setColor(color);
         this.image = null;
     }
 
@@ -99,9 +107,18 @@ public class BorderLayer extends AbstractLayer {
         return image;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    
+    @Override
+    public void reload() {
+	try {
+	    	
+	    if(color==BorderColor.BORDERLESS)
+		this.image = URLTools.extractAsImage(uri.toASCIIString());
+	} catch (IOException e) {
+		logger.error(e);
+	}
     }
+    
 
     public double getRadius() {
         return radius;

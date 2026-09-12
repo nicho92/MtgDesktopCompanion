@@ -1,18 +1,14 @@
 package org.magic.composer;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Arrays;
 
 import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -40,7 +36,6 @@ import org.magic.composer.models.TextRole;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.services.MTGConstants;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
 public class MtgCardComposer extends MTGUIComponent {
@@ -116,7 +111,6 @@ public class MtgCardComposer extends MTGUIComponent {
 	
 	
 	var leftPanel = new LeftPanel(tree, layerList,inspector);
-	leftPanel.setPreferredSize(new Dimension(280, 0));
 
 	add(leftPanel, BorderLayout.WEST);
 	add(new JScrollPane(imageCanvas), BorderLayout.CENTER);
@@ -207,14 +201,9 @@ public class MtgCardComposer extends MTGUIComponent {
 		    
 			if(c==BorderColor.BORDERLESS){
 				var url = JOptionPane.showInputDialog("URL");
-				try {
-				    border.setImage(URLTools.extractAsImage(url));
+				    border.setUri(URI.create(url));
+				    border.reload();
 				    border.fitImage();
-				} catch (IOException e1) {
-				  logger.error(e1);
-				}
-				
-				
 			}
 		    imageCanvas.addLayer(border);
 		}
@@ -222,12 +211,13 @@ public class MtgCardComposer extends MTGUIComponent {
 		{
 		    
 		  var url = JOptionPane.showInputDialog("URL ?");
-		    
-		    try {
-			imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
-		    } catch (MalformedURLException e1) {
-			logger.error(e1);
-		    }
+		  try {
+		    imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
+		} catch (MalformedURLException e1) {
+		    // TODO Auto-generated catch block
+		    e1.printStackTrace();
+		}
+		   
 		}
 		else if (object.toString().equals("Cost"))
 		{

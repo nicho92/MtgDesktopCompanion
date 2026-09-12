@@ -1,6 +1,7 @@
 package org.magic.composer.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ public class LeftPanel extends JPanel {
     public LeftPanel(JTree tree, LayersListPanel layerList, LayerDetailPanel inspector) {
 
 	setLayout(new BorderLayout());
+	setPreferredSize(new Dimension(350, 0));
 
 	var treeScrollPane = new JScrollPane(tree);
 

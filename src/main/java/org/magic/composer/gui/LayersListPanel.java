@@ -103,7 +103,7 @@ public class LayersListPanel extends JPanel {
 	
 	exportButton.addActionListener(_->{
 	    
-	    JFileChooser chose = new JFileChooser();
+	    var chose = new JFileChooser();
 	    	chose.showSaveDialog(this);
 	    	
 	    	try {
