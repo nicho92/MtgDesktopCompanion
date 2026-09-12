@@ -38,7 +38,7 @@ public class LayersListPanel extends JPanel {
     private final DefaultListModel<Layer> model;
     private final JList<Layer> list;
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-    
+
     private CardCanvas canvas;
 
     public LayersListPanel() {
@@ -70,16 +70,14 @@ public class LayersListPanel extends JPanel {
 	JButton openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
 	JButton exportButton = new JButton(MTGConstants.ICON_SMALL_EXPORT);
 	buttons.setLayout(new GridLayout(0, 3, 0, 0));
-	
+
 	buttons.add(upButton);
 	buttons.add(downButton);
 	buttons.add(deleteButton);
 	buttons.add(saveButton);
 	buttons.add(openButton);
 	buttons.add(exportButton);
-	
-	
-	
+
 	add(buttons, BorderLayout.SOUTH);
 
 	upButton.addActionListener(_ -> moveSelectedUp());
@@ -88,50 +86,48 @@ public class LayersListPanel extends JPanel {
 
 	deleteButton.addActionListener(_ -> removeSelected());
 
-	saveButton.addActionListener(_->{
-	    
+	saveButton.addActionListener(_ -> {
+
 	    var chose = new JFileChooser();
-	    	chose.showSaveDialog(this);
-	    	
-	    	try {
-	    	var s = new JsonExport().toJson(canvas.getLayers());
-		    FileTools.saveFile(chose.getSelectedFile(), s);
-		} catch (IOException e) {
-		   MTGControler.getInstance().notify(e);
-		}
+	    chose.showSaveDialog(this);
+
+	    try {
+		var s = new JsonExport().toJson(canvas.getLayers());
+		FileTools.saveFile(chose.getSelectedFile(), s);
+	    } catch (IOException e) {
+		MTGControler.getInstance().notify(e);
+	    }
 	});
-	
-	exportButton.addActionListener(_->{
-	    
+
+	exportButton.addActionListener(_ -> {
+
 	    var chose = new JFileChooser();
-	    	chose.showSaveDialog(this);
-	    	
-	    	try {
-		    ImageTools.saveImageInPng(canvas.getCardImage(), chose.getSelectedFile());
-		} catch (IOException e) {
-		   MTGControler.getInstance().notify(e);
-		}
+	    chose.showSaveDialog(this);
+
+	    try {
+		ImageTools.saveImageInPng(canvas.getCardImage(), chose.getSelectedFile());
+	    } catch (IOException e) {
+		MTGControler.getInstance().notify(e);
+	    }
 	});
-	
-	
-	openButton.addActionListener(_->{
-	    
+
+	openButton.addActionListener(_ -> {
+
 	    var chose = new JFileChooser();
-	    	chose.showOpenDialog(this);
-	    	
-	    	try {
-	    	    	var s = FileTools.readFile(chose.getSelectedFile());
-			var layers= new JsonExport().fromJsonList(s, Layer.class);
-			layers.forEach(Layer::reload);
-			canvas.clear();
-            	    	setLayers(layers);
-            	    	layers.forEach(canvas::addLayer);
-	    	} catch (IOException e) {
-			logger.error(e);
-		}
+	    chose.showOpenDialog(this);
+
+	    try {
+		var s = FileTools.readFile(chose.getSelectedFile());
+		var layers = new JsonExport().fromJsonList(s, Layer.class);
+		layers.forEach(Layer::reload);
+		canvas.clear();
+		setLayers(layers);
+		layers.forEach(canvas::addLayer);
+	    } catch (IOException e) {
+		logger.error(e);
+	    }
 	});
-	
-	
+
 	list.addMouseListener(new MouseAdapter() {
 
 	    @Override

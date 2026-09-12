@@ -35,7 +35,6 @@ import org.magic.composer.layer.Layer;
 import org.magic.composer.layer.ManaLayer;
 import org.magic.composer.layer.TextLayer;
 
-/** Displays common layer properties and the properties specific to its concrete type. */
 public class LayerDetailPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;

@@ -214,8 +214,7 @@ public class MtgCardComposer extends MTGUIComponent {
 		  try {
 		    imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
 		} catch (MalformedURLException e1) {
-		    // TODO Auto-generated catch block
-		    e1.printStackTrace();
+		 logger.error(e1);
 		}
 		   
 		}
