@@ -168,6 +168,15 @@ public class LayerDetailPanel extends JPanel {
         var urlField = new JTextField(illustrationLayer.getSource().toString());
         urlField.addActionListener(_ -> updateIllustrationSource(illustrationLayer, urlField.getText()));
         propertiesPanel.add(createProperty("URL", urlField));
+        
+        var fadeSize = new JSpinner(new SpinnerNumberModel((double) illustrationLayer.getFadeSize(), 0.0, 500.0, 1.0));
+        fadeSize.addChangeListener(_ -> update(() -> illustrationLayer.setFadeSize(((Number) fadeSize.getValue()).floatValue())));
+        propertiesPanel.add(createProperty("Fade", fadeSize));
+        
+        var fadeStrength = new JSpinner(new SpinnerNumberModel((double) illustrationLayer.getFadeStrength(), 0.0, 500.0, 1.0));
+        fadeStrength.addChangeListener(_ -> update(() -> illustrationLayer.setFadeStrength(((Number) fadeStrength.getValue()).floatValue())));
+        propertiesPanel.add(createProperty("Fade Strength", fadeStrength));
+        
     }
 
     private void updateIllustrationSource(IllustrationLayer illustrationLayer, String value) {

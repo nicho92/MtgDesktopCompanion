@@ -36,6 +36,8 @@ import org.magic.composer.models.TextRole;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.MTGRunnable;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
 public class MtgCardComposer extends MTGUIComponent {
@@ -220,9 +222,18 @@ public class MtgCardComposer extends MTGUIComponent {
 		}
 		else if (object.toString().equals("Cost"))
 		{
-		    var diag = new ManaCostDialog();
-		    diag.setVisible(true);
-		    imageCanvas.addLayer(new ManaLayer( diag.getSelectedItem()));
+		    
+		    ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+		        
+		        @Override
+		        protected void auditedRun() {
+		            var diag = new ManaCostDialog();
+			    diag.setVisible(true);
+			    imageCanvas.addLayer(new ManaLayer( diag.getSelectedItem()));
+		    	
+		        }
+		    },"run mana dialog");
+		    
 		}
 		layerList.setLayers(imageCanvas.getLayers());
 	    }
