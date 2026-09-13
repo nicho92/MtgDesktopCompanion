@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
 
@@ -54,14 +55,14 @@ public class ManaLayer extends AbstractLayer{
         var matcher = Pattern.compile("\\{([^}]+)}").matcher(manaCost);
         while (matcher.find()) {
 
-            String symbol = matcher.group(1);
+            var symbol = matcher.group(1);
             var manaSymbol =IconsProvider.getInstance().getManaSymbol(symbol);
             
             if (manaSymbol != null) {
                 symbols.add(manaSymbol);
             }
             else {
-        	logger.error("no symbol for {}", symbol);
+        	   MTGLogger.getLogger(this.getClass()).error("no symbol for {}", symbol);
             }
         }
 

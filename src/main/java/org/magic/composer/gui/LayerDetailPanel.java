@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 
 import javax.swing.BorderFactory;
@@ -224,7 +225,7 @@ public class LayerDetailPanel extends JPanel {
         propertiesPanel.add(createProperty(name, spinner));
     }
 
-    private JPanel colorProperty(String name, Color color, java.util.function.Consumer<Color> setter) {
+    private JPanel colorProperty(String name, Color color,Consumer<Color> setter) {
         var button = new JButton("Choose…");
         button.setBackground(color);
         button.addActionListener(_ -> {

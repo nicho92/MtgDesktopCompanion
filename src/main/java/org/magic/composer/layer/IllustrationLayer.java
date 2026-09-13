@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 
 public class IllustrationLayer extends AbstractLayer {
@@ -46,7 +47,7 @@ public class IllustrationLayer extends AbstractLayer {
 		try {
 			this.image = URLTools.extractAsImage(url.toString());
 		} catch (IOException e) {
-			logger.error(e);
+		    MTGLogger.getLogger(this.getClass()).error(e);
 		}
 		
 	}

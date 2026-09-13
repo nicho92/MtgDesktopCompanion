@@ -1,0 +1,122 @@
+package org.magic.api.pictureseditor.impl;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
+import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
+import org.magic.composer.gui.CardCanvas;
+import org.magic.composer.layer.BorderLayer;
+import org.magic.composer.layer.FrameLayer;
+import org.magic.composer.layer.IllustrationLayer;
+import org.magic.composer.layer.Layer;
+import org.magic.composer.layer.TextLayer;
+import org.magic.composer.models.BorderColor;
+import org.magic.services.MTGConstants;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.UITools;
+
+public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider {
+    
+    CardCanvas canvas;
+    
+    @Override
+    public STATUT getStatut() {
+        return STATUT.DEV;
+    }
+    
+    public MTGCompanionComposerProvider() {
+	canvas = new CardCanvas();
+	UITools.loadFonts();
+    }
+    
+    @Override
+    public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
+	canvas.clear();
+	
+	var json = FileTools.readFile(new File(MTGConstants.DATA_DIR,"composer/layouts/Normal.json"));
+	var layers = new JsonExport().fromJsonList(json,Layer.class);
+	
+	
+	layers.forEach(l->{
+	    
+	    if(l instanceof TextLayer tl)
+	    {
+		if(tl.getName().equals("NAME"))
+		    tl.setText(mc.getName());
+		
+		if(tl.getName().equals("SET_LANG"))
+		    tl.setText(mc.getEdition().getId().toUpperCase() + " • EN");
+		
+		if(tl.getName().equals("TYPES"))
+		    tl.setText(mc.getFullType());
+		
+		if(tl.getName().equals("ARTIST"))
+		    tl.setText(mc.getArtist());
+		
+		if(tl.getName().equals("TEXT"))
+		    tl.setText(mc.getText());
+		
+		
+		if(mc.isCreature())
+		{
+		    if(tl.getName().equals("PT_TEXT"))
+			tl.setText(mc.getPower() +"/"+mc.getToughness());
+		}
+				
+		if(tl.getName().equals("RARITY_PRINTNUMBER"))
+		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + mc.getEdition().getCardCountOfficial());
+	    }
+	    
+	    if(l instanceof BorderLayer bl)
+	    {
+		bl.setColor(BorderColor.valueOf(mc.getBorder().name()).getColor());
+	    }
+	    
+	    
+	    if(l instanceof IllustrationLayer tl)
+	    {
+		try {
+		    tl.setSource(URI.create(mc.getUrl()).toURL());
+		} catch (MalformedURLException e) {
+		    logger.error(e);
+		}
+	    }
+	    
+	    if(l instanceof FrameLayer fl)
+	    {
+				
+	    }
+	    
+	    l.reload();
+	    canvas.addLayer(l);
+	    
+	});
+	return canvas.getCardImage();
+    }
+
+    @Override
+    public MOD getMode() {
+	return MOD.URI;
+    }
+
+    @Override
+    public String getName() {
+	return "MTGCompanion Composer";
+    }
+    
+    
+    @Override
+    public Icon getIcon() {
+       return new ImageIcon(MTGConstants.IMAGE_LOGO_32);
+    }
+
+}

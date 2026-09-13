@@ -14,8 +14,6 @@ public abstract class AbstractLayer implements Layer {
     protected boolean visible = true;
     private String layerType = this.getClass().getSimpleName();
     
-    protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-    
     @Override
     public String getLayerType() {
 		return layerType;

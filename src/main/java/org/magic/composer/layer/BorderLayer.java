@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.magic.composer.models.BorderColor;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 
 public class BorderLayer extends AbstractLayer {
@@ -115,7 +116,7 @@ public class BorderLayer extends AbstractLayer {
 	    if(color==BorderColor.BORDERLESS)
 		this.image = URLTools.extractAsImage(uri.toASCIIString());
 	} catch (IOException e) {
-		logger.error(e);
+	    MTGLogger.getLogger(this.getClass()).error(e);
 	}
     }
     

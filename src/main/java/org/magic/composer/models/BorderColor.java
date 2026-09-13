@@ -7,6 +7,7 @@ public enum BorderColor {
 	BLACK(Color.BLACK),
 	WHITE(Color.WHITE),
 	SILVER(Color.LIGHT_GRAY),
+	GOLD(new Color(189, 155, 22)),
 	YELLOW(new Color(186, 142, 35)),
 	BORDERLESS(Color.BLUE);
 

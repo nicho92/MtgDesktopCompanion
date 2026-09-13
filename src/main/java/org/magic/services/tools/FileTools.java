@@ -163,6 +163,7 @@ public class FileTools {
 	}
 
 	public static String readFile(File f, Charset charset) throws IOException {
+	    
 		var info = new FileAccessInfo(f);
 		if (f == null || !f.exists()) {
 			logger.warn("{} doesn't exist", f);

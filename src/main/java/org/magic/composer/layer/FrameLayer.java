@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.magic.services.logging.MTGLogger;
+
 public class FrameLayer extends AbstractLayer {
 
     private transient BufferedImage image;
@@ -35,11 +37,13 @@ public class FrameLayer extends AbstractLayer {
     
     @Override
     public void reload() {
+	
 	try {
 	    this.image =  ImageIO.read(source);
-          } catch (IOException e) {
-        	   logger.error(e);
-       	}
+	} catch (IOException e) {
+	    MTGLogger.getLogger(this.getClass()).error(e);
+	}
+       
      }
 
     @Override
