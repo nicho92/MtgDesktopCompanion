@@ -1,6 +1,7 @@
-package org.magic.composer;
+package org.magic.gui.components.composer;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -20,19 +21,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
-import org.magic.composer.gui.CardCanvas;
-import org.magic.composer.gui.LayerDetailPanel;
-import org.magic.composer.gui.LayersListPanel;
-import org.magic.composer.gui.LeftPanel;
-import org.magic.composer.gui.RenderingHintsDialog;
-import org.magic.composer.gui.TextLayerDialog;
-import org.magic.composer.layer.BorderLayer;
-import org.magic.composer.layer.FrameLayer;
-import org.magic.composer.layer.IllustrationLayer;
-import org.magic.composer.layer.ManaLayer;
-import org.magic.composer.layer.TextLayer;
-import org.magic.composer.models.BorderColor;
-import org.magic.composer.models.TextRole;
+import org.magic.api.beans.layer.BorderLayer;
+import org.magic.api.beans.layer.FrameLayer;
+import org.magic.api.beans.layer.IllustrationLayer;
+import org.magic.api.beans.layer.ManaLayer;
+import org.magic.api.beans.layer.TextLayer;
+import org.magic.api.beans.layer.enums.BorderColor;
+import org.magic.api.beans.layer.enums.TextRole;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.services.MTGConstants;
@@ -53,7 +48,7 @@ public class MtgCardComposer extends MTGUIComponent {
     
     
     public MtgCardComposer() {
-    	
+	setPreferredSize(new Dimension(1200, 900));
 	UITools.loadFonts();
 	
 	setLayout(new BorderLayout());

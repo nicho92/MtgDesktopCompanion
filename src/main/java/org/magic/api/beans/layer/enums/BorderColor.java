@@ -1,4 +1,4 @@
-package org.magic.composer.models;
+package org.magic.api.beans.layer.enums;
 
 import java.awt.Color;
 

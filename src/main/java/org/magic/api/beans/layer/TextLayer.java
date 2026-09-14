@@ -1,4 +1,4 @@
-package org.magic.composer.layer;
+package org.magic.api.beans.layer;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import javax.swing.SwingConstants;
 
-import org.magic.composer.models.TextRole;
+import org.magic.api.beans.layer.enums.TextRole;
 
 
 public class TextLayer extends AbstractLayer {

@@ -1,13 +1,13 @@
-package org.magic.composer.adapters;
+package org.magic.services.adapters;
 
 import java.lang.reflect.Type;
 
-import org.magic.composer.layer.BorderLayer;
-import org.magic.composer.layer.FrameLayer;
-import org.magic.composer.layer.IllustrationLayer;
-import org.magic.composer.layer.Layer;
-import org.magic.composer.layer.ManaLayer;
-import org.magic.composer.layer.TextLayer;
+import org.magic.api.beans.layer.BorderLayer;
+import org.magic.api.beans.layer.FrameLayer;
+import org.magic.api.beans.layer.IllustrationLayer;
+import org.magic.api.beans.layer.Layer;
+import org.magic.api.beans.layer.ManaLayer;
+import org.magic.api.beans.layer.TextLayer;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

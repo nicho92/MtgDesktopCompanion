@@ -1,4 +1,4 @@
-package org.magic.composer.layer;
+package org.magic.api.beans.layer;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;

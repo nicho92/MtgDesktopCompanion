@@ -1,4 +1,4 @@
-package org.magic.composer.layer;
+package org.magic.api.beans.layer;
 
 import java.awt.Graphics2D;
 import java.awt.Image;

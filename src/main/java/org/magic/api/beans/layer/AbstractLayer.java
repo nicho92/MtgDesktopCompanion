@@ -1,4 +1,4 @@
-package org.magic.composer.layer;
+package org.magic.api.beans.layer;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;

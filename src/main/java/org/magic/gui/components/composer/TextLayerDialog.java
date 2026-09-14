@@ -1,4 +1,4 @@
-package org.magic.composer.gui;
+package org.magic.gui.components.composer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,8 +19,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 
-import org.magic.composer.gui.listeners.SimpleDocumentListener;
-import org.magic.composer.layer.TextLayer;
+import org.magic.api.beans.layer.TextLayer;
+import org.magic.gui.components.composer.listeners.SimpleDocumentListener;
 
 public class TextLayerDialog extends JDialog {
 

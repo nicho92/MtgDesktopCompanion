@@ -1,4 +1,4 @@
-package org.magic.composer.gui;
+package org.magic.gui.components.composer;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -21,8 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.layer.Layer;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.composer.layer.Layer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
@@ -63,8 +63,8 @@ public class LayersListPanel extends JPanel {
 
 	JPanel buttons = new JPanel();
 
-	JButton upButton = new JButton("↑");
-	JButton downButton = new JButton("↓");
+	JButton upButton = new JButton(MTGConstants.ICON_UP);
+	JButton downButton = new JButton(MTGConstants.ICON_DOWN);
 	JButton deleteButton = new JButton(MTGConstants.ICON_SMALL_DELETE);
 	JButton saveButton = new JButton(MTGConstants.ICON_SMALL_SAVE);
 	JButton newButton = new JButton(MTGConstants.ICON_SMALL_NEW);

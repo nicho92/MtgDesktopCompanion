@@ -1,4 +1,4 @@
-package org.magic.composer.layer;
+package org.magic.api.beans.layer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -7,7 +7,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.net.URI;
 
-import org.magic.composer.models.BorderColor;
+import org.magic.api.beans.layer.enums.BorderColor;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 
@@ -18,11 +18,6 @@ public class BorderLayer extends AbstractLayer {
     private BorderColor color;
     private transient Image image;
     private URI uri;
-    
-    
-    /*
-     * Paramètres de positionnement de l'image
-     */
     private double imageScale = 1.0;
     private double imageOffsetX = 0.0;
     private double imageOffsetY = 0.0;

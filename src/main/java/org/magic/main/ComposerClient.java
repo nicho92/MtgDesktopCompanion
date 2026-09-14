@@ -3,8 +3,8 @@ package org.magic.main;
 
 import javax.swing.SwingUtilities;
 
-import org.magic.composer.MtgCardComposer;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.composer.MtgCardComposer;
 import org.magic.services.MTGControler;
 
 public class ComposerClient {

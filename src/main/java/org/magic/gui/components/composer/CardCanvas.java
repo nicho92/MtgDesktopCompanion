@@ -1,4 +1,4 @@
-package org.magic.composer.gui;
+package org.magic.gui.components.composer;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,9 +15,9 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
-import org.magic.composer.gui.listeners.LayerChangeListener;
-import org.magic.composer.gui.listeners.LayerSelectionListener;
-import org.magic.composer.layer.Layer;
+import org.magic.api.beans.layer.Layer;
+import org.magic.gui.components.composer.listeners.LayerChangeListener;
+import org.magic.gui.components.composer.listeners.LayerSelectionListener;
 
 public class CardCanvas extends JPanel {
 

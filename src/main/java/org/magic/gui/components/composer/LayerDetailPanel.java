@@ -1,4 +1,4 @@
-package org.magic.composer.gui;
+package org.magic.gui.components.composer;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,13 +28,13 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.magic.composer.gui.listeners.LayerChangeListener;
-import org.magic.composer.layer.BorderLayer;
-import org.magic.composer.layer.FrameLayer;
-import org.magic.composer.layer.IllustrationLayer;
-import org.magic.composer.layer.Layer;
-import org.magic.composer.layer.ManaLayer;
-import org.magic.composer.layer.TextLayer;
+import org.magic.api.beans.layer.BorderLayer;
+import org.magic.api.beans.layer.FrameLayer;
+import org.magic.api.beans.layer.IllustrationLayer;
+import org.magic.api.beans.layer.Layer;
+import org.magic.api.beans.layer.ManaLayer;
+import org.magic.api.beans.layer.TextLayer;
+import org.magic.gui.components.composer.listeners.LayerChangeListener;
 
 public class LayerDetailPanel extends JPanel {
 
