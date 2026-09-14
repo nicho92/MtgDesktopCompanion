@@ -53,19 +53,14 @@ public class IllustrationLayer extends AbstractLayer {
 	}
 	
 	@Override
-	public void paint(Graphics2D g2) {
+	public void paintLayer(Graphics2D g2) {
 		
 	    if (getImage() == null) return;
-	    
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
-	    
+		    
 	    if(getFadeSize()>0)
 		paintFade(g2);
 	    else
 		g2.drawImage(getImage(), getX(), getY(), getWidth(), getHeight(), null);
-		
-	    
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 	    
 	}
 	

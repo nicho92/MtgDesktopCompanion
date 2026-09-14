@@ -39,7 +39,7 @@ public class FrameLayer extends AbstractLayer {
     
 
     @Override
-    public void paint(Graphics2D g2) {
+    public void paintLayer(Graphics2D g2) {
 	
 	var print = getImage();
 	if(titleLine)
@@ -54,10 +54,6 @@ public class FrameLayer extends AbstractLayer {
 	    setHeight(261);
 	} 
 	
-	
-	g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
-	
-	
 	g2.drawImage(
 		print,
 	        getX(),
@@ -66,9 +62,7 @@ public class FrameLayer extends AbstractLayer {
 	        getHeight(),
 	        null
 	    );
-	
-	g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-	
+
     }
     
     public FrameLayer(File source) {

@@ -39,7 +39,7 @@ public class ManaLayer extends AbstractLayer{
     
     
     @Override
-    public void paint(Graphics2D g2) {
+    protected void paintLayer(Graphics2D g2) {
 	g2.drawImage(manaImage, getX(), getY(), getWidth(), getHeight(), null);
 	
     }

@@ -90,7 +90,7 @@ public class TextLayer extends AbstractLayer {
     }
 
     @Override
-    public void paint(Graphics2D g2) {
+    public void paintLayer(Graphics2D g2) {
         if (text.isEmpty()) {
             return;
         }

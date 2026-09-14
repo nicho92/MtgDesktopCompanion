@@ -40,7 +40,7 @@ public class BorderLayer extends AbstractLayer {
     }
     
     @Override
-    public void paint(Graphics2D g2) {
+    public void paintLayer(Graphics2D g2) {
 
         var graphics = (Graphics2D) g2.create();
 

@@ -1,5 +1,8 @@
 package org.magic.api.beans.layer;
 
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
+
 public abstract class AbstractLayer implements Layer {
 
     protected String name;
@@ -99,6 +102,19 @@ public abstract class AbstractLayer implements Layer {
     public void reload() {
      // do nothing by default;
         
+    }
+    
+    protected abstract void paintLayer(Graphics2D g2);
+    
+    
+    @Override
+    public void paint(Graphics2D g2)
+    {
+	g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
+	
+	paintLayer(g2);
+	
+	g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
     }
     
     @Override
