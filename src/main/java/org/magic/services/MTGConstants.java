@@ -444,7 +444,7 @@ public class MTGConstants {
 	public static final Icon ICON_SMALL_SAVE = new ImageIcon(ICON_SAVE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final Icon ICON_SMALL_OPEN = new ImageIcon(ICON_OPEN.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final Icon ICON_SMALL_EXPORT = new ImageIcon(ICON_EXPORT.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-	
+	public static final Icon ICON_SMALL_NEW  = new ImageIcon(ICON_NEW.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	
 	public static ImageIcon getIconFor(Class<?> c) {
 		try {

@@ -22,8 +22,9 @@ public class ManaLayer extends AbstractLayer{
 	setName("Symbole " + cost);
 	reload();
 	
-	setWidth(manaImage.getWidth());
 	setHeight(manaImage.getHeight());
+	setWidth(manaImage.getWidth());
+	
 	
     }
     

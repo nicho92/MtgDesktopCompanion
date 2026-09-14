@@ -18,6 +18,7 @@ import org.magic.composer.layer.BorderLayer;
 import org.magic.composer.layer.FrameLayer;
 import org.magic.composer.layer.IllustrationLayer;
 import org.magic.composer.layer.Layer;
+import org.magic.composer.layer.ManaLayer;
 import org.magic.composer.layer.TextLayer;
 import org.magic.composer.models.BorderColor;
 import org.magic.services.MTGConstants;
@@ -42,7 +43,13 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
     public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 	canvas.clear();
 	
-	var json = FileTools.readFile(new File(MTGConstants.DATA_DIR,"composer/layouts/Normal.json"));
+	var layout="Normal";
+	
+	if(mc.isExtendedArt())
+	    layout="Extended";
+	    
+	    
+	var json = FileTools.readFile(new File(MTGConstants.DATA_DIR,"composer/layouts/"+layout+".json"));
 	var layers = new JsonExport().fromJsonList(json,Layer.class);
 	
 	
@@ -74,6 +81,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 				
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
 		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + mc.getEdition().getCardCountOfficial());
+	    }
+	    
+	    if(l instanceof ManaLayer ml)
+	    {
+		ml.setCost(mc.getCost());
 	    }
 	    
 	    if(l instanceof BorderLayer bl)

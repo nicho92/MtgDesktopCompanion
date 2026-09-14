@@ -67,6 +67,7 @@ public class LayersListPanel extends JPanel {
 	JButton downButton = new JButton("↓");
 	JButton deleteButton = new JButton(MTGConstants.ICON_SMALL_DELETE);
 	JButton saveButton = new JButton(MTGConstants.ICON_SMALL_SAVE);
+	JButton newButton = new JButton(MTGConstants.ICON_SMALL_NEW);
 	JButton openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
 	JButton exportButton = new JButton(MTGConstants.ICON_SMALL_EXPORT);
 	buttons.setLayout(new GridLayout(0, 3, 0, 0));
@@ -75,6 +76,7 @@ public class LayersListPanel extends JPanel {
 	buttons.add(downButton);
 	buttons.add(deleteButton);
 	buttons.add(saveButton);
+	buttons.add(newButton);
 	buttons.add(openButton);
 	buttons.add(exportButton);
 
@@ -88,7 +90,7 @@ public class LayersListPanel extends JPanel {
 
 	saveButton.addActionListener(_ -> {
 
-	    var chose = new JFileChooser();
+	    var chose = new JFileChooser(MTGConstants.DATA_DIR);
 	    chose.showSaveDialog(this);
 
 	    try {
@@ -110,10 +112,19 @@ public class LayersListPanel extends JPanel {
 		MTGControler.getInstance().notify(e);
 	    }
 	});
-
+	newButton.addActionListener(_->{
+	    
+	   	setLayers(null);
+	    	canvas.clear();
+		
+	    
+	});
+	
+	
+	
 	openButton.addActionListener(_ -> {
 
-	    var chose = new JFileChooser();
+	    var chose = new JFileChooser(MTGConstants.DATA_DIR);
 	    chose.showOpenDialog(this);
 
 	    try {
@@ -161,7 +172,14 @@ public class LayersListPanel extends JPanel {
     // =====================================================================
 
     public void setLayers(List<Layer> layers) {
-
+	
+	if(layers==null)
+	{
+	    model.clear();
+	    return;
+	}
+	
+	
 	var selected = getSelectedLayer();
 
 	model.clear();

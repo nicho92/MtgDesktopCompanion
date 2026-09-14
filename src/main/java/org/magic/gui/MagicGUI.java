@@ -33,6 +33,7 @@ import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
+import org.magic.composer.MtgCardComposer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.BinderTagsEditorComponent;
 import org.magic.gui.components.ScriptPanel;
@@ -131,10 +132,14 @@ public class MagicGUI extends JFrame {
 		var mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"), MTGConstants.ICON_BUG);
 		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"), MTGConstants.ICON_BINDERS);
 		var mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"), MTGConstants.ICON_CHROME);
+		var mntmComposerEditor = new JMenuItem(capitalize("COMPOSER"), MTGConstants.ICON_BUILDER);
 
+		
+		
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileTagEditor);
 		mnFile.add(mntmFileChromePlugin);
+		mnFile.add(mntmComposerEditor);
 		mnFile.add(mntmExit);
 
 		mtgMnuBar.add(mnuAbout);
@@ -149,7 +154,20 @@ public class MagicGUI extends JFrame {
 			var dow = new ChromeDownloader();
 			dow.setVisible(true);
 		});
+		
+		mntmComposerEditor.addActionListener(_ -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 
+			@Override
+			protected void auditedRun() {
+				var diag = MTGUIComponent.createJDialog(new MtgCardComposer(), true, false);
+				diag.pack();
+				diag.setVisible(true);
+
+			}
+		}, "loading Composer dialog"));
+
+		
+		
 		mntmFileTagEditor.addActionListener(_ -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 
 			@Override
