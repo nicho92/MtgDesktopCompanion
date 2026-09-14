@@ -22,6 +22,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.gui.components.composer.CardCanvas;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
@@ -47,10 +48,13 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	
 	if(mc.isExtendedArt())
 	    layout="Extended";
+	else if(mc.isBorderLess())
+	    layout="Borderless"; 
+	else if(mc.isSaga())
+	    layout="Saga"; 
 	    
-	    
-	var json = FileTools.readFile(new File(MTGConstants.DATA_DIR,"composer/layouts/"+layout+".json"));
-	var layers = new JsonExport().fromJsonList(json,Layer.class);
+	var json = URLTools.toJson(getClass().getResourceAsStream("/composer-layouts/"+layout+".json"));
+	var layers = new JsonExport().fromJsonList(json.toString(),Layer.class);
 	
 	
 	layers.forEach(l->{
