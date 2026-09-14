@@ -1,5 +1,6 @@
 package org.magic.api.beans.layer;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -53,6 +54,10 @@ public class FrameLayer extends AbstractLayer {
 	    setHeight(261);
 	} 
 	
+	
+	g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
+	
+	
 	g2.drawImage(
 		print,
 	        getX(),
@@ -61,6 +66,8 @@ public class FrameLayer extends AbstractLayer {
 	        getHeight(),
 	        null
 	    );
+	
+	g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 	
     }
     

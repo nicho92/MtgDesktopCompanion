@@ -1,8 +1,5 @@
 package org.magic.api.beans.layer;
 
-import org.apache.logging.log4j.Logger;
-import org.magic.services.logging.MTGLogger;
-
 public abstract class AbstractLayer implements Layer {
 
     protected String name;
@@ -10,6 +7,9 @@ public abstract class AbstractLayer implements Layer {
     private int y=0;
     private int width;
     private int height;
+    private float alpha =1f;
+    
+    
     
     protected boolean visible = true;
     private String layerType = this.getClass().getSimpleName();
@@ -100,5 +100,16 @@ public abstract class AbstractLayer implements Layer {
      // do nothing by default;
         
     }
+    
+    @Override
+    public void setAlpha(float alpha) {
+	this.alpha = alpha;
+    }
+    @Override
+    public float getAlpha() {
+	return alpha;
+    }
+    
+    
 
 }

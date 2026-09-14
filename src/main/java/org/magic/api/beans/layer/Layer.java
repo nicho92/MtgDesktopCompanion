@@ -38,5 +38,9 @@ public interface Layer {
     String getLayerType();
 
     void scale(double scale);
+
+    void setAlpha(float alpha);
+
+    float getAlpha();
     
 }

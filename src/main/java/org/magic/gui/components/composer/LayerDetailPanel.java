@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 
@@ -47,6 +46,7 @@ public class LayerDetailPanel extends JPanel {
     private final JSpinner ySpinner = integerSpinner(0, 0, MAX_DIMENSION);
     private final JSpinner widthSpinner = integerSpinner(1, 1, MAX_DIMENSION);
     private final JSpinner heightSpinner = integerSpinner(1, 1, MAX_DIMENSION);
+    private final JSpinner transparencySpinner = new JSpinner(new SpinnerNumberModel(1.0, 0.1, 1.0, 0.1));
     private final JSpinner scaleSpinner = new JSpinner(new SpinnerNumberModel(1.0, 0.1, 10.0, 0.1));
     private final JCheckBox visibleCheckBox = new JCheckBox("Visible");
     private final JPanel propertiesPanel = new JPanel();
@@ -72,6 +72,7 @@ public class LayerDetailPanel extends JPanel {
         content.add(createProperty("Y", ySpinner));
         content.add(createProperty("Width", widthSpinner));
         content.add(createProperty("Height", heightSpinner));
+        content.add(createProperty("Alpha",transparencySpinner));
         content.add(createProperty("Scale", scaleSpinner));
         content.add(Box.createVerticalStrut(10));
         content.add(createSectionTitle("Properties"));
@@ -118,6 +119,7 @@ public class LayerDetailPanel extends JPanel {
         heightSpinner.addChangeListener(_ -> update(() -> layer.setHeight((Integer) heightSpinner.getValue())));
         visibleCheckBox.addActionListener(_ -> update(() -> layer.setVisible(visibleCheckBox.isSelected())));
         scaleSpinner.addChangeListener(_ -> updateScale());
+        transparencySpinner.addChangeListener(_ ->  update(() ->layer.setAlpha(((Number) transparencySpinner.getValue()).floatValue())));
     }
 
     private DocumentListener documentListener(Runnable action) {
@@ -139,6 +141,7 @@ public class LayerDetailPanel extends JPanel {
             previousScale = newScale;
         });
     }
+    
 
     private void update(Runnable change) {
         if (updating || layer == null) {
@@ -166,8 +169,9 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private void addIllustrationProperties(IllustrationLayer illustrationLayer) {
-        var urlField = new JTextField(illustrationLayer.getSource().toString());
-        urlField.addActionListener(_ -> updateIllustrationSource(illustrationLayer, urlField.getText()));
+        var urlField = new JTextField(18);
+        urlField.setText(illustrationLayer.getSource().toString());
+        urlField.addActionListener(_ -> update(()->updateIllustrationSource(illustrationLayer, urlField.getText())));
         propertiesPanel.add(createProperty("URL", urlField));
         
         var fadeSize = new JSpinner(new SpinnerNumberModel((double) illustrationLayer.getFadeSize(), 0.0, 500.0, 1.0));
@@ -182,7 +186,7 @@ public class LayerDetailPanel extends JPanel {
 
     private void updateIllustrationSource(IllustrationLayer illustrationLayer, String value) {
         try {
-            URL source = URI.create(value).toURL();
+            var source = URI.create(value).toURL();
             update(() -> illustrationLayer.setSource(source));
         } catch (MalformedURLException exception) {
             // Keep the current image and restore its valid URL in the editor.
@@ -302,6 +306,7 @@ public class LayerDetailPanel extends JPanel {
             widthSpinner.setValue(layer.getWidth());
             heightSpinner.setValue(layer.getHeight());
             scaleSpinner.setValue(1.0);
+            transparencySpinner.setValue(layer.getAlpha());
             visibleCheckBox.setSelected(layer.isVisible());
             rebuildProperties();
         } finally {
