@@ -1,0 +1,208 @@
+[
+  {
+    "radius": 116.5,
+    "color": "BLACK",
+    "imageScale": 0.0,
+    "imageOffsetX": 0.0,
+    "imageOffsetY": 0.0,
+    "name": "BORDER",
+    "x": 9,
+    "y": 9,
+    "width": 2990,
+    "height": 4183,
+    "visible": true,
+    "layerType": "BorderLayer"
+  },
+  {
+    "text": "R 001 / 010",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COLLECTOR_INFO",
+    "name": "RARITY_PRINTNUMBER",
+    "x": 185,
+    "y": 3930,
+    "width": 456,
+    "height": 62,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "TST • EN",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SET_AND_LANG",
+    "name": "SET_LANG",
+    "x": 185,
+    "y": 4010,
+    "width": 490,
+    "height": 58,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "a",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SEPARATOR",
+    "name": "SEPARATOR",
+    "x": 473,
+    "y": 4000,
+    "width": 104,
+    "height": 80,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Ilse Gort",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "ARTIST",
+    "name": "ARTIST",
+    "x": 590,
+    "y": 3985,
+    "width": 1334,
+    "height": 90,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COPYRIGHT",
+    "name": "COPYRIGHT",
+    "x": 1950,
+    "y": 3965,
+    "width": 910,
+    "height": 73,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\planeswalker_frames\\UR.webp"
+    },
+    "name": "UR.webp",
+    "x": 140,
+    "y": 110,
+    "width": 2736,
+    "height": 3810,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\planeswalker_boxes\\Gold.webp"
+    },
+    "name": "Gold.webp",
+    "x": 160,
+    "y": 135,
+    "width": 2686,
+    "height": 2467,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\planeswalker_bg\\Gold.webp"
+    },
+    "name": "Gold.webp",
+    "x": 120,
+    "y": 110,
+    "width": 2778,
+    "height": 3793,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\planeswalker\\Loyalty.webp"
+    },
+    "name": "Loyalty.webp",
+    "x": 2425,
+    "y": 3680,
+    "width": 462,
+    "height": 283,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\planeswalker\\LoyaltyPlus.webp"
+    },
+    "name": "LoyaltyPlus.webp",
+    "x": 110,
+    "y": 2685,
+    "width": 367,
+    "height": 256,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\planeswalker\\LoyaltyMinus.webp"
+    },
+    "name": "LoyaltyMinus.webp",
+    "x": 105,
+    "y": 3110,
+    "width": 367,
+    "height": 254,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\planeswalker\\LoyaltyMinus.webp"
+    },
+    "name": "LoyaltyMinus.webp",
+    "x": 105,
+    "y": 3485,
+    "width": 367,
+    "height": 254,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "4",
+    "size": 150.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "LOYALY",
+    "name": "loyaly",
+    "x": 2615,
+    "y": 3705,
+    "width": 112,
+    "height": 221,
+    "visible": true,
+    "layerType": "TextLayer"
+  }
+]

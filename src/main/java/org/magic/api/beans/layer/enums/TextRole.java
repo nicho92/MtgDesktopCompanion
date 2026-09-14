@@ -18,8 +18,8 @@ public enum TextRole {
 	COPYRIGHT (128,"MPlantin",SwingConstants.RIGHT,Font.PLAIN,Color.WHITE),
 	COLLECTOR_INFO (128,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
 	SET_AND_LANG (128,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
-    	SEPARATOR(128,"NDPMTG",SwingConstants.CENTER,Font.PLAIN,Color.WHITE);
-    	
+    	SEPARATOR(128,"NDPMTG",SwingConstants.CENTER,Font.PLAIN,Color.WHITE),
+    	LOYALY (134,"Beleren Bold",SwingConstants.LEFT, Font.PLAIN,Color.WHITE);
     
 	private int size;
 	private String fontname;

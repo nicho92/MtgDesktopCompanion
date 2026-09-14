@@ -243,10 +243,29 @@ public class LayerDetailPanel extends JPanel {
         sourceField.setEditable(false);
         var browseButton = new JButton("Browse…");
         browseButton.addActionListener(_ -> chooseFrameSource(frameLayer));
+        
         var sourcePanel = new JPanel(new BorderLayout(5, 0));
-        sourcePanel.add(sourceField, BorderLayout.CENTER);
-        sourcePanel.add(browseButton, BorderLayout.EAST);
+        	sourcePanel.add(sourceField, BorderLayout.CENTER);
+        	sourcePanel.add(browseButton, BorderLayout.EAST);
         propertiesPanel.add(createProperty("File", sourcePanel));
+        
+        
+        var chkTitleLineFrame = new JCheckBox();
+        	chkTitleLineFrame.setSelected(frameLayer.isTitleLine());
+        	chkTitleLineFrame.addItemListener(_->{
+        	    frameLayer.setTitleLineFrame(chkTitleLineFrame.isSelected());
+        	    notifyLayerChanged();
+        	});
+        	
+        var chkTypesLineFrame = new JCheckBox();
+        	chkTypesLineFrame.setSelected(frameLayer.isTypesLine());
+        	chkTypesLineFrame.addItemListener(_->{
+        	    frameLayer.setTypesLineFrame(chkTypesLineFrame.isSelected());
+        	    notifyLayerChanged();
+        	});
+        
+        propertiesPanel.add(createProperty("Title Frame", chkTitleLineFrame));
+        propertiesPanel.add(createProperty("Types Frame", chkTypesLineFrame));
     }
 
     private void chooseFrameSource(FrameLayer frameLayer) {

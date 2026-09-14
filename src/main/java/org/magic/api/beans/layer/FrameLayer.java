@@ -5,14 +5,64 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.ImageTools;
 
 public class FrameLayer extends AbstractLayer {
 
     private transient BufferedImage image;
     protected File source; 
+    private boolean titleLine=false;
+    private boolean typesLine=false;
+    
+    
+    public void setTitleLineFrame(boolean b)
+    {
+	titleLine=b;
+	typesLine=!b;
+    }
+ 
+    public void setTypesLineFrame(boolean b)
+    {
+	typesLine=b;
+	titleLine=!b;
+    }
+    
+    public boolean isTitleLine() {
+	return titleLine;
+    }
+    
+    public boolean isTypesLine() {
+	return typesLine;
+    }
+    
+
+    @Override
+    public void paint(Graphics2D g2) {
+	
+	var print = getImage();
+	if(titleLine)
+	{
+	    print=image.getSubimage(0, 0, 2665, 261);
+	    setHeight(261);
+	}
+	
+	if(typesLine)
+	{
+	    print= image.getSubimage(0, 2151, 2665, 261);
+	    setHeight(261);
+	} 
+	
+	g2.drawImage(
+		print,
+	        getX(),
+	        getY(),
+	        getWidth(),
+	        getHeight(),
+	        null
+	    );
+	
+    }
     
     public FrameLayer(File source) {
 	this.source=source;
@@ -39,23 +89,11 @@ public class FrameLayer extends AbstractLayer {
     public void reload() {
 	
 	try {
-	    this.image =  ImageIO.read(source);
+	    this.image =  ImageTools.read(source);
 	} catch (IOException e) {
 	    MTGLogger.getLogger(this.getClass()).error(e);
 	}
        
      }
 
-    @Override
-    public void paint(Graphics2D g2) {
-	g2.drawImage(
-	        getImage(),
-	        getX(),
-	        getY(),
-	        getWidth(),
-	        getHeight(),
-	        null
-	    );
-	
-    }
 }
