@@ -239,15 +239,10 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private void addFrameProperties(FrameLayer frameLayer) {
-        var sourceField = new JTextField(frameLayer.getSource().getPath());
-        sourceField.setEditable(false);
         var browseButton = new JButton("Browse…");
         browseButton.addActionListener(_ -> chooseFrameSource(frameLayer));
-        
-        var sourcePanel = new JPanel(new BorderLayout(5, 0));
-        	sourcePanel.add(sourceField, BorderLayout.CENTER);
-        	sourcePanel.add(browseButton, BorderLayout.EAST);
-        propertiesPanel.add(createProperty("File", sourcePanel));
+        browseButton.setToolTipText(frameLayer.getSource().getAbsolutePath());
+        propertiesPanel.add(createProperty("File", browseButton));
         
         
         var chkTitleLineFrame = new JCheckBox();

@@ -1,0 +1,162 @@
+[
+  {
+    "radius": 116.5,
+    "color": "BLACK",
+    "imageScale": 0.0,
+    "imageOffsetX": 0.0,
+    "imageOffsetY": 0.0,
+    "name": "BORDER",
+    "x": 9,
+    "y": 9,
+    "width": 2990,
+    "height": 4183,
+    "visible": true,
+    "layerType": "BorderLayer"
+  },
+  {
+    "text": "R 001 / 010",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COLLECTOR_INFO",
+    "name": "RARITY_PRINTNUMBER",
+    "x": 185,
+    "y": 3930,
+    "width": 456,
+    "height": 62,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "SET • EN",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SET_AND_LANG",
+    "name": "SET_LANG",
+    "x": 185,
+    "y": 4010,
+    "width": 490,
+    "height": 58,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "a",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SEPARATOR",
+    "name": "SEPARATOR",
+    "x": 473,
+    "y": 4000,
+    "width": 104,
+    "height": 80,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "AUTHOR NAME",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "ARTIST",
+    "name": "ARTIST",
+    "x": 590,
+    "y": 3985,
+    "width": 1334,
+    "height": 90,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COPYRIGHT",
+    "name": "COPYRIGHT",
+    "x": 1950,
+    "y": 3965,
+    "width": 910,
+    "height": 73,
+    "visible": true,
+    "layerType": "TextLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\normal_bg\\G.webp"
+    },
+    "titleLine": false,
+    "typesLine": false,
+    "name": "G.webp",
+    "x": 105,
+    "y": 100,
+    "width": 2780,
+    "height": 3782,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\adventure_frames\\G.webp"
+    },
+    "titleLine": false,
+    "typesLine": false,
+    "name": "G.webp",
+    "x": 135,
+    "y": 155,
+    "width": 2727,
+    "height": 3722,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\normal_boxes\\G.webp"
+    },
+    "titleLine": false,
+    "typesLine": false,
+    "name": "G.webp",
+    "x": 170,
+    "y": 185,
+    "width": 2668,
+    "height": 2412,
+    "visible": true,
+    "layerType": "FrameLayer"
+  },
+  {
+    "source": {
+      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\set_icons\\5dn_special.webp"
+    },
+    "titleLine": false,
+    "typesLine": false,
+    "name": "5dn_special.webp",
+    "x": 2650,
+    "y": 2409,
+    "width": 130,
+    "height": 116,
+    "visible": true,
+    "layerType": "FrameLayer"
+  }
+]
