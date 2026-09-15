@@ -40,8 +40,7 @@ public class URLTools {
 
 	private static final List<Extension> MARKDOWN_EXTENSIONS = List.of(TablesExtension.create());
 	private static final Parser MARKDOWN_PARSER = Parser.builder().extensions(MARKDOWN_EXTENSIONS).build();
-	private static final HtmlRenderer MARKDOWN_RENDERER = HtmlRenderer.builder().extensions(MARKDOWN_EXTENSIONS)
-			.build();
+	private static final HtmlRenderer MARKDOWN_RENDERER = HtmlRenderer.builder().extensions(MARKDOWN_EXTENSIONS).build();
 
 	public static final String HEADER_JSON = "application/json";
 	public static final String HEADER_HTML = "text/html";

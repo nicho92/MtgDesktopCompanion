@@ -1,7 +1,6 @@
 package org.magic.api.pictureseditor.impl;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -23,12 +22,11 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.gui.components.composer.CardCanvas;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
 public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider {
     
-    CardCanvas canvas;
+    private CardCanvas canvas;
     
     @Override
     public STATUT getStatut() {

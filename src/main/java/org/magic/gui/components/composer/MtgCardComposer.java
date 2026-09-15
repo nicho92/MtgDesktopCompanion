@@ -53,7 +53,7 @@ public class MtgCardComposer extends MTGUIComponent {
 	
 	setLayout(new BorderLayout());
 
-	var rootNode = initTree(new File(MTGConstants.DATA_DIR,"composer"));
+	var rootNode = initTree(MTGConstants.MTG_COMPOSER_DIR);
 	
 	var rootColors = new DefaultMutableTreeNode("Borders");
 	for(var bc : BorderColor.values())
@@ -241,6 +241,10 @@ public class MtgCardComposer extends MTGUIComponent {
 
     private DefaultMutableTreeNode initTree(File file) {
 
+	if(!file.exists())
+	    return null;
+	
+	
 	var node = new DefaultMutableTreeNode(file);
 
 	if (!file.isDirectory()) {

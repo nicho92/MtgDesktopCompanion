@@ -245,7 +245,7 @@ public class LayerDetailPanel extends JPanel {
     private void addFrameProperties(FrameLayer frameLayer) {
         var browseButton = new JButton("Browse…");
         browseButton.addActionListener(_ -> chooseFrameSource(frameLayer));
-        browseButton.setToolTipText(frameLayer.getSource().getAbsolutePath());
+        browseButton.setToolTipText(frameLayer.getFile().getAbsolutePath());
         propertiesPanel.add(createProperty("File", browseButton));
         
         
@@ -268,9 +268,9 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private void chooseFrameSource(FrameLayer frameLayer) {
-        var chooser = new JFileChooser(frameLayer.getSource().getParentFile());
+        var chooser = new JFileChooser(frameLayer.getFile().getParentFile());
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            update(() -> frameLayer.setSource(chooser.getSelectedFile()));
+            update(() -> frameLayer.setFile(chooser.getSelectedFile()));
             refresh(frameLayer);
         }
     }

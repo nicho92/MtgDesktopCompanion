@@ -10,42 +10,46 @@
     "y": 9,
     "width": 2990,
     "height": 4183,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "BorderLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\normal_bg\\U.webp"
-    },
+    "titleLine": false,
+    "typesLine": false,
+    "path": "Frames\\normal_bg\\U.webp",
     "name": "FRAME",
     "x": 106,
     "y": 116,
     "width": 2780,
     "height": 3782,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "FrameLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\normal_frames\\U.webp"
-    },
+    "titleLine": false,
+    "typesLine": false,
+    "path": "\\Frames\\normal_frames\\U.webp",
     "name": "BOX",
     "x": 138,
     "y": 175,
     "width": 2710,
     "height": 3722,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "FrameLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\normal_boxes\\U.webp"
-    },
+    "titleLine": false,
+    "typesLine": false,
+    "path": "\\Frames\\normal_boxes\\U.webp",
     "name": "BORDERLINES",
     "x": 160,
     "y": 198,
     "width": 2668,
     "height": 2412,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "FrameLayer"
   },
@@ -64,18 +68,20 @@
     "y": 213,
     "width": 1479,
     "height": 175,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\pt_boxes\\U.webp"
-    },
+    "titleLine": false,
+    "typesLine": false,
+    "path": "\\Frames\\pt_boxes\\U.webp",
     "name": "PT",
     "x": 2316,
     "y": 3708,
     "width": 555,
     "height": 296,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "FrameLayer"
   },
@@ -88,6 +94,7 @@
     "y": 460,
     "width": 2581,
     "height": 1878,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "IllustrationLayer"
   },
@@ -106,6 +113,7 @@
     "y": 3718,
     "width": 330,
     "height": 213,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
@@ -124,6 +132,7 @@
     "y": 3930,
     "width": 456,
     "height": 62,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
@@ -142,6 +151,7 @@
     "y": 4010,
     "width": 490,
     "height": 58,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
@@ -160,6 +170,7 @@
     "y": 4000,
     "width": 104,
     "height": 80,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
@@ -178,6 +189,7 @@
     "y": 2384,
     "width": 2250,
     "height": 166,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
@@ -196,6 +208,7 @@
     "y": 3985,
     "width": 1334,
     "height": 90,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
@@ -214,6 +227,7 @@
     "y": 3965,
     "width": 910,
     "height": 73,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
@@ -232,6 +246,7 @@
     "y": 2636,
     "width": 2432,
     "height": 820,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "TextLayer"
   },
@@ -242,18 +257,20 @@
     "y": 235,
     "width": 468,
     "height": 156,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "ManaLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\set_icons\\a25_mythic.webp"
-    },
+    "titleLine": false,
+    "typesLine": false,
+    "path": "\\Frames\\set_icons\\a25_mythic.webp",
     "name": "SETICON",
     "x": 2605,
     "y": 2375,
     "width": 140,
     "height": 193,
+    "alpha": 1.0,
     "visible": true,
     "layerType": "FrameLayer"
   }

@@ -6,6 +6,7 @@
     "imageOffsetX": 0.0,
     "imageOffsetY": 0.0,
     "name": "BORDER",
+	"alpha": 1.0,
     "x": 9,
     "y": 9,
     "width": 2990,
@@ -22,6 +23,7 @@
       "B": 255,
       "A": 255
     },
+	"alpha": 1.0,
     "role": "COLLECTOR_INFO",
     "name": "RARITY_PRINTNUMBER",
     "x": 185,
@@ -34,6 +36,7 @@
   {
     "text": "SET • EN",
     "size": 124.0,
+	"alpha": 1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -52,6 +55,7 @@
   {
     "text": "a",
     "size": 124.0,
+	"alpha": 1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -69,6 +73,7 @@
   },
   {
     "text": "AUTHOR NAME",
+	"alpha": 1.0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -88,6 +93,7 @@
   {
     "text": "™ \u0026 © 2026 Wizards of the Coast",
     "size": 124.0,
+	"alpha": 1.0,
     "color": {
       "R": 255,
       "G": 255,

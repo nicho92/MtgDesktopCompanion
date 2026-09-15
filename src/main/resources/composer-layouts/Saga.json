@@ -11,11 +11,13 @@
     "width": 2990,
     "height": 4183,
     "visible": true,
-    "layerType": "BorderLayer"
+    "layerType": "BorderLayer",
+	"alpha": 1.0
   },
   {
     "text": "R 001 / 010",
     "size": 124.0,
+	"alpha": 1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -34,6 +36,7 @@
   {
     "text": "SET • EN",
     "size": 124.0,
+	"alpha": 1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -52,6 +55,7 @@
   {
     "text": "a",
     "size": 124.0,
+	"alpha": 1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -70,6 +74,7 @@
   {
     "text": "AUTHOR NAME",
     "size": 124.0,
+	"alpha": 1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -88,6 +93,7 @@
   {
     "text": "™ \u0026 © 2026 Wizards of the Coast",
     "size": 124.0,
+	"alpha": 1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -104,9 +110,8 @@
     "layerType": "TextLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\saga_bg\\Gold.webp"
-    },
+    "path": "\\Frames\\saga_bg\\Gold.webp",
+	"alpha": 1.0,
     "titleLine": false,
     "typesLine": false,
     "name": "Gold.webp",
@@ -119,7 +124,8 @@
   },
   {
     "url": "https://scg-static.starcitygames.com/articles/2020/02/16a7d17f-elspeth-conquers-death-700x1667.jpg",
-    "fadeSize": 0.0,
+    "alpha": 1.0,
+	"fadeSize": 0.0,
     "fadeStrength": 1.0,
     "name": "Illustration",
     "x": 1500,
@@ -130,9 +136,8 @@
     "layerType": "IllustrationLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\saga_textboxes\\Gold.webp"
-    },
+    "path": "\\Frames\\saga_textboxes\\Gold.webp",
+	"alpha": 1.0,
     "titleLine": false,
     "typesLine": false,
     "name": "Gold.webp",
@@ -144,9 +149,8 @@
     "layerType": "FrameLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\saga_frames\\UR.webp"
-    },
+    "path": "\\Frames\\saga_frames\\UR.webp",
+ 	"alpha": 1.0,
     "titleLine": false,
     "typesLine": false,
     "name": "UR.webp",
@@ -158,9 +162,10 @@
     "layerType": "FrameLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\normal_boxes\\Gold.webp"
-    },
+   
+      "path": "\\Frames\\normal_boxes\\Gold.webp",
+   
+	"alpha": 1.0,
     "titleLine": true,
     "typesLine": false,
     "name": "Gold.webp",
@@ -172,9 +177,10 @@
     "layerType": "FrameLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\normal_boxes\\Gold.webp"
-    },
+    
+      "path": "\\Frames\\normal_boxes\\Gold.webp",
+
+	"alpha": 1.0,
     "titleLine": false,
     "typesLine": true,
     "name": "Gold.webp",

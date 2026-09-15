@@ -1,21 +1,20 @@
 package org.magic.api.beans.layer;
 
-import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.ImageTools;
 
 public class FrameLayer extends AbstractLayer {
 
     private transient BufferedImage image;
-    protected File source; 
     private boolean titleLine=false;
     private boolean typesLine=false;
-    
+    private String path;
     
     public void setTitleLineFrame(boolean b)
     {
@@ -65,8 +64,19 @@ public class FrameLayer extends AbstractLayer {
 
     }
     
+    public File getFile()
+    {
+	return new File(MTGConstants.MTG_COMPOSER_DIR,path);
+    }
+    
+    public void setFile(File f)
+    {
+	this.path= MTGConstants.MTG_COMPOSER_DIR.toURI().relativize(f.toURI()).getPath();
+    }
+    
+    
     public FrameLayer(File source) {
-	this.source=source;
+	setFile(source);
 	setName(source.getName());
 	reload();
 	setWidth(image.getWidth());
@@ -77,20 +87,12 @@ public class FrameLayer extends AbstractLayer {
         return image;
     }
 
-    public File getSource() {
-        return source;
-    }
-
-    public void setSource(File source) {
-        this.source = source;
-        reload();
-    }
     
     @Override
     public void reload() {
 	
 	try {
-	    this.image =  ImageTools.read(source);
+	    this.image =  ImageTools.read(getFile());
 	} catch (IOException e) {
 	    MTGLogger.getLogger(this.getClass()).error(e);
 	}
