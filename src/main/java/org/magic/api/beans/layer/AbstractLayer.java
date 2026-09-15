@@ -11,9 +11,6 @@ public abstract class AbstractLayer implements Layer {
     private int width;
     private int height;
     private float alpha =1f;
-    
-    
-    
     protected boolean visible = true;
     private String layerType = this.getClass().getSimpleName();
     

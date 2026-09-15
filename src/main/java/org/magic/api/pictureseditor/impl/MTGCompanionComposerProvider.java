@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
@@ -107,7 +108,9 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    
 	    if(l instanceof FrameLayer fl)
 	    {
-				
+		var code = EnumColors.determine(mc.getColors()).getCode();
+		fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
+		
 	    }
 	    
 	    l.reload();

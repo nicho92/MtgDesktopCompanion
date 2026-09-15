@@ -11,13 +11,13 @@
     "width": 2990,
     "height": 4183,
     "visible": true,
+	"alpha":1.0,
     "layerType": "BorderLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\extended_bg\\U.webp"
-    },
+    "path": "\\Frames\\extended_bg\\U.webp",
     "name": "FRAME",
+		"alpha":1.0,
     "x": 106,
     "y": 116,
     "width": 2780,
@@ -26,10 +26,9 @@
     "layerType": "FrameLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\extended_frames\\U.webp"
-    },
-    "name": "BOX",
+    "path": "\\Frames\\extended_frames\\U.webp",
+	"name": "BOX",
+		"alpha":1.0,
     "x": 138,
     "y": 175,
     "width": 2710,
@@ -40,6 +39,7 @@
   {
     "url": "https://cards.scryfall.io/art_crop/front/f/d/fdbf0034-c28a-44ed-b817-519b2a3df3c4.jpg",
     "fadeSize": 150.0,
+		"alpha":1.0,
     "fadeStrength": 1.0,
     "name": "ILLUSTRATION",
     "x": 15,
@@ -50,9 +50,9 @@
     "layerType": "IllustrationLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\extended_boxes\\U.webp"
-    },
+    
+      "path": "\\Frames\\extended_boxes\\U.webp",
+   	"alpha":1.0,
     "name": "BORDERLINES",
     "x": 160,
     "y": 198,
@@ -64,6 +64,7 @@
   {
     "text": "Subterfuge",
     "size": 124.0,
+		"alpha":1.0,
     "color": {
       "R": 0,
       "G": 0,
@@ -80,9 +81,8 @@
     "layerType": "TextLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\pt_boxes\\U.webp"
-    },
+ 	"alpha":1.0,
+      "path": "\\Frames\\pt_boxes\\U.webp",
     "name": "PT",
     "x": 2316,
     "y": 3708,
@@ -94,6 +94,7 @@
   {
     "text": "3/5",
     "size": 146.0,
+		"alpha":1.0,
     "color": {
       "R": 0,
       "G": 0,
@@ -112,6 +113,7 @@
   {
     "text": "R 001 / 010",
     "size": 124.0,
+		"alpha":1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -130,6 +132,7 @@
   {
     "text": "TST • EN",
     "size": 124.0,
+		"alpha":1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -148,6 +151,7 @@
   {
     "text": "a",
     "size": 124.0,
+		"alpha":1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -166,6 +170,7 @@
   {
     "text": "Creature — Elemental Incarnation",
     "size": 124.0,
+		"alpha":1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -184,6 +189,7 @@
   {
     "text": "Ilse Gort",
     "size": 124.0,
+		"alpha":1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -202,6 +208,7 @@
   {
     "text": "™ \u0026 © 2026 Wizards of the Coast",
     "size": 124.0,
+		"alpha":1.0,
     "color": {
       "R": 255,
       "G": 255,
@@ -220,6 +227,7 @@
   {
     "text": "When this creature enters, target creature gains flying and “Whenever this creature deals combat damage to a player, draw that many cards” until end of turn.",
     "size": 124.0,
+		"alpha":1.0,
     "color": {
       "R": 0,
       "G": 0,
@@ -238,6 +246,7 @@
   {
     "cost": "{7}{U}{U}",
     "name": "MANACOST",
+		"alpha":1.0,
     "x": 2345,
     "y": 245,
     "width": 421,
@@ -246,10 +255,9 @@
     "layerType": "ManaLayer"
   },
   {
-    "source": {
-      "path": "C:\\Users\\nicol\\.magicDeskCompanion\\data\\composer\\Frames\\set_icons\\a25_mythic.webp"
-    },
+      "path": "\\Frames\\set_icons\\a25_mythic.webp",
     "name": "SETICON",
+		"alpha":1.0,
     "x": 2605,
     "y": 2375,
     "width": 140,

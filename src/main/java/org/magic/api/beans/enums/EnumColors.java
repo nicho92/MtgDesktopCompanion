@@ -23,7 +23,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 	@SerializedName(alternate = "Red", value = "RED") RED("R", new Color(214, 10, 10), 4), 
 	@SerializedName(alternate = "Green", value = "GREEN") GREEN("G", new Color(52, 211, 16), 5),
 	UNCOLOR("C", Color.GRAY, 7), 
-	GOLD("", new Color(232, 232, 0), 6);
+	GOLD("Gold", new Color(232, 232, 0), 6);
 
 	private String code;
 	private Color color;

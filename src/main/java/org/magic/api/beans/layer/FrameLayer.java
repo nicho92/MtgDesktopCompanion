@@ -74,6 +74,14 @@ public class FrameLayer extends AbstractLayer {
 	this.path= MTGConstants.MTG_COMPOSER_DIR.toURI().relativize(f.toURI()).getPath();
     }
     
+    public String getPath() {
+	return path;
+    }
+    
+    public void setPath(String path) {
+	this.path = path;
+    }
+    
     
     public FrameLayer(File source) {
 	setFile(source);

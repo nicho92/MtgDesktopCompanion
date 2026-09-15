@@ -120,13 +120,9 @@ public class LayersListPanel extends JPanel {
 	    
 	});
 	
-	
-	
 	openButton.addActionListener(_ -> {
-
 	    var chose = new JFileChooser(MTGConstants.DATA_DIR);
 	    chose.showOpenDialog(this);
-
 	    try {
 		var s = FileTools.readFile(chose.getSelectedFile());
 		var layers = new JsonExport().fromJsonList(s, Layer.class);
