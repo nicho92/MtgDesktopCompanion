@@ -105,7 +105,6 @@
 				<version>2.1.0</version>
 				<configuration>
 					<programs>
-
 						<program>
 							<mainClass>org.magic.main.MtgDesktopCompanion</mainClass>
 							<id>${program.id}</id>
@@ -276,7 +275,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
-			<version>11.0.25</version>
+			<version>11.0.26</version>
 		</dependency>
 		<dependency>
 			<groupId>org.firebirdsql.jdbc</groupId>
