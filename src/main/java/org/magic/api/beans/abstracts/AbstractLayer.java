@@ -1,7 +1,9 @@
-package org.magic.api.beans.layer;
+package org.magic.api.beans.abstracts;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
+
+import org.magic.api.interfaces.extra.Layer;
 
 public abstract class AbstractLayer implements Layer {
 

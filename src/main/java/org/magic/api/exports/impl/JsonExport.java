@@ -11,11 +11,11 @@ import java.util.List;
 
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.beans.layer.Layer;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.extra.Layer;
 import org.magic.api.interfaces.extra.MTGProduct;
 import org.magic.services.adapters.ColorAdapter;
 import org.magic.services.adapters.DeckAdapter;

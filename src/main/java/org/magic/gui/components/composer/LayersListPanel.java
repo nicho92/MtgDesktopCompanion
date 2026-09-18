@@ -21,8 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.layer.Layer;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.extra.Layer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;

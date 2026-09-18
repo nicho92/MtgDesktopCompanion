@@ -30,9 +30,9 @@ import javax.swing.event.DocumentListener;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
-import org.magic.api.beans.layer.Layer;
 import org.magic.api.beans.layer.ManaLayer;
 import org.magic.api.beans.layer.TextLayer;
+import org.magic.api.interfaces.extra.Layer;
 import org.magic.gui.components.composer.listeners.LayerChangeListener;
 
 public class LayerDetailPanel extends JPanel {

@@ -7,6 +7,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.net.URI;
 
+import org.magic.api.beans.abstracts.AbstractLayer;
 import org.magic.api.beans.layer.enums.BorderColor;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;

@@ -1,4 +1,4 @@
-package org.magic.api.beans.layer;
+package org.magic.api.interfaces.extra;
 
 import java.awt.Graphics2D;
 

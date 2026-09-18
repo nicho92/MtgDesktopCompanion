@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.SwingConstants;
 
+import org.magic.api.beans.abstracts.AbstractLayer;
 import org.magic.api.beans.layer.enums.TextRole;
 
 

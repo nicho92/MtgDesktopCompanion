@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.magic.api.beans.abstracts.AbstractLayer;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
@@ -19,7 +20,7 @@ public class ManaLayer extends AbstractLayer{
     public ManaLayer(String cost)
     {
 	setCost(cost);
-	setName("Symbole " + cost);
+	setName("Symbol " + cost);
 	
     }
     

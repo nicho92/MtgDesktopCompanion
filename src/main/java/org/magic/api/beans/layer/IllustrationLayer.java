@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+import org.magic.api.beans.abstracts.AbstractLayer;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 
