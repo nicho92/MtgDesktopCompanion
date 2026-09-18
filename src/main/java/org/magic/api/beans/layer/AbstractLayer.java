@@ -11,7 +11,6 @@ public abstract class AbstractLayer implements Layer {
     private int width;
     private int height;
     private float alpha =1f;
-    protected boolean visible = true;
     private String layerType = this.getClass().getSimpleName();
     
     @Override
@@ -53,14 +52,6 @@ public abstract class AbstractLayer implements Layer {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
     }
 
     @Override

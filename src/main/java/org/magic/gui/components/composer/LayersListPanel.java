@@ -303,7 +303,7 @@ public class LayersListPanel extends JPanel {
 
 	    var layer = (Layer) value;
 
-	    String prefix = layer.isVisible() ? "👁 " : "   ";
+	    String prefix = "👁 ";
 
 	    return super.getListCellRendererComponent(list, prefix + layer.getName(), index, selected, focus);
 	}

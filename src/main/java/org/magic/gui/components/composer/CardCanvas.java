@@ -306,10 +306,6 @@ public class CardCanvas extends JPanel {
 
 	    Layer layer = layers.get(i);
 
-	    if (!layer.isVisible()) {
-		continue;
-	    }
-
 	    if (layer.contains(x, y)) {
 
 		selectedLayer = layer;
@@ -371,9 +367,6 @@ public class CardCanvas extends JPanel {
 
     private void paintCard(Graphics2D g2) {
 	 for (var layer : layers) {
-		if (!layer.isVisible()) {
-		    continue;
-		}
 		layer.paint(g2);
 	    }
 	

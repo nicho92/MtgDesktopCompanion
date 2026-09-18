@@ -20,11 +20,6 @@ public class ManaLayer extends AbstractLayer{
     {
 	setCost(cost);
 	setName("Symbole " + cost);
-	reload();
-	
-	setHeight(manaImage.getHeight());
-	setWidth(manaImage.getWidth());
-	
 	
     }
     
@@ -47,6 +42,22 @@ public class ManaLayer extends AbstractLayer{
     @Override
     public void reload() {
         manaImage = ImageTools.joinBufferedImage(parseManaCost(cost));
+        
+        if (manaImage != null) { 
+            
+            int oldWidth = getWidth();
+
+            setWidth(manaImage.getWidth());
+            setHeight(manaImage.getHeight());
+
+            setX(getX() + oldWidth - getWidth());
+          } 
+        else 
+        { 
+            setWidth(0); 
+            setHeight(0); 
+        }
+        
     }
     
     private List<Image> parseManaCost(String manaCost) {

@@ -46,9 +46,8 @@ public class LayerDetailPanel extends JPanel {
     private final JSpinner ySpinner = integerSpinner(0, 0, MAX_DIMENSION);
     private final JSpinner widthSpinner = integerSpinner(1, 1, MAX_DIMENSION);
     private final JSpinner heightSpinner = integerSpinner(1, 1, MAX_DIMENSION);
-    private final JSpinner transparencySpinner = new JSpinner(new SpinnerNumberModel(1.0, 0.1, 1.0, 0.1));
+    private final JSpinner transparencySpinner = new JSpinner(new SpinnerNumberModel(1.0, 0.0, 1.0, 0.1));
     private final JSpinner scaleSpinner = new JSpinner(new SpinnerNumberModel(1.0, 0.1, 10.0, 0.1));
-    private final JCheckBox visibleCheckBox = new JCheckBox("Visible");
     private final JPanel propertiesPanel = new JPanel();
 
     private Layer layer;
@@ -76,8 +75,6 @@ public class LayerDetailPanel extends JPanel {
         content.add(createProperty("Scale", scaleSpinner));
         content.add(Box.createVerticalStrut(10));
         content.add(createSectionTitle("Properties"));
-        visibleCheckBox.setAlignmentX(Component.LEFT_ALIGNMENT);
-        content.add(visibleCheckBox);
         propertiesPanel.setLayout(new BoxLayout(propertiesPanel, BoxLayout.Y_AXIS));
         propertiesPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(propertiesPanel);
@@ -117,7 +114,6 @@ public class LayerDetailPanel extends JPanel {
         ySpinner.addChangeListener(_ -> update(() -> layer.setY((Integer) ySpinner.getValue())));
         widthSpinner.addChangeListener(_ -> update(() -> layer.setWidth((Integer) widthSpinner.getValue())));
         heightSpinner.addChangeListener(_ -> update(() -> layer.setHeight((Integer) heightSpinner.getValue())));
-        visibleCheckBox.addActionListener(_ -> update(() -> layer.setVisible(visibleCheckBox.isSelected())));
         scaleSpinner.addChangeListener(_ -> updateScale());
         transparencySpinner.addChangeListener(_ ->  update(() ->layer.setAlpha(((Number) transparencySpinner.getValue()).floatValue())));
     }
@@ -307,7 +303,6 @@ public class LayerDetailPanel extends JPanel {
             heightSpinner.setValue(layer.getHeight());
             scaleSpinner.setValue(1.0);
             transparencySpinner.setValue(layer.getAlpha());
-            visibleCheckBox.setSelected(layer.isVisible());
             rebuildProperties();
         } finally {
             updating = false;
@@ -326,7 +321,6 @@ public class LayerDetailPanel extends JPanel {
             ySpinner.setValue(0);
             widthSpinner.setValue(1);
             heightSpinner.setValue(1);
-            visibleCheckBox.setSelected(false);
             rebuildProperties();
         } finally {
             updating = false;

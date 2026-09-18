@@ -17,10 +17,6 @@ public interface Layer {
 
     void setY(int y);
 
-    boolean isVisible();
-
-    void setVisible(boolean visible);
-
     boolean contains(int x, int y);
 
     void paint(Graphics2D g2);
