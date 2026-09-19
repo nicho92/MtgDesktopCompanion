@@ -53,9 +53,9 @@ public class CardNexusPricer extends AbstractPricesProvider{
 				mp.setSeller(p.seller().username());
 				mp.setLanguage(p.language());
 				mp.setQuality(aliases.getReversedConditionFor(this, p.condition().getLabel(), EnumCondition.NEAR_MINT));
-				mp.setUrl(product.urlProduct());
+				mp.setUrl("https://af.cardnexus.link/7762303/cn/"+product.getId());
 				mp.setCountry(p.seller().country());
-				mp.setUrl(p.seller().urlProfilePage());
+				mp.setSellerUrl(p.seller().urlProfilePage());
 				ret.add(mp);
 		
 		});
