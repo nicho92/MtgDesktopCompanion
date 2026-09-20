@@ -73,6 +73,7 @@ public enum EnumPromoType implements MTGEnumeration {
 	@SerializedName(alternate = "gateway", value = "GATEWAY")	GATEWAY,
 	@SerializedName(alternate = "giftbox", value = "GIFTBOX")	GIFTBOX,
 	@SerializedName(alternate = "gilded", value = "GILDED")	GILDED,
+	@SerializedName(alternate = "gleaminggold", value="GLEAMINGGOLD") GLEAMINGGOLD,
 	@SerializedName(alternate = "glossy", value = "GLOSSY")	GLOSSY,
 	@SerializedName(alternate = "godzillaseries", value = "GODZILLASERIES")	GODZILLASERIES,
 	@SerializedName(alternate = "halofoil", value = "HALOFOIL")	HALOFOIL,
