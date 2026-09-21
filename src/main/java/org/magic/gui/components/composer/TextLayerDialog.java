@@ -30,15 +30,10 @@ public class TextLayerDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private final JTextArea textArea = new JTextArea();
-
 	private final JSpinner sizeSpinner = new JSpinner(new SpinnerNumberModel(24, 1, 500, 1));
-
 	private final JPanel previewPanel = new JPanel(new BorderLayout());
-
 	private boolean confirmed = false;
-
-	private final TextLayer layer;
-
+	private final transient TextLayer layer;
 	private float size;
 
 	public TextLayerDialog(Window owner, TextLayer layer) {

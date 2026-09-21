@@ -45,68 +45,68 @@ public class MtgCardComposer extends MTGUIComponent {
     private final LayersListPanel layerList;
     private final LayerDetailPanel inspector;
     private JSlider sldZoom;
-    
-    
+
+
     public MtgCardComposer() {
 	setPreferredSize(new Dimension(1200, 900));
 	UITools.loadFonts();
-	
+
 	setLayout(new BorderLayout());
 
 	var rootNode = initTree(MTGConstants.MTG_COMPOSER_DIR);
-	
+
 	var rootColors = new DefaultMutableTreeNode("Borders");
 	for(var bc : BorderColor.values())
-		rootColors.add(new DefaultMutableTreeNode(bc));
+	    rootColors.add(new DefaultMutableTreeNode(bc));
 
 	rootNode.add(rootColors);
-	
+
 	var textNodes = new DefaultMutableTreeNode("Text Lines");
 	for(var bc : TextRole.values())
-		textNodes.add(new DefaultMutableTreeNode(bc));
-	
+	    textNodes.add(new DefaultMutableTreeNode(bc));
+
 	rootNode.add(textNodes);
 
-	
+
 	var rootImage = new DefaultMutableTreeNode("Illustrations");
-		rootImage.add(new DefaultMutableTreeNode("URL"));
-	
-		rootNode.add(rootImage);
-		
+	rootImage.add(new DefaultMutableTreeNode("URL"));
+
+	rootNode.add(rootImage);
+
 	var rootCost = new DefaultMutableTreeNode("Cost");
-		rootCost.add(new DefaultMutableTreeNode("Cost"));
-	
-		rootNode.add(rootCost);	
-		
-	
+	rootCost.add(new DefaultMutableTreeNode("Cost"));
+
+	rootNode.add(rootCost);	
+
+
 	tree = new JTree(new DefaultTreeModel(rootNode));
 
 	tree.setRootVisible(true);
 	tree.setShowsRootHandles(true);
-	tree.setCellRenderer((JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)->{
+	tree.setCellRenderer((JTree t, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)->{
 
-		    var node = (DefaultMutableTreeNode) value;
-		    String text;
-		    if (node.getUserObject() instanceof File file) {
-		    	text = file.getName();
-		    } else {
-			text = node.getUserObject().toString();
-		    }
-		    return new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, text, selected, expanded, leaf, row, hasFocus);
+	    var node = (DefaultMutableTreeNode) value;
+	    String text;
+	    if (node.getUserObject() instanceof File file) {
+		text = file.getName();
+	    } else {
+		text = node.getUserObject().toString();
+	    }
+	    return new DefaultTreeCellRenderer().getTreeCellRendererComponent(t, text, selected, expanded, leaf, row, hasFocus);
 	});
-	
+
 	imageCanvas = new CardCanvas();
-	
+
 	layerList = new LayersListPanel();
 	layerList.setCanvas(imageCanvas);
 
 	inspector = new LayerDetailPanel();
 	inspector.setLayerChangeListener(_ -> imageCanvas.repaint());
-	
-	
+
+
 	imageCanvas.setLayerChangeListener(layer-> inspector.refresh(layer));
-	
-	
+
+
 	var leftPanel = new LeftPanel(tree, layerList,inspector);
 
 	add(leftPanel, BorderLayout.WEST);
@@ -115,42 +115,37 @@ public class MtgCardComposer extends MTGUIComponent {
 	imageCanvas.setLayerSelectionListener(layer -> {
 	    layerList.selectLayer(layer);
 	});
-	
+
 	sldZoom = new JSlider(0,100,100);
 	sldZoom.setMajorTickSpacing(10);
 	sldZoom.setMinorTickSpacing(1);
 	sldZoom.setPaintTicks(true);
 	sldZoom.setPaintLabels(true);
-	sldZoom.addChangeListener(new ChangeListener() {
-		public void stateChanged(ChangeEvent e) {
-			imageCanvas.setZoom((double)sldZoom.getValue()/100);
-		
-		}
-	});
-	
+	sldZoom.addChangeListener(_->imageCanvas.setZoom((double)sldZoom.getValue()/100));
+
 	sldZoom.setValue(20);
-	
-	
+
+
 	var btnRender = new JButton("Render Config");
-	
+
 	var paneSouth = new JPanel();
 	paneSouth.setLayout(new BorderLayout());
 	paneSouth.add(sldZoom,BorderLayout.CENTER);
 	paneSouth.add(btnRender,BorderLayout.EAST);
-	
+
 	add(paneSouth, BorderLayout.SOUTH);
-	
-	
+
+
 	btnRender.addActionListener(_->{
-	    
+
 	    var diag = new RenderingHintsDialog(null,imageCanvas.getHints());
 	    diag.setVisible(true);
 	    var res = diag.getRenderingHints();
 	    if(res!=null)
 		imageCanvas.setHints(res);
 	});
-	
-	
+
+
 	layerList.getList().addListSelectionListener(e -> {
 
 	    if (e.getValueIsAdjusting()) {
@@ -180,55 +175,55 @@ public class MtgCardComposer extends MTGUIComponent {
 
 		if (object instanceof File file && isImageFile(file))
 		{
-	    	    imageCanvas.addLayer(new FrameLayer(file));
+		    imageCanvas.addLayer(new FrameLayer(file));
 		}
 		else if (object instanceof TextRole role) {
-    		    var flayer = new TextLayer(role.name().toLowerCase(),role);
-    		    	 flayer.setColor(role.getColor());
-    		    	 
-    		    var dialog = new TextLayerDialog(null, flayer);
-    		    dialog.setVisible(true);
-    		    
-    		    if(dialog.isConfirmed())
-    			imageCanvas.addLayer(flayer);
+		    var flayer = new TextLayer(role.name().toLowerCase(),role);
+		    flayer.setColor(role.getColor());
+
+		    var dialog = new TextLayerDialog(null, flayer);
+		    dialog.setVisible(true);
+
+		    if(dialog.isConfirmed())
+			imageCanvas.addLayer(flayer);
 		} 
 		else if (object instanceof BorderColor c) {
-			
+
 		    var border = new BorderLayer(c);
-		    
-			if(c==BorderColor.BORDERLESS){
-				var url = JOptionPane.showInputDialog("URL");
-				    border.setUri(URI.create(url));
-				    border.reload();
-				    border.fitImage();
-			}
+
+		    if(c==BorderColor.BORDERLESS){
+			var url = JOptionPane.showInputDialog("URL");
+			border.setUri(URI.create(url));
+			border.reload();
+			border.fitImage();
+		    }
 		    imageCanvas.addLayer(border);
 		}
 		else if (object.toString().equals("URL"))
 		{
-		    
-		  var url = JOptionPane.showInputDialog("URL ?");
-		  try {
-		    imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
-		} catch (MalformedURLException e1) {
-		 logger.error(e1);
-		}
-		   
+
+		    var url = JOptionPane.showInputDialog("URL ?");
+		    try {
+			imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
+		    } catch (MalformedURLException e1) {
+			logger.error(e1);
+		    }
+
 		}
 		else if (object.toString().equals("Cost"))
 		{
-		    
+
 		    ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-		        
-		        @Override
-		        protected void auditedRun() {
-		            var diag = new ManaCostDialog();
+
+			@Override
+			protected void auditedRun() {
+			    var diag = new ManaCostDialog();
 			    diag.setVisible(true);
 			    imageCanvas.addLayer(new ManaLayer( diag.getSelectedItem()));
-		    	
-		        }
+
+			}
 		    },"run mana dialog");
-		    
+
 		}
 		layerList.setLayers(imageCanvas.getLayers());
 	    }
@@ -243,8 +238,8 @@ public class MtgCardComposer extends MTGUIComponent {
 
 	if(!file.exists())
 	    return null;
-	
-	
+
+
 	var node = new DefaultMutableTreeNode(file);
 
 	if (!file.isDirectory()) {
@@ -261,7 +256,7 @@ public class MtgCardComposer extends MTGUIComponent {
 
 	    if (a.isDirectory() && !b.isDirectory()) 
 		return -1;
-	    
+
 	    if (!a.isDirectory() && b.isDirectory()) 
 		return 1;
 
@@ -280,14 +275,14 @@ public class MtgCardComposer extends MTGUIComponent {
     // =====================================================================
 
     private boolean isImageFile(File file) {
- 		var name = file.getName().toLowerCase();
-		return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif") || name.endsWith(".bmp") || name.endsWith(".webp");
+	var name = file.getName().toLowerCase();
+	return name.endsWith(".png") || name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif") || name.endsWith(".bmp") || name.endsWith(".webp");
     }
 
     @Override
     public String getTitle() {
 	return "Composer";
     }
-   
+
 
 }

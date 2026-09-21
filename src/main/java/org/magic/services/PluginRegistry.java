@@ -268,7 +268,7 @@ public class PluginRegistry {
 			return r.get();
 
 		var cname = name.replaceAll("[\n\r\t]", "_");
-		throw new RuntimeException(cname + " doesn't exist or is not enabled");
+		 throw new RuntimeException(cname + " doesn't exist or is not enabled");
 	}
 
 	public <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
@@ -276,11 +276,23 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {
-		return listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst().get();
+		var r = listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst();
+		
+		if (r.isPresent())
+			return r.get();
+		
+		throw new RuntimeException(t + " doesn't exist or is not enabled");
+		
 	}
 
 	public MTGPlugin getPluginById(String id) {
-		return listPlugins().stream().filter(p -> p.getId().equals(id)).findFirst().get();
+		var r= listPlugins().stream().filter(p -> p.getId().equals(id)).findFirst();
+		
+
+		if (r.isPresent())
+			return r.get();
+		
+		throw new RuntimeException(id + " doesn't exist or is not enabled");
 	}
 
 }

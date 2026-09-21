@@ -82,10 +82,12 @@ public class TextLayer extends AbstractLayer {
 	    this.size = size;
     }
 
+    @Override
     public void setWidth(int width) {
        super.setWidth(requirePositiveDimension(width, "Width"));
     }
 
+    @Override
     public void setHeight(int height) {
 	super.setHeight(requirePositiveDimension(height, "Height"));
     }

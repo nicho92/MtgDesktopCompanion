@@ -50,8 +50,8 @@ public class LayerDetailPanel extends JPanel {
     private final JSpinner scaleSpinner = new JSpinner(new SpinnerNumberModel(1.0, 0.1, 10.0, 0.1));
     private final JPanel propertiesPanel = new JPanel();
 
-    private Layer layer;
-    private LayerChangeListener layerChangeListener;
+    private transient Layer layer;
+    private transient LayerChangeListener layerChangeListener;
     private boolean updating;
     private double previousScale = 1.0;
 

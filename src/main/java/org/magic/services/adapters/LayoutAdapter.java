@@ -26,10 +26,8 @@ public class LayoutAdapter implements JsonDeserializer<Layer> {
 				case "TextLayer" : return context.deserialize(json, TextLayer.class);
 				case "IllustrationLayer" : return context.deserialize(json, IllustrationLayer.class);
 				case "ManaLayer" : return context.deserialize(json, ManaLayer.class);
+				default : throw new JsonParseException("Unknown layer type: " + json.getAsJsonObject().get("layerType").getAsString());
 			}
-			
-			throw new JsonParseException("Unknown layer type: " + json.getAsJsonObject().get("layerType").getAsString());
-		
 	}
 
 }

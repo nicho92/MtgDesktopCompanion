@@ -25,158 +25,158 @@ public class BorderLayer extends AbstractLayer {
 
     public BorderLayer(BorderColor c) {
 
-        setWidth(2990);
-        setHeight(4180);
-        this.color = c;
-        setName(c.toString());
+	setWidth(2990);
+	setHeight(4180);
+	this.color = c;
+	setName(c.toString());
     }
 
     @Override
     public String toString() {
-        return "Border " + getName();
+	return "Border " + getName();
     }
 
     public void setUri(URI uri) {
 	this.uri = uri;
     }
-    
+
     @Override
     public void paintLayer(Graphics2D g2) {
 
-        var graphics = (Graphics2D) g2.create();
+	var graphics = (Graphics2D) g2.create();
 
-        try {
+	try {
 
-            var border = new RoundRectangle2D.Double(
-                    getX(),
-                    getY(),
-                    getWidth(),
-                    getHeight(),
-                    radius,
-                    radius
-            );
+	    var border = new RoundRectangle2D.Double(
+		    getX(),
+		    getY(),
+		    getWidth(),
+		    getHeight(),
+		    radius,
+		    radius
+		    );
 
-            /*
-             * L'image doit rester à l'intérieur du Border.
-             */
-            graphics.clip(border);
+	    /*
+	     * L'image doit rester à l'intérieur du Border.
+	     */
+	     graphics.clip(border);
 
-            if (image != null) {
+	     if (image != null) {
 
-                graphics.translate(
-                        getX() + imageOffsetX,
-                        getY() + imageOffsetY
-                );
+		 graphics.translate(
+			 getX() + imageOffsetX,
+			 getY() + imageOffsetY
+			 );
 
-                graphics.scale(
-                        imageScale,
-                        imageScale
-                );
+		 graphics.scale(
+			 imageScale,
+			 imageScale
+			 );
 
-                graphics.drawImage(
-                        image,
-                        0,
-                        0,
-                        null
-                );
+		 graphics.drawImage(
+			 image,
+			 0,
+			 0,
+			 null
+			 );
 
-            } else {
+	     } else {
 
-                graphics.setColor(color.getColor());
-                graphics.fill(border);
-            }
+		 graphics.setColor(color.getColor());
+		 graphics.fill(border);
+	     }
 
-        } finally {
-            graphics.dispose();
-        }
+	} finally {
+	    graphics.dispose();
+	}
     }
 
     public Color getColor() {
-        return color.getColor();
+	return color.getColor();
     }
 
     public void setColor(Color color) {
-        this.color.setColor(color);
-        this.image = null;
+	this.color.setColor(color);
+	this.image = null;
     }
 
     public Image getImage() {
-        return image;
+	return image;
     }
 
-    
+
     @Override
     public void reload() {
 	try {
-	    	
+
 	    if(color==BorderColor.BORDERLESS)
 		this.image = URLTools.extractAsImage(uri.toASCIIString());
 	} catch (IOException e) {
 	    MTGLogger.getLogger(this.getClass()).error(e);
 	}
     }
-    
+
 
     public double getRadius() {
-        return radius;
+	return radius;
     }
 
     public void setRadius(double radius) {
-        this.radius = radius;
+	this.radius = radius;
     }
 
     public double getImageScale() {
-        return imageScale;
+	return imageScale;
     }
 
     public void setImageScale(double imageScale) {
-        if (imageScale <= 0) {
-            throw new IllegalArgumentException(
-                    "Image scale must be greater than 0"
-            );
-        }
+	if (imageScale <= 0) {
+	    throw new IllegalArgumentException(
+		    "Image scale must be greater than 0"
+		    );
+	}
 
-        this.imageScale = imageScale;
+	this.imageScale = imageScale;
     }
 
     public double getImageOffsetX() {
-        return imageOffsetX;
+	return imageOffsetX;
     }
 
     public void setImageOffsetX(double imageOffsetX) {
-        this.imageOffsetX = imageOffsetX;
+	this.imageOffsetX = imageOffsetX;
     }
 
     public double getImageOffsetY() {
-        return imageOffsetY;
+	return imageOffsetY;
     }
 
     public void setImageOffsetY(double imageOffsetY) {
-        this.imageOffsetY = imageOffsetY;
+	this.imageOffsetY = imageOffsetY;
     }
-    
+
     public void fitImage() {
 
-	    if (image == null) {
-	        return;
-	    }
-
-	    double scaleX = (double) getWidth() / image.getWidth(null);
-	    double scaleY = (double) getHeight() / image.getHeight(null);
-
-	    imageScale = Math.max(scaleX, scaleY);
-
-	    int scaledWidth =
-	            (int) (image.getWidth(null) * imageScale);
-
-	    int scaledHeight =
-	            (int) (image.getHeight(null) * imageScale);
-
-	    imageOffsetX =
-	            (getWidth() - scaledWidth) / 2.0;
-
-	    imageOffsetY =
-	            (getHeight() - scaledHeight) / 2.0;
+	if (image == null) {
+	    return;
 	}
-    
+
+	double scaleX = (double) getWidth() / image.getWidth(null);
+	double scaleY = (double) getHeight() / image.getHeight(null);
+
+	imageScale = Math.max(scaleX, scaleY);
+
+	int scaledWidth =
+		(int) (image.getWidth(null) * imageScale);
+
+	int scaledHeight =
+		(int) (image.getHeight(null) * imageScale);
+
+	imageOffsetX =
+		(getWidth() - scaledWidth) / 2.0;
+
+	imageOffsetY =
+		(getHeight() - scaledHeight) / 2.0;
+    }
+
 }

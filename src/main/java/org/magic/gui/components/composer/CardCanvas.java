@@ -21,26 +21,15 @@ import org.magic.gui.components.composer.listeners.LayerSelectionListener;
 
 public class CardCanvas extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
-   
     private final List<Layer> layers = new ArrayList<>();
-
-    private Layer selectedLayer;
-
+    private transient Layer selectedLayer;
     private int dragOffsetX;
     private int dragOffsetY;
-
     private double zoom = 1.0;
-
-    private LayerSelectionListener selectionListener;
-    private LayerChangeListener layerChangeListener;
-
-    private RenderingHints  hints;
-    
-    
+    private transient LayerSelectionListener selectionListener;
+    private transient LayerChangeListener layerChangeListener;
+    private transient RenderingHints  hints;
     
     public CardCanvas() {
 

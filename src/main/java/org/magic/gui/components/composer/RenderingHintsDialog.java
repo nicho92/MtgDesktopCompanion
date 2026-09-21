@@ -26,15 +26,12 @@ import javax.swing.JScrollPane;
  */
 public class RenderingHintsDialog extends JDialog {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
     private final Map<RenderingHints.Key, JComboBox<Option>> controls =
             new LinkedHashMap<>();
 
-    private RenderingHints result;
+    private transient RenderingHints result;
 
     public RenderingHintsDialog(Window owner, RenderingHints initialHints) {
         super(owner, "Rendering Hints", ModalityType.APPLICATION_MODAL);

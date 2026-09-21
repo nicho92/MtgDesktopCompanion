@@ -28,77 +28,76 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 
 public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider {
-    
+
     private CardCanvas canvas;
-    
+
     @Override
     public STATUT getStatut() {
-        return STATUT.DEV;
+	return STATUT.DEV;
     }
-    
+
     public MTGCompanionComposerProvider() {
 	canvas = new CardCanvas();
 	UITools.loadFonts();
     }
-    
+
     @Override
     public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 	canvas.clear();
-	
+
 	var layout="Normal";
-	
+
 	if(mc.isExtendedArt())
 	    layout="Extended";
 	else if(mc.isBorderLess())
 	    layout="Borderless"; 
 	else if(mc.isSaga())
 	    layout="Saga"; 
-	    
+
 	var json = URLTools.toJson(getClass().getResourceAsStream("/composer-layouts/"+layout+".json"));
 	var layers = new JsonExport().fromJsonList(json.toString(),Layer.class);
-	
-	
+
+
 	layers.forEach(l->{
-	    
+
 	    if(l instanceof TextLayer tl)
 	    {
 		if(tl.getName().equals("NAME"))
 		    tl.setText(mc.getName());
-		
+
 		if(tl.getName().equals("SET_LANG"))
 		    tl.setText(mc.getEdition().getId().toUpperCase() + " • EN");
-		
+
 		if(tl.getName().equals("TYPES"))
 		    tl.setText(mc.getFullType());
-		
+
 		if(tl.getName().equals("ARTIST"))
 		    tl.setText(mc.getArtist());
-		
+
 		if(tl.getName().equals("TEXT"))
 		    tl.setText(mc.getText());
-		
-		
-		if(mc.isCreature())
+
+
+		if(mc.isCreature() && tl.getName().equals("PT_TEXT"))
 		{
-		    if(tl.getName().equals("PT_TEXT"))
-			tl.setText(mc.getPower() +"/"+mc.getToughness());
+		    tl.setText(mc.getPower() +"/"+mc.getToughness());
 		}
-				
+
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
 		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + mc.getEdition().getCardCountOfficial());
 	    }
-	    
+
 	    if(l instanceof ManaLayer ml)
 	    {
 		ml.setCost(mc.getCost());
 	    }
-	    
+
 	    if(l instanceof BorderLayer bl)
 	    {
 		bl.setColor(BorderColor.valueOf(mc.getBorder().name()).getColor());
 	    }
-	    
-	    
+
+
 	    if(l instanceof IllustrationLayer tl)
 	    {
 		try {
@@ -107,19 +106,19 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    logger.error(e);
 		}
 	    }
-	    
+
 	    if(l instanceof FrameLayer fl)
 	    {
 		var code = EnumColors.determine(mc.getColors()).getCode();
 		fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
-		
+
 	    }
-	    
+
 	    l.reload();
 	    canvas.addLayer(l);
-	    
+
 	});
-	
+
 	return ImageTools.resize(canvas.getCardImage(),1039,744);
     }
 
@@ -132,11 +131,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
     public String getName() {
 	return "MTGCompanion Composer";
     }
-    
-    
+
+
     @Override
     public Icon getIcon() {
-       return new ImageIcon(MTGConstants.IMAGE_LOGO_32);
+	return new ImageIcon(MTGConstants.IMAGE_LOGO_32);
     }
 
 }
