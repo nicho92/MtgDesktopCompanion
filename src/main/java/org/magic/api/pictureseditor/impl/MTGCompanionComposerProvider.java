@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
@@ -23,6 +24,7 @@ import org.magic.api.interfaces.extra.Layer;
 import org.magic.gui.components.composer.CardCanvas;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 
 public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider {
@@ -117,7 +119,8 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    canvas.addLayer(l);
 	    
 	});
-	return canvas.getCardImage();
+	
+	return ImageTools.resize(canvas.getCardImage(),1039,744);
     }
 
     @Override
