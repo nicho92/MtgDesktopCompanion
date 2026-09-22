@@ -10,8 +10,8 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
@@ -56,10 +56,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 	var json = URLTools.toJson(getClass().getResourceAsStream("/composer-layouts/"+layout+".json"));
 	var layers = new JsonExport().fromJsonList(json.toString(),Layer.class);
+	var print=true;
 
-
-	layers.forEach(l->{
-
+	for(var l : layers) 
+	{
+		print=true;
 	    if(l instanceof TextLayer tl)
 	    {
 		if(tl.getName().equals("NAME"))
@@ -82,6 +83,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		{
 		    tl.setText(mc.getPower() +"/"+mc.getToughness());
 		}
+		
 
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
 		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + mc.getEdition().getCardCountOfficial());
@@ -109,15 +111,30 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 	    if(l instanceof FrameLayer fl)
 	    {
-		var code = EnumColors.determine(mc.getColors()).getCode();
-		fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
+			var code = EnumColors.determine(mc.getColors()).getCode();
+			
+			if(mc.isArtifact())
+			    code = "Artifact";
+			else if(mc.isLand())
+			    code = "Land";
+			
+			fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
+			
 
+			if(fl.getName().equals("SETICON"))	{
+				
+				fl.setPath(fl.getPath().replace("a25_mythic.webp", mc.getEdition().getId().toLowerCase()+"_"+mc.getRarity().name().toLowerCase()+".webp"));
+				print=mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true");
+			}
+			
+			
 	    }
-
-	    l.reload();
-	    canvas.addLayer(l);
-
-	});
+	    if(print)
+	    {
+	    	l.reload();
+	    	canvas.addLayer(l);
+	    }
+	}
 
 	return ImageTools.resize(canvas.getCardImage(),1039,744);
     }
