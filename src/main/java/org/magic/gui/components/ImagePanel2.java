@@ -118,6 +118,10 @@ public class ImagePanel2 extends JXPanel {
 		repaint();
 	}
 
+	public void setReflexion(boolean reflexion) {
+	    this.reflexion = reflexion;
+	}
+	
 	public BufferedImage getFront() {
 		return front;
 	}

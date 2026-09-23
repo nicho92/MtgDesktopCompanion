@@ -44,14 +44,11 @@ public class IllustrationLayer extends AbstractLayer {
 
     @Override
     public void reload() {
-	if(image==null) 
-	{
-        	try {
+	     	try {
         	  image=URLTools.extractAsImage(url.toString());
         	} catch (IOException e) {
         	    MTGLogger.getLogger(this.getClass()).error(e);
         	}
-	}
     }
     
     @Override

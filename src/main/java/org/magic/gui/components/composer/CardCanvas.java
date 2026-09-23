@@ -74,10 +74,6 @@ public class CardCanvas extends JPanel {
 	addMouseMotionListener(mouseHandler);
     }
 
-    // =====================================================================
-    // Zoom
-    // =====================================================================
-
     public double getZoom() {
 	return zoom;
     }
@@ -198,10 +194,6 @@ public class CardCanvas extends JPanel {
     public void removeSelectedLayer() {
 	removeLayer(selectedLayer);
     }
-
-    // =====================================================================
-    // Layer order
-    // =====================================================================
 
     public void moveLayerUp(Layer layer) {
 

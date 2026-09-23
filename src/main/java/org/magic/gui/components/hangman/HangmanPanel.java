@@ -59,6 +59,7 @@ public class HangmanPanel extends MTGUIComponent {
         setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 
         drawingPanel = new ImagePanel2();
+        drawingPanel.setReflexion(false);
         drawingPanel.setPreferredSize(new Dimension(420, 220));
         add(drawingPanel, BorderLayout.WEST);
 
