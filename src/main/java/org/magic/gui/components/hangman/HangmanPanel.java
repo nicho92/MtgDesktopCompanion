@@ -127,7 +127,7 @@ public class HangmanPanel extends MTGUIComponent {
     	    var img = provider.getPicture(game.getCurrent(), null);
     	    drawingPanel.setImg(img);
     	} catch (IOException e) {
-    	    e.printStackTrace();
+    	   logger.error(e);
     	}
         }
         
