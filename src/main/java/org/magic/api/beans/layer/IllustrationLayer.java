@@ -21,7 +21,6 @@ public class IllustrationLayer extends AbstractLayer {
 
 
     public IllustrationLayer(URL source) {
-
 	this.url = source;
 	setName("Illustration");
 	reload();
@@ -39,20 +38,22 @@ public class IllustrationLayer extends AbstractLayer {
 
     public void setSource(URL source) {
 	this.url = source;
+	image=null;
 	reload();
     }
 
     @Override
     public void reload() {
-
-	try {
-	    this.image = URLTools.extractAsImage(url.toString());
-	} catch (IOException e) {
-	    MTGLogger.getLogger(this.getClass()).error(e);
+	if(image==null) 
+	{
+        	try {
+        	  image=URLTools.extractAsImage(url.toString());
+        	} catch (IOException e) {
+        	    MTGLogger.getLogger(this.getClass()).error(e);
+        	}
 	}
-
     }
-
+    
     @Override
     public void paintLayer(Graphics2D g2) {
 

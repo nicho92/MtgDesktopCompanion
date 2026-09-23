@@ -2,7 +2,6 @@ package org.magic.api.pictureseditor.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 
 import javax.swing.Icon;
@@ -30,7 +29,8 @@ import org.magic.services.tools.UITools;
 public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider {
 
     private CardCanvas canvas;
-
+     
+    
     @Override
     public STATUT getStatut() {
 	return STATUT.DEV;
@@ -53,6 +53,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    layout="Borderless"; 
 	else if(mc.isSaga())
 	    layout="Saga"; 
+	
+	
+	if(mc.isLegendary())
+	    layout+="-legendary";
+	
 
 	var json = URLTools.toJson(getClass().getResourceAsStream("/composer-layouts/"+layout+".json"));
 	var layers = new JsonExport().fromJsonList(json.toString(),Layer.class);
@@ -60,7 +65,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 	for(var l : layers) 
 	{
-		print=true;
+	    print=true;
 	    if(l instanceof TextLayer tl)
 	    {
 		if(tl.getName().equals("NAME"))
@@ -78,12 +83,13 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		if(tl.getName().equals("TEXT"))
 		    tl.setText(mc.getText());
 
-
-		if(mc.isCreature() && tl.getName().equals("PT_TEXT"))
+		if(tl.getName().equals("PT_TEXT"))
 		{
-		    tl.setText(mc.getPower() +"/"+mc.getToughness());
+		    if(mc.isCreature())
+			tl.setText(mc.getPower() +"/"+mc.getToughness());
+		    else
+			tl.setText("");
 		}
-		
 
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
 		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + mc.getEdition().getCardCountOfficial());
@@ -92,6 +98,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(l instanceof ManaLayer ml)
 	    {
 		ml.setCost(mc.getCost());
+		ml.scale(1.3);
 	    }
 
 	    if(l instanceof BorderLayer bl)
@@ -104,7 +111,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    {
 		try {
 		    tl.setSource(URI.create(mc.getUrl()).toURL());
-		} catch (MalformedURLException e) {
+		} catch (Exception e) {
 		    logger.error(e);
 		}
 	    }
@@ -119,16 +126,21 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			    code = "Land";
 			
 			fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
-			
 
 			if(fl.getName().equals("SETICON"))	{
-				
 				fl.setPath(fl.getPath().replace("a25_mythic.webp", mc.getEdition().getId().toLowerCase()+"_"+mc.getRarity().name().toLowerCase()+".webp"));
 				print=mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true");
 			}
 			
+			if(fl.getName().equals("PT")){
+			    print=mc.isCreature();    
+			}
+			
+			
 			
 	    }
+	    
+	    
 	    if(print)
 	    {
 	    	l.reload();
