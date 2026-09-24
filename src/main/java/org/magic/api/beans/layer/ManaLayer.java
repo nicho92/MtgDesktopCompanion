@@ -33,7 +33,6 @@ public class ManaLayer extends AbstractLayer{
 	reload();
     }
     
-    
     @Override
     protected void paintLayer(Graphics2D g2) {
 	g2.drawImage(manaImage, getX(), getY(), getWidth(), getHeight(), null);
@@ -69,7 +68,7 @@ public class ManaLayer extends AbstractLayer{
         while (matcher.find()) {
 
             var symbol = matcher.group(1);
-            var manaSymbol =IconsProvider.getInstance().getManaSymbol(symbol);
+            var manaSymbol =ImageTools.resize(IconsProvider.getInstance().getManaSymbol(symbol), 130, 130);
             
             if (manaSymbol != null) {
                 symbols.add(manaSymbol);
