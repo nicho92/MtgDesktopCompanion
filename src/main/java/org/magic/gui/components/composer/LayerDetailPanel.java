@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,6 +33,7 @@ import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
 import org.magic.api.beans.layer.ManaLayer;
 import org.magic.api.beans.layer.TextLayer;
+import org.magic.api.beans.layer.enums.FrameType;
 import org.magic.api.interfaces.extra.Layer;
 import org.magic.gui.components.composer.listeners.LayerChangeListener;
 
@@ -78,7 +80,9 @@ public class LayerDetailPanel extends JPanel {
         propertiesPanel.setLayout(new BoxLayout(propertiesPanel, BoxLayout.Y_AXIS));
         propertiesPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(propertiesPanel);
-
+        
+   
+        
         var scrollPane = new JScrollPane(content);
         scrollPane.setBorder(null);
         add(scrollPane, BorderLayout.CENTER);
@@ -244,23 +248,15 @@ public class LayerDetailPanel extends JPanel {
         browseButton.setToolTipText(frameLayer.getFile().getAbsolutePath());
         propertiesPanel.add(createProperty("File", browseButton));
         
+        var cboFrameTypes = new JComboBox<>(FrameType.values());
         
-        var chkTitleLineFrame = new JCheckBox();
-        	chkTitleLineFrame.setSelected(frameLayer.isTitleLine());
-        	chkTitleLineFrame.addItemListener(_->{
-        	    frameLayer.setTitleLineFrame(chkTitleLineFrame.isSelected());
-        	    notifyLayerChanged();
-        	});
-        	
-        var chkTypesLineFrame = new JCheckBox();
-        	chkTypesLineFrame.setSelected(frameLayer.isTypesLine());
-        	chkTypesLineFrame.addItemListener(_->{
-        	    frameLayer.setTypesLineFrame(chkTypesLineFrame.isSelected());
-        	    notifyLayerChanged();
-        	});
-        
-        propertiesPanel.add(createProperty("Title Frame", chkTitleLineFrame));
-        propertiesPanel.add(createProperty("Types Frame", chkTypesLineFrame));
+	cboFrameTypes.addItemListener(_->{
+	    update(() ->frameLayer.setFrameType(cboFrameTypes.getItemAt(cboFrameTypes.getSelectedIndex())));
+	});
+	
+	cboFrameTypes.setSelectedItem(frameLayer.getFrameType());
+	
+        propertiesPanel.add(createProperty("Types Frame", cboFrameTypes));
     }
 
     private void chooseFrameSource(FrameLayer frameLayer) {

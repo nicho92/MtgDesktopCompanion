@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.magic.api.beans.abstracts.AbstractLayer;
+import org.magic.api.beans.layer.enums.FrameType;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.ImageTools;
@@ -13,44 +14,41 @@ import org.magic.services.tools.ImageTools;
 public class FrameLayer extends AbstractLayer {
 
     private transient BufferedImage image;
-    private boolean titleLine=false;
-    private boolean typesLine=false;
     private String path;
-    
-    public void setTitleLineFrame(boolean b)
-    {
-	titleLine=b;
-	typesLine=!b;
-    }
- 
-    public void setTypesLineFrame(boolean b)
-    {
-	typesLine=b;
-	titleLine=!b;
+    private FrameType frameType;
+        
+    public boolean isTypesLine() {
+	return frameType==FrameType.TYPE_BORDER;
     }
     
     public boolean isTitleLine() {
-	return titleLine;
+   	return frameType==FrameType.TITLE_BORDER;
+       }
+
+    
+    public void setFrameType(FrameType frameType) {
+	this.frameType = frameType;
+    }
+    public FrameType getFrameType() {
+	return frameType;
     }
     
-    public boolean isTypesLine() {
-	return typesLine;
-    }
     
 
     @Override
     public void paintLayer(Graphics2D g2) {
 	
 	var print = getImage();
-	if(titleLine)
+	
+	if(isTitleLine())
 	{
 	    print=image.getSubimage(0, 0, 2665, 261);
 	    setHeight(261);
 	}
 	
-	if(typesLine)
+	if(isTypesLine())
 	{
-	    print= image.getSubimage(0, 2151, 2665, 261);
+	    print= image.getSubimage(0, 2149, 2665, 261);
 	    setHeight(261);
 	} 
 	

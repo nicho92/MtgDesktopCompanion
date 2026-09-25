@@ -17,6 +17,7 @@ import org.magic.api.beans.layer.IllustrationLayer;
 import org.magic.api.beans.layer.ManaLayer;
 import org.magic.api.beans.layer.TextLayer;
 import org.magic.api.beans.layer.enums.BorderColor;
+import org.magic.api.beans.layer.enums.FrameType;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.api.interfaces.extra.Layer;
@@ -127,12 +128,12 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			
 			fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
 
-			if(fl.getName().equals("SETICON"))	{
+			if(fl.getFrameType()==FrameType.SETICON)	{
 				fl.setPath(fl.getPath().replace("a25_mythic.webp", mc.getEdition().getId().toLowerCase()+"_"+mc.getRarity().name().toLowerCase()+".webp"));
 				print=mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true");
 			}
 			
-			if(fl.getName().equals("PT")){
+			if(fl.getFrameType()==FrameType.PT)	{
 			    print=mc.isCreature();    
 			}
 			
