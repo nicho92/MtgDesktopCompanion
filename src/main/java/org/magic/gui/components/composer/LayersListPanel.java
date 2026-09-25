@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class LayersListPanel extends JPanel {
     private final DefaultListModel<Layer> model;
     private final JList<Layer> list;
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+    
+    private File currentFile = MTGConstants.DATA_DIR;
     private CardCanvas canvas;
 
     public LayersListPanel() {
@@ -90,12 +92,17 @@ public class LayersListPanel extends JPanel {
 
 	saveButton.addActionListener(_ -> {
 
-	    var chose = new JFileChooser(MTGConstants.DATA_DIR);
+	    var chose = new JFileChooser(currentFile);
 	    chose.showSaveDialog(this);
-
+	    
+	    if(chose.getSelectedFile()==null)
+		return;
+	    
+	    
 	    try {
 		var s = new JsonExport().toJson(canvas.getLayers());
 		FileTools.saveFile(chose.getSelectedFile(), s);
+		currentFile = chose.getSelectedFile();
 	    } catch (IOException e) {
 		MTGControler.getInstance().notify(e);
 	    }
@@ -121,9 +128,16 @@ public class LayersListPanel extends JPanel {
 	});
 	
 	openButton.addActionListener(_ -> {
-	    var chose = new JFileChooser(MTGConstants.DATA_DIR);
+	    var chose = new JFileChooser(currentFile);
 	    chose.showOpenDialog(this);
+	    
+	    
+	    if(chose.getSelectedFile()==null)
+		return;
+	    
 	    try {
+		
+		currentFile = chose.getSelectedFile();
 		var s = FileTools.readFile(chose.getSelectedFile());
 		var layers = new JsonExport().fromJsonList(s, Layer.class);
 		layers.forEach(Layer::reload);
