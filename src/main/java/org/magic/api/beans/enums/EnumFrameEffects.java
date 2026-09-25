@@ -18,7 +18,6 @@ public enum EnumFrameEffects implements MTGEnumeration {
 	DRAFT, 
 	ENCHANTMENT, 
 	ETCHED, 
-	EXTENDED, 
 	EXTENDEDART, 
 	FANDFC, 
 	FULLART, 

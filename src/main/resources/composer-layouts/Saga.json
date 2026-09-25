@@ -1,0 +1,253 @@
+[
+  {
+    "radius": 116.5,
+    "color": "BLACK",
+    "imageScale": 0.0,
+    "imageOffsetX": 0.0,
+    "imageOffsetY": 0.0,
+    "name": "BORDER",
+    "x": 9,
+    "y": 9,
+    "width": 2990,
+    "height": 4183,
+    "alpha": 1.0,
+    "layerType": "BorderLayer"
+  },
+  {
+    "text": "R 001 / 010",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COLLECTOR_INFO",
+    "name": "RARITY_PRINTNUMBER",
+    "x": 185,
+    "y": 3930,
+    "width": 456,
+    "height": 62,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "SET • EN",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SET_AND_LANG",
+    "name": "SET_LANG",
+    "x": 185,
+    "y": 4010,
+    "width": 490,
+    "height": 58,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "a",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SEPARATOR",
+    "name": "SEPARATOR",
+    "x": 473,
+    "y": 4000,
+    "width": 104,
+    "height": 80,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "AUTHOR NAME",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "ARTIST",
+    "name": "ARTIST",
+    "x": 590,
+    "y": 3985,
+    "width": 1334,
+    "height": 90,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COPYRIGHT",
+    "name": "COPYRIGHT",
+    "x": 1950,
+    "y": 3965,
+    "width": 910,
+    "height": 73,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "url": "https://www.coolstuffinc.com/s3_image.php?img\u003dhttp://s3.gatheringmagic.com/uploads/2018/04/18/ML_2.jpg",
+    "fadeSize": 0.0,
+    "fadeStrength": 1.0,
+    "name": "Illustration",
+    "x": 1475,
+    "y": 475,
+    "width": 1337,
+    "height": 3132,
+    "alpha": 1.0,
+    "layerType": "IllustrationLayer"
+  },
+  {
+    "path": "Frames/saga_bg/U.webp",
+    "frameType": "FRAME",
+    "adaptedLegendaryFrame": false,
+    "name": "Frame Saga",
+    "x": 105,
+    "y": 140,
+    "width": 2780,
+    "height": 3750,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/saga_frames/U.webp",
+    "frameType": "BOX",
+    "adaptedLegendaryFrame": false,
+    "name": "Box Border",
+    "x": 80,
+    "y": 205,
+    "width": 2766,
+    "height": 3645,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/saga_textboxes/U.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "LeftBox",
+    "x": 215,
+    "y": 500,
+    "width": 1276,
+    "height": 3051,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/normal_boxes/U.webp",
+    "frameType": "TITLE_BORDER",
+    "adaptedLegendaryFrame": false,
+    "name": "Title Line",
+    "x": 155,
+    "y": 230,
+    "width": 2668,
+    "height": 261,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/normal_boxes/U.webp",
+    "frameType": "TYPE_BORDER",
+    "adaptedLegendaryFrame": false,
+    "name": "Type Border",
+    "x": 155,
+    "y": 3575,
+    "width": 2668,
+    "height": 261,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/set_icons/a25_rare.webp",
+    "frameType": "SETICON",
+    "adaptedLegendaryFrame": false,
+    "name": "SETicon",
+    "x": 2630,
+    "y": 3620,
+    "width": 128,
+    "height": 176,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "Time of Ice",
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TITLE",
+    "name": "title",
+    "x": 230,
+    "y": 245,
+    "width": 2000,
+    "height": 162,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Enchantment - Saga",
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TYPE_LINE",
+    "name": "type_line",
+    "x": 225,
+    "y": 3600,
+    "width": 2000,
+    "height": 200,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "(As this Saga enters and after your draw step, add a lore Counter. Sacrifice after III.)",
+    "size": 133.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "FLAVOR",
+    "name": "Saga_Flavor",
+    "x": 265,
+    "y": 545,
+    "width": 1137,
+    "height": 565,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "cost": "{3}{U}{U}{U}{U}",
+    "name": "Mana Cost",
+    "x": 0,
+    "y": 0,
+    "width": 650,
+    "height": 130,
+    "alpha": 1.0,
+    "layerType": "ManaLayer"
+  }
+]

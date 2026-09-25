@@ -16,12 +16,12 @@
   {
     "path": "\\Frames\\extended_bg\\U.webp",
     "frameType": "FRAME",
-    "adaptedLegendaryFrame": false,
+    "adaptedLegendaryFrame": true,
     "name": "FRAME",
-    "x": 106,
-    "y": 116,
+    "x": 113,
+    "y": 445,
     "width": 2780,
-    "height": 3782,
+    "height": 3432,
     "alpha": 1.0,
     "layerType": "FrameLayer"
   },
@@ -48,6 +48,18 @@
     "height": 2092,
     "alpha": 1.0,
     "layerType": "IllustrationLayer"
+  },
+  {
+    "path": "Frames/extended_legendary_crowns/U.webp",
+    "frameType": "LEGENDARY",
+    "adaptedLegendaryFrame": false,
+    "name": "Crow",
+    "x": 65,
+    "y": 70,
+    "width": 2851,
+    "height": 468,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
   },
   {
     "path": "\\Frames\\extended_boxes\\U.webp",
@@ -84,7 +96,7 @@
     },
     "role": "TITLE",
     "name": "NAME",
-    "x": 218,
+    "x": 223,
     "y": 213,
     "width": 2000,
     "height": 175,

@@ -16,7 +16,10 @@ public class FrameLayer extends AbstractLayer {
     private transient BufferedImage image;
     private String path;
     private FrameType frameType;
-        
+    
+    private boolean adaptedLegendaryFrame = false;
+    
+    
     public boolean isTypesLine() {
 	return frameType==FrameType.TYPE_BORDER;
     }
@@ -24,6 +27,14 @@ public class FrameLayer extends AbstractLayer {
     public boolean isTitleLine() {
    	return frameType==FrameType.TITLE_BORDER;
        }
+    
+    public void setAdaptedLegendaryFrame(boolean adaptedLegendaryFrame) {
+	this.adaptedLegendaryFrame = adaptedLegendaryFrame;
+    }
+    
+    public boolean isAdaptedLegendaryFrame() {
+	return adaptedLegendaryFrame;
+    }
 
     
     public void setFrameType(FrameType frameType) {
@@ -52,6 +63,13 @@ public class FrameLayer extends AbstractLayer {
 	    setHeight(261);
 	} 
 	
+	if(getFrameType()==FrameType.FRAME && isAdaptedLegendaryFrame())
+	{
+	    var nh = print.getHeight()-350;
+	    print= image.getSubimage(0, 350, print.getWidth(), nh );
+	    setHeight(nh);
+	} 
+	
 	g2.drawImage(
 		print,
 	        getX(),
@@ -60,7 +78,6 @@ public class FrameLayer extends AbstractLayer {
 	        getHeight(),
 	        null
 	    );
-
     }
     
     public File getFile()

@@ -50,7 +50,12 @@ public class ManaLayer extends AbstractLayer{
             setWidth(manaImage.getWidth());
             setHeight(manaImage.getHeight());
 
-            setX(getX() + oldWidth - getWidth());
+            var nx = getX() + oldWidth - getWidth();
+            
+            if(nx<0)
+        	nx=0;
+            
+            setX(nx);
           } 
         else 
         { 

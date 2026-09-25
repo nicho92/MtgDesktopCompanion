@@ -58,7 +58,7 @@ public class VirtualKeyboardPanel extends JPanel {
         	 letterRows = new String[] {
                          "ABCDEFGHI",
                          "JKLMNOPQR",
-                         "STUVWXZ"
+                         "STUVWXYZ"
                  };
                 
                 

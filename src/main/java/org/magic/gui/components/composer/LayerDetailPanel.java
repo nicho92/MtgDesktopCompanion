@@ -249,14 +249,18 @@ public class LayerDetailPanel extends JPanel {
         propertiesPanel.add(createProperty("File", browseButton));
         
         var cboFrameTypes = new JComboBox<>(FrameType.values());
-        
-	cboFrameTypes.addItemListener(_->{
+        cboFrameTypes.addItemListener(_->{
 	    update(() ->frameLayer.setFrameType(cboFrameTypes.getItemAt(cboFrameTypes.getSelectedIndex())));
 	});
-	
 	cboFrameTypes.setSelectedItem(frameLayer.getFrameType());
+	propertiesPanel.add(createProperty("Types Frame", cboFrameTypes));
 	
-        propertiesPanel.add(createProperty("Types Frame", cboFrameTypes));
+	var chkLegendaryAdapt = new JCheckBox();
+	chkLegendaryAdapt.addItemListener(_->{
+	    update(() ->frameLayer.setAdaptedLegendaryFrame(chkLegendaryAdapt.isSelected()));
+	});
+	propertiesPanel.add(createProperty("Legendary Frame", chkLegendaryAdapt));
+        
     }
 
     private void chooseFrameSource(FrameLayer frameLayer) {
