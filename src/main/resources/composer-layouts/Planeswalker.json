@@ -168,6 +168,7 @@
   },
   {
     "path": "Frames/planeswalker/Loyalty.webp",
+    "frameType": "LOYALTY_BASE",
     "adaptedLegendaryFrame": false,
     "name": "Loyalty_bg",
     "x": 2450,
@@ -224,10 +225,173 @@
     },
     "role": "TYPE_LINE",
     "name": "TYPES",
-    "x": 205,
-    "y": 2415,
-    "width": 2300,
-    "height": 220,
+    "x": 200,
+    "y": 2410,
+    "width": 3105,
+    "height": 240,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "path": "Frames/planeswalker/LoyaltyMinus.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "loyalty_frame_3",
+    "x": 80,
+    "y": 3655,
+    "width": 367,
+    "height": 254,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/planeswalker/LoyaltyPlus.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "loyalty_frame_2",
+    "x": 80,
+    "y": 2795,
+    "width": 367,
+    "height": 256,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/planeswalker/LoyaltyZero.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "loyalty_frame_1",
+    "x": 80,
+    "y": 3223,
+    "width": 367,
+    "height": 230,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "+1",
+    "size": 130.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "LOYALY",
+    "name": "loyalty_value_1",
+    "x": 195,
+    "y": 2820,
+    "width": 225,
+    "height": 146,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "-2",
+    "size": 130.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "LOYALY",
+    "name": "loyalty_value_2",
+    "x": 195,
+    "y": 3215,
+    "width": 225,
+    "height": 146,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "-7",
+    "size": 130.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "LOYALY",
+    "name": "loyalty_value_3",
+    "x": 195,
+    "y": 3645,
+    "width": 225,
+    "height": 146,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "cost": "{2}{U}{U/P}",
+    "name": "COST",
+    "x": 2370,
+    "y": 215,
+    "width": 390,
+    "height": 130,
+    "alpha": 1.0,
+    "layerType": "ManaLayer"
+  },
+  {
+    "path": "Frames/set_icons/a25_mythic.webp",
+    "frameType": "SETICON",
+    "adaptedLegendaryFrame": false,
+    "name": "a25_mythic.webp",
+    "x": 2575,
+    "y": 2380,
+    "width": 152,
+    "height": 209,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "Until your next turn, up to one target creature gets -3/-0.",
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "name": "loyalty_text_1",
+    "x": 480,
+    "y": 2700,
+    "width": 2200,
+    "height": 400,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Target player mills three cards. Then if a graveyard has twenty or more cards in it, you draw three cards. Otherwise, you draw a card.",
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "name": "loyalty_text_2",
+    "x": 485,
+    "y": 3080,
+    "width": 2200,
+    "height": 400,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Target player mills three times X cards.",
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "name": "loyalty_text_3",
+    "x": 475,
+    "y": 3510,
+    "width": 2200,
+    "height": 400,
     "alpha": 1.0,
     "layerType": "TextLayer"
   }

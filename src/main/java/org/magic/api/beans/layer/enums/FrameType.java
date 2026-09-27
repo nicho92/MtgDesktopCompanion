@@ -8,7 +8,8 @@ public enum FrameType {
     TITLE_BORDER,
     TYPE_BORDER,
     PT,
-    SETICON
-    
+    SETICON,
+    LOYALTY_BASE,
+    LOYALTY_MODIFIER
     
 }

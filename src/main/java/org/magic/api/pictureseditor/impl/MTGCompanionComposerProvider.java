@@ -52,9 +52,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    layout="Extended";
 	else if(mc.isSaga())
 	    layout="Saga"; 
+	else if(mc.isPlaneswalker())
+	    layout="Planeswalker"; 
 	
 	
-	if(mc.isLegendary())
+	if(mc.isLegendary() && !mc.isPlaneswalker())
 	    layout+="-legendary";
 	
 
@@ -134,9 +136,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			if(fl.getFrameType()==FrameType.PT)	{
 			    print=mc.isCreature();    
 			}
-			
-			
-			
 	    }
 	    
 	    
