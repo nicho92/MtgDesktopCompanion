@@ -1,0 +1,234 @@
+[
+  {
+    "radius": 116.5,
+    "color": "BLACK",
+    "imageScale": 0.0,
+    "imageOffsetX": 0.0,
+    "imageOffsetY": 0.0,
+    "name": "BORDER",
+    "x": 9,
+    "y": 9,
+    "width": 2990,
+    "height": 4183,
+    "alpha": 1.0,
+    "layerType": "BorderLayer"
+  },
+  {
+    "text": "R 001 / 010",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COLLECTOR_INFO",
+    "name": "RARITY_PRINTNUMBER",
+    "x": 185,
+    "y": 3930,
+    "width": 456,
+    "height": 62,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "SET • EN",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SET_AND_LANG",
+    "name": "SET_LANG",
+    "x": 185,
+    "y": 4010,
+    "width": 490,
+    "height": 58,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "a",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SEPARATOR",
+    "name": "SEPARATOR",
+    "x": 473,
+    "y": 4000,
+    "width": 104,
+    "height": 80,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "AUTHOR NAME",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "ARTIST",
+    "name": "ARTIST",
+    "x": 590,
+    "y": 3985,
+    "width": 1334,
+    "height": 90,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COPYRIGHT",
+    "name": "COPYRIGHT",
+    "x": 1950,
+    "y": 3965,
+    "width": 910,
+    "height": 73,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "url": "https://instagram.fcdg4-1.fna.fbcdn.net/v/t51.82787-15/662595575_18545796397068096_2650073140169402206_n.jpg?stp\u003ddst-jpg_e35_tt6\u0026_nc_cat\u003d106\u0026_nc_map\u003durlgen_bucketless\u0026ig_cache_key\u003dMzExNTAwOTA1NjQyMTgwNzIyMA%3D%3D.3-ccb7-5\u0026ccb\u003d7-5\u0026_nc_sid\u003d58cdad\u0026efg\u003deyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9\u0026_nc_ohc\u003dVTx5Qa_ANEYQ7kNvwHORrU8\u0026_nc_oc\u003dAdo4S758kwx_TCZA0opJ4DBzvbJnUPACB-Ac_kXkf4Cmka7-wiowBKhLKh2-6yXIKco\u0026_nc_ad\u003dz-m\u0026_nc_cid\u003d0\u0026_nc_zt\u003d23\u0026_nc_ht\u003dinstagram.fcdg4-1.fna\u0026_nc_gid\u003dub1Jj6kSrGXfqDaQ629Ytg\u0026_nc_ss\u003d7a22e\u0026oh\u003d00_AQLsG6f5w2kPyifkqJ5PRMznbyB9g9W6mlrDeSwzDaEcLQ\u0026oe\u003d6ABF15E2",
+    "fadeSize": 45.0,
+    "fadeStrength": 1.0,
+    "name": "Illustration",
+    "x": 100,
+    "y": 345,
+    "width": 2808,
+    "height": 3540,
+    "alpha": 1.0,
+    "layerType": "IllustrationLayer"
+  },
+  {
+    "path": "Frames/planeswalker_bg/U.webp",
+    "frameType": "FRAME",
+    "adaptedLegendaryFrame": false,
+    "name": "bg frame",
+    "x": 95,
+    "y": 130,
+    "width": 2778,
+    "height": 3793,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "shape": "SQUARE",
+    "name": "text box background",
+    "x": 320,
+    "y": 2620,
+    "width": 2480,
+    "height": 1240,
+    "alpha": 0.4,
+    "layerType": "ShapeLayer"
+  },
+  {
+    "path": "Frames/planeswalker_frames/U.webp",
+    "frameType": "BOX",
+    "adaptedLegendaryFrame": false,
+    "name": "box frame",
+    "x": 117,
+    "y": 130,
+    "width": 2736,
+    "height": 3810,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/planeswalker_boxes/U.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "Types Bar",
+    "x": 140,
+    "y": 160,
+    "width": 2686,
+    "height": 2467,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/planeswalker/Loyalty.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "Loyalty_bg",
+    "x": 2450,
+    "y": 3675,
+    "width": 462,
+    "height": 283,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "5",
+    "size": 130.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "LOYALY",
+    "name": "loyaly_initial",
+    "x": 2655,
+    "y": 3725,
+    "width": 120,
+    "height": 162,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Jace, the Perfected Mind",
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TITLE",
+    "name": "NAME",
+    "x": 220,
+    "y": 165,
+    "width": 2100,
+    "height": 250,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Legendary Planeswalker – Jace\n",
+    "size": 131.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TYPE_LINE",
+    "name": "TYPES",
+    "x": 205,
+    "y": 2415,
+    "width": 2300,
+    "height": 220,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  }
+]

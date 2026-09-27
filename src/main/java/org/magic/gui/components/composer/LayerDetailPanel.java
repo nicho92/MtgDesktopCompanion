@@ -32,6 +32,7 @@ import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
 import org.magic.api.beans.layer.ManaLayer;
+import org.magic.api.beans.layer.ShapeLayer;
 import org.magic.api.beans.layer.TextLayer;
 import org.magic.api.beans.layer.enums.FrameType;
 import org.magic.api.interfaces.extra.Layer;
@@ -163,11 +164,23 @@ public class LayerDetailPanel extends JPanel {
             addBorderProperties(borderLayer);
         } else if (layer instanceof FrameLayer frameLayer) {
             addFrameProperties(frameLayer);
+        } else if (layer instanceof ShapeLayer shapeLayer) {
+            addShapeProperties(shapeLayer);
         }
+        
+        
         propertiesPanel.revalidate();
         propertiesPanel.repaint();
     }
-
+    
+    private void addShapeProperties(ShapeLayer shapeLayer) {
+        
+	propertiesPanel.add(colorProperty("Color", shapeLayer.getColor(), shapeLayer::setColor));
+        
+                
+    }
+    
+    
     private void addIllustrationProperties(IllustrationLayer illustrationLayer) {
         var urlField = new JTextField(18);
         urlField.setText(illustrationLayer.getSource().toString());

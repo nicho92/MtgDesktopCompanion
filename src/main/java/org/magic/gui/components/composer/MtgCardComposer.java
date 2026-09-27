@@ -23,8 +23,10 @@ import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
 import org.magic.api.beans.layer.ManaLayer;
+import org.magic.api.beans.layer.ShapeLayer;
 import org.magic.api.beans.layer.TextLayer;
 import org.magic.api.beans.layer.enums.BorderColor;
+import org.magic.api.beans.layer.enums.ShapeType;
 import org.magic.api.beans.layer.enums.TextRole;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
@@ -75,7 +77,14 @@ public class MtgCardComposer extends MTGUIComponent {
 	rootCost.add(new DefaultMutableTreeNode("Cost"));
 
 	rootNode.add(rootCost);	
+	
+	
+	var rootShape = new DefaultMutableTreeNode("Shapes");
+		for(var s : ShapeType.values())
+		    rootShape.add(new DefaultMutableTreeNode(s));
 
+	rootNode.add(rootShape);	
+	
 
 	tree = new JTree(new DefaultTreeModel(rootNode));
 
@@ -174,6 +183,15 @@ public class MtgCardComposer extends MTGUIComponent {
 		if (object instanceof File file && isImageFile(file))
 		{
 		    imageCanvas.addLayer(new FrameLayer(file));
+		}
+		else if (object instanceof ShapeType shape) {
+		    
+		    var flayer = new ShapeLayer();
+		    flayer.setShape(shape);
+		    flayer.setName(shape.name());
+		    imageCanvas.addLayer(flayer);
+		    
+		    
 		}
 		else if (object instanceof TextRole role) {
 		    var flayer = new TextLayer(role.name().toLowerCase(),role);

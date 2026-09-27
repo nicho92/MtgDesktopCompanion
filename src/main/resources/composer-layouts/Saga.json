@@ -128,6 +128,17 @@
     "layerType": "FrameLayer"
   },
   {
+    "path": "Frames/saga_textboxes/U.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "LeftBox",
+    "x": 205,
+    "y": 495,
+    "width": 1276,
+    "height": 3051,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
     "path": "Frames/saga_frames/U.webp",
     "frameType": "BOX",
     "adaptedLegendaryFrame": false,
@@ -136,17 +147,6 @@
     "y": 205,
     "width": 2766,
     "height": 3645,
-    "alpha": 1.0,
-    "layerType": "FrameLayer"
-  },
-  {
-    "path": "Frames/saga_textboxes/U.webp",
-    "adaptedLegendaryFrame": false,
-    "name": "LeftBox",
-    "x": 215,
-    "y": 500,
-    "width": 1276,
-    "height": 3051,
     "alpha": 1.0,
     "layerType": "FrameLayer"
   },
@@ -243,11 +243,83 @@
   {
     "cost": "{3}{U}{U}{U}{U}",
     "name": "Mana Cost",
-    "x": 0,
-    "y": 0,
+    "x": 2125,
+    "y": 270,
     "width": 650,
     "height": 130,
     "alpha": 1.0,
     "layerType": "ManaLayer"
+  },
+  {
+    "path": "Frames/saga/I.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "I.webp",
+    "x": 75,
+    "y": 1480,
+    "width": 255,
+    "height": 292,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "color": {
+      "R": 102,
+      "G": 102,
+      "B": 102,
+      "A": 255
+    },
+    "shape": "SQUARE",
+    "name": "head separator",
+    "x": 330,
+    "y": 1270,
+    "width": 1100,
+    "height": 10,
+    "alpha": 0.3,
+    "layerType": "ShapeLayer"
+  },
+  {
+    "color": {
+      "R": 102,
+      "G": 102,
+      "B": 102,
+      "A": 255
+    },
+    "shape": "SQUARE",
+    "name": "saga1 separator",
+    "x": 330,
+    "y": 1965,
+    "width": 1100,
+    "height": 10,
+    "alpha": 0.3,
+    "layerType": "ShapeLayer"
+  },
+  {
+    "text": "You may draw a card for each artifact you control. If you do, each opponent draws a card.",
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "name": "Saga_1",
+    "x": 355,
+    "y": 1330,
+    "width": 1100,
+    "height": 484,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "path": "Frames/saga/II.webp",
+    "adaptedLegendaryFrame": false,
+    "name": "II.webp",
+    "x": 85,
+    "y": 2115,
+    "width": 255,
+    "height": 292,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
   }
 ]

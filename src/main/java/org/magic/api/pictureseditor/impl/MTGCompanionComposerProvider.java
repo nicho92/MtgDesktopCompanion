@@ -50,8 +50,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 	if(mc.isExtendedArt())
 	    layout="Extended";
-	else if(mc.isBorderLess())
-	    layout="Borderless"; 
 	else if(mc.isSaga())
 	    layout="Saga"; 
 	
