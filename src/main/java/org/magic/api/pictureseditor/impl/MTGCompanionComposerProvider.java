@@ -7,6 +7,7 @@ import java.net.URI;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.magic.api.ast.engine.OracleParser;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
@@ -55,7 +56,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	else if(mc.isPlaneswalker())
 	    layout="Planeswalker"; 
 	
-	
 	if(mc.isLegendary() && !mc.isPlaneswalker())
 	    layout+="-legendary";
 	
@@ -94,6 +94,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
 		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + mc.getEdition().getCardCountOfficial());
+
 	    }
 
 	    if(l instanceof ManaLayer ml)
@@ -143,6 +144,36 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    {
 	    	l.reload();
 	    	canvas.addLayer(l);
+	    }
+	}
+	
+	//
+	
+	if(mc.isPlaneswalker())
+	{
+	    
+	    var pas = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
+	    
+	    for (int i=0;i<pas.size();i++)
+	    {
+			final int value = i;
+			layers.stream().filter(l->l.getName().equals("loyalty_value_"+(value+1))).map(TextLayer.class::cast).findFirst().get().setText(pas.get(value).loyalty());
+			layers.stream().filter(l->l.getName().equals("loyalty_text_"+(value+1))).map(TextLayer.class::cast).findFirst().get().setText(pas.get(value).effects().getFirst().text());
+			
+			var optfl = layers.stream().filter(l->l.getName().equals("loyalty_frame_"+(value+1))).map(FrameLayer.class::cast).findFirst();
+				if(optfl.isPresent())
+				{
+				    var fl = optfl.get();
+				    var code = "LoyaltyZero"; 
+				    if(pas.get(value).loyalty().startsWith("+"))
+				    	code="LoyaltyPlus";
+				    else if(pas.get(value).loyalty().startsWith("−"))
+				    	code="LoyaltyMinus";
+				    else code = "LoyaltyZero"; 
+				    
+				    fl.setPath(fl.getPath().replace("LoyaltyZero.webp", code+".webp"));
+				    fl.reload();
+				}
 	    }
 	}
 
