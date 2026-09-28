@@ -12,6 +12,8 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
 
+import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.StringUtils;
+
 public class ManaLayer extends AbstractLayer{
     
     private String cost;
@@ -41,6 +43,11 @@ public class ManaLayer extends AbstractLayer{
     
     @Override
     public void reload() {
+	
+	if(StringUtils.isEmpty(cost))
+	    return;
+	
+	
         manaImage = ImageTools.joinBufferedImage(parseManaCost(cost));
         
         if (manaImage != null) { 

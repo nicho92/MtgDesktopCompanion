@@ -7,6 +7,7 @@ import java.net.URI;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.ast.engine.OracleParser;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
@@ -46,7 +47,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
     @Override
     public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 	canvas.clear();
-
+	mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
 	var layout="Normal";
 
 	if(mc.isExtendedArt())
@@ -100,7 +101,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(l instanceof ManaLayer ml)
 	    {
 		ml.setCost(mc.getCost());
-		ml.scale(1.3);
 	    }
 
 	    if(l instanceof BorderLayer bl)
@@ -128,9 +128,9 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			    code = "Land";
 			
 			
-			if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY) && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)!=null)
+			if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY) && !StringUtils.isEmpty( mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)))
 			{
-			    code=mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+			    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			}
 			
 			
