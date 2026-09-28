@@ -28,7 +28,7 @@ public class TextLayer extends AbstractLayer {
     private String text;
     private float size;
     private Color color;
-    private final TextRole role;
+    private TextRole role;
 
 
     public TextLayer(String text, TextRole role) {

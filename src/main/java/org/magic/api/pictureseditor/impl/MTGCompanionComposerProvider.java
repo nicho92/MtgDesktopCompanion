@@ -127,6 +127,13 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			else if(mc.isLand())
 			    code = "Land";
 			
+			
+			if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY) && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)!=null)
+			{
+			    code=mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+			}
+			
+			
 			fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
 
 			if(fl.getFrameType()==FrameType.SETICON)	{
@@ -147,7 +154,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    }
 	}
 	
-	//
+	//post treatment for PW.
 	
 	if(mc.isPlaneswalker())
 	{
