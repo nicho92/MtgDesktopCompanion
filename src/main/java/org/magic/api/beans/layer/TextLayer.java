@@ -4,18 +4,23 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
+import java.awt.font.ImageGraphicAttribute;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
+import java.awt.image.BufferedImage;
 import java.text.AttributedString;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.SwingConstants;
 
 import org.magic.api.beans.abstracts.AbstractLayer;
 import org.magic.api.beans.layer.enums.TextRole;
+import org.magic.services.providers.IconsProvider;
+import org.magic.services.tools.ImageTools;
 
 
 public class TextLayer extends AbstractLayer {
@@ -24,6 +29,8 @@ public class TextLayer extends AbstractLayer {
     private static final int DEFAULT_ORACLE_TEXT_WIDTH = 500;
     private static final int DEFAULT_ORACLE_TEXT_HEIGHT = 220;
     private static final float MIN_FONT_SIZE = 18.0f;
+    private static final Pattern MANA_SYMBOL_PATTERN = Pattern.compile("\\{([^}]+)}");
+    private static final char INLINE_IMAGE_CHARACTER = '\uFFFC';
 
     private String text;
     private float size;
@@ -152,12 +159,59 @@ public class TextLayer extends AbstractLayer {
     }
 
     private void addWrappedLines(String paragraph, Font font, List<TextLayout> lines) {
-        var attributedText = new AttributedString(paragraph);
+        var attributedText = createAttributedText(paragraph, font);
         attributedText.addAttribute(TextAttribute.FONT, font);
-        var measurer = new LineBreakMeasurer(attributedText.getIterator(), BreakIterator.getLineInstance(), FRC);
-        while (measurer.getPosition() < paragraph.length()) {
+        var iterator = attributedText.getIterator();
+        var measurer = new LineBreakMeasurer(iterator, BreakIterator.getLineInstance(), FRC);
+        while (measurer.getPosition() < iterator.getEndIndex()) {
             lines.add(measurer.nextLayout(getWidth()));
         }
+    }
+
+    /**
+     * Replaces mana tokens such as {@code {U}} and {@code {T}} with inline images.
+     * TextLayout treats the replacement character as a regular glyph, so wrapping and
+     * alignment continue to work for text that contains Magic symbols.
+     */
+    private AttributedString createAttributedText(String paragraph, Font font) {
+        var matcher = MANA_SYMBOL_PATTERN.matcher(paragraph);
+        var renderedText = new StringBuilder();
+        var symbolPositions = new ArrayList<Integer>();
+        var symbolImages = new ArrayList<BufferedImage>();
+        var previousEnd = 0;
+
+        while (matcher.find()) {
+            var symbolImage = getSymbolImage(matcher.group(1), font);
+            if (symbolImage == null) {
+                continue;
+            }
+
+            renderedText.append(paragraph, previousEnd, matcher.start());
+            symbolPositions.add(renderedText.length());
+            symbolImages.add(symbolImage);
+            renderedText.append(INLINE_IMAGE_CHARACTER);
+            previousEnd = matcher.end();
+        }
+        renderedText.append(paragraph, previousEnd, paragraph.length());
+
+        var attributedText = new AttributedString(renderedText.toString());
+        for (var index = 0; index < symbolPositions.size(); index++) {
+            var position = symbolPositions.get(index);
+            attributedText.addAttribute(TextAttribute.CHAR_REPLACEMENT,
+                    new ImageGraphicAttribute(symbolImages.get(index), ImageGraphicAttribute.ROMAN_BASELINE), position,
+                    position + 1);
+        }
+        return attributedText;
+    }
+
+    private BufferedImage getSymbolImage(String symbol, Font font) {
+        var image = IconsProvider.getInstance().getManaSymbol(symbol);
+        if (image == null) {
+            return null;
+        }
+
+        var symbolSize = Math.max(1, Math.round(font.getSize2D()));
+        return ImageTools.resize(image, symbolSize, symbolSize);
     }
 
     private int requirePositiveDimension(int dimension, String name) {
