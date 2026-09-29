@@ -202,6 +202,11 @@ public class TextLayer extends AbstractLayer {
                     new ImageGraphicAttribute(symbolImages.get(index), ImageGraphicAttribute.ROMAN_BASELINE, 0,
                             symbolBaseline),
                     position, position + 1);
+        for (var index = 0; index < symbolPositions.size(); index++) {
+            var position = symbolPositions.get(index);
+            attributedText.addAttribute(TextAttribute.CHAR_REPLACEMENT,
+                    new ImageGraphicAttribute(symbolImages.get(index), ImageGraphicAttribute.ROMAN_BASELINE), position,
+                    position + 1);
         }
         return attributedText;
     }
