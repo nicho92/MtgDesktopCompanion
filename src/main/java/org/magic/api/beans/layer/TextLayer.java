@@ -195,6 +195,13 @@ public class TextLayer extends AbstractLayer {
         renderedText.append(paragraph, previousEnd, paragraph.length());
 
         var attributedText = new AttributedString(renderedText.toString());
+        var symbolBaseline = font.getLineMetrics("Ag", FRC).getAscent();
+        for (var index = 0; index < symbolPositions.size(); index++) {
+            var position = symbolPositions.get(index);
+            attributedText.addAttribute(TextAttribute.CHAR_REPLACEMENT,
+                    new ImageGraphicAttribute(symbolImages.get(index), ImageGraphicAttribute.ROMAN_BASELINE, 0,
+                            symbolBaseline),
+                    position, position + 1);
         for (var index = 0; index < symbolPositions.size(); index++) {
             var position = symbolPositions.get(index);
             attributedText.addAttribute(TextAttribute.CHAR_REPLACEMENT,
