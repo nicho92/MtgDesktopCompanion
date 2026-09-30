@@ -1,5 +1,6 @@
 package org.magic.api.pictureseditor.impl;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
@@ -84,11 +85,15 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 		if(tl.getName().equals("TEXT")) {
 		    tl.setText(mc.getText());
-		    tl.setFlavorText(mc.getFlavor());
 		}
 
 		if(tl.getName().equals("PT_TEXT"))
 		{
+		    if(mc.isVehicule())
+			tl.setColor(Color.WHITE);
+		    else
+			tl.setColor(Color.BLACK);
+		    
 		    if(mc.isCreature())
 			tl.setText(mc.getPower() +"/"+mc.getToughness());
 		    else
@@ -135,6 +140,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			}
 			
+			if((fl.getFrameType()==FrameType.FRAME  || fl.getFrameType()==FrameType.PT)&& mc.isVehicule())	{
+			    code="Vehicle";
+			}
+		
+			
 			
 			fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
 
@@ -142,6 +152,8 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 				fl.setPath(fl.getPath().replace("a25_mythic.webp", mc.getEdition().getId().toLowerCase()+"_"+mc.getRarity().name().toLowerCase()+".webp"));
 				print=mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true");
 			}
+			
+			
 			
 			if(fl.getFrameType()==FrameType.PT)	{
 			    print=mc.isCreature();    
