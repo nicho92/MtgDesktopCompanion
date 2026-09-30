@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import javax.swing.SwingConstants;
 
 import org.magic.api.beans.abstracts.AbstractLayer;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.layer.enums.TextRole;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
@@ -36,6 +37,7 @@ public class TextLayer extends AbstractLayer {
     private float size;
     private Color color;
     private TextRole role;
+    private String flavorText = "";
 
 
     public TextLayer(String text, TextRole role) {
@@ -80,6 +82,14 @@ public class TextLayer extends AbstractLayer {
         this.text = text == null ? "" : text;
     }
 
+    public String getFlavorText() {
+        return flavorText;
+    }
+
+    public void setFlavorText(String flavorText) {
+        this.flavorText = flavorText == null ? "" : flavorText;
+    }
+
     public Font getFont() {
         return role.getFont().deriveFont(size);
     }
@@ -101,7 +111,7 @@ public class TextLayer extends AbstractLayer {
 
     @Override
     public void paintLayer(Graphics2D g2) {
-        if (text.isEmpty()) {
+        if (text.isEmpty() && flavorText.isEmpty()) {
             return;
         }
 
@@ -112,19 +122,29 @@ public class TextLayer extends AbstractLayer {
             zoneGraphics.setColor(color);
             zoneGraphics.setFont(layout.font());
 
-            float baseline = getY() + layout.lineHeight();
-            for (var line : layout.lines()) {
-                float lineX = switch (role.getAlignement()) {
-                case SwingConstants.CENTER -> getX() + (getWidth() - line.getAdvance()) / 2;
-                case SwingConstants.RIGHT -> getX() + getWidth() - line.getAdvance();
-                default -> getX();
-                };
-                line.draw(zoneGraphics, lineX, baseline);
-                baseline += layout.lineHeight();
+            float baseline = getY();
+            for (var line : layout.rulesLines()) {
+                baseline += line.height();
+                drawLine(zoneGraphics, line.layout(), baseline);
+            }
+
+            baseline = getY() + getHeight() - layout.flavorHeight();
+            for (var line : layout.flavorLines()) {
+                baseline += line.height();
+                drawLine(zoneGraphics, line.layout(), baseline);
             }
         } finally {
             zoneGraphics.dispose();
         }
+    }
+
+    private void drawLine(Graphics2D graphics, TextLayout line, float baseline) {
+        float lineX = switch (role.getAlignement()) {
+        case SwingConstants.CENTER -> getX() + (getWidth() - line.getAdvance()) / 2;
+        case SwingConstants.RIGHT -> getX() + getWidth() - line.getAdvance();
+        default -> getX();
+        };
+        line.draw(graphics, lineX, baseline);
     }
 
     private TextLayoutData layoutText() {
@@ -139,33 +159,47 @@ public class TextLayer extends AbstractLayer {
     }
 
     private TextLayoutData createLayout(Font font) {
-        var lines = new ArrayList<TextLayout>();
+        var rulesLines = createLines(text, font, true);
+        var flavorFont = TextRole.FLAVOR.getFont().deriveFont(font.getSize2D() * TextRole.FLAVOR.getFont().getSize2D()
+                / TextRole.TEXT.getFont().getSize2D());
+        var flavorLines = createLines(flavorText, flavorFont, false);
         float maxWidth = 0;
-        for (var paragraph : text.replace("\r\n", "\n").replace('\r', '\n').split("\n", -1)) {
-            if (paragraph.isEmpty()) {
-                var emptyLine = new TextLayout(" ", font, FRC);
-                lines.add(emptyLine);
-                continue;
-            }
-
-            addWrappedLines(paragraph, font, lines);
+        for (var line : rulesLines) {
+            maxWidth = Math.max(maxWidth, line.layout().getAdvance());
         }
-
-        for (var line : lines) {
-            maxWidth = Math.max(maxWidth, line.getAdvance());
+        for (var line : flavorLines) {
+            maxWidth = Math.max(maxWidth, line.layout().getAdvance());
         }
-        var lineHeight = font.getLineMetrics("Ag", FRC).getHeight();
-        return new TextLayoutData(font, lines, lineHeight, maxWidth);
+        return new TextLayoutData(font, rulesLines, flavorLines, maxWidth);
     }
 
-    private void addWrappedLines(String paragraph, Font font, List<TextLayout> lines) {
-        var attributedText = createAttributedText(paragraph, font);
-        attributedText.addAttribute(TextAttribute.FONT, font);
+    private List<LayoutLine> createLines(String content, Font font, boolean applyReminderStyle) {
+        var lines = new ArrayList<LayoutLine>();
+        if (content.isEmpty()) {
+            return lines;
+        }
+
+        for (var paragraph : content.replace("\r\n", "\n").replace('\r', '\n').split("\n", -1)) {
+            if (paragraph.isEmpty()) {
+                addLine(lines, new TextLayout(" ", font, FRC));
+            } else {
+                addWrappedLines(paragraph, font, lines, applyReminderStyle);
+            }
+        }
+        return lines;
+    }
+
+    private void addWrappedLines(String paragraph, Font font, List<LayoutLine> lines, boolean applyReminderStyle) {
+        var attributedText = createAttributedText(paragraph, font, applyReminderStyle);
         var iterator = attributedText.getIterator();
         var measurer = new LineBreakMeasurer(iterator, BreakIterator.getLineInstance(), FRC);
         while (measurer.getPosition() < iterator.getEndIndex()) {
-            lines.add(measurer.nextLayout(getWidth()));
+            addLine(lines, measurer.nextLayout(getWidth()));
         }
+    }
+
+    private void addLine(List<LayoutLine> lines, TextLayout layout) {
+        lines.add(new LayoutLine(layout, layout.getAscent() + layout.getDescent() + layout.getLeading()));
     }
 
     /**
@@ -173,7 +207,7 @@ public class TextLayer extends AbstractLayer {
      * TextLayout treats the replacement character as a regular glyph, so wrapping and
      * alignment continue to work for text that contains Magic symbols.
      */
-    private AttributedString createAttributedText(String paragraph, Font font) {
+    private AttributedString createAttributedText(String paragraph, Font font, boolean applyReminderStyle) {
         var matcher = MANA_SYMBOL_PATTERN.matcher(paragraph);
         var renderedText = new StringBuilder();
         var symbolPositions = new ArrayList<Integer>();
@@ -195,6 +229,15 @@ public class TextLayer extends AbstractLayer {
         renderedText.append(paragraph, previousEnd, paragraph.length());
 
         var attributedText = new AttributedString(renderedText.toString());
+        attributedText.addAttribute(TextAttribute.FONT, font);
+        if (applyReminderStyle && role == TextRole.TEXT) {
+            var reminderMatcher = EnumCardsPatterns.REMINDER.getPattern().matcher(renderedText);
+            var reminderFont = TextRole.REMINDER.getFont().deriveFont(font.getSize2D());
+            while (reminderMatcher.find()) {
+                attributedText.addAttribute(TextAttribute.FONT, reminderFont, reminderMatcher.start(), reminderMatcher.end());
+            }
+        }
+
         var symbolBaseline = font.getLineMetrics("Ag", FRC).getAscent();
         for (var index = 0; index < symbolPositions.size(); index++) {
             var position = symbolPositions.get(index);
@@ -223,9 +266,20 @@ public class TextLayer extends AbstractLayer {
         return dimension;
     }
 
-    private record TextLayoutData(Font font, List<TextLayout> lines, float lineHeight, float maxWidth) {
+    private record LayoutLine(TextLayout layout, float height) {
+    }
+
+    private record TextLayoutData(Font font, List<LayoutLine> rulesLines, List<LayoutLine> flavorLines, float maxWidth) {
         float height() {
-            return lines.size() * lineHeight;
+            return rulesHeight() + flavorHeight();
+        }
+
+        float rulesHeight() {
+            return rulesLines.stream().map(LayoutLine::height).reduce(0.0f, Float::sum);
+        }
+
+        float flavorHeight() {
+            return flavorLines.stream().map(LayoutLine::height).reduce(0.0f, Float::sum);
         }
     }
 }
