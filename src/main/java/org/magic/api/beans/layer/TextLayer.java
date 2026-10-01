@@ -30,7 +30,9 @@ public class TextLayer extends AbstractLayer {
     private static final int DEFAULT_ORACLE_TEXT_WIDTH = 500;
     private static final int DEFAULT_ORACLE_TEXT_HEIGHT = 220;
     private static final float MIN_FONT_SIZE = 18.0f;
-    private static final Pattern MANA_SYMBOL_PATTERN = Pattern.compile("\\{([^}]+)}");
+    private static final Pattern MANA_SYMBOL_PATTERN = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
+    private static final Pattern REMINDER_PATTERN = Pattern.compile(EnumCardsPatterns.REMINDER.getPattern());
+    
     private static final char INLINE_IMAGE_CHARACTER = '\uFFFC';
 
     private String text;
@@ -196,7 +198,7 @@ public class TextLayer extends AbstractLayer {
 
         var attributedText = new AttributedString(renderedText.toString());
         attributedText.addAttribute(TextAttribute.FONT, font);
-        applyReminderStyle(renderedText, font, attributedText);
+        applyReminderStyle(renderedText.toString(), font, attributedText);
         var symbolBaseline = font.getLineMetrics("Ag", FRC).getAscent();
         for (var index = 0; index < symbolPositions.size(); index++) {
             var position = symbolPositions.get(index);
@@ -217,7 +219,7 @@ public class TextLayer extends AbstractLayer {
         }
 
         var reminderFont = TextRole.REMINDER.getFont().deriveFont(font.getSize2D());
-        var reminderMatcher = EnumCardsPatterns.REMINDER.getPattern().matcher(renderedText);
+        var reminderMatcher = REMINDER_PATTERN.matcher(renderedText);
         while (reminderMatcher.find()) {
             attributedText.addAttribute(TextAttribute.FONT, reminderFont, reminderMatcher.start(), reminderMatcher.end());
         }
