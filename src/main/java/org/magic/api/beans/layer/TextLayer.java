@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import javax.swing.SwingConstants;
 
 import org.magic.api.beans.abstracts.AbstractLayer;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.layer.enums.TextRole;
 import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.ImageTools;
@@ -160,7 +161,6 @@ public class TextLayer extends AbstractLayer {
 
     private void addWrappedLines(String paragraph, Font font, List<TextLayout> lines) {
         var attributedText = createAttributedText(paragraph, font);
-        attributedText.addAttribute(TextAttribute.FONT, font);
         var iterator = attributedText.getIterator();
         var measurer = new LineBreakMeasurer(iterator, BreakIterator.getLineInstance(), FRC);
         while (measurer.getPosition() < iterator.getEndIndex()) {
@@ -195,6 +195,8 @@ public class TextLayer extends AbstractLayer {
         renderedText.append(paragraph, previousEnd, paragraph.length());
 
         var attributedText = new AttributedString(renderedText.toString());
+        attributedText.addAttribute(TextAttribute.FONT, font);
+        applyReminderStyle(renderedText, font, attributedText);
         var symbolBaseline = font.getLineMetrics("Ag", FRC).getAscent();
         for (var index = 0; index < symbolPositions.size(); index++) {
             var position = symbolPositions.get(index);
@@ -204,6 +206,21 @@ public class TextLayer extends AbstractLayer {
                     position, position + 1);
         }
         return attributedText;
+    }
+
+    /**
+     * Renders reminder text enclosed in parentheses with the card's italic reminder font.
+     */
+    private void applyReminderStyle(String renderedText, Font font, AttributedString attributedText) {
+        if (role != TextRole.TEXT) {
+            return;
+        }
+
+        var reminderFont = TextRole.REMINDER.getFont().deriveFont(font.getSize2D());
+        var reminderMatcher = EnumCardsPatterns.REMINDER.getPattern().matcher(renderedText);
+        while (reminderMatcher.find()) {
+            attributedText.addAttribute(TextAttribute.FONT, reminderFont, reminderMatcher.start(), reminderMatcher.end());
+        }
     }
 
     private BufferedImage getSymbolImage(String symbol, Font font) {
