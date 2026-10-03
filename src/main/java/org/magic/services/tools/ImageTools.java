@@ -1,9 +1,11 @@
 package org.magic.services.tools;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.geom.AffineTransform;
@@ -74,7 +76,26 @@ public class ImageTools {
 			return false;
 		}
 	}
+	
+	    
+	    public static  BufferedImage applyZoneOpacity(BufferedImage src, float zoneOpacity, Rectangle zone) {
+	        if (zoneOpacity >= 1f) 
+	            return src;
 
+	        var out = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_INT_ARGB);
+	        var g = out.createGraphics();
+	        g.drawImage(src, 0, 0, null);
+
+	        // DstOut : alpha_final = alpha_existant * (1 - alpha_source)
+	        g.setComposite(AlphaComposite.DstOut);
+	        g.setColor(new Color(0f, 0f, 0f, 1f - zoneOpacity));
+	        g.fillRect(zone.x, zone.y,zone.width,zone.height);
+	        g.dispose();
+	        return out;
+	    }
+	    
+	
+	
 	public static ImageIcon addOutline(ImageIcon sourceIcon, Color outlineColor, int thickness) {
 
 		int width = sourceIcon.getIconWidth();

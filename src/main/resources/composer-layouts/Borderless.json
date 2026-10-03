@@ -1,0 +1,254 @@
+[
+  {
+    "radius": 116.5,
+    "color": "BORDERLESS",
+    "uri": "https://i.pinimg.com/736x/2c/20/c2/2c20c2b8ad93166fe0cc1401902ed762.jpg",
+    "imageScale": 4.917763157894737,
+    "imageOffsetX": 0.0,
+    "imageOffsetY": -545.5,
+    "name": "BORDER",
+    "x": 0,
+    "y": 0,
+    "width": 2990,
+    "height": 4180,
+    "alpha": 1.0,
+    "layerType": "BorderLayer"
+  },
+  {
+    "path": "Frames/normal_frames/U.webp",
+    "frameType": "BOX",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": true,
+    "name": "BOX",
+    "x": 138,
+    "y": 170,
+    "width": 2710,
+    "height": 3722,
+    "alpha": 0.6,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "\\Frames\\extended_boxes\\U.webp",
+    "frameType": "TITLE_BORDER",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "BORDERLINES",
+    "x": 160,
+    "y": 198,
+    "width": 2668,
+    "height": 261,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "\\Frames\\extended_boxes\\U.webp",
+    "frameType": "TYPE_BORDER",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "BORDERLINES",
+    "x": 160,
+    "y": 2333,
+    "width": 2668,
+    "height": 261,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "Subterfuge",
+    "size": 124.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TITLE",
+    "name": "NAME",
+    "x": 218,
+    "y": 213,
+    "width": 2000,
+    "height": 175,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "path": "\\Frames\\pt_boxes\\U.webp",
+    "frameType": "PT",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "PT",
+    "x": 2316,
+    "y": 3708,
+    "width": 555,
+    "height": 296,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "3/5",
+    "size": 146.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "POWER_TOUGHNESS",
+    "name": "PT_TEXT",
+    "x": 2435,
+    "y": 3718,
+    "width": 330,
+    "height": 213,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "R 001 / 010",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COLLECTOR_INFO",
+    "name": "RARITY_PRINTNUMBER",
+    "x": 185,
+    "y": 3930,
+    "width": 387,
+    "height": 85,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "TST • EN",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SET_AND_LANG",
+    "name": "SET_LANG",
+    "x": 185,
+    "y": 4010,
+    "width": 490,
+    "height": 58,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "a",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SEPARATOR",
+    "name": "SEPARATOR",
+    "x": 473,
+    "y": 4000,
+    "width": 104,
+    "height": 80,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Creature — Elemental Incarnation",
+    "size": 130.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "TYPE_LINE",
+    "name": "TYPES",
+    "x": 193,
+    "y": 2370,
+    "width": 2200,
+    "height": 166,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Ilse Gort",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "ARTIST",
+    "name": "ARTIST",
+    "x": 590,
+    "y": 3985,
+    "width": 1334,
+    "height": 90,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COPYRIGHT",
+    "name": "COPYRIGHT",
+    "x": 1950,
+    "y": 3965,
+    "width": 910,
+    "height": 73,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "When this creature enters, target creature gains flying and “Whenever this creature deals combat damage to a player, draw that many cards” until end of turn.",
+    "size": 124.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "name": "TEXT",
+    "x": 242,
+    "y": 2636,
+    "width": 2521,
+    "height": 1069,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "cost": "{7}{U}{U}",
+    "name": "MANACOST",
+    "x": 2376,
+    "y": 245,
+    "width": 390,
+    "height": 130,
+    "alpha": 1.0,
+    "layerType": "ManaLayer"
+  },
+  {
+    "path": "\\Frames\\set_icons\\a25_mythic.webp",
+    "frameType": "SETICON",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "SETICON",
+    "x": 2605,
+    "y": 2375,
+    "width": 160,
+    "height": 193,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  }
+]

@@ -57,6 +57,8 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    layout="Saga"; 
 	else if(mc.isPlaneswalker())
 	    layout="Planeswalker"; 
+	else if(mc.isBorderLess())
+	    layout="Borderless"; 
 	
 	if(mc.isLegendary() && !mc.isPlaneswalker())
 	    layout+="-legendary";
@@ -113,6 +115,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(l instanceof BorderLayer bl)
 	    {
 		bl.setColor(BorderColor.valueOf(mc.getBorder().name()).getColor());
+		
+		if(mc.isBorderLess())
+		    bl.setUri(URI.create(mc.getUrl()));
+		
 	    }
 
 
@@ -134,17 +140,17 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			else if(mc.isLand())
 			    code = "Land";
 			
-			
-			if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY) && !StringUtils.isEmpty( mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)))
+			if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY || fl.isTitleLine() || fl.isTypesLine()) && !StringUtils.isEmpty( mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)))
 			{
 			    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+			    
+			    if( fl.getFrameType().name().endsWith("_BORDER"))
+				code=code.substring(0, 1);
 			}
 			
 			if((fl.getFrameType()==FrameType.FRAME  || fl.getFrameType()==FrameType.PT)&& mc.isVehicule())	{
 			    code="Vehicle";
 			}
-		
-			
 			
 			fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
 

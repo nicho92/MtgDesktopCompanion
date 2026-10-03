@@ -19,6 +19,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -28,12 +29,14 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
 import org.magic.api.beans.layer.ManaLayer;
 import org.magic.api.beans.layer.ShapeLayer;
 import org.magic.api.beans.layer.TextLayer;
+import org.magic.api.beans.layer.enums.BorderColor;
 import org.magic.api.beans.layer.enums.FrameType;
 import org.magic.api.interfaces.extra.Layer;
 import org.magic.gui.components.composer.listeners.LayerChangeListener;
@@ -227,13 +230,30 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private void addBorderProperties(BorderLayer borderLayer) {
-        propertiesPanel.add(colorProperty("Color", borderLayer.getColor(), borderLayer::setColor));
+        propertiesPanel.add(colorProperty("Color", borderLayer.getColor().getColor(), borderLayer::setColor));
         var radius = new JSpinner(new SpinnerNumberModel(borderLayer.getRadius(), 0.0, 10000.0, 1.0));
         radius.addChangeListener(_ -> update(() -> borderLayer.setRadius(((Number) radius.getValue()).doubleValue())));
         propertiesPanel.add(createProperty("Radius", radius));
         addDoubleProperty("Image scale", borderLayer.getImageScale(), 0.0, borderLayer::setImageScale);
         addDoubleProperty("Image X", borderLayer.getImageOffsetX(), -MAX_DIMENSION, borderLayer::setImageOffsetX);
         addDoubleProperty("Image Y", borderLayer.getImageOffsetY(), -MAX_DIMENSION, borderLayer::setImageOffsetY);
+        
+        
+        if(borderLayer.getColor()==BorderColor.BORDERLESS)
+        {
+            var browseButton = new JButton("Browse…");
+            browseButton.addActionListener(_ -> {
+        	var uri = JOptionPane.showInputDialog("Url");
+
+        	  update(() -> {
+              	borderLayer.setUri(URI.create(uri));
+              	borderLayer.reload();
+                  });
+        	
+            });
+            propertiesPanel.add(createProperty("Url", browseButton));
+        }
+        
     }
 
     private void addDoubleProperty(String name, double value, double minimum, DoubleConsumer setter) {
@@ -273,13 +293,22 @@ public class LayerDetailPanel extends JPanel {
 	    update(() ->frameLayer.setAdaptedLegendaryFrame(chkLegendaryAdapt.isSelected()));
 	});
 	propertiesPanel.add(createProperty("Legendary Frame", chkLegendaryAdapt));
-        
+     
+	var chkTransparentBox = new JCheckBox();
+	chkTransparentBox.addItemListener(_->{
+	    update(() ->frameLayer.setAlphalayout(chkTransparentBox.isSelected()));
+	});
+	propertiesPanel.add(createProperty("Borderless Box", chkTransparentBox));
+	
     }
 
     private void chooseFrameSource(FrameLayer frameLayer) {
         var chooser = new JFileChooser(frameLayer.getFile().getParentFile());
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            update(() -> frameLayer.setFile(chooser.getSelectedFile()));
+            update(() -> {
+        	frameLayer.setFile(chooser.getSelectedFile());
+        	frameLayer.reload();
+            });
             refresh(frameLayer);
         }
     }

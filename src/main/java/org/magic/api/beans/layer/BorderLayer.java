@@ -29,6 +29,8 @@ public class BorderLayer extends AbstractLayer {
 	setHeight(4180);
 	this.color = c;
 	setName(c.toString());
+	
+	reload();
     }
 
     @Override
@@ -91,8 +93,8 @@ public class BorderLayer extends AbstractLayer {
 	}
     }
 
-    public Color getColor() {
-	return color.getColor();
+    public BorderColor getColor() {
+	return color;
     }
 
     public void setColor(Color color) {

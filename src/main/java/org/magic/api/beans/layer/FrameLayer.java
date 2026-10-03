@@ -1,6 +1,7 @@
 package org.magic.api.beans.layer;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +19,18 @@ public class FrameLayer extends AbstractLayer {
     private FrameType frameType;
     
     private boolean adaptedLegendaryFrame = false;
+    private boolean alphalayout;
+    
+    
+    
+    
+    public void setAlphalayout(boolean alphalayout) {
+	this.alphalayout = alphalayout;
+    }
+    
+   public boolean isAlphalayout() {
+    return alphalayout;
+}
     
     
     public boolean isTypesLine() {
@@ -43,8 +56,7 @@ public class FrameLayer extends AbstractLayer {
     public FrameType getFrameType() {
 	return frameType;
     }
-    
-    
+
 
     @Override
     public void paintLayer(Graphics2D g2) {
@@ -69,6 +81,13 @@ public class FrameLayer extends AbstractLayer {
 	    print= image.getSubimage(0, 350, print.getWidth(), nh );
 	    setHeight(nh);
 	} 
+	
+	if(alphalayout)
+	{
+	   print= ImageTools.applyZoneOpacity(print, 0.5f, new Rectangle(83, 2470, 2549, 1214));
+	}
+	
+	
 	
 	g2.drawImage(
 		print,
