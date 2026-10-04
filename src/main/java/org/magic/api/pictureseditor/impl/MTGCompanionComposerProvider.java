@@ -173,10 +173,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    
 	    if(print)
 	    {
-
-		if(!mc.isBorderLess())
-	    		l.reload();
-		
+    		l.reload();
 	    	canvas.addLayer(l);
 	    }
 	    

@@ -81,7 +81,7 @@ public class ImageTools {
 	    public static  BufferedImage applyZoneOpacity(BufferedImage src, float zoneOpacity, Rectangle zone) {
 	        if (zoneOpacity >= 1f) 
 	            return src;
-
+	        
 	        var out = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_INT_ARGB);
 	        var g = out.createGraphics();
 	        g.drawImage(src, 0, 0, null);
