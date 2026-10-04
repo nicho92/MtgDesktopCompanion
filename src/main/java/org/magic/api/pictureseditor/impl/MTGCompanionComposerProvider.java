@@ -117,7 +117,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		bl.setColor(BorderColor.valueOf(mc.getBorder().name()).getColor());
 		
 		if(mc.isBorderLess())
+		{
 		    bl.setUri(URI.create(mc.getUrl()));
+		    bl.reload();
+		    bl.fitImage();
+		}
 		
 	    }
 
@@ -169,9 +173,16 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    
 	    if(print)
 	    {
-	    	l.reload();
+
+		if(!mc.isBorderLess())
+	    		l.reload();
+		
 	    	canvas.addLayer(l);
 	    }
+	    
+	    
+	    
+	    
 	}
 	
 	//post treatment for PW.

@@ -29,7 +29,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
@@ -248,6 +247,7 @@ public class LayerDetailPanel extends JPanel {
         	  update(() -> {
               	borderLayer.setUri(URI.create(uri));
               	borderLayer.reload();
+              	borderLayer.fitImage();
                   });
         	
             });

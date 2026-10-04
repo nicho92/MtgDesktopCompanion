@@ -1,9 +1,14 @@
 package org.magic.gui.components.widgets;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class VirtualKeyboardPanel extends JPanel {
 
