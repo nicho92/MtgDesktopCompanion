@@ -16,6 +16,11 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 	private static final String BASE_URL = "https://www.magic-ville.com/fr/combos/";
 
 	@Override
+	public STATUT getStatut() {
+    		return STATUT.BUGGED;
+	}
+	
+	@Override
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 		var ret = new ArrayList<MTGCombo>();
 

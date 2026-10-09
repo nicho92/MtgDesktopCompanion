@@ -24,7 +24,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BUGGED;
 	}
 
 	public MagicVillePricer() {

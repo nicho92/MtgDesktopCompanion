@@ -56,7 +56,7 @@
 		<sonar.organization>nicho92-github</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<jwt.version>0.13.0</jwt.version>
-		<lucene.version>10.5.1</lucene.version>
+		<lucene.version>10.5.2</lucene.version>
 		<artemis.version>2.57.0</artemis.version>
 		<flatlaf.version>3.7.2</flatlaf.version>
 		<qwartz.version>2.5.2</qwartz.version>
@@ -66,7 +66,7 @@
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.9.1</rhino.version>
 		<commonmark.version>0.30.0</commonmark.version>
-		<langchain4j.version>1.21.0</langchain4j.version>
+		<langchain4j.version>1.22.0</langchain4j.version>
 		<telegram.version>10.3.0</telegram.version>
 	</properties>
 
@@ -789,7 +789,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.13</version>
+			<version>42.7.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
