@@ -297,7 +297,7 @@ public class MagicGUI extends JFrame {
 
 		barStatus.add(lblSupport);
 
-		if (osNotifier != null) {
+		if (osNotifier != null && osNotifier.getTrayNotifier()!=null) {
 			osNotifier.getTrayNotifier().addActionListener(_ -> setVisible(!isVisible()));
 
 			var menuTray = new PopupMenu();
@@ -310,7 +310,7 @@ public class MagicGUI extends JFrame {
 				});
 				menuTray.add(it);
 			}
-
+					
 			osNotifier.getTrayNotifier().setPopupMenu(menuTray);
 			osNotifier.getTrayNotifier().setToolTip(MTGConstants.MTG_APP_NAME);
 
