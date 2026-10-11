@@ -208,9 +208,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 				    var code = "LoyaltyZero"; 
 				    if(pas.get(value).loyalty().startsWith("+"))
 				    	code="LoyaltyPlus";
-				    else if(pas.get(value).loyalty().startsWith("−"))
+				    else if(pas.get(value).loyalty().startsWith("−") || pas.get(value).loyalty().startsWith("-"))
 				    	code="LoyaltyMinus";
-				    else code = "LoyaltyZero"; 
+				    else 
+					code = "LoyaltyZero"; 
 				    
 				    fl.setPath(fl.getPath().replace("LoyaltyZero.webp", code+".webp"));
 				    fl.reload();

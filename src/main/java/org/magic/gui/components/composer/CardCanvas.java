@@ -30,7 +30,7 @@ public class CardCanvas extends JPanel {
     private transient LayerSelectionListener selectionListener;
     private transient LayerChangeListener layerChangeListener;
     private transient RenderingHints  hints;
-    
+
     public CardCanvas() {
 
 	setBackground(Color.LIGHT_GRAY);
@@ -246,20 +246,22 @@ public class CardCanvas extends JPanel {
 	            .mapToInt(Layer::getY)
 	            .min()
 	            .orElse(0);
+//
+//	    int maxX = getLayers().stream()
+//	            .mapToInt(layer -> layer.getX() + layer.getWidth())
+//	            .max()
+//	            .orElse(0);
+//
+//	    int maxY = getLayers().stream()
+//	            .mapToInt(layer -> layer.getY() + layer.getHeight())
+//	            .max()
+//	            .orElse(0);
 
-	    int maxX = getLayers().stream()
-	            .mapToInt(layer -> layer.getX() + layer.getWidth())
-	            .max()
-	            .orElse(0);
+	    var l = getLayers().stream().filter(b->b.getLayerType().equals("BorderLayer")).findFirst().get();
 
-	    int maxY = getLayers().stream()
-	            .mapToInt(layer -> layer.getY() + layer.getHeight())
-	            .max()
-	            .orElse(0);
-
-	    int width = maxX - minX;
-	    int height = maxY - minY;
-	
+	    var width=l.getWidth();
+	    var height=l.getHeight();
+	    
 	var awtImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	var g = awtImage.createGraphics();
 	 g.translate(-minX, -minY);
