@@ -214,6 +214,9 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 					code = "LoyaltyZero"; 
 				    
 				    fl.setPath(fl.getPath().replace("LoyaltyZero.webp", code+".webp"));
+				    
+				    System.out.println(pas.get(value).loyalty() + " " + fl.getPath());
+				    
 				    fl.reload();
 				}
 	    }

@@ -15,6 +15,8 @@
   },
   {
     "text": "R 001 / 010",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -33,6 +35,8 @@
   },
   {
     "text": "SET • EN",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -51,6 +55,8 @@
   },
   {
     "text": "a",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -81,6 +87,8 @@
   },
   {
     "text": "AUTHOR NAME",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -99,6 +107,8 @@
   },
   {
     "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -184,6 +194,8 @@
   },
   {
     "text": "5",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 255,
@@ -202,6 +214,8 @@
   },
   {
     "text": "Jace, the Perfected Mind",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 0,
@@ -220,6 +234,8 @@
   },
   {
     "text": "Legendary Planeswalker – Jace",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 131.0,
     "color": {
       "R": 0,
@@ -229,8 +245,8 @@
     },
     "role": "TYPE_LINE",
     "name": "TYPES",
-    "x": 200,
-    "y": 2410,
+    "x": 205,
+    "y": 2390,
     "width": 3105,
     "height": 240,
     "alpha": 1.0,
@@ -238,6 +254,7 @@
   },
   {
     "path": "Frames/planeswalker/LoyaltyZero.webp",
+    "frameType": "LOYALTY_MODIFIER",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
     "name": "loyalty_frame_3",
@@ -250,13 +267,14 @@
   },
   {
     "path": "Frames/planeswalker/LoyaltyZero.webp",
+    "frameType": "LOYALTY_MODIFIER",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
     "name": "loyalty_frame_2",
     "x": 80,
-    "y": 2795,
+    "y": 3209,
     "width": 367,
-    "height": 256,
+    "height": 230,
     "alpha": 1.0,
     "layerType": "FrameLayer"
   },
@@ -267,14 +285,16 @@
     "alphalayout": false,
     "name": "loyalty_frame_1",
     "x": 80,
-    "y": 3209,
+    "y": 2795,
     "width": 367,
-    "height": 230,
+    "height": 256,
     "alpha": 1.0,
     "layerType": "FrameLayer"
   },
   {
     "text": "+1",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 255,
@@ -284,8 +304,8 @@
     },
     "role": "LOYALY",
     "name": "loyalty_value_1",
-    "x": 195,
-    "y": 2820,
+    "x": 190,
+    "y": 2800,
     "width": 225,
     "height": 146,
     "alpha": 1.0,
@@ -293,6 +313,8 @@
   },
   {
     "text": "−2",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 255,
@@ -302,8 +324,8 @@
     },
     "role": "LOYALY",
     "name": "loyalty_value_2",
-    "x": 195,
-    "y": 3215,
+    "x": 190,
+    "y": 3205,
     "width": 225,
     "height": 146,
     "alpha": 1.0,
@@ -311,6 +333,8 @@
   },
   {
     "text": "-7",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 255,
@@ -320,8 +344,8 @@
     },
     "role": "LOYALY",
     "name": "loyalty_value_3",
-    "x": 195,
-    "y": 3645,
+    "x": 190,
+    "y": 3655,
     "width": 225,
     "height": 146,
     "alpha": 1.0,
@@ -352,6 +376,8 @@
   },
   {
     "text": "Until your next turn, up to one target creature gets -3/-0.",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 0,
@@ -370,6 +396,8 @@
   },
   {
     "text": "Target player mills three cards. Then if a graveyard has twenty or more cards in it, you draw three cards. Otherwise, you draw a card.",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 0,
@@ -388,6 +416,8 @@
   },
   {
     "text": "Target player mills three times X cards.",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 0,
