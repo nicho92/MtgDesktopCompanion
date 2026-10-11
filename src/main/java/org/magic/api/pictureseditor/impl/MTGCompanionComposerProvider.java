@@ -104,7 +104,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		}
 
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
-		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + mc.getEdition().getCardCountOfficial());
+		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + me.getCardCountOfficial());
 
 	    }
 
@@ -149,13 +149,18 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			{
 			    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			    
-			    if( fl.getFrameType().name().endsWith("_BORDER"))
-				code=code.substring(0, 1);
+			   if( fl.getFrameType().name().endsWith("_BORDER"))
+				code="Gold";
 			}
 			
 			if((fl.getFrameType()==FrameType.FRAME  || fl.getFrameType()==FrameType.PT)&& mc.isVehicule())	{
 			    code="Vehicle";
 			}
+			
+			if(code.equals("GU"))
+			    code="UG";
+			
+			
 			
 			fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
 
