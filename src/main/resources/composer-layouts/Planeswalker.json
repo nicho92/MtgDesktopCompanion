@@ -68,6 +68,18 @@
     "layerType": "TextLayer"
   },
   {
+    "url": "https://i.redd.it/bk9z8rw5wnca1.jpg",
+    "fadeSize": 45.0,
+    "fadeStrength": 1.0,
+    "name": "Illustration",
+    "x": 100,
+    "y": 345,
+    "width": 2808,
+    "height": 3540,
+    "alpha": 1.0,
+    "layerType": "IllustrationLayer"
+  },
+  {
     "text": "AUTHOR NAME",
     "size": 124.0,
     "color": {
@@ -104,21 +116,10 @@
     "layerType": "TextLayer"
   },
   {
-    "url": "https://instagram.fcdg4-1.fna.fbcdn.net/v/t51.82787-15/662595575_18545796397068096_2650073140169402206_n.jpg?stp\u003ddst-jpg_e35_tt6\u0026_nc_cat\u003d106\u0026_nc_map\u003durlgen_bucketless\u0026ig_cache_key\u003dMzExNTAwOTA1NjQyMTgwNzIyMA%3D%3D.3-ccb7-5\u0026ccb\u003d7-5\u0026_nc_sid\u003d58cdad\u0026efg\u003deyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9\u0026_nc_ohc\u003dVTx5Qa_ANEYQ7kNvwHORrU8\u0026_nc_oc\u003dAdo4S758kwx_TCZA0opJ4DBzvbJnUPACB-Ac_kXkf4Cmka7-wiowBKhLKh2-6yXIKco\u0026_nc_ad\u003dz-m\u0026_nc_cid\u003d0\u0026_nc_zt\u003d23\u0026_nc_ht\u003dinstagram.fcdg4-1.fna\u0026_nc_gid\u003dub1Jj6kSrGXfqDaQ629Ytg\u0026_nc_ss\u003d7a22e\u0026oh\u003d00_AQLsG6f5w2kPyifkqJ5PRMznbyB9g9W6mlrDeSwzDaEcLQ\u0026oe\u003d6ABF15E2",
-    "fadeSize": 45.0,
-    "fadeStrength": 1.0,
-    "name": "Illustration",
-    "x": 100,
-    "y": 345,
-    "width": 2808,
-    "height": 3540,
-    "alpha": 1.0,
-    "layerType": "IllustrationLayer"
-  },
-  {
     "path": "Frames/planeswalker_bg/U.webp",
     "frameType": "FRAME",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "bg frame",
     "x": 95,
     "y": 130,
@@ -147,6 +148,7 @@
     "path": "Frames/planeswalker_frames/U.webp",
     "frameType": "BOX",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "box frame",
     "x": 117,
     "y": 130,
@@ -158,6 +160,7 @@
   {
     "path": "Frames/planeswalker_boxes/U.webp",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "Types Bar",
     "x": 140,
     "y": 160,
@@ -170,6 +173,7 @@
     "path": "Frames/planeswalker/Loyalty.webp",
     "frameType": "LOYALTY_BASE",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "bg",
     "x": 2450,
     "y": 3675,
@@ -235,6 +239,7 @@
   {
     "path": "Frames/planeswalker/LoyaltyZero.webp",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "loyalty_frame_3",
     "x": 80,
     "y": 3655,
@@ -246,6 +251,7 @@
   {
     "path": "Frames/planeswalker/LoyaltyZero.webp",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "loyalty_frame_2",
     "x": 80,
     "y": 2795,
@@ -258,6 +264,7 @@
     "path": "Frames/planeswalker/LoyaltyZero.webp",
     "frameType": "LOYALTY_MODIFIER",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "loyalty_frame_1",
     "x": 80,
     "y": 3209,
@@ -334,6 +341,7 @@
     "path": "Frames/set_icons/a25_mythic.webp",
     "frameType": "SETICON",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "a25_mythic.webp",
     "x": 2575,
     "y": 2380,

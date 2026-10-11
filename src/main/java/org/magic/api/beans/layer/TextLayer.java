@@ -25,27 +25,39 @@ import org.magic.services.tools.ImageTools;
 
 
 public class TextLayer extends AbstractLayer {
-
     private static final FontRenderContext FRC = new FontRenderContext(null, true, true);
     private static final int DEFAULT_ORACLE_TEXT_WIDTH = 500;
     private static final int DEFAULT_ORACLE_TEXT_HEIGHT = 220;
     private static final float MIN_FONT_SIZE = 18.0f;
+    private static final float FLAVOR_GAP_RATIO = 0.4f; // gap between rules and flavor, in line heights
     private static final Pattern MANA_SYMBOL_PATTERN = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
     private static final Pattern REMINDER_PATTERN = Pattern.compile(EnumCardsPatterns.REMINDER.getPattern());
     
     private static final char INLINE_IMAGE_CHARACTER = '\uFFFC';
 
     private String text;
+    private String flavor;
+    private int flavorOffsetY ;
     private float size;
     private Color color;
     private TextRole role;
 
+    
+    public TextLayer() {
+	this.flavor="";
+	flavorOffsetY=0;
+    }
+    
 
     public TextLayer(String text, TextRole role) {
+	this();
+	this.flavor="";
         this.role = role;
         this.text = text == null ? "" : text;
         this.color = role.getColor();
         this.size = role.getFont().getSize2D();
+       
+        
         setName(role.name().toLowerCase());
 
         if (role == TextRole.SEPARATOR) {
@@ -83,6 +95,24 @@ public class TextLayer extends AbstractLayer {
         this.text = text == null ? "" : text;
     }
 
+    public String getFlavor() {
+        return flavor;
+    }
+
+    /** Flavor text, drawn in italic below (or at the bottom of) the rules text. Only used by {@link TextRole#TEXT}. */
+    public void setFlavor(String flavor) {
+        this.flavor = flavor == null ? "" : flavor;
+    }
+
+    public int getFlavorOffsetY() {
+        return flavorOffsetY;
+    }
+
+    /** Additional vertical shift (pixels, positive = down) applied to the flavor block. */
+    public void setFlavorOffsetY(int flavorOffsetY) {
+        this.flavorOffsetY = flavorOffsetY;
+    }
+
     public Font getFont() {
         return role.getFont().deriveFont(size);
     }
@@ -102,9 +132,13 @@ public class TextLayer extends AbstractLayer {
 	super.setHeight(requirePositiveDimension(height, "Height"));
     }
 
+    private boolean hasFlavor() {
+        return role == TextRole.TEXT && flavor!=null && !flavor.isEmpty();
+    }
+
     @Override
     public void paintLayer(Graphics2D g2) {
-        if (text.isEmpty()) {
+        if (text.isEmpty() && !hasFlavor()) {
             return;
         }
 
@@ -116,24 +150,37 @@ public class TextLayer extends AbstractLayer {
             zoneGraphics.setFont(layout.font());
 
             float baseline = getY() + layout.lineHeight();
-            for (var line : layout.lines()) {
-                float lineX = switch (role.getAlignement()) {
-                case SwingConstants.CENTER -> getX() + (getWidth() - line.getAdvance()) / 2;
-                case SwingConstants.RIGHT -> getX() + getWidth() - line.getAdvance();
-                default -> getX();
-                };
-                line.draw(zoneGraphics, lineX, baseline);
-                baseline += layout.lineHeight();
+            baseline = drawLines(zoneGraphics, layout.lines(), baseline, layout.lineHeight());
+
+            if (!layout.flavorLines().isEmpty()) {
+                float flavorBaseline = getY() + getHeight() - layout.flavorHeight() + layout.lineHeight();
+                flavorBaseline += flavorOffsetY;
+                drawLines(zoneGraphics, layout.flavorLines(), flavorBaseline, layout.lineHeight());
             }
         } finally {
             zoneGraphics.dispose();
         }
     }
 
+    /** Draws the lines starting at the given baseline and returns the baseline of the next line. */
+    private float drawLines(Graphics2D g, List<TextLayout> lines, float baseline, float lineHeight) {
+        for (var line : lines) {
+            float lineX = switch (role.getAlignement()) {
+            case SwingConstants.CENTER -> getX() + (getWidth() - line.getAdvance()) / 2;
+            case SwingConstants.RIGHT -> getX() + getWidth() - line.getAdvance();
+            default -> getX();
+            };
+            line.draw(g, lineX, baseline);
+            baseline += lineHeight;
+        }
+        return baseline;
+    }
+
     private TextLayoutData layoutText() {
         for (float candidateSize = size; candidateSize >= MIN_FONT_SIZE; candidateSize -= 0.5f) {
             var font = role.getFont().deriveFont(candidateSize);
             var layout = createLayout(font);
+            
             if (layout.height() <= getHeight() && layout.maxWidth() <= getWidth()) {
                 return layout;
             }
@@ -143,26 +190,48 @@ public class TextLayer extends AbstractLayer {
 
     private TextLayoutData createLayout(Font font) {
         var lines = new ArrayList<TextLayout>();
-        float maxWidth = 0;
-        for (var paragraph : text.replace("\r\n", "\n").replace('\r', '\n').split("\n", -1)) {
-            if (paragraph.isEmpty()) {
-                var emptyLine = new TextLayout(" ", font, FRC);
-                lines.add(emptyLine);
-                continue;
-            }
+        var flavorLines = new ArrayList<TextLayout>();
 
-            addWrappedLines(paragraph, font, lines);
+        if (!text.isEmpty()) {
+            addParagraphs(text, font, lines, true);
+        }
+        if (hasFlavor()) {
+            addParagraphs(flavor, getFlavorFont(font), flavorLines, false);
         }
 
+        float maxWidth = 0;
         for (var line : lines) {
             maxWidth = Math.max(maxWidth, line.getAdvance());
         }
+        for (var line : flavorLines) {
+            maxWidth = Math.max(maxWidth, line.getAdvance());
+        }
         var lineHeight = font.getLineMetrics("Ag", FRC).getHeight();
-        return new TextLayoutData(font, lines, lineHeight, maxWidth);
+        var gap = (lines.isEmpty() || flavorLines.isEmpty()) ? 0f : lineHeight * FLAVOR_GAP_RATIO;
+        return new TextLayoutData(font, lines, flavorLines, lineHeight, gap, maxWidth);
     }
 
-    private void addWrappedLines(String paragraph, Font font, List<TextLayout> lines) {
-        var attributedText = createAttributedText(paragraph, font);
+    private void addParagraphs(String content, Font font, List<TextLayout> target, boolean reminderStyle) {
+        for (var paragraph : content.replace("\r\n", "\n").replace('\r', '\n').split("\n", -1)) {
+            if (paragraph.isEmpty()) {
+                target.add(new TextLayout(" ", font, FRC));
+                continue;
+            }
+            addWrappedLines(paragraph, font, target, reminderStyle);
+        }
+    }
+
+    /** Italic font used for flavor text, same size as the rules text. */
+    private Font getFlavorFont(Font rulesFont) {
+        var base = TextRole.REMINDER.getFont();
+        if (!base.isItalic()) {
+            base = base.deriveFont(Font.ITALIC);
+        }
+        return base.deriveFont(rulesFont.getSize2D());
+    }
+
+    private void addWrappedLines(String paragraph, Font font, List<TextLayout> lines, boolean reminderStyle) {
+        var attributedText = createAttributedText(paragraph, font, reminderStyle);
         var iterator = attributedText.getIterator();
         var measurer = new LineBreakMeasurer(iterator, BreakIterator.getLineInstance(), FRC);
         while (measurer.getPosition() < iterator.getEndIndex()) {
@@ -175,7 +244,7 @@ public class TextLayer extends AbstractLayer {
      * TextLayout treats the replacement character as a regular glyph, so wrapping and
      * alignment continue to work for text that contains Magic symbols.
      */
-    private AttributedString createAttributedText(String paragraph, Font font) {
+    private AttributedString createAttributedText(String paragraph, Font font, boolean reminderStyle) {
         var matcher = MANA_SYMBOL_PATTERN.matcher(paragraph);
         var renderedText = new StringBuilder();
         var symbolPositions = new ArrayList<Integer>();
@@ -198,7 +267,9 @@ public class TextLayer extends AbstractLayer {
 
         var attributedText = new AttributedString(renderedText.toString());
         attributedText.addAttribute(TextAttribute.FONT, font);
-        applyReminderStyle(renderedText.toString(), font, attributedText);
+        if (reminderStyle) {
+            applyReminderStyle(renderedText.toString(), font, attributedText);
+        }
         var symbolBaseline = font.getLineMetrics("Ag", FRC).getAscent();
         for (var index = 0; index < symbolPositions.size(); index++) {
             var position = symbolPositions.get(index);
@@ -242,9 +313,14 @@ public class TextLayer extends AbstractLayer {
         return dimension;
     }
 
-    private record TextLayoutData(Font font, List<TextLayout> lines, float lineHeight, float maxWidth) {
+    private record TextLayoutData(Font font, List<TextLayout> lines, List<TextLayout> flavorLines,
+            float lineHeight, float gap, float maxWidth) {
+        float flavorHeight() {
+            return flavorLines.size() * lineHeight;
+        }
+
         float height() {
-            return lines.size() * lineHeight;
+            return (lines.size() + flavorLines.size()) * lineHeight + gap;
         }
     }
 }

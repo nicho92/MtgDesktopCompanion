@@ -1,0 +1,185 @@
+[
+  {
+    "radius": 116.5,
+    "color": "BLACK",
+    "imageScale": 0.0,
+    "imageOffsetX": 0.0,
+    "imageOffsetY": 0.0,
+    "name": "BORDER",
+    "x": 0,
+    "y": 0,
+    "width": 2990,
+    "height": 4183,
+    "alpha": 1.0,
+    "layerType": "BorderLayer"
+  },
+  {
+    "text": "R 001 / 010",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COLLECTOR_INFO",
+    "name": "RARITY_PRINTNUMBER",
+    "x": 185,
+    "y": 3930,
+    "width": 456,
+    "height": 62,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "SET • EN",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SET_AND_LANG",
+    "name": "SET_LANG",
+    "x": 185,
+    "y": 4010,
+    "width": 490,
+    "height": 58,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "a",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SEPARATOR",
+    "name": "SEPARATOR",
+    "x": 473,
+    "y": 4000,
+    "width": 104,
+    "height": 80,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "AUTHOR NAME",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "ARTIST",
+    "name": "ARTIST",
+    "x": 590,
+    "y": 3985,
+    "width": 1334,
+    "height": 90,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COPYRIGHT",
+    "name": "COPYRIGHT",
+    "x": 1950,
+    "y": 3965,
+    "width": 910,
+    "height": 73,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "url": "https://draftsim.com/wp-content/uploads/2022/06/Swamp-Ikoria-Lair-of-Behemoths-Illustration-by-Svetlin-Velinov-1024x753.jpg",
+    "fadeSize": 0.0,
+    "fadeStrength": 1.0,
+    "name": "Illustration",
+    "x": 120,
+    "y": 445,
+    "width": 2758,
+    "height": 2028,
+    "alpha": 1.0,
+    "layerType": "IllustrationLayer"
+  },
+  {
+    "path": "Frames/ixalan_bg/Gold.webp",
+    "frameType": "FRAME",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "Gold.webp",
+    "x": 105,
+    "y": 115,
+    "width": 2795,
+    "height": 3802,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "CONQUEROR\u0027S FOOTHOLD",
+    "size": 131.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TITLE",
+    "name": "NAME",
+    "x": 750,
+    "y": 165,
+    "width": 2000,
+    "height": 220,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "(Transforms from Conqueror\u0027s Galleon.)\n{T}: Add {C}\n{2}, {T} : Draw a card, then discard a card.\n{4}, {T} : Draw a card.\n{6}, {T} : Return target card from your graveyard to your hand.",
+    "size": 124.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "name": "TEXT",
+    "x": 325,
+    "y": 2715,
+    "width": 2500,
+    "height": 1100,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Land",
+    "size": 124.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TYPE_LINE",
+    "name": "TYPES",
+    "x": 950,
+    "y": 2405,
+    "width": 950,
+    "height": 157,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  }
+]

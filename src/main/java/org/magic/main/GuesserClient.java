@@ -2,7 +2,6 @@ package org.magic.main;
 
 import java.sql.SQLException;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -17,8 +16,11 @@ public class GuesserClient {
 	
 	MTGControler.getInstance().init();
 	
+	
+	
         SwingUtilities.invokeLater(() -> {
-            JFrame f = MTGUIComponent.createJFrame(new HangmanPanel(), true, true);
+            var f = MTGUIComponent.createJFrame(new HangmanPanel(), true, true);
+            MTGControler.getInstance().getLafService().setLookAndFeel(f,MTGControler.getInstance().get("lookAndFeel"), false);
             f.setVisible(true);
         });
     }

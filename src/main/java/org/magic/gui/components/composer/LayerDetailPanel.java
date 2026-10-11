@@ -220,7 +220,19 @@ public class LayerDetailPanel extends JPanel {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.getDocument().addDocumentListener(documentListener(() -> update(() -> textLayer.setText(textArea.getText()))));
+
+        
+        var flavorText =  new JTextArea(textLayer.getFlavor(), 1, 12);
+        flavorText.setLineWrap(true);
+        flavorText.setWrapStyleWord(true);
+        flavorText.getDocument().addDocumentListener(documentListener(() -> update(() -> textLayer.setFlavor(flavorText.getText()))));
+        
+        
+        
         propertiesPanel.add(createProperty("Text", new JScrollPane(textArea)));
+        propertiesPanel.add(createProperty("Flavor", new JScrollPane(flavorText)));
+        
+        
 
         var fontSize = new JSpinner(new SpinnerNumberModel((double) textLayer.getFont().getSize2D(), 1.0, 500.0, 1.0));
         fontSize.addChangeListener(_ -> update(() -> textLayer.setFontSize(((Number) fontSize.getValue()).floatValue())));
