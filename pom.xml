@@ -65,7 +65,7 @@
 		<poi.version>5.5.1</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.9.1</rhino.version>
-		<commonmark.version>0.30.0</commonmark.version>
+		<commonmark.version>0.30.1</commonmark.version>
 		<langchain4j.version>1.22.0</langchain4j.version>
 		<telegram.version>10.3.0</telegram.version>
 	</properties>
@@ -280,7 +280,7 @@
 		<dependency>
 			<groupId>org.firebirdsql.jdbc</groupId>
 			<artifactId>jaybird</artifactId>
-			<version>6.0.6</version>
+			<version>6.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.yaml</groupId>
@@ -693,7 +693,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.22.1</version>
+			<version>1.23.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

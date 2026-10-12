@@ -9,7 +9,8 @@
 		"ASPM"
 	],
 	"YECL" : [
-		"YSOS"
+		"YSOS",
+		"YFRA"
 	],
 	"SOS" : [
 		"ASOS",
