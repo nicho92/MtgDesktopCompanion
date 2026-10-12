@@ -55,6 +55,8 @@ public class MTGConstants {
     public static final URL MTG_DESKTOP_SETS_FILE = MTGConstants.class.getResource("/data/sets_codeAliases.json");
     public static final URL MTG_DESKTOP_BOOSTERS_FILE = MTGConstants.class.getResource("/data/boosters.xml");
 
+    public static final String MTG_DESKTOP_COMPOSER_URL = "http://my.mtgcompanion.org/composer.zip";
+    
     public static final String ADMINUI_LOCATION = "web/admin-ui";
     public static final String WEBSHOP_LOCATION = "web/shop-ui";
     public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";

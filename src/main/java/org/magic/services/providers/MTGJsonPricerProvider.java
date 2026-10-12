@@ -80,7 +80,7 @@ public class MTGJsonPricerProvider {
 	private void downloadDataFile() throws IOException {
 		var tmp = new File(MTGConstants.DATA_DIR, "AllPrices.json.zip");
 		URLTools.download(AbstractMTGJsonProvider.MTG_JSON_ALL_PRICES_ZIP, tmp);
-		FileTools.unZipIt(tmp, dataFile);
+		FileTools.unZipFileAndRemove(tmp, dataFile);
 	}
 
 	private void buildPricesFile(VENDOR v) throws IOException {

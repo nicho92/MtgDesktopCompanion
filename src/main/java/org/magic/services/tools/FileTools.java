@@ -1,5 +1,6 @@
 package org.magic.services.tools;
 
+import java.io.BufferedInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
@@ -236,56 +238,8 @@ public class FileTools {
 		}
 
 	}
-
-	public static void unzip(File fileZip, File dest) throws IOException {
-		var infoR = new FileAccessInfo(fileZip);
-		if (!dest.isDirectory())
-			throw new IOException(dest + " is not a directory");
-
-		try (var zipFile = new ZipFile(fileZip)) {
-			var entries = zipFile.entries();
-
-			while (entries.hasMoreElements()) {
-				var zipEntry = entries.nextElement();
-				var f = new File(dest, zipEntry.getName());
-
-				if (zipEntry.isDirectory()) {
-					FileUtils.forceMkdir(f);
-				} else {
-					FileUtils.forceMkdirParent(f);
-					FileUtils.touch(f);
-				}
-
-				try (var fos = new FileOutputStream(f)) {
-					IOUtils.write(zipFile.getInputStream(zipEntry).readAllBytes(), fos);
-					var infoW = new FileAccessInfo(f);
-					infoW.setEnd(Instant.now());
-					infoW.setAccesstype(ACCESSTYPE.WRITE);
-					AbstractTechnicalServiceManager.inst().store(infoW);
-				}
-			}
-		}
-		infoR.setEnd(Instant.now());
-		infoR.setAccesstype(ACCESSTYPE.READ);
-		AbstractTechnicalServiceManager.inst().store(infoR);
-	}
-
-	private static void addFile(File f, ZipOutputStream out) throws IOException {
-		var info = new FileAccessInfo(f);
-		if (f.isDirectory())
-			return;
-
-		try (var in = new FileInputStream(f)) {
-			out.putNextEntry(new ZipEntry(MTGConstants.CONF_DIR.toPath().relativize(f.toPath()).toString()));
-			IOUtils.write(in.readAllBytes(), out);
-			out.closeEntry();
-		}
-		info.setEnd(Instant.now());
-		info.setAccesstype(ACCESSTYPE.WRITE);
-		AbstractTechnicalServiceManager.inst().store(info);
-	}
-
-	public static void unZipIt(File src, File dst) {
+	
+	public static void unZipFileAndRemove(File src, File dst) {
 
 		var infoR = new FileAccessInfo(src);
 		var buffer = new byte[1024];
@@ -322,6 +276,56 @@ public class FileTools {
 		logger.debug("removing {}={}", src, del);
 
 	}
+
+	public static void unzipInDirectory(File input, File destDirectory) throws IOException {
+	    var infoR = new FileAccessInfo(input);
+	    var destPath = destDirectory.toPath().toAbsolutePath().normalize();
+	    java.nio.file.Files.createDirectories(destPath);
+
+	    try (var zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(input)))) {
+	        ZipEntry entry;
+	        while ((entry = zis.getNextEntry()) != null) {
+	            var target = destPath.resolve(entry.getName()).normalize();
+	            
+	            var infoW = new FileAccessInfo(target.toFile());
+	            
+	            if (!target.startsWith(destPath)) {
+	                throw new IOException("Entrée zip invalide (Zip Slip) : " + entry.getName());
+	            }
+	            if (entry.isDirectory()) {
+	        	  java.nio.file.Files.createDirectories(target);
+	            } else {
+	        	  java.nio.file.Files.createDirectories(target.getParent());
+	        	  java.nio.file.Files.copy(zis, target, StandardCopyOption.REPLACE_EXISTING);
+	            }
+			infoW.setEnd(Instant.now());
+			infoW.setAccesstype(ACCESSTYPE.WRITE);
+			AbstractTechnicalServiceManager.inst().store(infoW);
+	        }
+	    }
+	    
+	    infoR.setEnd(Instant.now());
+	    infoR.setAccesstype(ACCESSTYPE.READ);
+	    AbstractTechnicalServiceManager.inst().store(infoR);
+	}
+	
+
+	private static void addFile(File f, ZipOutputStream out) throws IOException {
+		var info = new FileAccessInfo(f);
+		if (f.isDirectory())
+			return;
+
+		try (var in = new FileInputStream(f)) {
+			out.putNextEntry(new ZipEntry(MTGConstants.CONF_DIR.toPath().relativize(f.toPath()).toString()));
+			IOUtils.write(in.readAllBytes(), out);
+			out.closeEntry();
+		}
+		info.setEnd(Instant.now());
+		info.setAccesstype(ACCESSTYPE.WRITE);
+		AbstractTechnicalServiceManager.inst().store(info);
+	}
+
+	
 
 	public static void copyDirJarToDirectory(String path, File writeDirectory) throws IOException {
 

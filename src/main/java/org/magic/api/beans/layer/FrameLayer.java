@@ -63,6 +63,9 @@ public class FrameLayer extends AbstractLayer {
 	
 	var print = getImage();
 	
+	if(image==null)
+	    return;
+	
 	if(isTitleLine())
 	{
 	    print=image.getSubimage(0, 0, 2665, 261);

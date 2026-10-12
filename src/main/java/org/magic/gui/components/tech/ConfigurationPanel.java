@@ -692,7 +692,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 			if (res == JFileChooser.APPROVE_OPTION) {
 				try {
-					FileTools.unzip(chooser.getSelectedFile(), MTGConstants.CONF_DIR);
+					FileTools.unzipInDirectory(chooser.getSelectedFile(), MTGConstants.CONF_DIR);
 					MTGControler.getInstance()
 							.notify(new MTGNotification("IMPORT", "Import config done", MESSAGE_TYPE.INFO));
 				} catch (IOException e1) {
