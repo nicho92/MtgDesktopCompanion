@@ -670,7 +670,7 @@ public class ConstructPanel extends MTGUIComponent {
 						f = new File("");
 
 						if (!exp.needDialogForDeck(MODS.IMPORT) && exp.needFile()) {
-							res = jf.showOpenDialog(null);
+							res = jf.showOpenDialog(this);
 							f = jf.getSelectedFile();
 						} else if (!exp.needFile() && !exp.needDialogForDeck(MODS.IMPORT)) {
 							logger.trace("{} need no file. Skip", exp);

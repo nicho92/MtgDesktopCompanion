@@ -676,7 +676,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		btnImportConfig.addActionListener(_ -> {
 
 			var chooser = new JFileChooser(MTGConstants.DATA_DIR);
-			int res = chooser.showOpenDialog(null);
+			int res = chooser.showOpenDialog(ConfigurationPanel.this);
 			chooser.setFileFilter(new FileFilter() {
 
 				@Override
@@ -869,7 +869,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			public void mouseClicked(MouseEvent paramMouseEvent) {
 				var jf = new JFileChooser();
 				jf.setFileFilter(new FileNameExtensionFilter("Images", "bmp", "gif", "jpg", "jpeg", "png"));
-				int result = jf.showOpenDialog(null);
+				int result = jf.showOpenDialog(ConfigurationPanel.this);
 				if (result == JFileChooser.APPROVE_OPTION) {
 					MTGControler.getInstance().setProperty("/game/player-profil/avatar",
 							jf.getSelectedFile().getAbsolutePath());

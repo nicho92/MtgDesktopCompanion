@@ -403,7 +403,7 @@ public class AlarmGUI extends MTGUIComponent {
 						f = new File("");
 
 						if (!exp.needDialogForDeck(MODS.IMPORT)) {
-							res = jf.showOpenDialog(null);
+							res = jf.showOpenDialog(this);
 							f = jf.getSelectedFile();
 						} else {
 

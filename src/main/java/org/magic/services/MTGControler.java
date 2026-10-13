@@ -35,6 +35,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.game.model.beans.Player;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
@@ -135,6 +136,35 @@ public class MTGControler {
 
 		}
 	}
+	
+	 public void downloadComposerDatas() {
+		if(!MTGConstants.MTG_COMPOSER_DIR.exists())
+		{
+		    logger.info("{} doesn't exist. Downloading it",MTGConstants.MTG_COMPOSER_DIR);
+		    try {
+			
+			var zipFile = new File( MTGConstants.MTG_COMPOSER_DIR,"composer.zip");
+			
+			URLTools.download(MTGConstants.MTG_DESKTOP_COMPOSER_URL, zipFile);
+			 logger.info("{} downloaded",zipFile);
+			
+			FileTools.unzipInDirectory(zipFile, MTGConstants.MTG_COMPOSER_DIR);
+			logger.info("{} unzipped",zipFile);
+			
+			FileTools.deleteFile(zipFile);
+			logger.info("{} cleaned",zipFile);
+			
+		    } catch (IOException e) {
+			logger.error(e);
+		    }
+		    
+		    
+		}
+		
+		
+		
+	    }
+	
 
 	public VersionChecker getVersionChecker() {
 		return versionChecker;

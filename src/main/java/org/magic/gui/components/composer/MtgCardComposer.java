@@ -10,6 +10,7 @@ import java.net.URI;
 import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,6 +32,7 @@ import org.magic.api.beans.layer.enums.TextRole;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
@@ -50,7 +52,7 @@ public class MtgCardComposer extends MTGUIComponent {
     public MtgCardComposer() {
 	setPreferredSize(new Dimension(1200, 900));
 	UITools.loadFonts();
-
+	MTGControler.getInstance().downloadComposerDatas();
 	setLayout(new BorderLayout());
 
 	var rootNode = initTree(MTGConstants.MTG_COMPOSER_DIR);
@@ -61,15 +63,16 @@ public class MtgCardComposer extends MTGUIComponent {
 
 	rootNode.add(rootColors);
 
-	var textNodes = new DefaultMutableTreeNode("Text Lines");
+	var textNodes = new DefaultMutableTreeNode("Text");
 	for(var bc : TextRole.values())
 	    textNodes.add(new DefaultMutableTreeNode(bc));
 
 	rootNode.add(textNodes);
 
 
-	var rootImage = new DefaultMutableTreeNode("Illustrations");
+	var rootImage = new DefaultMutableTreeNode("Illustration");
 	rootImage.add(new DefaultMutableTreeNode("URL"));
+	rootImage.add(new DefaultMutableTreeNode("File"));
 
 	rootNode.add(rootImage);
 
@@ -221,6 +224,23 @@ public class MtgCardComposer extends MTGUIComponent {
 		    var url = JOptionPane.showInputDialog("URL ?");
 		    try {
 			imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
+		    } catch (MalformedURLException e1) {
+			logger.error(e1);
+		    }
+
+		}
+		else if (object.toString().equals("File"))
+		{
+
+		   var f = new JFileChooser(LayersListPanel.currentFile);
+		   f.showOpenDialog(MtgCardComposer.this);
+		   var file = f.getSelectedFile();
+		   
+		   if(file==null)
+		       return;
+		   
+		    try {
+			imageCanvas.addLayer(new IllustrationLayer(file.toURI().toURL()));
 		    } catch (MalformedURLException e1) {
 			logger.error(e1);
 		    }

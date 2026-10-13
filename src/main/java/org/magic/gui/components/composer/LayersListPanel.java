@@ -40,7 +40,7 @@ public class LayersListPanel extends JPanel {
     private final JList<Layer> list;
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
     
-    private File currentFile = MTGConstants.DATA_DIR;
+    public static File currentFile = MTGConstants.DATA_DIR;
     private CardCanvas canvas;
 
     public LayersListPanel() {

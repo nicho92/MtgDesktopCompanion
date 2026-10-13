@@ -241,7 +241,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 		btnImage.addActionListener(_ -> {
 			var choose = new JFileChooser();
-			choose.showOpenDialog(null);
+			choose.showOpenDialog(MagicCardEditorPanel.this);
 			var pics = choose.getSelectedFile();
 			if (pics != null) {
 				magicCard.setUrl(pics.getAbsolutePath());

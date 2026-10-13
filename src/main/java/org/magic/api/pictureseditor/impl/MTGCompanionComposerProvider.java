@@ -2,7 +2,6 @@ package org.magic.api.pictureseditor.impl;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
@@ -27,8 +26,8 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.api.interfaces.extra.Layer;
 import org.magic.gui.components.composer.CardCanvas;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 
@@ -51,7 +50,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
     public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 	
 	
-	checkFrameDirectory();
+	MTGControler.getInstance().downloadComposerDatas();
 	
 	
 	canvas.clear();
@@ -229,33 +228,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	return ImageTools.resize(canvas.getCardImage(),1039,744);
     }
 
-    private void checkFrameDirectory() {
-	if(!MTGConstants.MTG_COMPOSER_DIR.exists())
-	{
-	    logger.info("{} doesn't exist. Downloading it",MTGConstants.MTG_COMPOSER_DIR);
-	    try {
-		
-		var zipFile = new File( MTGConstants.MTG_COMPOSER_DIR,"composer.zip");
-		
-		URLTools.download(MTGConstants.MTG_DESKTOP_COMPOSER_URL, zipFile);
-		 logger.info("{} downloaded",zipFile);
-		
-		FileTools.unzipInDirectory(zipFile, MTGConstants.MTG_COMPOSER_DIR);
-		logger.info("{} unzipped",zipFile);
-		
-		FileTools.deleteFile(zipFile);
-		logger.info("{} cleaned",zipFile);
-		
-	    } catch (IOException e) {
-		logger.error(e);
-	    }
-	    
-	    
-	}
-	
-	
-	
-    }
+   
 
     @Override
     public MOD getMode() {

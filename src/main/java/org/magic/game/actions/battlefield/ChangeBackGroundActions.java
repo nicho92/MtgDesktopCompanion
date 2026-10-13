@@ -37,7 +37,7 @@ public class ChangeBackGroundActions extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 
 		var choose = new JFileChooser(lastDir);
-		choose.showOpenDialog(null);
+		choose.showOpenDialog(GamePanelGUI.getInstance().getPanelBattleField());
 		if (choose.getSelectedFile() != null) {
 
 			lastDir = choose.getCurrentDirectory();

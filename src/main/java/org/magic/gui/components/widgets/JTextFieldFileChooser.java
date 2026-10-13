@@ -41,7 +41,7 @@ public class JTextFieldFileChooser extends JComponent {
 			var f = new JFileChooser(textField.getText());
 			f.setFileSelectionMode(mode);
 
-			int res = f.showOpenDialog(null);
+			int res = f.showOpenDialog(this);
 			if (res == JFileChooser.APPROVE_OPTION)
 				textField.setText(f.getSelectedFile().getAbsolutePath());
 

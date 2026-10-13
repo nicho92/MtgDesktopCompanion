@@ -319,7 +319,7 @@ public class StockPanelGUI extends MTGUIComponent {
 						int res = -1;
 
 						if (!exp.needDialogForStock(MODS.IMPORT) && exp.needFile()) {
-							res = jf.showOpenDialog(null);
+							res = jf.showOpenDialog(this);
 							fileImport = jf.getSelectedFile();
 						} else if (!exp.needFile() && !exp.needDialogForStock(MODS.IMPORT)) {
 							logger.debug("{} need no file. Skip", exp);
