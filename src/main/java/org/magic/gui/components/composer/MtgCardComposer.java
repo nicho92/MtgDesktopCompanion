@@ -30,6 +30,7 @@ import org.magic.api.beans.layer.enums.BorderColor;
 import org.magic.api.beans.layer.enums.ShapeType;
 import org.magic.api.beans.layer.enums.TextRole;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.dialog.RenderingHintsDialog;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

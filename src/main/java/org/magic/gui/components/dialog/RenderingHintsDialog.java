@@ -1,4 +1,4 @@
-package org.magic.gui.components.composer;
+package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -302,7 +302,7 @@ public class RenderingHintsDialog extends JDialog {
 
     private void reset() {
 
-        controls.forEach((key, combo) -> {
+        controls.forEach((_, combo) -> {
 
             if (combo.getItemCount() > 0) {
                 combo.setSelectedIndex(0);

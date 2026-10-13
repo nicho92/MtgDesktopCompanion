@@ -15,6 +15,8 @@
   },
   {
     "text": "R 001 / 010",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -33,6 +35,8 @@
   },
   {
     "text": "SET • EN",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -51,6 +55,8 @@
   },
   {
     "text": "a",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -69,6 +75,8 @@
   },
   {
     "text": "AUTHOR NAME",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -87,6 +95,8 @@
   },
   {
     "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -105,13 +115,13 @@
   },
   {
     "url": "https://draftsim.com/wp-content/uploads/2022/06/Swamp-Ikoria-Lair-of-Behemoths-Illustration-by-Svetlin-Velinov-1024x753.jpg",
-    "fadeSize": 0.0,
+    "fadeSize": 20.0,
     "fadeStrength": 1.0,
     "name": "Illustration",
-    "x": 120,
-    "y": 445,
-    "width": 2758,
-    "height": 2028,
+    "x": 110,
+    "y": 470,
+    "width": 2770,
+    "height": 2008,
     "alpha": 1.0,
     "layerType": "IllustrationLayer"
   },
@@ -120,7 +130,7 @@
     "frameType": "FRAME",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
-    "name": "Gold.webp",
+    "name": "FRAME",
     "x": 105,
     "y": 115,
     "width": 2795,
@@ -130,6 +140,8 @@
   },
   {
     "text": "CONQUEROR\u0027S FOOTHOLD",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 131.0,
     "color": {
       "R": 0,
@@ -148,6 +160,8 @@
   },
   {
     "text": "(Transforms from Conqueror\u0027s Galleon.)\n{T}: Add {C}\n{2}, {T} : Draw a card, then discard a card.\n{4}, {T} : Draw a card.\n{6}, {T} : Return target card from your graveyard to your hand.",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 0,
@@ -166,6 +180,8 @@
   },
   {
     "text": "Land",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 0,
@@ -175,8 +191,8 @@
     },
     "role": "TYPE_LINE",
     "name": "TYPES",
-    "x": 950,
-    "y": 2405,
+    "x": 1365,
+    "y": 2390,
     "width": 950,
     "height": 157,
     "alpha": 1.0,

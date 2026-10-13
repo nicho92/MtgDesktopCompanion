@@ -20,13 +20,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.extra.Layer;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 
@@ -39,7 +42,7 @@ public class LayersListPanel extends JPanel {
     private final DefaultListModel<Layer> model;
     private final JList<Layer> list;
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-    
+    private AbstractBuzyIndicatorComponent buzy;
     public static File currentFile = MTGConstants.DATA_DIR;
     private CardCanvas canvas;
 
@@ -47,8 +50,10 @@ public class LayersListPanel extends JPanel {
 
 	setLayout(new BorderLayout());
 
+	buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+	
 	JLabel title = new JLabel("Layers");
-
+	
 	title.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 	add(title, BorderLayout.NORTH);
@@ -81,6 +86,7 @@ public class LayersListPanel extends JPanel {
 	buttons.add(newButton);
 	buttons.add(openButton);
 	buttons.add(exportButton);
+	buttons.add(buzy);
 
 	add(buttons, BorderLayout.SOUTH);
 
@@ -135,15 +141,35 @@ public class LayersListPanel extends JPanel {
 	    if(chose.getSelectedFile()==null)
 		return;
 	    
+	    buzy.start();
+	    
 	    try {
-		
 		currentFile = chose.getSelectedFile();
 		var s = FileTools.readFile(chose.getSelectedFile());
 		var layers = new JsonExport().fromJsonList(s, Layer.class);
-		layers.forEach(Layer::reload);
-		canvas.clear();
-		setLayers(layers);
-		layers.forEach(canvas::addLayer);
+		
+		
+		var sw = new SwingWorker<Void, Void>() {
+
+		    @Override
+		    protected Void doInBackground() throws Exception {
+			layers.forEach(Layer::reload);
+			return null;
+		    }
+		    @Override
+		    protected void done() {
+			canvas.clear();
+			setLayers(layers);
+			layers.forEach(canvas::addLayer);
+			buzy.end();
+		    }
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw,"loading layers");
+		
+		
+		
+			
 	    } catch (IOException e) {
 		logger.error(e);
 	    }
