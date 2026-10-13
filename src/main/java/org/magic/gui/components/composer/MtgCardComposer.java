@@ -212,7 +212,8 @@ public class MtgCardComposer extends MTGUIComponent {
 
 		    var border = new BorderLayer(c);
 
-		    if(c==BorderColor.BORDERLESS){
+		    if(c==BorderColor.BORDERLESS)
+		    {
 			var url = JOptionPane.showInputDialog("URL");
 			
 			if(StringUtils.isEmpty(url))

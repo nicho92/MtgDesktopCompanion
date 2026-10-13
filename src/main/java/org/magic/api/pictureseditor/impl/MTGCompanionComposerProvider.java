@@ -155,8 +155,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			{
 			    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			    
-			   if( fl.getFrameType().name().endsWith("_BORDER"))
+			   if( fl.getFrameType().name().endsWith("_BORDER") && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length()>1)
 				code="Gold";
+			   else
+			       code=mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			}
 			
 			if((fl.getFrameType()==FrameType.FRAME  || fl.getFrameType()==FrameType.PT)&& mc.isVehicule())	{
