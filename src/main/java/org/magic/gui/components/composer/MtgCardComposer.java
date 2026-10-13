@@ -20,6 +20,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
@@ -213,6 +214,10 @@ public class MtgCardComposer extends MTGUIComponent {
 
 		    if(c==BorderColor.BORDERLESS){
 			var url = JOptionPane.showInputDialog("URL");
+			
+			if(StringUtils.isEmpty(url))
+			    return;
+			
 			border.setUri(URI.create(url));
 			border.reload();
 			border.fitImage();

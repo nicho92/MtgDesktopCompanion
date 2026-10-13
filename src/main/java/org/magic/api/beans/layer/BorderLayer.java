@@ -29,8 +29,6 @@ public class BorderLayer extends AbstractLayer {
 	setHeight(4180);
 	this.color = c;
 	setName(c.toString());
-	
-	reload();
     }
 
     @Override
@@ -62,7 +60,6 @@ public class BorderLayer extends AbstractLayer {
 	     * L'image doit rester à l'intérieur du Border.
 	     */
 	     graphics.clip(border);
-
 	     if (image != null) {
 
 		 graphics.translate(
@@ -113,6 +110,7 @@ public class BorderLayer extends AbstractLayer {
 
 	    if(color==BorderColor.BORDERLESS)
 		this.image = URLTools.extractAsImage(uri.toASCIIString());
+	    
 	} catch (IOException e) {
 	    MTGLogger.getLogger(this.getClass()).error(e);
 	}
