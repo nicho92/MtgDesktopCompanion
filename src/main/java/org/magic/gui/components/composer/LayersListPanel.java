@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -146,8 +145,9 @@ public class LayersListPanel extends JPanel {
 	
 	    try {
 		var copy = BeanTools.cloneBean(getSelectedLayer());
-		
 		copy.setName(getSelectedLayer().getName()+"(copy)");
+		
+		model.addElement(copy);
 		canvas.addLayer(copy);
 		
 	    } catch (Exception e) {

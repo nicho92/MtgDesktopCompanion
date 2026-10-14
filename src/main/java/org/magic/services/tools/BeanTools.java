@@ -13,6 +13,8 @@ import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;
 
+import com.rits.cloning.Cloner;
+
 public class BeanTools {
 
 	private static Logger logger = MTGLogger.getLogger(BeanTools.class);
@@ -73,10 +75,10 @@ public class BeanTools {
 		return temp.toString();
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> T cloneBean(T ed)
-			throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-		return (T) BeanUtils.cloneBean(ed);
+	public static <T> T cloneBean(T ed) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+		
+	    Cloner cloner = new Cloner();
+	    return cloner.deepClone(ed);
 	}
 
 }

@@ -191,6 +191,11 @@
 	</build>
 
    <dependencies>
+		   <dependency>
+		    <groupId>io.github.kostaskougios</groupId>
+		    <artifactId>cloning</artifactId>
+		    <version>1.13.0</version>
+		</dependency>
 		<dependency>
 		    <groupId>com.github.ygimenez</groupId>
 		    <artifactId>Pagination-Utils</artifactId>
