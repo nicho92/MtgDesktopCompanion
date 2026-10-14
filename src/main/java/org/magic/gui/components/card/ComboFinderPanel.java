@@ -34,6 +34,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 	private MTGCard mc;
 	private DefaultListModel<MTGCombo> model;
 	private transient SwingWorker<List<MTGCombo>, MTGCombo> sw;
+	private JEditorPane textArea;
 
 	@Override
 	public String getTitle() {
@@ -57,8 +58,8 @@ public class ComboFinderPanel extends MTGUIComponent {
 	private void initGUI() {
 		model = new DefaultListModel<>();
 		setLayout(new BorderLayout(0, 0));
-		JList<MTGCombo> list = new JList<>(model);
-		var textArea = new JEditorPane();
+		var list = new JList<MTGCombo>(model);
+		textArea = new JEditorPane();
 		textArea.setContentType(URLTools.HEADER_HTML);
 		var panneauCenter = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -145,6 +146,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 			@Override
 			protected void done() {
 				buzy.end();
+				textArea.setCaretPosition(0);
 			}
 		};
 

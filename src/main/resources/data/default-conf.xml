@@ -890,11 +890,19 @@
   </externalsShops>
   <combos>
     <combo>
-      <class>org.magic.api.combo.impl.MagicVilleComboProvider</class>
+      <class>org.magic.api.combo.impl.SMFComboProvider</class>
       <enable>true</enable>
     </combo>
     <combo>
-      <class>org.magic.api.combo.impl.SMFComboProvider</class>
+      <class>org.magic.api.combo.impl.EDHComboProvider</class>
+      <enable>true</enable>
+    </combo>
+    <combo>
+      <class>org.magic.api.combo.impl.MTGNexusComboProvider</class>
+      <enable>true</enable>
+    </combo>
+    <combo>
+      <class>org.magic.api.combo.impl.NerdLeaguesComboProvider</class>
       <enable>true</enable>
     </combo>
   </combos>
