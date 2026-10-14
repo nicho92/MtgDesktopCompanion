@@ -1,0 +1,291 @@
+[
+  {
+    "radius": 116.5,
+    "color": "BLACK",
+    "imageScale": 0.0,
+    "imageOffsetX": 0.0,
+    "imageOffsetY": 0.0,
+    "name": "BORDER",
+    "x": 9,
+    "y": 9,
+    "width": 2990,
+    "height": 4183,
+    "alpha": 1.0,
+    "layerType": "BorderLayer"
+  },
+  {
+    "text": "R 001 / 010",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COLLECTOR_INFO",
+    "name": "RARITY_PRINTNUMBER",
+    "x": 185,
+    "y": 3930,
+    "width": 456,
+    "height": 62,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "SET • EN",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SET_AND_LANG",
+    "name": "SET_LANG",
+    "x": 185,
+    "y": 4010,
+    "width": 490,
+    "height": 58,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "a",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "SEPARATOR",
+    "name": "SEPARATOR",
+    "x": 473,
+    "y": 4000,
+    "width": 104,
+    "height": 80,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "AUTHOR NAME",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "ARTIST",
+    "name": "ARTIST",
+    "x": 590,
+    "y": 3985,
+    "width": 1334,
+    "height": 90,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "COPYRIGHT",
+    "name": "COPYRIGHT",
+    "x": 1950,
+    "y": 3965,
+    "width": 910,
+    "height": 73,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "path": "Frames/transform_bg/U.webp",
+    "frameType": "FRAME",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "U.webp",
+    "x": 116,
+    "y": 142,
+    "width": 2780,
+    "height": 3782,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/normal_boxes/U.webp",
+    "frameType": "TITLE_BORDER",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "TITLE_LINE",
+    "x": 168,
+    "y": 236,
+    "width": 2668,
+    "height": 261,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "url": "https://cards.scryfall.io/art/front/1/a/1a7e242e-bb48-4134-a1c2-6033713d658f.webp?1783935781",
+    "fadeSize": 0.0,
+    "fadeStrength": 1.0,
+    "name": "Illustration",
+    "x": 217,
+    "y": 488,
+    "width": 2580,
+    "height": 1885,
+    "alpha": 1.0,
+    "layerType": "IllustrationLayer"
+  },
+  {
+    "path": "Frames/transform_frames/U.webp",
+    "frameType": "BOX",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "Box",
+    "x": 142,
+    "y": 204,
+    "width": 2766,
+    "height": 3723,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "shape": "CIRCLE",
+    "name": "CIRCLE",
+    "x": 175,
+    "y": 227,
+    "width": 235,
+    "height": 235,
+    "alpha": 1.0,
+    "layerType": "ShapeLayer"
+  },
+  {
+    "path": "Frames/normal_boxes/U.webp",
+    "frameType": "TYPE_BORDER",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "TYPE_LINE",
+    "x": 169,
+    "y": 2369,
+    "width": 2668,
+    "height": 261,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "path": "Frames/transform_back_icons/compasslanddfc.webp",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "compasslanddfc.webp",
+    "x": 183,
+    "y": 235,
+    "width": 217,
+    "height": 217,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "cost": "{1}{U}",
+    "name": "Symbol {1}{U}",
+    "x": 2517,
+    "y": 282,
+    "width": 260,
+    "height": 130,
+    "alpha": 1.0,
+    "layerType": "ManaLayer"
+  },
+  {
+    "text": "At the beginning of your upkeep, surveil 1. Then if you have seven or more cards in your graveyard, you may transform Search for Azcanta. (Look at the top card of your library. You may put that card into your graveyard.)\t",
+    "flavor": "The Sunken Ruin houses all the learning of a long-forgotten age.",
+    "flavorOffsetY": 0,
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "name": "text",
+    "x": 264,
+    "y": 2712,
+    "width": 2500,
+    "height": 1000,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Legendary Enchantment",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TYPE_LINE",
+    "name": "type_line",
+    "x": 247,
+    "y": 2406,
+    "width": 2200,
+    "height": 157,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "path": "Frames/set_icons/xln_rare.webp",
+    "frameType": "SETICON",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "xln_rare.webp",
+    "x": 2595,
+    "y": 2431,
+    "width": 171,
+    "height": 170,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "Search for Azcanta",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TITLE",
+    "name": "NAME",
+    "x": 471,
+    "y": 236,
+    "width": 2000,
+    "height": 162,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  }
+]
