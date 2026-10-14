@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -30,6 +31,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 
@@ -45,6 +47,7 @@ public class LayersListPanel extends JPanel {
     private AbstractBuzyIndicatorComponent buzy;
     public static File currentFile = MTGConstants.DATA_DIR;
     private CardCanvas canvas;
+    private JButton copyButton;
 
     public LayersListPanel() {
 
@@ -77,11 +80,17 @@ public class LayersListPanel extends JPanel {
 	JButton newButton = new JButton(MTGConstants.ICON_SMALL_NEW);
 	JButton openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
 	JButton exportButton = new JButton(MTGConstants.ICON_SMALL_EXPORT);
+	copyButton = new JButton(MTGConstants.ICON_SMALL_COPY);
+	
+	
+	copyButton.setEnabled(false);
+	
 	buttons.setLayout(new GridLayout(0, 3, 0, 0));
 
 	buttons.add(upButton);
 	buttons.add(downButton);
 	buttons.add(deleteButton);
+	buttons.add(copyButton);
 	buttons.add(saveButton);
 	buttons.add(newButton);
 	buttons.add(openButton);
@@ -130,6 +139,21 @@ public class LayersListPanel extends JPanel {
 	   	setLayers(null);
 	    	canvas.clear();
 		
+	    
+	});
+	
+	copyButton.addActionListener(_->{
+	
+	    try {
+		var copy = BeanTools.cloneBean(getSelectedLayer());
+		
+		copy.setName(getSelectedLayer().getName()+"(copy)");
+		canvas.addLayer(copy);
+		
+	    } catch (Exception e) {
+		logger.error(e);
+	    } 
+	    
 	    
 	});
 	
@@ -249,6 +273,8 @@ public class LayersListPanel extends JPanel {
 	    return;
 	}
 
+	copyButton.setEnabled(layer!=null);
+	
 	list.setSelectedValue(layer, true);
     }
 

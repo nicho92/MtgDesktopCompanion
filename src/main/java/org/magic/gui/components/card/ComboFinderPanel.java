@@ -85,7 +85,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 		list.addListSelectionListener(_ -> {
 			var cb = list.getSelectedValue();
 			if (cb != null) {
-				textArea.setText(cb.getComment());
+				textArea.setText(cb.getComment().replace("\n", "<br/>"));
 				panneauBas.initThumbnails(cb.getCards(), false, false);
 			}
 		});

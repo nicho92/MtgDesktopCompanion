@@ -14,6 +14,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
+import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
@@ -65,8 +66,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    layout="Planeswalker"; 
 	else if(mc.isBorderLess())
 	    layout="Borderless"; 
+	else if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC))
+	    layout="Compasslanddfc-"+mc.getSide();
 	
-	if(mc.isLegendary() && !mc.isPlaneswalker())
+	if(mc.isLegendary() && !mc.isPlaneswalker() && !mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC))
 	    layout+="-legendary";
 	
 
