@@ -63,7 +63,12 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	else if(mc.isSaga())
 	    layout="Saga"; 
 	else if(mc.isPlaneswalker())
-	    layout="Planeswalker"; 
+	{
+	    layout="Planeswalker";
+	    if(OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities().size()>3)
+		layout="Planeswalker-4";
+	    
+	}
 	else if(mc.isBorderLess())
 	    layout="Borderless"; 
 	else if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC))
