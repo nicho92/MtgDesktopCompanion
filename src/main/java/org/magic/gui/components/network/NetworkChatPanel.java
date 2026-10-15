@@ -113,7 +113,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		var panelSearch = new JScrollPane();
 		var tableResult = UITools.createNewTable(stockResultModel, true);
 
-		
+		panelChat.setBorder(new TitledBorder(null, "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		listPlayers.setBorder(new TitledBorder(null, "Online", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		btnLogout.setEnabled(false);
