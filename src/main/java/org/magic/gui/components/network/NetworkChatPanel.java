@@ -52,7 +52,6 @@ import org.magic.gui.components.deck.JDeckChooserDialog;
 import org.magic.gui.components.dialog.importer.CardImporterDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.CardStockTableModel;
-import org.magic.gui.renderer.MessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.main.IAVirtualUser;
 import org.magic.servers.impl.ActiveMQServer;
@@ -69,7 +68,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
 	private JList<Player> listPlayers;
-	private JList<AbstractMessage> listMsg;
+
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea txtChatMessageEditor;
@@ -78,8 +77,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnSearch;
 	private JButton btnDeck;
 	private JToggleButton btnIa;
-	private DefaultListModel<AbstractMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
+	private JChatPanel chatPanel;
 	private transient MTGNetworkClient client;
 	private CardStockTableModel stockResultModel;
 	private JTabbedPane tabbedPane;
@@ -95,10 +94,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnConnect = new JButton(capitalize("CONNECT"));
 		txtServer = new JTextField(server, 25);
 		tabbedPane = new JTabbedPane();
-		listMsgModel = new DefaultListModel<>();
 		listPlayerModel = new DefaultListModel<>();
 		stockResultModel = new CardStockTableModel();
-		listMsg = new JList<>(listMsgModel);
+		chatPanel = new JChatPanel();
 		listPlayers = new JList<>(listPlayerModel);
 		txtChatMessageEditor = new JTextArea();
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
@@ -115,7 +113,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		var panelSearch = new JScrollPane();
 		var tableResult = UITools.createNewTable(stockResultModel, true);
 
-		listMsg.setBorder(new TitledBorder(null, "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
 		listPlayers.setBorder(new TitledBorder(null, "Online", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		btnLogout.setEnabled(false);
@@ -124,8 +122,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panelChatBox.setLayout(new BorderLayout());
 
 		listPlayers.setCellRenderer(new PlayerRenderer());
-		listMsg.setCellRenderer(new MessageRenderer());
-
+		
 		txtChatMessageEditor.setText(capitalize("CHAT_INTRO_TEXT"));
 		txtChatMessageEditor.setLineWrap(true);
 		txtChatMessageEditor.setWrapStyleWord(true);
@@ -141,7 +138,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		add(new JScrollPane(listPlayers), BorderLayout.EAST);
 		add(tabbedPane, BorderLayout.CENTER);
 
-		panelChat.add(new JScrollPane(listMsg), BorderLayout.CENTER);
+		panelChat.add(chatPanel, BorderLayout.CENTER);
 		panelChat.add(panelChatBox, BorderLayout.SOUTH);
 		panelChatBox.add(txtChatMessageEditor, BorderLayout.CENTER);
 		panelChatBox.add(UITools.createFlowCenterPanel(cboStates, btnColorChoose, btnSearch, btnDeck),
@@ -157,13 +154,13 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 	private void initActions() {
 
-		listMsg.addMouseListener(new MouseAdapter() {
+		chatPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (SwingUtilities.isRightMouseButton(e)) {
-					listMsg.setSelectedIndex(listMsg.locationToIndex(e.getPoint()));
+					chatPanel.setSelectedIndex(e.getPoint());
 					var menu = new JPopupMenu();
-					var selected = listMsg.getSelectedValue();
+					var selected = chatPanel.getSelectedValue();
 
 					if (selected.getTypeMessage() == MSG_TYPE.DECK) {
 						var deck = ((DeckMessage) selected).getAttachement();
@@ -207,7 +204,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 						});
 						menu.add(itemOpen);
 					}
-					menu.show(listMsg, e.getPoint().x, e.getPoint().y);
+					menu.show(chatPanel.getComponent(), e.getPoint().x, e.getPoint().y);
 				}
 			}
 		});
@@ -391,7 +388,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				btnLogout.setEnabled(false);
 				listPlayerModel.removeAllElements();
 				txtChatMessageEditor.setEditable(false);
-				listMsgModel.removeAllElements();
+				chatPanel.chatClear();
 			}
 
 			@Override
@@ -429,7 +426,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 						case SEARCH :
 							var msgs = (SearchMessage) s;
-							listMsgModel.addElement(msgs);
+							chatPanel.chatAddMessage(msgs);
 
 							if (!MTG.readPropertyAsBoolean("network-config/online-query"))
 								break;
@@ -459,13 +456,12 @@ public class NetworkChatPanel extends MTGUIComponent {
 							break;
 
 						default :
-							listMsgModel.addElement(s);
+						    chatPanel.chatAddMessage(s);
 							break;
 
 					}
 
 				}
-				listMsg.ensureIndexIsVisible(listMsg.getModel().getSize() - 1);
 			}
 		};
 		ThreadManager.getInstance().runInEdt(sw, "NetworkClient listening");

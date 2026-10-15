@@ -117,6 +117,7 @@ public class ConstructPanel extends MTGUIComponent {
 	private JList<MTGCard> listResult;
 	private DrawProbabilityPanel cardDrawProbaPanel;
 	private ObjectViewerPanel objectviewerPanel;
+	private DeckIAAssitantPanel assistantPanel;
 	private int selectedIndex = 0;
 	private File f;
 	private JLabel lblCards;
@@ -207,7 +208,10 @@ public class ConstructPanel extends MTGUIComponent {
 		var flowLayout = (FlowLayout) panneauHaut.getLayout();
 		comboPanel = new ComboFinderPanel();
 		var importLogPanel = new LoggerViewPanel();
-
+		
+		
+		assistantPanel = new DeckIAAssitantPanel();
+		
 		lblCards = new JLabel();
 		btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");
 		btnOpen = UITools.createBindableJButton("", MTGConstants.ICON_OPEN, KeyEvent.VK_O, "Open");
@@ -321,6 +325,7 @@ public class ConstructPanel extends MTGUIComponent {
 		addContextComponent(cardDrawProbaPanel);
 		addContextComponent(rulesPanel);
 		addContextComponent(stockDetailPanel);
+		addContextComponent(assistantPanel);
 		addContextComponent(importLogPanel);
 
 		if (MTG.readPropertyAsBoolean("debug-json-panel"))
@@ -616,6 +621,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 				magicCardDetailPanel.init(mc);
 				stockDetailPanel.init(mc, null);
+				comboPanel.init(mc);
 			}
 
 		});
@@ -808,6 +814,7 @@ public class ConstructPanel extends MTGUIComponent {
 					comboPanel.init(mc);
 					stockDetailPanel.init(mc, null);
 					rulesPanel.init(mc);
+					assistantPanel.init(deck);
 					if (f == BOARD.MAIN)
 						cardDrawProbaPanel.init(deck, mc);
 
