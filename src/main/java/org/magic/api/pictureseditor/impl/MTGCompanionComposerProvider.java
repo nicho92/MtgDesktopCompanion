@@ -71,10 +71,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	}
 	else if(mc.isBorderLess())
 	    layout="Borderless"; 
-	else if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC))
-	    layout="Compasslanddfc-"+mc.getSide();
+	else if(mc.isDoubleFaced())
+	    layout="Transform";
 	
-	if(mc.isLegendary() && !mc.isPlaneswalker() && !mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC))
+	if(mc.isLegendary() && !mc.isPlaneswalker() && !mc.isDoubleFaced())
 	    layout+="-legendary";
 	
 
@@ -103,7 +103,21 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    tl.setText(mc.getText());
 		    tl.setFlavor(mc.getFlavor());
 		}
-
+		
+		if(tl.getName().equals("ROTATED_PT"))
+		{
+		    if(mc.isDoubleFaced() && mc.getRotatedCard()!=null && mc.getRotatedCard().isCreature())
+		    {
+			tl.setText(mc.getRotatedCard().getPower()+"/"+mc.getRotatedCard().getToughness());
+		    }
+		    else
+		    {
+			tl.setText("");
+		    }
+		}
+		
+		
+		
 		if(tl.getName().equals("PT_TEXT"))
 		{
 		    if(mc.isVehicule())
@@ -153,6 +167,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(l instanceof FrameLayer fl)
 	    {
 			var code = EnumColors.determine(mc.getColors()).getCode();
+		
+			if(mc.isDoubleFaced() && mc.getSide().equals("b"))
+			    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+		
 			
 			if(mc.isArtifact())
 			    code = "Artifact";
@@ -184,6 +202,20 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 				fl.setPath(fl.getPath().replace("a25_mythic.webp", mc.getEdition().getId().toLowerCase()+"_"+mc.getRarity().name().toLowerCase()+".webp"));
 				print=mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true");
 			}
+			
+			if(fl.getFrameType()==FrameType.TRANSFORM_ICON)
+			{
+			    	var directory="Frames/transform_icons";
+				if(mc.getSide().equals("b"))
+				    directory ="Frames/transform_back_icons";
+				    
+				   fl.setPath(directory+"/"+mc.getFrameEffects().getFirst().name().toLowerCase()+".webp");
+			    
+				   
+				   print=mc.isDoubleFaced();
+			    
+			}
+			
 			
 			
 			

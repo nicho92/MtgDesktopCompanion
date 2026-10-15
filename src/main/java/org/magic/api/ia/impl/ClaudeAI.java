@@ -30,6 +30,9 @@ public class ClaudeAI extends AbstractIA {
 		if (format != null)
 			b.responseFormat(format);
 
+		
+		
+		
 		return b.build();
 	}
 

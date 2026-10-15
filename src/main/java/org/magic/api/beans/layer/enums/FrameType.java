@@ -7,8 +7,10 @@ public enum FrameType {
     LEGENDARY,
     TITLE_BORDER,
     TYPE_BORDER,
+    BOTH_BORDER,
     PT,
     SETICON,
+    TRANSFORM_ICON,
     LOYALTY_BASE,
     LOYALTY_MODIFIER
     

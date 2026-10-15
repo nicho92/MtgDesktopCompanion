@@ -140,7 +140,7 @@ public class FrameLayer extends AbstractLayer {
 	try {
 	    this.image =  ImageTools.read(getFile());
 	} catch (IOException e) {
-	    MTGLogger.getLogger(this.getClass()).error("error with file {} : {}",getFile(),e.getMessage());
+	    MTGLogger.getLogger(this.getClass()).error("{} : error with file {} : {}",getName(),getFile(),e.getMessage());
 	}
        
      }
