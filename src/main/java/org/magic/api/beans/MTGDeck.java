@@ -305,4 +305,11 @@ public class MTGDeck implements MTGSerializable {
 
 	}
 
+	public String toStringList() {
+	    var buff = new StringBuffer();
+	    getMain().entrySet().forEach(e->buff.append(e.getValue()).append(" ").append(e.getKey().getName()).append(System.lineSeparator()));
+	    return buff.toString();
+	    
+	}
+
 }
