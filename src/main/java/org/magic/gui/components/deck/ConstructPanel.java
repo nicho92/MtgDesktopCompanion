@@ -177,6 +177,7 @@ public class ConstructPanel extends MTGUIComponent {
 		deckSidemodel.init(deck);
 		stockPanel.setCurrentDeck(deck);
 		objectviewerPanel.init(deck);
+		assistantPanel.init(deck);
 		tableDeck.packAll();
 		tableSide.packAll();
 

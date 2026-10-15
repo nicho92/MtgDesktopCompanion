@@ -25,7 +25,8 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Abstract
 	@Override
 	public Component getListCellRendererComponent(JList<? extends AbstractMessage> list, AbstractMessage value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-
+	    	
+	    	pane.setFixedWidth(list.getWidth());
 		pane.setMessage(value);
 
 		if (isSelected) {
@@ -35,6 +36,14 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Abstract
 			pane.setBackground(list.getBackground());
 			pane.setForeground(list.getForeground());
 		}
+		
+		// force un layout complet avec la taille réelle de la cellule
+		pane.invalidate();
+		invalidate();
+		setSize(getPreferredSize());
+		doLayout();
+		pane.doLayout();
+		
 		return this;
 	}
 }

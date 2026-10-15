@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
@@ -16,6 +17,10 @@ import org.magic.gui.renderer.MessageRenderer;
 
 public class JChatPanel extends JPanel{
     
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 	private DefaultListModel<AbstractMessage> listMsgModel;
 	private JList<AbstractMessage> listMsg;
 	
@@ -25,12 +30,19 @@ public class JChatPanel extends JPanel{
 	    setLayout(new BorderLayout());
 	    
 	    listMsgModel = new DefaultListModel<>();
-	    listMsg = new JList<>(listMsgModel);
+	    listMsg = new JList<>(listMsgModel) {
+		@Override
+		public boolean getScrollableTracksViewportWidth() {
+			return true;
+		}
+	    };
 	    listMsg.setCellRenderer(new MessageRenderer());
 	    listMsg.setBorder(new TitledBorder(null, "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 	    
+	    var scroll = new JScrollPane(listMsg);
+	    scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 	    
-	    add(new JScrollPane(listMsg),BorderLayout.CENTER);
+	    add(scroll,BorderLayout.CENTER);
 	}
 	
 	public void chatClear()
@@ -44,7 +56,7 @@ public class JChatPanel extends JPanel{
 	    listMsg.ensureIndexIsVisible(listMsg.getModel().getSize() - 1);
 	}
 	
-	public void addMouseListener(MouseListener e)
+	public synchronized void addMouseListener(MouseListener e)
 	{
 	    listMsg.addMouseListener(e);
 	}

@@ -1,5 +1,6 @@
 package org.magic.gui.components.renderer;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -45,7 +46,39 @@ public class MessageRendererPanel extends JPanel {
 	private int iconSize = 25;
 	private JPanel separator;
 	private PrettyTime prettyTime;
+	
+	private int fixedWidth = -1;
 
+	public void setFixedWidth(int width) {
+		this.fixedWidth = width;
+	}
+
+	@Override
+	public Dimension getPreferredSize() {
+		if (fixedWidth <= 0)
+			return super.getPreferredSize();
+
+		GridBagLayout gbl = (GridBagLayout) getLayout();
+		GridBagConstraints cSep = gbl.getConstraints(separator);
+		GridBagConstraints cTxt = gbl.getConstraints(textArea);
+		Insets in = getInsets();
+
+		// largeur réellement disponible pour le texte
+		int sepWidth = Math.max(10, separator.getPreferredSize().width); // colonne 0 : 10 px minimum
+		int textWidth = fixedWidth - in.left - in.right
+				- sepWidth - cSep.insets.left - cSep.insets.right
+				- cTxt.insets.left - cTxt.insets.right;
+		textWidth = Math.max(50, textWidth);
+
+		// le JTextPane calcule sa hauteur préférée d'après sa largeur courante
+		textArea.setSize(textWidth, Short.MAX_VALUE);
+
+		// le layout additionne tout : lignes, insets des contraintes, bordure
+		Dimension d = gbl.preferredLayoutSize(this);
+		return new Dimension(fixedWidth, d.height);
+	}
+	
+	
 	public MessageRendererPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{10, 0, 0, 0};

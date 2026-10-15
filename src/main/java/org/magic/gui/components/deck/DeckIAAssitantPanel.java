@@ -3,11 +3,8 @@ package org.magic.gui.components.deck;
 import java.awt.BorderLayout;
 import java.util.concurrent.ExecutionException;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
@@ -19,9 +16,9 @@ import org.magic.game.model.beans.Player;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.network.JChatPanel;
-import org.magic.gui.renderer.MessageRenderer;
 import org.magic.main.IAVirtualUser;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 
@@ -63,8 +60,14 @@ public class DeckIAAssitantPanel extends MTGUIComponent {
 		
 		
 		txtAsk.addActionListener(_->{
+
+		    var msg = new TalkMessage(txtAsk.getText());
+		    msg.setAuthor(MTGControler.getInstance().getProfilPlayer());
+		    
 		    txtAsk.setText("");
-		
+		    
+		    chatPanel.chatAddMessage(msg);
+		    
 		    var buff = new StringBuffer();
 		    deck.getMain().entrySet().forEach(e->{
 			    buff.append(e.getValue()).append(" ").append(e.getKey().getName()).append(System.lineSeparator());
