@@ -126,12 +126,92 @@
   },
   {
     "cost": "{U}{U}",
-    "name": "Symbol {U}{U}",
+    "name": "COST",
     "x": 2460,
     "y": 200,
     "width": 260,
     "height": 130,
     "alpha": 1.0,
     "layerType": "ManaLayer"
+  },
+  {
+    "text": "Illus. Mark Poole",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 133.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "OLD_ARTIST",
+    "name": "ARTIST",
+    "x": 470,
+    "y": 3715,
+    "width": 2000,
+    "height": 166,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Illus. Mark Poole",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 133.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "OLD_ARTIST",
+    "name": "ARTIST",
+    "x": 465,
+    "y": 3710,
+    "width": 2000,
+    "height": 166,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "© 1993-2026 Wizards of the Coast, Inc.",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "OLD_COPYRIGHT",
+    "name": "COPYRIGHT",
+    "x": 275,
+    "y": 3840,
+    "width": 2000,
+    "height": 100,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "61/350",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 124.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "OLD_COPYRIGHT",
+    "name": "RARITY_PRINTNUMBER",
+    "x": 1710,
+    "y": 3840,
+    "width": 588,
+    "height": 104,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
   }
 ]

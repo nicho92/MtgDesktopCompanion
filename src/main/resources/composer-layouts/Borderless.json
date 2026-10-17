@@ -3,6 +3,9 @@
     "radius": 116.5,
     "color": "BORDERLESS",
     "uri": "https://i.pinimg.com/736x/2c/20/c2/2c20c2b8ad93166fe0cc1401902ed762.jpg",
+    "imageScale": 0.0,
+    "imageOffsetX": 0.0,
+    "imageOffsetY": 0.0,
     "name": "BORDER",
     "x": 0,
     "y": 0,
@@ -31,7 +34,7 @@
     "alphalayout": false,
     "name": "BORDERLINES",
     "x": 160,
-    "y": 198,
+    "y": 190,
     "width": 2668,
     "height": 261,
     "alpha": 1.0,
@@ -52,6 +55,8 @@
   },
   {
     "text": "Subterfuge",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 0,
@@ -62,7 +67,7 @@
     "role": "TITLE",
     "name": "NAME",
     "x": 218,
-    "y": 213,
+    "y": 235,
     "width": 2000,
     "height": 175,
     "alpha": 1.0,
@@ -83,6 +88,8 @@
   },
   {
     "text": "3/5",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 146.0,
     "color": {
       "R": 0,
@@ -93,7 +100,7 @@
     "role": "POWER_TOUGHNESS",
     "name": "PT_TEXT",
     "x": 2435,
-    "y": 3718,
+    "y": 3752,
     "width": 330,
     "height": 213,
     "alpha": 1.0,
@@ -101,6 +108,8 @@
   },
   {
     "text": "R 001 / 010",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -119,6 +128,8 @@
   },
   {
     "text": "TST • EN",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -137,6 +148,8 @@
   },
   {
     "text": "a",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -155,6 +168,8 @@
   },
   {
     "text": "Creature — Elemental Incarnation",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 255,
@@ -165,7 +180,7 @@
     "role": "TYPE_LINE",
     "name": "TYPES",
     "x": 193,
-    "y": 2370,
+    "y": 2395,
     "width": 2200,
     "height": 166,
     "alpha": 1.0,
@@ -173,6 +188,8 @@
   },
   {
     "text": "Ilse Gort",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -191,6 +208,8 @@
   },
   {
     "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -209,6 +228,8 @@
   },
   {
     "text": "When this creature enters, target creature gains flying and “Whenever this creature deals combat damage to a player, draw that many cards” until end of turn.",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 0,
@@ -219,7 +240,7 @@
     "role": "TEXT",
     "name": "TEXT",
     "x": 242,
-    "y": 2636,
+    "y": 2669,
     "width": 2521,
     "height": 1069,
     "alpha": 1.0,

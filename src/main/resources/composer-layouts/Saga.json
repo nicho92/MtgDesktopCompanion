@@ -15,6 +15,8 @@
   },
   {
     "text": "R 001 / 010",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -33,6 +35,8 @@
   },
   {
     "text": "SET • EN",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -51,6 +55,8 @@
   },
   {
     "text": "a",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -69,6 +75,8 @@
   },
   {
     "text": "AUTHOR NAME",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -87,6 +95,8 @@
   },
   {
     "text": "™ \u0026 © 2026 Wizards of the Coast",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 124.0,
     "color": {
       "R": 255,
@@ -119,6 +129,7 @@
     "path": "Frames/saga_bg/U.webp",
     "frameType": "FRAME",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "Frame Saga",
     "x": 105,
     "y": 140,
@@ -130,6 +141,7 @@
   {
     "path": "Frames/saga_textboxes/U.webp",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "LeftBox",
     "x": 205,
     "y": 495,
@@ -142,6 +154,7 @@
     "path": "Frames/saga_frames/U.webp",
     "frameType": "BOX",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "Box Border",
     "x": 80,
     "y": 205,
@@ -154,6 +167,7 @@
     "path": "Frames/normal_boxes/U.webp",
     "frameType": "TITLE_BORDER",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "Title Line",
     "x": 155,
     "y": 230,
@@ -166,6 +180,7 @@
     "path": "Frames/normal_boxes/U.webp",
     "frameType": "TYPE_BORDER",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "Type Border",
     "x": 155,
     "y": 3575,
@@ -178,6 +193,7 @@
     "path": "Frames/set_icons/a25_rare.webp",
     "frameType": "SETICON",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "SETicon",
     "x": 2630,
     "y": 3620,
@@ -188,6 +204,8 @@
   },
   {
     "text": "Time of Ice",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 0,
@@ -198,7 +216,7 @@
     "role": "TITLE",
     "name": "title",
     "x": 230,
-    "y": 245,
+    "y": 268,
     "width": 2000,
     "height": 162,
     "alpha": 1.0,
@@ -206,6 +224,8 @@
   },
   {
     "text": "Enchantment - Saga",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 0,
@@ -216,7 +236,7 @@
     "role": "TYPE_LINE",
     "name": "type_line",
     "x": 225,
-    "y": 3600,
+    "y": 3631,
     "width": 2000,
     "height": 200,
     "alpha": 1.0,
@@ -224,6 +244,8 @@
   },
   {
     "text": "(As this Saga enters and after your draw step, add a lore Counter. Sacrifice after III.)",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 133.0,
     "color": {
       "R": 0,
@@ -253,6 +275,7 @@
   {
     "path": "Frames/saga/I.webp",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "I.webp",
     "x": 75,
     "y": 1480,
@@ -295,6 +318,8 @@
   },
   {
     "text": "You may draw a card for each artifact you control. If you do, each opponent draws a card.",
+    "flavor": "",
+    "flavorOffsetY": 0,
     "size": 130.0,
     "color": {
       "R": 0,
@@ -314,6 +339,7 @@
   {
     "path": "Frames/saga/II.webp",
     "adaptedLegendaryFrame": false,
+    "alphalayout": false,
     "name": "II.webp",
     "x": 85,
     "y": 2115,
