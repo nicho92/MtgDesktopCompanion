@@ -12,6 +12,7 @@ public enum FrameType {
     SETICON,
     TRANSFORM_ICON,
     LOYALTY_BASE,
-    LOYALTY_MODIFIER
+    LOYALTY_MODIFIER,
+    BORDERED_FRAME
     
 }

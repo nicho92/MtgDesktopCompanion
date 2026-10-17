@@ -1,0 +1,137 @@
+[
+  {
+    "url": "https://cards.scryfall.io/art/front/4/d/4dd995aa-6aa1-495e-8d00-37fdbdbdbc7b.webp?1783919368",
+    "fadeSize": 0.0,
+    "fadeStrength": 1.0,
+    "name": "Illustration",
+    "x": 190,
+    "y": 380,
+    "width": 2616,
+    "height": 1910,
+    "alpha": 1.0,
+    "layerType": "IllustrationLayer"
+  },
+  {
+    "path": "Frames/old_frames/U.webp",
+    "frameType": "BORDERED_FRAME",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "U.webp",
+    "x": 0,
+    "y": 0,
+    "width": 2990,
+    "height": 4130,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "CounterSpell",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 133.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "OLD",
+    "name": "NAME",
+    "x": 320,
+    "y": 194,
+    "width": 2200,
+    "height": 174,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "CounterSpell",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 133.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "OLD",
+    "name": "NAME",
+    "x": 315,
+    "y": 201,
+    "width": 2200,
+    "height": 174,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Instant",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 133.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "OLD",
+    "name": "TYPES",
+    "x": 345,
+    "y": 2295,
+    "width": 2200,
+    "height": 174,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Instant",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 133.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "OLD",
+    "name": "TYPES",
+    "x": 335,
+    "y": 2296,
+    "width": 2200,
+    "height": 174,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Counter target spell.",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 133.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "name": "TEXT",
+    "x": 380,
+    "y": 2515,
+    "width": 2300,
+    "height": 1000,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "cost": "{U}{U}",
+    "name": "Symbol {U}{U}",
+    "x": 2460,
+    "y": 200,
+    "width": 260,
+    "height": 130,
+    "alpha": 1.0,
+    "layerType": "ManaLayer"
+  }
+]

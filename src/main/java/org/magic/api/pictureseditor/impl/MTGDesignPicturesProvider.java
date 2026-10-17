@@ -267,7 +267,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 			return "token";
 		}
 
-		if (mc.getFrameEffects().contains(EnumFrameEffects.PROMO))
+		if (mc.isPromoCard())
 			return "mgdpromo";
 
 		mc.setLayout(EnumLayout.MODAL_DFC);

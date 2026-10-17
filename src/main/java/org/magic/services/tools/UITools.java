@@ -153,7 +153,8 @@ public class UITools {
 	            "/fonts/MatrixBold.ttf",
 	            "/fonts/mplantin.ttf",
 	            "/fonts/MPlantin-Italic.ttf",
-	            "/fonts/NDPMTG.ttf"
+	            "/fonts/NDPMTG.ttf",
+	            "/fonts/Goudy Mediaeval Regular.ttf"
 	        );
 
 	        var ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

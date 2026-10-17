@@ -96,7 +96,7 @@ public class ImageTools {
 	        return out;
 	    }
 	    
-	
+	   
 	
 	public static ImageIcon addOutline(ImageIcon sourceIcon, Color outlineColor, int thickness) {
 

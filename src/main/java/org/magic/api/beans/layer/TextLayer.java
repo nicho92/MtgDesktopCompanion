@@ -149,11 +149,11 @@ public class TextLayer extends AbstractLayer {
             zoneGraphics.setColor(color);
             zoneGraphics.setFont(layout.font());
 
-            float baseline = getY() + layout.lineHeight();
+            float baseline = getY() + layout.ascent();
             baseline = drawLines(zoneGraphics, layout.lines(), baseline, layout.lineHeight());
 
             if (!layout.flavorLines().isEmpty()) {
-                float flavorBaseline = getY() + getHeight() - layout.flavorHeight() + layout.lineHeight();
+                float flavorBaseline = getY() + getHeight() - layout.flavorHeight() + layout.ascent();
                 flavorBaseline += flavorOffsetY;
                 drawLines(zoneGraphics, layout.flavorLines(), flavorBaseline, layout.lineHeight());
             }
@@ -206,9 +206,11 @@ public class TextLayer extends AbstractLayer {
         for (var line : flavorLines) {
             maxWidth = Math.max(maxWidth, line.getAdvance());
         }
-        var lineHeight = font.getLineMetrics("Ag", FRC).getHeight();
+        
+        var metrics = font.getLineMetrics("Ag", FRC);
+        var lineHeight = metrics.getHeight();
         var gap = (lines.isEmpty() || flavorLines.isEmpty()) ? 0f : lineHeight * FLAVOR_GAP_RATIO;
-        return new TextLayoutData(font, lines, flavorLines, lineHeight, gap, maxWidth);
+        return new TextLayoutData(font, lines, flavorLines, metrics.getAscent(), lineHeight, gap, maxWidth);
     }
 
     private void addParagraphs(String content, Font font, List<TextLayout> target, boolean reminderStyle) {
@@ -313,14 +315,13 @@ public class TextLayer extends AbstractLayer {
         return dimension;
     }
 
-    private record TextLayoutData(Font font, List<TextLayout> lines, List<TextLayout> flavorLines,
-            float lineHeight, float gap, float maxWidth) {
-        float flavorHeight() {
-            return flavorLines.size() * lineHeight;
-        }
+    private record TextLayoutData(Font font, List<TextLayout> lines, List<TextLayout> flavorLines,float ascent, float lineHeight, float gap, float maxWidth) {
+	 float flavorHeight() {
+	        return flavorLines.size() * lineHeight;
+	    }
 
-        float height() {
-            return (lines.size() + flavorLines.size()) * lineHeight + gap;
-        }
+	    float height() {
+	        return (lines.size() + flavorLines.size()) * lineHeight + gap;
+	    }
     }
 }

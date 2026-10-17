@@ -14,6 +14,8 @@ public abstract class AbstractLayer implements Layer {
     private int height;
     private float alpha =1f;
     private String layerType = this.getClass().getSimpleName();
+
+    
     
     @Override
     public String getLayerType() {

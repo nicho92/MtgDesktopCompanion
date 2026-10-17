@@ -179,7 +179,7 @@
     "layerType": "TextLayer"
   },
   {
-    "text": "Land",
+    "text": "Legendary Land",
     "flavor": "",
     "flavorOffsetY": 0,
     "size": 124.0,
@@ -191,8 +191,8 @@
     },
     "role": "TYPE_LINE",
     "name": "TYPES",
-    "x": 1365,
-    "y": 2390,
+    "x": 1040,
+    "y": 2385,
     "width": 950,
     "height": 157,
     "alpha": 1.0,

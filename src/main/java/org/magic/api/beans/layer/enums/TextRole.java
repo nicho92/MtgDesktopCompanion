@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 public enum TextRole {
 
     TITLE (134,"Beleren Bold",SwingConstants.LEFT, Font.PLAIN),
+    OLD (134,"Goudy Mediaeval", SwingConstants.LEFT, Font.PLAIN),
     TYPE_LINE (130,"Beleren Bold",SwingConstants.LEFT,Font.PLAIN),
     TEXT (128,"MPlantin",SwingConstants.LEFT,Font.PLAIN),
     REMINDER(128,"MPlantin-Italic",SwingConstants.LEFT,Font.ITALIC),

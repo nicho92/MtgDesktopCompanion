@@ -56,27 +56,8 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	
 	canvas.clear();
 	mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
-	var layout="Normal";
-
-	if(mc.isExtendedArt())
-	    layout="Extended";
-	else if(mc.isSaga())
-	    layout="Saga"; 
-	else if(mc.isPlaneswalker())
-	{
-	    layout="Planeswalker";
-	    if(OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities().size()>3)
-		layout="Planeswalker-4";
-	    
-	}
-	else if(mc.isBorderLess())
-	    layout="Borderless"; 
-	else if(mc.isDoubleFaced())
-	    layout="Transform";
 	
-	if(mc.isLegendary() && !mc.isPlaneswalker() && !mc.isDoubleFaced())
-	    layout+="-legendary";
-	
+	var layout=findLayout(mc);
 
 	var json = URLTools.toJson(getClass().getResourceAsStream("/composer-layouts/"+layout+".json"));
 	var layers = new JsonExport().fromJsonList(json.toString(),Layer.class);
@@ -271,6 +252,46 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
     }
 
    
+
+    private String findLayout(MTGCard mc) {
+	var layout="Normal";
+
+	if(mc.isExtendedArt())
+	    layout="Extended";
+	else if(mc.isSaga())
+	    layout="Saga"; 
+	else if(mc.isPlaneswalker())
+	{
+	    layout="Planeswalker";
+	    if(OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities().size()>3)
+		layout="Planeswalker-4";
+	    
+	}
+	else if(mc.isBorderLess())
+	    layout="Borderless"; 
+	
+	if(mc.isLegendary() && !mc.isPlaneswalker())
+	    layout+="-legendary";
+	
+	
+	if(mc.isRetro())
+	    layout="old";
+	
+	if(mc.isDoubleFaced())
+	{
+	    layout="Transform";
+	    
+	    if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC) && mc.getSide().equals("b"))
+		layout="Ixalan";
+	}
+	
+	
+	
+	
+	logger.info("loading layout {}",layout);
+	
+	return layout;
+    }
 
     @Override
     public MOD getMode() {

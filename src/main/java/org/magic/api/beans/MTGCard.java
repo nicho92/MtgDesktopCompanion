@@ -530,7 +530,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isBorderLess() {
-		return border == EnumBorders.BORDERLESS || frameEffects.contains(EnumFrameEffects.BORDERLESS);
+		return border == EnumBorders.BORDERLESS ;
 	}
 
 	public boolean isColorless() {
@@ -555,8 +555,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isDoubleFaced() {
-		return getLayout() == EnumLayout.MELD || getLayout() == EnumLayout.TRANSFORM
-				|| getLayout() == EnumLayout.MODAL_DFC;
+		return getLayout() == EnumLayout.MELD || getLayout() == EnumLayout.TRANSFORM || getLayout() == EnumLayout.MODAL_DFC ||  getLayout()==EnumLayout.DOUBLE_SIDED;
 	}
 
 	public boolean isEmblem() {

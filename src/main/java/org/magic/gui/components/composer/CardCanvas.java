@@ -15,6 +15,8 @@ import java.util.Map;
 
 import javax.swing.JPanel;
 
+import org.magic.api.beans.layer.FrameLayer;
+import org.magic.api.beans.layer.enums.FrameType;
 import org.magic.api.interfaces.extra.Layer;
 import org.magic.gui.components.composer.listeners.LayerChangeListener;
 import org.magic.gui.components.composer.listeners.LayerSelectionListener;
@@ -246,7 +248,7 @@ public class CardCanvas extends JPanel {
 	            .mapToInt(Layer::getY)
 	            .min()
 	            .orElse(0);
-//
+
 //	    int maxX = getLayers().stream()
 //	            .mapToInt(layer -> layer.getX() + layer.getWidth())
 //	            .max()
@@ -256,11 +258,18 @@ public class CardCanvas extends JPanel {
 //	            .mapToInt(layer -> layer.getY() + layer.getHeight())
 //	            .max()
 //	            .orElse(0);
+//	    
+	var opt = getLayers().stream().filter(b->b.getLayerType().equals("BorderLayer")).findFirst();
+	
+	Layer l = null;
+	
+	if(opt.isPresent())
+	    l = opt.get();
+	else
+	    l = getLayers().stream().filter(b->b.getLayerType().equals("FrameLayer")).map(FrameLayer.class::cast).filter(fl->fl.getFrameType()==FrameType.BORDERED_FRAME).findFirst().get();
 
-	    var l = getLayers().stream().filter(b->b.getLayerType().equals("BorderLayer")).findFirst().get();
-
-	    var width=l.getWidth();
-	    var height=l.getHeight();
+	var width=l.getWidth();
+	var height=l.getHeight();
 	    
 	var awtImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 	var g = awtImage.createGraphics();
