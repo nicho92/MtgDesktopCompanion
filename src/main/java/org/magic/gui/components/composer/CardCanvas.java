@@ -37,8 +37,9 @@ public class CardCanvas extends JPanel {
 
 	setBackground(Color.LIGHT_GRAY);
 	hints = new RenderingHints(Map.of(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON,
-							    RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED, 
+							    RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY, 
 							    RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, 
+							    RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
 							    RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC));
 		 
 	

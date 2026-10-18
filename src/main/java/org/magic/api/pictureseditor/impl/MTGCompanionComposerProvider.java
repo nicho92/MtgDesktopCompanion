@@ -78,7 +78,17 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    tl.setText(mc.getFullType());
 
 		if(tl.getName().equals("ARTIST"))
-		    tl.setText(mc.getArtist());
+		{
+		    if(mc.isRetro())
+		    {
+			tl.setText("Illus. "+ mc.getArtist());
+		    }
+		    else
+		    {
+			tl.setText(mc.getArtist());
+		    }
+		    
+		}
 
 		if(tl.getName().equals("TEXT")) {
 		    tl.setText(mc.getText());

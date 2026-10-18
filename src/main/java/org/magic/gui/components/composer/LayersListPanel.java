@@ -57,7 +57,7 @@ public class LayersListPanel extends JPanel {
 
 	add(new JScrollPane(list), BorderLayout.CENTER);
 
-	JPanel buttons = new JPanel();
+	var buttons = new JPanel();
 
 	var upButton = new JButton(MTGConstants.ICON_UP);
 	var downButton = new JButton(MTGConstants.ICON_DOWN);
