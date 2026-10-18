@@ -113,8 +113,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		{
 		    if(mc.isVehicule())
 			tl.setColor(Color.WHITE);
-		    else
-			tl.setColor(Color.BLACK);
 		    
 		    if(mc.isCreature())
 			tl.setText(mc.getPower() +"/"+mc.getToughness());

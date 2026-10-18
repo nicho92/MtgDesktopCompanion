@@ -2,16 +2,12 @@ package org.magic.api.beans.layer.enums;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.font.TextAttribute;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.SwingConstants;
 
 public enum TextRole {
 
     TITLE (134,"Beleren Bold",SwingConstants.LEFT, Font.PLAIN),
-    OLD (134,"Goudy Mediaeval", SwingConstants.LEFT, Font.PLAIN),
     TYPE_LINE (130,"Beleren Bold",SwingConstants.LEFT,Font.PLAIN),
     TEXT (128,"MPlantin",SwingConstants.LEFT,Font.PLAIN),
     REMINDER(128,"MPlantin-Italic",SwingConstants.LEFT,Font.ITALIC),
@@ -21,8 +17,9 @@ public enum TextRole {
     ARTIST (128,"Beleren Small Caps",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
     COPYRIGHT (128,"MPlantin",SwingConstants.RIGHT,Font.PLAIN,Color.WHITE),
     
-    OLD_ARTIST (128,"Goudy Mediaeval",SwingConstants.CENTER,Font.PLAIN,Color.WHITE),
-    OLD_COPYRIGHT (128,"Goudy Mediaeval",SwingConstants.CENTER,Font.PLAIN,Color.WHITE),
+    OLD_ALIGN_CENTER(128,"Goudy Mediaeval",SwingConstants.CENTER,Font.PLAIN,Color.WHITE),
+    OLD_ALIGN_LEFT(134,"Goudy Mediaeval", SwingConstants.LEFT, Font.PLAIN),
+    
     
     COLLECTOR_INFO (128,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
     SET_AND_LANG (128,"GothamPro-Medium",SwingConstants.LEFT,Font.PLAIN,Color.WHITE),
