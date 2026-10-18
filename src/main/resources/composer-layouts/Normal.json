@@ -77,6 +77,7 @@
       "A": 255
     },
     "role": "TITLE",
+    "spaceTracking": 0.0,
     "name": "NAME",
     "x": 243,
     "y": 239,
@@ -122,6 +123,7 @@
       "A": 255
     },
     "role": "POWER_TOUGHNESS",
+    "spaceTracking": 0.0,
     "name": "PT_TEXT",
     "x": 2435,
     "y": 3753,
@@ -142,6 +144,7 @@
       "A": 255
     },
     "role": "COLLECTOR_INFO",
+    "spaceTracking": 0.0,
     "name": "RARITY_PRINTNUMBER",
     "x": 185,
     "y": 3930,
@@ -162,6 +165,7 @@
       "A": 255
     },
     "role": "SET_AND_LANG",
+    "spaceTracking": 0.0,
     "name": "SET_LANG",
     "x": 185,
     "y": 4010,
@@ -182,6 +186,7 @@
       "A": 255
     },
     "role": "SEPARATOR",
+    "spaceTracking": 0.0,
     "name": "SEPARATOR",
     "x": 473,
     "y": 4000,
@@ -202,6 +207,7 @@
       "A": 255
     },
     "role": "TYPE_LINE",
+    "spaceTracking": 0.0,
     "name": "TYPES",
     "x": 226,
     "y": 2402,
@@ -222,6 +228,7 @@
       "A": 255
     },
     "role": "ARTIST",
+    "spaceTracking": 0.0,
     "name": "ARTIST",
     "x": 590,
     "y": 3985,
@@ -242,6 +249,7 @@
       "A": 255
     },
     "role": "COPYRIGHT",
+    "spaceTracking": 0.0,
     "name": "COPYRIGHT",
     "x": 1950,
     "y": 3965,
@@ -262,6 +270,7 @@
       "A": 255
     },
     "role": "TEXT",
+    "spaceTracking": 0.0,
     "name": "TEXT",
     "x": 242,
     "y": 2665,

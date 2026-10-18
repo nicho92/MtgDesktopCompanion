@@ -45,12 +45,12 @@ public class RenderingHintsDialog extends JDialog {
 
     private void buildUI(RenderingHints initialHints) {
 
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        var mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JPanel hintsPanel = new JPanel(new GridBagLayout());
+        var hintsPanel = new JPanel(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        var gbc = new GridBagConstraints();
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;

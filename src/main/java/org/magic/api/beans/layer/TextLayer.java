@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.text.AttributedString;
 import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -41,22 +42,21 @@ public class TextLayer extends AbstractLayer {
     private float size;
     private Color color;
     private TextRole role;
-
+    private double spaceTracking;
     
     public TextLayer() {
 	this.flavor="";
 	flavorOffsetY=0;
+	spaceTracking=0f;
     }
     
 
     public TextLayer(String text, TextRole role) {
 	this();
-	this.flavor="";
         this.role = role;
         this.text = text == null ? "" : text;
         this.color = role.getColor();
         this.size = role.getFont().getSize2D();
-       
         
         setName(role.name().toLowerCase());
 
@@ -72,6 +72,14 @@ public class TextLayer extends AbstractLayer {
             setWidth( Math.max(1, (int) Math.ceil(getFont().getStringBounds(this.text, FRC).getWidth())));
             setHeight(Math.max(1, (int) Math.ceil(metrics.getHeight())));
         }
+    }
+    
+    public double getSpaceTracking() {
+	return spaceTracking;
+    }
+    
+    public void setSpaceTracking(double spaceTracking) {
+	this.spaceTracking = spaceTracking;
     }
 
 
@@ -112,8 +120,17 @@ public class TextLayer extends AbstractLayer {
     public void setFlavorOffsetY(int flavorOffsetY) {
         this.flavorOffsetY = flavorOffsetY;
     }
-
+    
     public Font getFont() {
+	
+	if(spaceTracking>0)
+	{
+	    var attrs = new HashMap<TextAttribute, Object>();
+		attrs.put(TextAttribute.TRACKING,  spaceTracking);         
+		attrs.put(TextAttribute.KERNING, TextAttribute.KERNING_ON);
+		return role.getFont().deriveFont(attrs).deriveFont(size);
+	}
+	
         return role.getFont().deriveFont(size);
     }
 
@@ -178,14 +195,14 @@ public class TextLayer extends AbstractLayer {
 
     private TextLayoutData layoutText() {
         for (float candidateSize = size; candidateSize >= MIN_FONT_SIZE; candidateSize -= 0.5f) {
-            var font = role.getFont().deriveFont(candidateSize);
+            var font = getFont().deriveFont(candidateSize);
             var layout = createLayout(font);
             
             if (layout.height() <= getHeight() && layout.maxWidth() <= getWidth()) {
                 return layout;
             }
         }
-        return createLayout(role.getFont().deriveFont(MIN_FONT_SIZE));
+        return createLayout(getFont().deriveFont(MIN_FONT_SIZE));
     }
 
     private TextLayoutData createLayout(Font font) {

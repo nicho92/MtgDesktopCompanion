@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTree;
+import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -30,6 +32,9 @@ import org.magic.api.beans.layer.TextLayer;
 import org.magic.api.beans.layer.enums.BorderColor;
 import org.magic.api.beans.layer.enums.ShapeType;
 import org.magic.api.beans.layer.enums.TextRole;
+import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.extra.Layer;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.RenderingHintsDialog;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
@@ -37,6 +42,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 
 public class MtgCardComposer extends MTGUIComponent {
@@ -45,10 +52,12 @@ public class MtgCardComposer extends MTGUIComponent {
      */
     private static final long serialVersionUID = 1L;
     private final JTree tree;
-    private final CardCanvas imageCanvas;
+    private final CardCanvas canvas;
     private final LayersListPanel layerList;
     private final LayerDetailPanel inspector;
     private JSlider sldZoom;
+    private AbstractBuzyIndicatorComponent buzy;
+    public static File currentFile = MTGConstants.DATA_DIR;
 
 
     public MtgCardComposer() {
@@ -107,24 +116,24 @@ public class MtgCardComposer extends MTGUIComponent {
 	    return new DefaultTreeCellRenderer().getTreeCellRendererComponent(t, text, selected, expanded, leaf, row, hasFocus);
 	});
 
-	imageCanvas = new CardCanvas();
+	canvas = new CardCanvas();
 
 	layerList = new LayersListPanel();
-	layerList.setCanvas(imageCanvas);
+	layerList.setCanvas(canvas);
 
 	inspector = new LayerDetailPanel();
-	inspector.setLayerChangeListener(_ -> imageCanvas.repaint());
+	inspector.setLayerChangeListener(_ -> canvas.repaint());
 
 
-	imageCanvas.setLayerChangeListener(layer-> inspector.refresh(layer));
+	canvas.setLayerChangeListener(layer-> inspector.refresh(layer));
 
 
 	var leftPanel = new LeftPanel(tree, layerList,inspector);
 
 	add(leftPanel, BorderLayout.WEST);
-	add(new JScrollPane(imageCanvas), BorderLayout.CENTER);
+	add(new JScrollPane(canvas), BorderLayout.CENTER);
 
-	imageCanvas.setLayerSelectionListener(layer -> {
+	canvas.setLayerSelectionListener(layer -> {
 	    layerList.selectLayer(layer);
 	});
 
@@ -133,30 +142,120 @@ public class MtgCardComposer extends MTGUIComponent {
 	sldZoom.setMinorTickSpacing(1);
 	sldZoom.setPaintTicks(true);
 	sldZoom.setPaintLabels(true);
-	sldZoom.addChangeListener(_->imageCanvas.setZoom((double)sldZoom.getValue()/100));
+	sldZoom.addChangeListener(_->canvas.setZoom((double)sldZoom.getValue()/100));
 
 	sldZoom.setValue(20);
 
 
-	var btnRender = new JButton("Render Config");
+	var btnRender = new JButton(MTGConstants.ICON_TAB_ADMIN);
+	var saveButton = new JButton(MTGConstants.ICON_SMALL_SAVE);
+	var newButton = new JButton(MTGConstants.ICON_SMALL_NEW);
+	var openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
+	var exportButton = new JButton(MTGConstants.ICON_SMALL_EXPORT);
+	buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+	
+	add(UITools.createFlowPanel(newButton,openButton,saveButton,exportButton,btnRender,buzy),BorderLayout.NORTH);
 
+	
+	
 	var paneSouth = new JPanel();
 	paneSouth.setLayout(new BorderLayout());
 	paneSouth.add(sldZoom,BorderLayout.CENTER);
-	paneSouth.add(btnRender,BorderLayout.EAST);
 
 	add(paneSouth, BorderLayout.SOUTH);
-
-
+	
 	btnRender.addActionListener(_->{
 
-	    var diag = new RenderingHintsDialog(null,imageCanvas.getHints());
+	    var diag = new RenderingHintsDialog(null,canvas.getHints());
 	    diag.setVisible(true);
 	    var res = diag.getRenderingHints();
 	    if(res!=null)
-		imageCanvas.setHints(res);
+		canvas.setHints(res);
+	});
+	
+	
+	saveButton.addActionListener(_ -> {
+
+	    var chose = new JFileChooser(currentFile);
+	    chose.showSaveDialog(this);
+	    
+	    if(chose.getSelectedFile()==null)
+		return;
+	    
+	    
+	    try {
+		var s = new JsonExport().toJson(canvas.getLayers());
+		FileTools.saveFile(chose.getSelectedFile(), s);
+		currentFile = chose.getSelectedFile();
+		logger.info("{} saved",currentFile);
+	    } catch (IOException e) {
+		MTGControler.getInstance().notify(e);
+	    }
 	});
 
+	exportButton.addActionListener(_ -> {
+
+	    var chose = new JFileChooser();
+	    chose.showSaveDialog(this);
+
+	    try {
+		ImageTools.saveImageInPng(canvas.getCardImage(), chose.getSelectedFile());
+	    } catch (IOException e) {
+		MTGControler.getInstance().notify(e);
+	    }
+	});
+	newButton.addActionListener(_->{
+	    
+	    layerList.setLayers(null);
+	    	canvas.clear();
+		
+	    
+	});
+	
+	
+	openButton.addActionListener(_ -> {
+	    var chose = new JFileChooser(currentFile);
+	    chose.showOpenDialog(this);
+	    
+	    
+	    if(chose.getSelectedFile()==null)
+		return;
+	    
+	    buzy.start();
+	    
+	    try {
+		currentFile = chose.getSelectedFile();
+		var s = FileTools.readFile(chose.getSelectedFile());
+		var layers = new JsonExport().fromJsonList(s, Layer.class);
+		
+		
+		var sw = new SwingWorker<Void, Void>() {
+
+		    @Override
+		    protected Void doInBackground() throws Exception {
+			layers.forEach(Layer::reload);
+			return null;
+		    }
+		    @Override
+		    protected void done() {
+			canvas.clear();
+			layerList.setLayers(layers);
+			layers.forEach(canvas::addLayer);
+			buzy.end();
+		    }
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw,"loading layers");
+		
+		
+		
+			
+	    } catch (IOException e) {
+		logger.error(e);
+	    }
+	});
+
+	
 
 	layerList.getList().addListSelectionListener(e -> {
 
@@ -164,7 +263,7 @@ public class MtgCardComposer extends MTGUIComponent {
 		return;
 	    }
 	    var layer = layerList.getSelectedLayer();
-	    imageCanvas.selectLayer(layer);
+	    canvas.selectLayer(layer);
 	});
 
 	tree.addMouseListener(new MouseAdapter() {
@@ -187,14 +286,14 @@ public class MtgCardComposer extends MTGUIComponent {
 
 		if (object instanceof File file && isImageFile(file))
 		{
-		    imageCanvas.addLayer(new FrameLayer(file));
+		    canvas.addLayer(new FrameLayer(file));
 		}
 		else if (object instanceof ShapeType shape) {
 		    
 		    var flayer = new ShapeLayer();
 		    flayer.setShape(shape);
 		    flayer.setName(shape.name());
-		    imageCanvas.addLayer(flayer);
+		    canvas.addLayer(flayer);
 		    
 		    
 		}
@@ -206,7 +305,7 @@ public class MtgCardComposer extends MTGUIComponent {
 		    dialog.setVisible(true);
 
 		    if(dialog.isConfirmed())
-			imageCanvas.addLayer(flayer);
+			canvas.addLayer(flayer);
 		} 
 		else if (object instanceof BorderColor c) {
 
@@ -223,14 +322,14 @@ public class MtgCardComposer extends MTGUIComponent {
 			border.reload();
 			border.fitImage();
 		    }
-		    imageCanvas.addLayer(border);
+		    canvas.addLayer(border);
 		}
 		else if (object.toString().equals("URL"))
 		{
 
 		    var url = JOptionPane.showInputDialog("URL ?");
 		    try {
-			imageCanvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
+			canvas.addLayer(new IllustrationLayer(URI.create(url).toURL()));
 		    } catch (MalformedURLException e1) {
 			logger.error(e1);
 		    }
@@ -239,7 +338,7 @@ public class MtgCardComposer extends MTGUIComponent {
 		else if (object.toString().equals("File"))
 		{
 
-		   var f = new JFileChooser(LayersListPanel.currentFile);
+		   var f = new JFileChooser(currentFile);
 		   f.showOpenDialog(MtgCardComposer.this);
 		   var file = f.getSelectedFile();
 		   
@@ -247,7 +346,7 @@ public class MtgCardComposer extends MTGUIComponent {
 		       return;
 		   
 		    try {
-			imageCanvas.addLayer(new IllustrationLayer(file.toURI().toURL()));
+			canvas.addLayer(new IllustrationLayer(file.toURI().toURL()));
 		    } catch (MalformedURLException e1) {
 			logger.error(e1);
 		    }
@@ -262,13 +361,13 @@ public class MtgCardComposer extends MTGUIComponent {
 			protected void auditedRun() {
 			    var diag = new ManaCostDialog();
 			    diag.setVisible(true);
-			    imageCanvas.addLayer(new ManaLayer( diag.getSelectedItem()));
+			    canvas.addLayer(new ManaLayer( diag.getSelectedItem()));
 
 			}
 		    },"run mana dialog");
 
 		}
-		layerList.setLayers(imageCanvas.getLayers());
+		layerList.setLayers(canvas.getLayers());
 	    }
 	});
     }

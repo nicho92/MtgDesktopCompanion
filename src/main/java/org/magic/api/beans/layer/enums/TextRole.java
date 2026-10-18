@@ -2,6 +2,9 @@ package org.magic.api.beans.layer.enums;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.font.TextAttribute;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.SwingConstants;
 
@@ -58,5 +61,7 @@ public enum TextRole {
     public Font getFont() {
 	return new Font(fontname, style, size);
     }
-
+    
+  
+    
 }

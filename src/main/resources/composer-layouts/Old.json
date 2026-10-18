@@ -1,23 +1,11 @@
 [
   {
-    "url": "https://cards.scryfall.io/art/front/4/d/4dd995aa-6aa1-495e-8d00-37fdbdbdbc7b.webp?1783919368",
-    "fadeSize": 0.0,
-    "fadeStrength": 1.0,
-    "name": "Illustration",
-    "x": 190,
-    "y": 380,
-    "width": 2616,
-    "height": 1910,
-    "alpha": 1.0,
-    "layerType": "IllustrationLayer"
-  },
-  {
     "path": "Frames/old_frames/U.webp",
     "frameType": "BORDERED_FRAME",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
     "name": "U.webp",
-    "x": 0,
+    "x": 5,
     "y": 0,
     "width": 2990,
     "height": 4130,
@@ -25,7 +13,7 @@
     "layerType": "FrameLayer"
   },
   {
-    "text": "CounterSpell",
+    "text": "Counterspell",
     "flavor": "",
     "flavorOffsetY": 0,
     "size": 133.0,
@@ -36,6 +24,7 @@
       "A": 255
     },
     "role": "OLD",
+    "spaceTracking": 0.05,
     "name": "NAME",
     "x": 320,
     "y": 194,
@@ -45,7 +34,7 @@
     "layerType": "TextLayer"
   },
   {
-    "text": "CounterSpell",
+    "text": "Counterspell",
     "flavor": "",
     "flavorOffsetY": 0,
     "size": 133.0,
@@ -56,9 +45,10 @@
       "A": 255
     },
     "role": "OLD",
+    "spaceTracking": 0.05,
     "name": "NAME",
-    "x": 315,
-    "y": 201,
+    "x": 314,
+    "y": 193,
     "width": 2200,
     "height": 174,
     "alpha": 1.0,
@@ -76,6 +66,7 @@
       "A": 255
     },
     "role": "OLD",
+    "spaceTracking": 0.05,
     "name": "TYPES",
     "x": 345,
     "y": 2295,
@@ -96,6 +87,7 @@
       "A": 255
     },
     "role": "OLD",
+    "spaceTracking": 0.05,
     "name": "TYPES",
     "x": 335,
     "y": 2296,
@@ -106,7 +98,7 @@
   },
   {
     "text": "Counter target spell.",
-    "flavor": "",
+    "flavor": "“It was probably a lousy spell in the first place.”\n—Ertai, wizard adept",
     "flavorOffsetY": 0,
     "size": 133.0,
     "color": {
@@ -116,6 +108,7 @@
       "A": 255
     },
     "role": "TEXT",
+    "spaceTracking": 0.0,
     "name": "TEXT",
     "x": 380,
     "y": 2515,
@@ -146,9 +139,10 @@
       "A": 255
     },
     "role": "OLD_ARTIST",
+    "spaceTracking": 0.0,
     "name": "ARTIST",
     "x": 470,
-    "y": 3715,
+    "y": 3700,
     "width": 2000,
     "height": 166,
     "alpha": 1.0,
@@ -166,9 +160,10 @@
       "A": 255
     },
     "role": "OLD_ARTIST",
+    "spaceTracking": 0.0,
     "name": "ARTIST",
     "x": 465,
-    "y": 3710,
+    "y": 3691,
     "width": 2000,
     "height": 166,
     "alpha": 1.0,
@@ -186,6 +181,7 @@
       "A": 255
     },
     "role": "OLD_COPYRIGHT",
+    "spaceTracking": 0.0,
     "name": "COPYRIGHT",
     "x": 275,
     "y": 3840,
@@ -206,6 +202,7 @@
       "A": 255
     },
     "role": "OLD_COPYRIGHT",
+    "spaceTracking": 0.0,
     "name": "RARITY_PRINTNUMBER",
     "x": 1710,
     "y": 3840,
@@ -213,5 +210,17 @@
     "height": 104,
     "alpha": 1.0,
     "layerType": "TextLayer"
+  },
+  {
+    "url": "https://cards.scryfall.io/art_crop/front/e/8/e8493631-6c9c-40a8-b7de-ecf26ba6bf7d.jpg?1783947861",
+    "fadeSize": 0.0,
+    "fadeStrength": 1.0,
+    "name": "Illustration",
+    "x": 355,
+    "y": 395,
+    "width": 2290,
+    "height": 1860,
+    "alpha": 1.0,
+    "layerType": "IllustrationLayer"
   }
 ]

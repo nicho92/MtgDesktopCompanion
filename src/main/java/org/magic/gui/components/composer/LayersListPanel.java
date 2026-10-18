@@ -5,34 +5,24 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.extra.Layer;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.BeanTools;
-import org.magic.services.tools.FileTools;
-import org.magic.services.tools.ImageTools;
 
 public class LayersListPanel extends JPanel {
 
@@ -43,8 +33,6 @@ public class LayersListPanel extends JPanel {
     private final DefaultListModel<Layer> model;
     private final JList<Layer> list;
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-    private AbstractBuzyIndicatorComponent buzy;
-    public static File currentFile = MTGConstants.DATA_DIR;
     private CardCanvas canvas;
     private JButton copyButton;
 
@@ -52,7 +40,6 @@ public class LayersListPanel extends JPanel {
 
 	setLayout(new BorderLayout());
 
-	buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 	
 	JLabel title = new JLabel("Layers");
 	
@@ -72,29 +59,20 @@ public class LayersListPanel extends JPanel {
 
 	JPanel buttons = new JPanel();
 
-	JButton upButton = new JButton(MTGConstants.ICON_UP);
-	JButton downButton = new JButton(MTGConstants.ICON_DOWN);
-	JButton deleteButton = new JButton(MTGConstants.ICON_SMALL_DELETE);
-	JButton saveButton = new JButton(MTGConstants.ICON_SMALL_SAVE);
-	JButton newButton = new JButton(MTGConstants.ICON_SMALL_NEW);
-	JButton openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
-	JButton exportButton = new JButton(MTGConstants.ICON_SMALL_EXPORT);
+	var upButton = new JButton(MTGConstants.ICON_UP);
+	var downButton = new JButton(MTGConstants.ICON_DOWN);
+	var deleteButton = new JButton(MTGConstants.ICON_SMALL_DELETE);
 	copyButton = new JButton(MTGConstants.ICON_SMALL_COPY);
 	
 	
 	copyButton.setEnabled(false);
 	
-	buttons.setLayout(new GridLayout(0, 3, 0, 0));
+	buttons.setLayout(new GridLayout(0, 4, 0, 0));
 
 	buttons.add(upButton);
 	buttons.add(downButton);
 	buttons.add(deleteButton);
 	buttons.add(copyButton);
-	buttons.add(saveButton);
-	buttons.add(newButton);
-	buttons.add(openButton);
-	buttons.add(exportButton);
-	buttons.add(buzy);
 
 	add(buttons, BorderLayout.SOUTH);
 
@@ -104,42 +82,6 @@ public class LayersListPanel extends JPanel {
 
 	deleteButton.addActionListener(_ -> removeSelected());
 
-	saveButton.addActionListener(_ -> {
-
-	    var chose = new JFileChooser(currentFile);
-	    chose.showSaveDialog(this);
-	    
-	    if(chose.getSelectedFile()==null)
-		return;
-	    
-	    
-	    try {
-		var s = new JsonExport().toJson(canvas.getLayers());
-		FileTools.saveFile(chose.getSelectedFile(), s);
-		currentFile = chose.getSelectedFile();
-	    } catch (IOException e) {
-		MTGControler.getInstance().notify(e);
-	    }
-	});
-
-	exportButton.addActionListener(_ -> {
-
-	    var chose = new JFileChooser();
-	    chose.showSaveDialog(this);
-
-	    try {
-		ImageTools.saveImageInPng(canvas.getCardImage(), chose.getSelectedFile());
-	    } catch (IOException e) {
-		MTGControler.getInstance().notify(e);
-	    }
-	});
-	newButton.addActionListener(_->{
-	    
-	   	setLayers(null);
-	    	canvas.clear();
-		
-	    
-	});
 	
 	copyButton.addActionListener(_->{
 	
@@ -157,48 +99,7 @@ public class LayersListPanel extends JPanel {
 	    
 	});
 	
-	openButton.addActionListener(_ -> {
-	    var chose = new JFileChooser(currentFile);
-	    chose.showOpenDialog(this);
-	    
-	    
-	    if(chose.getSelectedFile()==null)
-		return;
-	    
-	    buzy.start();
-	    
-	    try {
-		currentFile = chose.getSelectedFile();
-		var s = FileTools.readFile(chose.getSelectedFile());
-		var layers = new JsonExport().fromJsonList(s, Layer.class);
-		
-		
-		var sw = new SwingWorker<Void, Void>() {
-
-		    @Override
-		    protected Void doInBackground() throws Exception {
-			layers.forEach(Layer::reload);
-			return null;
-		    }
-		    @Override
-		    protected void done() {
-			canvas.clear();
-			setLayers(layers);
-			layers.forEach(canvas::addLayer);
-			buzy.end();
-		    }
-		};
-		
-		ThreadManager.getInstance().runInEdt(sw,"loading layers");
-		
-		
-		
-			
-	    } catch (IOException e) {
-		logger.error(e);
-	    }
-	});
-
+	
 	list.addMouseListener(new MouseAdapter() {
 
 	    @Override

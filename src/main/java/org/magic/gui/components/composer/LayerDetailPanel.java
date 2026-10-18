@@ -232,11 +232,15 @@ public class LayerDetailPanel extends JPanel {
         propertiesPanel.add(createProperty("Text", new JScrollPane(textArea)));
         propertiesPanel.add(createProperty("Flavor", new JScrollPane(flavorText)));
         
+        var fontSpace = new JSpinner(new SpinnerNumberModel((double) textLayer.getSpaceTracking(), 0.0, 1, 0.01));
+        fontSpace.addChangeListener(_ -> update(() -> textLayer.setSpaceTracking(((Number) fontSpace.getValue()).floatValue())));
+        propertiesPanel.add(createProperty("Space", fontSpace));
         
 
         var fontSize = new JSpinner(new SpinnerNumberModel((double) textLayer.getFont().getSize2D(), 1.0, 500.0, 1.0));
         fontSize.addChangeListener(_ -> update(() -> textLayer.setFontSize(((Number) fontSize.getValue()).floatValue())));
         propertiesPanel.add(createProperty("Size", fontSize));
+        
         propertiesPanel.add(colorProperty("Color", textLayer.getColor(), textLayer::setColor));
     }
 
