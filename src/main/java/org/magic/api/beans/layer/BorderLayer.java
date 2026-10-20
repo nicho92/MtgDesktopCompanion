@@ -29,6 +29,8 @@ public class BorderLayer extends AbstractLayer {
 	setHeight(4180);
 	this.color = c;
 	setName(c.toString());
+	
+	
     }
 
     @Override
@@ -38,15 +40,13 @@ public class BorderLayer extends AbstractLayer {
 
     public void setUri(URI uri) {
 	this.uri = uri;
+	reload();
     }
 
     @Override
     public void paintLayer(Graphics2D g2) {
 
 	var graphics = (Graphics2D) g2.create();
-
-	try {
-
 	    var border = new RoundRectangle2D.Double(
 		    getX(),
 		    getY(),
@@ -85,9 +85,9 @@ public class BorderLayer extends AbstractLayer {
 		 graphics.fill(border);
 	     }
 
-	} finally {
+	
 	    graphics.dispose();
-	}
+	
     }
 
     public BorderColor getColor() {
@@ -107,10 +107,9 @@ public class BorderLayer extends AbstractLayer {
     @Override
     public void reload() {
 	try {
-
 	    if(color==BorderColor.BORDERLESS)
 		this.image = URLTools.extractAsImage(uri.toASCIIString());
-	    
+    
 	} catch (IOException e) {
 	    MTGLogger.getLogger(this.getClass()).error(e);
 	}

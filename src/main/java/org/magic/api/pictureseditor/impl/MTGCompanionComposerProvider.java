@@ -2,12 +2,14 @@ package org.magic.api.pictureseditor.impl;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.ast.engine.OracleParser;
 import org.magic.api.beans.MTGCard;
@@ -35,6 +37,7 @@ import org.magic.services.tools.UITools;
 public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider {
 
     private CardCanvas canvas;
+    private String forceTemplate;
      
     
     @Override
@@ -80,14 +83,9 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		if(tl.getName().equals("ARTIST"))
 		{
 		    if(mc.isRetro())
-		    {
 			tl.setText("Illus. "+ mc.getArtist());
-		    }
 		    else
-		    {
 			tl.setText(mc.getArtist());
-		    }
-		    
 		}
 
 		if(tl.getName().equals("TEXT")) {
@@ -106,8 +104,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			tl.setText("");
 		    }
 		}
-		
-		
 		
 		if(tl.getName().equals("PT_TEXT"))
 		{
@@ -134,7 +130,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    {
 		bl.setColor(BorderColor.valueOf(mc.getBorder().name()).getColor());
 		
-		if(mc.isBorderLess())
+		if(bl.getColor()==BorderColor.BORDERLESS)
 		{
 		    bl.setUri(URI.create(mc.getUrl()));
 		    bl.reload();
@@ -259,9 +255,19 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	return ImageTools.resize(canvas.getCardImage(),1039,744);
     }
 
-   
+
+    public void setTemplate(File currentFile) {
+	forceTemplate = FilenameUtils.getBaseName(currentFile.getAbsolutePath());
+	
+    }
+
 
     private String findLayout(MTGCard mc) {
+	
+	if(forceTemplate!=null)
+	    return forceTemplate;
+	
+	
 	var layout="Normal";
 
 	if(mc.isExtendedArt())
@@ -292,9 +298,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC) && mc.getSide().equals("b"))
 		layout="Ixalan";
 	}
-	
-	
-	
 	
 	logger.info("loading layout {}",layout);
 	

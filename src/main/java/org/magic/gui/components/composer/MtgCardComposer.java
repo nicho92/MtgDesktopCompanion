@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -34,9 +36,13 @@ import org.magic.api.beans.layer.enums.ShapeType;
 import org.magic.api.beans.layer.enums.TextRole;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.extra.Layer;
+import org.magic.api.pictures.impl.ScryFallPicturesProvider;
+import org.magic.api.pictureseditor.impl.MTGCompanionComposerProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.ImagePanel2;
 import org.magic.gui.components.dialog.RenderingHintsDialog;
+import org.magic.gui.components.dialog.importer.CardImporterDialog;
 import org.magic.gui.components.dialog.importer.ManaCostDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -58,14 +64,25 @@ public class MtgCardComposer extends MTGUIComponent {
     private JSlider sldZoom;
     private AbstractBuzyIndicatorComponent buzy;
     public static File currentFile = MTGConstants.DATA_DIR;
-
+    ImagePanel2 paneRendering ;
 
     public MtgCardComposer() {
 	setPreferredSize(new Dimension(1200, 900));
 	UITools.loadFonts();
 	MTGControler.getInstance().downloadComposerDatas();
 	setLayout(new BorderLayout());
-
+	
+	
+	paneRendering = new ImagePanel2(false, false, true, false);
+	paneRendering.setPreferredSize(new Dimension(400,900));
+	    
+	
+	paneRendering.setVisible(false);
+	
+	
+	
+	add(paneRendering,BorderLayout.EAST);
+	
 	var rootNode = initTree(MTGConstants.MTG_COMPOSER_DIR);
 
 	var rootColors = new DefaultMutableTreeNode("Borders");
@@ -152,9 +169,12 @@ public class MtgCardComposer extends MTGUIComponent {
 	var newButton = new JButton(MTGConstants.ICON_SMALL_NEW);
 	var openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
 	var exportButton = new JButton(MTGConstants.ICON_SMALL_EXPORT);
+	var renderCardButton = new JButton(MTGConstants.ICON_TAB_CARD);
+	
+	
 	buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 	
-	add(UITools.createFlowPanel(newButton,openButton,saveButton,exportButton,btnRender,buzy),BorderLayout.NORTH);
+	add(UITools.createFlowPanel(newButton,openButton,saveButton,exportButton,btnRender,renderCardButton,buzy),BorderLayout.NORTH);
 
 	
 	
@@ -165,12 +185,55 @@ public class MtgCardComposer extends MTGUIComponent {
 	add(paneSouth, BorderLayout.SOUTH);
 	
 	btnRender.addActionListener(_->{
-
 	    var diag = new RenderingHintsDialog(null,canvas.getHints());
 	    diag.setVisible(true);
 	    var res = diag.getRenderingHints();
 	    if(res!=null)
 		canvas.setHints(res);
+	});
+	
+	
+	renderCardButton.addActionListener(_->{
+	   
+	    paneRendering.setVisible(true);
+	    
+	   var diag = new CardImporterDialog();
+	   diag.setLocationRelativeTo(this);
+	   diag.setVisible(true);
+	   
+		if (diag.hasSelected()) {
+			var mc = diag.getSelectedItem();
+			buzy.start();
+			buzy.setText("Rendering " + mc.getName() + " with " + currentFile.getName());
+			var sw = new SwingWorker<BufferedImage, Void>(){
+
+			    @Override
+			    protected BufferedImage doInBackground() throws Exception {
+				mc.setUrl(new ScryFallPicturesProvider().generateUrl(mc, true));
+				var renderer = new MTGCompanionComposerProvider();
+				renderer.setTemplate(currentFile);
+				return renderer.getPicture(mc, mc.getEdition());
+			    }
+
+			    @Override
+			    protected void done() {
+				    diag.dispose();
+				    buzy.end();
+				    
+				    try {
+					paneRendering.setImg(get());
+				    } catch (InterruptedException _) {
+					Thread.currentThread().interrupt();
+				    }
+				    catch(ExecutionException ex)
+				    {
+					logger.error(ex);
+				    }
+			    }
+			};
+			ThreadManager.getInstance().runInEdt(sw, "rendering results");
+		}
+	    
 	});
 	
 	
@@ -246,10 +309,6 @@ public class MtgCardComposer extends MTGUIComponent {
 		};
 		
 		ThreadManager.getInstance().runInEdt(sw,"loading layers");
-		
-		
-		
-			
 	    } catch (IOException e) {
 		logger.error(e);
 	    }

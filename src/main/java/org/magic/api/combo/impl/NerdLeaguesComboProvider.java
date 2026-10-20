@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
-import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
 import org.magic.services.network.MTGHttpClient;

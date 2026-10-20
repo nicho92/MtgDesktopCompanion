@@ -2,9 +2,9 @@
   {
     "radius": 116.5,
     "color": "BORDERLESS",
-    "uri": "https://i.pinimg.com/736x/2c/20/c2/2c20c2b8ad93166fe0cc1401902ed762.jpg",
-    "imageScale": 0.0,
-    "imageOffsetX": 0.0,
+    "uri": "https://cdn.cardsrealm.com/images/cartas/ecc-lorwyn-eclipsed-commander/EN/crop-med/subterfuge-26.jpeg?3762",
+    "imageScale": 9.146608315098469,
+    "imageOffsetX": -1367.5,
     "imageOffsetY": 0.0,
     "name": "BORDER",
     "x": 0,
@@ -65,6 +65,7 @@
       "A": 255
     },
     "role": "TITLE",
+    "spaceTracking": 0.0,
     "name": "NAME",
     "x": 218,
     "y": 235,
@@ -98,6 +99,7 @@
       "A": 255
     },
     "role": "POWER_TOUGHNESS",
+    "spaceTracking": 0.0,
     "name": "PT_TEXT",
     "x": 2435,
     "y": 3752,
@@ -118,6 +120,7 @@
       "A": 255
     },
     "role": "COLLECTOR_INFO",
+    "spaceTracking": 0.0,
     "name": "RARITY_PRINTNUMBER",
     "x": 185,
     "y": 3930,
@@ -138,6 +141,7 @@
       "A": 255
     },
     "role": "SET_AND_LANG",
+    "spaceTracking": 0.0,
     "name": "SET_LANG",
     "x": 185,
     "y": 4010,
@@ -158,6 +162,7 @@
       "A": 255
     },
     "role": "SEPARATOR",
+    "spaceTracking": 0.0,
     "name": "SEPARATOR",
     "x": 473,
     "y": 4000,
@@ -178,6 +183,7 @@
       "A": 255
     },
     "role": "TYPE_LINE",
+    "spaceTracking": 0.0,
     "name": "TYPES",
     "x": 193,
     "y": 2395,
@@ -198,6 +204,7 @@
       "A": 255
     },
     "role": "ARTIST",
+    "spaceTracking": 0.0,
     "name": "ARTIST",
     "x": 590,
     "y": 3985,
@@ -218,6 +225,7 @@
       "A": 255
     },
     "role": "COPYRIGHT",
+    "spaceTracking": 0.0,
     "name": "COPYRIGHT",
     "x": 1950,
     "y": 3965,
@@ -238,6 +246,7 @@
       "A": 255
     },
     "role": "TEXT",
+    "spaceTracking": 0.0,
     "name": "TEXT",
     "x": 242,
     "y": 2669,

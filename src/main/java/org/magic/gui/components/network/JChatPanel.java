@@ -3,6 +3,7 @@ package org.magic.gui.components.network;
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.event.MouseListener;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JList;
