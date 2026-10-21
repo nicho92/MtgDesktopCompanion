@@ -280,7 +280,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
-			<version>11.0.26</version>
+			<version>11.0.27</version>
 		</dependency>
 		<dependency>
 			<groupId>org.firebirdsql.jdbc</groupId>
@@ -789,7 +789,7 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>26.7.0</version>
+			<version>26.10.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>

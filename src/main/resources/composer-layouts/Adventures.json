@@ -158,6 +158,7 @@
   },
   {
     "path": "Frames/pt_boxes/U.webp",
+    "frameType": "PT",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
     "name": "U.webp",
@@ -212,7 +213,7 @@
     "layerType": "ManaLayer"
   },
   {
-    "text": "Enchantement",
+    "text": "Creature — Dragon",
     "flavor": "",
     "flavorOffsetY": 0,
     "size": 135.0,
@@ -229,6 +230,121 @@
     "y": 2410,
     "width": 2214,
     "height": 237,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "3/3",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 146.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "POWER_TOUGHNESS",
+    "spaceTracking": 0.0,
+    "name": "PT_TEXT",
+    "x": 2370,
+    "y": 3770,
+    "width": 500,
+    "height": 180,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Flying",
+    "flavor": "“I see the far side of tomorrow and the lost memories of queens. What do you wish to learn?”",
+    "flavorOffsetY": 0,
+    "size": 135.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "spaceTracking": 0.0,
+    "name": "TEXT",
+    "x": 1550,
+    "y": 2680,
+    "width": 1000,
+    "height": 1072,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "cost": "{1}{U}",
+    "name": "ROTATED_COST",
+    "x": 1134,
+    "y": 2665,
+    "width": 260,
+    "height": 130,
+    "alpha": 1.0,
+    "layerType": "ManaLayer"
+  },
+  {
+    "text": "Sand Augury",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 135.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "TITLE",
+    "spaceTracking": 0.0,
+    "name": "ROTATED_NAME",
+    "x": 225,
+    "y": 2665,
+    "width": 850,
+    "height": 132,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Sorcery — Adventure",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 135.0,
+    "color": {
+      "R": 255,
+      "G": 255,
+      "B": 255,
+      "A": 255
+    },
+    "role": "TITLE",
+    "spaceTracking": 0.0,
+    "name": "ROTATED_TYPES",
+    "x": 225,
+    "y": 2865,
+    "width": 1150,
+    "height": 132,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "text": "Scry 1, then draw a card. (Then exile this card. You may cast the creature later from exile.)",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 135.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "spaceTracking": 0.0,
+    "name": "ROTATED_TEXT",
+    "x": 210,
+    "y": 3110,
+    "width": 1201,
+    "height": 750,
     "alpha": 1.0,
     "layerType": "TextLayer"
   }

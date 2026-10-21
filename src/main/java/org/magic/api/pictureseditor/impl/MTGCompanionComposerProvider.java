@@ -17,6 +17,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
@@ -93,9 +94,33 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    tl.setFlavor(mc.getFlavor());
 		}
 		
+		
+		
+		if(tl.getName().equals("ROTATED_NAME") && mc.getRotatedCard()!=null)
+		{
+		    tl.setText(mc.getRotatedCard().getName());
+		}
+		
+		if(tl.getName().equals("ROTATED_COST") && mc.getRotatedCard()!=null)
+		{
+		    tl.setText(mc.getRotatedCard().getCost());
+		}
+		
+
+		if(tl.getName().equals("ROTATED_TYPES") && mc.getRotatedCard()!=null)
+		{
+		    tl.setText(mc.getRotatedCard().getFullType());
+		}
+		
+		if(tl.getName().equals("ROTATED_TEXT") && mc.getRotatedCard()!=null)
+		{
+		    tl.setText(mc.getRotatedCard().getFullType());
+		}
+		
+		
 		if(tl.getName().equals("ROTATED_PT"))
 		{
-		    if(mc.isDoubleFaced() && mc.getRotatedCard()!=null && mc.getRotatedCard().isCreature())
+		    if(mc.getRotatedCard()!=null && mc.getRotatedCard().isCreature())
 		    {
 			tl.setText(mc.getRotatedCard().getPower()+"/"+mc.getRotatedCard().getToughness());
 		    }
@@ -124,6 +149,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(l instanceof ManaLayer ml)
 	    {
 		ml.setCost(mc.getCost());
+		
+		if(ml.getName().equals("ROTATED_COST")&& mc.getRotatedCard()!=null)
+		    ml.setCost(mc.getRotatedCard().getCost());
+		
 	    }
 
 	    if(l instanceof BorderLayer bl)
@@ -201,10 +230,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			    
 			}
 			
-			
-			
-			
 			if(fl.getFrameType()==FrameType.PT)	{
+			    
+			    
+			    
+			    
 			    print=mc.isCreature();    
 			}
 	    }
@@ -298,6 +328,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC) && mc.getSide().equals("b"))
 		layout="Ixalan";
 	}
+	
+	if(mc.getLayout()==EnumLayout.ADVENTURE)
+	    layout="Adventures";
+	
 	
 	logger.info("loading layout {}",layout);
 	
