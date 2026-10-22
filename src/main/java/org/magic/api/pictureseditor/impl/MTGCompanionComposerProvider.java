@@ -37,6 +37,7 @@ import org.magic.services.tools.UITools;
 
 public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider {
 
+    private static final String TEMPLATE_REPLACE = "U.webp";
     private CardCanvas canvas;
     private String forceTemplate;
      
@@ -50,17 +51,22 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	canvas = new CardCanvas();
 	UITools.loadFonts();
     }
-
+    
+    
     @Override
-    public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
+    protected String getFrameVersion() {
+      return "2015";
+    }
+      
+    @Override
+    public BufferedImage generatePicture(MTGCard mc, MTGEdition me) throws IOException {
 	
 	
 	MTGControler.getInstance().downloadComposerDatas();
 	
 	
 	canvas.clear();
-	mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
-	
+
 	var layout=findLayout(mc);
 
 	var json = URLTools.toJson(getClass().getResourceAsStream("/composer-layouts/"+layout+".json"));
@@ -210,7 +216,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			
 			
 			
-			fl.setPath(fl.getPath().replace("U.webp", code+".webp"));
+			fl.setPath(fl.getPath().replace(TEMPLATE_REPLACE, code+".webp"));
 
 			if(fl.getFrameType()==FrameType.SETICON)	{
 				fl.setPath(fl.getPath().replace("a25_mythic.webp", mc.getEdition().getId().toLowerCase()+"_"+mc.getRarity().name().toLowerCase()+".webp"));
@@ -231,11 +237,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			}
 			
 			if(fl.getFrameType()==FrameType.PT)	{
-			    
-			    
-			    
-			    
-			    print=mc.isCreature();    
+				    print=mc.isCreature();    
 			}
 	    }
 	    
@@ -291,7 +293,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	
     }
 
-
+  
     private String findLayout(MTGCard mc) {
 	
 	if(forceTemplate!=null)

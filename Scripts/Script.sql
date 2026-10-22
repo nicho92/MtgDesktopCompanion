@@ -1,3 +1,3 @@
-select distinct frameEffects 
-from cards
-where frameEffects is not null;
+select distinct layout  
+from tokens
+where layout is not null;

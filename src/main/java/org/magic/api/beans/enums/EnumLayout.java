@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public enum EnumLayout implements MTGEnumeration {
 
-	@SerializedName(alternate = "adventure", value = "ADVENTURE")	ADVENTURE, 
+   	@SerializedName(alternate = "adventure", value = "ADVENTURE")	ADVENTURE, 
 	@SerializedName(alternate = "aftermath", value = "AFTERMATH")	AFTERMATH, 
 	@SerializedName(alternate = "art_series", value = "ART_SERIES")	ART_SERIES, 
 	@SerializedName(alternate = "augment", value = "AUGMENT")	AUGMENT, 
@@ -14,9 +14,9 @@ public enum EnumLayout implements MTGEnumeration {
 	@SerializedName(alternate = "class", value = "CLASS")	CLASS, 
 	@SerializedName(alternate = "companion", value = "COMPANION")	COMPANION, 
 	@SerializedName(alternate = "double_faced_token", value = "DOUBLE_FACED_TOKEN")	DOUBLE_FACED_TOKEN, 
-	@SerializedName(alternate = "double_sided", value = "DOUBLE_SIDED")	DOUBLE_SIDED, 
 	@SerializedName(alternate = "emblem", value = "EMBLEM")	EMBLEM, 
-	@SerializedName(alternate = "flip", value = "FLIP")	FLIP, 
+	@SerializedName(alternate = "flip", value = "FLIP")	FLIP,
+	@SerializedName(alternate = "front_card", value = "FRONT_CARD")	FRONT_CARD, 
 	@SerializedName(alternate = "host", value = "HOST")	HOST, 
 	@SerializedName(alternate = "leveler", value = "LEVELER")	LEVELER, 
 	@SerializedName(alternate = "meld", value = "MELD")	MELD, 

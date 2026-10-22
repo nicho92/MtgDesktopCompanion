@@ -341,4 +341,5 @@ public class TextLayer extends AbstractLayer {
 	        return (lines.size() + flavorLines.size()) * lineHeight + gap;
 	    }
     }
+
 }

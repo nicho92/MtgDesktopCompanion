@@ -269,10 +269,7 @@ public class LayersListPanel extends JPanel {
 		boolean focus) {
 
 	    var layer = (Layer) value;
-
-	    String prefix = "👁 ";
-
-	    return super.getListCellRendererComponent(list, prefix + layer.getName(), index, selected, focus);
+	    return super.getListCellRendererComponent(list, layer.getName(), index, selected, focus);
 	}
     }
 }

@@ -92,6 +92,6 @@ public class ManaLayer extends AbstractLayer{
 
         return symbols;
     }
-    
+
 
 }

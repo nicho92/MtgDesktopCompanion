@@ -119,7 +119,4 @@ public class IllustrationLayer extends AbstractLayer {
 	g2.drawImage(bufferedFade, getX(), getY(), null);
     }
 
-
-
-
 }

@@ -546,8 +546,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isCompanion() {
-		return isCreature() && isLegendary()
-				&& (getText().startsWith("Companion ") || getFrameEffects().contains(EnumFrameEffects.COMPANION));
+		return isCreature() && isLegendary()&& (getText().startsWith("Companion ") || getFrameEffects().contains(EnumFrameEffects.COMPANION));
 	}
 
 	public boolean isCreature() {
@@ -555,7 +554,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isDoubleFaced() {
-		return getLayout() == EnumLayout.MELD || getLayout() == EnumLayout.TRANSFORM || getLayout() == EnumLayout.MODAL_DFC ||  getLayout()==EnumLayout.DOUBLE_SIDED;
+		return getLayout() == EnumLayout.MELD || getLayout() == EnumLayout.TRANSFORM || getLayout() == EnumLayout.MODAL_DFC ||  getLayout()==EnumLayout.REVERSIBLE_CARD;
 	}
 
 	public boolean isEmblem() {
@@ -621,7 +620,7 @@ public class MTGCard extends AbstractProduct {
 		return getTypes().toString().toLowerCase().contains("land");
 	}
 	public boolean isLegendary() {
-		return getSupertypes().contains("Legendary");
+		return getSupertypes().contains("Legendary") || getFrameEffects().contains(EnumFrameEffects.LEGENDARY);
 	}
 
 	public boolean isMainFace() {
@@ -702,7 +701,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isToken() {
-		return getLayout() == EnumLayout.TOKEN || getLayout() == EnumLayout.DOUBLE_FACED_TOKEN;
+	    return getLayout() == EnumLayout.TOKEN || getLayout() == EnumLayout.DOUBLE_FACED_TOKEN;
 	}
 
 	public void setArenaCard(boolean arenaCard) {

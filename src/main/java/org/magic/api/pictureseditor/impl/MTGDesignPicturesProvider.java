@@ -85,14 +85,15 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 	}
 
 	@Override
-	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
+	public BufferedImage generatePicture(MTGCard mc, MTGEdition me) throws IOException {
 		if (httpclient.getCookies().isEmpty())
 			connect();
-
+		
+		mc.setFrameVersion("2015");
+		
+		
 		var build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");
-
-		postEditing(mc);
 
 		if (me != null) {
 			build.addParameter("card-number", !mc.getNumber().isEmpty() ? mc.getNumber() : "1");
@@ -222,8 +223,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 			build.addParameter(CARD_ACCENT, mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "C"));
 		}
 
-		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
-
 		build.addParameter("edit", FALSE);
 
 		if (mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, FALSE).equals("true"))
@@ -241,16 +240,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 			logger.error("error generate : ", e);
 			return null;
 		}
-
-	}
-
-	private void postEditing(MTGCard mc) {
-		mc.setFrameVersion("2015");
-
-		if (mc.getRarity() == EnumRarity.MYTHIC || mc.getRarity() == EnumRarity.RARE)
-			mc.setSecurityStamp(EnumSecurityStamp.OVAL);
-		else
-			mc.setSecurityStamp(EnumSecurityStamp.NONE);
 
 	}
 
@@ -341,6 +330,11 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 			return false;
 
 		return hashCode() == obj.hashCode();
+	}
+
+	@Override
+	protected String getFrameVersion() {
+	   return "2015";
 	}
 
 }

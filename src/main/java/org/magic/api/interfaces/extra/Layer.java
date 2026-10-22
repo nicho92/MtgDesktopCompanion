@@ -38,5 +38,4 @@ public interface Layer {
     void setAlpha(float alpha);
 
     float getAlpha();
-    
 }

@@ -14,7 +14,6 @@ import org.magic.api.ast.engine.OracleParser;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
-import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.network.MTGHttpClient;
@@ -43,20 +42,19 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	}
 
+	
 	@Override
-	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
+	public BufferedImage generatePicture(MTGCard mc, MTGEdition me) throws IOException {
 		if (httpclient == null)
 			connect();
 
-		RequestBuilder build = RequestBuilder.build();
+		var build = RequestBuilder.build();
 
 		build.post().url(GENERATE_URL).setClient(httpclient).addContent("width", "791").addContent("height", "1107")
 				.addContent("fields[title]", mc.getName()).addContent("fields[type]", mc.getFullType())
 				.addContent("fields[capa]", mc.getText()).addContent("fields[ta]", mc.getFlavor())
 				.addContent("fields[illustrator]", mc.getArtist())
 				.addContent("fields[copyright]", getString("COPYRIGHT")).addContent("fields[cm]", mc.getCost());
-
-		postEditing(mc);
 
 		if (mc.isPlaneswalker()) {
 			var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
@@ -69,7 +67,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		} else {
 			build.addContent("template", getString(LAYOUT_OLD_MODERN).toLowerCase() + "-basic");
 		}
-
+	
 		String colorBase;
 
 		if (mc.isArtifact())
@@ -129,8 +127,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		if (Boolean.parseBoolean(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")))
 			build.addContent("fields[se-extension]", new SMFIconsSetProvider().getMap().get(me.getId()));
 
-		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
-
+	
 		build.addHeader(URLTools.HOST, DOMAIN).addHeader(URLTools.ORIGIN, WEBSITE).addHeader(URLTools.REFERER, WEBSITE);
 
 		logger.trace(build);
@@ -143,16 +140,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		return ImageTools.readBase64(el.getAsJsonObject().get("image").getAsString());
 	}
 
-	private void postEditing(MTGCard mc) {
-		if (getString(LAYOUT_OLD_MODERN).equalsIgnoreCase("old"))
-			mc.setFrameVersion("1993");
-		else
-			mc.setFrameVersion("2003");
-
-		mc.setSecurityStamp(EnumSecurityStamp.NONE);
-
-	}
-
+	
 	private String upload(File f) throws IOException {
 		if (httpclient == null)
 			connect();
@@ -211,6 +199,17 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			return false;
 
 		return hashCode() == obj.hashCode();
+	}
+
+	@Override
+	protected String getFrameVersion() {
+		
+		if (getString(LAYOUT_OLD_MODERN).equalsIgnoreCase("old"))
+			return "1993";
+		else
+			return "2003";
+
+		
 	}
 
 }
