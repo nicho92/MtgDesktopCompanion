@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.Date;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -149,7 +151,20 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
 		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + (me!=null?me.getCardCountOfficial():mc.getEdition().getCardCountOfficial()));
-
+		
+		if(tl.getName().equals("COPYRIGHT"))
+		{
+		    if(mc.isRetro())
+		    {
+			 tl.setText("© 1993-"+LocalDate.now().getYear()+" Wizards of the Coast, Inc.");	
+		    }
+		    else
+		    {
+			   tl.setText("™ & © "+LocalDate.now().getYear()+" Wizards of the Coast");	
+		    }
+		 
+		}
+		
 	    }
 
 	    if(l instanceof ManaLayer ml)
@@ -210,12 +225,16 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			if((fl.getFrameType()==FrameType.FRAME  || fl.getFrameType()==FrameType.PT)&& mc.isVehicule())	{
 			    code="Vehicle";
 			}
+		
 			
-			if(code.equals("GU"))
-			    code="UG";
-			
-			
-			
+			if(fl.getFrameType()==FrameType.BORDERED_FRAME && mc.isLand())
+			{
+			    code="Land_Gold";
+			    
+			    if(!mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).isEmpty())
+				code="Land_"+mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+			}
+				
 			fl.setPath(fl.getPath().replace(TEMPLATE_REPLACE, code+".webp"));
 
 			if(fl.getFrameType()==FrameType.SETICON)	{
@@ -230,11 +249,10 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 				    directory ="Frames/transform_back_icons";
 				    
 				   fl.setPath(directory+"/"+mc.getFrameEffects().getFirst().name().toLowerCase()+".webp");
-			    
-				   
 				   print=mc.isDoubleFaced();
 			    
 			}
+			
 			
 			if(fl.getFrameType()==FrameType.PT)	{
 				    print=mc.isCreature();    
@@ -296,10 +314,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
   
     private String findLayout(MTGCard mc) {
 	
-	if(forceTemplate!=null)
-	    return forceTemplate;
-	
-	
 	var layout="Normal";
 
 	if(mc.isExtendedArt())
@@ -334,8 +348,13 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	if(mc.getLayout()==EnumLayout.ADVENTURE)
 	    layout="Adventures";
 	
+	if(forceTemplate!=null)
+	    layout= forceTemplate;
 	
-	logger.info("loading layout {}",layout);
+	
+
+	
+	logger.debug("loading layout {}",layout);
 	
 	return layout;
     }
