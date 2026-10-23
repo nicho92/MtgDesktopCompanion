@@ -12,7 +12,6 @@ import java.awt.Image;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -29,6 +28,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.BadLocationException;
 
+import org.japura.gui.event.ListCheckListener;
+import org.japura.gui.event.ListEvent;
 import org.japura.gui.model.DefaultListCheckModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -82,7 +83,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JCheckBox chkRetro;
 	private JCheckBox chkShowSetIcon;
 	private JComboBox<String> cboColorAccent;
-	private JComboBox<EnumFrameEffects> cboFrameEffects;
+	private JCheckableListBox<EnumFrameEffects> cboFrameEffects;
+	private JComboBox<EnumLayout> cboLayout;
 	private JComboBox<EnumBorders> cboBorders;
 	private JComboBox<String> cboSide;
 	private JComboBox<EnumRarity> cboRarity;
@@ -121,7 +123,12 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		txtSubTypes = new JTextField(10);
 		textJEditorPane = new MagicTextPane(false);
 		flavorJTextField = new JTextField();
-		cboFrameEffects = UITools.createCombobox(EnumFrameEffects.values());
+		cboFrameEffects = new JCheckableListBox<>();
+		
+		for(var f : EnumFrameEffects.values())
+		    cboFrameEffects.addElement(f, false);		
+		
+		cboLayout= UITools.createCombobox(EnumLayout.values());
 		cboBorders = UITools.createCombobox(EnumBorders.values());
 		cboReversedCards = new JComboBox<>();
 		loyaltyJTextField = new JTextField();
@@ -137,8 +144,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		btnUrl = new JButton("URL", MTGConstants.ICON_WEBSITE);
 		btnImage = new JButton("File", MTGConstants.ICON_NEW);
 		btnWallpaper = new JButton("WallPaper", MTGConstants.ICON_WALLPAPER);
-		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[]{"", "C", "A", "W", "WU", "WB", "U",
-				"UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
+		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[]{"", "C", "A", "W", "WU", "WB", "U","UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
 
 		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane));
 		var modelSt = new DefaultListCheckModel();
@@ -165,11 +171,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(new JLangLabel("CARD_TYPES", true), UITools.createGridBagConstraints(null, null, 0, 2));
 		add(new JLangLabel("CARD_TEXT", true), UITools.createGridBagConstraints(null, null, 0, 4));
 		add(new JLangLabel("CARD_FLAVOR", true), UITools.createGridBagConstraints(null, null, 0, 7));
-		add(new JLangLabel("CARD_EFFECTS", true), UITools.createGridBagConstraints(null, null, 0, 8));
+		add(new JLangLabel("LAYOUT", true), UITools.createGridBagConstraints(null, null, 0, 8));
 		add(new JLabel(capitalize("CARD_POWER") + "/" + capitalize("CARD_TOUGHNESS") + ":"),UITools.createGridBagConstraints(null, null, 2, 8));
 		add(new JLangLabel("CARD_NUMBER", true), UITools.createGridBagConstraints(null, null, 0, 9));
 		add(new JLangLabel("PICTURE", true), UITools.createGridBagConstraints(GridBagConstraints.NORTH, null, 0, 11));
-		add(new JLangLabel("COLOR_INDICATOR", true), UITools.createGridBagConstraints(null, null, 2, 10));
+		add(new JLangLabel("ACCENT", true), UITools.createGridBagConstraints(null, null, 2, 10));
 		add(new JLangLabel("BORDER", true), UITools.createGridBagConstraints(null, null, 2, 11));
 		add(new JLangLabel("SUBSET", true), UITools.createGridBagConstraints(null, null, 2, 9));
 
@@ -180,7 +186,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		add(UITools.createFlowPanel(cboSuperType, cboTypes, cboSubtypes, txtSubTypes),UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2, 3, null));
 		add(panelButton, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 3, 2, null));
 		add(flavorJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 7, 3, null));
-		add(UITools.createFlowPanel(cboFrameEffects, cboReversedCards),UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
+		add(UITools.createFlowPanel(cboLayout,cboFrameEffects, cboReversedCards),UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 8));
 		add(UITools.createFlowPanel(powerJTextField, new JLabel("/"), toughnessJTextField,new JLangLabel("CARD_LOYALTY", true), loyaltyJTextField),UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 3, 8));
 		add(UITools.createFlowPanel(numberJTextField, cboSide),UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 9));
 		add(subsetJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 9));
@@ -264,31 +270,65 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			if (event.getStateChange() == ItemEvent.SELECTED)
 				magicCard.setRotatedCard(cboReversedCards.getItemAt(cboReversedCards.getSelectedIndex()));
 		});
-
-		cboFrameEffects.addItemListener(event -> {
-			if (event.getStateChange() == ItemEvent.SELECTED) {
-				cboReversedCards.setVisible(cboFrameEffects.getSelectedItem().toString().contains("DFC"));
-				cboReversedCards.removeAllItems();
-				cboReversedCards.addItem(null);
-				try {
-					MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class)
-							.searchCardByEdition(magicCard.getEdition()).stream().sorted(new CardNameSorter()).toList()
-							.forEach(cboReversedCards::addItem);
-				} catch (Exception e) {
-					logger.error(e);
-				}
-			}
+		
+		
+		cboFrameEffects.getModel().addListCheckListener(new ListCheckListener() {
+		    
+		    @Override
+		    public void removeCheck(ListEvent event) {
+			cboReversedCards.setVisible(event.getValues().toString().contains("DFC"));
 			
-			if(cboFrameEffects.getSelectedItem()!=null&&cboFrameEffects.getSelectedItem().toString().contains("DFC"))
-			    magicCard.setLayout(EnumLayout.TRANSFORM);
-			else
-			    magicCard.setLayout(EnumLayout.NORMAL);
+		    }
+		    
+		    @Override
+		    public void addCheck(ListEvent event) {
+			cboReversedCards.setVisible(event.getValues().toString().contains("DFC"));
+			cboReversedCards.removeAllItems();
+			cboReversedCards.addItem(null);
+			
+			try {
+				MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class)
+						.searchCardByEdition(magicCard.getEdition()).stream().sorted(new CardNameSorter()).toList()
+						.forEach(cboReversedCards::addItem);
+			} catch (Exception e) {
+				logger.error(e);
+			}
 			
 			
 			if (magicCard.isDoubleFaced())
 				cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
-
+			
+		    }
 		});
+		
+		
+		
+		
+
+//		cboFrameEffects.addItemListener(event -> {
+//			if (event.getStateChange() == ItemEvent.SELECTED) {
+//				cboReversedCards.setVisible(cboFrameEffects.getSelectedItem().toString().contains("DFC"));
+//				cboReversedCards.removeAllItems();
+//				cboReversedCards.addItem(null);
+//				try {
+//					MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class)
+//							.searchCardByEdition(magicCard.getEdition()).stream().sorted(new CardNameSorter()).toList()
+//							.forEach(cboReversedCards::addItem);
+//				} catch (Exception e) {
+//					logger.error(e);
+//				}
+//			}
+//			
+//			if(cboFrameEffects.getSelectedItem()!=null&&cboFrameEffects.getSelectedItem().toString().contains("DFC"))
+//			    magicCard.setLayout(EnumLayout.TRANSFORM);
+//			else
+//			    magicCard.setLayout(EnumLayout.NORMAL);
+//			
+//			
+//			if (magicCard.isDoubleFaced())
+//				cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
+//
+//		});
 
 		mbindingGroup = initDataBindings();
 
@@ -306,13 +346,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
 		magicCard.setBorder(cboBorders.getItemAt(cboBorders.getSelectedIndex()));
-		
-		if(cboFrameEffects.getSelectedItem()!=null)
-		{
-		    magicCard.setFrameEffects(List.of(cboFrameEffects.getItemAt(cboFrameEffects.getSelectedIndex())));
-		    if(magicCard.getFrameEffects().getFirst().name().contains("DFC"))
-			magicCard.setLayout(EnumLayout.TRANSFORM);
-		}
+		magicCard.setLayout(cboLayout.getItemAt(cboLayout.getSelectedIndex()));		
+		magicCard.setFrameEffects(cboFrameEffects.getSelectedElements());
 		magicCard.setColors(EnumColors.parseColorsFromText(magicCard.getCost()));
 		magicCard.setColorIdentity(EnumColors.parseColorsFromText(magicCard.getCost()));
 		magicCard.setCmc(MTGCard.calculateManaCost(magicCard.getCost()));
@@ -325,7 +360,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboTypes.unselectAll();
 		cboSubtypes.unselectAll();
 		cboSubtypes.getModel().clear();
-
+		cboFrameEffects.unselectAll();
 		if (mbindingGroup != null) {
 			mbindingGroup.unbind();
 			mbindingGroup = null;
@@ -354,9 +389,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboTypes.setSelectedElements(magicCard.getTypes());
 		magicCard.getSubtypes().forEach(s -> cboSubtypes.addElement(s, true));
 		cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
-
-		if (!magicCard.getFrameEffects().isEmpty())
-			cboFrameEffects.setSelectedItem(magicCard.getFrameEffects().getFirst());
+		cboFrameEffects.getModel().addCheck(magicCard.getFrameEffects());
+		
+		
+		cboLayout.setSelectedItem(magicCard.getLayout());
 		
 
 		spinnerTextSize.addChangeListener(_ -> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SIZE,

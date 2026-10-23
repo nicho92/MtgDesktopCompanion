@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
@@ -24,13 +25,13 @@ import org.magic.services.tools.ImageTools;
 
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
 
-	private static final String LAYOUT_OLD_MODERN = "LAYOUT_OLD_MODERN";
 	private static final String DOMAIN = "funcardmaker.thaledric.fr";
 	private static final String WEBSITE = "https://" + DOMAIN;
 	private static final String GENERATE_URL = WEBSITE + "/generate.php";
 	private static final String UPLOAD_URL = WEBSITE + "/upload.php";
 
 	private MTGHttpClient httpclient;
+	private String code="modern";
 
 	@Override
 	public MOD getMode() {
@@ -65,7 +66,12 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 				build.addContent("fields[capa" + (i + 1) + "]", abs.get(i).text());
 			}
 		} else {
-			build.addContent("template", getString(LAYOUT_OLD_MODERN).toLowerCase() + "-basic");
+		    
+		    code ="modern";
+		    if(mc.isRetro())
+			code="old";
+			
+			build.addContent("template", code + "-basic");
 		}
 	
 		String colorBase;
@@ -78,28 +84,23 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			colorBase = "c";
 		else {
 			if (mc.getColors().size() == 1)
-				colorBase = mc.getColors().get(0).getCode();
+				colorBase = mc.getColors().getFirst().getCode();
 			else if (mc.getColors().size() > 1)
 				colorBase = "m";
 			else
-				colorBase = mc.getColors().get(0).getCode();
+				colorBase = mc.getColors().getFirst().getCode();
 		}
 
-		if (mc.isHybride() || !mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "").isEmpty()) {
-			if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
+		if (mc.isHybride()) {
 				colorBase = new StringBuilder()
-						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/")
-						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
-			} else {
-				colorBase = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
-			}
+						.append(mc.getColors().getFirst().getCode().toCharArray()[0]).append("/")
+						.append(mc.getColors().getLast().getCode().toCharArray()[0]).toString();
+			 
 		}
-
+		
 		if (mc.isLand()) {
 			if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
-				colorBase = new StringBuilder("l")
-						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/l")
-						.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
+				colorBase = new StringBuilder("l").append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/l").append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
 			} else {
 				colorBase = "l" + mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 			}
@@ -126,11 +127,25 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 		if (Boolean.parseBoolean(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")))
 			build.addContent("fields[se-extension]", new SMFIconsSetProvider().getMap().get(me.getId()));
+		
+		
+		if(!mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "").isEmpty()) {
+			build.addContent("fields[background-capabox]", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase).mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
+			build.addContent("fields[background-capaborder]", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase).mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
+			build.addContent("fields[background-edging]", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase).mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
 
+			
+
+		}
+
+		
+
+	
+		
 	
 		build.addHeader(URLTools.HOST, DOMAIN).addHeader(URLTools.ORIGIN, WEBSITE).addHeader(URLTools.REFERER, WEBSITE);
 
-		logger.trace(build);
+		logger.debug(build);
 
 		String ret = httpclient.toString(httpclient.execute(build));
 		logger.trace("RESPONSE: {}", ret);
@@ -168,8 +183,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		return Map.of("COPYRIGHT", new MTGProperty("(c)2026-Wizards of the coast", "Bottom card information"),
-				LAYOUT_OLD_MODERN, new MTGProperty("modern", "choose the layout of the card", "old", "modern"));
+		return Map.of("COPYRIGHT", new MTGProperty("(c)2026-Wizards of the coast", "Bottom card information"));
 	}
 
 	@Override
@@ -204,7 +218,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	@Override
 	protected String getFrameVersion() {
 		
-		if (getString(LAYOUT_OLD_MODERN).equalsIgnoreCase("old"))
+		if (code.equalsIgnoreCase("old"))
 			return "1993";
 		else
 			return "2003";
