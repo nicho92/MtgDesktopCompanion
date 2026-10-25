@@ -79,12 +79,12 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JButton btnUrl;
 	private JButton btnWallpaper;
 	private JCheckBox chkMatureContent;
-	private JCheckBox chkPromo;
-	private JCheckBox chkRetro;
-	private JCheckBox chkShowSetIcon;
-	private JComboBox<String> cboColorAccent;
-	private JCheckableListBox<EnumFrameEffects> cboFrameEffects;
-	private JComboBox<EnumLayout> cboLayout;
+	private final JCheckBox chkPromo;
+	private final JCheckBox chkRetro;
+	private final JCheckBox chkShowSetIcon;
+	private final JComboBox<String> cboColorAccent;
+	private final JCheckableListBox<EnumFrameEffects> cboFrameEffects;
+	private final JComboBox<EnumLayout> cboLayout;
 	private JComboBox<EnumBorders> cboBorders;
 	private JComboBox<String> cboSide;
 	private JComboBox<EnumRarity> cboRarity;

@@ -31,10 +31,10 @@ public class DeckIAAssitantPanel extends MTGUIComponent {
      */
     private static final long serialVersionUID = 1L;
 	private MTGAssistant ia;
-	private JTextField txtAsk;
-	private JChatPanel chatPanel;
+	private final JTextField txtAsk;
+	private final JChatPanel chatPanel;
 	private MTGDeck deck;
-	private AbstractBuzyIndicatorComponent buzy;
+	private final AbstractBuzyIndicatorComponent buzy;
 	private Player user;
 	
 	

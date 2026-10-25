@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
+import java.awt.font.GraphicAttribute;
 import java.awt.font.ImageGraphicAttribute;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextAttribute;
@@ -293,7 +294,7 @@ public class TextLayer extends AbstractLayer {
         for (var index = 0; index < symbolPositions.size(); index++) {
             var position = symbolPositions.get(index);
             attributedText.addAttribute(TextAttribute.CHAR_REPLACEMENT,
-                    new ImageGraphicAttribute(symbolImages.get(index), ImageGraphicAttribute.ROMAN_BASELINE, 0,
+                    new ImageGraphicAttribute(symbolImages.get(index), GraphicAttribute.ROMAN_BASELINE, 0,
                             symbolBaseline),
                     position, position + 1);
         }

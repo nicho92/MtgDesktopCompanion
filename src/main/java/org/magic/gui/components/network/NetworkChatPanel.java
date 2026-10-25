@@ -78,7 +78,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnDeck;
 	private JToggleButton btnIa;
 	private DefaultListModel<Player> listPlayerModel;
-	private JChatPanel chatPanel;
+	private final JChatPanel chatPanel;
 	private transient MTGNetworkClient client;
 	private CardStockTableModel stockResultModel;
 	private JTabbedPane tabbedPane;

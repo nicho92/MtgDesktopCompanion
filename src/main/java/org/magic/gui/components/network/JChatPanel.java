@@ -20,8 +20,8 @@ public class JChatPanel extends JPanel{
      * 
      */
     private static final long serialVersionUID = 1L;
-	private DefaultListModel<AbstractMessage> listMsgModel;
-	private JList<AbstractMessage> listMsg;
+	private final DefaultListModel<AbstractMessage> listMsgModel;
+	private final JList<AbstractMessage> listMsg;
 	
 	
 	public JChatPanel() {

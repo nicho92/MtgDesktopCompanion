@@ -34,7 +34,7 @@ public class LayersListPanel extends JPanel {
     private final JList<Layer> list;
     protected transient Logger logger = MTGLogger.getLogger(this.getClass());
     private CardCanvas canvas;
-    private JButton copyButton;
+    private final JButton copyButton;
 
     public LayersListPanel() {
 
