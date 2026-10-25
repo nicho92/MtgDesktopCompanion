@@ -9,8 +9,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGPrice;
-import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
@@ -27,31 +27,39 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 	}
 	
 	
-	public static void main(String[] args) throws IOException {
+	private String getSetId(Document d, MTGEdition ed)
+	{
+	    var select = d.getElementById("rc-edition");
 	    
-	    var mc = new MTGCard();
-	    mc.setName("Jace, the mind sculptor");
+	    for(var e : select.getElementsByTag("option"))
+	    {
+		if(e.text().equalsIgnoreCase(ed.getSet()))
+		    return e.attr("value");
+		
+	    }
 	    
+	    return "";
 	    
-	    new MagicCorporationPricer().getLocalePrice(mc);
 	}
 	
-
+	
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		String url = BASE_URL + "/cartes/recherche?q="+URLTools.encode(card.getName());
-		List<MTGPrice> ret = new ArrayList<>();
-
-		Document content = RequestBuilder.build().url(url).newClient().get().addContent("q", card.getName()).toHtml();
-
+		var url = BASE_URL + "/cartes/recherche?q="+URLTools.encode(card.getName());
+		var ret = new ArrayList<MTGPrice>();
+		var page = RequestBuilder.build().url(url).newClient().get().toHtml();
+		var setId=getSetId(page, card.getEdition());
+		var content = RequestBuilder.build().url(url).newClient().get().addContent("q", card.getName());
 		
+		if(!setId.isEmpty())
+		    content.addContent("edition", setId);
 	
-		var trs = content.select("table.w-full tbody tr");
+		var trs = content.toHtml().select("table.w-full tbody tr");
 		
 		if (!trs.isEmpty()) 
 		{
-			for (Element tr : trs) 
+			for (var tr : trs) 
 			{
 				var entries = tr.getElementsByTag("td").get(8).select("select[name=variant] option");
 				if(!entries.isEmpty())
