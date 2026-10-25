@@ -34,7 +34,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String SET_EXTRA = "SET_EnumExtra";
 	private static final String MOVERS_DETAILS = WEBSITE + "/movers-details/";
 	private MTGHttpClient client;
-
+	private final Pattern p =Pattern.compile("d \\+= \\\"\\\\n(.*?), (.*?)\\\";");
 	boolean isPaperparsing = true;
 
 	@Override
@@ -227,7 +227,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		var res = q.select("a span").html();
 
-		var m = Pattern.compile("d \\+= \\\"\\\\n(.*?), (.*?)\\\";").matcher(res);
+		var m = p.matcher(res);
 
 		while (m.find())
 			history.put(UITools.parseDate(m.group(1), "yyyy-MM-dd"), UITools.parseDouble(m.group(2)));

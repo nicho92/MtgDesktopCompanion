@@ -67,7 +67,7 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIco
 
 	@Override
 	public int compare(EnumRarity o1, EnumRarity o2) {
-		return o1.getPosition() - o2.getPosition();
+	    return Integer.compare(o1.getPosition(),o2.getPosition());
 	}
 
 }

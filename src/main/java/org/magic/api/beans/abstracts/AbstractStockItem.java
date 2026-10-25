@@ -230,7 +230,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 
 	@Override
 	public int compareTo(MTGStockItem o) {
-		return (int) (getId() - o.getId());
+	   return Long.compare(getId(), o.getId());
 	}
 
 	@Override

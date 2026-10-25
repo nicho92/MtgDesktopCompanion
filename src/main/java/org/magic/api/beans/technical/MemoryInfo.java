@@ -56,7 +56,7 @@ public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
 
 	@Override
 	public int compareTo(MemoryInfo mem) {
-		return (int) (getCount() - mem.getCount());
+	    return Long.compare(getCount(),mem.getCount());
 	}
 
 }

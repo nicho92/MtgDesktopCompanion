@@ -118,7 +118,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 
 	@Override
 	public int compare(EnumColors o1, EnumColors o2) {
-		return o1.getPosition() - o2.getPosition();
+		return Integer.compare(o1.getPosition(),o2.getPosition());
 	}
 
 }

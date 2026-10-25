@@ -17,7 +17,10 @@ public class PrototypeActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	private static final String K = "Prototype";
-
+	private final Pattern p = Pattern.compile("/*" + K + " \\{(.*?)\\ ", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+	
+	
+	
 	public PrototypeActions(DisplayableCard card) {
 		super(card, K);
 		putValue(SHORT_DESCRIPTION, "Cast creature as Prototype");
@@ -28,8 +31,6 @@ public class PrototypeActions extends AbstractCardAction {
 	private void parse(String text) {
 		var cost = "";
 		try {
-			String regex = "/*" + K + " \\{(.*?)\\ ";
-			var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 			var m = p.matcher(text);
 
 			if (m.find())

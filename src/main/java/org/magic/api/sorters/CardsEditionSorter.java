@@ -24,7 +24,7 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 			if (!o1NullNumber && !o2NullNumber && (o1.getEdition().equals(o2.getEdition()))) {
 				int n1 = calculate(o1.getNumber());
 				int n2 = calculate(o2.getNumber());
-				return n1 - n2;
+				return Integer.compare(n1,n2);
 			}
 
 			// else compare
