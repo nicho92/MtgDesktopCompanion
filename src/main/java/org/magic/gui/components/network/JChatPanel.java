@@ -54,6 +54,7 @@ public class JChatPanel extends JPanel{
 	    listMsg.ensureIndexIsVisible(listMsg.getModel().getSize() - 1);
 	}
 	
+	@Override
 	public synchronized void addMouseListener(MouseListener e)
 	{
 	    listMsg.addMouseListener(e);

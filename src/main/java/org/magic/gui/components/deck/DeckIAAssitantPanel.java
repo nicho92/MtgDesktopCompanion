@@ -21,6 +21,8 @@ import org.magic.gui.components.network.JChatPanel;
 import org.magic.main.IAVirtualUser;
 import org.magic.services.IAPrompts;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -30,7 +32,7 @@ public class DeckIAAssitantPanel extends MTGUIComponent {
      * 
      */
     private static final long serialVersionUID = 1L;
-	private MTGAssistant ia;
+	private transient  MTGAssistant ia;
 	private final JTextField txtAsk;
 	private final JChatPanel chatPanel;
 	private MTGDeck deck;
@@ -87,16 +89,19 @@ public class DeckIAAssitantPanel extends MTGUIComponent {
 	
 	private void askAssistant(String text) {
 	    	
-//	    	var msg = new TalkMessage(text);
-//	    	msg.setAuthor(MTGControler.getInstance().getProfilPlayer());
-//	    	chatPanel.chatAddMessage(msg);
+	    if(text.isEmpty())
+		return;
+	    
+	    	var msg = new TalkMessage(text);
+	    	msg.setAuthor(MTGControler.getInstance().getProfilPlayer());
+	    	chatPanel.chatAddMessage(msg);
 	    	
 	    	buzy.start();
 		buzy.setText("Thinking");
 		var sw = new SwingWorker<String, Void>() {
 		    @Override
 		    protected String doInBackground() throws Exception {
-			return  ia.ask("Considering the following deck: " + deck.toStringList() + "." + System.lineSeparator()+ txtAsk.getText());
+			return  ia.ask("Considering the following deck: " + deck.toStringList() + "." + System.lineSeparator()+ text);
 		    }
 
 		    @Override

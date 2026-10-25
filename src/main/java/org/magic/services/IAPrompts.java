@@ -5,6 +5,14 @@ import org.magic.api.beans.MTGDeck;
 public class IAPrompts {
     
     
+    private static final String DECKLIST = "[DECKLIST]";
+
+    
+    private IAPrompts()
+    {
+	//no instantiation
+    }
+
     public static String combos(MTGDeck d)
     {
 	return  """
@@ -24,7 +32,7 @@ public class IAPrompts {
                         Decklist:
                         [DECKLIST]
                         
-			""".trim().replace("[DECKLIST]", d.toStringList());
+			""".trim().replace(DECKLIST, d.toStringList());
     }
     
     public static String synergy(MTGDeck d)
@@ -48,7 +56,7 @@ public class IAPrompts {
                         Decklist:
                         [DECKLIST]
                         
-			""".trim().replace("[DECKLIST]", d.toStringList());
+			""".trim().replace(DECKLIST, d.toStringList());
     }
     
     
@@ -74,7 +82,7 @@ public class IAPrompts {
                         Decklist:
                         [DECKLIST]
                         
-			""".trim().replace("[DECKLIST]", d.toStringList());
+			""".trim().replace(DECKLIST, d.toStringList());
     }
     
     
@@ -98,7 +106,7 @@ public class IAPrompts {
                         Decklist:
                         [DECKLIST]
                         
-			""".trim().replace("[DECKLIST]", d.toStringList());
+			""".trim().replace(DECKLIST, d.toStringList());
     }
     
     
@@ -124,7 +132,7 @@ public class IAPrompts {
                         Decklist:
                         [DECKLIST]
                         
-			""".trim().replace("[DECKLIST]", d.toStringList());
+			""".trim().replace(DECKLIST, d.toStringList());
     }
     
     
@@ -150,7 +158,7 @@ public class IAPrompts {
                         
                         Do not recommend changes simply because a card is individually powerful. Prioritize synergy and the deck's actual game plan.
                         
-			""".trim().replace("[DECKLIST]", d.toStringList());
+			""".trim().replace(DECKLIST, d.toStringList());
     }
     
     

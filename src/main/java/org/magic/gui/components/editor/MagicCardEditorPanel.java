@@ -300,36 +300,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			
 		    }
 		});
-		
-		
-		
-		
-
-//		cboFrameEffects.addItemListener(event -> {
-//			if (event.getStateChange() == ItemEvent.SELECTED) {
-//				cboReversedCards.setVisible(cboFrameEffects.getSelectedItem().toString().contains("DFC"));
-//				cboReversedCards.removeAllItems();
-//				cboReversedCards.addItem(null);
-//				try {
-//					MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class)
-//							.searchCardByEdition(magicCard.getEdition()).stream().sorted(new CardNameSorter()).toList()
-//							.forEach(cboReversedCards::addItem);
-//				} catch (Exception e) {
-//					logger.error(e);
-//				}
-//			}
-//			
-//			if(cboFrameEffects.getSelectedItem()!=null&&cboFrameEffects.getSelectedItem().toString().contains("DFC"))
-//			    magicCard.setLayout(EnumLayout.TRANSFORM);
-//			else
-//			    magicCard.setLayout(EnumLayout.NORMAL);
-//			
-//			
-//			if (magicCard.isDoubleFaced())
-//				cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
-//
-//		});
-
 		mbindingGroup = initDataBindings();
 
 	}

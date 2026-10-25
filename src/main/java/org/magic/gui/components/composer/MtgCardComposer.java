@@ -63,7 +63,7 @@ public class MtgCardComposer extends MTGUIComponent {
     private final LayerDetailPanel inspector;
     private JSlider sldZoom;
     private AbstractBuzyIndicatorComponent buzy;
-    public static File currentFile = MTGConstants.DATA_DIR;
+    private static File currentFile;
     ImagePanel2 paneRendering ;
 
     public MtgCardComposer() {
