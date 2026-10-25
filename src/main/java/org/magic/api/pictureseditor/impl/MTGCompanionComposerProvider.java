@@ -150,7 +150,12 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		}
 
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
-		    tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + (me!=null?me.getCardCountOfficial():mc.getEdition().getCardCountOfficial()));
+		{
+		    if(mc.isRetro())
+			 tl.setText(mc.getNumber() + "/ " + (me!=null?me.getCardCountOfficial():mc.getEdition().getCardCountOfficial()));
+		    else
+			tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + (me!=null?me.getCardCountOfficial():mc.getEdition().getCardCountOfficial()));
+		}
 		
 		if(tl.getName().equals("COPYRIGHT"))
 		{

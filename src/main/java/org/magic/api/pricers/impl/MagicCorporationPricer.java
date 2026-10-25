@@ -19,55 +19,43 @@ import org.magic.services.tools.UITools;
 
 public class MagicCorporationPricer extends AbstractPricesProvider {
 
-	private static final String BASE_URL = "http://www.magiccorporation.com/";
+	private static final String BASE_URL = "https://boutique.magiccorporation.com";
 
 	@Override
 	public String getName() {
 		return "MagicCorporation";
 	}
+	
+	
+	public static void main(String[] args) throws IOException {
+	    
+	    var mc = new MTGCard();
+	    mc.setName("Jace, the mind sculptor");
+	    
+	    
+	    new MagicCorporationPricer().getLocalePrice(mc);
+	}
+	
 
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		String url = BASE_URL + "mc.php";
+		String url = BASE_URL + "/cartes/recherche?q="+URLTools.encode(card.getName());
 		List<MTGPrice> ret = new ArrayList<>();
 
-		Document content = RequestBuilder.build().url(url).newClient().get().addContent("rub", "cartes")
-				.addContent("op", "search").addContent("search", "2").addContent("word", card.getName()).toHtml();
+		Document content = RequestBuilder.build().url(url).newClient().get().addContent("q", card.getName()).toHtml();
 
-		Elements trs = content.select("tr.hover");
-		String link = BASE_URL + trs.first().select("td").get(3).select("span a").attr("href");
-
-		content = RequestBuilder.build().url(link).newClient().get()
-				.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
-				.addHeader("Upgrade-Insecure-Requests", "1").addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate")
-				.toHtml();
-		trs = content.select("table[width=100%]:has(form) tr");
-
-		if (!trs.isEmpty()) {
-			for (Element tr : trs) {
-				var mp = new MTGPrice();
-				mp.setCardData(card);
-				mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
-				mp.setCurrency("EUR");
-				mp.setQuality(
-						aliases.getReversedConditionFor(this, tr.select("td").get(1).text(), EnumCondition.NEAR_MINT));
-				mp.setValue(UITools.parseDouble(tr.select("td").get(3).text().replace("\u0080", "")));
-				mp.setSeller(tr.select("td").first().text());
-				mp.setSite(getName());
-				mp.setLanguage("EN");
-
-				if (tr.select("td").get(2).childNodeSize() > 0) {
-					if (tr.select("td").get(2).getElementsByTag("img").first().attr("src").contains("de.gif"))
-						mp.setLanguage("DE");
-					else if (tr.select("td").get(2).getElementsByTag("img").first().attr("src").contains("vf.gif"))
-						mp.setLanguage("FR");
-					else
-						mp.setLanguage("EN");
-				}
-				mp.setFoil(tr.select("td").get(2).childNodeSize() > 1);
-				mp.setUrl(tr.select("td").first().getElementsByTag("a").attr("href"));
-				ret.add(mp);
+		
+	
+		var trs = content.select("table.w-full tbody tr");
+		
+		if (!trs.isEmpty()) 
+		{
+			for (Element tr : trs) 
+			{
+				var entries = tr.getElementsByTag("td").get(8).select("select[name=variant] option");
+				if(!entries.isEmpty())
+				    createPriceEntry(ret, tr, card,entries);
 			}
 		} else {
 			logger.debug("{} found nothing", getName());
@@ -75,6 +63,31 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 		logger.info("{} found {} offers", getName(), ret.size());
 
 		return ret;
+	}
+
+
+	private void createPriceEntry(List<MTGPrice> ret,Element tr, MTGCard card, Elements entries) {
+	    
+	    
+	    for(var e : entries)
+	    {
+
+		    var mp = new MTGPrice();
+			mp.setCardData(card);
+			mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
+			mp.setCurrency("EUR");
+			mp.setSite(getName());				
+			mp.setSeller(getName());
+			mp.setUrl(tr.getElementsByTag("td").first().getElementsByTag("a").attr("href"));
+			mp.setValue(UITools.parseDouble(e.text().split("·")[1]));
+			mp.setLanguage(e.attr("value").contains("vf")? "French":"English");
+			mp.setFoil(e.attr("value").contains("foil"));
+			mp.setQty(Integer.parseInt(e.attr("data-max")));
+			ret.add(mp);
+	    }
+	    
+	    
+		    
 	}
 
 }
