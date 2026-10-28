@@ -195,7 +195,7 @@ public class MtgCardComposer extends MTGUIComponent {
 	
 	renderCardButton.addActionListener(_->{
 	   
-	    paneRendering.setVisible(true);
+	   paneRendering.setVisible(true);
 	    
 	   var diag = new CardImporterDialog();
 	   diag.setLocationRelativeTo(this);
