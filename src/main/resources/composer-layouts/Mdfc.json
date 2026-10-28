@@ -159,7 +159,6 @@
   },
   {
     "path": "Frames/mdfc_icons/U.webp",
-    "frameType": "TRANSFORM_ICON",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
     "name": "MDFC_ICON",
@@ -184,6 +183,7 @@
   },
   {
     "path": "Frames/mdfc_hints/U.webp",
+    "frameType": "MDFC_HINTS",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
     "name": "MDFC_CARD_ROTATED",

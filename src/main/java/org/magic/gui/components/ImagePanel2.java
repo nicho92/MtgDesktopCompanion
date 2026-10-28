@@ -186,7 +186,7 @@ public class ImagePanel2 extends JXPanel {
 			frame[0]++;
 			var progress = frame[0] / totalFrames;
 			rotationX = Math.cos(progress * Math.PI);
-			if (progress >= 0.5) {
+			if (progress >= 0.5 && back!=null) {
 				print = ImageTools.mirroring(back);
 			}
 			repaint();

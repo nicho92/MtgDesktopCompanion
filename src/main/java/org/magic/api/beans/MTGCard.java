@@ -431,7 +431,13 @@ public class MTGCard extends AbstractProduct {
 	public List<EnumPromoType> getPromotypes() {
 		return promotypes;
 	}
-
+	
+	public String getPT()
+	{
+	    return getPower()+"/"+getToughness();
+	}
+	
+	
 	public EnumRarity getRarity() {
 		return rarity;
 	}

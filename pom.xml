@@ -64,9 +64,9 @@
 		<log4j.version>2.26.1</log4j.version>
 		<poi.version>6.0.0</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
-		<rhino.version>1.9.1</rhino.version>
+		<rhino.version>1.9.2</rhino.version>
 		<commonmark.version>0.31.0</commonmark.version>
-		<langchain4j.version>1.22.0</langchain4j.version>
+		<langchain4j.version>1.23.0</langchain4j.version>
 		<telegram.version>10.3.0</telegram.version>
 	</properties>
 

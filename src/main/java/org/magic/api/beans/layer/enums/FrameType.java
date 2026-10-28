@@ -13,6 +13,7 @@ public enum FrameType {
     TRANSFORM_ICON,
     LOYALTY_BASE,
     LOYALTY_MODIFIER,
-    BORDERED_FRAME
+    BORDERED_FRAME,
+    MDFC_HINTS
     
 }

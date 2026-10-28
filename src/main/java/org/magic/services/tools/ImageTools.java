@@ -532,7 +532,7 @@ public class ImageTools {
 	}
 
 	public static BufferedImage mirroring(BufferedImage image) {
-		var tx = AffineTransform.getScaleInstance(-1, 1);
+    	    	var tx = AffineTransform.getScaleInstance(-1, 1);
 		tx.translate(-image.getWidth(null), 0);
 		var op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		image = op.filter(image, null);

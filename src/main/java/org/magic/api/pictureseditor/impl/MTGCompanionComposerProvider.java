@@ -118,11 +118,37 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		if(tl.getName().equals("ROTATED_TYPES") && mc.getRotatedCard()!=null)
 		{
 		    tl.setText(mc.getRotatedCard().getFullType());
+		    
+		    
+		    if(mc.getLayout()==EnumLayout.MODAL_DFC)
+		    {
+			if(mc.getRotatedCard().isCreature())
+			    tl.setText(mc.getRotatedCard().getPT() + " Creature");
+			
+			if(mc.getRotatedCard().isLand())
+			    tl.setText("Land");
+			
+			
+		    }
+		    
 		}
 
 		if(tl.getName().equals("ROTATED_TEXT") && mc.getRotatedCard()!=null)
 		{
 		    tl.setText(mc.getRotatedCard().getFullType());
+		    
+		    
+		    if(mc.getLayout()==EnumLayout.MODAL_DFC)
+		    {
+			if(mc.getRotatedCard().isCreature())
+			    tl.setText(mc.getRotatedCard().getCost());
+			
+			if(mc.getRotatedCard().isLand())
+			    tl.setText("{T} Add ");
+			
+			
+		    }
+		    
 		}
 
 
@@ -130,7 +156,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		{
 		    if(mc.getRotatedCard()!=null && mc.getRotatedCard().isCreature())
 		    {
-			tl.setText(mc.getRotatedCard().getPower()+"/"+mc.getRotatedCard().getToughness());
+			tl.setText(mc.getPT());
 		    }
 		    else
 		    {
@@ -239,7 +265,15 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    if(!mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).isEmpty())
 			code="Land_"+mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 		}
+		
+		if(fl.getFrameType()==FrameType.MDFC_HINTS)
+		{
+		    code = EnumColors.determine(mc.getRotatedCard().getColors()).getCode();
+		    print=mc.isDoubleFaced();
 
+		}
+		
+		
 		fl.setPath(fl.getPath().replace(TEMPLATE_REPLACE, code+".webp"));
 
 		if(fl.getFrameType()==FrameType.SETICON)	{
@@ -252,12 +286,13 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    var directory="Frames/transform_icons";
 		    if(mc.getSide().equals("b"))
 			directory ="Frames/transform_back_icons";
-
+		    
 		    fl.setPath(directory+"/"+mc.getFrameEffects().getFirst().name().toLowerCase()+".webp");
 		    print=mc.isDoubleFaced();
 
 		}
 
+	
 
 		if(fl.getFrameType()==FrameType.PT)	{
 		    print=mc.isCreature();    
@@ -353,6 +388,9 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	if(mc.getLayout()==EnumLayout.ADVENTURE)
 	    layout="Adventures";
 
+	if(mc.getLayout()==EnumLayout.MODAL_DFC)
+	    layout="Mdfc";
+	
 	if(forceTemplate!=null)
 	    layout= forceTemplate;
 
