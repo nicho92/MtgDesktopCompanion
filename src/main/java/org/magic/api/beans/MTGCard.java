@@ -434,6 +434,9 @@ public class MTGCard extends AbstractProduct {
 	
 	public String getPT()
 	{
+	    if(!isCreature())
+		return "";
+	    
 	    return getPower()+"/"+getToughness();
 	}
 	

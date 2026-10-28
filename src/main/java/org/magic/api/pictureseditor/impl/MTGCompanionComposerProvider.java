@@ -170,7 +170,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			tl.setColor(Color.WHITE);
 
 		    if(mc.isCreature())
-			tl.setText(mc.getPower() +"/"+mc.getToughness());
+			tl.setText(mc.getPT());
 		    else
 			tl.setText("");
 		}

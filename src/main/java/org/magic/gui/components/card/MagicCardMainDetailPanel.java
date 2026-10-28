@@ -208,7 +208,7 @@ public class MagicCardMainDetailPanel extends JPanel implements Observer {
 		chkRetro.setSelected(mc.isRetro());
 
 		if (mc.isCreature() || mc.isVehicule())
-			txtPower.setText(mc.getPower() + "/" + mc.getToughness());
+			txtPower.setText(mc.getPT());
 		else if (mc.isPlaneswalker())
 			txtPower.setText("" + mc.getLoyalty());
 		else if (mc.isSiege())

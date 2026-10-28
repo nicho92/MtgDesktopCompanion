@@ -111,7 +111,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	build.addContent("fields[background-texture]", colorBase.toLowerCase());
 
 	if (mc.isCreature() || mc.isVehicule())
-	    build.addContent("fields[fe]", mc.getPower() + "/" + mc.getToughness());
+	    build.addContent("fields[fe]", mc.getPT());
 
 	if (mc.getRarity() != null)
 	    build.addContent("fields[se-rarity]", mc.getRarity().name().substring(0, 1).toLowerCase());

@@ -33,7 +33,7 @@ public class FixCreaturePowerActions extends AbstractCardAction {
 		card.repaint();
 
 		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() + " P/T to "
-				+ card.getMagicCard().getPower() + "/" + card.getMagicCard().getToughness());
+				+ card.getMagicCard().getPT());
 
 	}
 

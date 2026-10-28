@@ -77,7 +77,6 @@
 			<url>https://repo.panda-lang.org/releases</url>
 		</repository>
 	</repositories>
-		
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<resources>

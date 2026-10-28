@@ -60,9 +60,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					.append(mcs.getProduct().getEdition().getCardCountOfficial()).append("\t");
 			temp.append(mcs.getProduct().getColors()).append("\t");
 			temp.append(mcs.getProduct().getCost()).append("\t");
-			temp.append(mcs.getProduct().isCreature()
-					? mcs.getProduct().getPower() + "/" + mcs.getProduct().getToughness()
-					: "").append("\t");
+			temp.append(mcs.getProduct().isCreature()? mcs.getProduct().getPT(): "").append("\t");
 			temp.append(mcs.getProduct().getArtist()).append("\t");
 			temp.append(mcs.getProduct().getBorder() != null ? mcs.getProduct().getBorder().toPrettyString() : "")
 					.append("\t");

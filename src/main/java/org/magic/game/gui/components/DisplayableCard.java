@@ -195,7 +195,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			g.drawImage(image.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
 
 			if (showPT)
-				drawString(g, magicCard.getPower() + "/" + magicCard.getToughness(), Color.BLACK, Color.WHITE,
+				drawString(g, magicCard.getPT(), Color.BLACK, Color.WHITE,
 						this.getWidth() - 33, this.getHeight() - 10);
 
 			if (showLoyalty)
