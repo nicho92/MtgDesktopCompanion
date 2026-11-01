@@ -236,14 +236,19 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 		if(mc.isDoubleFaced() && mc.getSide().equals("b"))
 		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
-
-
+		
+		
+		if(mc.getLayout()==EnumLayout.MODAL_DFC && mc.getSide().equals("b") && fl.getFrameType()!=FrameType.BOX)
+		{
+			fl.setPath(fl.getPath().replace("mdfc_", "mdfc_back_"));
+		}
+	
 		if(mc.isArtifact())
 		    code = "Artifact";
 		else if(mc.isLand())
 		    code = "Land";
 
-		if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY || fl.isTitleLine() || fl.isTypesLine()) && !StringUtils.isEmpty( mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)))
+		if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY || fl.isTitleLine() || fl.isTypesLine() || fl.isBothLines()) && !StringUtils.isEmpty( mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)))
 		{
 		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 
@@ -253,10 +258,23 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			code=mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 		}
 
-		if((fl.getFrameType()==FrameType.FRAME  || fl.getFrameType()==FrameType.PT)&& mc.isVehicule())	{
+		if((fl.getFrameType()==FrameType.FRAME  || fl.getFrameType()==FrameType.PT)&& mc.isVehicule()){
 		    code="Vehicle";
 		}
+		
+		if(fl.getFrameType()==FrameType.MDFC_HINTS)
+		{
+		    code = EnumColors.determine(mc.getRotatedCard().getColors()).getCode();
+		    if(mc.getRotatedCard().isArtifact())
+			    code = "Artifact";
+			else if(mc.getRotatedCard().isLand())
+			    code = "Colourless";
+		    
+		    print=mc.isDoubleFaced();
 
+		}
+		
+		
 
 		if(fl.getFrameType()==FrameType.BORDERED_FRAME && mc.isLand())
 		{
@@ -266,12 +284,11 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			code="Land_"+mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 		}
 		
-		if(fl.getFrameType()==FrameType.MDFC_HINTS)
-		{
-		    code = EnumColors.determine(mc.getRotatedCard().getColors()).getCode();
-		    print=mc.isDoubleFaced();
+	
 
-		}
+		
+		
+		
 		
 		
 		fl.setPath(fl.getPath().replace(TEMPLATE_REPLACE, code+".webp"));

@@ -32,7 +32,11 @@ public class FrameLayer extends AbstractLayer {
     return alphalayout;
 }
     
-    
+   public boolean isBothLines() {
+  	return frameType==FrameType.BOTH_BORDER;
+      }
+   
+   
     public boolean isTypesLine() {
 	return frameType==FrameType.TYPE_BORDER;
     }
