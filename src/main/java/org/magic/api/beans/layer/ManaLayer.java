@@ -18,6 +18,9 @@ public class ManaLayer extends AbstractLayer{
     
     private String cost;
     private transient BufferedImage manaImage;
+    private boolean shadowed = true;
+    
+    
     
     public ManaLayer(String cost)
     {
@@ -25,6 +28,16 @@ public class ManaLayer extends AbstractLayer{
 	setName("Symbol " + cost);
 	
     }
+    
+    public void setShadowed(boolean shadowed) {
+	this.shadowed = shadowed;
+    }
+    
+    public boolean isShadowed() {
+	return shadowed;
+    }
+    
+    
     
     public String getCost() {
 	return cost;
@@ -37,6 +50,14 @@ public class ManaLayer extends AbstractLayer{
     
     @Override
     protected void paintLayer(Graphics2D g2) {
+	
+	if(shadowed) {
+	    	var shadowedImage = ImageTools.createShadow(manaImage, -3,9,3,0.8f);
+	        int padX = (shadowedImage.getWidth() - manaImage.getWidth()) / 2;
+	        int padY = (shadowedImage.getHeight() - manaImage.getHeight()) / 2;
+	        g2.drawImage(shadowedImage, getX() - padX, getY() - padY, null);
+	}
+	
 	g2.drawImage(manaImage, getX(), getY(), getWidth(), getHeight(), null);
 	
     }
@@ -49,6 +70,9 @@ public class ManaLayer extends AbstractLayer{
 	
 	
         manaImage = ImageTools.joinBufferedImage(parseManaCost(cost));
+        
+        
+      
         
         if (manaImage != null) { 
             

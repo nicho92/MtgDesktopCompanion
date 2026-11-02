@@ -213,6 +213,13 @@ public class LayerDetailPanel extends JPanel {
         var costField = new JTextField(manaLayer.getCost());
         costField.addActionListener(_ -> update(() -> manaLayer.setCost(costField.getText())));
         propertiesPanel.add(createProperty("Cost", costField));
+        
+        
+        var shadowchk = new JCheckBox();
+        shadowchk.setSelected(manaLayer.isShadowed());
+        shadowchk.addItemListener(_ -> update(() -> manaLayer.setShadowed(shadowchk.isSelected())));
+        propertiesPanel.add(createProperty("Shadow", shadowchk));
+        
     }
 
     private void addTextProperties(TextLayer textLayer) {

@@ -12,7 +12,9 @@ import java.awt.Transparency;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.ConvolveOp;
 import java.awt.image.DataBufferInt;
+import java.awt.image.Kernel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -77,6 +79,29 @@ public class ImageTools {
 		} catch (Exception _) {
 			return false;
 		}
+	}
+	public static BufferedImage createShadow(BufferedImage src, int shadowOffsetX, int shadowOffsetY, int shadowBlur, float shadowOpacity) {
+
+	    int pad = shadowBlur * 2 + Math.max(Math.abs(shadowOffsetX), Math.abs(shadowOffsetY));
+	    int w = src.getWidth() + pad * 2;
+	    int h = src.getHeight() + pad * 2;
+
+	    var shadow = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    var g = shadow.createGraphics();
+
+	    g.drawImage(src, pad + shadowOffsetX, pad + shadowOffsetY, null);
+
+	    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN, shadowOpacity));
+	    g.setColor(Color.BLACK);
+	    g.fillRect(0, 0, w, h);
+	    g.dispose();
+
+	    // flou (box blur)
+	    int size = shadowBlur * 2 + 1;
+	    float[] data = new float[size * size];
+	    java.util.Arrays.fill(data, 1f / data.length);
+	    var blur = new ConvolveOp(new Kernel(size, size, data), ConvolveOp.EDGE_NO_OP, null);
+	    return blur.filter(shadow, null);
 	}
 	
 	    
