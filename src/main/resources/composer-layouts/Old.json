@@ -119,6 +119,7 @@
   },
   {
     "cost": "{U}{U}",
+    "shadowed": false,
     "name": "COST",
     "x": 2460,
     "y": 200,

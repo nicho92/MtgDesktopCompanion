@@ -204,6 +204,7 @@
   },
   {
     "cost": "{4}{U}",
+    "shadowed": true,
     "name": "COST",
     "x": 2510,
     "y": 250,
@@ -277,6 +278,7 @@
   },
   {
     "cost": "{1}{U}",
+    "shadowed": true,
     "name": "ROTATED_COST",
     "x": 1134,
     "y": 2665,

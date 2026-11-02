@@ -411,6 +411,7 @@
   },
   {
     "cost": "{2}{U}{U}",
+    "shadowed": true,
     "name": "COST",
     "x": 2380,
     "y": 205,

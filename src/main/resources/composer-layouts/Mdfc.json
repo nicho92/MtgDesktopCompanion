@@ -196,6 +196,7 @@
   },
   {
     "cost": "{4}{U}",
+    "shadowed": true,
     "name": "MANA_COST",
     "x": 2525,
     "y": 250,

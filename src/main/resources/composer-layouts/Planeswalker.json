@@ -25,6 +25,7 @@
       "A": 255
     },
     "role": "COLLECTOR_INFO",
+    "spaceTracking": 0.0,
     "name": "RARITY_PRINTNUMBER",
     "x": 185,
     "y": 3930,
@@ -45,6 +46,7 @@
       "A": 255
     },
     "role": "SET_AND_LANG",
+    "spaceTracking": 0.0,
     "name": "SET_LANG",
     "x": 185,
     "y": 4010,
@@ -65,6 +67,7 @@
       "A": 255
     },
     "role": "SEPARATOR",
+    "spaceTracking": 0.0,
     "name": "SEPARATOR",
     "x": 473,
     "y": 4000,
@@ -97,6 +100,7 @@
       "A": 255
     },
     "role": "ARTIST",
+    "spaceTracking": 0.0,
     "name": "ARTIST",
     "x": 590,
     "y": 3985,
@@ -117,6 +121,7 @@
       "A": 255
     },
     "role": "COPYRIGHT",
+    "spaceTracking": 0.0,
     "name": "COPYRIGHT",
     "x": 1950,
     "y": 3965,
@@ -204,6 +209,7 @@
       "A": 255
     },
     "role": "LOYALY",
+    "spaceTracking": 0.0,
     "name": "loyaly_initial",
     "x": 2655,
     "y": 3742,
@@ -224,6 +230,7 @@
       "A": 255
     },
     "role": "TITLE",
+    "spaceTracking": 0.0,
     "name": "NAME",
     "x": 220,
     "y": 193,
@@ -244,6 +251,7 @@
       "A": 255
     },
     "role": "TYPE_LINE",
+    "spaceTracking": 0.0,
     "name": "TYPES",
     "x": 205,
     "y": 2405,
@@ -303,6 +311,7 @@
       "A": 255
     },
     "role": "LOYALY",
+    "spaceTracking": 0.0,
     "name": "loyalty_value_1",
     "x": 190,
     "y": 2819,
@@ -323,6 +332,7 @@
       "A": 255
     },
     "role": "LOYALY",
+    "spaceTracking": 0.0,
     "name": "loyalty_value_2",
     "x": 190,
     "y": 3229,
@@ -343,6 +353,7 @@
       "A": 255
     },
     "role": "LOYALY",
+    "spaceTracking": 0.0,
     "name": "loyalty_value_3",
     "x": 190,
     "y": 3675,
@@ -353,6 +364,7 @@
   },
   {
     "cost": "{2}{U}{U/P}",
+    "shadowed": true,
     "name": "COST",
     "x": 2370,
     "y": 215,
@@ -386,6 +398,7 @@
       "A": 255
     },
     "role": "TEXT",
+    "spaceTracking": 0.0,
     "name": "loyalty_text_1",
     "x": 480,
     "y": 2700,
@@ -406,6 +419,7 @@
       "A": 255
     },
     "role": "TEXT",
+    "spaceTracking": 0.0,
     "name": "loyalty_text_2",
     "x": 485,
     "y": 3080,
@@ -426,6 +440,7 @@
       "A": 255
     },
     "role": "TEXT",
+    "spaceTracking": 0.0,
     "name": "loyalty_text_3",
     "x": 475,
     "y": 3510,

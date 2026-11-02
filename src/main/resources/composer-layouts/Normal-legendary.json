@@ -294,6 +294,7 @@
   },
   {
     "cost": "{7}{U}{U}",
+    "shadowed": true,
     "name": "MANACOST",
     "x": 2366,
     "y": 255,

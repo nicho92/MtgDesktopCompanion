@@ -25,6 +25,7 @@
       "A": 255
     },
     "role": "COLLECTOR_INFO",
+    "spaceTracking": 0.0,
     "name": "RARITY_PRINTNUMBER",
     "x": 185,
     "y": 3930,
@@ -45,6 +46,7 @@
       "A": 255
     },
     "role": "SET_AND_LANG",
+    "spaceTracking": 0.0,
     "name": "SET_LANG",
     "x": 185,
     "y": 4010,
@@ -65,6 +67,7 @@
       "A": 255
     },
     "role": "SEPARATOR",
+    "spaceTracking": 0.0,
     "name": "SEPARATOR",
     "x": 473,
     "y": 4000,
@@ -85,6 +88,7 @@
       "A": 255
     },
     "role": "ARTIST",
+    "spaceTracking": 0.0,
     "name": "ARTIST",
     "x": 590,
     "y": 3985,
@@ -105,6 +109,7 @@
       "A": 255
     },
     "role": "COPYRIGHT",
+    "spaceTracking": 0.0,
     "name": "COPYRIGHT",
     "x": 1950,
     "y": 3965,
@@ -214,6 +219,7 @@
       "A": 255
     },
     "role": "TITLE",
+    "spaceTracking": 0.0,
     "name": "title",
     "x": 230,
     "y": 268,
@@ -234,6 +240,7 @@
       "A": 255
     },
     "role": "TYPE_LINE",
+    "spaceTracking": 0.0,
     "name": "type_line",
     "x": 225,
     "y": 3631,
@@ -254,6 +261,7 @@
       "A": 255
     },
     "role": "FLAVOR",
+    "spaceTracking": 0.0,
     "name": "Saga_Flavor",
     "x": 265,
     "y": 545,
@@ -264,6 +272,7 @@
   },
   {
     "cost": "{3}{U}{U}{U}{U}",
+    "shadowed": true,
     "name": "Mana Cost",
     "x": 2125,
     "y": 270,
@@ -328,6 +337,7 @@
       "A": 255
     },
     "role": "TEXT",
+    "spaceTracking": 0.0,
     "name": "Saga_1",
     "x": 355,
     "y": 1330,
