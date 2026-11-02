@@ -89,7 +89,7 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 		if (colors.size() > 1)
 			return EnumColors.GOLD;
 
-		return colors.get(0);
+		return colors.getFirst();
 	}
 
 	public static EnumColors colorByCode(String s) {

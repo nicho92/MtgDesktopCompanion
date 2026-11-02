@@ -170,13 +170,12 @@ public class MtgCardComposer extends MTGUIComponent {
 	var openButton = new JButton(MTGConstants.ICON_SMALL_OPEN);
 	var exportButton = new JButton(MTGConstants.ICON_SMALL_EXPORT);
 	var renderCardButton = new JButton(MTGConstants.ICON_TAB_CARD);
-	
+	var exportImageButton = new JButton(MTGConstants.ICON_TAB_PICTURE);
 	
 	buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 	
-	add(UITools.createFlowPanel(newButton,openButton,saveButton,exportButton,btnRender,renderCardButton,buzy),BorderLayout.NORTH);
+	add(UITools.createFlowPanel(newButton,openButton,saveButton,exportButton,btnRender,renderCardButton,exportImageButton,buzy),BorderLayout.NORTH);
 
-	
 	
 	var paneSouth = new JPanel();
 	paneSouth.setLayout(new BorderLayout());
@@ -233,6 +232,23 @@ public class MtgCardComposer extends MTGUIComponent {
 			};
 			ThreadManager.getInstance().runInEdt(sw, "rendering results");
 		}
+	    
+	});
+	
+	
+	exportImageButton.addActionListener(_->{
+	    
+	    var chose = new JFileChooser(currentFile);
+	    chose.showSaveDialog(this);
+	    
+	    if(chose.getSelectedFile()==null)
+		return;
+	    
+	    try {
+		ImageTools.saveImageInPng(canvas.getCardImage(), chose.getSelectedFile());
+	    } catch (IOException e) {
+		MTGControler.getInstance().notify(e);
+	    }
 	    
 	});
 	

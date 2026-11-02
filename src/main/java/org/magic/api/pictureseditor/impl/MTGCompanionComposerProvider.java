@@ -233,9 +233,29 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(l instanceof FrameLayer fl)
 	    {
 		var code = EnumColors.determine(mc.getColors()).getCode();
+		
 
+		if(mc.isArtifact())
+		{
+		    code = "Artifact";
+		    if(!mc.getColors().isEmpty())
+			mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getColors()).getCode());
+		    
+		    
+		}
+		else if(mc.isLand()) 
+		{
+		    	mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getProducedMana()).getCode());
+		    	 code = "Land";
+		}
+		   
+		
+		
 		if(mc.isDoubleFaced() && mc.getSide().equals("b"))
 		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+		
+		
+		
 		
 		
 		if(mc.getLayout()==EnumLayout.MODAL_DFC && mc.getSide().equals("b") && fl.getFrameType()!=FrameType.BOX)
@@ -243,10 +263,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			fl.setPath(fl.getPath().replace("mdfc_", "mdfc_back_"));
 		}
 	
-		if(mc.isArtifact())
-		    code = "Artifact";
-		else if(mc.isLand())
-		    code = "Land";
 
 		if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY || fl.isTitleLine() || fl.isTypesLine() || fl.isBothLines()) && !StringUtils.isEmpty( mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)))
 		{
@@ -274,8 +290,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 		}
 		
-		
-
 		if(fl.getFrameType()==FrameType.BORDERED_FRAME && mc.isLand())
 		{
 		    code="Land_Gold";
@@ -283,14 +297,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    if(!mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).isEmpty())
 			code="Land_"+mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 		}
-		
-	
-
-		
-		
-		
-		
-		
+			
 		fl.setPath(fl.getPath().replace(TEMPLATE_REPLACE, code+".webp"));
 
 		if(fl.getFrameType()==FrameType.SETICON)	{

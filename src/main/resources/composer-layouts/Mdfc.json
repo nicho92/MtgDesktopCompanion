@@ -174,10 +174,10 @@
     "fadeSize": 0.0,
     "fadeStrength": 1.0,
     "name": "Illustration",
-    "x": 210,
-    "y": 470,
+    "x": 208,
+    "y": 465,
     "width": 2579,
-    "height": 1883,
+    "height": 1878,
     "alpha": 1.0,
     "layerType": "IllustrationLayer"
   },
