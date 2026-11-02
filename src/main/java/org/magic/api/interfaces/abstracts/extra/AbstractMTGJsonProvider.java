@@ -209,8 +209,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 
 		List<QueryAttribute> arr = new ArrayList<>();
 
-		for (String s : Lists.newArrayList(NAME, ARTIST, TEXT, FLAVOR_TEXT, FRAME_VERSION, MANA_COST, TYPE,
-				FRAME_VERSION, WATERMARK))
+		for (String s : Lists.newArrayList(NAME, ARTIST, TEXT, FLAVOR_TEXT, FRAME_VERSION, MANA_COST, TYPE,FRAME_VERSION, WATERMARK))
 			arr.add(new QueryAttribute(s, String.class));
 
 		for (String s : Lists.newArrayList(CONVERTED_MANA_COST, POWER, TOUGHNESS, MULTIVERSE_ID, NUMBER))
@@ -223,6 +222,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 		arr.add(new QueryAttribute(RARITY, EnumRarity.class));
 		arr.add(new QueryAttribute(COLOR_IDENTITY, EnumColors.class));
 		arr.add(new QueryAttribute(COLORS, EnumColors.class));
+		arr.add(new QueryAttribute(PRODUCED_MANA, EnumColors.class));
 		arr.add(new QueryAttribute(PROMO_TYPE, EnumPromoType.class));
 		arr.add(new QueryAttribute(FRAME_EFFECTS, EnumFrameEffects.class));
 		arr.add(new QueryAttribute(FINISHES, EnumFinishes.class));

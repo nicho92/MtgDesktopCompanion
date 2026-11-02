@@ -233,8 +233,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	    if(l instanceof FrameLayer fl)
 	    {
 		var code = EnumColors.determine(mc.getColors()).getCode();
-		
-
+	
 		if(mc.isArtifact())
 		{
 		    code = "Artifact";
@@ -248,19 +247,13 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    	mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getProducedMana()).getCode());
 		    	 code = "Land";
 		}
-		   
 		
-		
-		if(mc.isDoubleFaced() && mc.getSide().equals("b"))
-		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
-		
-		
-		
-		
+//		if(mc.isDoubleFaced() && mc.getSide().equals("b"))
+//		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 		
 		if(mc.getLayout()==EnumLayout.MODAL_DFC && mc.getSide().equals("b") && fl.getFrameType()!=FrameType.BOX)
 		{
-			fl.setPath(fl.getPath().replace("mdfc_", "mdfc_back_"));
+		 	fl.setPath(fl.getPath().replace("mdfc_", "mdfc_back_"));
 		}
 	
 

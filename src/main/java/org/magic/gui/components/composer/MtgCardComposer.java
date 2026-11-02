@@ -118,7 +118,6 @@ public class MtgCardComposer extends MTGUIComponent {
 	
 
 	tree = new JTree(new DefaultTreeModel(rootNode));
-
 	tree.setRootVisible(true);
 	tree.setShowsRootHandles(true);
 	tree.setCellRenderer((JTree t, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)->{
@@ -160,7 +159,6 @@ public class MtgCardComposer extends MTGUIComponent {
 	sldZoom.setPaintTicks(true);
 	sldZoom.setPaintLabels(true);
 	sldZoom.addChangeListener(_->canvas.setZoom((double)sldZoom.getValue()/100));
-
 	sldZoom.setValue(20);
 
 

@@ -756,8 +756,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new QueryAttribute(rs.getString(NAME), Boolean.class));
 				else if (rs.getString(NAME).equals(SETCODE))
 					ret.add(new QueryAttribute(rs.getString(NAME), String.class));
-				else if (rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY)
-						|| rs.getString(NAME).equals(COLOR_INDICATOR))
+				else if (rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY)|| rs.getString(NAME).equals(COLOR_INDICATOR)|| rs.getString(NAME).equals(PRODUCED_MANA))
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumColors.class));
 				else if (rs.getString(NAME).equals(LAYOUT))
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumLayout.class));
