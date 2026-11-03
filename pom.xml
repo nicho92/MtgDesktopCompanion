@@ -203,7 +203,7 @@
     	<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>cardnexus-api-java</artifactId>
-		  <version>1.4.41</version>
+		  <version>1.4.42</version>
 		</dependency>
     	<dependency>
 		  <groupId>com.github.nicho92</groupId>
@@ -625,7 +625,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.7.2-jre</version>
+			<version>33.8.0-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -783,7 +783,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.23.2</version>
+			<version>1.24.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>

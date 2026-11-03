@@ -339,7 +339,7 @@
     "role": "TEXT",
     "spaceTracking": 0.0,
     "name": "Saga_1",
-    "x": 355,
+    "x": 370,
     "y": 1330,
     "width": 1100,
     "height": 484,
@@ -357,5 +357,75 @@
     "height": 292,
     "alpha": 1.0,
     "layerType": "FrameLayer"
+  },
+  {
+    "text": "You may draw a card for each artifact you control. If you do, each opponent draws a card.",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "spaceTracking": 0.0,
+    "name": "Saga_2",
+    "x": 370,
+    "y": 2035,
+    "width": 1100,
+    "height": 484,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
+  },
+  {
+    "color": {
+      "R": 102,
+      "G": 102,
+      "B": 102,
+      "A": 255
+    },
+    "shape": "SQUARE",
+    "name": "saga2 separator",
+    "x": 330,
+    "y": 2620,
+    "width": 1100,
+    "height": 10,
+    "alpha": 0.3,
+    "layerType": "ShapeLayer"
+  },
+  {
+    "path": "Frames/saga/III.webp",
+    "adaptedLegendaryFrame": false,
+    "alphalayout": false,
+    "name": "III.webp",
+    "x": 85,
+    "y": 2770,
+    "width": 255,
+    "height": 292,
+    "alpha": 1.0,
+    "layerType": "FrameLayer"
+  },
+  {
+    "text": "You may draw a card for each artifact you control. If you do, each opponent draws a card.",
+    "flavor": "",
+    "flavorOffsetY": 0,
+    "size": 130.0,
+    "color": {
+      "R": 0,
+      "G": 0,
+      "B": 0,
+      "A": 255
+    },
+    "role": "TEXT",
+    "spaceTracking": 0.0,
+    "name": "Saga_3",
+    "x": 365,
+    "y": 2720,
+    "width": 1100,
+    "height": 484,
+    "alpha": 1.0,
+    "layerType": "TextLayer"
   }
 ]

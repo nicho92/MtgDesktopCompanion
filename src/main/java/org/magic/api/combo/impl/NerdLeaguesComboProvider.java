@@ -9,7 +9,6 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
-import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 
@@ -37,7 +36,7 @@ public class NerdLeaguesComboProvider extends AbstractComboProvider {
 	
 	  try {
 	      
-	      MTGHttpClient c = URLTools.newClient();
+	      var c = URLTools.newClient();
 	      
 	      var element = c.doPost("https://www.nerdleagues.com/combos/search-by-card", URLTools.toJson(payload.toString()), Map.of(URLTools.REFERER,"https://www.nerdleagues.com/combos")).getAsJsonObject();
 	      	      
