@@ -83,19 +83,8 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		if(tl.getName().equals("NAME"))
 		    tl.setText(mc.getName());
 
-		if(tl.getName().equals("SET_LANG"))
-		    tl.setText(mc.getEdition().getId().toUpperCase() + " • EN");
-
 		if(tl.getName().equals("TYPES"))
 		    tl.setText(mc.getFullType());
-
-		if(tl.getName().equals("ARTIST"))
-		{
-		    if(mc.isRetro())
-			tl.setText("Illus. "+ mc.getArtist());
-		    else
-			tl.setText(mc.getArtist());
-		}
 
 		if(tl.getName().equals("TEXT")) {
 		    tl.setText(mc.getText());
@@ -175,6 +164,20 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 			tl.setText("");
 		}
 
+		
+		if(tl.getName().equals("SET_LANG"))
+		    tl.setText(mc.getEdition().getId().toUpperCase() + " • EN");
+
+	
+		if(tl.getName().equals("ARTIST"))
+		{
+		    if(mc.isRetro())
+			tl.setText("Illus. "+ mc.getArtist());
+		    else
+			tl.setText(mc.getArtist());
+		}
+
+
 		if(tl.getName().equals("RARITY_PRINTNUMBER"))
 		{
 		    if(mc.isRetro())
@@ -209,8 +212,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 	    if(l instanceof BorderLayer bl)
 	    {
-		bl.setColor(BorderColor.valueOf(mc.getBorder().name()).getColor());
-
+		bl.setColor(BorderColor.valueOf(mc.getBorder().name()));
 		if(bl.getColor()==BorderColor.BORDERLESS)
 		{
 		    bl.setUri(URI.create(mc.getUrl()));

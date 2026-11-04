@@ -80,13 +80,10 @@ public class BorderLayer extends AbstractLayer {
 			 );
 
 	     } else {
-
 		 graphics.setColor(color.getColor());
 		 graphics.fill(border);
 	     }
-
-	
-	    graphics.dispose();
+	     graphics.dispose();
 	
     }
 
@@ -94,8 +91,8 @@ public class BorderLayer extends AbstractLayer {
 	return color;
     }
 
-    public void setColor(Color color) {
-	this.color.setColor(color);
+    public void setColor(BorderColor color) {
+	this.color = color;
 	this.image = null;
     }
 

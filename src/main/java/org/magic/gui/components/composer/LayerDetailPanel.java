@@ -252,17 +252,17 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private void addBorderProperties(BorderLayer borderLayer) {
-        propertiesPanel.add(colorProperty("Color", borderLayer.getColor().getColor(), borderLayer::setColor));
         var radius = new JSpinner(new SpinnerNumberModel(borderLayer.getRadius(), 0.0, 10000.0, 1.0));
         radius.addChangeListener(_ -> update(() -> borderLayer.setRadius(((Number) radius.getValue()).doubleValue())));
         propertiesPanel.add(createProperty("Radius", radius));
-        addDoubleProperty("Image scale", borderLayer.getImageScale(), 0.0, borderLayer::setImageScale);
-        addDoubleProperty("Image X", borderLayer.getImageOffsetX(), -MAX_DIMENSION, borderLayer::setImageOffsetX);
-        addDoubleProperty("Image Y", borderLayer.getImageOffsetY(), -MAX_DIMENSION, borderLayer::setImageOffsetY);
-        
-        
+                
         if(borderLayer.getColor()==BorderColor.BORDERLESS)
         {
+            addDoubleProperty("Image scale", borderLayer.getImageScale(), 0.0, borderLayer::setImageScale);
+            addDoubleProperty("Image X", borderLayer.getImageOffsetX(), -MAX_DIMENSION, borderLayer::setImageOffsetX);
+            addDoubleProperty("Image Y", borderLayer.getImageOffsetY(), -MAX_DIMENSION, borderLayer::setImageOffsetY);
+            
+            
             var browseButton = new JButton("Browse…");
             browseButton.addActionListener(_ -> {
         	var uri = JOptionPane.showInputDialog("Url");
