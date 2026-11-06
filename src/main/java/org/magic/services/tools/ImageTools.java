@@ -120,17 +120,25 @@ public class ImageTools {
 	        g.dispose();
 	        return out;
 	    }
-	    
-	   
 	
-	public static ImageIcon addOutline(ImageIcon sourceIcon, Color outlineColor, int thickness) {
-
+	    
+	    public static ImageIcon addOutline(ImageIcon sourceIcon, Color outlineColor, int thickness) {
 		int width = sourceIcon.getIconWidth();
 		int height = sourceIcon.getIconHeight();
 		var sourceImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		var gSource = sourceImage.createGraphics();
 		sourceIcon.paintIcon(null, gSource, 0, 0);
 		gSource.dispose();
+		
+		return new ImageIcon(addOutline(sourceImage, outlineColor, thickness));
+	    }
+	    
+	   
+	
+	public static BufferedImage addOutline(BufferedImage source, Color outlineColor, int thickness) {
+
+	    int width = source.getWidth();
+		int height = source.getHeight();
 
 		var result = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		int outlineRGB = outlineColor.getRGB();
@@ -138,21 +146,21 @@ public class ImageTools {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 
-				int pixel = sourceImage.getRGB(x, y);
+				int pixel = source.getRGB(x, y);
 				int alpha = (pixel >> 24) & 0xff;
 
 				// Pixel visible
 				if (alpha > 0) {
 
-					for (int dx = -thickness; dx <= thickness; dx++) {
-						for (int dy = -thickness; dy <= thickness; dy++) {
-							int nx = x + dx;
-							int ny = y + dy;
+					for (var dx = -thickness; dx <= thickness; dx++) {
+						for (var dy = -thickness; dy <= thickness; dy++) {
+							var nx = x + dx;
+							var ny = y + dy;
 							if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-								double distance = Math.sqrt((double) dx * (double) dx + (double) dy * (double) dy);
+								var distance = Math.sqrt((double) dx * (double) dx + (double) dy * (double) dy);
 								if (distance <= thickness) {
-									int neighbor = result.getRGB(nx, ny);
-									int neighborAlpha = (neighbor >> 24) & 0xff;
+									var neighbor = result.getRGB(nx, ny);
+									var neighborAlpha = (neighbor >> 24) & 0xff;
 									if (neighborAlpha == 0)
 										result.setRGB(nx, ny, outlineRGB);
 								}
@@ -164,9 +172,9 @@ public class ImageTools {
 		}
 		var g2d = result.createGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.drawImage(sourceImage, 0, 0, null);
+		g2d.drawImage(source, 0, 0, null);
 		g2d.dispose();
-		return new ImageIcon(result);
+		return result;
 	}
 
 	public static BufferedImage rotate(BufferedImage img, double angle) {

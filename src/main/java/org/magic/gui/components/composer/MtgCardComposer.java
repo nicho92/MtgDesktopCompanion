@@ -10,14 +10,18 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -25,16 +29,19 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
 import org.magic.api.beans.layer.ManaLayer;
+import org.magic.api.beans.layer.SetIconLayer;
 import org.magic.api.beans.layer.ShapeLayer;
 import org.magic.api.beans.layer.TextLayer;
 import org.magic.api.beans.layer.enums.BorderColor;
 import org.magic.api.beans.layer.enums.ShapeType;
 import org.magic.api.beans.layer.enums.TextRole;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.extra.Layer;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.api.pictureseditor.impl.MTGCompanionComposerProvider;
@@ -50,6 +57,7 @@ import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class MtgCardComposer extends MTGUIComponent {
@@ -64,7 +72,7 @@ public class MtgCardComposer extends MTGUIComponent {
     private JSlider sldZoom;
     private AbstractBuzyIndicatorComponent buzy;
     private static File currentFile;
-    ImagePanel2 paneRendering ;
+    private final ImagePanel2 paneRendering ;
 
     public MtgCardComposer() {
 	setPreferredSize(new Dimension(1200, 900));
@@ -115,6 +123,17 @@ public class MtgCardComposer extends MTGUIComponent {
 		    rootShape.add(new DefaultMutableTreeNode(s));
 
 	rootNode.add(rootShape);	
+	
+	
+	var rootEditions = new DefaultMutableTreeNode("Sets");
+	try {
+	    for(var ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted(Comparator.comparing(MTGEdition::getSet)).toList())
+		rootEditions.add(new DefaultMutableTreeNode(ed));
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+
+	rootNode.add(rootEditions);	
 	
 
 	tree = new JTree(new DefaultTreeModel(rootNode));
@@ -361,7 +380,8 @@ public class MtgCardComposer extends MTGUIComponent {
 		{
 		    canvas.addLayer(new FrameLayer(file));
 		}
-		else if (object instanceof ShapeType shape) {
+		else if (object instanceof ShapeType shape) 
+		{
 		    
 		    var flayer = new ShapeLayer();
 		    flayer.setShape(shape);
@@ -370,7 +390,8 @@ public class MtgCardComposer extends MTGUIComponent {
 		    
 		    
 		}
-		else if (object instanceof TextRole role) {
+		else if (object instanceof TextRole role) 
+		{
 		    var flayer = new TextLayer(role.name().toLowerCase(),role);
 		    flayer.setColor(role.getColor());
 
@@ -380,7 +401,8 @@ public class MtgCardComposer extends MTGUIComponent {
 		    if(dialog.isConfirmed())
 			canvas.addLayer(flayer);
 		} 
-		else if (object instanceof BorderColor c) {
+		else if (object instanceof BorderColor c) 
+		{
 
 		    var border = new BorderLayer(c);
 
@@ -396,6 +418,13 @@ public class MtgCardComposer extends MTGUIComponent {
 			border.fitImage();
 		    }
 		    canvas.addLayer(border);
+		}
+		else if (object instanceof MTGEdition ed) 
+		{
+		    var l = new SetIconLayer(ed.getId());
+		    l.reload();
+		    
+		    canvas.addLayer(l);
 		}
 		else if (object.toString().equals("URL"))
 		{
@@ -498,6 +527,49 @@ public class MtgCardComposer extends MTGUIComponent {
     public String getTitle() {
 	return "Composer";
     }
-
-
 }
+
+class LeftPanel extends JPanel {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public LeftPanel(JTree tree, LayersListPanel layerList, LayerDetailPanel inspector) {
+
+	setLayout(new BorderLayout());
+	setPreferredSize(new Dimension(350, 0));
+
+	var treeScrollPane = new JScrollPane(tree);
+
+	treeScrollPane.setBorder(BorderFactory.createTitledBorder("Resources"));
+
+	var treePanel = new JPanel(new BorderLayout());
+
+	treePanel.add(treeScrollPane, BorderLayout.CENTER);
+
+	var layersPanel = new JPanel(new BorderLayout());
+	layersPanel.setBorder(BorderFactory.createTitledBorder("Composition"));
+	layersPanel.add(layerList, BorderLayout.CENTER);
+
+	
+	var tabPane = new JTabbedPane();
+		tabPane.addTab("Layers", layersPanel);
+		tabPane.addTab("Inspect", inspector);
+	
+	
+	// =================================================================
+	// Split
+	// =================================================================
+
+	var splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, treePanel, tabPane);
+
+	splitPane.setResizeWeight(0.65);
+
+	splitPane.setOneTouchExpandable(true);
+
+	add(splitPane, BorderLayout.CENTER);
+    }
+}
+

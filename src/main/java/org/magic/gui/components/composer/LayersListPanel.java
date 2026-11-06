@@ -26,9 +26,6 @@ import org.magic.services.tools.BeanTools;
 
 public class LayersListPanel extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
     private final DefaultListModel<Layer> model;
     private final JList<Layer> list;

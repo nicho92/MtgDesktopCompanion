@@ -29,16 +29,19 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
 import org.magic.api.beans.layer.ManaLayer;
+import org.magic.api.beans.layer.SetIconLayer;
 import org.magic.api.beans.layer.ShapeLayer;
 import org.magic.api.beans.layer.TextLayer;
 import org.magic.api.beans.layer.enums.BorderColor;
 import org.magic.api.beans.layer.enums.FrameType;
 import org.magic.api.interfaces.extra.Layer;
 import org.magic.gui.components.composer.listeners.LayerChangeListener;
+import org.magic.services.tools.UITools;
 
 public class LayerDetailPanel extends JPanel {
 
@@ -168,6 +171,8 @@ public class LayerDetailPanel extends JPanel {
             addFrameProperties(frameLayer);
         } else if (layer instanceof ShapeLayer shapeLayer) {
             addShapeProperties(shapeLayer);
+        } else if (layer instanceof SetIconLayer setLayer) {
+            addSetsProperties(setLayer);
         }
         
         
@@ -208,6 +213,21 @@ public class LayerDetailPanel extends JPanel {
             refresh(illustrationLayer);
         }
     }
+    
+    
+    private void addSetsProperties(SetIconLayer layer) {
+	
+	
+	    var rarityChk = UITools.createCombobox(EnumRarity.values());
+	    rarityChk.setSelectedItem(layer.getRarity());
+	    rarityChk.addItemListener(_ -> update(() -> { 
+								layer.setRarity(rarityChk.getItemAt(rarityChk.getSelectedIndex()));
+								layer.reload();
+	    							}));
+	    propertiesPanel.add(createProperty("Rarity", rarityChk));
+	
+    }
+    
 
     private void addManaProperties(ManaLayer manaLayer) {
         var costField = new JTextField(manaLayer.getCost());
@@ -289,7 +309,7 @@ public class LayerDetailPanel extends JPanel {
         var button = new JButton("Choose…");
         button.setBackground(color);
         button.addActionListener(_ -> {
-            Color selected = JColorChooser.showDialog(this, name, color);
+            var selected = JColorChooser.showDialog(this, name, color);
             if (selected != null) {
                 update(() -> setter.accept(selected));
                 button.setBackground(selected);

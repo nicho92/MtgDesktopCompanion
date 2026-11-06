@@ -6,6 +6,7 @@ import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
 import org.magic.api.beans.layer.IllustrationLayer;
 import org.magic.api.beans.layer.ManaLayer;
+import org.magic.api.beans.layer.SetIconLayer;
 import org.magic.api.beans.layer.ShapeLayer;
 import org.magic.api.beans.layer.TextLayer;
 import org.magic.api.interfaces.extra.Layer;
@@ -28,7 +29,7 @@ public class LayerAdapter implements JsonDeserializer<Layer> {
 				case "IllustrationLayer" : return context.deserialize(json, IllustrationLayer.class);
 				case "ManaLayer" : return context.deserialize(json, ManaLayer.class);
 				case "ShapeLayer" : return context.deserialize(json, ShapeLayer.class);
-				
+				case "SetIconLayer": return context.deserialize(json, SetIconLayer.class);
 				default : throw new JsonParseException("Unknown layer type: " + json.getAsJsonObject().get("layerType").getAsString());
 			}
 	}
