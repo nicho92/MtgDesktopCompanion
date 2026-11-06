@@ -155,7 +155,7 @@ public class IconsProvider {
 		ImageTools.initGraphics(g);
 		try {
 			diagram.render(g);
-		} catch (SVGException e) {
+		} catch (Exception e) {
 			throw new IOException(e);
 		}
 		g.dispose();

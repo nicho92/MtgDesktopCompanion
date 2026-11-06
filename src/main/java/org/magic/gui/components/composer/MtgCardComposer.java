@@ -130,7 +130,7 @@ public class MtgCardComposer extends MTGUIComponent {
 	    for(var ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted(Comparator.comparing(MTGEdition::getSet)).toList())
 		rootEditions.add(new DefaultMutableTreeNode(ed));
 	} catch (IOException e) {
-	    e.printStackTrace();
+	    logger.error(e);
 	}
 
 	rootNode.add(rootEditions);	
