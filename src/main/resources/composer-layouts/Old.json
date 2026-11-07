@@ -265,5 +265,16 @@
     "height": 195,
     "alpha": 1.0,
     "layerType": "TextLayer"
+  },
+  {
+    "idSet": "CHR",
+    "rarity": "COMMON",
+    "name": "SETICON_CHR",
+    "x": 2550,
+    "y": 2300,
+    "width": 124,
+    "height": 173,
+    "alpha": 1.0,
+    "layerType": "SetIconLayer"
   }
 ]

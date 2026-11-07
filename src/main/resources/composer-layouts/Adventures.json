@@ -120,6 +120,7 @@
   },
   {
     "path": "Frames/normal_bg/U.webp",
+    "frameType": "FRAME",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
     "name": "U.webp",
@@ -132,7 +133,7 @@
   },
   {
     "path": "Frames/adventure_frames/U.webp",
-    "frameType": "FRAME",
+    "frameType": "BOX",
     "adaptedLegendaryFrame": false,
     "alphalayout": false,
     "name": "U.webp",
@@ -354,10 +355,10 @@
     "idSet": "CHR",
     "rarity": "COMMON",
     "name": "SETICON",
-    "x": 2605,
-    "y": 2420,
-    "width": 150,
-    "height": 150,
+    "x": 2620,
+    "y": 2395,
+    "width": 138,
+    "height": 192,
     "alpha": 1.0,
     "layerType": "SetIconLayer"
   }

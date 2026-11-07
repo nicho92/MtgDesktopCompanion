@@ -256,7 +256,9 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		}
 		else if(mc.isLand()) 
 		{
-		    mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getProducedMana()).getCode());
+		    if(!mc.getProducedMana().isEmpty())
+			mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getProducedMana()).getCode());
+		    
 		    code = "Land";
 		}
 
