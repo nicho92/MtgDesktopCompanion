@@ -195,17 +195,15 @@
     "layerType": "FrameLayer"
   },
   {
-    "path": "Frames/set_icons/a25_rare.webp",
-    "frameType": "SETICON",
-    "adaptedLegendaryFrame": false,
-    "alphalayout": false,
-    "name": "SETicon",
-    "x": 2630,
-    "y": 3620,
-    "width": 128,
-    "height": 176,
+    "idSet": "CHR",
+    "rarity": "COMMON",
+    "name": "SETICON",
+    "x": 2615,
+    "y": 2410,
+    "width": 150,
+    "height": 150,
     "alpha": 1.0,
-    "layerType": "FrameLayer"
+    "layerType": "SetIconLayer"
   },
   {
     "text": "Time of Ice",

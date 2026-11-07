@@ -303,17 +303,15 @@
     "alpha": 1.0,
     "layerType": "ManaLayer"
   },
-  {
-    "path": "\\Frames\\set_icons\\a25_mythic.webp",
-    "frameType": "SETICON",
-    "adaptedLegendaryFrame": false,
-    "alphalayout": false,
+    {
+    "idSet": "CHR",
+    "rarity": "COMMON",
     "name": "SETICON",
-    "x": 2605,
-    "y": 2394,
-    "width": 140,
-    "height": 193,
+    "x": 2615,
+    "y": 2410,
+    "width": 150,
+    "height": 150,
     "alpha": 1.0,
-    "layerType": "FrameLayer"
+    "layerType": "SetIconLayer"
   }
 ]

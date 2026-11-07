@@ -294,10 +294,10 @@
     "idSet": "CHR",
     "rarity": "COMMON",
     "name": "SETICON",
-    "x": 2615,
-    "y": 2410,
-    "width": 150,
-    "height": 150,
+    "x": 2620,
+    "y": 2395,
+    "width": 138,
+    "height": 192,
     "alpha": 1.0,
     "layerType": "SetIconLayer"
   }

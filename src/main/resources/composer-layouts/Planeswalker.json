@@ -373,18 +373,16 @@
     "alpha": 1.0,
     "layerType": "ManaLayer"
   },
-  {
-    "path": "Frames/set_icons/a25_mythic.webp",
-    "frameType": "SETICON",
-    "adaptedLegendaryFrame": false,
-    "alphalayout": false,
-    "name": "a25_mythic.webp",
-    "x": 2575,
-    "y": 2380,
-    "width": 152,
-    "height": 209,
+   {
+    "idSet": "CHR",
+    "rarity": "COMMON",
+    "name": "SETICON",
+    "x": 2615,
+    "y": 2410,
+    "width": 150,
+    "height": 150,
     "alpha": 1.0,
-    "layerType": "FrameLayer"
+    "layerType": "SetIconLayer"
   },
   {
     "text": "Until your next turn, up to one target creature gets -3/-0.",

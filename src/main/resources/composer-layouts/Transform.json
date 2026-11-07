@@ -264,18 +264,16 @@
     "alpha": 1.0,
     "layerType": "TextLayer"
   },
-  {
-    "path": "Frames/set_icons/a25_mythic.webp",
-    "frameType": "SETICON",
-    "adaptedLegendaryFrame": false,
-    "alphalayout": false,
+    {
+    "idSet": "CHR",
+    "rarity": "COMMON",
     "name": "SETICON",
-    "x": 2595,
-    "y": 2431,
-    "width": 171,
-    "height": 170,
+    "x": 2615,
+    "y": 2410,
+    "width": 150,
+    "height": 150,
     "alpha": 1.0,
-    "layerType": "FrameLayer"
+    "layerType": "SetIconLayer"
   },
   {
     "text": "Search for Azcanta",

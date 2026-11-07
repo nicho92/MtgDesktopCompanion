@@ -23,8 +23,7 @@ public class SetIconLayer extends AbstractLayer {
 	setName("SETICON_"+id);
 	setRarity(EnumRarity.COMMON);
 	setIdSet(id);
-	setWidth(150);
-	setHeight(150);
+	
     }
     
     
@@ -69,6 +68,13 @@ public class SetIconLayer extends AbstractLayer {
 	    
 	    if(rarity!=EnumRarity.COMMON)
 		image = ImageTools.addOutline(image, Color.BLACK, 1);
+	    else
+		image = ImageTools.addOutline(image, Color.WHITE, 1);
+	
+	    
+	    setWidth(image.getWidth());
+	    setHeight(image.getHeight());
+	    scale(6);
 	    
 	 } catch (IOException e) {
 	     MTGLogger.getLogger(this.getClass()).error("with set {} Rarity= {}",getName(),idSet,rarity,e);
