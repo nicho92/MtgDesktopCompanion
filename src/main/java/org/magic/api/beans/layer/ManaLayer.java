@@ -51,6 +51,9 @@ public class ManaLayer extends AbstractLayer{
     @Override
     protected void paintLayer(Graphics2D g2) {
 	
+	if(manaImage==null)
+	    return;
+	
 	if(shadowed) {
 	    	var shadowedImage = ImageTools.createShadow(manaImage, -3,9,3,0.8f);
 	        int padX = (shadowedImage.getWidth() - manaImage.getWidth()) / 2;
