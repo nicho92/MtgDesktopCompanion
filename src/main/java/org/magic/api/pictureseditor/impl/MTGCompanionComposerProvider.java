@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,6 +20,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.layer.BorderLayer;
 import org.magic.api.beans.layer.FrameLayer;
@@ -57,8 +59,8 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 
     @Override
-    protected String getFrameVersion() {
-	return "2015";
+    protected EnumFrameVersion getFrameVersion() {
+	return EnumFrameVersion.FRAME_2015;
     }
 
     @Override
@@ -223,7 +225,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 	    }
 
-
 	    if(l instanceof IllustrationLayer tl)
 	    {
 		try {
@@ -240,8 +241,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		print=mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true");
 	    }
 
-
-
 	    if(l instanceof FrameLayer fl)
 	    {
 		var code = EnumColors.determine(mc.getColors()).getCode();
@@ -251,19 +250,17 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		    code = "Artifact";
 		    if(!mc.getColors().isEmpty())
 			mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getColors()).getCode());
-
-
 		}
 		else if(mc.isLand()) 
 		{
+		    code = "Land";
 		    if(!mc.getProducedMana().isEmpty())
 			mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getProducedMana()).getCode());
-		    
-		    code = "Land";
 		}
-
-		//		if(mc.isDoubleFaced() && mc.getSide().equals("b"))
-		//		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+		
+		
+		if(mc.isDoubleFaced() && mc.getSide().equals("b"))
+		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 
 		if(mc.getLayout()==EnumLayout.MODAL_DFC && mc.getSide().equals("b") && fl.getFrameType()!=FrameType.BOX)
 		{
@@ -319,8 +316,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 		}
 
-
-
 		if(fl.getFrameType()==FrameType.PT)	{
 		    print=mc.isCreature();    
 		}
@@ -332,14 +327,15 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		l.reload();
 		canvas.addLayer(l);
 	    }
-
-
-
-
 	}
 
-	//post treatment for PW.
+	pwPostTreatment(mc,layers);
 
+	return ImageTools.resize(canvas.getCardImage(),1039,744);
+    }
+
+
+    private void pwPostTreatment(MTGCard mc, List<Layer> layers) {
 	if(mc.isPlaneswalker())
 	{
 
@@ -368,10 +364,8 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		}
 	    }
 	}
-
-	return ImageTools.resize(canvas.getCardImage(),1039,744);
+	
     }
-
 
     public void setTemplate(File currentFile) {
 	forceTemplate = FilenameUtils.getBaseName(currentFile.getAbsolutePath());

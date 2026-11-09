@@ -18,6 +18,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
@@ -89,7 +90,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		if (httpclient.getCookies().isEmpty())
 			connect();
 		
-		mc.setFrameVersion("2015");
+		mc.setFrameVersion(EnumFrameVersion.FRAME_2015);
 		
 		
 		var build = new URIBuilder();
@@ -333,8 +334,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 	}
 
 	@Override
-	protected String getFrameVersion() {
-	   return "2015";
+	protected EnumFrameVersion getFrameVersion() {
+	   return EnumFrameVersion.FRAME_2015;
 	}
 
 }

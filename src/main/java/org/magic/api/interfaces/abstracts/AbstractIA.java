@@ -9,6 +9,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.MTGProperty;
@@ -235,7 +236,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
 			// can be overriden by PictureEditor
 			mc.setLayout(EnumLayout.NORMAL);
-			mc.setFrameVersion("2015");
+			mc.setFrameVersion(EnumFrameVersion.FRAME_2015);
 
 			mc.setId(CryptoUtils.uuid());
 			mc.setEdition(set);

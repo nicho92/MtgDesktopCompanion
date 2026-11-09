@@ -15,6 +15,7 @@ import org.magic.api.ast.engine.OracleParser;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.technical.MTGProperty;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.network.MTGHttpClient;
@@ -216,12 +217,12 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
     }
 
     @Override
-    protected String getFrameVersion() {
+    protected EnumFrameVersion getFrameVersion() {
 
 	if (code.equalsIgnoreCase("old"))
-	    return "1993";
+	    return EnumFrameVersion.FRAME_1993;
 	else
-	    return "2003";
+	    return EnumFrameVersion.FRAME_2003;
 
 
     }

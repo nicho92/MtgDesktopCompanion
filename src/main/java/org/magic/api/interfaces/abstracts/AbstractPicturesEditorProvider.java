@@ -7,6 +7,7 @@ import java.io.IOException;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.interfaces.MTGPictureEditor;
@@ -33,7 +34,7 @@ public abstract class AbstractPicturesEditorProvider extends AbstractMTGPlugin i
 	
 	protected abstract BufferedImage generatePicture(MTGCard mc, MTGEdition ed) throws IOException;
 
-	protected abstract String getFrameVersion();
+	protected abstract EnumFrameVersion getFrameVersion();
 	
 
 	private void updateCardData(MTGCard mc) {
@@ -45,7 +46,7 @@ public abstract class AbstractPicturesEditorProvider extends AbstractMTGPlugin i
 			mc.setSecurityStamp(EnumSecurityStamp.NONE);
 		
 		if(mc.isRetro())
-		    mc.setFrameVersion("1993");
+		    mc.setFrameVersion(EnumFrameVersion.FRAME_1993);
 		else
     		    mc.setFrameVersion(getFrameVersion());
 		

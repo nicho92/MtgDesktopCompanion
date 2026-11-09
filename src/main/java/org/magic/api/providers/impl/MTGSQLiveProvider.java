@@ -33,6 +33,7 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
@@ -240,7 +241,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 		mc.setScryfallId(rs.getString(SCRYFALL_ID));
 		mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
-		mc.setFrameVersion(rs.getString(FRAME_VERSION));
+		mc.setFrameVersion(EnumFrameVersion.parseByYear(rs.getString(FRAME_VERSION)));
 		mc.setWatermarks(rs.getString(WATERMARK));
 		mc.setTypes(splitArrayValue(rs.getString(TYPES)));
 		mc.setPower(rs.getString(POWER));
@@ -406,7 +407,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
 		mc.setId(rs.getString(UUID));
 		mc.setEdhrecRank(rs.getInt(EDHREC_RANK));
-		mc.setFrameVersion(rs.getString(FRAME_VERSION));
+		mc.setFrameVersion(EnumFrameVersion.parseByYear(rs.getString(FRAME_VERSION)));
 		mc.setLayout(EnumLayout.parseByLabel(rs.getString(LAYOUT)));
 		mc.setPower(rs.getString(POWER));
 		mc.setToughness(rs.getString(TOUGHNESS));
@@ -764,6 +765,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumRarity.class));
 				else if (rs.getString(NAME).equals(FRAME_EFFECTS))
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumFrameEffects.class));
+				else if (rs.getString(NAME).equals(FRAME_VERSION))
+					ret.add(new QueryAttribute(rs.getString(NAME), EnumFrameVersion.class));
 				else if (rs.getString(NAME).equals(PROMO_TYPE))
 					ret.add(new QueryAttribute(rs.getString(NAME), EnumPromoType.class));
 				else if (rs.getString(NAME).equals(FINISHES))

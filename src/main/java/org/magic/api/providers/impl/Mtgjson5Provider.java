@@ -25,6 +25,7 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
@@ -233,7 +234,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider {
 				mc.setCmc((int) Double.parseDouble(map.get(CONVERTED_MANA_COST).toString()));
 
 			if (map.get(FRAME_VERSION) != null)
-				mc.setFrameVersion(String.valueOf(map.get(FRAME_VERSION)));
+				mc.setFrameVersion(EnumFrameVersion.parseByYear(String.valueOf(map.get(FRAME_VERSION))));
 
 			if (map.get(FLAVOR_NAME) != null)
 				mc.setFlavorName(String.valueOf(map.get(FLAVOR_NAME)));

@@ -2,6 +2,7 @@ package org.magic.services.tools;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.exports.impl.CardKingdomCardExport;
@@ -42,7 +43,7 @@ public class CardKingdomTools {
 		// Check Promo Types
 		if (card.isShowCase() && !card.getEdition().getSet().contains("Strixhaven Mystical Archive")) {
 			logger.debug("Showcase triggered: {}", name);
-			if (card.getFrameVersion().contains("1997")) // maybe using isTimeShifted() ? -->
+			if (card.getFrameVersion()==EnumFrameVersion.FRAME_1997) // maybe using isTimeShifted() ? -->
 															// AbstractCardsProvider.postTreatmentCard
 			{
 				name = name + " (Retro Frame)";

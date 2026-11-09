@@ -19,6 +19,7 @@ import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
@@ -225,6 +226,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 		arr.add(new QueryAttribute(PRODUCED_MANA, EnumColors.class));
 		arr.add(new QueryAttribute(PROMO_TYPE, EnumPromoType.class));
 		arr.add(new QueryAttribute(FRAME_EFFECTS, EnumFrameEffects.class));
+		arr.add(new QueryAttribute(FRAME_VERSION, EnumFrameVersion.class));
 		arr.add(new QueryAttribute(FINISHES, EnumFinishes.class));
 		arr.add(new QueryAttribute(KEYWORDS, MTGKeyWord.class));
 		arr.add(new QueryAttribute(SECURITYSTAMP, EnumSecurityStamp.class));

@@ -27,6 +27,7 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
@@ -447,7 +448,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setBorder(EnumBorders.parseByLabel(obj.get("border_color").getAsString()));
 		mc.setFullArt(obj.get("full_art").getAsBoolean());
 		mc.setPromoCard(obj.get("promo").getAsBoolean());
-		mc.setFrameVersion(obj.get("frame").getAsString());
+		mc.setFrameVersion(EnumFrameVersion.parseByYear(obj.get("frame").getAsString()));
 		mc.setReprintedCard(obj.get("reprint").getAsBoolean());
 		mc.setFlavor(readAsString(obj, "flavor_text"));
 		mc.setWatermarks(readAsString(obj, "watermark"));

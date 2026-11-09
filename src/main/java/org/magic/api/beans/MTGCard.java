@@ -17,6 +17,7 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtraCardMetaData;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
@@ -79,7 +80,7 @@ public class MTGCard extends AbstractProduct {
 	private String flavorName;
 	private List<MTGCardNames> foreignNames;
 	private List<EnumFrameEffects> frameEffects;
-	private String frameVersion;
+	private EnumFrameVersion frameVersion;
 	private String gathererCode;
 	private boolean hasAlternativeDeckLimit;
 	private boolean hasContentWarning;
@@ -350,7 +351,7 @@ public class MTGCard extends AbstractProduct {
 		return frameEffects;
 	}
 
-	public String getFrameVersion() {
+	public EnumFrameVersion getFrameVersion() {
 		return frameVersion;
 	}
 
@@ -785,7 +786,7 @@ public class MTGCard extends AbstractProduct {
 		this.frameEffects = frameEffects;
 	}
 
-	public void setFrameVersion(String frameVersion) {
+	public void setFrameVersion(EnumFrameVersion frameVersion) {
 		this.frameVersion = frameVersion;
 	}
 

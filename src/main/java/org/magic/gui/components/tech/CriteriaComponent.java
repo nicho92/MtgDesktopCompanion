@@ -28,6 +28,7 @@ import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumFrameVersion;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
@@ -129,6 +130,8 @@ public class CriteriaComponent extends JComponent implements ActionListener {
 			return init(UITools.createCombobox(EnumRarity.values()));
 		else if (c.getType() == EnumFrameEffects.class)
 			return init(UITools.createCombobox(EnumFrameEffects.values()));
+		else if (c.getType() == EnumFrameVersion.class)
+			return init(UITools.createCombobox(EnumFrameVersion.values()));
 		else if (c.getType() == EnumFinishes.class)
 			return init(UITools.createCombobox(EnumFinishes.values()));
 		else if (c.getType() == EnumPromoType.class)
