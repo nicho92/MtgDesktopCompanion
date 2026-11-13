@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -32,7 +33,10 @@ public class CardCanvas extends JPanel {
     private transient LayerSelectionListener selectionListener;
     private transient LayerChangeListener layerChangeListener;
     private transient RenderingHints  hints;
-
+    private Stroke stroke = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, new float[] { 6, 6 }, 0);
+    private Color strokeColor = Color.WHITE;
+    
+    
     public CardCanvas() {
 
 	setBackground(Color.LIGHT_GRAY);
@@ -76,6 +80,16 @@ public class CardCanvas extends JPanel {
 	addMouseListener(mouseHandler);
 	addMouseMotionListener(mouseHandler);
     }
+    
+    public void setStroke(Stroke stroke) {
+	this.stroke = stroke;
+    }
+    
+    public void setStrokeColor(Color strokeColor) {
+	this.strokeColor = strokeColor;
+    }
+    
+    
 
     public double getZoom() {
 	return zoom;
@@ -373,8 +387,8 @@ public class CardCanvas extends JPanel {
 	int height = layer.getHeight();
 	var oldStroke = g2.getStroke();
 	
-	g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, new float[] { 6, 6 }, 0));
-	g2.setColor(Color.WHITE);
+	g2.setStroke(stroke);
+	g2.setColor(strokeColor);
 	g2.drawRect(x, y, width, height);
 	g2.setStroke(oldStroke);
     }
