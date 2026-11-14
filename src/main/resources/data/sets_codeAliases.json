@@ -1,4 +1,10 @@
 {
+	"TRC" : [
+		"ATRC"
+	],
+	"TRK" : [
+		"ATRK"
+	],
 	"FRA" : [
 		"AFRA"
 	],
@@ -9,7 +15,8 @@
 		"AHOC"
 	],
 	"MSH" : [
-		"AMSH"
+		"AMSH",
+		"SMSH"
 	],
 	"MSC" : [
 		"FMSC"
