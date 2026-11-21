@@ -23,11 +23,11 @@ public class EDHComboProvider extends AbstractComboProvider {
 
     @Override
     public List<MTGCombo> loadComboWith(MTGCard mc) {
-	 var result = new ArrayList<MTGCombo>();
+	var result = new ArrayList<MTGCombo>();
 
 	try {
 	    var arr = RequestBuilder.build().newClient().get().url("https://edh-combos.com/api/search").addContent("s", mc.getName()).toJson().getAsJsonObject().get("combos").getAsJsonArray();
-	   
+
 	    if(arr.isEmpty())
 		return result;
 
@@ -58,14 +58,10 @@ public class EDHComboProvider extends AbstractComboProvider {
 
 	    }
 
-
-
-	  
-
 	} catch (IOException e) {
 	    logger.error(e);
 	}
-	  return result;
+	return result;
     }
 
 }

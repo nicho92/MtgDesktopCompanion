@@ -33,7 +33,7 @@ public class CardCanvas extends JPanel {
     private transient LayerSelectionListener selectionListener;
     private transient LayerChangeListener layerChangeListener;
     private transient RenderingHints  hints;
-    private Stroke stroke = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, new float[] { 6, 6 }, 0);
+    private transient Stroke stroke = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, new float[] { 6, 6 }, 0);
     private Color strokeColor = Color.WHITE;
     
     

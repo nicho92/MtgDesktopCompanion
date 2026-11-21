@@ -32,7 +32,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
     private static final String UPLOAD_URL = WEBSITE + "/upload.php";
 
     private MTGHttpClient httpclient;
-    private String code="modern";
+    private String code = "modern";
 
     @Override
     public MOD getMode() {
@@ -43,7 +43,6 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	httpclient = URLTools.newClient();
 
     }
-
 
     @Override
     public BufferedImage generatePicture(MTGCard mc, MTGEdition me) throws IOException {
@@ -68,9 +67,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	    }
 	} else {
 
-	    code ="modern";
-	    if(mc.isRetro())
-		code="old";
+	    code = "modern";
+	    if (mc.isRetro())
+		code = "old";
 
 	    build.addContent("template", code + "-basic");
 	}
@@ -93,15 +92,16 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	}
 
 	if (mc.isHybride()) {
-	    colorBase = new StringBuilder()
-		    .append(mc.getColors().getFirst().getCode().toCharArray()[0]).append("/")
+	    colorBase = new StringBuilder().append(mc.getColors().getFirst().getCode().toCharArray()[0]).append("/")
 		    .append(mc.getColors().getLast().getCode().toCharArray()[0]).toString();
 
 	}
 
 	if (mc.isLand()) {
 	    if (mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() == 2) {
-		colorBase = new StringBuilder("l").append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/l").append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
+		colorBase = new StringBuilder("l")
+			.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[0]).append("/l")
+			.append(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).toCharArray()[1]).toString();
 	    } else {
 		colorBase = "l" + mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 	    }
@@ -129,20 +129,18 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	if (Boolean.parseBoolean(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")))
 	    build.addContent("fields[se-extension]", new SMFIconsSetProvider().getMap().get(me.getId()));
 
-
-	if(!mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "").isEmpty()) {
-	    build.addContent("fields[background-capabox]", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase).mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
-	    build.addContent("fields[background-capaborder]", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase).mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
-	    build.addContent("fields[background-edging]", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase).mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
-
-
+	if (!mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "").isEmpty()) {
+	    build.addContent("fields[background-capabox]",
+		    mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase)
+		    .mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
+	    build.addContent("fields[background-capaborder]",
+		    mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase)
+		    .mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
+	    build.addContent("fields[background-edging]",
+		    mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).chars().map(Character::toLowerCase)
+		    .mapToObj(c -> String.valueOf((char) c)).collect(Collectors.joining("/")));
 
 	}
-
-
-
-
-
 
 	build.addHeader(URLTools.HOST, DOMAIN).addHeader(URLTools.ORIGIN, WEBSITE).addHeader(URLTools.REFERER, WEBSITE);
 
@@ -155,7 +153,6 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	return ImageTools.readBase64(el.getAsJsonObject().get("image").getAsString());
     }
-
 
     private String upload(File f) throws IOException {
 	if (httpclient == null)
@@ -223,7 +220,6 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	    return EnumFrameVersion.FRAME_1993;
 	else
 	    return EnumFrameVersion.FRAME_2003;
-
 
     }
 

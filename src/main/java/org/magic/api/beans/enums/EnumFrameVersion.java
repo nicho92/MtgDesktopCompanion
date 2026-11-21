@@ -11,7 +11,7 @@ public enum EnumFrameVersion implements MTGEnumeration{
     @SerializedName(value = "2015") FRAME_2015(2015),
     @SerializedName(value = "future") FRAME_FUTURE(9999);
 
-    private int year;
+    private final int year;
 
     EnumFrameVersion(int i) {
 	this.year=i;

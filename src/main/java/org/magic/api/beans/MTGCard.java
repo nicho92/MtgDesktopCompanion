@@ -28,1014 +28,1014 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 public class MTGCard extends AbstractProduct {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static boolean isBasicLand(String cardName) {
+    public static boolean isBasicLand(String cardName) {
 
-		if (cardName == null)
-			return false;
+	if (cardName == null)
+	    return false;
 
-		String name = cardName.trim();
+	String name = cardName.trim();
 
-		return (name.equals("Plains") || name.equals("Island") || name.equals("Swamp") || name.equals("Mountain")
-				|| name.equals("Forest") || name.equals("Wastes") || name.equals("Snow-Covered Plains")
-				|| name.equals("Snow-Covered Island") || name.equals("Snow-Covered Swamp")
-				|| name.equals("Snow-Covered Mountain") || name.equals("Snow-Covered Forest")
-				|| name.equals("Snow-Covered Wastes"));
+	return (name.equals("Plains") || name.equals("Island") || name.equals("Swamp") || name.equals("Mountain")
+		|| name.equals("Forest") || name.equals("Wastes") || name.equals("Snow-Covered Plains")
+		|| name.equals("Snow-Covered Island") || name.equals("Snow-Covered Swamp")
+		|| name.equals("Snow-Covered Mountain") || name.equals("Snow-Covered Forest")
+		|| name.equals("Snow-Covered Wastes"));
+    }
+
+    public static int calculateManaCost(String manaCost) {
+	int total = 0;
+	var matcher = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern()).matcher(manaCost);
+
+	while (matcher.find()) {
+	    var symbol = matcher.group(1);
+
+	    if (symbol.matches("\\d+")) {
+		total += Integer.parseInt(symbol);
+	    } else if (symbol.matches("[WUBRGC]") || symbol.matches("[WUBRGC]/[WUBRGC2]")) {
+		total += 1;
+	    }
 	}
 
-	public static int calculateManaCost(String manaCost) {
-		int total = 0;
-		var matcher = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern()).matcher(manaCost);
+	return total;
+    }
 
-		while (matcher.find()) {
-			var symbol = matcher.group(1);
+    private boolean arenaCard;
+    private String artist = "";
+    private String asciiName;
+    private EnumBorders border;
+    private Integer cmc;
+    private List<EnumColors> colorIdentity;
+    private List<EnumColors> colorIndicator;
+    private List<EnumColors> colors;
+    private List<EnumColors> producedMana;
+    private String cost = "";
+    private Map<EnumExtraCardMetaData, String> customMetadata;
+    private Integer defense;
+    private Integer edhrecRank;
+    private List<MTGEdition> editions;
+    private List<EnumFinishes> finishes;
+    private String flavor = "";
+    private String flavorName;
+    private List<MTGCardNames> foreignNames;
+    private List<EnumFrameEffects> frameEffects;
+    private EnumFrameVersion frameVersion;
+    private String gathererCode;
+    private boolean hasAlternativeDeckLimit;
+    private boolean hasContentWarning;
+    private boolean alternative;
+    private String id;
+    private boolean funny;
+    private boolean rebalanced;
+    private boolean storySpotlight;
+    private List<MTGKeyWord> keywords;
+    private EnumLayout layout = EnumLayout.NORMAL;
+    private List<MTGFormat> legalities;
+    private Integer loyalty;
+    private Integer mkmId;
+    private Integer mtgArenaId;
+    private boolean mtgoCard;
+    private Integer mtgstocksId;
+    private boolean onlineOnly;
+    private String originalReleaseDate;
+    private boolean oversized;
+    private String power = "";
+    private boolean promoCard;
+    private List<EnumPromoType> promotypes;
+    private EnumRarity rarity;
+    private boolean reprintedCard;
+    private boolean reserved;
+    private MTGCard rotatedCard;
+    private transient List<MTGRuling> rulings;
+    private String scryfallId;
+    private String scryfallIllustrationId;
+    private EnumSecurityStamp securityStamp;
+    private String side = "a";
+    private String signature;
+    private List<String> subtypes;
+    private List<String> supertypes;
+    private Integer tcgPlayerId;
+    private List<Integer> attractionLights;
+    private String text = "";
+    private String toughness = "";
+    private List<String> types;
+    private String number = "";
+    @SerializedName(alternate = "multiverse_id", value = "multiverseId")
+    private String multiverseid;
+    private String watermarks;
+    private boolean fullArt;
+    private boolean timeshifted;
+    private boolean retro;
+    private String subsets;
+    private boolean isJapanese = false;
+    private boolean gameChanger;
 
-			if (symbol.matches("\\d+")) {
-				total += Integer.parseInt(symbol);
-			} else if (symbol.matches("[WUBRGC]") || symbol.matches("[WUBRGC]/[WUBRGC2]")) {
-				total += 1;
-			}
-		}
 
-		return total;
-	}
 
-	private boolean arenaCard;
-	private String artist = "";
-	private String asciiName;
-	private EnumBorders border;
-	private Integer cmc;
-	private List<EnumColors> colorIdentity;
-	private List<EnumColors> colorIndicator;
-	private List<EnumColors> colors;
-	private List<EnumColors> producedMana;
-	private String cost = "";
-	private Map<EnumExtraCardMetaData, String> customMetadata;
-	private Integer defense;
-	private Integer edhrecRank;
-	private List<MTGEdition> editions;
-	private List<EnumFinishes> finishes;
-	private String flavor = "";
-	private String flavorName;
-	private List<MTGCardNames> foreignNames;
-	private List<EnumFrameEffects> frameEffects;
-	private EnumFrameVersion frameVersion;
-	private String gathererCode;
-	private boolean hasAlternativeDeckLimit;
-	private boolean hasContentWarning;
-	private boolean alternative;
-	private String id;
-	private boolean funny;
-	private boolean rebalanced;
-	private boolean storySpotlight;
-	private List<MTGKeyWord> keywords;
-	private EnumLayout layout = EnumLayout.NORMAL;
-	private List<MTGFormat> legalities;
-	private Integer loyalty;
-	private Integer mkmId;
-	private Integer mtgArenaId;
-	private boolean mtgoCard;
-	private Integer mtgstocksId;
-	private boolean onlineOnly;
-	private String originalReleaseDate;
-	private boolean oversized;
-	private String power = "";
-	private boolean promoCard;
-	private List<EnumPromoType> promotypes;
-	private EnumRarity rarity;
-	private boolean reprintedCard;
-	private boolean reserved;
-	private MTGCard rotatedCard;
-	private transient List<MTGRuling> rulings;
-	private String scryfallId;
-	private String scryfallIllustrationId;
-	private EnumSecurityStamp securityStamp;
-	private String side = "a";
-	private String signature;
-	private List<String> subtypes;
-	private List<String> supertypes;
-	private Integer tcgPlayerId;
-	private List<Integer> attractionLights;
-	private String text = "";
-	private String toughness = "";
-	private List<String> types;
-	private String number = "";
-	@SerializedName(alternate = "multiverse_id", value = "multiverseId")
-	private String multiverseid;
-	private String watermarks;
-	private boolean fullArt;
-	private boolean timeshifted;
-	private boolean retro;
-	private String subsets;
-	private boolean isJapanese = false;
-	private boolean gameChanger;
+    public MTGCard() {
+	editions = new ArrayList<>();
+	types = new ArrayList<>();
+	supertypes = new ArrayList<>();
+	subtypes = new ArrayList<>();
+	colors = new ArrayList<>();
+	foreignNames = new ArrayList<>();
+	rulings = new ArrayList<>();
+	colorIdentity = new ArrayList<>();
+	legalities = new ArrayList<>();
+	frameEffects = new ArrayList<>();
+	keywords = new ArrayList<>();
+	promotypes = new ArrayList<>();
+	colorIndicator = new ArrayList<>();
+	finishes = new ArrayList<>();
+	attractionLights = new ArrayList<>();
+	customMetadata = new EnumMap<>(EnumExtraCardMetaData.class);
+	setTypeProduct(EnumItems.CARD);
+    }
 
-	
-	
-	public MTGCard() {
-		editions = new ArrayList<>();
-		types = new ArrayList<>();
-		supertypes = new ArrayList<>();
-		subtypes = new ArrayList<>();
-		colors = new ArrayList<>();
-		foreignNames = new ArrayList<>();
-		rulings = new ArrayList<>();
-		colorIdentity = new ArrayList<>();
-		legalities = new ArrayList<>();
-		frameEffects = new ArrayList<>();
-		keywords = new ArrayList<>();
-		promotypes = new ArrayList<>();
-		colorIndicator = new ArrayList<>();
-		finishes = new ArrayList<>();
-		attractionLights = new ArrayList<>();
-		customMetadata = new EnumMap<>(EnumExtraCardMetaData.class);
-		setTypeProduct(EnumItems.CARD);
-	}
+    @Override
+    public MTGEdition getEdition() {
 
-	@Override
-	public MTGEdition getEdition() {
-	    
-		if (edition == null && !getEditions().isEmpty())
-			edition = getEditions().get(0);
+	if (edition == null && !getEditions().isEmpty())
+	    edition = getEditions().get(0);
 
-		return edition;
-	}
+	return edition;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
 
-		if (obj instanceof MTGCard c) {
-			if (c.getScryfallId() == null) {
-				if (c.getId() != null && getId() != null) {
-					return c.getId().equals(getId());
-				} else {
-					return false;
-				}
-
-			}
-
-			return c.getScryfallId().equals(getScryfallId());
-		}
-
-		return false;
-	}
-	
-	public List<EnumColors> getProducedMana() {
-	    return producedMana;
-	}
-	public void setProducedMana(List<EnumColors> producedMana) {
-	    this.producedMana = producedMana;
-	}
-	
-
-	public boolean isBundleCard() {
-		return getPromotypes().contains(EnumPromoType.BUNDLE);
-	}
-
-	public boolean isAlternative() {
-		return alternative;
-	}
-
-	public void setAlternative(boolean alternative) {
-		this.alternative = alternative;
-	}
-
-	public boolean isGameChanger() {
-		return gameChanger;
-	}
-
-	public void setGameChanger(boolean gameChanger) {
-		this.gameChanger = gameChanger;
-	}
-
-	public String getSubsets() {
-		return subsets;
-	}
-
-	public void setSubsets(String subsets) {
-		this.subsets = subsets;
-	}
-
-	public void setAttractionLights(List<Integer> attractionLights) {
-		this.attractionLights = attractionLights;
-	}
-
-	public List<Integer> getAttractionLights() {
-		return attractionLights;
-	}
-
-	public String getMultiverseid() {
-		return multiverseid;
-	}
-
-	public void setMultiverseid(String multiverseid) {
-		this.multiverseid = multiverseid;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-
-		if (getRotatedCard() != null)
-			getRotatedCard().setNumber(number);
-
-	}
-
-	public String getArtist() {
-		return artist;
-	}
-
-	public String getAsciiName() {
-		return asciiName;
-	}
-
-	public EnumBorders getBorder() {
-		return border;
-	}
-
-	public Integer getCmc() {
-		return cmc;
-	}
-
-	public List<EnumColors> getColorIdentity() {
-		return colorIdentity;
-	}
-
-	public List<EnumColors> getColorIndicator() {
-		return colorIndicator;
-	}
-
-	public List<EnumColors> getColors() {
-		return colors;
-	}
-
-	public String getCost() {
-		return cost;
-	}
-
-	public Map<EnumExtraCardMetaData, String> getCustomMetadata() {
-		return customMetadata;
-	}
-
-	public Integer getDefense() {
-		return defense;
-	}
-
-	public Integer getEdhrecRank() {
-		return edhrecRank;
-	}
-
-	public List<MTGEdition> getEditions() {
-		return editions;
-	}
-
-	public List<EnumCardVariation> getExtra() {
-		var ret = new ArrayList<EnumCardVariation>();
-		if (isJapanese()) {
-			ret.add(EnumCardVariation.JAPANESEALT);
-		}
-		if (isShowCase()) {
-			ret.add(EnumCardVariation.SHOWCASE);
-		}
-		if (isExtendedArt()) {
-			ret.add(EnumCardVariation.EXTENDEDART);
-		}
-		if (isBorderLess()) {
-			ret.add(EnumCardVariation.BORDERLESS);
-		}
-		if (isRetro()) {
-			ret.add(EnumCardVariation.RETRO);
-		}
-		if (isTimeshifted()) {
-			ret.add(EnumCardVariation.TIMESHIFTED);
-		}
-		if (isSerialized()) {
-			ret.add(EnumCardVariation.SERIALIZED);
-		}
-		return ret;
-	}
-
-	public boolean isSerialized() {
-		return getPromotypes().contains(EnumPromoType.SERIALIZED);
-	}
-
-	public boolean isRetro() {
-		return retro;
-	}
-
-	public void setRetro(boolean retro) {
-		this.retro = retro;
-	}
-
-	public List<EnumFinishes> getFinishes() {
-		return finishes;
-	}
-
-	public String getFlavor() {
-		return flavor;
-	}
-
-	public String getFlavorName() {
-		return flavorName;
-	}
-
-	public List<MTGCardNames> getForeignNames() {
-		return foreignNames;
-	}
-
-	public List<EnumFrameEffects> getFrameEffects() {
-		return frameEffects;
-	}
-
-	public EnumFrameVersion getFrameVersion() {
-		return frameVersion;
-	}
-
-	public String getFullName() {
-		if (getRotatedCard() != null) {
-			return getName() + " // " + getRotatedCard().getName();
+	if (obj instanceof MTGCard c) {
+	    if (c.getScryfallId() == null) {
+		if (c.getId() != null && getId() != null) {
+		    return c.getId().equals(getId());
 		} else {
-			return getName();
-		}
-	}
-
-	public String getFullType() {
-		var temp = new StringBuilder();
-		if (!getSupertypes().isEmpty()) {
-			for (String s : getSupertypes()) {
-				temp.append(s).append(" ");
-			}
+		    return false;
 		}
 
-		for (String s : getTypes()) {
-			temp.append(s).append(" ");
-		}
-
-		if (!getSubtypes().isEmpty()) {
-			temp.append("- ");
-			for (String s : getSubtypes()) {
-				temp.append(s).append(" ");
-			}
-		}
-
-		return temp.toString().trim();
-	}
+	    }
 
-	public String getGathererCode() {
-		return gathererCode;
+	    return c.getScryfallId().equals(getScryfallId());
 	}
 
-	public String getId() {
-		return id;
-	}
+	return false;
+    }
 
-	public List<MTGKeyWord> getKeywords() {
-		return keywords;
-	}
+    public List<EnumColors> getProducedMana() {
+	return producedMana;
+    }
+    public void setProducedMana(List<EnumColors> producedMana) {
+	this.producedMana = producedMana;
+    }
 
-	public EnumLayout getLayout() {
-		return layout;
-	}
 
-	public List<MTGFormat> getLegalities() {
-		return legalities;
-	}
+    public boolean isBundleCard() {
+	return getPromotypes().contains(EnumPromoType.BUNDLE);
+    }
 
-	public Integer getLoyalty() {
-		return loyalty;
-	}
+    public boolean isAlternative() {
+	return alternative;
+    }
 
-	public Integer getMkmId() {
-		return mkmId;
-	}
+    public void setAlternative(boolean alternative) {
+	this.alternative = alternative;
+    }
 
-	public Integer getMtgArenaId() {
-		return mtgArenaId;
-	}
+    public boolean isGameChanger() {
+	return gameChanger;
+    }
 
-	public Integer getMtgstocksId() {
-		return mtgstocksId;
-	}
+    public void setGameChanger(boolean gameChanger) {
+	this.gameChanger = gameChanger;
+    }
 
-	public String getOriginalReleaseDate() {
-		return originalReleaseDate;
-	}
+    public String getSubsets() {
+	return subsets;
+    }
 
-	public String getPower() {
-		return power;
-	}
+    public void setSubsets(String subsets) {
+	this.subsets = subsets;
+    }
+
+    public void setAttractionLights(List<Integer> attractionLights) {
+	this.attractionLights = attractionLights;
+    }
+
+    public List<Integer> getAttractionLights() {
+	return attractionLights;
+    }
+
+    public String getMultiverseid() {
+	return multiverseid;
+    }
+
+    public void setMultiverseid(String multiverseid) {
+	this.multiverseid = multiverseid;
+    }
+
+    public String getNumber() {
+	return number;
+    }
+
+    public void setNumber(String number) {
+	this.number = number;
+
+	if (getRotatedCard() != null)
+	    getRotatedCard().setNumber(number);
+
+    }
+
+    public String getArtist() {
+	return artist;
+    }
+
+    public String getAsciiName() {
+	return asciiName;
+    }
+
+    public EnumBorders getBorder() {
+	return border;
+    }
+
+    public Integer getCmc() {
+	return cmc;
+    }
+
+    public List<EnumColors> getColorIdentity() {
+	return colorIdentity;
+    }
 
-	public List<EnumPromoType> getPromotypes() {
-		return promotypes;
+    public List<EnumColors> getColorIndicator() {
+	return colorIndicator;
+    }
+
+    public List<EnumColors> getColors() {
+	return colors;
+    }
+
+    public String getCost() {
+	return cost;
+    }
+
+    public Map<EnumExtraCardMetaData, String> getCustomMetadata() {
+	return customMetadata;
+    }
+
+    public Integer getDefense() {
+	return defense;
+    }
+
+    public Integer getEdhrecRank() {
+	return edhrecRank;
+    }
+
+    public List<MTGEdition> getEditions() {
+	return editions;
+    }
+
+    public List<EnumCardVariation> getExtra() {
+	var ret = new ArrayList<EnumCardVariation>();
+	if (isJapanese()) {
+	    ret.add(EnumCardVariation.JAPANESEALT);
 	}
-	
-	public String getPT()
-	{
-	    if(!isCreature())
-		return "";
-	    
-	    return getPower()+"/"+getToughness();
+	if (isShowCase()) {
+	    ret.add(EnumCardVariation.SHOWCASE);
 	}
-	
-	
-	public EnumRarity getRarity() {
-		return rarity;
+	if (isExtendedArt()) {
+	    ret.add(EnumCardVariation.EXTENDEDART);
 	}
-
-	public MTGCard getRotatedCard() {
-		return rotatedCard;
+	if (isBorderLess()) {
+	    ret.add(EnumCardVariation.BORDERLESS);
 	}
-
-	public List<MTGRuling> getRulings() {
-		return rulings;
+	if (isRetro()) {
+	    ret.add(EnumCardVariation.RETRO);
 	}
-
-	public String getScryfallId() {
-		return scryfallId;
+	if (isTimeshifted()) {
+	    ret.add(EnumCardVariation.TIMESHIFTED);
 	}
-
-	public String getScryfallIllustrationId() {
-		return scryfallIllustrationId;
+	if (isSerialized()) {
+	    ret.add(EnumCardVariation.SERIALIZED);
 	}
+	return ret;
+    }
 
-	public EnumSecurityStamp getSecurityStamp() {
-		return securityStamp;
-	}
+    public boolean isSerialized() {
+	return getPromotypes().contains(EnumPromoType.SERIALIZED);
+    }
 
-	public String getSide() {
-		return side;
-	}
+    public boolean isRetro() {
+	return retro;
+    }
 
-	public String getSignature() {
-		return signature;
-	}
+    public void setRetro(boolean retro) {
+	this.retro = retro;
+    }
 
-	@Override
-	public String getStoreId() {
-		return getScryfallId();
-	}
+    public List<EnumFinishes> getFinishes() {
+	return finishes;
+    }
 
-	public List<String> getSubtypes() {
-		return subtypes;
-	}
+    public String getFlavor() {
+	return flavor;
+    }
 
-	public List<String> getSupertypes() {
-		return supertypes;
-	}
+    public String getFlavorName() {
+	return flavorName;
+    }
 
-	public Integer getTcgPlayerId() {
-		return tcgPlayerId;
-	}
+    public List<MTGCardNames> getForeignNames() {
+	return foreignNames;
+    }
 
-	public String getText() {
-		return text;
+    public List<EnumFrameEffects> getFrameEffects() {
+	return frameEffects;
+    }
+
+    public EnumFrameVersion getFrameVersion() {
+	return frameVersion;
+    }
+
+    public String getFullName() {
+	if (getRotatedCard() != null) {
+	    return getName() + " // " + getRotatedCard().getName();
+	} else {
+	    return getName();
 	}
+    }
 
-	public String getToughness() {
-		return toughness;
+    public String getFullType() {
+	var temp = new StringBuilder();
+	if (!getSupertypes().isEmpty()) {
+	    for (String s : getSupertypes()) {
+		temp.append(s).append(" ");
+	    }
 	}
 
-	public List<String> getTypes() {
-		return types;
+	for (String s : getTypes()) {
+	    temp.append(s).append(" ");
 	}
 
-	public String getWatermarks() {
-		return watermarks;
+	if (!getSubtypes().isEmpty()) {
+	    temp.append("- ");
+	    for (String s : getSubtypes()) {
+		temp.append(s).append(" ");
+	    }
 	}
 
-	@Override
-	public int hashCode() {
+	return temp.toString().trim();
+    }
 
-		if (getId() == null)
-			return getProductId().hashCode();
+    public String getGathererCode() {
+	return gathererCode;
+    }
 
-		return getId().hashCode();
-	}
+    public String getId() {
+	return id;
+    }
 
-	public boolean isArenaCard() {
-		return arenaCard;
-	}
+    public List<MTGKeyWord> getKeywords() {
+	return keywords;
+    }
 
+    public EnumLayout getLayout() {
+	return layout;
+    }
 
-	public boolean isConspiracy() {
-	   return getTypes().contains("Conspiracy");
-	}
+    public List<MTGFormat> getLegalities() {
+	return legalities;
+    }
 
-	
-	public boolean isHybride() {
+    public Integer getLoyalty() {
+	return loyalty;
+    }
 
-		return Strings.CS.containsAny(getCost(), "/W", "/U", "/B", "/R", "/G");
-	}
+    public Integer getMkmId() {
+	return mkmId;
+    }
 
-	public boolean isArtifact() {
-		return getTypes().toString().toLowerCase().contains("artifact");
-	}
+    public Integer getMtgArenaId() {
+	return mtgArenaId;
+    }
 
-	public boolean isBasicLand() {
-		return isBasicLand(getName());
-	}
+    public Integer getMtgstocksId() {
+	return mtgstocksId;
+    }
 
-	public boolean isBorderLess() {
-		return border == EnumBorders.BORDERLESS ;
-	}
+    public String getOriginalReleaseDate() {
+	return originalReleaseDate;
+    }
 
-	public boolean isColorless() {
-		return getColors().isEmpty();
-	}
+    public String getPower() {
+	return power;
+    }
 
-	public boolean isVehicule() {
-		return getSubtypes().contains("Vehicle");
-	}
+    public List<EnumPromoType> getPromotypes() {
+	return promotypes;
+    }
 
-	public boolean isSaga() {
-		return getSubtypes().contains("Saga") || getLayout() == EnumLayout.SAGA;
-	}
+    public String getPT()
+    {
+	if(!isCreature())
+	    return "";
 
-	public boolean isCompanion() {
-		return isCreature() && isLegendary()&& (getText().startsWith("Companion ") || getFrameEffects().contains(EnumFrameEffects.COMPANION));
-	}
+	return getPower()+"/"+getToughness();
+    }
 
-	public boolean isCreature() {
-		return getTypes().toString().toLowerCase().contains("creature");
-	}
 
-	public boolean isDoubleFaced() {
-		return getLayout() == EnumLayout.MELD || getLayout() == EnumLayout.TRANSFORM || getLayout() == EnumLayout.MODAL_DFC ||  getLayout()==EnumLayout.REVERSIBLE_CARD;
-	}
+    public EnumRarity getRarity() {
+	return rarity;
+    }
 
-	public boolean isEmblem() {
-		return getLayout() == EnumLayout.EMBLEM;
-	}
+    public MTGCard getRotatedCard() {
+	return rotatedCard;
+    }
 
-	public boolean isEnchantment() {
-		return getTypes().toString().toLowerCase().contains("enchantment");
-	}
+    public List<MTGRuling> getRulings() {
+	return rulings;
+    }
 
-	public boolean isExtendedArt() {
-		return frameEffects.stream().anyMatch(f -> f == EnumFrameEffects.EXTENDEDART);
-	}
+    public String getScryfallId() {
+	return scryfallId;
+    }
 
-	public boolean isExtraCard() {
+    public String getScryfallIllustrationId() {
+	return scryfallIllustrationId;
+    }
 
-		try {
-			var n = Integer.parseInt(getNumber());
+    public EnumSecurityStamp getSecurityStamp() {
+	return securityStamp;
+    }
 
-			if (n == 0 || getEdition().getCardCountOfficial() == 0) {
-				return false;
-			}
+    public String getSide() {
+	return side;
+    }
 
-			return n > getEdition().getCardCountOfficial();
-		} catch (Exception _) {
-			return false;
-		}
-	}
+    public String getSignature() {
+	return signature;
+    }
 
-	public boolean isFlippable() {
-		return getLayout() == EnumLayout.FLIP;
-	}
+    @Override
+    public String getStoreId() {
+	return getScryfallId();
+    }
 
-	public boolean isFullArt() {
-		return fullArt;
-	}
+    public List<String> getSubtypes() {
+	return subtypes;
+    }
 
-	public boolean isFunny() {
-		return funny;
-	}
+    public List<String> getSupertypes() {
+	return supertypes;
+    }
 
-	public boolean isHasAlternativeDeckLimit() {
-		return hasAlternativeDeckLimit;
-	}
+    public Integer getTcgPlayerId() {
+	return tcgPlayerId;
+    }
 
-	public boolean isHasContentWarning() {
-		return hasContentWarning;
-	}
+    public String getText() {
+	return text;
+    }
 
-	public boolean isInstant() {
-		return getTypes().toString().toLowerCase().contains("instant");
-	}
+    public String getToughness() {
+	return toughness;
+    }
 
-	public boolean isJapanese() {
-		return isJapanese;
-	}
+    public List<String> getTypes() {
+	return types;
+    }
 
-	public void setJapanese(boolean isJapanese) {
-		this.isJapanese = isJapanese;
-	}
+    public String getWatermarks() {
+	return watermarks;
+    }
 
-	public boolean isLand() {
-		return getTypes().toString().toLowerCase().contains("land");
-	}
-	public boolean isLegendary() {
-		return getSupertypes().contains("Legendary") || getFrameEffects().contains(EnumFrameEffects.LEGENDARY);
-	}
+    @Override
+    public int hashCode() {
 
-	public boolean isMainFace() {
-		return (getSide() == null || getSide().equals("a"));
-	}
+	if (getId() == null)
+	    return getProductId().hashCode();
 
-	public boolean isMtgoCard() {
-		return mtgoCard;
-	}
+	return getId().hashCode();
+    }
 
-	public boolean isMultiColor() {
-		return getColors().size() > 1;
-	}
+    public boolean isArenaCard() {
+	return arenaCard;
+    }
 
-	public boolean isOnlineOnly() {
-		return onlineOnly;
-	}
 
-	public boolean isOversized() {
-		return oversized;
-	}
+    public boolean isConspiracy() {
+	return getTypes().contains("Conspiracy");
+    }
 
-	public boolean isPermanent() {
-		return isLand() || isPlaneswalker() || isCreature() || isEnchantment() || isArtifact() || isToken()
-				|| isEmblem();
-	}
 
-	public boolean isPlaneswalker() {
-		return getTypes().toString().toLowerCase().contains("planeswalker");
-	}
+    public boolean isHybride() {
 
-	public boolean isPromoCard() {
-		return promoCard;
-	}
+	return Strings.CS.containsAny(getCost(), "/W", "/U", "/B", "/R", "/G");
+    }
 
-	public boolean isRebalanced() {
-		return rebalanced;
-	}
+    public boolean isArtifact() {
+	return getTypes().toString().toLowerCase().contains("artifact");
+    }
 
-	public boolean isReprintedCard() {
-		return reprintedCard;
-	}
+    public boolean isBasicLand() {
+	return isBasicLand(getName());
+    }
 
-	public boolean isReserved() {
-		return reserved;
-	}
+    public boolean isBorderLess() {
+	return border == EnumBorders.BORDERLESS ;
+    }
 
-	public boolean isRitual() {
-		return getTypes().toString().toLowerCase().contains("sorcery");
-	}
+    public boolean isColorless() {
+	return getColors().isEmpty();
+    }
 
-	public boolean isShowCase() {
-		return frameEffects.contains(EnumFrameEffects.SHOWCASE);
-	}
+    public boolean isVehicule() {
+	return getSubtypes().contains("Vehicle");
+    }
 
-	public boolean isMiracle() {
-		return frameEffects.contains(EnumFrameEffects.MIRACLE);
-	}
+    public boolean isSaga() {
+	return getSubtypes().contains("Saga") || getLayout() == EnumLayout.SAGA;
+    }
 
-	public boolean isSnow() {
-		return frameEffects.contains(EnumFrameEffects.SNOW);
-	}
+    public boolean isCompanion() {
+	return isCreature() && isLegendary()&& (getText().startsWith("Companion ") || getFrameEffects().contains(EnumFrameEffects.COMPANION));
+    }
 
-	public boolean isSiege() {
-		return getSubtypes().contains("Siege");
-	}
+    public boolean isCreature() {
+	return getTypes().toString().toLowerCase().contains("creature");
+    }
 
-	public boolean isSpecialTokenOrExtra() {
-		return getLayout() == EnumLayout.ADVENTURE || getLayout() == EnumLayout.ART_SERIES || isToken() || isEmblem();
-	}
+    public boolean isDoubleFaced() {
+	return getLayout() == EnumLayout.MELD || getLayout() == EnumLayout.TRANSFORM || getLayout() == EnumLayout.MODAL_DFC ||  getLayout()==EnumLayout.REVERSIBLE_CARD;
+    }
 
-	public boolean isStorySpotlight() {
-		return storySpotlight;
-	}
+    public boolean isEmblem() {
+	return getLayout() == EnumLayout.EMBLEM;
+    }
 
-	public boolean isTimeshifted() {
-		return timeshifted;
-	}
+    public boolean isEnchantment() {
+	return getTypes().toString().toLowerCase().contains("enchantment");
+    }
 
-	public boolean isToken() {
-	    return getLayout() == EnumLayout.TOKEN || getLayout() == EnumLayout.DOUBLE_FACED_TOKEN;
-	}
+    public boolean isExtendedArt() {
+	return frameEffects.stream().anyMatch(f -> f == EnumFrameEffects.EXTENDEDART);
+    }
 
-	public void setArenaCard(boolean arenaCard) {
-		this.arenaCard = arenaCard;
-	}
+    public boolean isExtraCard() {
 
-	public void setArtist(String artist) {
-		this.artist = artist;
-	}
+	try {
+	    var n = Integer.parseInt(getNumber());
 
-	public void setAsciiName(String asciiName) {
-		this.asciiName = asciiName;
-	}
+	    if (n == 0 || getEdition().getCardCountOfficial() == 0) {
+		return false;
+	    }
 
-	public void setBorder(EnumBorders border) {
-		this.border = border;
+	    return n > getEdition().getCardCountOfficial();
+	} catch (Exception _) {
+	    return false;
 	}
+    }
 
-	public void setCmc(Integer cmc) {
-		this.cmc = cmc;
-	}
+    public boolean isFlippable() {
+	return getLayout() == EnumLayout.FLIP;
+    }
 
-	public void setColorIdentity(List<EnumColors> colorIdentity) {
-		this.colorIdentity = colorIdentity;
-	}
+    public boolean isFullArt() {
+	return fullArt;
+    }
 
-	public void setColorIndicator(List<EnumColors> colorIndicator) {
-		this.colorIndicator = colorIndicator;
-	}
+    public boolean isFunny() {
+	return funny;
+    }
 
-	public void setColors(List<EnumColors> colors) {
-		this.colors = colors;
-	}
+    public boolean isHasAlternativeDeckLimit() {
+	return hasAlternativeDeckLimit;
+    }
 
-	public void setCost(String cost) {
-		this.cost = cost;
-	}
+    public boolean isHasContentWarning() {
+	return hasContentWarning;
+    }
 
-	public void setCustomMetadata(Map<EnumExtraCardMetaData, String> customMetadata) {
-		this.customMetadata = customMetadata;
-	}
+    public boolean isInstant() {
+	return getTypes().toString().toLowerCase().contains("instant");
+    }
 
-	public void setDefense(Integer defense) {
-		this.defense = defense;
-	}
+    public boolean isJapanese() {
+	return isJapanese;
+    }
 
-	public void setEdhrecRank(Integer edhrecRank) {
-		this.edhrecRank = edhrecRank;
-	}
+    public void setJapanese(boolean isJapanese) {
+	this.isJapanese = isJapanese;
+    }
 
-	public void setEditions(List<MTGEdition> editions) {
-		this.editions = editions;
-	}
+    public boolean isLand() {
+	return getTypes().toString().toLowerCase().contains("land");
+    }
+    public boolean isLegendary() {
+	return getSupertypes().contains("Legendary") || getFrameEffects().contains(EnumFrameEffects.LEGENDARY);
+    }
 
-	public void setFinishes(List<EnumFinishes> finishes) {
-		this.finishes = finishes;
-	}
+    public boolean isMainFace() {
+	return (getSide() == null || getSide().equals("a"));
+    }
 
-	public void setFlavor(String flavor) {
-		this.flavor = flavor;
-	}
+    public boolean isMtgoCard() {
+	return mtgoCard;
+    }
 
-	public void setFlavorName(String flavorName) {
-		this.flavorName = flavorName;
-	}
+    public boolean isMultiColor() {
+	return getColors().size() > 1;
+    }
 
-	public void setForeignNames(List<MTGCardNames> foreignNames) {
-		this.foreignNames = foreignNames;
-	}
+    public boolean isOnlineOnly() {
+	return onlineOnly;
+    }
 
-	public void setFrameEffects(List<EnumFrameEffects> frameEffects) {
-		this.frameEffects = frameEffects;
-	}
+    public boolean isOversized() {
+	return oversized;
+    }
 
-	public void setFrameVersion(EnumFrameVersion frameVersion) {
-		this.frameVersion = frameVersion;
-	}
+    public boolean isPermanent() {
+	return isLand() || isPlaneswalker() || isCreature() || isEnchantment() || isArtifact() || isToken()
+		|| isEmblem();
+    }
 
-	public void setFullArt(boolean fullArt) {
-		this.fullArt = fullArt;
-	}
+    public boolean isPlaneswalker() {
+	return getTypes().toString().toLowerCase().contains("planeswalker");
+    }
 
-	public void setFunny(boolean isFunny) {
-		this.funny = isFunny;
-	}
+    public boolean isPromoCard() {
+	return promoCard;
+    }
 
-	public void setGathererCode(String gathererCode) {
-		this.gathererCode = gathererCode;
-	}
+    public boolean isRebalanced() {
+	return rebalanced;
+    }
 
-	public void setHasAlternativeDeckLimit(boolean hasAlternativeDeckLimit) {
-		this.hasAlternativeDeckLimit = hasAlternativeDeckLimit;
-	}
+    public boolean isReprintedCard() {
+	return reprintedCard;
+    }
 
-	public void setHasContentWarning(boolean hasContentWarning) {
-		this.hasContentWarning = hasContentWarning;
-	}
+    public boolean isReserved() {
+	return reserved;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public boolean isRitual() {
+	return getTypes().toString().toLowerCase().contains("sorcery");
+    }
 
-	public void setKeywords(List<MTGKeyWord> keywords) {
-		this.keywords = keywords;
-	}
+    public boolean isShowCase() {
+	return frameEffects.contains(EnumFrameEffects.SHOWCASE);
+    }
 
-	public void setLayout(EnumLayout layout) {
-		this.layout = layout;
+    public boolean isMiracle() {
+	return frameEffects.contains(EnumFrameEffects.MIRACLE);
+    }
 
-	}
+    public boolean isSnow() {
+	return frameEffects.contains(EnumFrameEffects.SNOW);
+    }
 
-	public void setLegalities(List<MTGFormat> legalities) {
-		this.legalities = legalities;
-	}
+    public boolean isSiege() {
+	return getSubtypes().contains("Siege");
+    }
 
-	public void setLoyalty(Integer loyalty) {
-		this.loyalty = loyalty;
-	}
+    public boolean isSpecialTokenOrExtra() {
+	return getLayout() == EnumLayout.ADVENTURE || getLayout() == EnumLayout.ART_SERIES || isToken() || isEmblem();
+    }
 
-	public void setMkmId(int mkmId) {
-		this.mkmId = mkmId;
-	}
+    public boolean isStorySpotlight() {
+	return storySpotlight;
+    }
 
-	public void setMkmId(Integer mkmId) {
-		this.mkmId = mkmId;
-	}
+    public boolean isTimeshifted() {
+	return timeshifted;
+    }
 
-	public void setMtgArenaId(Integer mtgArenaId) {
-		this.mtgArenaId = mtgArenaId;
-	}
+    public boolean isToken() {
+	return getLayout() == EnumLayout.TOKEN || getLayout() == EnumLayout.DOUBLE_FACED_TOKEN;
+    }
 
-	public void setMtgoCard(boolean mtgoCard) {
-		this.mtgoCard = mtgoCard;
-	}
+    public void setArenaCard(boolean arenaCard) {
+	this.arenaCard = arenaCard;
+    }
 
-	public void setMtgstocksId(int mtgstocksId) {
-		this.mtgstocksId = mtgstocksId;
-	}
+    public void setArtist(String artist) {
+	this.artist = artist;
+    }
 
-	public void setMtgstocksId(Integer mtgstocksId) {
-		this.mtgstocksId = mtgstocksId;
-	}
+    public void setAsciiName(String asciiName) {
+	this.asciiName = asciiName;
+    }
 
-	public void setOnlineOnly(boolean onlineOnly) {
-		this.onlineOnly = onlineOnly;
-	}
+    public void setBorder(EnumBorders border) {
+	this.border = border;
+    }
 
-	public void setOriginalReleaseDate(String originalReleaseDate) {
-		this.originalReleaseDate = originalReleaseDate;
-	}
+    public void setCmc(Integer cmc) {
+	this.cmc = cmc;
+    }
 
-	public void setOversized(boolean oversized) {
-		this.oversized = oversized;
-	}
+    public void setColorIdentity(List<EnumColors> colorIdentity) {
+	this.colorIdentity = colorIdentity;
+    }
 
-	public void setPower(String power) {
-		this.power = power;
-	}
+    public void setColorIndicator(List<EnumColors> colorIndicator) {
+	this.colorIndicator = colorIndicator;
+    }
 
-	public void setPromoCard(boolean promoCard) {
-		this.promoCard = promoCard;
-	}
+    public void setColors(List<EnumColors> colors) {
+	this.colors = colors;
+    }
 
-	public void setPromotypes(List<EnumPromoType> promotypes) {
-		this.promotypes = promotypes;
-	}
+    public void setCost(String cost) {
+	this.cost = cost;
+    }
 
-	public void setRarity(EnumRarity rarity) {
-		this.rarity = rarity;
-	}
+    public void setCustomMetadata(Map<EnumExtraCardMetaData, String> customMetadata) {
+	this.customMetadata = customMetadata;
+    }
 
-	public void setRebalanced(boolean isRebalanced) {
-		this.rebalanced = isRebalanced;
-	}
+    public void setDefense(Integer defense) {
+	this.defense = defense;
+    }
 
-	public void setReprintedCard(boolean reprintedCard) {
-		this.reprintedCard = reprintedCard;
-	}
+    public void setEdhrecRank(Integer edhrecRank) {
+	this.edhrecRank = edhrecRank;
+    }
 
-	public void setReserved(boolean reserved) {
-		this.reserved = reserved;
-	}
+    public void setEditions(List<MTGEdition> editions) {
+	this.editions = editions;
+    }
 
-	public void setRotatedCard(MTGCard rotatedCard) {
-		this.rotatedCard = rotatedCard;
-	}
+    public void setFinishes(List<EnumFinishes> finishes) {
+	this.finishes = finishes;
+    }
 
-	public void setRulings(List<MTGRuling> rulings) {
-		this.rulings = rulings;
-	}
+    public void setFlavor(String flavor) {
+	this.flavor = flavor;
+    }
 
-	public void setScryfallId(String scryfallId) {
-		this.scryfallId = scryfallId;
-		setUrl("https://api.scryfall.com/cards/" + scryfallId + "?format=image");
-	}
+    public void setFlavorName(String flavorName) {
+	this.flavorName = flavorName;
+    }
 
-	public void setScryfallIllustrationId(String scryfallIllustrationId) {
-		this.scryfallIllustrationId = scryfallIllustrationId;
-	}
+    public void setForeignNames(List<MTGCardNames> foreignNames) {
+	this.foreignNames = foreignNames;
+    }
 
-	public void setSecurityStamp(EnumSecurityStamp securityStamp) {
-		this.securityStamp = securityStamp;
-	}
+    public void setFrameEffects(List<EnumFrameEffects> frameEffects) {
+	this.frameEffects = frameEffects;
+    }
 
-	public void setSide(String side) {
-		this.side = side;
-	}
+    public void setFrameVersion(EnumFrameVersion frameVersion) {
+	this.frameVersion = frameVersion;
+    }
 
-	public void setSignature(String signature) {
-		this.signature = signature;
-	}
+    public void setFullArt(boolean fullArt) {
+	this.fullArt = fullArt;
+    }
 
-	public void setStorySpotlight(boolean isStorySpotlight) {
-		this.storySpotlight = isStorySpotlight;
-	}
+    public void setFunny(boolean isFunny) {
+	this.funny = isFunny;
+    }
 
-	public void setSubtypes(List<String> subtypes) {
-		this.subtypes = subtypes;
-	}
+    public void setGathererCode(String gathererCode) {
+	this.gathererCode = gathererCode;
+    }
 
-	public void setSupertypes(List<String> supertypes) {
-		this.supertypes = supertypes;
-	}
+    public void setHasAlternativeDeckLimit(boolean hasAlternativeDeckLimit) {
+	this.hasAlternativeDeckLimit = hasAlternativeDeckLimit;
+    }
 
-	public void setTcgPlayerId(int tcgPlayerId) {
-		this.tcgPlayerId = tcgPlayerId;
-	}
+    public void setHasContentWarning(boolean hasContentWarning) {
+	this.hasContentWarning = hasContentWarning;
+    }
 
-	public void setTcgPlayerId(Integer tcgPlayerId) {
-		this.tcgPlayerId = tcgPlayerId;
-	}
+    public void setId(String id) {
+	this.id = id;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setKeywords(List<MTGKeyWord> keywords) {
+	this.keywords = keywords;
+    }
 
-	public void setTimeshifted(boolean timeshifted) {
-		this.timeshifted = timeshifted;
-	}
+    public void setLayout(EnumLayout layout) {
+	this.layout = layout;
 
-	public void setToughness(String toughness) {
-		this.toughness = toughness;
-	}
+    }
 
-	public void setTypes(List<String> types) {
-		this.types = types;
-	}
+    public void setLegalities(List<MTGFormat> legalities) {
+	this.legalities = legalities;
+    }
 
-	public void setWatermarks(String watermarks) {
-		this.watermarks = watermarks;
-	}
+    public void setLoyalty(Integer loyalty) {
+	this.loyalty = loyalty;
+    }
 
-	public MTGCard toForeign(MTGCardNames fn) {
-		try {
-			var mc2 = new MTGCard();
-			var ed = new MTGEdition();
-
-			BeanUtils.copyProperties(mc2, this);
-			BeanUtils.copyProperties(ed, this.getEdition());
-
-			mc2.setName(fn.getName());
-			mc2.setEditions(new ArrayList<>(getEditions()));
-			mc2.getEditions().set(0, ed);
-			mc2.setMultiverseid(String.valueOf(fn.getGathererId()));
-			mc2.setFlavor(fn.getFlavor());
-
-			mc2.setText(fn.getText());
-			return mc2;
-
-		} catch (Exception _) {
-			return null;
-		}
-	}
+    public void setMkmId(int mkmId) {
+	this.mkmId = mkmId;
+    }
 
-	public JsonObject toLightJson() {
-		var obj = new JsonObject();
-		obj.addProperty("id", getId());
-		obj.addProperty("name", getName());
-		obj.addProperty("cost", getCost());
-		obj.addProperty("type", getFullType());
-		obj.addProperty("text", getText());
-
-		if (getEdition() != null) {
-			obj.addProperty("set", getEdition().getSet());
-			obj.addProperty("setId", getEdition().getId());
-			obj.addProperty("setSize", getEdition().getCardCountOfficial());
-			obj.addProperty("number", getNumber());
-			obj.addProperty("keyrune", getEdition().getKeyRuneCode());
-			obj.addProperty("multiverse", getMultiverseid());
-		}
-		obj.addProperty("scryfallId", getScryfallId());
-		obj.addProperty("showcase", isShowCase());
-		obj.addProperty("extendedArt", isExtendedArt());
-		obj.addProperty("borderless", isBorderLess());
-		obj.addProperty("retro", isRetro());
-		obj.addProperty("doubleFaced", isDoubleFaced());
-		obj.addProperty("timeshifted", isTimeshifted());
-
-		if (getRotatedCard() != null) {
-			obj.add("otherSide", getRotatedCard().toLightJson());
-		}
-
-		return obj;
+    public void setMkmId(Integer mkmId) {
+	this.mkmId = mkmId;
+    }
 
-	}
+    public void setMtgArenaId(Integer mtgArenaId) {
+	this.mtgArenaId = mtgArenaId;
+    }
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+    public void setMtgoCard(boolean mtgoCard) {
+	this.mtgoCard = mtgoCard;
+    }
+
+    public void setMtgstocksId(int mtgstocksId) {
+	this.mtgstocksId = mtgstocksId;
+    }
+
+    public void setMtgstocksId(Integer mtgstocksId) {
+	this.mtgstocksId = mtgstocksId;
+    }
+
+    public void setOnlineOnly(boolean onlineOnly) {
+	this.onlineOnly = onlineOnly;
+    }
+
+    public void setOriginalReleaseDate(String originalReleaseDate) {
+	this.originalReleaseDate = originalReleaseDate;
+    }
+
+    public void setOversized(boolean oversized) {
+	this.oversized = oversized;
+    }
+
+    public void setPower(String power) {
+	this.power = power;
+    }
+
+    public void setPromoCard(boolean promoCard) {
+	this.promoCard = promoCard;
+    }
+
+    public void setPromotypes(List<EnumPromoType> promotypes) {
+	this.promotypes = promotypes;
+    }
+
+    public void setRarity(EnumRarity rarity) {
+	this.rarity = rarity;
+    }
+
+    public void setRebalanced(boolean isRebalanced) {
+	this.rebalanced = isRebalanced;
+    }
+
+    public void setReprintedCard(boolean reprintedCard) {
+	this.reprintedCard = reprintedCard;
+    }
+
+    public void setReserved(boolean reserved) {
+	this.reserved = reserved;
+    }
+
+    public void setRotatedCard(MTGCard rotatedCard) {
+	this.rotatedCard = rotatedCard;
+    }
+
+    public void setRulings(List<MTGRuling> rulings) {
+	this.rulings = rulings;
+    }
+
+    public void setScryfallId(String scryfallId) {
+	this.scryfallId = scryfallId;
+	setUrl("https://api.scryfall.com/cards/" + scryfallId + "?format=image");
+    }
 
-	public static final List<String> types() {
-		return List.of("", "Artifact", "Battle", "Conspiracy", "Creature", "Enchantment", "Instant", "Land",
-				"Phenomenon", "Plane", "Planeswalker", "Scheme", "Sorcery", "Tribal", "Token");
+    public void setScryfallIllustrationId(String scryfallIllustrationId) {
+	this.scryfallIllustrationId = scryfallIllustrationId;
+    }
+
+    public void setSecurityStamp(EnumSecurityStamp securityStamp) {
+	this.securityStamp = securityStamp;
+    }
+
+    public void setSide(String side) {
+	this.side = side;
+    }
+
+    public void setSignature(String signature) {
+	this.signature = signature;
+    }
+
+    public void setStorySpotlight(boolean isStorySpotlight) {
+	this.storySpotlight = isStorySpotlight;
+    }
+
+    public void setSubtypes(List<String> subtypes) {
+	this.subtypes = subtypes;
+    }
+
+    public void setSupertypes(List<String> supertypes) {
+	this.supertypes = supertypes;
+    }
+
+    public void setTcgPlayerId(int tcgPlayerId) {
+	this.tcgPlayerId = tcgPlayerId;
+    }
+
+    public void setTcgPlayerId(Integer tcgPlayerId) {
+	this.tcgPlayerId = tcgPlayerId;
+    }
+
+    public void setText(String text) {
+	this.text = text;
+    }
+
+    public void setTimeshifted(boolean timeshifted) {
+	this.timeshifted = timeshifted;
+    }
+
+    public void setToughness(String toughness) {
+	this.toughness = toughness;
+    }
+
+    public void setTypes(List<String> types) {
+	this.types = types;
+    }
+
+    public void setWatermarks(String watermarks) {
+	this.watermarks = watermarks;
+    }
+
+    public MTGCard toForeign(MTGCardNames fn) {
+	try {
+	    var mc2 = new MTGCard();
+	    var ed = new MTGEdition();
+
+	    BeanUtils.copyProperties(mc2, this);
+	    BeanUtils.copyProperties(ed, this.getEdition());
+
+	    mc2.setName(fn.getName());
+	    mc2.setEditions(new ArrayList<>(getEditions()));
+	    mc2.getEditions().set(0, ed);
+	    mc2.setMultiverseid(String.valueOf(fn.getGathererId()));
+	    mc2.setFlavor(fn.getFlavor());
+
+	    mc2.setText(fn.getText());
+	    return mc2;
+
+	} catch (Exception _) {
+	    return null;
 	}
+    }
 
-	public static final List<String> superTypes() {
-		return List.of("", "Basic", "Legendary", "Ongoing", "Snow", "World");
+    public JsonObject toLightJson() {
+	var obj = new JsonObject();
+	obj.addProperty("id", getId());
+	obj.addProperty("name", getName());
+	obj.addProperty("cost", getCost());
+	obj.addProperty("type", getFullType());
+	obj.addProperty("text", getText());
+
+	if (getEdition() != null) {
+	    obj.addProperty("set", getEdition().getSet());
+	    obj.addProperty("setId", getEdition().getId());
+	    obj.addProperty("setSize", getEdition().getCardCountOfficial());
+	    obj.addProperty("number", getNumber());
+	    obj.addProperty("keyrune", getEdition().getKeyRuneCode());
+	    obj.addProperty("multiverse", getMultiverseid());
 	}
+	obj.addProperty("scryfallId", getScryfallId());
+	obj.addProperty("showcase", isShowCase());
+	obj.addProperty("extendedArt", isExtendedArt());
+	obj.addProperty("borderless", isBorderLess());
+	obj.addProperty("retro", isRetro());
+	obj.addProperty("doubleFaced", isDoubleFaced());
+	obj.addProperty("timeshifted", isTimeshifted());
 
-	public static final List<String> getManaCosts() {
-		return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
-				"17", "18", "19", "20", "X", "W", "U", "B", "R", "G", "W/U", "W/B", "U/B", "U/R", "B/R", "B/G", "R/G",
-				"R/W", "G/W", "G/U", "W/P", "U/P", "B/P", "R/P", "G/P", "C", "S");
+	if (getRotatedCard() != null) {
+	    obj.add("otherSide", getRotatedCard().toLightJson());
 	}
+
+	return obj;
+
+    }
+
+    @Override
+    public String toString() {
+	return getName();
+    }
+
+    public static final List<String> types() {
+	return List.of("", "Artifact", "Battle", "Conspiracy", "Creature", "Enchantment", "Instant", "Land",
+		"Phenomenon", "Plane", "Planeswalker", "Scheme", "Sorcery", "Tribal", "Token");
+    }
+
+    public static final List<String> superTypes() {
+	return List.of("", "Basic", "Legendary", "Ongoing", "Snow", "World");
+    }
+
+    public static final List<String> getManaCosts() {
+	return Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
+		"17", "18", "19", "20", "X", "W", "U", "B", "R", "G", "W/U", "W/B", "U/B", "U/R", "B/R", "B/G", "R/G",
+		"R/W", "G/W", "G/U", "W/P", "U/P", "B/P", "R/P", "G/P", "C", "S");
+    }
 
 }

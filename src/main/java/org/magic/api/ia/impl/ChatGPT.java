@@ -37,7 +37,7 @@ public class ChatGPT extends AbstractIA {
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		var map = super.getDefaultAttributes();
 
-		map.put("MODEL", new MTGProperty(OpenAiChatModelName.GPT_3_5_TURBO.name(), "choose langage model",
+		map.put("MODEL", new MTGProperty(OpenAiChatModelName.GPT_4_1.name(), "choose langage model",
 				Arrays.stream(OpenAiChatModelName.values()).map(Enum::name).toList().toArray(new String[0])));
 		return map;
 	}

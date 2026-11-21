@@ -46,7 +46,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
     private CardCanvas canvas;
     private String forceTemplate;
 
-
     @Override
     public STATUT getStatut() {
 	return STATUT.DEV;
@@ -57,7 +56,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 	UITools.loadFonts();
     }
 
-
     @Override
     protected EnumFrameVersion getFrameVersion() {
 	return EnumFrameVersion.FRAME_2015;
@@ -66,158 +64,127 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
     @Override
     public BufferedImage generatePicture(MTGCard mc, MTGEdition me) throws IOException {
 
-
 	MTGControler.getInstance().downloadComposerDatas();
-
 
 	canvas.clear();
 
-	var layout=findLayout(mc);
+	var layout = findLayout(mc);
 
-	var json = URLTools.toJson(getClass().getResourceAsStream("/composer-layouts/"+layout+".json"));
-	var layers = new JsonExport().fromJsonList(json.toString(),Layer.class);
-	var print=true;
+	var json = URLTools.toJson(getClass().getResourceAsStream("/composer-layouts/" + layout + ".json"));
+	var layers = new JsonExport().fromJsonList(json.toString(), Layer.class);
+	var print = true;
 
-	for(var l : layers) 
-	{
-	    print=true;
-	    if(l instanceof TextLayer tl)
-	    {
-		if(tl.getName().equals("NAME"))
+	for (var l : layers) {
+	    print = true;
+	    if (l instanceof TextLayer tl) {
+		if (tl.getName().equals("NAME"))
 		    tl.setText(mc.getName());
 
-		if(tl.getName().equals("TYPES"))
+		if (tl.getName().equals("TYPES"))
 		    tl.setText(mc.getFullType());
 
-		if(tl.getName().equals("TEXT")) {
+		if (tl.getName().equals("TEXT")) {
 		    tl.setText(mc.getText());
 		    tl.setFlavor(mc.getFlavor());
 		}
 
-
-
-		if(tl.getName().equals("ROTATED_NAME") && mc.getRotatedCard()!=null)
-		{
+		if (tl.getName().equals("ROTATED_NAME") && mc.getRotatedCard() != null) {
 		    tl.setText(mc.getRotatedCard().getName());
 		}
 
-		if(tl.getName().equals("ROTATED_COST") && mc.getRotatedCard()!=null)
-		{
+		if (tl.getName().equals("ROTATED_COST") && mc.getRotatedCard() != null) {
 		    tl.setText(mc.getRotatedCard().getCost());
 		}
 
-
-		if(tl.getName().equals("ROTATED_TYPES") && mc.getRotatedCard()!=null)
-		{
+		if (tl.getName().equals("ROTATED_TYPES") && mc.getRotatedCard() != null) {
 		    tl.setText(mc.getRotatedCard().getFullType());
 
-
-		    if(mc.getLayout()==EnumLayout.MODAL_DFC)
-		    {
-			if(mc.getRotatedCard().isCreature())
+		    if (mc.getLayout() == EnumLayout.MODAL_DFC) {
+			if (mc.getRotatedCard().isCreature())
 			    tl.setText(mc.getRotatedCard().getPT() + " Creature");
 
-			if(mc.getRotatedCard().isLand())
+			if (mc.getRotatedCard().isLand())
 			    tl.setText("Land");
 
-
 		    }
 
 		}
 
-		if(tl.getName().equals("ROTATED_TEXT") && mc.getRotatedCard()!=null)
-		{
+		if (tl.getName().equals("ROTATED_TEXT") && mc.getRotatedCard() != null) {
 		    tl.setText(mc.getRotatedCard().getFullType());
 
-
-		    if(mc.getLayout()==EnumLayout.MODAL_DFC)
-		    {
-			if(mc.getRotatedCard().isCreature())
+		    if (mc.getLayout() == EnumLayout.MODAL_DFC) {
+			if (mc.getRotatedCard().isCreature())
 			    tl.setText(mc.getRotatedCard().getCost());
 
-			if(mc.getRotatedCard().isLand())
+			if (mc.getRotatedCard().isLand())
 			    tl.setText("{T} Add ");
 
-
 		    }
 
 		}
 
-
-		if(tl.getName().equals("ROTATED_PT"))
-		{
-		    if(mc.getRotatedCard()!=null && mc.getRotatedCard().isCreature())
-		    {
+		if (tl.getName().equals("ROTATED_PT")) {
+		    if (mc.getRotatedCard() != null && mc.getRotatedCard().isCreature()) {
 			tl.setText(mc.getPT());
-		    }
-		    else
-		    {
+		    } else {
 			tl.setText("");
 		    }
 		}
 
-		if(tl.getName().equals("PT_TEXT"))
-		{
-		    if(mc.isVehicule())
+		if (tl.getName().equals("PT_TEXT")) {
+		    if (mc.isVehicule())
 			tl.setColor(Color.WHITE);
 
-		    if(mc.isCreature())
+		    if (mc.isCreature())
 			tl.setText(mc.getPT());
 		    else
 			tl.setText("");
 		}
 
-
-		if(tl.getName().equals("SET_LANG"))
+		if (tl.getName().equals("SET_LANG"))
 		    tl.setText(mc.getEdition().getId().toUpperCase() + " • EN");
 
-
-		if(tl.getName().equals("ARTIST"))
-		{
-		    if(mc.isRetro())
-			tl.setText("Illus. "+ mc.getArtist());
+		if (tl.getName().equals("ARTIST")) {
+		    if (mc.isRetro())
+			tl.setText("Illus. " + mc.getArtist());
 		    else
 			tl.setText(mc.getArtist());
 		}
 
-
-		if(tl.getName().equals("RARITY_PRINTNUMBER"))
-		{
-		    if(mc.isRetro())
-			tl.setText(mc.getNumber() + "/ " + (me!=null?me.getCardCountOfficial():mc.getEdition().getCardCountOfficial()));
+		if (tl.getName().equals("RARITY_PRINTNUMBER")) {
+		    if (mc.isRetro())
+			tl.setText(mc.getNumber() + "/ "
+				+ (me != null ? me.getCardCountOfficial() : mc.getEdition().getCardCountOfficial()));
 		    else
-			tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ " + (me!=null?me.getCardCountOfficial():mc.getEdition().getCardCountOfficial()));
+			tl.setText(mc.getRarity().name().substring(0, 1) + " " + mc.getNumber() + "/ "
+				+ (me != null ? me.getCardCountOfficial() : mc.getEdition().getCardCountOfficial()));
 		}
 
-		if(tl.getName().equals("COPYRIGHT"))
-		{
-		    if(mc.isRetro())
-		    {
-			tl.setText("© 1993-"+LocalDate.now(ZoneId.systemDefault()).getYear()+" Wizards of the Coast, Inc.");	
-		    }
-		    else
-		    {
-			tl.setText("™ & © "+LocalDate.now(ZoneId.systemDefault()).getYear()+" Wizards of the Coast");	
+		if (tl.getName().equals("COPYRIGHT")) {
+		    if (mc.isRetro()) {
+			tl.setText("© 1993-" + LocalDate.now(ZoneId.systemDefault()).getYear()
+				+ " Wizards of the Coast, Inc.");
+		    } else {
+			tl.setText(
+				"™ & © " + LocalDate.now(ZoneId.systemDefault()).getYear() + " Wizards of the Coast");
 		    }
 
 		}
 
 	    }
 
-	    if(l instanceof ManaLayer ml)
-	    {
+	    if (l instanceof ManaLayer ml) {
 		ml.setCost(mc.getCost());
 
-		if(ml.getName().equals("ROTATED_COST")&& mc.getRotatedCard()!=null)
+		if (ml.getName().equals("ROTATED_COST") && mc.getRotatedCard() != null)
 		    ml.setCost(mc.getRotatedCard().getCost());
 
 	    }
 
-	    if(l instanceof BorderLayer bl)
-	    {
+	    if (l instanceof BorderLayer bl) {
 		bl.setColor(BorderColor.valueOf(mc.getBorder().name()));
-		if(bl.getColor()==BorderColor.BORDERLESS)
-		{
+		if (bl.getColor() == BorderColor.BORDERLESS) {
 		    bl.setUri(URI.create(mc.getUrl()));
 		    bl.reload();
 		    bl.fitImage();
@@ -225,8 +192,7 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
 	    }
 
-	    if(l instanceof IllustrationLayer tl)
-	    {
+	    if (l instanceof IllustrationLayer tl) {
 		try {
 		    tl.setSource(URI.create(mc.getUrl()).toURL());
 		} catch (Exception e) {
@@ -234,137 +200,129 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 		}
 	    }
 
-	    if(l instanceof SetIconLayer sl)
-	    {
+	    if (l instanceof SetIconLayer sl) {
 		sl.setIdSet(me.getId());
 		sl.setRarity(mc.getRarity());
-		print=mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON,"false").equals("true");
+		print = mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")
+			.equals("true");
 	    }
 
-	    if(l instanceof FrameLayer fl)
-	    {
+	    if (l instanceof FrameLayer fl) {
 		var code = EnumColors.determine(mc.getColors()).getCode();
 
-		if(mc.isArtifact())
-		{
+		if (mc.isArtifact()) {
 		    code = "Artifact";
-		    if(!mc.getColors().isEmpty())
-			mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getColors()).getCode());
-		}
-		else if(mc.isLand()) 
-		{
+		    if (!mc.getColors().isEmpty())
+			mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,
+				EnumColors.determine(mc.getColors()).getCode());
+		} else if (mc.isLand()) {
 		    code = "Land";
-		    if(!mc.getProducedMana().isEmpty())
-			mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,EnumColors.determine(mc.getProducedMana()).getCode());
+		    if (!mc.getProducedMana().isEmpty())
+			mc.getCustomMetadata().put(EnumExtraCardMetaData.ACCENT,
+				EnumColors.determine(mc.getProducedMana()).getCode());
 		}
-		
-		
-		if(mc.isDoubleFaced() && mc.getSide().equals("b"))
+
+		if (mc.isDoubleFaced() && mc.getSide().equals("b"))
 		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 
-		if(mc.getLayout()==EnumLayout.MODAL_DFC && mc.getSide().equals("b") && fl.getFrameType()!=FrameType.BOX)
-		{
+		if (mc.getLayout() == EnumLayout.MODAL_DFC && mc.getSide().equals("b")
+			&& fl.getFrameType() != FrameType.BOX) {
 		    fl.setPath(fl.getPath().replace("mdfc_", "mdfc_back_"));
 		}
 
-
-		if((fl.getFrameType()==FrameType.BOX || fl.getFrameType()==FrameType.LEGENDARY || fl.isTitleLine() || fl.isTypesLine() || fl.isBothLines()) && !StringUtils.isEmpty( mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT)))
-		{
+		if ((fl.getFrameType() == FrameType.BOX || fl.getFrameType() == FrameType.LEGENDARY || fl.isTitleLine()
+			|| fl.isTypesLine() || fl.isBothLines())
+			&& !StringUtils.isEmpty(mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT))) {
 		    code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 
-		    if( fl.getFrameType().name().endsWith("_BORDER") && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length()>1)
-			code="Gold";
+		    if (fl.getFrameType().name().endsWith("_BORDER")
+			    && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).length() > 1)
+			code = "Gold";
 		    else
-			code=mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+			code = mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 		}
 
-		if((fl.getFrameType()==FrameType.FRAME  || fl.getFrameType()==FrameType.PT)&& mc.isVehicule()){
-		    code="Vehicle";
+		if ((fl.getFrameType() == FrameType.FRAME || fl.getFrameType() == FrameType.PT) && mc.isVehicule()) {
+		    code = "Vehicle";
 		}
 
-		if(fl.getFrameType()==FrameType.MDFC_HINTS)
-		{
+		if (fl.getFrameType() == FrameType.MDFC_HINTS) {
 		    code = EnumColors.determine(mc.getRotatedCard().getColors()).getCode();
-		    if(mc.getRotatedCard().isArtifact())
+		    if (mc.getRotatedCard().isArtifact())
 			code = "Artifact";
-		    else if(mc.getRotatedCard().isLand())
+		    else if (mc.getRotatedCard().isLand())
 			code = "Colourless";
 
-		    print=mc.isDoubleFaced();
+		    print = mc.isDoubleFaced();
 
 		}
 
-		if(fl.getFrameType()==FrameType.BORDERED_FRAME && mc.isLand())
-		{
-		    code="Land_Gold";
+		if (fl.getFrameType() == FrameType.BORDERED_FRAME && mc.isLand()) {
+		    code = "Land_Gold";
 
-		    if(!mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).isEmpty())
-			code="Land_"+mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
+		    if (!mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT).isEmpty())
+			code = "Land_" + mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT);
 		}
 
-		fl.setPath(fl.getPath().replace(TEMPLATE_REPLACE, code+".webp"));
+		fl.setPath(fl.getPath().replace(TEMPLATE_REPLACE, code + ".webp"));
 
+		if (fl.getFrameType() == FrameType.TRANSFORM_ICON) {
+		    var directory = "Frames/transform_icons";
+		    if (mc.getSide().equals("b"))
+			directory = "Frames/transform_back_icons";
 
-		if(fl.getFrameType()==FrameType.TRANSFORM_ICON)
-		{
-		    var directory="Frames/transform_icons";
-		    if(mc.getSide().equals("b"))
-			directory ="Frames/transform_back_icons";
-
-		    fl.setPath(directory+"/"+mc.getFrameEffects().getFirst().name().toLowerCase()+".webp");
-		    print=mc.isDoubleFaced();
+		    fl.setPath(directory + "/" + mc.getFrameEffects().getFirst().name().toLowerCase() + ".webp");
+		    print = mc.isDoubleFaced();
 
 		}
 
-		if(fl.getFrameType()==FrameType.PT)	{
-		    print=mc.isCreature();    
+		if (fl.getFrameType() == FrameType.PT) {
+		    print = mc.isCreature();
 		}
 	    }
 
-
-	    if(print)
-	    {
+	    if (print) {
 		l.reload();
 		canvas.addLayer(l);
 	    }
 	}
 
-	pwPostTreatment(mc,layers);
+	pwPostTreatment(mc, layers);
 
-	return ImageTools.resize(canvas.getCardImage(),1039,744);
+	return ImageTools.resize(canvas.getCardImage(), 1039, 744);
     }
 
-
     private void pwPostTreatment(MTGCard mc, List<Layer> layers) {
-	if(mc.isPlaneswalker())
-	{
+	if (mc.isPlaneswalker()) {
 
 	    var pas = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
 
-	    for (int i=0;i<pas.size();i++)
-	    {
+	    for (int i = 0; i < pas.size(); i++) {
 		final int value = i;
-		layers.stream().filter(l->l.getName().equals("loyalty_value_"+(value+1))).map(TextLayer.class::cast).findFirst().get().setText(pas.get(value).loyalty());
-		layers.stream().filter(l->l.getName().equals("loyalty_text_"+(value+1))).map(TextLayer.class::cast).findFirst().get().setText(pas.get(value).effects().getFirst().text());
+		layers.stream().filter(l -> l.getName().equals("loyalty_value_" + (value + 1)))
+		.map(TextLayer.class::cast).findFirst().get().setText(pas.get(value).loyalty());
+		layers.stream().filter(l -> l.getName().equals("loyalty_text_" + (value + 1)))
+		.map(TextLayer.class::cast).findFirst().get()
+		.setText(pas.get(value).effects().getFirst().text());
 
-		var optfl = layers.stream().filter(l->l.getName().equals("loyalty_frame_"+(value+1))).map(FrameLayer.class::cast).findFirst();
-		if(optfl.isPresent())
-		{
+		var optfl = layers.stream().filter(l -> l.getName().equals("loyalty_frame_" + (value + 1)))
+			.map(FrameLayer.class::cast).findFirst();
+		if (optfl.isPresent()) {
 		    var fl = optfl.get();
-		    var code = "LoyaltyZero"; 
-		    if(pas.get(value).loyalty().startsWith("+"))
-			code="LoyaltyPlus";
-		    else if(pas.get(value).loyalty().startsWith("−") || pas.get(value).loyalty().startsWith("-"))
-			code="LoyaltyMinus";
-		    else 
-			code = "LoyaltyZero"; 
+		    var code = "LoyaltyZero";
+		    if (pas.get(value).loyalty().startsWith("+"))
+			code = "LoyaltyPlus";
+		    else if (pas.get(value).loyalty().startsWith("−") || pas.get(value).loyalty().startsWith("-"))
+			code = "LoyaltyMinus";
+		    else
+			code = "LoyaltyZero";
 
-		    fl.setPath(fl.getPath().replace("LoyaltyZero.webp", code+".webp"));
+		    fl.setPath(fl.getPath().replace("LoyaltyZero.webp", code + ".webp"));
 		    fl.reload();
 		}
 	    }
 	}
-	
+
     }
 
     public void setTemplate(File currentFile) {
@@ -372,53 +330,45 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
 
     }
 
-
     private String findLayout(MTGCard mc) {
 
-	var layout="Normal";
+	var layout = "Normal";
 
-	if(mc.isExtendedArt())
-	    layout="Extended";
-	else if(mc.isSaga())
-	    layout="Saga"; 
-	else if(mc.isPlaneswalker())
-	{
-	    layout="Planeswalker";
-	    if(OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities().size()>3)
-		layout="Planeswalker-4";
+	if (mc.isExtendedArt())
+	    layout = "Extended";
+	else if (mc.isSaga())
+	    layout = "Saga";
+	else if (mc.isPlaneswalker()) {
+	    layout = "Planeswalker";
+	    if (OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities().size() > 3)
+		layout = "Planeswalker-4";
 
-	}
-	else if(mc.isBorderLess())
-	    layout="Borderless"; 
+	} else if (mc.isBorderLess())
+	    layout = "Borderless";
 
-	if(mc.isLegendary() && !mc.isPlaneswalker())
-	    layout+="-legendary";
+	if (mc.isLegendary() && !mc.isPlaneswalker())
+	    layout += "-legendary";
 
+	if (mc.isRetro())
+	    layout = "old";
 
-	if(mc.isRetro())
-	    layout="old";
+	if (mc.isDoubleFaced()) {
+	    layout = "Transform";
 
-	if(mc.isDoubleFaced())
-	{
-	    layout="Transform";
-
-	    if(mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC) && mc.getSide().equals("b"))
-		layout="Ixalan";
+	    if (mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC) && mc.getSide().equals("b"))
+		layout = "Ixalan";
 	}
 
-	if(mc.getLayout()==EnumLayout.ADVENTURE)
-	    layout="Adventures";
+	if (mc.getLayout() == EnumLayout.ADVENTURE)
+	    layout = "Adventures";
 
-	if(mc.getLayout()==EnumLayout.MODAL_DFC)
-	    layout="Mdfc";
+	if (mc.getLayout() == EnumLayout.MODAL_DFC)
+	    layout = "Mdfc";
 
-	if(forceTemplate!=null)
-	    layout= forceTemplate;
+	if (forceTemplate != null)
+	    layout = forceTemplate;
 
-
-
-
-	logger.debug("loading layout {}",layout);
+	logger.debug("loading layout {}", layout);
 
 	return layout;
     }
@@ -432,7 +382,6 @@ public class MTGCompanionComposerProvider extends AbstractPicturesEditorProvider
     public String getName() {
 	return "MTGCompanion Composer";
     }
-
 
     @Override
     public Icon getIcon() {
