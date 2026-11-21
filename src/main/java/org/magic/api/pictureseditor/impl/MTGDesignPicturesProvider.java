@@ -245,7 +245,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 		if (mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, FALSE).equals("true")) {
 		    build.addParameter("set-symbol",new SMFIconsSetProvider().getSetFor(me, mc.getRarity()).toASCIIString());
-	build.addParameter("set-symbol", "https://my.mtgcompanion.org:1234/editions/logo/"+ (me != null ? me.getId() : "pmei") + "/" + mc.getRarity().name())
+		    build.addParameter("set-symbol", "https://my.mtgcompanion.org:1234/editions/logo/"+ (me != null ? me.getId() : "pmei") + "/" + mc.getRarity().name());
 		}
 
 		try {
