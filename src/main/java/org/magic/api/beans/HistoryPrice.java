@@ -12,8 +12,8 @@ import java.util.TreeMap;
 
 public class HistoryPrice<T> implements Iterable<Map.Entry<Date, Double>> {
 
-	private Map<Date, Double> variations;
-	private T pack;
+	private final Map<Date, Double> variations;
+	private final T pack;
 	private Currency currency;
 	private boolean foil;
 	private String serieName;

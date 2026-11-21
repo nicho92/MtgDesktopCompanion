@@ -7,7 +7,7 @@ public class DeckMessage extends AbstractMessage {
 
 	private static final long serialVersionUID = 1L;
 
-	private MTGDeck item;
+	private final MTGDeck item;
 
 	public DeckMessage(MTGDeck item) {
 		this.item = item;

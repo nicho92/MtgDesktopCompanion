@@ -73,27 +73,27 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private static final String PASSWORD = "password";
 
 	private MongoDatabase db;
-	private String colCollects = "collects";
-	private String colStocks = "stocks";
-	private String colAlerts = "alerts";
-	private String colNews = "news";
-	private String colSealed = "sealed";
-	private String colContacts = "contacts";
-	private String colTransactions = "transactions";
-	private String colDecks = "decks";
-	private String colAnnounces = "announces";
-	private String colGed = "ged";
-	private String colTechnical = "technical";
-	private String colCustomsCards = "customsCards";
-	private String colCustomsSets = "customsSets";
+	private final String colCollects = "collects";
+	private final String colStocks = "stocks";
+	private final String colAlerts = "alerts";
+	private final String colNews = "news";
+	private final String colSealed = "sealed";
+	private final String colContacts = "contacts";
+	private final String colTransactions = "transactions";
+	private final String colDecks = "decks";
+	private final String colAnnounces = "announces";
+	private final String colGed = "ged";
+	private final String colTechnical = "technical";
+	private final String colCustomsCards = "customsCards";
+	private final String colCustomsSets = "customsSets";
 
-	private String dbIDField = "db_id";
-	private String dbAlertField = "alertItem";
-	private String dbNewsField = "newsItem";
-	private String dbStockField = "stockItem";
-	private String dbTypeNewsField = "typeNews";
-	private String dbStockColField = dbStockField + ".magicCollection.name";
-	private String dbStockSetField = dbStockField + ".edition.id";
+	private final String dbIDField = "db_id";
+	private final String dbAlertField = "alertItem";
+	private final String dbNewsField = "newsItem";
+	private final String dbStockField = "stockItem";
+	private final String dbTypeNewsField = "typeNews";
+	private final String dbStockColField = dbStockField + ".magicCollection.name";
+	private final String dbStockSetField = dbStockField + ".edition.id";
 
 	private MongoClient client;
 	private JsonWriterSettings setts;

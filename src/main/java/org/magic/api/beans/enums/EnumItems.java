@@ -19,7 +19,7 @@ public enum EnumItems {
 	DRAFT_PACK("3 boosters pack"), 
 	WELCOME("Welcome pack");
 
-	private String label;
+	private final String label;
 
 	private EnumItems(String label) {
 		this.label = label;

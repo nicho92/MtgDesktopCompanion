@@ -8,7 +8,7 @@ import java.util.List;
 public class Tracking implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private List<TrackingStep> steps;
+	private final List<TrackingStep> steps;
 	private boolean finished;
 	private String productName;
 	private String number;

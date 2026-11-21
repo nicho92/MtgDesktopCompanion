@@ -20,8 +20,8 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration, MTGIco
 	@SerializedName(alternate = {"Special", "special"}, value = "SPECIAL")	SPECIAL(new Color(130, 113, 245), 5), 
 	@SerializedName(alternate = {"Bonus", "bonus"}, value = "BONUS")	BONUS(new Color(238, 130, 238), 6);
 
-	private Color color;
-	private int position;
+	private final Color color;
+	private final int position;
 
 	private EnumRarity(Color c, int position) {
 

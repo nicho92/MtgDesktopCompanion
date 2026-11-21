@@ -26,11 +26,11 @@ public enum TextRole {
     SEPARATOR(128,"NDPMTG",SwingConstants.CENTER,Font.PLAIN,Color.WHITE),
     LOYALY (134,"Beleren Bold",SwingConstants.LEFT, Font.PLAIN,Color.WHITE);
 
-    private int size;
-    private String fontname;
-    private int style;
+    private final  int size;
+    private final String fontname;
+    private final int style;
     private Color color;
-    private int alignement;
+    private final int alignement;
 
 
     TextRole(int size, String fontname, int alignement,int style) {

@@ -16,8 +16,8 @@ public enum EnumPlayerStatus implements MTGIconable {
 	DISCONNECTED("Disconnected", Color.GRAY);
 	
 	
-	private String name;
-	private Color color;
+	private final String name;
+	private final Color color;
 
 	public Color getColor() {
 		return color;

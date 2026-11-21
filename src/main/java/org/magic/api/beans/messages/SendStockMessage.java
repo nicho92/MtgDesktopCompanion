@@ -8,8 +8,8 @@ import org.magic.api.beans.abstracts.AbstractMessage;
 public class SendStockMessage extends AbstractMessage {
 
 	private static final long serialVersionUID = 1L;
-	private SearchMessage searchQuery;
-	private List<MTGCardStock> resultItems;
+	private final SearchMessage searchQuery;
+	private final List<MTGCardStock> resultItems;
 
 	public SearchMessage getSearchQuery() {
 		return searchQuery;

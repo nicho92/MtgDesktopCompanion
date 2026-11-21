@@ -17,9 +17,9 @@ import com.google.common.cache.CacheBuilder;
 
 public class TCache<T> {
 
-	private Cache<String, T> loader;
+	private final Cache<String, T> loader;
 
-	private String name;
+	private final String name;
 
 	public TCache(String name, int timeoutMinute) {
 		this.name = name;

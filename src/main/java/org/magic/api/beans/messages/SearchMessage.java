@@ -7,7 +7,7 @@ public class SearchMessage extends AbstractMessage {
 
 	private static final long serialVersionUID = 1L;
 
-	private MTGProduct item;
+	private final MTGProduct item;
 
 	public SearchMessage(MTGProduct item) {
 		this.item = item;

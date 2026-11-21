@@ -10,7 +10,7 @@ public enum EnumExportCategory {
 			MTGConstants.ICON_WEBSITE), MANUAL(MTGConstants.ICON_MANUAL), MTGCOMPANION(
 					MTGConstants.ICON_LOGO), APPLICATION(MTGConstants.ICON_CONFIG), NONE(MTGConstants.ICON_CANCEL);
 
-	private ImageIcon icon;
+	private final ImageIcon icon;
 
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase().replace("_", " "));

@@ -22,8 +22,8 @@ public enum EnumTransactionStatus implements MTGIconable {
 	PRE_ORDERED(new Color(178, 102, 255),"Pre Ordered"), 
 	DELIVRED(Color.YELLOW, "Delivred");
 
-	private String name;
-	private Color color;
+	private final String name;
+	private final Color color;
 
 	EnumTransactionStatus(Color c, String s) {
 		this.color = c;

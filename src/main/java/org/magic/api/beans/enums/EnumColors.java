@@ -25,9 +25,9 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 	UNCOLOR("C", Color.GRAY, 7), 
 	GOLD("Gold", new Color(232, 232, 0), 6);
 
-	private String code;
-	private Color color;
-	private int position;
+	private final String code;
+	private final Color color;
+	private final int position;
 
 	@Override
 	public Icon getIcon() {

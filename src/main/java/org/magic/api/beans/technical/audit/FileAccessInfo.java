@@ -10,7 +10,7 @@ public class FileAccessInfo extends AbstractAuditableItem {
 		READ, WRITE, DELETE, CREATE
 	}
 
-	private File file;
+	private final File file;
 	private ACCESSTYPE accesstype;
 
 	public FileAccessInfo(File f) {

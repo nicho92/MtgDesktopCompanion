@@ -22,9 +22,9 @@ public enum EnumCondition implements MTGIconable {
 	SEALED("SD",new Color(0, 153, 153)), 
 	OPENED("OP", new Color(0, 102, 102));
 
-	private String codename;
-	private String label;
-	private Color color;
+	private final String codename;
+	private final String label;
+	private final Color color;
 
 	private EnumCondition(String codename, Color c) {
 		this.codename = codename;

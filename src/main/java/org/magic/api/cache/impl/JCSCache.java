@@ -22,7 +22,7 @@ import org.magic.services.tools.POMReader;
 
 public class JCSCache extends AbstractCacheProvider {
 
-	private CacheAccess<String, byte[]> picturesCache;
+	private final CacheAccess<String, byte[]> picturesCache;
 
 	public JCSCache() {
 		super();

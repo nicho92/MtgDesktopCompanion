@@ -8,13 +8,13 @@ import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 
 public class PluginEntry<T extends MTGPlugin> {
 	private String classpath;
-	private String root;
-	private String element;
+	private final String root;
+	private final String element;
 	private boolean multiprovider;
 	private List<T> plugins;
-	private PLUGINS type;
-	private Class<T> classeType;
-	private String desc;
+	private final PLUGINS type;
+	private final Class<T> classeType;
+	private final String desc;
 
 	@Override
 	public String toString() {

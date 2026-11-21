@@ -14,7 +14,7 @@ public class MTGNotification implements Serializable {
 		ERROR, WARNING, INFO, NONE
 	}
 
-	private Date date;
+	private final Date date;
 	private String sender;
 	private String message;
 	private String title;

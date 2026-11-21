@@ -34,7 +34,7 @@ public enum EnumExtra implements MTGEnumeration {
 	VIP("vip"), 
 	WELCOME("welcome");
 
-	private String mtgjsonname;
+	private final String mtgjsonname;
 
 	private EnumExtra(String mtgjsonName) {
 		this.mtgjsonname = mtgjsonName;

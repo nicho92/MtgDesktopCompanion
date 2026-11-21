@@ -25,8 +25,8 @@ public class MTGWallpaper implements Comparable<MTGWallpaper>, MTGSerializable {
 	private Date publishDate;
 	private String provider;
 	private boolean mature;
-	private List<String> tags;
-	private transient Map<String, String> headers;
+	private final List<String> tags;
+	private final transient Map<String, String> headers;
 
 	public MTGWallpaper() {
 		tags = new ArrayList<>();

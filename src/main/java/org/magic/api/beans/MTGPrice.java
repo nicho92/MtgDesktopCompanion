@@ -18,7 +18,7 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	private String cardName;
 	private int qty = 1;
 	private String sellerUrl;
-	private MoneyValue priceValue;
+	private final MoneyValue priceValue;
 
 	public MTGPrice() {
 		priceValue = new MoneyValue();
