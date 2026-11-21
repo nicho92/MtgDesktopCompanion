@@ -65,8 +65,8 @@
 		<poi.version>6.0.0</poi.version>
 		<slf4j.version>2.1.0-alpha1</slf4j.version>
 		<rhino.version>1.9.2</rhino.version>
-		<commonmark.version>0.32.0</commonmark.version>
-		<langchain4j.version>1.23.0</langchain4j.version>
+		<commonmark.version>0.33.0</commonmark.version>
+		<langchain4j.version>1.24.0</langchain4j.version>
 		<telegram.version>10.3.0</telegram.version>
 	</properties>
 
@@ -467,7 +467,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.21.9</version>
+			<version>3.21.10</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -498,7 +498,7 @@
 		<dependency>
 			<groupId>org.boofcv</groupId>
 			<artifactId>boofcv-core</artifactId>
-			<version>1.5.0</version>
+			<version>1.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.sarxos</groupId>
@@ -539,7 +539,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>4.0.1</version>
+			<version>4.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -752,7 +752,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext-core</artifactId>
-			<version>9.8.0</version>
+			<version>9.8.1</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
@@ -839,7 +839,7 @@
 		<dependency>
 			<groupId>org.python</groupId>
 			<artifactId>jython-standalone</artifactId>
-			<version>2.7.5rc1</version>
+			<version>2.7.5rc2</version>
 		</dependency>
 	</dependencies>
 
