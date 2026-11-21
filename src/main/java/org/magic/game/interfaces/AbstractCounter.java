@@ -27,8 +27,9 @@ public abstract class AbstractCounter implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if ((obj == null) || (this.getClass() != obj.getClass()))
-			return false;
+		if ((obj == null) || (this.getClass() != obj.getClass())) {
+		    return false;
+		}
 
 		return ((AbstractCounter) obj).hashCode() == this.hashCode();
 

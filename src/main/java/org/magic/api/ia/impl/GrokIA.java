@@ -24,7 +24,7 @@ public class GrokIA extends AbstractIA {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = super.getDefaultAttributes();
+		final var map = super.getDefaultAttributes();
 		map.put("MODEL", new MTGProperty("grok-3-mini", "choose langage model", "grok-3", "grok-3-mini", "grok-3-fast",
 				"grok-3-mini-fast", "grok-4-0709"));
 		return map;
@@ -32,12 +32,13 @@ public class GrokIA extends AbstractIA {
 
 	@Override
 	public ChatModel getEngine(ResponseFormat format) {
-		var b = OpenAiChatModel.builder().apiKey(getAuthenticator().get(API_KEY)).baseUrl("https://api.x.ai/v1")
+		final var b = OpenAiChatModel.builder().apiKey(getAuthenticator().get(API_KEY)).baseUrl("https://api.x.ai/v1")
 				.modelName(getString("MODEL")).maxTokens(getInt("MAX_TOKEN")).logRequests(getBoolean("LOG"))
 				.logResponses(getBoolean("LOG")).temperature(getDouble("TEMPERATURE"));
 
-		if (format != null)
-			b.responseFormat(format.toString());
+		if (format != null) {
+		    b.responseFormat(format.toString());
+		}
 
 		return b.build();
 	}

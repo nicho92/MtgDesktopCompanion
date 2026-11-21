@@ -20,13 +20,13 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JSpinner spinner;
-	private NumberFormat formater;
-	private JLabel label;
+	private final JSpinner spinner;
+	private final NumberFormat formater;
+	private final JLabel label;
 
 	public NumberCellEditorRenderer() {
 		spinner = new JSpinner();
-		var model1 = new SpinnerNumberModel();
+		final var model1 = new SpinnerNumberModel();
 		model1.setMinimum(0);
 		spinner.setModel(model1);
 		formater = NumberFormat.getNumberInstance();
@@ -55,7 +55,7 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 		if (StringUtils.isNumeric(text)) {
 			try {
 				text = formater.format(value);
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				// do nothing
 			}
 		}

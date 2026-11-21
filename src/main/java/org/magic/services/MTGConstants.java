@@ -56,7 +56,7 @@ public class MTGConstants {
     public static final URL MTG_DESKTOP_BOOSTERS_FILE = MTGConstants.class.getResource("/data/boosters.xml");
 
     public static final String MTG_DESKTOP_COMPOSER_URL = "http://my.mtgcompanion.org/composer.zip";
-    
+
     public static final String ADMINUI_LOCATION = "web/admin-ui";
     public static final String WEBSHOP_LOCATION = "web/shop-ui";
     public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";
@@ -449,7 +449,7 @@ public class MTGConstants {
 	    ICON_NEW.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
     public static final Icon ICON_SMALL_COPY = new ImageIcon(
 	    ICON_COPY.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-    
+
     public static ImageIcon getIconFor(Class<?> c) {
 	try {
 
@@ -462,7 +462,7 @@ public class MTGConstants {
 	    }
 	    return new ImageIcon(MTGConstants.class
 		    .getResource(ICON_DIR + "/" + iconPack + "/classtype/" + c.getSimpleName().toLowerCase() + ".png"));
-	} catch (Exception _) {
+	} catch (final Exception _) {
 	    return ICON_TAB_CARD;
 	}
     }

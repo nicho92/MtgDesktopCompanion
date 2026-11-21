@@ -20,7 +20,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 	private static final String MAX = "MAX";
 	private static final String WEBSITE = "https://www.magic-ville.com/";
-	private MTGHttpClient httpclient;
+	private final MTGHttpClient httpclient;
 
 	@Override
 	public STATUT getStatut() {
@@ -35,37 +35,37 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		var list = new ArrayList<MTGPrice>();
+		final var list = new ArrayList<MTGPrice>();
 
-		var res = httpclient.toString(httpclient.doPost(WEBSITE + "/fr/resultats.php?zbob=1",
+		final var res = httpclient.toString(httpclient.doPost(WEBSITE + "/fr/resultats.php?zbob=1",
 				Map.of("recherche_titre", card.getName()), null));
 		if (res.length() > 100) {
 			logger.error("too much result");
 			return list;
 		}
 
-		var key = "ref=";
-		var code = res.substring(res.indexOf(key), res.indexOf("\";"));
-		var url = WEBSITE + "/fr/register/show_card_sale?" + code;
+		final var key = "ref=";
+		final var code = res.substring(res.indexOf(key), res.indexOf("\";"));
+		final var url = WEBSITE + "/fr/register/show_card_sale?" + code;
 
 		logger.info("{} looking for prices {}", getName(), card);
 
-		var doc = URLTools.extractAsHtml(url);
+		final var doc = URLTools.extractAsHtml(url);
 
 		Element table = null;
 		try {
 			table = doc.select("table[width=98%]").get(2); // select the first table.
-		} catch (IndexOutOfBoundsException _) {
+		} catch (final IndexOutOfBoundsException _) {
 			logger.info("{} no sellers", getName());
 			return list;
 		}
 
-		Elements rows = table.select(MTGConstants.HTML_TAG_TR);
+		final Elements rows = table.select(MTGConstants.HTML_TAG_TR);
 
 		for (var i = 3; i < rows.size(); i = i + 2) {
-			var ligne = rows.get(i);
-			var cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
-			var mp = new MTGPrice();
+			final var ligne = rows.get(i);
+			final var cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
+			final var mp = new MTGPrice();
 
 			String price = cols.get(4).text();
 			price = price.substring(0, price.length() - 1);
@@ -85,8 +85,9 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 		}
 
-		if (list.size() > getInt(MAX) && getInt(MAX) > -1)
-			return list.subList(0, getInt(MAX));
+		if (list.size() > getInt(MAX) && getInt(MAX) > -1) {
+		    return list.subList(0, getInt(MAX));
+		}
 
 		logger.info("{} found {} offers", getName(), list.size());
 

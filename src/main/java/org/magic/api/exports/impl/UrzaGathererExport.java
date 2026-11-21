@@ -42,7 +42,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"")
+		final StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"")
 				.append(System.lineSeparator());
 		temp.append(COLUMNS).append(",Deck count,Sideboard count,Maybeboard count").append(System.lineSeparator());
 
@@ -54,25 +54,26 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		List<MTGCardStock> list = new ArrayList<>();
+		final List<MTGCardStock> list = new ArrayList<>();
 
 		matches(content, true).forEach(m -> {
 
-			MTGCard mc = readCard(m);
+			final MTGCard mc = readCard(m);
 			if (mc != null) {
 
-				int nbFoil = Integer.parseInt(m.group(11));
-				int nbNormal = Integer.parseInt(m.group(10));
-				int nbEtched = Integer.parseInt(m.group(12));
+				final int nbFoil = Integer.parseInt(m.group(11));
+				final int nbNormal = Integer.parseInt(m.group(10));
+				final int nbEtched = Integer.parseInt(m.group(12));
 
-				var st = buildStockItem(mc, m, nbNormal, false);
+				final var st = buildStockItem(mc, m, nbNormal, false);
 				list.add(st);
 
-				if (nbFoil > 0)
-					list.add(buildStockItem(mc, m, nbFoil, true));
+				if (nbFoil > 0) {
+				    list.add(buildStockItem(mc, m, nbFoil, true));
+				}
 
 				if (nbEtched > 0) {
-					var st3 = buildStockItem(mc, m, nbEtched, false);
+					final var st3 = buildStockItem(mc, m, nbEtched, false);
 					st3.setQte(nbEtched);
 					list.add(st3);
 				}
@@ -85,19 +86,21 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 	private MTGCardStock buildStockItem(MTGCard mc, Matcher m, Integer qty, boolean foil) {
 
-		var st = MTGControler.getInstance().getDefaultStock();
+		final var st = MTGControler.getInstance().getDefaultStock();
 		st.setProduct(mc);
 		st.setLanguage(m.group(23));
 		st.setFoil(foil);
 		st.setComment(m.group(19));
-		if (foil)
-			st.setPrice(UITools.parseDouble(m.group(14).trim()));
-		else
-			st.setPrice(UITools.parseDouble(m.group(13).trim()));
+		if (foil) {
+		    st.setPrice(UITools.parseDouble(m.group(14).trim()));
+		} else {
+		    st.setPrice(UITools.parseDouble(m.group(13).trim()));
+		}
 		st.setQte(qty);
 		var strCondition = m.group(21);
-		if (strCondition.indexOf("x") > -1)
-			strCondition = strCondition.substring(strCondition.indexOf("x") + 1);
+		if (strCondition.indexOf("x") > -1) {
+		    strCondition = strCondition.substring(strCondition.indexOf("x") + 1);
+		}
 
 		st.setCondition(aliases.getReversedConditionFor(this, strCondition, EnumCondition.NEAR_MINT));
 
@@ -110,7 +113,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 					.filter(c -> (!m.group(18).isEmpty() && m.group(18).equals(c.getMultiverseid()))
 							|| (m.group(15).equals(c.getNumber())))
 					.findFirst().orElse(null);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return null;
 		}
@@ -118,11 +121,11 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"")
+		final StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"")
 				.append(System.lineSeparator());
 		temp.append(COLUMNS).append(System.lineSeparator());
 
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			writeLine(temp, mcs);
 			temp.append(System.lineSeparator());
 
@@ -135,7 +138,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	private void writeDeckLine(StringBuilder temp, Set<Entry<MTGCard, Integer>> set, int i) {
 
 		set.forEach(entry -> {
-			var mcs = MTGControler.getInstance().getDefaultStock();
+			final var mcs = MTGControler.getInstance().getDefaultStock();
 			mcs.setProduct(entry.getKey());
 			mcs.setQte(entry.getValue());
 
@@ -186,11 +189,13 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 	private String parseColors(MTGCard mc) {
 
-		if (mc.isMultiColor())
-			return "Multi-couleurs";
+		if (mc.isMultiColor()) {
+		    return "Multi-couleurs";
+		}
 
-		if (mc.isColorless())
-			return "Sans couleur";
+		if (mc.isColorless()) {
+		    return "Sans couleur";
+		}
 
 		switch (mc.getColors().get(0)) {
 			case WHITE :

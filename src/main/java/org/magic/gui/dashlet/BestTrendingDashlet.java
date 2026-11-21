@@ -74,31 +74,38 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 
-		SwingWorker<List<CardShake>, Void> sw = new SwingWorker<>() {
+		final SwingWorker<List<CardShake>, Void> sw = new SwingWorker<>() {
 
 			@Override
 			protected List<CardShake> doInBackground() {
-				List<CardShake> ret = new ArrayList<>();
+				final List<CardShake> ret = new ArrayList<>();
 				try {
-					List<CardShake> shakes = new ArrayList<>();
+					final List<CardShake> shakes = new ArrayList<>();
 
-					if (boxM.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.MODERN));
-					if (boxS.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.STANDARD));
-					if (boxL.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.LEGACY));
-					if (boxV.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.VINTAGE));
-					if (boxPioneer.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PIONEER));
-					if (boxP.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PAUPER));
+					if (boxM.isSelected()) {
+					    shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.MODERN));
+					}
+					if (boxS.isSelected()) {
+					    shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.STANDARD));
+					}
+					if (boxL.isSelected()) {
+					    shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.LEGACY));
+					}
+					if (boxV.isSelected()) {
+					    shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.VINTAGE));
+					}
+					if (boxPioneer.isSelected()) {
+					    shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PIONEER));
+					}
+					if (boxP.isSelected()) {
+					    shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PAUPER));
+					}
 
-					if (!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected()&& !boxP.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(null));
+					if (!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected()&& !boxP.isSelected()) {
+					    shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(null));
+					}
 
-					int val = (Integer) spinner.getValue();
+					final int val = (Integer) spinner.getValue();
 					setProperty("LIMIT", String.valueOf(val));
 					setProperty("STD", String.valueOf(boxS.isSelected()));
 					setProperty("MDN", String.valueOf(boxM.isSelected()));
@@ -111,7 +118,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					ret.addAll(shakes.subList(0, val));
 					ret.addAll(shakes.subList(shakes.size() - (val + 1), shakes.size())); // x last
 
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 				return ret;
@@ -129,9 +136,9 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					modStandard.init(ret);
 					table.setRowSorter(new TableRowSorter<>(modStandard));
 					table.packAll();
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 
@@ -143,10 +150,10 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 	@Override
 	public void initGUI() {
-		var panneauHaut = new JPanel();
+		final var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		Action a = new AbstractAction() {
+		final Action a = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -178,8 +185,9 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		spinner = new JSpinner();
 		spinner.addChangeListener(_ -> init());
 		cboSorter.addItemListener(ie -> {
-			if (ie.getStateChange() == ItemEvent.SELECTED)
-				init();
+			if (ie.getStateChange() == ItemEvent.SELECTED) {
+			    init();
+			}
 		});
 
 		spinner.setModel(new SpinnerNumberModel(5, 1, null, 1));
@@ -216,12 +224,12 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		});
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			try {
 				spinner.setValue(Integer.parseInt(getProperty("LIMIT", "5")));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("can't get LIMIT value", e);
 			}
 
@@ -231,7 +239,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				boxL.setSelected(Boolean.parseBoolean(getProperty("LEG", FALSE)));
 				boxV.setSelected(Boolean.parseBoolean(getProperty("VIN", FALSE)));
 				cboSorter.setSelectedItem(SORT.valueOf(getProperty("SORT", "DAY_PRICE_CHANGE")));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("can't get boxs values", e);
 			}
 

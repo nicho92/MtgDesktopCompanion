@@ -32,16 +32,16 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 		temp.append("NAME: " + deck.getName() + "\n");
 
-		for (MTGCard mc : deck.getMain().keySet().stream().filter(mc -> mc != deck.getCommander())
+		for (final MTGCard mc : deck.getMain().keySet().stream().filter(mc -> mc != deck.getCommander())
 				.sorted((mc, mc2) -> mc.getName().compareTo(mc2.getName())).toList()) {
 			temp.append(deck.getMain().get(mc)).append(" ").append("[").append(mc.getEdition().getId()).append(":")
 					.append(mc.getNumber()).append("]").append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
-		for (MTGCard mc : deck.getSideBoard().keySet().stream()
+		for (final MTGCard mc : deck.getSideBoard().keySet().stream()
 				.sorted((mc, mc2) -> mc.getName().compareTo(mc2.getName())).toList()) {
 			temp.append("SB: ").append(deck.getSideBoard().get(mc)).append(" ").append("[")
 					.append(mc.getEdition().getId()).append(":").append(mc.getNumber()).append("]").append(" ")
@@ -61,23 +61,23 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String dname) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(dname);
 
 		matches(f, true).forEach(m -> {
 
-			var cname = cleanName(m.group(5));
+			final var cname = cleanName(m.group(5));
 			MTGEdition ed = null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(3));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("Edition not found for {}", m.group(3));
 			}
 
 			String number = null;
 			try {
 				number = m.group(4);
-			} catch (IndexOutOfBoundsException _) {
+			} catch (final IndexOutOfBoundsException _) {
 				// do nothing
 			}
 
@@ -85,7 +85,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 			if (number != null && ed != null) {
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("no card found with number {}/{}", number, ed);
 				}
 			}
@@ -93,7 +93,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 			if (mc == null) {
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("no card found for {}/{}", cname, ed);
 				}
 
@@ -106,7 +106,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 			}
 
 			if (deck.getSideAsList().size() == 1 && deck.getMainAsList().size() >= 99) {
-				var card = deck.getSideAsList().get(0);
+				final var card = deck.getSideAsList().get(0);
 				deck.getMain().put(card, 1);
 				deck.setCommander(card);
 				deck.getSideBoard().clear();

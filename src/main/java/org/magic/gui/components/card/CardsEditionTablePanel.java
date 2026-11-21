@@ -58,7 +58,7 @@ public class CardsEditionTablePanel extends JPanel {
 	public CardsEditionTablePanel() {
 		setLayout(new BorderLayout(0, 0));
 
-		var panneauHaut = new JPanel();
+		final var panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
 
 		model.addHiddenColumns(7);
@@ -77,7 +77,7 @@ public class CardsEditionTablePanel extends JPanel {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauHaut, BorderLayout.NORTH);
 
-		var panneauBas = new JPanel();
+		final var panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);
 
 		cboCollection = UITools.createComboboxCollection();
@@ -101,7 +101,7 @@ public class CardsEditionTablePanel extends JPanel {
 		chkNeededCards.addActionListener(_ -> {
 
 			if (chkNeededCards.isSelected()) {
-				var work = new AbstractObservableWorker<List<MTGCard>, MTGCard, MTGDao>(buzy,
+				final var work = new AbstractObservableWorker<List<MTGCard>, MTGCard, MTGDao>(buzy,
 						getEnabledPlugin(MTGDao.class), model.getRowCount()) {
 
 					@Override
@@ -119,9 +119,9 @@ public class CardsEditionTablePanel extends JPanel {
 					protected void notifyEnd() {
 						try {
 							model.removeItem(get());
-						} catch (InterruptedException _) {
+						} catch (final InterruptedException _) {
 							Thread.currentThread().interrupt();
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							logger.error(e);
 						}
 					}
@@ -134,14 +134,14 @@ public class CardsEditionTablePanel extends JPanel {
 		});
 
 		btnImport.addActionListener(_ -> {
-			var list = getSelectedCards();
+			final var list = getSelectedCards();
 
-			int res = JOptionPane.showConfirmDialog(null, capitalize("COLLECTION_IMPORT") + " :" + list.size()
+			final int res = JOptionPane.showConfirmDialog(null, capitalize("COLLECTION_IMPORT") + " :" + list.size()
 					+ " cards in " + cboCollection.getSelectedItem());
 			if (res == JOptionPane.YES_OPTION) {
 				buzy.start(list.size());
 
-				SwingWorker<Void, MTGCard> swImp = new SwingWorker<>() {
+				final SwingWorker<Void, MTGCard> swImp = new SwingWorker<>() {
 					@Override
 					protected void done() {
 						buzy.end();
@@ -154,13 +154,14 @@ public class CardsEditionTablePanel extends JPanel {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						for (MTGCard mc : list)
-							try {
-								CardsManagerService.saveCard(mc, (MTGCollection) cboCollection.getSelectedItem(), null);
-								publish(mc);
-							} catch (SQLException e) {
-								logger.error("couln't save {}", mc, e);
-							}
+						for (final MTGCard mc : list) {
+						    try {
+						    	CardsManagerService.saveCard(mc, (MTGCollection) cboCollection.getSelectedItem(), null);
+						    	publish(mc);
+						    } catch (final SQLException e) {
+						    	logger.error("couln't save {}", mc, e);
+						    }
+						}
 						return null;
 					}
 
@@ -190,8 +191,9 @@ public class CardsEditionTablePanel extends JPanel {
 	public void init(MTGEdition ed) {
 		this.currentEdition = ed;
 		chkNeededCards.setSelected(false);
-		if (isVisible())
-			refresh();
+		if (isVisible()) {
+		    refresh();
+		}
 	}
 
 	public void enabledImport(boolean t) {
@@ -199,8 +201,9 @@ public class CardsEditionTablePanel extends JPanel {
 	}
 
 	private void refresh() {
-		if (currentEdition == null)
-			return;
+		if (currentEdition == null) {
+		    return;
+		}
 
 		btnImport.setEnabled(false);
 
@@ -218,7 +221,7 @@ public class CardsEditionTablePanel extends JPanel {
 					cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(currentEdition);
 					Collections.sort(cards, new CardsEditionSorter());
 					return cards;
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 					return cards;
 				}
@@ -237,9 +240,9 @@ public class CardsEditionTablePanel extends JPanel {
 					super.done();
 					model.init(get());
 					table.packAll();
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					logger.error(e);
 				}
 			}

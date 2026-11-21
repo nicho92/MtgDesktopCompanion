@@ -16,7 +16,7 @@ public enum EnumFrameVersion implements MTGEnumeration{
     EnumFrameVersion(int i) {
 	this.year=i;
     }
-    
+
     public int getYear() {
 	return year;
     }
@@ -24,11 +24,11 @@ public enum EnumFrameVersion implements MTGEnumeration{
     public static EnumFrameVersion parseByYear(String y) {
 	try {
 		return EnumFrameVersion.valueOf("FRAME_"+y.trim().toUpperCase());
-	} catch (Exception _) {
+	} catch (final Exception _) {
 		logger.warn("FrameVersion {} is not found", y);
 		return null;
 	}
     }
 
-    
+
 }

@@ -17,7 +17,7 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 	private boolean started = false;
 
 	private void init() throws IOException {
-		var map = new HashMap<String, String>();
+		final var map = new HashMap<String, String>();
 
 		map.put("host", getString("HOST"));
 		map.put("port", getString("PORT"));
@@ -26,14 +26,14 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 		map.put(ConfigKey.PASSWORD.getKeyValue(), getString("PASS"));
 		map.put(ConfigKey.DISCOVERY_ENABLED.getKeyValue(), "true");
 
-		var jconf = new JolokiaServerConfig(map);
+		final var jconf = new JolokiaServerConfig(map);
 
 		serv = new JolokiaServer(jconf, true);
 	}
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 		m.put("HOST", new MTGProperty("127.0.0.1", "server name or ip"));
 		m.put("PORT", MTGProperty.newIntegerProperty("8778", "listening port for webserver", 80, -1));
 		m.put("CONTEXT", new MTGProperty("/", "context page for the jolokia index"));
@@ -56,7 +56,7 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 		try {
 			serv.stop();
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		} finally {
 			started = false;

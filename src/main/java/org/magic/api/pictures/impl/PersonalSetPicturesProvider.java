@@ -28,11 +28,12 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	public void savePicture(BufferedImage bi, MTGCard mc, MTGEdition ed) throws IOException {
-		var mainDir = getFile(PICS_DIR);
-		var edDir = new File(mainDir, ed.getId());
+		final var mainDir = getFile(PICS_DIR);
+		final var edDir = new File(mainDir, ed.getId());
 
-		if (!edDir.exists())
-			edDir.mkdir();
+		if (!edDir.exists()) {
+		    edDir.mkdir();
+		}
 
 		ImageTools.saveImage(bi,
 				Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile(),
@@ -40,12 +41,12 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	public void removePicture(MTGCard mc) {
-		var mainDir = getFile(PICS_DIR);
-		var edDir = new File(mainDir, mc.getEdition().getId());
-		var f = new File(edDir, mc.getId() + "." + getString(FORMAT).toLowerCase());
+		final var mainDir = getFile(PICS_DIR);
+		final var edDir = new File(mainDir, mc.getEdition().getId());
+		final var f = new File(edDir, mc.getId() + "." + getString(FORMAT).toLowerCase());
 		try {
 			FileTools.deleteFile(f);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error removing {} : {}", f, e.getMessage());
 		}
 	}
@@ -53,8 +54,9 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public PersonalSetPicturesProvider() {
 		super();
 
-		if (!getFile(PICS_DIR).exists())
-			getFile(PICS_DIR).mkdir();
+		if (!getFile(PICS_DIR).exists()) {
+		    getFile(PICS_DIR).mkdir();
+		}
 
 	}
 
@@ -70,8 +72,8 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public String generateUrl(MTGCard mc, boolean crop) {
-		var mainDir = getFile(PICS_DIR);
-		var edDir = new File(mainDir, mc.getEdition().getId());
+		final var mainDir = getFile(PICS_DIR);
+		final var edDir = new File(mainDir, mc.getEdition().getId());
 
 		return new File(edDir, mc.getId() + "." + getString(FORMAT).toLowerCase()).getAbsolutePath();
 	}
@@ -81,7 +83,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 		try {
 			return ImageTools.read(new File(generateUrl(mc, false)));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.debug("{} is not found", generateUrl(mc, false));
 			return null;
 		}
@@ -104,8 +106,9 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

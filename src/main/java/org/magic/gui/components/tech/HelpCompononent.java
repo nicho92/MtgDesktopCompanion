@@ -18,7 +18,7 @@ public class HelpCompononent extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 
-	private JEditorPane pane;
+	private final JEditorPane pane;
 
 	private transient MTGPlugin plug;
 
@@ -39,48 +39,53 @@ public class HelpCompononent extends MTGUIComponent {
 
 	@Override
 	public void onFirstShowing() {
-		if (plug != null)
-			onVisible();
+		if (plug != null) {
+		    onVisible();
+		}
 	}
 
 	@Override
 	public void onVisible() {
-		if (plug != null)
-			loadDoc();
+		if (plug != null) {
+		    loadDoc();
+		}
 	}
 
 	private void loadDoc() {
 
-		if (isVisible())
-			ThreadManager.getInstance().runInEdt(new SwingWorker<Document, Void>() {
-				@Override
-				protected void done() {
-					try {
+		if (isVisible()) {
+		    ThreadManager.getInstance().runInEdt(new SwingWorker<Document, Void>() {
+		    	@Override
+		    	protected void done() {
+		    		try {
 
-						Document d = get();
-						int width = (int) getSize().getWidth();
+		    			final Document d = get();
+		    			int width = (int) getSize().getWidth();
 
-						if (width <= 0)
-							width = 450;
+		    			if (width <= 0) {
+		    			    width = 450;
+		    			}
 
-						d.select("img").attr("width", String.valueOf(width));
-						pane.setText(d.html().replace("$USER_HOME", SystemUtils.USER_HOME));
-					} catch (InterruptedException _) {
-						Thread.currentThread().interrupt();
-					} catch (Exception e) {
-						logger.error("error loading help", e);
-						pane.setText(e.getLocalizedMessage());
-					}
-				}
+		    			d.select("img").attr("width", String.valueOf(width));
+		    			pane.setText(d.html().replace("$USER_HOME", SystemUtils.USER_HOME));
+		    		} catch (final InterruptedException _) {
+		    			Thread.currentThread().interrupt();
+		    		} catch (final Exception e) {
+		    			logger.error("error loading help", e);
+		    			pane.setText(e.getLocalizedMessage());
+		    		}
+		    	}
 
-				@Override
-				protected Document doInBackground() throws Exception {
-					if (plug.getDocumentation().getContentType().equals(FORMAT_NOTIFICATION.MARKDOWN))
-						return URLTools.extractMarkdownAsHtml(plug.getDocumentation().getUrl().toString());
-					else
-						return URLTools.extractAsHtml(plug.getDocumentation().getUrl().toString());
-				}
-			}, "Loading doc for " + plug);
+		    	@Override
+		    	protected Document doInBackground() throws Exception {
+		    		if (plug.getDocumentation().getContentType().equals(FORMAT_NOTIFICATION.MARKDOWN)) {
+		    		    return URLTools.extractMarkdownAsHtml(plug.getDocumentation().getUrl().toString());
+		    		} else {
+		    		    return URLTools.extractAsHtml(plug.getDocumentation().getUrl().toString());
+		    		}
+		    	}
+		    }, "Loading doc for " + plug);
+		}
 	}
 
 	@Override

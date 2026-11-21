@@ -18,7 +18,7 @@ public class RulesPanel extends MTGUIComponent {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextPane txtRulesArea;
+	private final JTextPane txtRulesArea;
 
 	public RulesPanel() {
 		setLayout(new BorderLayout());
@@ -40,8 +40,8 @@ public class RulesPanel extends MTGUIComponent {
 	}
 
 	private void init(List<MTGRuling> rulings) {
-		var builder = new StringBuilder("<html>");
-		for (MTGRuling mr : rulings) {
+		final var builder = new StringBuilder("<html>");
+		for (final MTGRuling mr : rulings) {
 			builder.append("<b>");
 			builder.append(UITools.formatDate(mr.getDate()));
 			builder.append("</b>:");
@@ -57,8 +57,9 @@ public class RulesPanel extends MTGUIComponent {
 
 	public void init(MTGCard selectedCard) {
 
-		if (selectedCard != null)
-			init(selectedCard.getRulings());
+		if (selectedCard != null) {
+		    init(selectedCard.getRulings());
+		}
 
 	}
 

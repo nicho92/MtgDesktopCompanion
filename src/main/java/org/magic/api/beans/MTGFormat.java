@@ -59,8 +59,9 @@ public class MTGFormat implements Serializable, Comparable<MTGFormat> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if ((obj == null) || (this.getClass() != obj.getClass()))
-			return false;
+		if ((obj == null) || (this.getClass() != obj.getClass())) {
+		    return false;
+		}
 
 		return getFormat().equalsIgnoreCase(((MTGFormat) obj).getFormat());
 

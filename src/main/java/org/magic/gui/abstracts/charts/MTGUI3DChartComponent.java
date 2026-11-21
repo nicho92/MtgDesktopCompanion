@@ -19,7 +19,7 @@ public abstract class MTGUI3DChartComponent<T, U extends Dataset3D> extends Abst
 	private static final long serialVersionUID = 1L;
 	protected Chart3DPanel chartPanel;
 	protected Chart3D chart;
-	private boolean displayPanel;
+	private final boolean displayPanel;
 
 	public abstract U getDataSet();
 
@@ -45,10 +45,11 @@ public abstract class MTGUI3DChartComponent<T, U extends Dataset3D> extends Abst
 		chartPanel = new Chart3DPanel(chart);
 		chartPanel.setMargin(0.05);
 
-		if (isDisplayPanel())
-			add(new JScrollPane(new DisplayPanel3D(chartPanel)), BorderLayout.CENTER);
-		else
-			add(new JScrollPane(chartPanel), BorderLayout.CENTER);
+		if (isDisplayPanel()) {
+		    add(new JScrollPane(new DisplayPanel3D(chartPanel)), BorderLayout.CENTER);
+		} else {
+		    add(new JScrollPane(chartPanel), BorderLayout.CENTER);
+		}
 
 	}
 

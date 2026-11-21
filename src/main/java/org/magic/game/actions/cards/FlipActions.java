@@ -36,16 +36,16 @@ public class FlipActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MTGCard mc = card.getMagicCard().getRotatedCard();
+			final MTGCard mc = card.getMagicCard().getRotatedCard();
 			card.setMagicCard(mc);
 
 			var bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(), BufferedImage.TYPE_INT_RGB);
-			var tx = AffineTransform.getScaleInstance(-1, -1);
+			final var tx = AffineTransform.getScaleInstance(-1, -1);
 			tx.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
-			var op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			final var op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 			bufferedImage = op.filter(bufferedImage, null);
 
-			Graphics2D g2 = bufferedImage.createGraphics();
+			final Graphics2D g2 = bufferedImage.createGraphics();
 			g2.drawImage(card.getImageIcon().getImage(), tx, null);
 			g2.dispose();
 
@@ -56,7 +56,7 @@ public class FlipActions extends AbstractCardAction {
 
 			card.initActions();
 			GamePanelGUI.getInstance().getPlayer().logAction("Flip " + card.getMagicCard());
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error(ex);
 		}
 

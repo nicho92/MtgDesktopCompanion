@@ -27,7 +27,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	}
 
 	public void addItem(MTGCard mc, Integer qty, List<MTGCardStock> stocks) {
-		var l = new Line(mc, qty, stocks);
+		final var l = new Line(mc, qty, stocks);
 		l.setResult(calculate(l));
 
 		addItem(l);
@@ -36,10 +36,11 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex == 0)
-			return MTGCard.class;
-		else if (columnIndex == 1)
-			return MTGEdition.class;
+		if (columnIndex == 0) {
+		    return MTGCard.class;
+		} else if (columnIndex == 1) {
+		    return MTGEdition.class;
+		}
 
 		return Integer.class;
 	}
@@ -67,23 +68,25 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		var count = 0;
 		if (!line.getStocks().isEmpty()) {
 
-			for (MTGCardStock st : line.getStocks())
-				count += st.getQte();
+			for (final MTGCardStock st : line.getStocks()) {
+			    count += st.getQte();
+			}
 		}
 
 		count = line.getNeeded() - count;
 
-		if (count < 0)
-			count = 0;
+		if (count < 0) {
+		    count = 0;
+		}
 
 		return count;
 
 	}
 
 	public class Line {
-		private MTGCard mc;
-		private Integer needed;
-		private List<MTGCardStock> stocks;
+		private final MTGCard mc;
+		private final Integer needed;
+		private final List<MTGCardStock> stocks;
 		private Integer result;
 
 		private Line(MTGCard mc, Integer needed, List<MTGCardStock> stocks) {

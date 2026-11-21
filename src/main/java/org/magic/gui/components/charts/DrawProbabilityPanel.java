@@ -45,11 +45,11 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 		table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer(true, false));
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 
-		var lblDrawProbability = new JLabel(capitalize("DRAW_PROBABILITIES"));
+		final var lblDrawProbability = new JLabel(capitalize("DRAW_PROBABILITIES"));
 		lblDrawProbability.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 14));
 		panel.add(lblDrawProbability);
 	}
@@ -62,8 +62,9 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 	public void init(MTGDeck d, MTGCard c) {
 		this.d = d;
 
-		if (c != null)
-			initCard(c);
+		if (c != null) {
+		    initCard(c);
+		}
 	}
 
 	private void initCard(MTGCard card) {
@@ -77,8 +78,9 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 			@Override
 			public String getColumnName(int t) {
 
-				if (t == 0)
-					return "Turn";
+				if (t == 0) {
+				    return "Turn";
+				}
 
 				return card.getName();
 			}
@@ -94,8 +96,9 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
-				if (columnIndex > 0)
-					return Double.class;
+				if (columnIndex > 0) {
+				    return Double.class;
+				}
 
 				return super.getColumnClass(columnIndex);
 			}
@@ -126,10 +129,11 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 
 			@Override
 			public String getColumnName(int t) {
-				if (t == 0)
-					return "Card";
-				else
-					return "Turn " + t;
+				if (t == 0) {
+				    return "Card";
+				} else {
+				    return "Turn " + t;
+				}
 			}
 
 			@Override
@@ -143,8 +147,9 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
-				if (columnIndex > 0)
-					return Double.class;
+				if (columnIndex > 0) {
+				    return Double.class;
+				}
 
 				return super.getColumnClass(columnIndex);
 			}

@@ -89,8 +89,9 @@ public class WebcamCardImportDialog extends JDialog {
 		running = false;
 		logger.debug("Closing cam done");
 
-		if (swWebcamReader != null)
-			swWebcamReader.cancel(true);
+		if (swWebcamReader != null) {
+		    swWebcamReader.cancel(true);
+		}
 
 		super.dispose();
 	}
@@ -106,29 +107,29 @@ public class WebcamCardImportDialog extends JDialog {
 
 		setLayout(new BorderLayout(0, 0));
 
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 59, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
-		var panelControl = new JPanel();
-		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam());
-		var cboAreaDetector = UITools.createCombobox(
+		final var panelControl = new JPanel();
+		final var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam());
+		final var cboAreaDetector = UITools.createCombobox(
 				new AbstractRecognitionArea[]{new AutoDetectAreaStrat(), new ManualAreaStrat(), new RadiusAreaStrat()});
-		var chkpause = new JCheckBox("Pause");
-		var sldThreshold = new JSlider(0, 100, 40);
-		var lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
-		var thrsh = new JPanel();
-		var controlWebcamPanel = new JPanel();
-		var btnStarting = new JButton("Start", MTGConstants.PLAY_ICON);
-		var panneauBas = new JPanel();
-		var panneauBasButtons = new JPanel();
-		var btnRemove = new JButton(MTGConstants.ICON_DELETE);
-		var btnClose = new JButton(MTGConstants.ICON_IMPORT);
-		var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
-		var btnAddCam = new JButton(MTGConstants.ICON_NEW);
+		final var chkpause = new JCheckBox("Pause");
+		final var sldThreshold = new JSlider(0, 100, 40);
+		final var lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
+		final var thrsh = new JPanel();
+		final var controlWebcamPanel = new JPanel();
+		final var btnStarting = new JButton("Start", MTGConstants.PLAY_ICON);
+		final var panneauBas = new JPanel();
+		final var panneauBasButtons = new JPanel();
+		final var btnRemove = new JButton(MTGConstants.ICON_DELETE);
+		final var btnClose = new JButton(MTGConstants.ICON_IMPORT);
+		final var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
+		final var btnAddCam = new JButton(MTGConstants.ICON_NEW);
 
 		modelCards = new MagicCardTableModel();
 		listModel = new DefaultListModel<>();
@@ -136,12 +137,12 @@ public class WebcamCardImportDialog extends JDialog {
 
 		try {
 			getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().forEach(listModel::addElement);
-		} catch (IOException e1) {
+		} catch (final IOException e1) {
 			logger.error(e1);
 		}
 		tableResults = UITools.createNewTable(modelCards, false);
-		var listEds = new JList<>(listModel);
-		var deco = JListFilterDecorator.decorate(listEds,
+		final var listEds = new JList<>(listModel);
+		final var deco = JListFilterDecorator.decorate(listEds,
 				(MTGEdition t, String u) -> t.getSet().toLowerCase().contains(u.toLowerCase()));
 
 		webcamCanvas = new WebcamCanvas((Webcam) cboWebcams.getSelectedItem(),
@@ -175,7 +176,7 @@ public class WebcamCardImportDialog extends JDialog {
 
 		panneauBas.add(panneauBasButtons, BorderLayout.EAST);
 
-		var scrollPane = new JScrollPane(tableResults);
+		final var scrollPane = new JScrollPane(tableResults);
 		scrollPane.setPreferredSize(new Dimension(2, 150));
 		panneauBas.add(scrollPane, BorderLayout.CENTER);
 
@@ -191,7 +192,7 @@ public class WebcamCardImportDialog extends JDialog {
 			public Component getListCellRendererComponent(JList<? extends MTGEdition> list, MTGEdition value, int index,
 					boolean isSelected, boolean cellHasFocus) {
 				if (value != null) {
-					ImageIcon ic = IconsProvider.getInstance().get16(value.getId());
+					final ImageIcon ic = IconsProvider.getInstance().get16(value.getId());
 
 					l.setText(value.getSet());
 					l.setIcon(ic);
@@ -205,11 +206,13 @@ public class WebcamCardImportDialog extends JDialog {
 						l.setForeground(list.getForeground());
 					}
 
-					if (MTG.getEnabledPlugin(MTGCardRecognition.class).isSetCached(value))
-						l.setBackground(Color.CYAN);
+					if (MTG.getEnabledPlugin(MTGCardRecognition.class).isSetCached(value)) {
+					    l.setBackground(Color.CYAN);
+					}
 
-					if (MTG.getEnabledPlugin(MTGCardRecognition.class).isSetLoaded(value))
-						l.setBackground(Color.GREEN);
+					if (MTG.getEnabledPlugin(MTGCardRecognition.class).isSetLoaded(value)) {
+					    l.setBackground(Color.GREEN);
+					}
 
 				}
 
@@ -229,20 +232,22 @@ public class WebcamCardImportDialog extends JDialog {
 		});
 
 		btnAddCam.addActionListener(_ -> {
-			var diag = new IPCamAddDialog();
+			final var diag = new IPCamAddDialog();
 			diag.setModal(true);
 			diag.setVisible(true);
-			if (diag.isHasNew())
-				btnReloadCams.doClick();
+			if (diag.isHasNew()) {
+			    btnReloadCams.doClick();
+			}
 		});
 
 		chkpause.addChangeListener(_ -> pause = chkpause.isSelected());
 
 		btnRemove.addActionListener(_ -> {
-			List<MTGCard> cards = UITools.getTableSelections(tableResults, 0);
+			final List<MTGCard> cards = UITools.getTableSelections(tableResults, 0);
 
-			if (!cards.isEmpty())
-				modelCards.removeItem(cards);
+			if (!cards.isEmpty()) {
+			    modelCards.removeItem(cards);
+			}
 
 		});
 
@@ -250,18 +255,19 @@ public class WebcamCardImportDialog extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				if (me.getClickCount() == 2) {
-					MTGEdition ed = listEds.getSelectedValue();
+					final MTGEdition ed = listEds.getSelectedValue();
 					buzy.start(ed.getCardCount());
 					pause = true;
-					var work = new AbstractObservableWorker<Void, Void, MTGCardRecognition>(buzy, strat,
+					final var work = new AbstractObservableWorker<Void, Void, MTGCardRecognition>(buzy, strat,
 							ed.getCardCount()) {
 						@Override
 						protected Void doInBackground() throws Exception {
 
-							if (!plug.isSetLoaded(ed))
-								plug.loadDatasForSet(ed);
-							else
-								plug.clear(ed);
+							if (!plug.isSetLoaded(ed)) {
+							    plug.loadDatasForSet(ed);
+							} else {
+							    plug.clear(ed);
+							}
 
 							return null;
 						}
@@ -299,18 +305,18 @@ public class WebcamCardImportDialog extends JDialog {
 					logger.info("start {} : {}", webcamCanvas.getWebcam(), running);
 					while (running) {
 						webcamCanvas.draw();
-						var img = webcamCanvas.lastDrawn();
+						final var img = webcamCanvas.lastDrawn();
 
 						if (strat != null && img != null && !pause && !isCancelled()) {
-							var matches = webcamCanvas.getAreaRecognitionStrategy().recognize(img, strat,
+							final var matches = webcamCanvas.getAreaRecognitionStrategy().recognize(img, strat,
 									sldThreshold.getValue());
-							MatchResult res = !matches.isEmpty() ? matches.get(0) : null;
+							final MatchResult res = !matches.isEmpty() ? matches.get(0) : null;
 							if (res != null) {
 								publish(res);
 							}
 						}
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("Error in webcam", e);
 				}
 
@@ -329,11 +335,11 @@ public class WebcamCardImportDialog extends JDialog {
 					logger.info("Stopping webcam {}", webcamCanvas.getWebcam());
 					running = false;
 					get();
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (CancellationException _) {
+				} catch (final CancellationException _) {
 					logger.error("Cancelling");
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("Error Stopping webcam {}", webcamCanvas.getWebcam(), e);
 				}
 
@@ -353,7 +359,7 @@ public class WebcamCardImportDialog extends JDialog {
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount() - 1, 0, true));
 			}
 
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			logger.error("Error loading card for result {}", r);
 		}
 
@@ -369,7 +375,7 @@ public class WebcamCardImportDialog extends JDialog {
 	}
 
 	public MTGDeck getSelectedItem() {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setDescription("Imported from " + getTitle());
 		d.setName(getName());
 		getFindedCards().forEach(d::add);

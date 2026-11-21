@@ -64,30 +64,31 @@ public class ImageTools {
 		try {
 			toImage(array);
 			return true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return false;
 		}
 	}
 
 	public static boolean isImage(Path f) {
-		if (f == null)
-			return false;
+		if (f == null) {
+		    return false;
+		}
 
 		try {
 			return Files.probeContentType(f).startsWith("image");
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return false;
 		}
 	}
 	public static BufferedImage createShadow(BufferedImage src, int shadowOffsetX, int shadowOffsetY, int shadowBlur, float shadowOpacity) {
 
-	    int pad = shadowBlur * 2 + Math.max(Math.abs(shadowOffsetX), Math.abs(shadowOffsetY));
-	    int w = src.getWidth() + pad * 2;
-	    int h = src.getHeight() + pad * 2;
+	    final int pad = shadowBlur * 2 + Math.max(Math.abs(shadowOffsetX), Math.abs(shadowOffsetY));
+	    final int w = src.getWidth() + pad * 2;
+	    final int h = src.getHeight() + pad * 2;
 
-	    var shadow = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-	    var g = shadow.createGraphics();
+	    final var shadow = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    final var g = shadow.createGraphics();
 
 	    g.drawImage(src, pad + shadowOffsetX, pad + shadowOffsetY, null);
 
@@ -97,20 +98,21 @@ public class ImageTools {
 	    g.dispose();
 
 	    // flou (box blur)
-	    int size = shadowBlur * 2 + 1;
-	    float[] data = new float[size * size];
+	    final int size = shadowBlur * 2 + 1;
+	    final float[] data = new float[size * size];
 	    java.util.Arrays.fill(data, 1f / data.length);
-	    var blur = new ConvolveOp(new Kernel(size, size, data), ConvolveOp.EDGE_NO_OP, null);
+	    final var blur = new ConvolveOp(new Kernel(size, size, data), ConvolveOp.EDGE_NO_OP, null);
 	    return blur.filter(shadow, null);
 	}
-	
-	    
+
+
 	    public static  BufferedImage applyZoneOpacity(BufferedImage src, float zoneOpacity, Rectangle zone) {
-	        if (zoneOpacity >= 1f) 
-	            return src;
-	        
-	        var out = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_INT_ARGB);
-	        var g = out.createGraphics();
+	        if (zoneOpacity >= 1f) {
+		    return src;
+		}
+
+	        final var out = new BufferedImage(src.getWidth(), src.getHeight(), BufferedImage.TYPE_INT_ARGB);
+	        final var g = out.createGraphics();
 	        g.drawImage(src, 0, 0, null);
 
 	        // DstOut : alpha_final = alpha_existant * (1 - alpha_source)
@@ -120,49 +122,50 @@ public class ImageTools {
 	        g.dispose();
 	        return out;
 	    }
-	
-	    
+
+
 	    public static ImageIcon addOutline(ImageIcon sourceIcon, Color outlineColor, int thickness) {
-		int width = sourceIcon.getIconWidth();
-		int height = sourceIcon.getIconHeight();
-		var sourceImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		var gSource = sourceImage.createGraphics();
+		final int width = sourceIcon.getIconWidth();
+		final int height = sourceIcon.getIconHeight();
+		final var sourceImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		final var gSource = sourceImage.createGraphics();
 		sourceIcon.paintIcon(null, gSource, 0, 0);
 		gSource.dispose();
-		
+
 		return new ImageIcon(addOutline(sourceImage, outlineColor, thickness));
 	    }
-	    
-	   
-	
+
+
+
 	public static BufferedImage addOutline(BufferedImage source, Color outlineColor, int thickness) {
 
-	    int width = source.getWidth();
-		int height = source.getHeight();
+	    final int width = source.getWidth();
+		final int height = source.getHeight();
 
-		var result = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		int outlineRGB = outlineColor.getRGB();
+		final var result = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		final int outlineRGB = outlineColor.getRGB();
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 
-				int pixel = source.getRGB(x, y);
-				int alpha = (pixel >> 24) & 0xff;
+				final int pixel = source.getRGB(x, y);
+				final int alpha = (pixel >> 24) & 0xff;
 
 				// Pixel visible
 				if (alpha > 0) {
 
 					for (var dx = -thickness; dx <= thickness; dx++) {
 						for (var dy = -thickness; dy <= thickness; dy++) {
-							var nx = x + dx;
-							var ny = y + dy;
+							final var nx = x + dx;
+							final var ny = y + dy;
 							if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
-								var distance = Math.sqrt((double) dx * (double) dx + (double) dy * (double) dy);
+								final var distance = Math.sqrt((double) dx * (double) dx + (double) dy * (double) dy);
 								if (distance <= thickness) {
-									var neighbor = result.getRGB(nx, ny);
-									var neighborAlpha = (neighbor >> 24) & 0xff;
-									if (neighborAlpha == 0)
-										result.setRGB(nx, ny, outlineRGB);
+									final var neighbor = result.getRGB(nx, ny);
+									final var neighborAlpha = (neighbor >> 24) & 0xff;
+									if (neighborAlpha == 0) {
+									    result.setRGB(nx, ny, outlineRGB);
+									}
 								}
 							}
 						}
@@ -170,7 +173,7 @@ public class ImageTools {
 				}
 			}
 		}
-		var g2d = result.createGraphics();
+		final var g2d = result.createGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2d.drawImage(source, 0, 0, null);
 		g2d.dispose();
@@ -178,20 +181,20 @@ public class ImageTools {
 	}
 
 	public static BufferedImage rotate(BufferedImage img, double angle) {
-		double angleRadians = Math.toRadians(angle);
-		int width = img.getWidth();
-		int height = img.getHeight();
-		double x = width / 2.0;
-		double y = height / 2.0;
+		final double angleRadians = Math.toRadians(angle);
+		final int width = img.getWidth();
+		final int height = img.getHeight();
+		final double x = width / 2.0;
+		final double y = height / 2.0;
 
-		double cos = Math.abs(Math.cos(angleRadians));
-		double sin = Math.abs(Math.sin(angleRadians));
+		final double cos = Math.abs(Math.cos(angleRadians));
+		final double sin = Math.abs(Math.sin(angleRadians));
 
-		int w = (int) (width * cos + height * sin + 0.5);
-		int h = (int) (width * sin + height * cos + 0.5);
-		var result = new BufferedImage(w, h, img.getType());
+		final int w = (int) (width * cos + height * sin + 0.5);
+		final int h = (int) (width * sin + height * cos + 0.5);
+		final var result = new BufferedImage(w, h, img.getType());
 
-		var g = result.createGraphics();
+		final var g = result.createGraphics();
 		g.translate((w - img.getWidth()) / 2, (h - img.getHeight()) / 2);
 		g.rotate(angleRadians, x, y);
 		g.drawRenderedImage(img, null);
@@ -201,25 +204,25 @@ public class ImageTools {
 	}
 
 	public static BufferedImage fastBlur(BufferedImage src, int radius, double scale) {
-		int w = src.getWidth();
-		int h = src.getHeight();
+		final int w = src.getWidth();
+		final int h = src.getHeight();
 
-		int sw = Math.max(1, (int) (w * scale));
-		int sh = Math.max(1, (int) (h * scale));
+		final int sw = Math.max(1, (int) (w * scale));
+		final int sh = Math.max(1, (int) (h * scale));
 
 		// 1️⃣ Downscale
-		BufferedImage small = new BufferedImage(sw, sh, BufferedImage.TYPE_INT_ARGB);
+		final BufferedImage small = new BufferedImage(sw, sh, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = small.createGraphics();
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		g.drawImage(src, 0, 0, sw, sh, null);
 		g.dispose();
 
 		// 2️⃣ Blur (StackBlur rapide)
-		int adjustedRadius = Math.max(1, (int) (radius * scale));
-		var blurredSmall = blurImage(small, adjustedRadius);
+		final int adjustedRadius = Math.max(1, (int) (radius * scale));
+		final var blurredSmall = blurImage(small, adjustedRadius);
 
 		// 3️⃣ Upscale
-		var result = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		final var result = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 		g = result.createGraphics();
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		g.drawImage(blurredSmall, 0, 0, w, h, null);
@@ -230,25 +233,26 @@ public class ImageTools {
 
 	public static BufferedImage blurImage(BufferedImage src, int radius) {
 
-		if (radius < 1)
-			return src;
+		if (radius < 1) {
+		    return src;
+		}
 
-		int w = src.getWidth();
-		int h = src.getHeight();
+		final int w = src.getWidth();
+		final int h = src.getHeight();
 
-		BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		final BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 		img.getGraphics().drawImage(src, 0, 0, null);
 
-		int[] pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
+		final int[] pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 
-		int wm = w - 1;
-		int hm = h - 1;
-		int wh = w * h;
-		int div = radius + radius + 1;
+		final int wm = w - 1;
+		final int hm = h - 1;
+		final int wh = w * h;
+		final int div = radius + radius + 1;
 
-		int[] r = new int[wh];
-		int[] g = new int[wh];
-		int[] b = new int[wh];
+		final int[] r = new int[wh];
+		final int[] g = new int[wh];
+		final int[] b = new int[wh];
 
 		int rsum;
 		int gsum;
@@ -260,18 +264,18 @@ public class ImageTools {
 		int yp;
 		int yi;
 		int yw;
-		int[] vmin = new int[Math.max(w, h)];
+		final int[] vmin = new int[Math.max(w, h)];
 
 		int divsum = (div + 1) >> 1;
 		divsum *= divsum;
-		int[] dv = new int[256 * divsum];
+		final int[] dv = new int[256 * divsum];
 		for (i = 0; i < dv.length; i++) {
 			dv[i] = i / divsum;
 		}
 
 		yw = yi = 0;
 
-		int[][] stack = new int[div][3];
+		final int[][] stack = new int[div][3];
 		int stackpointer;
 		int stackstart;
 		int[] sir;
@@ -324,8 +328,9 @@ public class ImageTools {
 				goutsum -= sir[1];
 				boutsum -= sir[2];
 
-				if (y == 0)
-					vmin[x] = Math.min(x + radius + 1, wm);
+				if (y == 0) {
+				    vmin[x] = Math.min(x + radius + 1, wm);
+				}
 				p = pixels[yw + vmin[x]];
 
 				sir[0] = (p >> 16) & 0xff;
@@ -379,8 +384,9 @@ public class ImageTools {
 					goutsum += sir[1];
 					boutsum += sir[2];
 				}
-				if (i < hm)
-					yp += w;
+				if (i < hm) {
+				    yp += w;
+				}
 			}
 			yi = x;
 			stackpointer = radius;
@@ -399,8 +405,9 @@ public class ImageTools {
 				goutsum -= sir[1];
 				boutsum -= sir[2];
 
-				if (x == 0)
-					vmin[y] = Math.min(y + radius + 1, hm) * w;
+				if (x == 0) {
+				    vmin[y] = Math.min(y + radius + 1, hm) * w;
+				}
 				p = x + vmin[y];
 
 				sir[0] = r[p];
@@ -436,7 +443,7 @@ public class ImageTools {
 
 	public static BufferedImage getScaledImage(BufferedImage src) {
 
-		var squareSize = 300;
+		final var squareSize = 300;
 		var finalw = squareSize;
 		var finalh = squareSize;
 		double factor;
@@ -448,8 +455,8 @@ public class ImageTools {
 			finalw = (int) (finalh * factor);
 		}
 
-		var resizedImg = new BufferedImage(finalw, finalh, Transparency.TRANSLUCENT);
-		Graphics2D g2 = resizedImg.createGraphics();
+		final var resizedImg = new BufferedImage(finalw, finalh, Transparency.TRANSLUCENT);
+		final Graphics2D g2 = resizedImg.createGraphics();
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		g2.drawImage(src, 0, 0, finalw, finalh, null);
 		g2.dispose();
@@ -457,13 +464,14 @@ public class ImageTools {
 	}
 
 	public static BufferedImage[] splitManaImage() {
-		if (imgs != null)
-			return imgs;
+		if (imgs != null) {
+		    return imgs;
+		}
 
-		var cols = 10;
-		var rows = 9;
-		var chunkWidth = 100;
-		var chunkHeight = 100;
+		final var cols = 10;
+		final var rows = 9;
+		final var chunkWidth = 100;
+		final var chunkHeight = 100;
 
 		var count = 0;
 		BufferedImage image;
@@ -473,13 +481,13 @@ public class ImageTools {
 			for (var x = 0; x < rows; x++) {
 				for (var y = 0; y < cols; y++) {
 					imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());
-					Graphics2D gr = imgs[count++].createGraphics();
+					final Graphics2D gr = imgs[count++].createGraphics();
 					gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x,
 							chunkWidth * y + chunkWidth, chunkHeight * x + chunkHeight, null);
 					gr.dispose();
 				}
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 		}
 		return imgs;
@@ -488,11 +496,11 @@ public class ImageTools {
 
 	public static byte[] toByteArray(BufferedImage o) {
 		if (o != null) {
-			BufferedImage image = o;
-			var baos = new ByteArrayOutputStream(1024);
+			final BufferedImage image = o;
+			final var baos = new ByteArrayOutputStream(1024);
 			try {
 				ImageIO.write(image, "png", baos);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				throw new IllegalStateException(e.toString());
 			}
 			return baos.toByteArray();
@@ -502,21 +510,22 @@ public class ImageTools {
 
 	public static BufferedImage fromByteArray(byte[] imagebytes) {
 
-		if (imagebytes == null)
-			return null;
+		if (imagebytes == null) {
+		    return null;
+		}
 
 		try (var stream = new ByteArrayInputStream(imagebytes)) {
 			if (imagebytes.length > 0) {
 				return ImageIO.read(stream);
 			}
 			return null;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IllegalArgumentException(e.toString());
 		}
 	}
 
 	public static void saveImage(BufferedImage img, File f, String format) throws IOException {
-		var info = new FileAccessInfo(f);
+		final var info = new FileAccessInfo(f);
 		ImageIO.write(img, format, f);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
@@ -525,63 +534,69 @@ public class ImageTools {
 
 	public static BufferedImage trimAlpha(BufferedImage img) {
 
-		if (img == null)
-			return null;
+		if (img == null) {
+		    return null;
+		}
 
-		var width = img.getWidth();
-		var height = img.getHeight();
+		final var width = img.getWidth();
+		final var height = img.getHeight();
 
 		var left = 0;
-		while (left < width && isColumnTransparent(img, left, height))
-			left++;
+		while (left < width && isColumnTransparent(img, left, height)) {
+		    left++;
+		}
 
-		if (left == width)
-			return img;
+		if (left == width) {
+		    return img;
+		}
 
 		var right = width - 1;
-		while (right >= left && isColumnTransparent(img, right, height))
-			right--;
+		while (right >= left && isColumnTransparent(img, right, height)) {
+		    right--;
+		}
 
-		if (left == 0 && right == width - 1)
-			return img;
+		if (left == 0 && right == width - 1) {
+		    return img;
+		}
 
 		return img.getSubimage(left, 0, right - left + 1, height);
 	}
 
 	private static boolean isColumnTransparent(BufferedImage img, int x, int height) {
 		for (var y = 0; y < height; y++) {
-			if (((img.getRGB(x, y) >>> 24) & 0xFF) != 0)
-				return false;
+			if (((img.getRGB(x, y) >>> 24) & 0xFF) != 0) {
+			    return false;
+			}
 		}
 		return true;
 	}
 
 	public static BufferedImage scaleResize(BufferedImage img, int width) {
-		int oldW = img.getWidth();
-		int oldH = img.getHeight();
-		double ratio = (double) oldW / oldH;
-		int h = (int) (width / ratio);
+		final int oldW = img.getWidth();
+		final int oldH = img.getHeight();
+		final double ratio = (double) oldW / oldH;
+		final int h = (int) (width / ratio);
 		return resize(img, h, width);
 	}
 
 	public static BufferedImage mirroring(BufferedImage image) {
-    	    	var tx = AffineTransform.getScaleInstance(-1, 1);
+    	    	final var tx = AffineTransform.getScaleInstance(-1, 1);
 		tx.translate(-image.getWidth(null), 0);
-		var op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		final var op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
 		image = op.filter(image, null);
 		return image;
 	}
-	
-	
+
+
 	public static void initGraphics(Graphics g) {
 	    initGraphics((Graphics2D)g);
 	}
-	
+
 	public static void initGraphics(Graphics2D g2d) {
-	    
-	   var hints = new RenderingHints(Map.of(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON,
-                                                		     RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED, 
-                                                		     RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, 
+
+	   final var hints = new RenderingHints(Map.of(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON,
+                                                		     RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED,
+                                                		     RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY,
                                                 		     RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC));
 
 
@@ -591,13 +606,14 @@ public class ImageTools {
 
 	public static BufferedImage resize(Image img, int newH, int newW) {
 
-		if (img == null)
-			return null;
+		if (img == null) {
+		    return null;
+		}
 
-		var tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-		var dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+		final var tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+		final var dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
-		Graphics2D g2d = dimg.createGraphics();
+		final Graphics2D g2d = dimg.createGraphics();
 		initGraphics(g2d);
 
 		g2d.drawImage(tmp, 0, 0, null);
@@ -608,8 +624,8 @@ public class ImageTools {
 
 	public static BufferedImage imageToBufferedImage(Image im) {
 
-		var bi = new BufferedImage(im.getWidth(null), im.getHeight(null), BufferedImage.TYPE_INT_RGB);
-		var bg = bi.getGraphics();
+		final var bi = new BufferedImage(im.getWidth(null), im.getHeight(null), BufferedImage.TYPE_INT_RGB);
+		final var bg = bi.getGraphics();
 		bg.drawImage(im, 0, 0, null);
 		bg.dispose();
 		return bi;
@@ -617,22 +633,23 @@ public class ImageTools {
 
 	public static BufferedImage joinBufferedImage(List<Image> imgs) {
 
-		var offset = 0;
+		final var offset = 0;
 		int wid = offset;
 		var height = 0;
-		for (Image im : imgs) {
-			BufferedImage imgb = (BufferedImage) im;
+		for (final Image im : imgs) {
+			final BufferedImage imgb = (BufferedImage) im;
 			wid += imgb.getWidth();
-			if (imgb.getHeight() >= height)
-				height = imgb.getHeight();
+			if (imgb.getHeight() >= height) {
+			    height = imgb.getHeight();
+			}
 		}
 
 		// create a new buffer and draw two image into the new image
-		var newImage = new BufferedImage(wid, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = newImage.createGraphics();
+		final var newImage = new BufferedImage(wid, height, BufferedImage.TYPE_INT_ARGB);
+		final Graphics2D g2 = newImage.createGraphics();
 		var x = 0;
-		for (Image im : imgs) {
-			BufferedImage imgb = (BufferedImage) im;
+		for (final Image im : imgs) {
+			final BufferedImage imgb = (BufferedImage) im;
 
 			g2.drawImage(imgb, null, x, 0);
 			x += imgb.getWidth();
@@ -648,7 +665,7 @@ public class ImageTools {
 	}
 
 	public static ImageIcon resize(Icon icon, int newH, int newW) {
-		var ic = ((ImageIcon) icon).getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+		final var ic = ((ImageIcon) icon).getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		return new ImageIcon(ic);
 	}
 
@@ -660,8 +677,9 @@ public class ImageTools {
 		BufferedImage image = null;
 		byte[] imageByte;
 
-		if (base == null)
-			return null;
+		if (base == null) {
+		    return null;
+		}
 
 		imageByte = CryptoUtils.fromBase64(base);
 
@@ -673,19 +691,20 @@ public class ImageTools {
 	}
 
 	public static void saveImageInPng(BufferedImage img, File f) throws IOException {
-		Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png");
+		final Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png");
 
-		if (!iw.hasNext())
-			throw new IOException("PNG Writer not found");
+		if (!iw.hasNext()) {
+		    throw new IOException("PNG Writer not found");
+		}
 
-		ImageWriter writer = iw.next();
+		final ImageWriter writer = iw.next();
 
-		ImageWriteParam writeParam = writer.getDefaultWriteParam();
-		var typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
-		IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
+		final ImageWriteParam writeParam = writer.getDefaultWriteParam();
+		final var typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
+		final IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
 		setDPI(metadata);
 
-		var stream = ImageIO.createImageOutputStream(f);
+		final var stream = ImageIO.createImageOutputStream(f);
 		try {
 			writer.setOutput(stream);
 			writer.write(metadata, new IIOImage(img, null, metadata), writeParam);
@@ -708,15 +727,15 @@ public class ImageTools {
 	}
 
 	private static void setDPI(IIOMetadata metadata) throws IIOInvalidTreeException {
-		double dotsPerMilli = 1.0 * MTGConstants.DPI / 10 / 2.54;
-		var horiz = new IIOMetadataNode("HorizontalPixelSize");
+		final double dotsPerMilli = 1.0 * MTGConstants.DPI / 10 / 2.54;
+		final var horiz = new IIOMetadataNode("HorizontalPixelSize");
 		horiz.setAttribute("value", Double.toString(dotsPerMilli));
-		var vert = new IIOMetadataNode("VerticalPixelSize");
+		final var vert = new IIOMetadataNode("VerticalPixelSize");
 		vert.setAttribute("value", Double.toString(dotsPerMilli));
-		var dim = new IIOMetadataNode("Dimension");
+		final var dim = new IIOMetadataNode("Dimension");
 		dim.appendChild(horiz);
 		dim.appendChild(vert);
-		var root = new IIOMetadataNode("javax_imageio_1.0");
+		final var root = new IIOMetadataNode("javax_imageio_1.0");
 		root.appendChild(dim);
 		metadata.mergeTree("javax_imageio_1.0", root);
 	}
@@ -741,16 +760,17 @@ public class ImageTools {
 
 	public static void write(BufferedImage bi, String formatName, ByteArrayOutputStream baos) throws IOException {
 
-		if (bi == null)
-			return;
+		if (bi == null) {
+		    return;
+		}
 
 		ImageIO.write(bi, formatName, baos);
 
 	}
 
 	public static BufferedImage toImage(Icon icon) {
-		BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-		var g = bi.createGraphics();
+		final BufferedImage bi = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
+		final var g = bi.createGraphics();
 		icon.paintIcon(null, g, 0, 0);
 		g.dispose();
 		return bi;

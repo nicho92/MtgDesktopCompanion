@@ -42,11 +42,13 @@ public class MTGCardStock extends AbstractStockItem<MTGCard> {
 
 		setDigital(c.isOnlineOnly());
 
-		if (c.getFinishes().size() == 1 && c.getFinishes().contains(EnumFinishes.FOIL))
-			setFoil(true);
+		if (c.getFinishes().size() == 1 && c.getFinishes().contains(EnumFinishes.FOIL)) {
+		    setFoil(true);
+		}
 
-		if (c.getFinishes().size() == 1 && c.getFinishes().contains(EnumFinishes.ETCHED))
-			setEtched(true);
+		if (c.getFinishes().size() == 1 && c.getFinishes().contains(EnumFinishes.ETCHED)) {
+		    setEtched(true);
+		}
 
 	}
 

@@ -87,7 +87,7 @@ public class GedEntry<T extends MTGSerializable> implements Serializable {
 	}
 
 	public JsonElement toJson() {
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 		obj.addProperty("id", getId());
 		obj.addProperty("name", getName());
 		obj.addProperty("size", getContent().length);

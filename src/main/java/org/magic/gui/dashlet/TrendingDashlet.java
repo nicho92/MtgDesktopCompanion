@@ -48,7 +48,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 	public void initGUI() {
 		JButton btnRefresh;
 		JPanel panel;
-		var panneauHaut = new JPanel();
+		final var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		cboFormats = UITools.createCombobox(MTGFormat.FORMATS.values());
@@ -58,8 +58,9 @@ public class TrendingDashlet extends AbstractJDashlet {
 		btnRefresh.addActionListener(_ -> init());
 
 		cboFormats.addItemListener(ie -> {
-			if (ie.getStateChange() == ItemEvent.SELECTED)
-				init();
+			if (ie.getStateChange() == ItemEvent.SELECTED) {
+			    init();
+			}
 		});
 
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
@@ -80,13 +81,13 @@ public class TrendingDashlet extends AbstractJDashlet {
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			try {
 				cboFormats.setSelectedItem(MTGFormat.FORMATS.valueOf(getString("FORMAT")));
 
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 			setBounds(r);
@@ -96,10 +97,10 @@ public class TrendingDashlet extends AbstractJDashlet {
 			@Override
 			public Void call() throws Exception {
 				try {
-					CardShake cs = UITools.getTableSelection(table, 0);
+					final CardShake cs = UITools.getTableSelection(table, 0);
 					UITools.browse(cs.getLink());
 
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					logger.error("error", ex);
 				}
 				return null;
@@ -113,7 +114,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 
-		var sw = new SwingWorker<List<CardShake>, CardShake>() {
+		final var sw = new SwingWorker<List<CardShake>, CardShake>() {
 
 			@Override
 			protected List<CardShake> doInBackground() throws Exception {
@@ -125,9 +126,9 @@ public class TrendingDashlet extends AbstractJDashlet {
 				try {
 					modStandard.init(get());
 					table.setModel(modStandard);
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 				buzy.end();
@@ -137,7 +138,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 					UITools.sort(table, 3, SortOrder.DESCENDING);
 					modStandard.fireTableDataChanged();
 					table.packAll();
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					// do nothing
 				}
 			}

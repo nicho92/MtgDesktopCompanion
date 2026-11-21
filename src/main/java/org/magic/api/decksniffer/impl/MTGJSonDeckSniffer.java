@@ -26,23 +26,25 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		var el = URLTools.extractAsJson(info.getUrl().toString()).getAsJsonObject();
+		final var el = URLTools.extractAsJson(info.getUrl().toString()).getAsJsonObject();
 
-		MTGDeck deck = info.toBaseDeck();
+		final MTGDeck deck = info.toBaseDeck();
 
 		try {
 			deck.getTags().add(el.getAsJsonObject().get("data").getAsJsonObject().get("type").getAsString());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
 		init(deck, el.get("data").getAsJsonObject().get("mainBoard").getAsJsonArray(), false, false);
 
-		if (el.getAsJsonObject().get("sideBoard") != null)
-			init(deck, el.getAsJsonObject().get("sideBoard").getAsJsonArray(), true, false);
+		if (el.getAsJsonObject().get("sideBoard") != null) {
+		    init(deck, el.getAsJsonObject().get("sideBoard").getAsJsonArray(), true, false);
+		}
 
-		if (el.get("data").getAsJsonObject().get("commander") != null)
-			init(deck, el.get("data").getAsJsonObject().get("commander").getAsJsonArray(), false, true);
+		if (el.get("data").getAsJsonObject().get("commander") != null) {
+		    init(deck, el.get("data").getAsJsonObject().get("commander").getAsJsonArray(), false, true);
+		}
 
 		return deck;
 	}
@@ -50,24 +52,26 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 	private void init(MTGDeck d, JsonArray arr, boolean side, boolean commander) {
 		arr.forEach(element -> {
 
-			var ed = element.getAsJsonObject().get("printings").getAsJsonArray().get(0).getAsString();
-			var qty = element.getAsJsonObject().get("count").getAsInt();
-			var scryfallId = element.getAsJsonObject().get("identifiers").getAsJsonObject().get("scryfallId")
+			final var ed = element.getAsJsonObject().get("printings").getAsJsonArray().get(0).getAsString();
+			final var qty = element.getAsJsonObject().get("count").getAsInt();
+			final var scryfallId = element.getAsJsonObject().get("identifiers").getAsJsonObject().get("scryfallId")
 					.getAsString();
-			var name = element.getAsJsonObject().get("name").getAsString();
+			final var name = element.getAsJsonObject().get("name").getAsString();
 			try {
-				var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(scryfallId);
-				if (!side)
-					d.getMain().put(mc, qty);
-				else
-					d.getSideBoard().put(mc, qty);
+				final var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(scryfallId);
+				if (!side) {
+				    d.getMain().put(mc, qty);
+				} else {
+				    d.getSideBoard().put(mc, qty);
+				}
 
 				notify(mc);
 
-				if (commander)
-					d.setCommander(mc);
+				if (commander) {
+				    d.setCommander(mc);
+				}
 
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("error loading {}/{}", name, ed, e);
 			}
 
@@ -77,15 +81,15 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
-		var d = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
-		var arr = d.getAsJsonObject().get("data").getAsJsonArray();
+		final var d = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
+		final var arr = d.getAsJsonObject().get("data").getAsJsonArray();
 
-		List<RetrievableDeck> decks = new ArrayList<>();
+		final List<RetrievableDeck> decks = new ArrayList<>();
 		arr.forEach(element -> {
 
-			var ob = element.getAsJsonObject();
+			final var ob = element.getAsJsonObject();
 
-			var rd = new RetrievableDeck();
+			final var rd = new RetrievableDeck();
 			rd.setName(ob.get("name").getAsString());
 			rd.setAuthor(ob.get("type").getAsString());
 			try {
@@ -93,7 +97,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 						getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("code").getAsString()).getSet());
 				rd.setUrl(URI
 						.create(AbstractMTGJsonProvider.MTG_JSON_DECKS + ob.get("fileName").getAsString() + ".json"));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 

@@ -36,14 +36,15 @@ public class JTextFieldFileChooser extends JComponent {
 
 	private void init() {
 		setLayout(new BorderLayout(0, 0));
-		var btnOpenDialog = new JButton("...");
+		final var btnOpenDialog = new JButton("...");
 		btnOpenDialog.addActionListener(_ -> {
-			var f = new JFileChooser(textField.getText());
+			final var f = new JFileChooser(textField.getText());
 			f.setFileSelectionMode(mode);
 
-			int res = f.showOpenDialog(this);
-			if (res == JFileChooser.APPROVE_OPTION)
-				textField.setText(f.getSelectedFile().getAbsolutePath());
+			final int res = f.showOpenDialog(this);
+			if (res == JFileChooser.APPROVE_OPTION) {
+			    textField.setText(f.getSelectedFile().getAbsolutePath());
+			}
 
 		});
 

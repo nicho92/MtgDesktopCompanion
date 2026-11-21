@@ -28,7 +28,7 @@ public class StockItemPanelRenderer extends JPanel {
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 137, 129, 0};
 		gridBagLayout.rowHeights = new int[]{12, 12, 12, 12, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -48,8 +48,9 @@ public class StockItemPanelRenderer extends JPanel {
 
 	public void setProduct(MTGStockItem mc) {
 
-		if (mc == null || mc.getProduct() == null)
-			return;
+		if (mc == null || mc.getProduct() == null) {
+		    return;
+		}
 
 		lblName.setText(mc.getProduct().getName());
 		lblEdition.setText(mc.getProduct().getEdition().getSet());

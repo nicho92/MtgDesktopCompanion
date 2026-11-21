@@ -35,79 +35,83 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider {
 			try {
 				document = URLTools.extractAsXml(MTGConstants.MTG_BOOSTERS_URI);
 				logger.debug("Loading sealed data done");
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error("Error while loading data from {}. Loading local", MTGConstants.MTG_BOOSTERS_URI, e);
 			}
-			
+
 			if(document==null)
 			{
 				try {
 				    document = XMLTools.createSecureXMLDocumentBuilder().parse(MTGConstants.MTG_DESKTOP_BOOSTERS_FILE.openStream());
-				} catch (Exception e) {
+				} catch (final Exception e) {
 				    logger.error(e);
-				} 
+				}
 			}
-			
+
 		}
 	}
 
 	@Override
 	public List<MTGEdition> listSets() {
 		init();
-		var list = new ArrayList<MTGEdition>();
+		final var list = new ArrayList<MTGEdition>();
 		try {
-			var nodeList = XMLTools.parseNodes(document, "//edition");
+			final var nodeList = XMLTools.parseNodes(document, "//edition");
 
 			for (int i = 0; i < nodeList.getLength(); i++) {
-				var id = nodeList.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				final var id = nodeList.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				list.add(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(id));
 			}
 
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 		return list;
 	}
 
+	@Override
 	public List<MTGSealedProduct> search(String name) {
 		init();
-		var ret = new ArrayList<MTGSealedProduct>();
+		final var ret = new ArrayList<MTGSealedProduct>();
 		try {
 			MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions().stream()
 					.filter(me -> me.getSet().toLowerCase().contains(name.toLowerCase())).toList()
 					.forEach(me -> ret.addAll(getItemsFor(me)));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 		}
 
 		return ret;
 	}
 
+	@Override
 	public BufferedImage getLogo(LOGO logo) {
 		init();
 		var url = "";
 		try {
-			var expression = "//logo[contains(@version,'" + logo.name().toLowerCase() + "')]";
-			var nodeList = XMLTools.parseNodes(document, expression);
-			var item = nodeList.item(0);
+			final var expression = "//logo[contains(@version,'" + logo.name().toLowerCase() + "')]";
+			final var nodeList = XMLTools.parseNodes(document, expression);
+			final var item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractAsImage(url);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("{} could not load : {}", logo, url, e);
 			return null;
-		} catch (XPathExpressionException e) {
+		} catch (final XPathExpressionException e) {
 			logger.error("{} is not found :", logo, e);
 			return null;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("{} error loading {}", logo, url, e);
 			return null;
 		}
 	}
 
+	@Override
 	public synchronized List<MTGSealedProduct> getItemsFor(MTGEdition me) {
-		var ret = new ArrayList<MTGSealedProduct>();
-		if (me == null)
-			return ret;
+		final var ret = new ArrayList<MTGSealedProduct>();
+		if (me == null) {
+		    return ret;
+		}
 
 		init();
 
@@ -117,47 +121,48 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider {
 			nodeList = XMLTools.parseNodes(document, "//edition[@id='" + me.getId().toUpperCase() + "']");
 			n = nodeList.item(0).getChildNodes();
 
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
-		if (n == null)
-			return ret;
+		if (n == null) {
+		    return ret;
+		}
 
 		for (var i = 0; i < n.getLength(); i++) {
 			if (n.item(i).getNodeType() == 1) {
-				var p = new MTGSealedProduct();
+				final var p = new MTGSealedProduct();
 
 				p.setEdition(me);
 
 				try {
 					p.setTypeProduct(EnumItems.valueOf(n.item(i).getNodeName().toUpperCase()));
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("No EnumItems found for {}", n.item(i).getNodeName());
 				}
 
 				try {
 					p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("no lang found for {},{}", p.getEdition(), p.getTypeProduct());
 				}
 
 				try {
 					p.setExtra(EnumExtra
 							.valueOf(n.item(i).getAttributes().getNamedItem("extra").getNodeValue().toUpperCase()));
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					// do nothing
 				}
 
 				try {
 					p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					// do nothing
 				}
 
 				try {
 					p.setNum(Integer.parseInt(n.item(i).getAttributes().getNamedItem("num").getNodeValue()));
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					p.setNum(1);
 				}
 
@@ -165,7 +170,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider {
 					p.setName(me.getSet() + " " + p.getTypeProduct() + (p.getExtra() != null ? " " + p.getExtra() : "")
 							+ " " + n.item(i).getAttributes().getNamedItem("desc").getNodeValue() + " (" + p.getLang()
 							+ ") ");
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					p.setName(me.getSet() + " " + p.getTypeProduct() + (p.getExtra() != null ? " " + p.getExtra() : "")
 							+ " (" + p.getLang() + ") ");
 				}

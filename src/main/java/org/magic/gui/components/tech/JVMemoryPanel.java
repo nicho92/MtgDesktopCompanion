@@ -9,10 +9,10 @@ import javax.swing.JProgressBar;
 public class JVMemoryPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JProgressBar progressBar;
+	private final JProgressBar progressBar;
 	private String tooltip;
-	private Color defaultBack;
-	private Color defaultFront;
+	private final Color defaultBack;
+	private final Color defaultFront;
 
 	public void setColor(Color foreground, Color background) {
 		progressBar.setForeground(foreground);
@@ -42,14 +42,15 @@ public class JVMemoryPanel extends JPanel {
 				+ toMB((Runtime.getRuntime().totalMemory())) + " MB";
 		progressBar.setToolTipText(tooltip);
 
-		double pc = ((progressBar.getValue() * 100) / progressBar.getMaximum());
+		final double pc = ((progressBar.getValue() * 100) / progressBar.getMaximum());
 
-		if (pc > 55)
-			setColor(Color.ORANGE, Color.ORANGE);
-		else if (pc > 75)
-			setColor(Color.BLACK, Color.RED);
-		else
-			setColor(defaultFront, defaultBack);
+		if (pc > 55) {
+		    setColor(Color.ORANGE, Color.ORANGE);
+		} else if (pc > 75) {
+		    setColor(Color.BLACK, Color.RED);
+		} else {
+		    setColor(defaultFront, defaultBack);
+		}
 
 	}
 }

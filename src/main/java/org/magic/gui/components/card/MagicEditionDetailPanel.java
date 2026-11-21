@@ -50,7 +50,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		panneauHaut = new JPanel();
 
 		setLayout(new BorderLayout(0, 0));
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{104, 333};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0};
@@ -76,7 +76,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		cardOfficialCountTextField = new JTextField();
 		cardPhysicalCountTextField = new JTextField();
 
-		var pane = UITools.createFlowPanel(new JLabel("Total : "), cardCountTextField, new JLabel("Official :"),
+		final var pane = UITools.createFlowPanel(new JLabel("Total : "), cardCountTextField, new JLabel("Official :"),
 				cardOfficialCountTextField, new JLabel("Physical:"), cardPhysicalCountTextField);
 
 		panneauHaut.add(pane, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
@@ -150,58 +150,58 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 	}
 
 	protected BindingGroup initDataBindings() {
-		BeanProperty<MTGEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
-		BeanProperty<JTextField, String> valueProperty = BeanProperty.create("text");
-		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
+		final BeanProperty<MTGEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
+		final BeanProperty<JTextField, String> valueProperty = BeanProperty.create("text");
+		final AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, cardCountProperty, cardCountTextField, valueProperty);
 		autoBinding3.bind();
 
-		BeanProperty<MTGEdition, Integer> cardCountOfficialProperty = BeanProperty.create("cardCountOfficial");
-		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(
+		final BeanProperty<MTGEdition, Integer> cardCountOfficialProperty = BeanProperty.create("cardCountOfficial");
+		final AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, cardCountOfficialProperty, cardOfficialCountTextField,
 				valueProperty);
 		autoBinding4.bind();
 
-		BeanProperty<MTGEdition, Integer> cardCountPhysicialProperty = BeanProperty.create("cardCountPhysical");
-		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding5 = Bindings.createAutoBinding(
+		final BeanProperty<MTGEdition, Integer> cardCountPhysicialProperty = BeanProperty.create("cardCountPhysical");
+		final AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding5 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, cardCountPhysicialProperty, cardPhysicalCountTextField,
 				valueProperty);
 		autoBinding5.bind();
 
 		//
-		BeanProperty<MTGEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(
+		final BeanProperty<MTGEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
+		final AutoBinding<MTGEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, valueProperty);
 		autoBinding7.bind();
 		//
-		BeanProperty<MTGEdition, String> setProperty = BeanProperty.create("set");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding8 = Bindings
+		final BeanProperty<MTGEdition, String> setProperty = BeanProperty.create("set");
+		final AutoBinding<MTGEdition, String, JTextField, String> autoBinding8 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, valueProperty);
 		autoBinding8.bind();
 		//
-		BeanProperty<MTGEdition, String> typeProperty = BeanProperty.create("type");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(
+		final BeanProperty<MTGEdition, String> typeProperty = BeanProperty.create("type");
+		final AutoBinding<MTGEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, valueProperty);
 		autoBinding11.bind();
 
-		BeanProperty<MTGEdition, String> blockProperty = BeanProperty.create("block");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(
+		final BeanProperty<MTGEdition, String> blockProperty = BeanProperty.create("block");
+		final AutoBinding<MTGEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, valueProperty);
 		autoBinding12.bind();
 
-		BeanProperty<MTGEdition, String> idProperty = BeanProperty.create("id");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding13 = Bindings
+		final BeanProperty<MTGEdition, String> idProperty = BeanProperty.create("id");
+		final AutoBinding<MTGEdition, String, JTextField, String> autoBinding13 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, valueProperty);
 		autoBinding13.bind();
 
-		BeanProperty<MTGEdition, Boolean> onlineProperty = BeanProperty.create("onlineOnly");
-		BeanProperty<JCheckBox, Boolean> chkProperty13 = BeanProperty.create("selected");
-		AutoBinding<MTGEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings
+		final BeanProperty<MTGEdition, Boolean> onlineProperty = BeanProperty.create("onlineOnly");
+		final BeanProperty<JCheckBox, Boolean> chkProperty13 = BeanProperty.create("selected");
+		final AutoBinding<MTGEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
 		autoBinding14.bind();
 
 		//
-		var bindingGroup = new BindingGroup();
+		final var bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding3);
 		bindingGroup.addBinding(autoBinding4);

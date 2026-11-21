@@ -33,16 +33,16 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
 		temp.append("//NAME: " + deck.getName() + " from MTGDeskTopCompanion\n");
 		temp.append("//MAIN\n");
-		for (MTGCard mc : deck.getMain().keySet()) {
+		for (final MTGCard mc : deck.getMain().keySet()) {
 			temp.append(deck.getMain().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
 		temp.append("\n//Sideboard\n");
-		for (MTGCard mc : deck.getSideBoard().keySet()) {
+		for (final MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append(deck.getSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
@@ -52,27 +52,28 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String deckName) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(deckName);
 		var side = false;
 
-		for (Matcher m : matches(f, false)) {
+		for (final Matcher m : matches(f, false)) {
 			if (m.group().isEmpty()) {
 				side = true;
 			} else {
-				String cname = m.group(2);
+				final String cname = m.group(2);
 
 				MTGEdition ed = null;
 				try {
-					if (m.group(4) != null)
-						ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
-				} catch (Exception _) {
+					if (m.group(4) != null) {
+					    ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
+					}
+				} catch (final Exception _) {
 					logger.error("{} isn't a valid set", m.group(4));
 				}
 
 				try {
-					var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname.trim(), ed, true).get(0);
-					var qty = Integer.parseInt(m.group(1));
+					final var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname.trim(), ed, true).get(0);
+					final var qty = Integer.parseInt(m.group(1));
 
 					if (side) {
 						deck.getSideBoard().put(mc, qty);
@@ -81,7 +82,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 					}
 
 					notify(mc);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("{} is not found : {}", cname, e.getMessage());
 				}
 			}

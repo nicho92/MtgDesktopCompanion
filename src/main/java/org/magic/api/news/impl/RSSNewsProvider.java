@@ -22,28 +22,30 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 	@Override
 	public List<MTGNewsContent> listNews(MTGNews rssBean) throws IOException {
 
-		if (input == null)
-			input = new SyndFeedInput();
+		if (input == null) {
+		    input = new SyndFeedInput();
+		}
 
 		SyndFeed feed;
 
-		var ret = new ArrayList<MTGNewsContent>();
+		final var ret = new ArrayList<MTGNewsContent>();
 		try {
 			logger.debug("reading {}", rssBean.getUrl());
-			var is = URLTools.extractAsInputStream(rssBean.getUrl());
+			final var is = URLTools.extractAsInputStream(rssBean.getUrl());
 
-			var source = new InputSource(is);
+			final var source = new InputSource(is);
 
 			feed = input.build(source);
 
-			for (var s : feed.getEntries()) {
-				var content = new MTGNewsContent();
+			for (final var s : feed.getEntries()) {
+				final var content = new MTGNewsContent();
 				content.setTitle(s.getTitle());
 				content.setAuthor(s.getAuthor());
-				if (s.getPublishedDate() == null)
-					content.setDate(s.getUpdatedDate());
-				else
-					content.setDate(s.getPublishedDate());
+				if (s.getPublishedDate() == null) {
+				    content.setDate(s.getUpdatedDate());
+				} else {
+				    content.setDate(s.getPublishedDate());
+				}
 
 				content.setLink(URI.create(s.getLink()).toURL());
 

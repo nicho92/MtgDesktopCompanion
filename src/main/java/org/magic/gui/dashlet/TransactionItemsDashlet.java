@@ -42,7 +42,7 @@ public class TransactionItemsDashlet extends AbstractJDashlet {
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		cboProperty = UITools
@@ -74,16 +74,18 @@ public class TransactionItemsDashlet extends AbstractJDashlet {
 		chkSell.addItemListener(_ -> init());
 
 		cboProperty.addItemListener(ie -> {
-			if (ie.getStateChange() == ItemEvent.SELECTED)
-				init();
+			if (ie.getStateChange() == ItemEvent.SELECTED) {
+			    init();
+			}
 		});
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
-			if (!getString(PROPERTY).isEmpty())
-				cboProperty.setSelectedItem(getString(PROPERTY));
+			if (!getString(PROPERTY).isEmpty()) {
+			    cboProperty.setSelectedItem(getString(PROPERTY));
+			}
 
 			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
 			chkSell.setSelected(getString("SELL").equals("true"));
@@ -101,18 +103,19 @@ public class TransactionItemsDashlet extends AbstractJDashlet {
 		setProperty("BUY", String.valueOf(chkBuy.isSelected()));
 
 		buzy.start();
-		var sw = new SwingWorker<List<MTGStockItem>, Void>() {
+		final var sw = new SwingWorker<List<MTGStockItem>, Void>() {
 
 			@Override
 			protected List<MTGStockItem> doInBackground() throws Exception {
 
 				return TransactionService.listTransactions().stream().filter(t -> {
-					if (chkBuy.isSelected() && !chkSell.isSelected())
-						return t.getTypeTransaction() == EnumTransactionDirection.BUY;
-					else if (chkSell.isSelected() && !chkBuy.isSelected())
-						return t.getTypeTransaction() == EnumTransactionDirection.SELL;
-					else
-						return true;
+					if (chkBuy.isSelected() && !chkSell.isSelected()) {
+					    return t.getTypeTransaction() == EnumTransactionDirection.BUY;
+					} else if (chkSell.isSelected() && !chkBuy.isSelected()) {
+					    return t.getTypeTransaction() == EnumTransactionDirection.SELL;
+					} else {
+					    return true;
+					}
 				}).flatMap(t -> t.getItems().stream()).toList();
 			}
 
@@ -120,9 +123,9 @@ public class TransactionItemsDashlet extends AbstractJDashlet {
 			protected void done() {
 				try {
 					chart.init(get(), cboProperty.getSelectedItem().toString(), chkSumOrTotal.isSelected());
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				} finally {
 					buzy.end();

@@ -50,31 +50,35 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 		try {
 			MkmAPIConfig.getInstance().init(getAuthenticator().getTokensAsProperties());
 			initied = true;
-		} catch (MkmException e) {
+		} catch (final MkmException e) {
 			logger.error(e);
 		}
 	}
 
 	public static Product getProductFromCard(MTGCard mc, List<Product> list) {
 
-		if (list.size() == 1)
-			return list.get(0);
+		if (list.size() == 1) {
+		    return list.get(0);
+		}
 
 		String edName = mc.getEdition().getSet();
 		Product resultat = null;
 
-		if (mc.getEdition().getMkmName() != null)
-			edName = mc.getEdition().getMkmName();
+		if (mc.getEdition().getMkmName() != null) {
+		    edName = mc.getEdition().getMkmName();
+		}
 
-		if (mc.isExtraCard())
-			edName += ": Extras";
+		if (mc.isExtraCard()) {
+		    edName += ": Extras";
+		}
 
 		Integer mkmId = 0;
 
-		if (mc.getMkmId() != null)
-			mkmId = mc.getMkmId();
+		if (mc.getMkmId() != null) {
+		    mkmId = mc.getMkmId();
+		}
 
-		for (Product p : list) {
+		for (final Product p : list) {
 
 			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && (p.getExpansionName().equalsIgnoreCase(edName)
 					|| (p.getIdProduct() == mkmId && !mc.isExtraCard()))) {
@@ -87,8 +91,9 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		if (!initied)
-			init();
+		if (!initied) {
+		    init();
+		}
 
 		try {
 			lists = new ArrayList<>();
@@ -96,7 +101,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 			logger.info("{} looking for {}/{}", getName(), card, card.getEdition());
 
 			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity() == EnumRarity.COMMON) {
-				var mp = new MTGPrice();
+				final var mp = new MTGPrice();
 				mp.setCardData(card);
 				mp.setCurrency("EUR");
 				mp.setValue(0.01);
@@ -106,22 +111,24 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 				return lists;
 			}
 
-			var pService = new ProductServices();
-			EnumMap<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
+			final var pService = new ProductServices();
+			final EnumMap<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 			atts.put(PRODUCT_ATTS.idGame, "1");
 
-			if (!getString(IS_EXACT).isEmpty())
-				atts.put(PRODUCT_ATTS.exact, getString(IS_EXACT));
+			if (!getString(IS_EXACT).isEmpty()) {
+			    atts.put(PRODUCT_ATTS.exact, getString(IS_EXACT));
+			}
 
-			if (!getString(LANGUAGE_ID).equals(""))
-				atts.put(PRODUCT_ATTS.idLanguage, getString(LANGUAGE_ID));
+			if (!getString(LANGUAGE_ID).equals("")) {
+			    atts.put(PRODUCT_ATTS.idLanguage, getString(LANGUAGE_ID));
+			}
 
 			if (!getBoolean("USER_ARTICLE")) {
 				var p = getProductFromCard(card, pService.findProduct(card.getName(), atts));
 
 				if (p != null) {
 					p = pService.getProductById(p.getIdProduct());
-					var mp = new MTGPrice();
+					final var mp = new MTGPrice();
 					mp.setSeller(String.valueOf(p.getExpansionName()));
 					mp.setValue(p.getPriceGuide().getLOW());
 					mp.setUrl(MkmConstants.MKM_SITE_URL + p.getWebsite());
@@ -135,28 +142,30 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 				}
 
 			} else {
-				List<Product> list = pService.findProduct(card.getName(), atts);
-				var resultat = getProductFromCard(card, list);
+				final List<Product> list = pService.findProduct(card.getName(), atts);
+				final var resultat = getProductFromCard(card, list);
 				if (resultat == null) {
 					logger.info("{} found no product for {}", getName(), card);
 					return lists;
 				}
 
-				var aServ = new ArticleService();
-				EnumMap<ARTICLES_ATT, String> aatts = new EnumMap<>(ARTICLES_ATT.class);
+				final var aServ = new ArticleService();
+				final EnumMap<ARTICLES_ATT, String> aatts = new EnumMap<>(ARTICLES_ATT.class);
 				aatts.put(ARTICLES_ATT.start, "0");
 				aatts.put(ARTICLES_ATT.maxResults, getString("MAX"));
 
-				if (!getString(LANGUAGE_ID).equals(""))
-					aatts.put(ARTICLES_ATT.idLanguage, getString(LANGUAGE_ID));
+				if (!getString(LANGUAGE_ID).equals("")) {
+				    aatts.put(ARTICLES_ATT.idLanguage, getString(LANGUAGE_ID));
+				}
 
-				if (!getString(MIN_CONDITION).equals(""))
-					aatts.put(ARTICLES_ATT.minCondition, getString(MIN_CONDITION));
+				if (!getString(MIN_CONDITION).equals("")) {
+				    aatts.put(ARTICLES_ATT.minCondition, getString(MIN_CONDITION));
+				}
 
-				List<Article> articles = aServ.find(resultat, aatts);
+				final List<Article> articles = aServ.find(resultat, aatts);
 
-				for (Article a : articles) {
-					var mp = new MTGPrice();
+				for (final Article a : articles) {
+					final var mp = new MTGPrice();
 					mp.setSeller(String.valueOf(a.getSeller()));
 					mp.setSellerUrl(
 							MkmConstants.MKM_SITE_URL + "/fr/Magic/Users/" + mp.getSeller() + "/Offers/Singles");
@@ -172,13 +181,14 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 					mp.setShopItem(a);
 
 					if (StringUtils.isEmpty(getString(FILTER_COUNTRY))
-							|| ArrayUtils.contains(getArray(FILTER_COUNTRY), mp.getCountry().toUpperCase()))
-						lists.add(mp);
+							|| ArrayUtils.contains(getArray(FILTER_COUNTRY), mp.getCountry().toUpperCase())) {
+					    lists.add(mp);
+					}
 
 				}
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error retrieving prices for {}", card, e);
 			logger.error(e);
 
@@ -194,26 +204,27 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 
 	@Override
 	public void alertDetected(final List<MTGPrice> p) {
-		if (!initied)
-			init();
+		if (!initied) {
+		    init();
+		}
 
 		ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
 			@Override
 			protected void auditedRun() {
 				if (!p.isEmpty() && getBoolean("AUTOMATIC_ADD_CARD_ALERT")) {
-					var cart = new CartServices();
+					final var cart = new CartServices();
 					try {
-						List<Article> list = new ArrayList<>();
+						final List<Article> list = new ArrayList<>();
 
-						for (MTGPrice mp : p) {
-							Article a = (Article) mp.getShopItem();
+						for (final MTGPrice mp : p) {
+							final Article a = (Article) mp.getShopItem();
 							a.setCount(1);
 							list.add(a);
 						}
-						boolean res = cart.addArticles(list);
+						final boolean res = cart.addArticles(list);
 						logger.info("add {} to card : {}", list, res);
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("Could not add {} to cart", p, e);
 					}
 				}
@@ -225,7 +236,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var map = new HashMap<String, MTGProperty>();
+		final var map = new HashMap<String, MTGProperty>();
 
 		map.put(LANGUAGE_ID, MTGProperty.newIntegerProperty("1",
 				"1 - English, 2 - French, 3 - German,4 - Spanish, 5 - Italian,6 - Simplified Chinese,7 - Japanese, 8 - Portuguese, 9 - Russian,10 - Korean,11 - Traditional Chinese",

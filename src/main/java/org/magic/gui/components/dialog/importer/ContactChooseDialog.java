@@ -37,7 +37,7 @@ public class ContactChooseDialog extends AbstractDelegatedImporterDialog<Contact
 
 		commandePanel.add(buzy);
 
-		var sw2 = new AbstractObservableWorker<List<Contact>, Contact, MTGDao>(buzy,
+		final var sw2 = new AbstractObservableWorker<List<Contact>, Contact, MTGDao>(buzy,
 				MTG.getEnabledPlugin(MTGDao.class)) {
 
 			@Override
@@ -69,8 +69,9 @@ public class ContactChooseDialog extends AbstractDelegatedImporterDialog<Contact
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				if (UITools.getTableSelections(table, 0).isEmpty())
-					return;
+				if (UITools.getTableSelections(table, 0).isEmpty()) {
+				    return;
+				}
 
 				setSelectedItem(UITools.getTableSelections(table, 0));
 

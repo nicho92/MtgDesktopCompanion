@@ -63,16 +63,18 @@ public class MTGAlert {
 
 	@Override
 	public int hashCode() {
-		if (getId() == null)
-			return -1;
+		if (getId() == null) {
+		    return -1;
+		}
 
 		return getId().hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if ((obj == null) || (this.getClass() != obj.getClass()))
-			return false;
+		if ((obj == null) || (this.getClass() != obj.getClass())) {
+		    return false;
+		}
 
 		return ((MTGAlert) obj).getId().equals(getId());
 	}

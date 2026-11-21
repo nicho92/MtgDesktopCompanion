@@ -23,9 +23,9 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 		temp.append("// MAIN\n");
-		for (MTGCard mc : deck.getMain().keySet()) {
+		for (final MTGCard mc : deck.getMain().keySet()) {
 			temp.append("    ");
 			temp.append(deck.getMain().get(mc));
 			temp.append(" ");
@@ -35,7 +35,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			notify(mc);
 		}
 		temp.append("// Sideboard\n");
-		for (MTGCard mc : deck.getSideBoard().keySet()) {
+		for (final MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append("SB: ");
 			temp.append(deck.getMain().get(mc));
 			temp.append(" ");
@@ -53,16 +53,17 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(name);
 		matches(f, true).forEach(m -> {
-			var mc = parseMatcherWithGroup(m, 4, 3, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
-			var qte = Integer.parseInt(m.group(2));
+			final var mc = parseMatcherWithGroup(m, 4, 3, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+			final var qte = Integer.parseInt(m.group(2));
 			if (mc != null) {
-				if (m.group(1) != null && m.group(1).trim().startsWith("SB"))
-					deck.getSideBoard().put(mc, qte);
-				else
-					deck.getMain().put(mc, qte);
+				if (m.group(1) != null && m.group(1).trim().startsWith("SB")) {
+				    deck.getSideBoard().put(mc, qte);
+				} else {
+				    deck.getMain().put(mc, qte);
+				}
 
 				notify(mc);
 			} else {

@@ -24,10 +24,10 @@ import org.magic.services.tools.UITools;
 public class ProductRendererComponent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel lblProductName;
-	private JLabel lblProductSet;
-	private JLabel lblProductType;
-	private JLabel lblImage;
+	private final JLabel lblProductName;
+	private final JLabel lblProductSet;
+	private final JLabel lblProductType;
+	private final JLabel lblImage;
 
 	private transient Map<MTGProduct, BufferedImage> loadedImages;
 
@@ -35,7 +35,7 @@ public class ProductRendererComponent extends JPanel {
 		loadedImages = new ConcurrentHashMap<>();
 
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		final GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{90, 267, 0};
 		gridBagLayout.rowHeights = new int[]{43, 38, 36, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
@@ -57,8 +57,9 @@ public class ProductRendererComponent extends JPanel {
 
 	public void init(MTGProduct p) {
 
-		if (p == null)
-			return;
+		if (p == null) {
+		    return;
+		}
 
 		lblProductName.setText(p.getName());
 
@@ -70,21 +71,22 @@ public class ProductRendererComponent extends JPanel {
 			lblProductSet.setIcon(null);
 		}
 
-		if (p.getCategory() != null)
-			lblProductType.setText(p.getCategory().getCategoryName() + " (" + p.getProductId() + ")");
-		else
-			lblProductType.setText("");
+		if (p.getCategory() != null) {
+		    lblProductType.setText(p.getCategory().getCategoryName() + " (" + p.getProductId() + ")");
+		} else {
+		    lblProductType.setText("");
+		}
 
-		var image = loadedImages.get(p);
+		final var image = loadedImages.get(p);
 		if (image == null) {
-			var sw = new SwingWorker<BufferedImage, Void>() {
+			final var sw = new SwingWorker<BufferedImage, Void>() {
 				@Override
 				protected BufferedImage doInBackground() throws Exception {
 					try {
-						var image = URLTools.extractAsImage(p.getUrl());
+						final var image = URLTools.extractAsImage(p.getUrl());
 						loadedImages.put(p, image);
 						return image;
-					} catch (Exception _) {
+					} catch (final Exception _) {
 
 						return null;
 					}

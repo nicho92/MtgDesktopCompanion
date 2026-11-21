@@ -50,7 +50,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	private static final String PRODUCT = "product";
 	private static final String VARIANT = "variant";
 	private static final String ORDER = "order";
-	private MTGHttpClient client = URLTools.newClient();
+	private final MTGHttpClient client = URLTools.newClient();
 
 	private String getBaseUrl() {
 		return "https://" + getAuthenticator().get(SUBDOMAIN) + MYSHOPIFY_COM_API_VERSION;
@@ -67,16 +67,17 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 	private JsonObject readId(String entityName, String id) throws IOException {
-		var resp = build(getBaseUrl() + entityName.toLowerCase() + "s/" + id + JSON, METHOD.GET).execute();
+		final var resp = build(getBaseUrl() + entityName.toLowerCase() + "s/" + id + JSON, METHOD.GET).execute();
 		return URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject().get(entityName).getAsJsonObject();
 	}
 
 	private JsonArray read(String entityName, Map<String, String> attributs) throws IOException {
-		JsonArray arr = new JsonArray();
-		var build = build(getBaseUrl() + entityName.toLowerCase() + "s.json", METHOD.GET);
+		final JsonArray arr = new JsonArray();
+		final var build = build(getBaseUrl() + entityName.toLowerCase() + "s.json", METHOD.GET);
 
-		if (attributs != null && !attributs.isEmpty())
-			attributs.entrySet().forEach(e -> build.addContent(e.getKey(), e.getValue()));
+		if (attributs != null && !attributs.isEmpty()) {
+		    attributs.entrySet().forEach(e -> build.addContent(e.getKey(), e.getValue()));
+		}
 
 		var resp = build.execute();
 
@@ -95,16 +96,16 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	private List<MTGStockItem> parseVariants(JsonObject obj) {
 
-		var ret = new ArrayList<MTGStockItem>();
+		final var ret = new ArrayList<MTGStockItem>();
 
-		for (JsonElement el : obj.get("variants").getAsJsonArray()) {
-			var it = ProductFactory.generateStockItem(parseProduct(obj));
+		for (final JsonElement el : obj.get("variants").getAsJsonArray()) {
+			final var it = ProductFactory.generateStockItem(parseProduct(obj));
 			try {
 				it.getProduct()
 						.setEdition(new MTGEdition(
 								el.getAsJsonObject().get(OPTION + getString(SET_OPTION_NUMBER)).getAsString(),
 								el.getAsJsonObject().get(OPTION + getString(SET_OPTION_NUMBER)).getAsString()));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Error getting option{} for {} : {}", getString(SET_OPTION_NUMBER), obj, e);
 			}
 			it.setId(el.getAsJsonObject().get("id").getAsLong());
@@ -119,12 +120,12 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	// TODO change product type
 	private MTGProduct parseProduct(JsonObject sp) {
-		MTGProduct p = ProductFactory.createDefaultProduct(EnumItems.SEALED);
+		final MTGProduct p = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 		p.setProductId(sp.get("id").getAsLong());
 		p.setName(sp.get(TITLE).getAsString());
 		try {
 			p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("{} has no url", p);
 		}
 		p.setTypeProduct(EnumItems.CARD);
@@ -134,7 +135,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	private Transaction parseTransaction(JsonObject obj) {
 
-		var t = new Transaction();
+		final var t = new Transaction();
 		logger.debug(obj);
 
 		t.setCurrency(obj.get("currency").getAsString());
@@ -145,20 +146,22 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		t.setSourceShopId(obj.get("id").getAsString());
 		t.setId(obj.get("id").getAsInt());
 
-		if (obj.get("note") != null && !obj.get("note").isJsonNull())
-			t.setMessage(obj.get("note").getAsString());
+		if (obj.get("note") != null && !obj.get("note").isJsonNull()) {
+		    t.setMessage(obj.get("note").getAsString());
+		}
 
-		if (obj.get("financial_status") != null)
-			t.setStatut(EnumTransactionStatus.PAID);
+		if (obj.get("financial_status") != null) {
+		    t.setStatut(EnumTransactionStatus.PAID);
+		}
 
 		obj.get("line_items").getAsJsonArray().forEach(je -> {
 
-			var item = je.getAsJsonObject();
-			var it = ProductFactory.generateStockItem(parseProduct(item));
+			final var item = je.getAsJsonObject();
+			final var it = ProductFactory.generateStockItem(parseProduct(item));
 
 			try {
 				it.setId(item.get("variant_id").getAsLong());
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.warn("No variant_id found for {}", it.getProduct());
 			}
 
@@ -173,14 +176,14 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 	private Contact parseContact(JsonObject obj) {
-		var c = new Contact();
+		final var c = new Contact();
 		c.setEmail(obj.get(EMAIL).getAsString());
 		c.setName(!obj.get(FIRST_NAME).isJsonNull() ? obj.get(FIRST_NAME).getAsString() : "");
 		c.setLastName(!obj.get(LAST_NAME).isJsonNull() ? obj.get(LAST_NAME).getAsString() : "");
 		c.setActive(obj.get("state").getAsString().equalsIgnoreCase("enabled"));
 		c.setId(obj.get("id").getAsInt());
 		if (obj.get("default_address") != null) {
-			var addrObj = obj.get("default_address").getAsJsonObject();
+			final var addrObj = obj.get("default_address").getAsJsonObject();
 			c.setAddress(addrObj.get("address1").getAsString());
 			c.setCity(addrObj.get("city").getAsString());
 			c.setZipCode(addrObj.get("zip").getAsString());
@@ -201,13 +204,13 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected List<MTGStockItem> loadStock(String name) throws IOException {
-		var ret = new ArrayList<MTGStockItem>();
+		final var ret = new ArrayList<MTGStockItem>();
 		// need to load all products because title search is strict only
-		var arr = StreamSupport.stream(read(PRODUCT, null).spliterator(), true)
+		final var arr = StreamSupport.stream(read(PRODUCT, null).spliterator(), true)
 				.filter(je -> je.getAsJsonObject().get(TITLE).getAsString().toLowerCase().contains(name.toLowerCase()))
 				.toList();
 
-		for (JsonElement a : arr) {
+		for (final JsonElement a : arr) {
 			ret.addAll(parseVariants(a.getAsJsonObject()));
 		}
 		return ret;
@@ -215,15 +218,15 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Transaction getTransactionById(String id) throws IOException {
-		var obj = readId(ORDER, id);
+		final var obj = readId(ORDER, id);
 		return parseTransaction(obj);
 	}
 
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
-		var arr = read(ORDER, null);
-		var ret = new ArrayList<Transaction>();
-		for (JsonElement je : arr) {
+		final var arr = read(ORDER, null);
+		final var ret = new ArrayList<Transaction>();
+		for (final JsonElement je : arr) {
 			ret.add(parseTransaction(je.getAsJsonObject()));
 		}
 		return ret;
@@ -231,9 +234,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		var arr = read(CUSTOMER, null);
-		var ret = new ArrayList<Contact>();
-		for (JsonElement je : arr) {
+		final var arr = read(CUSTOMER, null);
+		final var ret = new ArrayList<Contact>();
+		for (final JsonElement je : arr) {
 			ret.add(parseContact(je.getAsJsonObject()));
 		}
 		return ret;
@@ -243,7 +246,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	@Override
 	public List<Category> listCategories() throws IOException {
 		return StreamSupport.stream(read(PRODUCT, Maps.of("fields", "product_type")).spliterator(), true).map(je -> {
-			var s = je.getAsJsonObject().get("product_type").getAsString();
+			final var s = je.getAsJsonObject().get("product_type").getAsString();
 			return new Category(s.hashCode(), s);
 		}).distinct().toList();
 
@@ -252,9 +255,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
 
-		var obj = readId(VARIANT, id);
+		final var obj = readId(VARIANT, id);
 
-		var it = ProductFactory.generateStockItem(parseProduct(readId(PRODUCT, obj.get("product_id").getAsString())));
+		final var it = ProductFactory.generateStockItem(parseProduct(readId(PRODUCT, obj.get("product_id").getAsString())));
 		it.setId(obj.get("id").getAsLong());
 		it.setPrice(obj.get(PRICE).getAsDouble());
 		it.setQte(obj.get(INVENTORY_QUANTITY).getAsInt());
@@ -265,10 +268,10 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		var arr = read(CUSTOMER, Maps.of(EMAIL, email));
+		final var arr = read(CUSTOMER, Maps.of(EMAIL, email));
 		try {
 			return parseContact(arr.getAsJsonArray().get(0).getAsJsonObject());
-		} catch (IndexOutOfBoundsException _) {
+		} catch (final IndexOutOfBoundsException _) {
 			return null;
 		}
 
@@ -276,16 +279,16 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
-		var obj = new JsonObject();
-		var prodobj = new JsonObject();
+		final var obj = new JsonObject();
+		final var prodobj = new JsonObject();
 		obj.add(CUSTOMER, prodobj);
 		prodobj.addProperty(FIRST_NAME, c.getName());
 		prodobj.addProperty(LAST_NAME, c.getLastName());
 		prodobj.addProperty(EMAIL, c.getEmail());
 		prodobj.addProperty("phone", c.getTelephone());
 		prodobj.addProperty("verified_email", false);
-		var addresses = new JsonArray();
-		var imageObj = new JsonObject();
+		final var addresses = new JsonArray();
+		final var imageObj = new JsonObject();
 		imageObj.addProperty("address1", c.getAddress());
 		imageObj.addProperty("city", c.getCity());
 		imageObj.addProperty("country", c.getCountry());
@@ -294,24 +297,24 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		prodobj.add("addresses", addresses);
 
 		if (c.getId() < 0) {
-			var res = client.doPost(getBaseUrl() + "customers.json", obj, headers());
+			final var res = client.doPost(getBaseUrl() + "customers.json", obj, headers());
 
 			try {
 				c.setId(res.getAsJsonObject().get(CUSTOMER).getAsJsonObject().get("id").getAsInt());
 				return c.getId();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 				return null;
 			}
 		} else {
-			var res = client.doPut(getBaseUrl() + "customers/" + c.getId() + JSON, new StringEntity(obj.toString()),
+			final var res = client.doPut(getBaseUrl() + "customers/" + c.getId() + JSON, new StringEntity(obj.toString()),
 					headers());
 
 			try {
-				var content = URLTools.toJson(res.getEntity().getContent());
+				final var content = URLTools.toJson(res.getEntity().getContent());
 				logger.info("return {}", content);
 				return c.getId();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 				return null;
 			}
@@ -322,10 +325,10 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	protected void saveOrUpdateStock(List<MTGStockItem> it) throws IOException {
 		HttpResponse res = null;
 
-		for (MTGStockItem c : it) {
+		for (final MTGStockItem c : it) {
 
-			var obj = new JsonObject();
-			var objVariant = new JsonObject();
+			final var obj = new JsonObject();
+			final var objVariant = new JsonObject();
 			obj.add(VARIANT, objVariant);
 
 			objVariant.addProperty(PRICE, c.getValue().doubleValue());
@@ -333,19 +336,19 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 			try {
 				objVariant.addProperty(OPTION + getString(SET_OPTION_NUMBER), c.getProduct().getEdition().getSet());
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("no set found for {}", c);
 			}
 			objVariant.addProperty(INVENTORY_QUANTITY, c.getQte());
 
 			if (c.getId() < 0) {
-				var ret = client.doPost(getBaseUrl() + "products/" + c.getProduct().getProductId() + "/variants.json",
+				final var ret = client.doPost(getBaseUrl() + "products/" + c.getProduct().getProductId() + "/variants.json",
 						obj, headers());
 
 				try {
 					logger.info("ret={}", ret);
 					c.setId(ret.getAsJsonObject().get(VARIANT).getAsJsonObject().get("id").getAsInt());
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 			} else {
@@ -353,9 +356,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 						headers());
 
 				try {
-					var content = URLTools.toJson(res.getEntity().getContent());
+					final var content = URLTools.toJson(res.getEntity().getContent());
 					logger.info("ret={}", content);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 			}
@@ -408,7 +411,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put(FOIL_OPTION_NUMBER, MTGProperty.newStringProperty("1", "Foil category number"));
 		m.put(SET_OPTION_NUMBER, MTGProperty.newStringProperty("2", "set category number"));
 		m.put("DEFAULT_VENDOR", MTGProperty.newStringProperty("MTGCompanion", "default vendor name"));

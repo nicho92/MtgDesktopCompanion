@@ -29,14 +29,15 @@ public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 
 	@Override
 	public <U> Object getValueFor(U object) {
-		if (object == null)
-			return null;
+		if (object == null) {
+		    return null;
+		}
 
-		if (registry.get(object.getClass()) != null)
-			return registry.get(object.getClass()).marshal(object);
-
-		else
-			return object;
+		if (registry.get(object.getClass()) != null) {
+		    return registry.get(object.getClass()).marshal(object);
+		} else {
+		    return object;
+		}
 
 	}
 

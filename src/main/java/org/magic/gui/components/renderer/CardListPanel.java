@@ -34,7 +34,7 @@ public class CardListPanel extends JPanel {
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 137, 129, 0};
 		gridBagLayout.rowHeights = new int[]{12, 12, 12, 12, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -61,15 +61,17 @@ public class CardListPanel extends JPanel {
 
 	public void setMagicCard(MTGCard mc) {
 
-		if (mc == null)
-			return;
+		if (mc == null) {
+		    return;
+		}
 
 		lblName.setText(mc.getName());
 		lblType.setText(mc.getFullType());
 		lblEdition.setText(mc.getEdition().toString());
 		lblEdition.setIcon(IconsProvider.getInstance().get24(mc.getEdition().getId()));
-		if (mc.getRarity() != null)
-			lblRarity.setText(mc.getRarity().toPrettyString());
+		if (mc.getRarity() != null) {
+		    lblRarity.setText(mc.getRarity().toPrettyString());
+		}
 
 		manaPanel.setManaCost(mc.getCost());
 	}

@@ -44,7 +44,7 @@ public class MeldActions extends AbstractCardAction {
 		DisplayableCard card2;
 		try {
 			card2 = GamePanelGUI.getInstance().getPanelBattleField().lookupCardBy("name", meldWith).get(0);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			MTG.notifyError("Could not meld the card, " + meldWith + " is not on the battlefield");
 			return;
 		}
@@ -64,12 +64,12 @@ public class MeldActions extends AbstractCardAction {
 		try {
 			mc = card.getMagicCard().getRotatedCard();
 
-			var d = new Dimension((int) (MTGControler.getInstance().getCardsGameDimension().getWidth() * 1.5),
+			final var d = new Dimension((int) (MTGControler.getInstance().getCardsGameDimension().getWidth() * 1.5),
 					(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 1.5));
-			var c = new DisplayableCard(mc, d, true);
+			final var c = new DisplayableCard(mc, d, true);
 			c.initActions();
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(c);
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
 			logger.error(e1);
 		}
 

@@ -33,6 +33,7 @@ public class MTGCollection implements MTGSerializable, MTGIconable {
 		return getName();
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -56,8 +57,9 @@ public class MTGCollection implements MTGSerializable, MTGIconable {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (!(obj instanceof MTGCollection))
-			return false;
+		if (!(obj instanceof MTGCollection)) {
+		    return false;
+		}
 
 		return ((MTGCollection) obj).getName().equalsIgnoreCase(getName());
 	}

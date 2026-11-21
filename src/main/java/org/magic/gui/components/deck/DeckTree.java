@@ -21,14 +21,14 @@ import org.magic.gui.renderer.DeckTreeCellRenderer;
 public class DeckTree extends JTree {
 
 	private static final long serialVersionUID = 1L;
-	private DefaultTreeModel model;
-	private DefaultMutableTreeNode root;
-	private DefaultMutableTreeNode creatureNode = new DefaultMutableTreeNode("Creatures");
-	private DefaultMutableTreeNode artifactsNode = new DefaultMutableTreeNode("Artifacts");
-	private DefaultMutableTreeNode planeswalkerNode = new DefaultMutableTreeNode("Planeswalkers");
-	private DefaultMutableTreeNode landsNode = new DefaultMutableTreeNode("Lands");
-	private DefaultMutableTreeNode spellsNode = new DefaultMutableTreeNode("Spells");
-	private DefaultMutableTreeNode sideNode = new DefaultMutableTreeNode("Sideboard");
+	private final DefaultTreeModel model;
+	private final DefaultMutableTreeNode root;
+	private final DefaultMutableTreeNode creatureNode = new DefaultMutableTreeNode("Creatures");
+	private final DefaultMutableTreeNode artifactsNode = new DefaultMutableTreeNode("Artifacts");
+	private final DefaultMutableTreeNode planeswalkerNode = new DefaultMutableTreeNode("Planeswalkers");
+	private final DefaultMutableTreeNode landsNode = new DefaultMutableTreeNode("Lands");
+	private final DefaultMutableTreeNode spellsNode = new DefaultMutableTreeNode("Spells");
+	private final DefaultMutableTreeNode sideNode = new DefaultMutableTreeNode("Sideboard");
 	private MTGDeck selectedDeck;
 
 	public void setDeck(MTGDeck deck) {
@@ -52,11 +52,11 @@ public class DeckTree extends JTree {
 	}
 
 	private void expandAll(TreePath parent) {
-		TreeNode node = (TreeNode) parent.getLastPathComponent();
+		final TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {
-			for (Enumeration<? extends TreeNode> e = node.children(); e.hasMoreElements();) {
-				var n = e.nextElement();
-				var path = parent.pathByAddingChild(n);
+			for (final Enumeration<? extends TreeNode> e = node.children(); e.hasMoreElements();) {
+				final var n = e.nextElement();
+				final var path = parent.pathByAddingChild(n);
 				expandAll(path);
 			}
 		}
@@ -73,21 +73,23 @@ public class DeckTree extends JTree {
 		sideNode.removeAllChildren();
 
 		if (selectedDeck != null) {
-			for (var mc : selectedDeck.getMain().entrySet()) {
-				if (mc.getKey().isCreature() && !mc.getKey().isArtifact())
-					creatureNode.add(new DefaultMutableTreeNode(mc));
-				else if (mc.getKey().isArtifact())
-					artifactsNode.add(new DefaultMutableTreeNode(mc));
-				else if (mc.getKey().isLand())
-					landsNode.add(new DefaultMutableTreeNode(mc));
-				else if (mc.getKey().isPlaneswalker())
-					planeswalkerNode.add(new DefaultMutableTreeNode(mc));
-				else
-					spellsNode.add(new DefaultMutableTreeNode(mc));
+			for (final var mc : selectedDeck.getMain().entrySet()) {
+				if (mc.getKey().isCreature() && !mc.getKey().isArtifact()) {
+				    creatureNode.add(new DefaultMutableTreeNode(mc));
+				} else if (mc.getKey().isArtifact()) {
+				    artifactsNode.add(new DefaultMutableTreeNode(mc));
+				} else if (mc.getKey().isLand()) {
+				    landsNode.add(new DefaultMutableTreeNode(mc));
+				} else if (mc.getKey().isPlaneswalker()) {
+				    planeswalkerNode.add(new DefaultMutableTreeNode(mc));
+				} else {
+				    spellsNode.add(new DefaultMutableTreeNode(mc));
+				}
 			}
 
-			for (var mc : selectedDeck.getSideBoard().entrySet())
-				sideNode.add(new DefaultMutableTreeNode(mc));
+			for (final var mc : selectedDeck.getSideBoard().entrySet()) {
+			    sideNode.add(new DefaultMutableTreeNode(mc));
+			}
 
 			model.reload();
 
@@ -99,12 +101,12 @@ public class DeckTree extends JTree {
 		final var popUp = new JPopupMenu();
 		addTreeSelectionListener(tsl -> {
 
-			var p = ((DefaultMutableTreeNode) tsl.getPath().getLastPathComponent()).getUserObject();
+			final var p = ((DefaultMutableTreeNode) tsl.getPath().getLastPathComponent()).getUserObject();
 
-			if (p instanceof Map.Entry e) {
-				var mc = (MTGCard) e.getKey();
+			if (p instanceof final Map.Entry e) {
+				final var mc = (MTGCard) e.getKey();
 
-				var pane = new MagicCardMainDetailPanel();
+				final var pane = new MagicCardMainDetailPanel();
 				pane.enableThumbnail(true);
 				pane.init(mc);
 

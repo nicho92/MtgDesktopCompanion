@@ -20,8 +20,8 @@ public class PlayerRenderer extends JPanel implements TableCellRenderer, ListCel
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private PlayerPanel pComponent;
-	private JPanel separator;
+	private final PlayerPanel pComponent;
+	private final JPanel separator;
 
 	public PlayerRenderer() {
 
@@ -40,7 +40,7 @@ public class PlayerRenderer extends JPanel implements TableCellRenderer, ListCel
 
 		pComponent.setPlayer(value);
 
-		var color = value.getState().getColor();
+		final var color = value.getState().getColor();
 		pComponent.setBorder(new LineBorder(color));
 		separator.setBackground(color);
 
@@ -51,9 +51,10 @@ public class PlayerRenderer extends JPanel implements TableCellRenderer, ListCel
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
-		if (value == null)
-			return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-					column);
+		if (value == null) {
+		    return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
+		    		column);
+		}
 
 		pComponent.setPlayer((Player) value);
 

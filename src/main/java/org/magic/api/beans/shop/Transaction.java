@@ -213,11 +213,13 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 
 	@Override
 	public int compareTo(Transaction o) {
-		if (o.getId() > getId())
-			return 1;
+		if (o.getId() > getId()) {
+		    return 1;
+		}
 
-		if (o.getId() < getId())
-			return -1;
+		if (o.getId() < getId()) {
+		    return -1;
+		}
 
 		return 0;
 	}

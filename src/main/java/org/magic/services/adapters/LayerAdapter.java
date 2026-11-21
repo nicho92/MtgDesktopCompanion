@@ -20,7 +20,7 @@ public class LayerAdapter implements JsonDeserializer<Layer> {
 
 	@Override
 	public Layer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-		
+
 			switch(json.getAsJsonObject().get("layerType").getAsString())
 			{
 				case "BorderLayer" : return context.deserialize(json, BorderLayer.class);

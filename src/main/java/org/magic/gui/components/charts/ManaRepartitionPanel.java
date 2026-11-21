@@ -27,10 +27,11 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MTGCard, EnumColors
 
 	@Override
 	protected void initPlot() {
-		var source = new StandardColorSource<EnumColors>();
+		final var source = new StandardColorSource<EnumColors>();
 
-		for (EnumColors c : EnumColors.values())
-			source.setColor(c, c.toColor());
+		for (final EnumColors c : EnumColors.values()) {
+		    source.setColor(c, c.toColor());
+		}
 
 		plot.setSectionColorSource(source);
 
@@ -38,8 +39,8 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MTGCard, EnumColors
 
 	@Override
 	public PieDataset3D<EnumColors> getDataSet() {
-		var dataset = new StandardPieDataset3D<EnumColors>();
-		for (Entry<EnumColors, Integer> data : manager.analyseColors(items).entrySet()) {
+		final var dataset = new StandardPieDataset3D<EnumColors>();
+		for (final Entry<EnumColors, Integer> data : manager.analyseColors(items).entrySet()) {
 			dataset.add(data.getKey(), data.getValue());
 		}
 		return dataset;

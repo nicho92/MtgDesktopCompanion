@@ -29,18 +29,18 @@ public class ParkagePricer extends AbstractPricesProvider {
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		ArrayList<MTGPrice> ret = new ArrayList<>();
+		final ArrayList<MTGPrice> ret = new ArrayList<>();
 
-		var url = "https://back.parkage.com/api/parkage/search/get?text=" + URLTools.encode(card.getName())
+		final var url = "https://back.parkage.com/api/parkage/search/get?text=" + URLTools.encode(card.getName())
 				+ "&category_id=1&nomenclature_id=2&complete=true&count=true&limit=20&offset=0&preorder=&isnew=&lang=&with_quantity=false&isDiscount=false&order=relevance&direction=DESC";
 
 		URLTools.extractAsJson(url).getAsJsonObject().get("data").getAsJsonObject().get("list").getAsJsonArray()
 				.forEach(je -> {
-					var jo = je.getAsJsonObject();
+					final var jo = je.getAsJsonObject();
 
 					if (jo.get("card_number").getAsString().equalsIgnoreCase(card.getNumber())) {
 
-						var mp = new MTGPrice();
+						final var mp = new MTGPrice();
 						mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 						mp.setCardData(card);
 						mp.setCurrency("EUR");
@@ -54,8 +54,9 @@ public class ParkagePricer extends AbstractPricesProvider {
 						mp.setUrl(URL_BASE + "/en/" + jo.get("id").getAsInt() + "-");
 						mp.setSeller(getName());
 
-						if (mp.getQty() > 0)
-							ret.add(mp);
+						if (mp.getQty() > 0) {
+						    ret.add(mp);
+						}
 					}
 				});
 

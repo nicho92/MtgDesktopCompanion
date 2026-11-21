@@ -14,7 +14,7 @@ import org.magic.services.tools.UITools;
 public class ComboBoxEditor<T> extends DefaultCellEditor {
 
 	private static final long serialVersionUID = 1L;
-	private DefaultComboBoxModel<T> model;
+	private final DefaultComboBoxModel<T> model;
 	private transient List<T> values;
 
 	@SuppressWarnings("unchecked")
@@ -35,8 +35,9 @@ public class ComboBoxEditor<T> extends DefaultCellEditor {
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 		model.removeAllElements();
 
-		for (T e : values)
-			model.addElement(e);
+		for (final T e : values) {
+		    model.addElement(e);
+		}
 
 		return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
 	}

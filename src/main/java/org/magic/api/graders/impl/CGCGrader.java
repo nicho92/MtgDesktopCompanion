@@ -12,8 +12,8 @@ public class CGCGrader extends AbstractGradersProvider {
 
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
-		Document d = URLTools.extractAsHtml(getWebSite() + "/certlookup/" + identifier + "/");
-		var g = new MTGGrading();
+		final Document d = URLTools.extractAsHtml(getWebSite() + "/certlookup/" + identifier + "/");
+		final var g = new MTGGrading();
 		g.setNumberID(identifier);
 		g.setGraderName(getName());
 		g.setGradeNote(UITools.parseDouble(d.select("div.related-info:contains(Grade) dd").text()));

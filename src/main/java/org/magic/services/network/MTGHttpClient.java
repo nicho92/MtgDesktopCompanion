@@ -44,12 +44,12 @@ import com.google.gson.JsonElement;
 
 public class MTGHttpClient {
 
-	private CloseableHttpClient httpclient;
-	private HttpClientContext httpContext;
-	private BasicCookieStore cookieStore;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final CloseableHttpClient httpclient;
+	private final HttpClientContext httpContext;
+	private final BasicCookieStore cookieStore;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
-	private HttpClientConnectionManager connectionManager;
+	private final HttpClientConnectionManager connectionManager;
 
 	public HttpClient getHttpclient() {
 		return httpclient;
@@ -82,20 +82,20 @@ public class MTGHttpClient {
 	}
 
 	public String toString(HttpResponse response) throws IOException {
-		var ret = EntityUtils.toString(response.getEntity());
+		final var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
 		return ret;
 	}
 
 	private HttpResponse execute(HttpRequestBase req) throws IOException {
-		var info = new NetworkInfo();
+		final var info = new NetworkInfo();
 		info.setRequest(req);
 		info.setStart(Instant.now());
 		try {
 			logger.debug("execute {}", req);
 			response = httpclient.execute(req, httpContext);
 			info.setReponse(response);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("uri={}", req.getURI(), e);
 			info.setReponse(DefaultHttpResponseFactory.INSTANCE.newHttpResponse(new StatusLine() {
 
@@ -122,14 +122,17 @@ public class MTGHttpClient {
 
 	public HttpResponse execute(RequestBuilder builder) throws IOException {
 
-		if (builder.getMethod() == METHOD.GET)
-			return doGet(builder.getUrl(), builder.getHeaders(), builder.getContent());
+		if (builder.getMethod() == METHOD.GET) {
+		    return doGet(builder.getUrl(), builder.getHeaders(), builder.getContent());
+		}
 
-		if (builder.getMethod() == METHOD.POST)
-			return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
+		if (builder.getMethod() == METHOD.POST) {
+		    return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
+		}
 
-		if (builder.getMethod() == METHOD.PUT)
-			return doPut(builder.getUrl(), builder.getContent(), builder.getHeaders());
+		if (builder.getMethod() == METHOD.PUT) {
+		    return doPut(builder.getUrl(), builder.getContent(), builder.getHeaders());
+		}
 
 		throw new IOException("choose a method with METHOD.POST/GET/PUT");
 
@@ -143,16 +146,18 @@ public class MTGHttpClient {
 	}
 
 	public HttpResponse doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
-		var putReq = new HttpPut(string);
+		final var putReq = new HttpPut(string);
 		try {
-			if (entities != null)
-				putReq.setEntity(entities);
+			if (entities != null) {
+			    putReq.setEntity(entities);
+			}
 
-			if (headers != null)
-				headers.entrySet().forEach(e -> putReq.addHeader(e.getKey(), e.getValue()));
+			if (headers != null) {
+			    headers.entrySet().forEach(e -> putReq.addHeader(e.getKey(), e.getValue()));
+			}
 
 			return execute(putReq);
-		} catch (UnsupportedEncodingException e1) {
+		} catch (final UnsupportedEncodingException e1) {
 			throw new IOException(e1);
 		}
 	}
@@ -165,22 +170,24 @@ public class MTGHttpClient {
 	}
 
 	public JsonElement doPost(String url, JsonElement obj, Map<String, String> headers) throws IOException {
-		var resp = doPost(url, new StringEntity(obj.toString()), headers);
+		final var resp = doPost(url, new StringEntity(obj.toString()), headers);
 		return URLTools.toJson(resp.getEntity().getContent());
 	}
 
 	public HttpResponse doPost(String url, HttpEntity entities, Map<String, String> headers) throws IOException {
-		var postReq = new HttpPost(url);
+		final var postReq = new HttpPost(url);
 		try {
-			if (entities != null)
-				postReq.setEntity(entities);
+			if (entities != null) {
+			    postReq.setEntity(entities);
+			}
 
-			if (headers != null)
-				headers.entrySet().forEach(e -> postReq.addHeader(e.getKey(), e.getValue()));
+			if (headers != null) {
+			    headers.entrySet().forEach(e -> postReq.addHeader(e.getKey(), e.getValue()));
+			}
 
 			return execute(postReq);
 
-		} catch (UnsupportedEncodingException e1) {
+		} catch (final UnsupportedEncodingException e1) {
 			throw new IOException(e1);
 		}
 
@@ -192,17 +199,18 @@ public class MTGHttpClient {
 
 		if (entities != null && !entities.isEmpty()) {
 			try {
-				var builder = new URIBuilder(url);
+				final var builder = new URIBuilder(url);
 				entities.entrySet().forEach(e -> builder.addParameter(e.getKey(), e.getValue()));
 				getReq = new HttpGet(builder.build());
-			} catch (URISyntaxException e1) {
+			} catch (final URISyntaxException e1) {
 				throw new IOException(e1);
 			}
 		}
 
 		if (headers != null && !headers.isEmpty()) {
-			for (Entry<String, String> e : headers.entrySet())
-				getReq.addHeader(e.getKey(), e.getValue());
+			for (final Entry<String, String> e : headers.entrySet()) {
+			    getReq.addHeader(e.getKey(), e.getValue());
+			}
 
 		}
 
@@ -216,7 +224,7 @@ public class MTGHttpClient {
 
 	public String getCookieValue(String cookieName) {
 		String value = null;
-		for (var cookie : cookieStore.getCookies()) {
+		for (final var cookie : cookieStore.getCookies()) {
 			if (cookie.getName().equals(cookieName)) {
 				value = cookie.getValue();
 				break;

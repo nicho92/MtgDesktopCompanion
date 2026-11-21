@@ -28,22 +28,22 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private MTGAnnounce announce;
-	private JComboBox<Currency> cboCurrency;
-	private RSyntaxTextArea descriptionJTextArea;
-	private JXDateTimePicker endDateFld;
-	private JXDateTimePicker startDateFld;
-	private JTextField titleJTextField;
-	private JTextField totalPriceJTextField;
-	private JComboBox<EnumTransactionDirection> cboType;
-	private JComboBox<EnumItems> cboCategories;
-	private JComboBox<STATUS> cboStatus;
-	private JButton btnContact;
-	private JSpinner sldReduction;
-	private JComboBox<EnumCondition> cboConditions;
+	private final JComboBox<Currency> cboCurrency;
+	private final RSyntaxTextArea descriptionJTextArea;
+	private final JXDateTimePicker endDateFld;
+	private final JXDateTimePicker startDateFld;
+	private final JTextField titleJTextField;
+	private final JTextField totalPriceJTextField;
+	private final JComboBox<EnumTransactionDirection> cboType;
+	private final JComboBox<EnumItems> cboCategories;
+	private final JComboBox<STATUS> cboStatus;
+	private final JButton btnContact;
+	private final JSpinner sldReduction;
+	private final JComboBox<EnumCondition> cboConditions;
 
 	public AnnounceDetailPanel() {
 
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		final GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 104, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0E-4};
@@ -105,7 +105,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		add(cboStatus, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 11));
 
 		btnContact.addActionListener(_ -> {
-			ContactChooseDialog diag = new ContactChooseDialog();
+			final ContactChooseDialog diag = new ContactChooseDialog();
 			diag.setVisible(true);
 
 			if (diag.hasSelected()) {

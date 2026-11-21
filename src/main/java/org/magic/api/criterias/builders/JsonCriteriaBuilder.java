@@ -17,9 +17,9 @@ public class JsonCriteriaBuilder extends AbstractQueryBuilder<Filter> {
 	@Override
 	public Filter build(MTGCrit<?>... crits) {
 
-		List<Predicate> l = new ArrayList<>();
+		final List<Predicate> l = new ArrayList<>();
 
-		for (var c : crits) {
+		for (final var c : crits) {
 
 			switch (c.getOperator()) {
 				case EQ :

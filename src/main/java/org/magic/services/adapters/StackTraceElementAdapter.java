@@ -26,10 +26,11 @@ public class StackTraceElementAdapter
 	public StackTraceElement deserialize(JsonElement je, Type arg1, JsonDeserializationContext ctx)
 			throws JsonParseException {
 
-		var obj = je.getAsJsonObject();
+		final var obj = je.getAsJsonObject();
 		var fName = "";
-		if (obj.get(FILE_NAME) != null)
-			fName = obj.get(FILE_NAME).getAsString();
+		if (obj.get(FILE_NAME) != null) {
+		    fName = obj.get(FILE_NAME).getAsString();
+		}
 
 		return new StackTraceElement(obj.get(CLASS_NAME).getAsString(), obj.get(METHOD_NAME).getAsString(), fName,
 				obj.get(LINE_NUMBER).getAsInt());
@@ -38,7 +39,7 @@ public class StackTraceElementAdapter
 
 	@Override
 	public JsonElement serialize(StackTraceElement je, Type arg1, JsonSerializationContext ctx) {
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 		obj.addProperty(CLASS_NAME, je.getClassName());
 		obj.addProperty(METHOD_NAME, je.getMethodName());
 		obj.addProperty(LINE_NUMBER, je.getLineNumber());

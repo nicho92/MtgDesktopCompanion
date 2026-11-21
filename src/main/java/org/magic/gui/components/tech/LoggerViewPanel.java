@@ -27,18 +27,18 @@ import org.magic.services.tools.UITools;
 public class LoggerViewPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JXTable table;
-	private LogTableModel model;
-	private Timer t;
-	private JCheckBox chckbxAutorefresh;
-	private JButton btnRefresh;
-	private JComboBox<Level> cboChooseLevel;
+	private final JXTable table;
+	private final LogTableModel model;
+	private final Timer t;
+	private final JCheckBox chckbxAutorefresh;
+	private final JButton btnRefresh;
+	private final JComboBox<Level> cboChooseLevel;
 	private transient TableRowSorter<TableModel> datesorter;
 
 	public LoggerViewPanel() {
 		model = new LogTableModel();
 		cboChooseLevel = UITools.createCombobox(new Level[]{null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE});
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		table = UITools.createNewTable(model, false);
 
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
@@ -75,7 +75,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 		cboChooseLevel.addActionListener(_ -> {
 
 			if (cboChooseLevel.getSelectedItem() != null) {
-				TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
+				final TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
 				sorter.setRowFilter(RowFilter.regexFilter(cboChooseLevel.getSelectedItem().toString()));
 				table.setRowSorter(sorter);
 			} else {
@@ -97,7 +97,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 
 	public <T> void setClassFilter(Class<T> c) {
 		logger.debug("Filtering logs for {}", c.getName());
-		TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
+		final TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
 		sorter.setRowFilter(RowFilter.regexFilter(c.getName()));
 		table.setRowSorter(sorter);
 	}

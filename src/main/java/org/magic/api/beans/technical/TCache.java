@@ -25,8 +25,9 @@ public class TCache<T> {
 		this.name = name;
 		var builder = CacheBuilder.newBuilder();
 
-		if (timeoutMinute > -1)
-			builder = builder.expireAfterAccess(Duration.ofMinutes(timeoutMinute));
+		if (timeoutMinute > -1) {
+		    builder = builder.expireAfterAccess(Duration.ofMinutes(timeoutMinute));
+		}
 
 		loader = builder.build();
 	}
@@ -72,7 +73,7 @@ public class TCache<T> {
 	public ObjectName getObjectName() {
 		try {
 			return new ObjectName("org.magic.api:type=cache,name=" + name);
-		} catch (MalformedObjectNameException _) {
+		} catch (final MalformedObjectNameException _) {
 			return null;
 		}
 	}

@@ -12,12 +12,12 @@ public class CCCGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		var onlinepage = "https://cccgrading.com/en/ccc-card-verification";
-		var d = RequestBuilder.build().url(getWebSite() + "/api/v2/certs/" + identifier).get().newClient()
+		final var onlinepage = "https://cccgrading.com/en/ccc-card-verification";
+		final var d = RequestBuilder.build().url(getWebSite() + "/api/v2/certs/" + identifier).get().newClient()
 				.addHeader("Referer", onlinepage).addHeader("Sd-Locale", "en").addHeader("Host", "cccgrading.com")
 				.addHeader("Accept", "application/json, text/plain, */*").toJson().getAsJsonObject();
 
-		var g = new MTGGrading();
+		final var g = new MTGGrading();
 		g.setNumberID(identifier);
 		g.setGraderName(getName());
 
@@ -29,20 +29,21 @@ public class CCCGrader extends AbstractGradersProvider {
 
 		g.setUrlInfo(onlinepage + "?card-input=" + identifier);
 
-		if (g.getGradeNote() >= 9)
-			g.setGrade(EnumCondition.MINT);
-		else if (g.getGradeNote() >= 8.5)
-			g.setGrade(EnumCondition.NEAR_MINT);
-		else if (g.getGradeNote() >= 7)
-			g.setGrade(EnumCondition.EXCELLENT);
-		else if (g.getGradeNote() >= 5)
-			g.setGrade(EnumCondition.GOOD);
-		else if (g.getGradeNote() >= 3)
-			g.setGrade(EnumCondition.LIGHTLY_PLAYED);
-		else if (g.getGradeNote() >= 2)
-			g.setGrade(EnumCondition.PLAYED);
-		else if (g.getGradeNote() >= 0)
-			g.setGrade(EnumCondition.POOR);
+		if (g.getGradeNote() >= 9) {
+		    g.setGrade(EnumCondition.MINT);
+		} else if (g.getGradeNote() >= 8.5) {
+		    g.setGrade(EnumCondition.NEAR_MINT);
+		} else if (g.getGradeNote() >= 7) {
+		    g.setGrade(EnumCondition.EXCELLENT);
+		} else if (g.getGradeNote() >= 5) {
+		    g.setGrade(EnumCondition.GOOD);
+		} else if (g.getGradeNote() >= 3) {
+		    g.setGrade(EnumCondition.LIGHTLY_PLAYED);
+		} else if (g.getGradeNote() >= 2) {
+		    g.setGrade(EnumCondition.PLAYED);
+		} else if (g.getGradeNote() >= 0) {
+		    g.setGrade(EnumCondition.POOR);
+		}
 
 		return g;
 	}

@@ -14,8 +14,9 @@ public class PlayerTableModel extends GenericTableModel<Player> {
 
 	@Override
 	public Class<?> getColumnClass(int c) {
-		if (c == 0)
-			return Player.class;
+		if (c == 0) {
+		    return Player.class;
+		}
 
 		return super.getColumnClass(c);
 

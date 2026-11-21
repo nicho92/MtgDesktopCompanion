@@ -57,11 +57,11 @@ import org.magic.services.PluginRegistry;
 public class ConfigurationPanelGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JTabbedPane subTabbedProviders;
-	private JLabel lblCopyright;
-	private JLabel btnHelp;
-	private JPanel bottomPanel;
-	private HelpCompononent helpComponent;
+	private final JTabbedPane subTabbedProviders;
+	private final JLabel lblCopyright;
+	private final JLabel btnHelp;
+	private final JPanel bottomPanel;
+	private final HelpCompononent helpComponent;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -77,10 +77,10 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 
 		setLayout(new BorderLayout(0, 0));
 
-		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		final var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 
-		var providerConfigPanel = new JPanel();
+		final var providerConfigPanel = new JPanel();
 		tabbedPane.addTab(capitalize("PROVIDERS"), MTGConstants.ICON_TAB_PLUGIN, providerConfigPanel, null);
 		providerConfigPanel.setLayout(new BorderLayout(0, 0));
 
@@ -167,10 +167,11 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 	@SuppressWarnings("unchecked")
 	private <T extends MTGPlugin> void createTab(String label, Icon ic, PluginEntry<T> pe) {
 
-		if (pe.getPlugins().isEmpty())
-			PluginRegistry.inst().listPlugins(pe.getParametrizedClass());
+		if (pe.getPlugins().isEmpty()) {
+		    PluginRegistry.inst().listPlugins(pe.getParametrizedClass());
+		}
 
-		var table = new JXTreeTable(new PluginTreeTableModel<>(pe.isMultiprovider(), pe.getPlugins()));
+		final var table = new JXTreeTable(new PluginTreeTableModel<>(pe.isMultiprovider(), pe.getPlugins()));
 		table.setShowGrid(true, false);
 		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
 		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
@@ -179,15 +180,17 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 
 		table.addTreeSelectionListener(e -> {
 
-			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
-				((PluginTreeTableModel<?>) table.getTreeTableModel())
-						.setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
+			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1) {
+			    ((PluginTreeTableModel<?>) table.getTreeTableModel())
+			    		.setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
+			}
 
 			if (e.getNewLeadSelectionPath() != null) {
 				lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition());
 
-				if (e.getNewLeadSelectionPath().getLastPathComponent() instanceof MTGPlugin)
-					helpComponent.init(((T) e.getNewLeadSelectionPath().getPathComponent(1)));
+				if (e.getNewLeadSelectionPath().getLastPathComponent() instanceof MTGPlugin) {
+				    helpComponent.init(((T) e.getNewLeadSelectionPath().getPathComponent(1)));
+				}
 			}
 		});
 		table.packAll();

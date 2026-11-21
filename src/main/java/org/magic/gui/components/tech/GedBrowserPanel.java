@@ -41,7 +41,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		model = new GedEntryTableModel();
 		cboGed = UITools.createComboboxPlugins(MTGGedStorage.class, true);
-		var panneauHaut = new JPanel();
+		final var panneauHaut = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		cboGed.setSelectedItem(MTG.getEnabledPlugin(MTGGedStorage.class));
 		cboGed.addItemListener(_ -> reload());
@@ -50,7 +50,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 		table = UITools.createNewTable(model, true);
 
 		table.setDefaultRenderer(Long.class, (JTable _, Object value, boolean _, boolean _, int _, int _) -> {
-			var lab = new DefaultTableCellRenderer();
+			final var lab = new DefaultTableCellRenderer();
 			lab.setText(UITools.humanReadableSize((Long) value));
 			return lab;
 		});
@@ -65,14 +65,14 @@ public class GedBrowserPanel extends MTGUIComponent {
 				.addListSelectionListener(_ -> btnDelete.setEnabled(UITools.getTableSelection(table, 0) != null));
 
 		btnDelete.addActionListener(_ -> {
-			GedEntry<MTGSerializable> select = UITools.getTableSelection(table, 0);
-			var confirm = JOptionPane.showConfirmDialog(this, MTG.capitalize("CONFIRM_DELETE", select));
+			final GedEntry<MTGSerializable> select = UITools.getTableSelection(table, 0);
+			final var confirm = JOptionPane.showConfirmDialog(this, MTG.capitalize("CONFIRM_DELETE", select));
 			if (confirm == JOptionPane.YES_OPTION) {
 				try {
 					MTG.getEnabledPlugin(MTGDao.class).deleteEntry(select);
 					model.removeItem(select);
 					btnDelete.setEnabled(false);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					MTGControler.getInstance().notify(e);
 				}
 			}
@@ -88,8 +88,9 @@ public class GedBrowserPanel extends MTGUIComponent {
 
 	private void reload() {
 
-		if (sw != null && !sw.isDone())
-			sw.cancel(true);
+		if (sw != null && !sw.isDone()) {
+		    sw.cancel(true);
+		}
 
 		sw = new AbstractObservableWorker<>(buzy, (MTGGedStorage) cboGed.getSelectedItem()) {
 			@Override

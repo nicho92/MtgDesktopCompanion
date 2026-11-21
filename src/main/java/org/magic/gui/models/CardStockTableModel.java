@@ -90,10 +90,11 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 
-		if (isWritable())
-			return !(column == 1 || column == 2 || column == 3 || column == 4 || column == 15 || column == 17);
-		else
-			return false;
+		if (isWritable()) {
+		    return !(column == 1 || column == 2 || column == 3 || column == 4 || column == 15 || column == 17);
+		} else {
+		    return false;
+		}
 	}
 
 	@Override
@@ -172,10 +173,11 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 				items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
 				break;
 			case 13 :
-				if (items.get(row).getProduct().isOnlineOnly())
-					items.get(row).setDigital(true);
-				else
-					items.get(row).setDigital(Boolean.parseBoolean(aValue.toString()));
+				if (items.get(row).getProduct().isOnlineOnly()) {
+				    items.get(row).setDigital(true);
+				} else {
+				    items.get(row).setDigital(Boolean.parseBoolean(aValue.toString()));
+				}
 				break;
 			case 14 :
 				items.get(row).setPrice(UITools.parseDouble(String.valueOf(aValue)));

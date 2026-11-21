@@ -24,11 +24,11 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		var list = new ArrayList<MTGCardStock>();
+		final var list = new ArrayList<MTGCardStock>();
 
 		matches(content, true, aliases.getRegexFor(this, "default")).forEach(m -> {
-			var stock = MTGControler.getInstance().getDefaultStock();
-			var mc = parseMatcherWithGroup(m, 3, 2, false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
+			final var stock = MTGControler.getInstance().getDefaultStock();
+			final var mc = parseMatcherWithGroup(m, 3, 2, false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
 			if (mc != null) {
 				stock.setProduct(mc);
 				stock.setFoil(m.group(5).equalsIgnoreCase("True"));
@@ -46,7 +46,7 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		Lists.partition(stock, 2000).forEach(list -> {
-			var temp = new StringBuilder(COLUMNS);
+			final var temp = new StringBuilder(COLUMNS);
 			temp.append(System.lineSeparator());
 
 			list.forEach(st -> {
@@ -62,11 +62,12 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 			});
 
 			try {
-				var ret = f.renameTo(new File(f.getAbsolutePath() + "-" + (number++)));
-				if (ret)
-					FileTools.saveFile(f, temp.toString());
+				final var ret = f.renameTo(new File(f.getAbsolutePath() + "-" + (number++)));
+				if (ret) {
+				    FileTools.saveFile(f, temp.toString());
+				}
 
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			} finally {
 				number = 0;

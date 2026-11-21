@@ -23,7 +23,7 @@ public class JMXServer extends AbstractMTGServer {
 
 	private MBeanServer mbs;
 
-	private List<ObjectName> names;
+	private final List<ObjectName> names;
 
 	public JMXServer() {
 		super();
@@ -32,7 +32,7 @@ public class JMXServer extends AbstractMTGServer {
 
 	@Override
 	public void start() throws IOException {
-		var c = new Chrono();
+		final var c = new Chrono();
 		c.start();
 		mbs = ManagementFactory.getPlatformMBeanServer();
 
@@ -40,9 +40,9 @@ public class JMXServer extends AbstractMTGServer {
 			try {
 				mbs.registerMBean(new StandardMBean(o, entry), o.getObjectName());
 				names.add(o.getObjectName());
-			} catch (NotCompliantMBeanException e) {
+			} catch (final NotCompliantMBeanException e) {
 				logger.trace(e);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 		}));
@@ -54,18 +54,19 @@ public class JMXServer extends AbstractMTGServer {
 
 		logger.debug("{} is stopping", getName());
 		var ok = true;
-		for (var n : names) {
+		for (final var n : names) {
 			try {
 				mbs.unregisterMBean(n);
 				logger.debug("unloading {}", n);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				ok = false;
 				logger.error("error unloading {}", n, e);
 			}
 		}
 
-		if (ok)
-			names.clear();
+		if (ok) {
+		    names.clear();
+		}
 
 	}
 

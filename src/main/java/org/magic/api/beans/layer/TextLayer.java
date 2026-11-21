@@ -34,7 +34,7 @@ public class TextLayer extends AbstractLayer {
     private static final float FLAVOR_GAP_RATIO = 0.4f; // gap between rules and flavor, in line heights
     private static final Pattern MANA_SYMBOL_PATTERN = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
     private static final Pattern REMINDER_PATTERN = Pattern.compile(EnumCardsPatterns.REMINDER.getPattern());
-    
+
     private static final char INLINE_IMAGE_CHARACTER = '\uFFFC';
 
     private String text;
@@ -44,13 +44,13 @@ public class TextLayer extends AbstractLayer {
     private Color color;
     private TextRole role;
     private double spaceTracking;
-    
+
     public TextLayer() {
 	this.flavor="";
 	flavorOffsetY=0;
 	spaceTracking=0f;
     }
-    
+
 
     public TextLayer(String text, TextRole role) {
 	this();
@@ -58,7 +58,7 @@ public class TextLayer extends AbstractLayer {
         this.text = text == null ? "" : text;
         this.color = role.getColor();
         this.size = role.getFont().getSize2D();
-        
+
         setName(role.name().toLowerCase());
 
         if (role == TextRole.SEPARATOR) {
@@ -69,16 +69,16 @@ public class TextLayer extends AbstractLayer {
            setWidth(DEFAULT_ORACLE_TEXT_WIDTH);
            setHeight(DEFAULT_ORACLE_TEXT_HEIGHT);
         } else {
-            var metrics = getFont().getLineMetrics("Ag", FRC);
+            final var metrics = getFont().getLineMetrics("Ag", FRC);
             setWidth( Math.max(1, (int) Math.ceil(getFont().getStringBounds(this.text, FRC).getWidth())));
             setHeight(Math.max(1, (int) Math.ceil(metrics.getHeight())));
         }
     }
-    
+
     public double getSpaceTracking() {
 	return spaceTracking;
     }
-    
+
     public void setSpaceTracking(double spaceTracking) {
 	this.spaceTracking = spaceTracking;
     }
@@ -121,23 +121,24 @@ public class TextLayer extends AbstractLayer {
     public void setFlavorOffsetY(int flavorOffsetY) {
         this.flavorOffsetY = flavorOffsetY;
     }
-    
+
     public Font getFont() {
-	
+
 	if(spaceTracking>0)
 	{
-	    var attrs = new HashMap<TextAttribute, Object>();
-		attrs.put(TextAttribute.TRACKING,  spaceTracking);         
+	    final var attrs = new HashMap<TextAttribute, Object>();
+		attrs.put(TextAttribute.TRACKING,  spaceTracking);
 		attrs.put(TextAttribute.KERNING, TextAttribute.KERNING_ON);
 		return role.getFont().deriveFont(attrs).deriveFont(size);
 	}
-	
+
         return role.getFont().deriveFont(size);
     }
 
     public void setFontSize(float size) {
-	if(size>0)
+	if(size>0) {
 	    this.size = size;
+	}
     }
 
     @Override
@@ -160,8 +161,8 @@ public class TextLayer extends AbstractLayer {
             return;
         }
 
-        var layout = layoutText();
-        var zoneGraphics = (Graphics2D) g2.create();
+        final var layout = layoutText();
+        final var zoneGraphics = (Graphics2D) g2.create();
         try {
             zoneGraphics.clipRect(getX(), getY(), getWidth(), getHeight());
             zoneGraphics.setColor(color);
@@ -182,8 +183,8 @@ public class TextLayer extends AbstractLayer {
 
     /** Draws the lines starting at the given baseline and returns the baseline of the next line. */
     private float drawLines(Graphics2D g, List<TextLayout> lines, float baseline, float lineHeight) {
-        for (var line : lines) {
-            float lineX = switch (role.getAlignement()) {
+        for (final var line : lines) {
+            final float lineX = switch (role.getAlignement()) {
             case SwingConstants.CENTER -> getX() + (getWidth() - line.getAdvance()) / 2;
             case SwingConstants.RIGHT -> getX() + getWidth() - line.getAdvance();
             default -> getX();
@@ -196,9 +197,9 @@ public class TextLayer extends AbstractLayer {
 
     private TextLayoutData layoutText() {
         for (float candidateSize = size; candidateSize >= MIN_FONT_SIZE; candidateSize -= 0.5f) {
-            var font = getFont().deriveFont(candidateSize);
-            var layout = createLayout(font);
-            
+            final var font = getFont().deriveFont(candidateSize);
+            final var layout = createLayout(font);
+
             if (layout.height() <= getHeight() && layout.maxWidth() <= getWidth()) {
                 return layout;
             }
@@ -207,8 +208,8 @@ public class TextLayer extends AbstractLayer {
     }
 
     private TextLayoutData createLayout(Font font) {
-        var lines = new ArrayList<TextLayout>();
-        var flavorLines = new ArrayList<TextLayout>();
+        final var lines = new ArrayList<TextLayout>();
+        final var flavorLines = new ArrayList<TextLayout>();
 
         if (!text.isEmpty()) {
             addParagraphs(text, font, lines, true);
@@ -218,21 +219,21 @@ public class TextLayer extends AbstractLayer {
         }
 
         float maxWidth = 0;
-        for (var line : lines) {
+        for (final var line : lines) {
             maxWidth = Math.max(maxWidth, line.getAdvance());
         }
-        for (var line : flavorLines) {
+        for (final var line : flavorLines) {
             maxWidth = Math.max(maxWidth, line.getAdvance());
         }
-        
-        var metrics = font.getLineMetrics("Ag", FRC);
-        var lineHeight = metrics.getHeight();
-        var gap = (lines.isEmpty() || flavorLines.isEmpty()) ? 0f : lineHeight * FLAVOR_GAP_RATIO;
+
+        final var metrics = font.getLineMetrics("Ag", FRC);
+        final var lineHeight = metrics.getHeight();
+        final var gap = (lines.isEmpty() || flavorLines.isEmpty()) ? 0f : lineHeight * FLAVOR_GAP_RATIO;
         return new TextLayoutData(font, lines, flavorLines, metrics.getAscent(), lineHeight, gap, maxWidth);
     }
 
     private void addParagraphs(String content, Font font, List<TextLayout> target, boolean reminderStyle) {
-        for (var paragraph : content.replace("\r\n", "\n").replace('\r', '\n').split("\n", -1)) {
+        for (final var paragraph : content.replace("\r\n", "\n").replace('\r', '\n').split("\n", -1)) {
             if (paragraph.isEmpty()) {
                 target.add(new TextLayout(" ", font, FRC));
                 continue;
@@ -251,9 +252,9 @@ public class TextLayer extends AbstractLayer {
     }
 
     private void addWrappedLines(String paragraph, Font font, List<TextLayout> lines, boolean reminderStyle) {
-        var attributedText = createAttributedText(paragraph, font, reminderStyle);
-        var iterator = attributedText.getIterator();
-        var measurer = new LineBreakMeasurer(iterator, BreakIterator.getLineInstance(), FRC);
+        final var attributedText = createAttributedText(paragraph, font, reminderStyle);
+        final var iterator = attributedText.getIterator();
+        final var measurer = new LineBreakMeasurer(iterator, BreakIterator.getLineInstance(), FRC);
         while (measurer.getPosition() < iterator.getEndIndex()) {
             lines.add(measurer.nextLayout(getWidth()));
         }
@@ -265,14 +266,14 @@ public class TextLayer extends AbstractLayer {
      * alignment continue to work for text that contains Magic symbols.
      */
     private AttributedString createAttributedText(String paragraph, Font font, boolean reminderStyle) {
-        var matcher = MANA_SYMBOL_PATTERN.matcher(paragraph);
-        var renderedText = new StringBuilder();
-        var symbolPositions = new ArrayList<Integer>();
-        var symbolImages = new ArrayList<BufferedImage>();
+        final var matcher = MANA_SYMBOL_PATTERN.matcher(paragraph);
+        final var renderedText = new StringBuilder();
+        final var symbolPositions = new ArrayList<Integer>();
+        final var symbolImages = new ArrayList<BufferedImage>();
         var previousEnd = 0;
 
         while (matcher.find()) {
-            var symbolImage = getSymbolImage(matcher.group(1), font);
+            final var symbolImage = getSymbolImage(matcher.group(1), font);
             if (symbolImage == null) {
                 continue;
             }
@@ -285,14 +286,14 @@ public class TextLayer extends AbstractLayer {
         }
         renderedText.append(paragraph, previousEnd, paragraph.length());
 
-        var attributedText = new AttributedString(renderedText.toString());
+        final var attributedText = new AttributedString(renderedText.toString());
         attributedText.addAttribute(TextAttribute.FONT, font);
         if (reminderStyle) {
             applyReminderStyle(renderedText.toString(), font, attributedText);
         }
-        var symbolBaseline = font.getLineMetrics("Ag", FRC).getAscent();
+        final var symbolBaseline = font.getLineMetrics("Ag", FRC).getAscent();
         for (var index = 0; index < symbolPositions.size(); index++) {
-            var position = symbolPositions.get(index);
+            final var position = symbolPositions.get(index);
             attributedText.addAttribute(TextAttribute.CHAR_REPLACEMENT,
                     new ImageGraphicAttribute(symbolImages.get(index), GraphicAttribute.ROMAN_BASELINE, 0,
                             symbolBaseline),
@@ -309,20 +310,20 @@ public class TextLayer extends AbstractLayer {
             return;
         }
 
-        var reminderFont = TextRole.REMINDER.getFont().deriveFont(font.getSize2D());
-        var reminderMatcher = REMINDER_PATTERN.matcher(renderedText);
+        final var reminderFont = TextRole.REMINDER.getFont().deriveFont(font.getSize2D());
+        final var reminderMatcher = REMINDER_PATTERN.matcher(renderedText);
         while (reminderMatcher.find()) {
             attributedText.addAttribute(TextAttribute.FONT, reminderFont, reminderMatcher.start(), reminderMatcher.end());
         }
     }
 
     private BufferedImage getSymbolImage(String symbol, Font font) {
-        var image = IconsProvider.getInstance().getManaSymbol(symbol);
+        final var image = IconsProvider.getInstance().getManaSymbol(symbol);
         if (image == null) {
             return null;
         }
 
-        var symbolSize = Math.max(1, Math.round(font.getSize2D()));
+        final var symbolSize = Math.max(1, Math.round(font.getSize2D()));
         return ImageTools.resize(image, symbolSize, symbolSize);
     }
 

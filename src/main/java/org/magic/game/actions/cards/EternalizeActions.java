@@ -29,8 +29,8 @@ public class EternalizeActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MTGCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
-			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
+			final MTGCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
+			final var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPlayer().exileCardFromGraveyard(card.getMagicCard());
@@ -41,7 +41,7 @@ public class EternalizeActions extends AbstractCardAction {
 			GamePanelGUI.getInstance().getPanelGrave().postTreatment(card);
 			GamePanelGUI.getInstance().getPlayer().playToken(tok);
 			GamePanelGUI.getInstance().getPlayer().logAction("Embalm " + card);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error(ex);
 		}
 

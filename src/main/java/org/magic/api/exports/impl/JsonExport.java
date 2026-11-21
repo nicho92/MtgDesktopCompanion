@@ -89,22 +89,23 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	public <T> List<T> fromJsonList(Reader s, Class<T> classe) {
-		ArrayList<T> list = new ArrayList<>();
+		final ArrayList<T> list = new ArrayList<>();
 		var json = gson.fromJson(s, JsonArray.class);
 
-		if (json == null)
-			json = new JsonArray();
+		if (json == null) {
+		    json = new JsonArray();
+		}
 
 		json.forEach(el -> list.add(gson.fromJson(el.toString(), classe)));
 		return list;
 	}
 
 	public <T> List<T> fromJsonList(String s, Class<T> classe) {
-		List<T> list = new ArrayList<>();
+		final List<T> list = new ArrayList<>();
 		try {
-			var json = gson.fromJson(s, JsonArray.class);
+			final var json = gson.fromJson(s, JsonArray.class);
 			json.forEach(el -> list.add(gson.fromJson(el.toString(), classe)));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -129,9 +130,9 @@ public class JsonExport extends AbstractCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var jsonparams = new JsonArray();
+		final var jsonparams = new JsonArray();
 
-		for (MTGCardStock mc : stock) {
+		for (final MTGCardStock mc : stock) {
 			jsonparams.add(gson.toJsonTree(mc));
 			notify(mc.getProduct());
 		}
@@ -142,11 +143,11 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		var root = URLTools.toJson(content).getAsJsonArray();
-		List<MTGCardStock> list = new ArrayList<>();
+		final var root = URLTools.toJson(content).getAsJsonArray();
+		final List<MTGCardStock> list = new ArrayList<>();
 		for (var i = 0; i < root.size(); i++) {
-			var line = root.get(i).getAsJsonObject();
-			var mc = gson.fromJson(line, MTGCardStock.class);
+			final var line = root.get(i).getAsJsonObject();
+			final var mc = gson.fromJson(line, MTGCardStock.class);
 			mc.setId(-1);
 			notify(mc.getProduct());
 			list.add(mc);
@@ -161,8 +162,8 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	public <T extends MTGPlugin> JsonArray convert(List<T> l) {
-		var arr = new JsonArray();
-		for (MTGPlugin plug : l) {
+		final var arr = new JsonArray();
+		for (final MTGPlugin plug : l) {
 			arr.add(plug.toJson());
 		}
 		return arr;

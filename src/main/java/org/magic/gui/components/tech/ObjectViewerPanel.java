@@ -18,10 +18,10 @@ import org.magic.services.tools.BeanTools;
 public class ObjectViewerPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private RSyntaxTextArea textpane;
-	private JRadioButton rdoJson;
-	private JRadioButton rdoMemory;
-	private JRadioButton rdoBeanUtils;
+	private final RSyntaxTextArea textpane;
+	private final JRadioButton rdoJson;
+	private final JRadioButton rdoMemory;
+	private final JRadioButton rdoBeanUtils;
 	private transient Object currentObject;
 
 	public ObjectViewerPanel() {
@@ -33,14 +33,14 @@ public class ObjectViewerPanel extends MTGUIComponent {
 
 		add(new JScrollPane(textpane), BorderLayout.CENTER);
 		setPreferredSize(new Dimension(1, 400));
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
 		rdoJson = new JRadioButton("Json");
 		rdoJson.setSelected(true);
 		rdoMemory = new JRadioButton("Memory");
 		rdoBeanUtils = new JRadioButton("Bean");
-		var group = new ButtonGroup();
+		final var group = new ButtonGroup();
 		group.add(rdoJson);
 		group.add(rdoMemory);
 		group.add(rdoBeanUtils);
@@ -56,8 +56,9 @@ public class ObjectViewerPanel extends MTGUIComponent {
 	public void init(Object mc) {
 		currentObject = mc;
 
-		if (currentObject == null)
-			return;
+		if (currentObject == null) {
+		    return;
+		}
 
 		if (rdoJson.isSelected()) {
 			textpane.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON);

@@ -22,5 +22,5 @@ public abstract class AbstractWallpaperProvider extends AbstractMTGPlugin implem
 	public PLUGINS getType() {
 		return PLUGINS.WALLPAPER;
 	}
-	
+
 }

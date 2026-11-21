@@ -18,13 +18,13 @@ import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
 
 public class IPCamAddDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
-	private JTextField txtName;
-	private JTextField txtUrl;
-	private JComboBox<IpCamMode> comboBox;
+	private final JTextField txtName;
+	private final JTextField txtUrl;
+	private final JComboBox<IpCamMode> comboBox;
 	private boolean hasNew = false;
 
 	public IPCamAddDialog() {
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
@@ -44,9 +44,9 @@ public class IPCamAddDialog extends JDialog {
 		comboBox = UITools.createCombobox(IpCamMode.values());
 		getContentPane().add(comboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 
-		var btnAdd = new JButton(MTGConstants.ICON_CHECK);
-		var btnCancel = new JButton(MTGConstants.ICON_DELETE);
-		var panel = new JPanel();
+		final var btnAdd = new JButton(MTGConstants.ICON_CHECK);
+		final var btnCancel = new JButton(MTGConstants.ICON_DELETE);
+		final var panel = new JPanel();
 		panel.add(btnAdd);
 		panel.add(btnCancel);
 		getContentPane().add(panel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4));

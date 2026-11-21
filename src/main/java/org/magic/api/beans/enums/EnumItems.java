@@ -1,22 +1,22 @@
 package org.magic.api.beans.enums;
 
 public enum EnumItems {
-	SEALED("Sealed Product"), 
-	CARD("Card"), 
-	BOX("Booster box"), 
-	BOOSTER("Booster"), 
-	LOTS("Packs of cards"), 
-	BUNDLE("Bundle"), 
-	STARTER("Starter"), 
-	SET("Full Collection"), 
-	CONSTRUCTPACK("Preconstruct deck pack"), 
-	PRERELEASEPACK("Pre release pack"), 
-	CHALLENGERDECK("Challenger deck"), 
-	FATPACK("Fat Pack"), 
-	DECK("Deck"), 
-	COMMANDER_DECK("Commander Deck"), 
-	CASE("Case of Sealed product"), 
-	DRAFT_PACK("3 boosters pack"), 
+	SEALED("Sealed Product"),
+	CARD("Card"),
+	BOX("Booster box"),
+	BOOSTER("Booster"),
+	LOTS("Packs of cards"),
+	BUNDLE("Bundle"),
+	STARTER("Starter"),
+	SET("Full Collection"),
+	CONSTRUCTPACK("Preconstruct deck pack"),
+	PRERELEASEPACK("Pre release pack"),
+	CHALLENGERDECK("Challenger deck"),
+	FATPACK("Fat Pack"),
+	DECK("Deck"),
+	COMMANDER_DECK("Commander Deck"),
+	CASE("Case of Sealed product"),
+	DRAFT_PACK("3 boosters pack"),
 	WELCOME("Welcome pack");
 
 	private final String label;
@@ -35,9 +35,10 @@ public enum EnumItems {
 	}
 
 	public static EnumItems parseByLabel(String s) {
-		for (var e : values()) {
-			if (e.getLabel().equalsIgnoreCase(s))
-				return e;
+		for (final var e : values()) {
+			if (e.getLabel().equalsIgnoreCase(s)) {
+			    return e;
+			}
 		}
 
 		return null;

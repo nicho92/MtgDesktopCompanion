@@ -37,17 +37,17 @@ public class ContactsManagementPanel extends MTGUIComponent {
 	public ContactsManagementPanel() {
 
 		setLayout(new BorderLayout(0, 0));
-		var panneauHaut = new JPanel();
-		var stockDetailPanel = new CardStockPanel();
+		final var panneauHaut = new JPanel();
+		final var stockDetailPanel = new CardStockPanel();
 
 		contactPanel = new ContactPanel(true);
 		model = new ContactTableModel();
 		viewerPanel = new ObjectViewerPanel();
 		table = UITools.createNewTable(model, true);
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "reload");
-		var btnNewContact = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "NewContact");
-		var btnDeleteContact = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE,
+		final var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "reload");
+		final var btnNewContact = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "NewContact");
+		final var btnDeleteContact = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE,
 				"DeleteContact");
 
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -56,8 +56,9 @@ public class ContactsManagementPanel extends MTGUIComponent {
 
 		UITools.addTab(getContextTabbedPane(), contactPanel);
 
-		if (MTG.readPropertyAsBoolean("debug-json-panel"))
-			UITools.addTab(getContextTabbedPane(), viewerPanel);
+		if (MTG.readPropertyAsBoolean("debug-json-panel")) {
+		    UITools.addTab(getContextTabbedPane(), viewerPanel);
+		}
 
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnNewContact);
@@ -70,10 +71,11 @@ public class ContactsManagementPanel extends MTGUIComponent {
 
 		table.getSelectionModel().addListSelectionListener(_ -> {
 
-			Contact t = UITools.getTableSelection(table, 0);
+			final Contact t = UITools.getTableSelection(table, 0);
 
-			if (t == null)
-				return;
+			if (t == null) {
+			    return;
+			}
 
 			contactPanel.setContact(t);
 			viewerPanel.init(t);
@@ -85,19 +87,19 @@ public class ContactsManagementPanel extends MTGUIComponent {
 			try {
 				TransactionService.deleteContact(contactPanel.getContact());
 				reload();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				MTGControler.getInstance().notify(e);
 			}
 
 		});
 
 		btnNewContact.addActionListener(_ -> {
-			var c = new Contact();
+			final var c = new Contact();
 			c.setName("New");
 			c.setLastName("Contact");
 
 			btnNewContact.setEnabled(false);
-			var sw = new SwingWorker<Integer, Void>() {
+			final var sw = new SwingWorker<Integer, Void>() {
 
 				@Override
 				protected Integer doInBackground() throws Exception {
@@ -109,10 +111,10 @@ public class ContactsManagementPanel extends MTGUIComponent {
 					try {
 						get();
 						reload();
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
 
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error(e);
 						MTGControler.getInstance().notify(e);
 					}
@@ -129,7 +131,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 	private void reload() {
 		buzy.start();
 		model.clear();
-		var sw = new SwingWorker<List<Contact>, Void>() {
+		final var sw = new SwingWorker<List<Contact>, Void>() {
 
 			@Override
 			protected List<Contact> doInBackground() throws Exception {
@@ -140,9 +142,9 @@ public class ContactsManagementPanel extends MTGUIComponent {
 			protected void done() {
 				try {
 					model.addItems(get());
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 				buzy.end();

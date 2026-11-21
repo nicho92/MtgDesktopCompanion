@@ -24,9 +24,9 @@ public class OrdersChartPanel extends Abstract3DPieChart<Transaction, String> {
 
 	@Override
 	public PieDataset3D<String> getDataSet() {
-		var dataset = new StandardPieDataset3D<String>();
+		final var dataset = new StandardPieDataset3D<String>();
 
-		for (Entry<Object, Double> data : groupOrdersBy().entrySet()) {
+		for (final Entry<Object, Double> data : groupOrdersBy().entrySet()) {
 			dataset.add(String.valueOf(data.getKey()), data.getValue());
 		}
 		return dataset;
@@ -45,17 +45,18 @@ public class OrdersChartPanel extends Abstract3DPieChart<Transaction, String> {
 
 	private Map<Object, Double> groupOrdersBy() {
 
-		Map<Object, Double> ret = new HashMap<>();
+		final Map<Object, Double> ret = new HashMap<>();
 
 		items.forEach(o -> {
 			try {
-				Object val = PropertyUtils.getProperty(o, property);
-				if (count)
-					ret.put(val, ret.get(val) == null ? 1 : ret.get(val) + 1);
-				else
-					ret.put(val, ret.get(val) == null ? o.total() : UITools.roundDouble(ret.get(val) + o.total()));
+				final Object val = PropertyUtils.getProperty(o, property);
+				if (count) {
+				    ret.put(val, ret.get(val) == null ? 1 : ret.get(val) + 1);
+				} else {
+				    ret.put(val, ret.get(val) == null ? o.total() : UITools.roundDouble(ret.get(val) + o.total()));
+				}
 
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 

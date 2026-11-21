@@ -20,7 +20,7 @@ public class ManaPoolPricer extends AbstractPricesProvider {
 		return "ManaPool";
 	}
 
-	private List<PriceVariation> poolResults;
+	private final List<PriceVariation> poolResults;
 
 	public ManaPoolPricer() {
 		poolResults = new ArrayList<>();
@@ -28,16 +28,16 @@ public class ManaPoolPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		var ret = new ArrayList<MTGPrice>();
+		final var ret = new ArrayList<MTGPrice>();
 
 		if (poolResults.isEmpty()) {
 			logger.info("cache  is empty or out of date. Will refresh it");
-			var poolservice = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
+			final var poolservice = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
 			poolResults.addAll(poolservice.listVariantsPrices());
 		}
 		poolResults.stream().filter(pv -> pv.getScryfallId().equals(card.getScryfallId()) && pv.getAvailable() > 0)
 				.forEach(pv -> {
-					var mp = new MTGPrice();
+					final var mp = new MTGPrice();
 					mp.setCardData(card);
 					mp.setCurrency("USD");
 					mp.setFoil(pv.getFinishId() == EnumFinish.FO);

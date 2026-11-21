@@ -37,7 +37,7 @@ public class JCSCache extends AbstractCacheProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 		m.put("jcs.default", MTGProperty.newStringProperty("DC"));
 		m.put("jcs.default.cacheattributes",
 				MTGProperty.newStringProperty("org.apache.commons.jcs.engine.CompositeCacheAttributes"));
@@ -137,8 +137,9 @@ public class JCSCache extends AbstractCacheProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

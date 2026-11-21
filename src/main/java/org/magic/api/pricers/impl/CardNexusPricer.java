@@ -21,29 +21,29 @@ public class CardNexusPricer extends AbstractPricesProvider{
     public List<String> listAuthenticationAttributes() {
        return List.of("CARDNEXUS_API_KEY");
     }
-    
+
     @Override
     public String getName() {
 	return "CardNexus";
     }
-    
+
 
     @Override
     protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-	var ret = new ArrayList<MTGPrice>();
+	final var ret = new ArrayList<MTGPrice>();
 	CardNexusTools.initConfig();
-	
-	var service = new ProductsService();
-	
-	
-	var ids = service.resolveProductsId(EnumMarketPlace.cardmarket, List.of(card.getMkmId()));
-	var id = ids.get(card.getMkmId());
-	var product = service.getProductById(id);
-	
-	var req = MarketListRequest.create().setProductId(id);
-	
+
+	final var service = new ProductsService();
+
+
+	final var ids = service.resolveProductsId(EnumMarketPlace.cardmarket, List.of(card.getMkmId()));
+	final var id = ids.get(card.getMkmId());
+	final var product = service.getProductById(id);
+
+	final var req = MarketListRequest.create().setProductId(id);
+
 	service.listMarketListing(req).forEach(p->{
-	    		  var mp = new MTGPrice();
+	    		  final var mp = new MTGPrice();
 				mp.setCardData(card);
 				mp.setSite(getName());
 				mp.setFoil(p.finish()==EnumFinishes.Foil);
@@ -57,13 +57,13 @@ public class CardNexusPricer extends AbstractPricesProvider{
 				mp.setCountry(p.seller().country());
 				mp.setSellerUrl(p.seller().urlProfilePage());
 				ret.add(mp);
-		
+
 		});
 	logger.info("{} find {} items",getName(),ret.size());
 	return ret;
     }
-    
-    
+
+
     @Override
     public String getVersion() {
         return NexusConfig.API_VERSION;

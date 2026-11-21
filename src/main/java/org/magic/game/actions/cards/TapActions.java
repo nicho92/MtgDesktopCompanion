@@ -22,8 +22,9 @@ public class TapActions extends AbstractCardAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (card.isTappable())
-			card.tap(!card.isTapped());
+		if (card.isTappable()) {
+		    card.tap(!card.isTapped());
+		}
 
 	}
 

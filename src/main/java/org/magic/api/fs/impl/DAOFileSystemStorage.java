@@ -25,12 +25,13 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	@Override
 	public void initFileSystem() throws IOException {
 
-		if (!MTG.getEnabledPlugin(MTGDao.class).isEnable())
-			try {
-				MTG.getEnabledPlugin(MTGDao.class).init();
-			} catch (SQLException e) {
-				throw new IOException(e);
-			}
+		if (!MTG.getEnabledPlugin(MTGDao.class).isEnable()) {
+		    try {
+		    	MTG.getEnabledPlugin(MTGDao.class).init();
+		    } catch (final SQLException e) {
+		    	throw new IOException(e);
+		    }
+		}
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	public <T extends MTGSerializable> List<GedEntry<T>> listAll() throws IOException {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listAllEntries();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			throw new IOException(e);
 		}
 	}
@@ -50,15 +51,15 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	@Override
 	public <T extends MTGSerializable> GedEntry<T> read(Path p) throws IOException {
 
-		var cIdClasse = p.getParent().getParent().getFileName().toString();
-		var cIdInstance = p.getParent().getFileName().toString();
-		var cFName = p.getFileName().toString();
+		final var cIdClasse = p.getParent().getParent().getFileName().toString();
+		final var cIdInstance = p.getParent().getFileName().toString();
+		final var cFName = p.getFileName().toString();
 
 		logger.debug("reading {}/{}/{}", cIdClasse, cIdInstance, cFName);
 
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).readEntry(cIdClasse, cIdInstance, cFName);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 
@@ -69,7 +70,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	public <T extends MTGSerializable> void store(GedEntry<T> entry) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).storeEntry(entry);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			throw new IOException(e);
 		}
 	}
@@ -81,7 +82,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 					.listEntries(p.getParent().getFileName().toString(), p.getFileName().toString()).stream()
 					.map(ge -> Path.of(p.getParent().getFileName().toString(), p.getFileName().toString(),
 							ge.getName()));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			throw new IOException(e);
 		}
@@ -92,7 +93,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 		logger.debug("delete {}/{}", entry.getClasse(), entry.getId());
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).deleteEntry(entry);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 			return false;
 		}

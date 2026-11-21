@@ -89,7 +89,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent {
 
 		add(getContextTabbedPane(), BorderLayout.CENTER);
 
-		var sw = new SwingWorker<Void, Void>() {
+		final var sw = new SwingWorker<Void, Void>() {
 
 			@Override
 			protected Void doInBackground() throws Exception {
@@ -109,30 +109,30 @@ public class TechnicalMonitorPanel extends MTGUIComponent {
 
 		ThreadManager.getInstance().runInEdt(sw, "Loading logs");
 
-		var tableTasks = UITools.createNewTable(modelTasks, true);
-		var tableNetwork = UITools.createNewTable(modelNetwork, true);
-		var tableScripts = UITools.createNewTable(modelScript, true);
-		var tableQueries = UITools.createNewTable(queryModel, true);
-		var tableDaos = UITools.createNewTable(modelDao, true);
-		var tableCacheJson = UITools.createNewTable(modelCacheJson, true);
-		var tableJsonInfo = UITools.createNewTable(modelJsonServerInfo, true);
-		var tableDiscordInfo = UITools.createNewTable(messagesModel, true);
-		var tableFileAccessIInfo = UITools.createNewTable(modelFileAccess, true);
+		final var tableTasks = UITools.createNewTable(modelTasks, true);
+		final var tableNetwork = UITools.createNewTable(modelNetwork, true);
+		final var tableScripts = UITools.createNewTable(modelScript, true);
+		final var tableQueries = UITools.createNewTable(queryModel, true);
+		final var tableDaos = UITools.createNewTable(modelDao, true);
+		final var tableCacheJson = UITools.createNewTable(modelCacheJson, true);
+		final var tableJsonInfo = UITools.createNewTable(modelJsonServerInfo, true);
+		final var tableDiscordInfo = UITools.createNewTable(messagesModel, true);
+		final var tableFileAccessIInfo = UITools.createNewTable(modelFileAccess, true);
 
-		TableCellRenderer durationRenderer = (JTable _, Object value, boolean _, boolean _, int _, int _) -> {
-			var lab = new JLabel();
+		final TableCellRenderer durationRenderer = (JTable _, Object value, boolean _, boolean _, int _, int _) -> {
+			final var lab = new JLabel();
 			lab.setOpaque(false);
 			try {
 				lab.setText(DurationFormatUtils.formatDurationHMS((Long) value));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				lab.setText(String.valueOf(value));
 			}
 
 			return lab;
 		};
 
-		TableCellRenderer sizeRenderer = (JTable _, Object value, boolean _, boolean _, int _, int _) -> {
-			var lab = new JLabel(UITools.humanReadableSize((Long) value));
+		final TableCellRenderer sizeRenderer = (JTable _, Object value, boolean _, boolean _, int _, int _) -> {
+			final var lab = new JLabel(UITools.humanReadableSize((Long) value));
 			lab.setOpaque(false);
 			return lab;
 		};
@@ -167,7 +167,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent {
 		UITools.addTab(getContextTabbedPane(), gedPanel);
 		UITools.addTab(getContextTabbedPane(), activemqPanel);
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
 		memoryPanel = new JVMemoryPanel();
@@ -192,7 +192,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent {
 					modelScript.fireTableStructureChanged();
 					modelScript.fireTableDataChanged();
 
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					logger.error("error loading . Maybe Qwartz server is stopped", ex);
 				}
 			}
@@ -202,7 +202,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent {
 					modelCacheJson.init(
 							((JSONHttpServer) MTG.getPlugin("Json Http Server", MTGServer.class)).getCache().entries());
 					modelCacheJson.fireTableDataChanged();
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					logger.error("error loading . Maybe Json server is stopped", ex);
 				}
 			}
@@ -211,7 +211,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent {
 				try {
 					activemqPanel.init(((ActiveMQServer) MTG.getPlugin("ActiveMQ", MTGServer.class)));
 
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					logger.error("error loading . Maybe ActiveMQ server is stopped", ex);
 				}
 			}

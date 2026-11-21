@@ -37,21 +37,25 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 
 		var extra = "";
 
-		if (mc.isBorderLess())
-			extra = " (Borderless)";
-		if (mc.isTimeshifted())
-			extra = " (Retro Frame)";
-		if (mc.isShowCase())
-			extra = " (Showcase)";
+		if (mc.isBorderLess()) {
+		    extra = " (Borderless)";
+		}
+		if (mc.isTimeshifted()) {
+		    extra = " (Retro Frame)";
+		}
+		if (mc.isShowCase()) {
+		    extra = " (Showcase)";
+		}
 
-		var arr = RequestBuilder.build().url(WEBSITE + "/user/").get().setClient(client)
+		final var arr = RequestBuilder.build().url(WEBSITE + "/user/").get().setClient(client)
 				.url(WEBSITE + "/api/search/mass/").addContent("search", mc.getName() + extra)
 				.addContent("wcExpansion", mc.getEdition().getSet()).addContent("limit", "30")
 				.addContent("textsearch", "").addContent("type", "").toJson().getAsJsonObject().get("data")
 				.getAsJsonArray();
 
-		if (arr.isEmpty())
-			return null;
+		if (arr.isEmpty()) {
+		    return null;
+		}
 
 		return arr.get(0).getAsJsonObject().get("emid").getAsString();
 	}
@@ -64,7 +68,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 				return;
 			}
 
-			var res = RequestBuilder.build().url(WEBSITE + "/user/").post().setClient(client)
+			final var res = RequestBuilder.build().url(WEBSITE + "/user/").post().setClient(client)
 					.addContent("email", getAuthenticator().get("EMAIL"))
 					.addContent("password", getAuthenticator().get("PASSWORD")).toHtml();
 
@@ -76,22 +80,22 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	@Override
 	protected HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 		init();
-		var history = new HistoryPrice<>(mc);
+		final var history = new HistoryPrice<>(mc);
 
 		history.setCurrency(getCurrency());
 		history.setFoil(foil);
 
-		var id = getCardId(mc);
+		final var id = getCardId(mc);
 
 		if (id == null) {
 			logger.warn("no id found for {}", mc);
 			return history;
 		}
 
-		var arr = RequestBuilder.build().url(WEBSITE + "/cache/" + id + "." + (foil ? "f" : "r" + ".json")).get()
+		final var arr = RequestBuilder.build().url(WEBSITE + "/cache/" + id + "." + (foil ? "f" : "r" + ".json")).get()
 				.setClient(client).toJson().getAsJsonArray();
-		for (var e : arr) {
-			var d = e.getAsJsonArray();
+		for (final var e : arr) {
+			final var d = e.getAsJsonArray();
 			history.put(new Date(d.get(0).getAsLong()), d.get(1).getAsDouble());
 		}
 		return history;
@@ -105,22 +109,22 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MTGEdition ed) throws IOException {
 
-		var variations = new EditionsShakers();
+		final var variations = new EditionsShakers();
 		variations.setDate(new Date());
 		variations.setEdition(ed);
 		variations.setProviderName(getName());
 
 		init();
 
-		var data = RequestBuilder.build().url(WEBSITE + "/api/data/set/").addContent("set_code", ed.getId()).get()
+		final var data = RequestBuilder.build().url(WEBSITE + "/api/data/set/").addContent("set_code", ed.getId()).get()
 				.setClient(client).toJson().getAsJsonObject();
 
 		data.get("set").getAsJsonObject().get("items").getAsJsonArray().forEach(je -> {
-			var obj = je.getAsJsonObject();
+			final var obj = je.getAsJsonObject();
 
 			if (!obj.get("main_type").getAsString().contains("Token")) {
 
-				var cs = new CardShake();
+				final var cs = new CardShake();
 				cs.setCurrency(getCurrency());
 				cs.setDateUpdate(new Date());
 				cs.setProviderName(getName());
@@ -143,11 +147,13 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 					cs.setName(cs.getName().replace("(Extended Art)", "").trim());
 				}
 
-				if (!obj.get("tcg_mid").isJsonNull())
-					cs.setPrice(obj.get("tcg_mid").getAsDouble());
+				if (!obj.get("tcg_mid").isJsonNull()) {
+				    cs.setPrice(obj.get("tcg_mid").getAsDouble());
+				}
 
-				if (!obj.get("price_change").isJsonNull())
-					cs.setPercentDayChange(obj.get("price_change").getAsDouble() / 100);
+				if (!obj.get("price_change").isJsonNull()) {
+				    cs.setPercentDayChange(obj.get("price_change").getAsDouble() / 100);
+				}
 
 				cs.setPriceDayChange(cs.getPrice().doubleValue() * cs.getPercentDayChange());
 

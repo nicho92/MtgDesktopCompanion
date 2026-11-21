@@ -15,8 +15,9 @@ public class CountersFactory {
 	private static CountersFactory instance;
 
 	public static CountersFactory getInstance() {
-		if (instance == null)
-			instance = new CountersFactory();
+		if (instance == null) {
+		    instance = new CountersFactory();
+		}
 
 		return instance;
 	}
@@ -26,16 +27,17 @@ public class CountersFactory {
 
 	public List<ItemCounter> createItemCounter(MTGCard mc) {
 
-		if (mc.getText() == null)
-			return new ArrayList<>();
+		if (mc.getText() == null) {
+		    return new ArrayList<>();
+		}
 
-		ArrayList<ItemCounter> arr = new ArrayList<>();
-		var p = Pattern.compile(EnumCardsPatterns.COUNTERS.getPattern());
-		var m = p.matcher(mc.getText());
+		final ArrayList<ItemCounter> arr = new ArrayList<>();
+		final var p = Pattern.compile(EnumCardsPatterns.COUNTERS.getPattern());
+		final var m = p.matcher(mc.getText());
 		while (m.find()) {
-			String value = m.group(2);
+			final String value = m.group(2);
 			if (!value.contains("/")) {
-				var bonus = new ItemCounter(value);
+				final var bonus = new ItemCounter(value);
 				arr.add(bonus);
 			}
 		}
@@ -44,20 +46,20 @@ public class CountersFactory {
 	}
 
 	public List<AbstractCounter> createCounter(MTGCard mc) {
-		ArrayList<AbstractCounter> arr = new ArrayList<>();
+		final ArrayList<AbstractCounter> arr = new ArrayList<>();
 
-		var p = Pattern.compile(EnumCardsPatterns.COUNTERS.getPattern());
-		var m = p.matcher(mc.getText());
+		final var p = Pattern.compile(EnumCardsPatterns.COUNTERS.getPattern());
+		final var m = p.matcher(mc.getText());
 		while (m.find()) {
-			String value = m.group(2);
+			final String value = m.group(2);
 			if (value.contains("/")) {
-				String[] splitedValue = value.split("/");
-				var power = Integer.parseInt(splitedValue[0].replace("\\+", ""));
-				var toughness = Integer.parseInt(splitedValue[1].replace("\\+", ""));
-				var bonus = new BonusCounter(power, toughness);
+				final String[] splitedValue = value.split("/");
+				final var power = Integer.parseInt(splitedValue[0].replace("\\+", ""));
+				final var toughness = Integer.parseInt(splitedValue[1].replace("\\+", ""));
+				final var bonus = new BonusCounter(power, toughness);
 				arr.add(bonus);
 			} else {
-				var item = new ItemCounter(value);
+				final var item = new ItemCounter(value);
 				arr.add(item);
 			}
 		}

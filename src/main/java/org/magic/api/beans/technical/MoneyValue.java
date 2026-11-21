@@ -50,10 +50,11 @@ public class MoneyValue extends Number implements Serializable, Comparable<Money
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
-		if (obj instanceof MoneyValue mv) {
+		if (obj instanceof final MoneyValue mv) {
 			return (mv.getValue().equals(getValue()) && mv.getCurrency().equals(getCurrency()));
 		}
 		return false;
@@ -70,8 +71,9 @@ public class MoneyValue extends Number implements Serializable, Comparable<Money
 
 	@Override
 	public int compareTo(MoneyValue o) {
-		if (o == null || value == null)
-			return -1;
+		if (o == null || value == null) {
+		    return -1;
+		}
 
 		return value.compareTo(o.getValue());
 

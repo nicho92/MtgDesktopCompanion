@@ -32,9 +32,9 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
     @Override
     public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 	logger.debug("get deck at {}", info.getUrl());
-	MTGDeck deck = info.toBaseDeck();
+	final MTGDeck deck = info.toBaseDeck();
 
-	var obj = RequestBuilder.build().newClient().get().url(info.getUrl())
+	final var obj = RequestBuilder.build().newClient().get().url(info.getUrl())
 		.addContent("source", "infinite-content")
 		.addContent(SUB_DECKS, "true")
 		.addContent(CARDS, "true")
@@ -47,15 +47,15 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	fillData(obj, "sideboard", deck.getSideBoard());
 
 	try {
-	    var cmd = obj.get("deck").getAsJsonObject().get(SUB_DECKS).getAsJsonObject().get("commandzone");
+	    final var cmd = obj.get("deck").getAsJsonObject().get(SUB_DECKS).getAsJsonObject().get("commandzone");
 	    if(cmd!=null)
 	    {
-		var id = cmd.getAsJsonArray().get(0).getAsJsonObject().get("cardID").getAsString();
+		final var id = cmd.getAsJsonArray().get(0).getAsJsonObject().get("cardID").getAsString();
 		deck.setCommander(parseCard(obj.get(CARDS).getAsJsonObject().get(id).getAsJsonObject()));
 		deck.getMain().put(deck.getCommander(), 1);
 	    }
 	}
-	catch(Exception _)
+	catch(final Exception _)
 	{
 	    logger.error("errr getting commander");
 	}
@@ -67,17 +67,18 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
     private void fillData(JsonObject obj, String side, Map<MTGCard,Integer> data)
     {
-	if( obj.get("deck").getAsJsonObject().get(SUB_DECKS).getAsJsonObject().get(side)==null)
+	if( obj.get("deck").getAsJsonObject().get(SUB_DECKS).getAsJsonObject().get(side)==null) {
 	    return;
+	}
 
 	obj.get("deck").getAsJsonObject().get(SUB_DECKS).getAsJsonObject().get(side).getAsJsonArray().forEach(je->{
 
-	    var id= je.getAsJsonObject().get("cardID").getAsString();
-	    var cardData = obj.get(CARDS).getAsJsonObject().get(id).getAsJsonObject();
-	    var qty = je.getAsJsonObject().get("quantity").getAsInt();
+	    final var id= je.getAsJsonObject().get("cardID").getAsString();
+	    final var cardData = obj.get(CARDS).getAsJsonObject().get(id).getAsJsonObject();
+	    final var qty = je.getAsJsonObject().get("quantity").getAsInt();
 
-	    var c = parseCard(cardData);
-	    
+	    final var c = parseCard(cardData);
+
 	    if(c!=null) {
 		data.put(c, qty);
             }
@@ -88,15 +89,15 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
     private MTGCard parseCard(JsonObject obj)  {
 
-	var name = obj.get("name").getAsString();
-	var set = obj.get("set").getAsString();
+	final var name = obj.get("name").getAsString();
+	final var set = obj.get("set").getAsString();
 	try {
-	    var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(set);
-	    var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(obj.get("name").getAsString(), edition, true).getFirst();
+	    final var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(set);
+	    final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(obj.get("name").getAsString(), edition, true).getFirst();
 	    notify(mc);
 	    return mc;
 
-	} catch (Exception _) {
+	} catch (final Exception _) {
 	    logger.error("can't find card for {}/{}",name,set);
 	}
 
@@ -106,9 +107,9 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
     @Override
     public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
-	var list = new ArrayList<RetrievableDeck>();
+	final var list = new ArrayList<RetrievableDeck>();
 
-	var obj = RequestBuilder.build().newClient().get().url("https://infinite-api.tcgplayer.com/content/decks/magic")
+	final var obj = RequestBuilder.build().newClient().get().url("https://infinite-api.tcgplayer.com/content/decks/magic")
 		.addContent("source", "infinite-content")
 		.addContent("rows", "128")
 		.addContent("format", filter)
@@ -119,9 +120,9 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		.addContent("order", "desc").toJson().getAsJsonObject();
 
 
-	for(var d : obj.get("result").getAsJsonArray())
+	for(final var d : obj.get("result").getAsJsonArray())
 	{
-	    var deck = new RetrievableDeck();
+	    final var deck = new RetrievableDeck();
 
 	    deck.setAuthor(d.getAsJsonObject().get(DECK_DATA).getAsJsonObject().get("playerName").getAsString());
 	    deck.setDescription(d.getAsJsonObject().get("date").getAsString());
@@ -131,7 +132,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	    if(d.getAsJsonObject().get(DECK_DATA).getAsJsonObject().get("colors")!=null) {
 		deck.setColor(Arrays.stream(d.getAsJsonObject().get(DECK_DATA).getAsJsonObject().get("colors").getAsString().split(",")).map(s -> "{" + s + "}").collect(Collectors.joining()));
 	    }
-	    
+
 	    list.add(deck);
 	}
 	return list;

@@ -7,7 +7,7 @@ import org.magic.api.beans.technical.audit.TaskInfo.STATE;
 
 public abstract class MTGRunnable implements Runnable {
 
-	private TaskInfo info;
+	private final TaskInfo info;
 
 	protected MTGRunnable() {
 		info = new TaskInfo(this);

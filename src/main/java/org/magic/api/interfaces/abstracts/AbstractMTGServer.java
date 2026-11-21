@@ -25,13 +25,14 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 	}
 
 	protected Object getCached(String k, Callable<Object> call) {
-		if (cache.getItem(k) == null)
-			try {
-				cache.put(call.call(), k);
-			} catch (Exception e) {
-				logger.error(e);
-				return new ArrayList<>();
-			}
+		if (cache.getItem(k) == null) {
+		    try {
+		    	cache.put(call.call(), k);
+		    } catch (final Exception e) {
+		    	logger.error(e);
+		    	return new ArrayList<>();
+		    }
+		}
 
 		return cache.getItem(k);
 	}
@@ -41,8 +42,9 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 	}
 
 	public void clearCache() {
-		if (cache != null)
-			cache.clear();
+		if (cache != null) {
+		    cache.clear();
+		}
 	}
 
 	protected AbstractMTGServer() {
@@ -51,14 +53,14 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("TIMEOUT_CACHE_MINUTES",
 				MTGProperty.newIntegerProperty("720", "Timeout in minute for server cache management", 0, -1));
 		return m;
 	}
 
 	protected void initCache() {
-		var cacheTime = getInt("TIMEOUT_CACHE_MINUTES");
+		final var cacheTime = getInt("TIMEOUT_CACHE_MINUTES");
 
 		cache = new AbstractEmbeddedCacheProvider<>() {
 			Cache<String, Object> guava = CacheBuilder.newBuilder().expireAfterWrite(Duration.ofMinutes(cacheTime))
@@ -111,8 +113,9 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

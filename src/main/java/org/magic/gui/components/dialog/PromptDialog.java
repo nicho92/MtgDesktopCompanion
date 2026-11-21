@@ -19,10 +19,10 @@ import org.magic.services.tools.UITools;
 public class PromptDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
-	private JTextPane editorPane;
+	private final JTextPane editorPane;
 	private SpinnerNumberModel qtyModel;
 
-	private JPanel qtyPanel;
+	private final JPanel qtyPanel;
 
 	public String getPrompt() {
 		return editorPane.getText();
@@ -37,11 +37,11 @@ public class PromptDialog extends JDialog {
 		setModal(true);
 		setLocationRelativeTo(null);
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		qtyPanel = new JPanel();
 		editorPane = new JTextPane();
-		var btnImport = new JButton(MTGConstants.ICON_SAVE);
-		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+		final var btnImport = new JButton(MTGConstants.ICON_SAVE);
+		final var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 
 		btnImport.setToolTipText(capitalize("IMPORT"));
 		btnCancel.setToolTipText(capitalize("CANCEL"));
@@ -61,7 +61,7 @@ public class PromptDialog extends JDialog {
 
 	public void showCardBuilderDialog(MTGEdition set) {
 		qtyModel = new SpinnerNumberModel(10, 1, 50, 1);
-		var spinner = new JSpinner(qtyModel);
+		final var spinner = new JSpinner(qtyModel);
 		qtyPanel.add(spinner);
 		setTitle("Generates cards for set " + set);
 		setVisible(true);

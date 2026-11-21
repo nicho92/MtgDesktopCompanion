@@ -66,7 +66,7 @@ public class LayerDetailPanel extends JPanel {
     public LayerDetailPanel() {
         setLayout(new BorderLayout());
 
-        var content = new JPanel();
+        final var content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -86,10 +86,10 @@ public class LayerDetailPanel extends JPanel {
         propertiesPanel.setLayout(new BoxLayout(propertiesPanel, BoxLayout.Y_AXIS));
         propertiesPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         content.add(propertiesPanel);
-        
-   
-        
-        var scrollPane = new JScrollPane(content);
+
+
+
+        final var scrollPane = new JScrollPane(content);
         scrollPane.setBorder(null);
         add(scrollPane, BorderLayout.CENTER);
         installCommonListeners();
@@ -101,7 +101,7 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private JLabel createSectionTitle(String title) {
-        var label = new JLabel(title);
+        final var label = new JLabel(title);
         label.setFont(label.getFont().deriveFont(Font.BOLD));
         label.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -109,9 +109,9 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private JPanel createProperty(String name, Component value) {
-        var panel = new JPanel(new BorderLayout(10, 0));
+        final var panel = new JPanel(new BorderLayout(10, 0));
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        var nameLabel = new JLabel(name);
+        final var nameLabel = new JLabel(name);
         nameLabel.setPreferredSize(new Dimension(70, 20));
         panel.add(nameLabel, BorderLayout.WEST);
         panel.add(value, BorderLayout.CENTER);
@@ -142,12 +142,12 @@ public class LayerDetailPanel extends JPanel {
 
     private void updateScale() {
         update(() -> {
-            double newScale = ((Number) scaleSpinner.getValue()).doubleValue();
+            final double newScale = ((Number) scaleSpinner.getValue()).doubleValue();
             layer.scale(newScale / previousScale);
             previousScale = newScale;
         });
     }
-    
+
 
     private void update(Runnable change) {
         if (updating || layer == null) {
@@ -159,157 +159,157 @@ public class LayerDetailPanel extends JPanel {
 
     private void rebuildProperties() {
         propertiesPanel.removeAll();
-        if (layer instanceof IllustrationLayer illustrationLayer) {
+        if (layer instanceof final IllustrationLayer illustrationLayer) {
             addIllustrationProperties(illustrationLayer);
-        } else if (layer instanceof ManaLayer manaLayer) {
+        } else if (layer instanceof final ManaLayer manaLayer) {
             addManaProperties(manaLayer);
-        } else if (layer instanceof TextLayer textLayer) {
+        } else if (layer instanceof final TextLayer textLayer) {
             addTextProperties(textLayer);
-        } else if (layer instanceof BorderLayer borderLayer) {
+        } else if (layer instanceof final BorderLayer borderLayer) {
             addBorderProperties(borderLayer);
-        } else if (layer instanceof FrameLayer frameLayer) {
+        } else if (layer instanceof final FrameLayer frameLayer) {
             addFrameProperties(frameLayer);
-        } else if (layer instanceof ShapeLayer shapeLayer) {
+        } else if (layer instanceof final ShapeLayer shapeLayer) {
             addShapeProperties(shapeLayer);
-        } else if (layer instanceof SetIconLayer setLayer) {
+        } else if (layer instanceof final SetIconLayer setLayer) {
             addSetsProperties(setLayer);
         }
-        
-        
+
+
         propertiesPanel.revalidate();
         propertiesPanel.repaint();
     }
-    
+
     private void addShapeProperties(ShapeLayer shapeLayer) {
-        
+
 	propertiesPanel.add(colorProperty("Color", shapeLayer.getColor(), shapeLayer::setColor));
-        
-                
+
+
     }
-    
-    
+
+
     private void addIllustrationProperties(IllustrationLayer illustrationLayer) {
-        var urlField = new JTextField(18);
+        final var urlField = new JTextField(18);
         urlField.setText(illustrationLayer.getSource().toString());
         urlField.addActionListener(_ -> update(()->updateIllustrationSource(illustrationLayer, urlField.getText())));
         propertiesPanel.add(createProperty("URL", urlField));
-        
-        var fadeSize = new JSpinner(new SpinnerNumberModel((double) illustrationLayer.getFadeSize(), 0.0, 500.0, 1.0));
+
+        final var fadeSize = new JSpinner(new SpinnerNumberModel(illustrationLayer.getFadeSize(), 0.0, 500.0, 1.0));
         fadeSize.addChangeListener(_ -> update(() -> illustrationLayer.setFadeSize(((Number) fadeSize.getValue()).floatValue())));
         propertiesPanel.add(createProperty("Fade", fadeSize));
-        
-        var fadeStrength = new JSpinner(new SpinnerNumberModel((double) illustrationLayer.getFadeStrength(), 0.0, 500.0, 1.0));
+
+        final var fadeStrength = new JSpinner(new SpinnerNumberModel(illustrationLayer.getFadeStrength(), 0.0, 500.0, 1.0));
         fadeStrength.addChangeListener(_ -> update(() -> illustrationLayer.setFadeStrength(((Number) fadeStrength.getValue()).floatValue())));
         propertiesPanel.add(createProperty("Fade Strength", fadeStrength));
-        
+
     }
 
     private void updateIllustrationSource(IllustrationLayer illustrationLayer, String value) {
         try {
-            var source = URI.create(value).toURL();
+            final var source = URI.create(value).toURL();
             update(() -> illustrationLayer.setSource(source));
-        } catch (MalformedURLException exception) {
+        } catch (final MalformedURLException exception) {
             // Keep the current image and restore its valid URL in the editor.
             refresh(illustrationLayer);
         }
     }
-    
-    
+
+
     private void addSetsProperties(SetIconLayer layer) {
-	
-	
-	    var rarityChk = UITools.createCombobox(EnumRarity.values());
+
+
+	    final var rarityChk = UITools.createCombobox(EnumRarity.values());
 	    rarityChk.setSelectedItem(layer.getRarity());
-	    rarityChk.addItemListener(_ -> update(() -> { 
+	    rarityChk.addItemListener(_ -> update(() -> {
 								layer.setRarity(rarityChk.getItemAt(rarityChk.getSelectedIndex()));
 								layer.reload();
 	    							}));
 	    propertiesPanel.add(createProperty("Rarity", rarityChk));
-	
+
     }
-    
+
 
     private void addManaProperties(ManaLayer manaLayer) {
-        var costField = new JTextField(manaLayer.getCost());
+        final var costField = new JTextField(manaLayer.getCost());
         costField.addActionListener(_ -> update(() -> manaLayer.setCost(costField.getText())));
         propertiesPanel.add(createProperty("Cost", costField));
-        
-        
-        var shadowchk = new JCheckBox();
+
+
+        final var shadowchk = new JCheckBox();
         shadowchk.setSelected(manaLayer.isShadowed());
         shadowchk.addItemListener(_ -> update(() -> manaLayer.setShadowed(shadowchk.isSelected())));
         propertiesPanel.add(createProperty("Shadow", shadowchk));
-        
+
     }
 
     private void addTextProperties(TextLayer textLayer) {
-        var textArea = new JTextArea(textLayer.getText(), 4, 12);
+        final var textArea = new JTextArea(textLayer.getText(), 4, 12);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.getDocument().addDocumentListener(documentListener(() -> update(() -> textLayer.setText(textArea.getText()))));
 
-        
-        var flavorText =  new JTextArea(textLayer.getFlavor(), 1, 12);
+
+        final var flavorText =  new JTextArea(textLayer.getFlavor(), 1, 12);
         flavorText.setLineWrap(true);
         flavorText.setWrapStyleWord(true);
         flavorText.getDocument().addDocumentListener(documentListener(() -> update(() -> textLayer.setFlavor(flavorText.getText()))));
-        
-        
-        
+
+
+
         propertiesPanel.add(createProperty("Text", new JScrollPane(textArea)));
         propertiesPanel.add(createProperty("Flavor", new JScrollPane(flavorText)));
-        
-        var fontSpace = new JSpinner(new SpinnerNumberModel((double) textLayer.getSpaceTracking(), 0.0, 1, 0.01));
+
+        final var fontSpace = new JSpinner(new SpinnerNumberModel(textLayer.getSpaceTracking(), 0.0, 1, 0.01));
         fontSpace.addChangeListener(_ -> update(() -> textLayer.setSpaceTracking(((Number) fontSpace.getValue()).floatValue())));
         propertiesPanel.add(createProperty("Space", fontSpace));
-        
 
-        var fontSize = new JSpinner(new SpinnerNumberModel((double) textLayer.getFont().getSize2D(), 1.0, 500.0, 1.0));
+
+        final var fontSize = new JSpinner(new SpinnerNumberModel(textLayer.getFont().getSize2D(), 1.0, 500.0, 1.0));
         fontSize.addChangeListener(_ -> update(() -> textLayer.setFontSize(((Number) fontSize.getValue()).floatValue())));
         propertiesPanel.add(createProperty("Size", fontSize));
-        
+
         propertiesPanel.add(colorProperty("Color", textLayer.getColor(), textLayer::setColor));
     }
 
     private void addBorderProperties(BorderLayer borderLayer) {
-        var radius = new JSpinner(new SpinnerNumberModel(borderLayer.getRadius(), 0.0, 10000.0, 1.0));
+        final var radius = new JSpinner(new SpinnerNumberModel(borderLayer.getRadius(), 0.0, 10000.0, 1.0));
         radius.addChangeListener(_ -> update(() -> borderLayer.setRadius(((Number) radius.getValue()).doubleValue())));
         propertiesPanel.add(createProperty("Radius", radius));
-                
+
         if(borderLayer.getColor()==BorderColor.BORDERLESS)
         {
             addDoubleProperty("Image scale", borderLayer.getImageScale(), 0.0, borderLayer::setImageScale);
             addDoubleProperty("Image X", borderLayer.getImageOffsetX(), -MAX_DIMENSION, borderLayer::setImageOffsetX);
             addDoubleProperty("Image Y", borderLayer.getImageOffsetY(), -MAX_DIMENSION, borderLayer::setImageOffsetY);
-            
-            
-            var browseButton = new JButton("Browse…");
+
+
+            final var browseButton = new JButton("Browse…");
             browseButton.addActionListener(_ -> {
-        	var uri = JOptionPane.showInputDialog("Url");
+        	final var uri = JOptionPane.showInputDialog("Url");
 
         	  update(() -> {
               	borderLayer.setUri(URI.create(uri));
               	borderLayer.reload();
               	borderLayer.fitImage();
                   });
-        	
+
             });
             propertiesPanel.add(createProperty("Url", browseButton));
         }
-        
+
     }
 
     private void addDoubleProperty(String name, double value, double minimum, DoubleConsumer setter) {
-	var spinner = new JSpinner(new SpinnerNumberModel(value, minimum, MAX_DIMENSION, 0.1));
+	final var spinner = new JSpinner(new SpinnerNumberModel(value, minimum, MAX_DIMENSION, 0.1));
         spinner.addChangeListener(_ -> update(() -> setter.accept(((Number) spinner.getValue()).doubleValue())));
         propertiesPanel.add(createProperty(name, spinner));
     }
 
     private JPanel colorProperty(String name, Color color,Consumer<Color> setter) {
-        var button = new JButton("Choose…");
+        final var button = new JButton("Choose…");
         button.setBackground(color);
         button.addActionListener(_ -> {
-            var selected = JColorChooser.showDialog(this, name, color);
+            final var selected = JColorChooser.showDialog(this, name, color);
             if (selected != null) {
                 update(() -> setter.accept(selected));
                 button.setBackground(selected);
@@ -319,34 +319,34 @@ public class LayerDetailPanel extends JPanel {
     }
 
     private void addFrameProperties(FrameLayer frameLayer) {
-        var browseButton = new JButton("Browse…");
+        final var browseButton = new JButton("Browse…");
         browseButton.addActionListener(_ -> chooseFrameSource(frameLayer));
         browseButton.setToolTipText(frameLayer.getFile().getAbsolutePath());
         propertiesPanel.add(createProperty("File", browseButton));
-        
-        var cboFrameTypes = new JComboBox<>(FrameType.values());
+
+        final var cboFrameTypes = new JComboBox<>(FrameType.values());
         cboFrameTypes.addItemListener(_->{
 	    update(() ->frameLayer.setFrameType(cboFrameTypes.getItemAt(cboFrameTypes.getSelectedIndex())));
 	});
 	cboFrameTypes.setSelectedItem(frameLayer.getFrameType());
 	propertiesPanel.add(createProperty("Types Frame", cboFrameTypes));
-	
-	var chkLegendaryAdapt = new JCheckBox();
+
+	final var chkLegendaryAdapt = new JCheckBox();
 	chkLegendaryAdapt.addItemListener(_->{
 	    update(() ->frameLayer.setAdaptedLegendaryFrame(chkLegendaryAdapt.isSelected()));
 	});
 	propertiesPanel.add(createProperty("Legendary Frame", chkLegendaryAdapt));
-     
-	var chkTransparentBox = new JCheckBox();
+
+	final var chkTransparentBox = new JCheckBox();
 	chkTransparentBox.addItemListener(_->{
 	    update(() ->frameLayer.setAlphalayout(chkTransparentBox.isSelected()));
 	});
 	propertiesPanel.add(createProperty("Borderless Box", chkTransparentBox));
-	
+
     }
 
     private void chooseFrameSource(FrameLayer frameLayer) {
-        var chooser = new JFileChooser(frameLayer.getFile().getParentFile());
+        final var chooser = new JFileChooser(frameLayer.getFile().getParentFile());
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             update(() -> {
         	frameLayer.setFile(chooser.getSelectedFile());

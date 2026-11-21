@@ -13,13 +13,13 @@ public class ACGGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		var client = URLTools.newClient();
+		final var client = URLTools.newClient();
 
-		var href = RequestBuilder.build().url(getWebSite() + "/search").addContent("query", identifier).get()
+		final var href = RequestBuilder.build().url(getWebSite() + "/search").addContent("query", identifier).get()
 				.setClient(client).toHtml().select("div.search-result-item").first().select("a").attr("href");
-		var page = RequestBuilder.build().url(getWebSite() + "/" + href).get().setClient(client).toHtml();
+		final var page = RequestBuilder.build().url(getWebSite() + "/" + href).get().setClient(client).toHtml();
 
-		var grad = new MTGGrading();
+		final var grad = new MTGGrading();
 		grad.setNumberID(identifier);
 		grad.setGraderName(getName());
 		grad.setGradeNote(UITools.parseDouble(page.select("h1.heading-19").text()));

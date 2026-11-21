@@ -34,9 +34,9 @@ public class StockItemPanel extends MTGUIComponent {
 		table = UITools.createNewTable(model, false);
 		panneauHaut = new JPanel();
 
-		var btnAddSealed = UITools.createBindableJButton("", MTGConstants.ICON_PACKAGE, KeyEvent.VK_S, "sealed");
-		var btnAddCard = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_C, "card");
-		var btnRemoveProduct = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_D, "remove");
+		final var btnAddSealed = UITools.createBindableJButton("", MTGConstants.ICON_PACKAGE, KeyEvent.VK_S, "sealed");
+		final var btnAddCard = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_C, "card");
+		final var btnRemoveProduct = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_D, "remove");
 
 		panneauHaut.add(btnAddCard);
 		panneauHaut.add(btnAddSealed);
@@ -49,33 +49,36 @@ public class StockItemPanel extends MTGUIComponent {
 
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
-				MTGStockItem selection = UITools.getTableSelection(table, 0);
+				final MTGStockItem selection = UITools.getTableSelection(table, 0);
 
-				if (selection == null)
-					return;
+				if (selection == null) {
+				    return;
+				}
 			}
 		});
 
 		btnAddSealed.addActionListener(_ -> {
 
-			var diag = new SealedStockChooseDialog();
+			final var diag = new SealedStockChooseDialog();
 			diag.setVisible(true);
 
-			if (!diag.hasSelected())
-				return;
+			if (!diag.hasSelected()) {
+			    return;
+			}
 
-			for (var it : diag.getSelectedItems()) {
+			for (final var it : diag.getSelectedItems()) {
 				model.addItem(it);
 			}
 			model.fireTableDataChanged();
 		});
 
 		btnAddCard.addActionListener(_ -> {
-			var cdSearch = new CardStockChooseDialog();
+			final var cdSearch = new CardStockChooseDialog();
 			cdSearch.setVisible(true);
 			if (cdSearch.hasSelected()) {
-				for (var mc : cdSearch.getSelectedItems())
-					model.addItem(mc);
+				for (final var mc : cdSearch.getSelectedItems()) {
+				    model.addItem(mc);
+				}
 
 				model.fireTableDataChanged();
 
@@ -83,7 +86,7 @@ public class StockItemPanel extends MTGUIComponent {
 		});
 
 		btnRemoveProduct.addActionListener(_ -> {
-			var selection = UITools.getSelectedRows(table);
+			final var selection = UITools.getSelectedRows(table);
 			model.removeRows(selection);
 			model.fireTableDataChanged();
 
@@ -98,7 +101,7 @@ public class StockItemPanel extends MTGUIComponent {
 
 	@Override
 	public void onHide() {
-		boolean isUpdatedModel = model.getItems().stream().anyMatch(MTGStockItem::isUpdated);
+		final boolean isUpdatedModel = model.getItems().stream().anyMatch(MTGStockItem::isUpdated);
 
 		if (isUpdatedModel) {
 			MTGControler.getInstance().notify(
@@ -112,7 +115,7 @@ public class StockItemPanel extends MTGUIComponent {
 		try {
 			model.init(st);
 			table.packAll();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -122,7 +125,7 @@ public class StockItemPanel extends MTGUIComponent {
 		try {
 			model.bind(items);
 			table.packAll();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 

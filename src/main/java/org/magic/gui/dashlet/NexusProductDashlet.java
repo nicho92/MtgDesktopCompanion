@@ -7,9 +7,9 @@ import org.magic.api.interfaces.abstracts.extra.AbstractNexusDashlet;
 
 public class NexusProductDashlet extends AbstractNexusDashlet {
 
-  
+
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -22,5 +22,5 @@ public class NexusProductDashlet extends AbstractNexusDashlet {
     protected JComponent getNexusComponent() {
 	return new NexusProductPanel();
     }
-    
+
 }

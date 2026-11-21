@@ -6,7 +6,7 @@ import org.magic.api.interfaces.extra.MTGComparator;
 
 public class CardsDeckSorter implements MTGComparator<MTGCard> {
 
-	private MTGDeck deck;
+	private final MTGDeck deck;
 
 	@Override
 	public String toString() {
@@ -18,9 +18,10 @@ public class CardsDeckSorter implements MTGComparator<MTGCard> {
 		var ret = 0;
 		try {
 			ret = test(o1, o2);
-			if (ret == 0)
-				ret = name(o1, o2);
-		} catch (Exception _) {
+			if (ret == 0) {
+			    ret = name(o1, o2);
+			}
+		} catch (final Exception _) {
 			ret = 0;
 		}
 
@@ -33,28 +34,34 @@ public class CardsDeckSorter implements MTGComparator<MTGCard> {
 
 	private int test(MTGCard o1, MTGCard o2) {
 
-		if (getWeight(o1) < getWeight(o2))
-			return -1;
+		if (getWeight(o1) < getWeight(o2)) {
+		    return -1;
+		}
 
-		if (getWeight(o1) == getWeight(o2))
-			return 0;
+		if (getWeight(o1) == getWeight(o2)) {
+		    return 0;
+		}
 
 		return 1;
 
 	}
 
 	private int land(MTGCard mc) {
-		if (mc.getName().equalsIgnoreCase("Plains"))
-			return 6;
+		if (mc.getName().equalsIgnoreCase("Plains")) {
+		    return 6;
+		}
 
-		if (mc.getName().equalsIgnoreCase("Island"))
-			return 7;
+		if (mc.getName().equalsIgnoreCase("Island")) {
+		    return 7;
+		}
 
-		if (mc.getName().equalsIgnoreCase("Swamp"))
-			return 8;
+		if (mc.getName().equalsIgnoreCase("Swamp")) {
+		    return 8;
+		}
 
-		if (mc.getName().equalsIgnoreCase("Mountain"))
-			return 9;
+		if (mc.getName().equalsIgnoreCase("Mountain")) {
+		    return 9;
+		}
 
 		return 10;
 	}
@@ -66,32 +73,41 @@ public class CardsDeckSorter implements MTGComparator<MTGCard> {
 	@Override
 	public int getWeight(MTGCard mc) {
 
-		if (deck.getCommander() == mc)
-			return 0;
+		if (deck.getCommander() == mc) {
+		    return 0;
+		}
 
-		if (mc.isPlaneswalker())
-			return 1;
+		if (mc.isPlaneswalker()) {
+		    return 1;
+		}
 
-		if (mc.isCreature() && !mc.isArtifact())
-			return 2;
+		if (mc.isCreature() && !mc.isArtifact()) {
+		    return 2;
+		}
 
-		if (mc.isArtifact())
-			return 3;
+		if (mc.isArtifact()) {
+		    return 3;
+		}
 
-		if (mc.isRitual())
-			return 4;
+		if (mc.isRitual()) {
+		    return 4;
+		}
 
-		if (mc.isInstant())
-			return 5;
+		if (mc.isInstant()) {
+		    return 5;
+		}
 
-		if (mc.isEnchantment())
-			return 6;
+		if (mc.isEnchantment()) {
+		    return 6;
+		}
 
-		if (mc.isLand() && !mc.isBasicLand())
-			return 7;
+		if (mc.isLand() && !mc.isBasicLand()) {
+		    return 7;
+		}
 
-		if (mc.isBasicLand())
-			return land(mc);
+		if (mc.isBasicLand()) {
+		    return land(mc);
+		}
 
 		return 100;
 	}

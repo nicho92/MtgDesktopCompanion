@@ -13,7 +13,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class ClipBoardExport extends AbstractCardExport {
 
-	private TCache<MTGCard> clipboard;
+	private final TCache<MTGCard> clipboard;
 
 	public ClipBoardExport() {
 		clipboard = new TCache<>(getName());
@@ -51,23 +51,25 @@ public class ClipBoardExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		for (MTGCard mc : deck.getMainAsList())
-			clipboard.put(mc.getScryfallId(), mc);
+		for (final MTGCard mc : deck.getMainAsList()) {
+		    clipboard.put(mc.getScryfallId(), mc);
+		}
 
 	}
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName("ClipBoard");
 
-		for (MTGCard mc : clipboard.values()) {
+		for (final MTGCard mc : clipboard.values()) {
 			d.add(mc);
 			notify(mc);
 		}
 
-		if (getBoolean("CLEAN_AFTER_IMPORT"))
-			clipboard.clean();
+		if (getBoolean("CLEAN_AFTER_IMPORT")) {
+		    clipboard.clean();
+		}
 
 		return d;
 	}
@@ -75,7 +77,7 @@ public class ClipBoardExport extends AbstractCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("CLEAN_AFTER_IMPORT",
 				MTGProperty.newBooleanProperty("true", " set to true if you want to empty the clipboard after import"));
 		return m;

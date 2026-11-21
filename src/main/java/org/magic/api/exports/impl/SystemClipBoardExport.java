@@ -54,7 +54,7 @@ public class SystemClipBoardExport extends AbstractCardExport {
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 
-		var strse1 = new StringSelection(deck.getMain().entrySet().stream().map(e -> e.getValue() + " " + e.getKey())
+		final var strse1 = new StringSelection(deck.getMain().entrySet().stream().map(e -> e.getValue() + " " + e.getKey())
 				.collect(Collectors.joining(System.lineSeparator())));
 		clipboard.setContents(strse1, strse1);
 
@@ -62,16 +62,16 @@ public class SystemClipBoardExport extends AbstractCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName("ClipBoard");
 		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
-			var data = clipboard.getData(DataFlavor.stringFlavor).toString();
+			final var data = clipboard.getData(DataFlavor.stringFlavor).toString();
 
-			MTGODeckExport expo = new MTGODeckExport();
+			final MTGODeckExport expo = new MTGODeckExport();
 			return expo.importDeck(data, "ClipBoard");
 
-		} catch (UnsupportedFlavorException e) {
+		} catch (final UnsupportedFlavorException e) {
 			throw new IOException(e);
 		}
 	}

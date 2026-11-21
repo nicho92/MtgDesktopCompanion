@@ -73,10 +73,11 @@ public abstract class AbstractSpell implements Spell {
 	}
 
 	public Cost getCost() {
-		if (!costs.isEmpty())
-			return getCosts().get(0);
-		else
-			return null;
+		if (!costs.isEmpty()) {
+		    return getCosts().get(0);
+		} else {
+		    return null;
+		}
 	}
 
 	@Override

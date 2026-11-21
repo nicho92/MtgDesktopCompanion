@@ -47,7 +47,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 	@Override
 	public void initGUI() {
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		modEdition = new CardShakerTableModel();
@@ -64,19 +64,20 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 		cboEditions.addItemListener(ie -> {
 
-			if (ie.getStateChange() == ItemEvent.SELECTED)
-				init();
+			if (ie.getStateChange() == ItemEvent.SELECTED) {
+			    init();
+			}
 		});
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			MTGEdition ed;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(getString("EDITION"));
 				cboEditions.setSelectedItem(ed);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Error retrieve editions", e);
 			}
 
@@ -85,7 +86,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 		try {
 			table.packAll();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
@@ -93,10 +94,10 @@ public class EditionsDashlet extends AbstractJDashlet {
 			@Override
 			public Void call() throws Exception {
 				try {
-					CardShake cs = UITools.getTableSelection(table, 0);
+					final CardShake cs = UITools.getTableSelection(table, 0);
 					UITools.browse(cs.getLink());
 
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					logger.error("error", ex);
 				}
 				return null;
@@ -114,14 +115,14 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 		if (cboEditions.getSelectedItem() != null) {
 			buzy.start();
-			var sw = new SwingWorker<EditionsShakers, Void>() {
+			final var sw = new SwingWorker<EditionsShakers, Void>() {
 				@Override
 				protected EditionsShakers doInBackground() {
-					MTGEdition ed = (MTGEdition) cboEditions.getSelectedItem();
+					final MTGEdition ed = (MTGEdition) cboEditions.getSelectedItem();
 					setProperty("EDITION", ed.getId());
 					try {
 						return getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.error(e);
 						return new EditionsShakers();
 					}
@@ -133,10 +134,10 @@ public class EditionsDashlet extends AbstractJDashlet {
 						modEdition.init(get().getShakes());
 						table.packAll();
 						table.setRowSorter(new TableRowSorter<>(modEdition));
-					} catch (InterruptedException e) {
+					} catch (final InterruptedException e) {
 						logger.error("interruption", e);
 						Thread.currentThread().interrupt();
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("error parsing", e);
 					}
 					buzy.end();

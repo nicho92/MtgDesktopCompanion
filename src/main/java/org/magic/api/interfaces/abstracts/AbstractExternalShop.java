@@ -42,7 +42,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 
 	@Override
 	public List<MTGStockItem> listStock(String search) throws IOException {
-		var list = loadStock(search);
+		final var list = loadStock(search);
 		itemsBkcp.clear();
 		list.forEach(item -> itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getValue().doubleValue())));
 		return list;
@@ -53,8 +53,8 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		saveOrUpdateStock(items);
 
 		if (allShop) {
-			for (var it : items) {
-				for (var extComName : it.getTiersAppIds().keySet().stream().filter(s -> !s.equalsIgnoreCase(getName()))
+			for (final var it : items) {
+				for (final var extComName : it.getTiersAppIds().keySet().stream().filter(s -> !s.equalsIgnoreCase(getName()))
 						.toList()) {
 					logger.debug("Updating {} on {} with id={}", it.getProduct().getName(), extComName,
 							it.getTiersAppIds());
@@ -85,8 +85,9 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 
 	@Override
 	public void deleteTransaction(List<Transaction> list) throws IOException {
-		for (Transaction t : list)
-			deleteTransaction(t);
+		for (final Transaction t : list) {
+		    deleteTransaction(t);
+		}
 	}
 
 }

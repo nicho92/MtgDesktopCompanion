@@ -34,7 +34,7 @@ public class ActiveMQConsoleServer extends AbstractWarServer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("AUTHENTICATION", MTGProperty.newBooleanProperty("false", "enable or not hawt authentication"));
 
 		return m;
@@ -61,7 +61,7 @@ public class ActiveMQConsoleServer extends AbstractWarServer {
 			return new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/activemq.png"))
 					.getImage()
 					.getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}

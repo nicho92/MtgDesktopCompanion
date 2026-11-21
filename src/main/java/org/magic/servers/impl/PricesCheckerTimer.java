@@ -27,7 +27,7 @@ import org.magic.services.MTGControler;
 public class PricesCheckerTimer extends AbstractMTGServer {
 
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
-	private Timer timer;
+	private final Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
 
@@ -46,43 +46,45 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			@Override
 			public void run() {
-				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
-					for (var alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
-						alert.getOffers().clear();
+				if (getEnabledPlugin(MTGDao.class).listAlerts() != null) {
+				    for (final var alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
+				    	alert.getOffers().clear();
 
-						for (var prov : listEnabledPlugins(MTGPricesProvider.class)) {
-							var okz = new ArrayList<MTGPrice>();
-							try {
-								var stream = prov.getPrice(alert.getCard()).stream()
-										.filter(p -> p.getValue() <= alert.getPrice() && p.getValue() > Double
-												.parseDouble(MTGControler.getInstance().get("min-price-alert")));
+				    	for (final var prov : listEnabledPlugins(MTGPricesProvider.class)) {
+				    		final var okz = new ArrayList<MTGPrice>();
+				    		try {
+				    			var stream = prov.getPrice(alert.getCard()).stream()
+				    					.filter(p -> p.getValue() <= alert.getPrice() && p.getValue() > Double
+				    							.parseDouble(MTGControler.getInstance().get("min-price-alert")));
 
-								if (alert.isFoil())
-									stream = stream.filter(MTGPrice::isFoil);
+				    			if (alert.isFoil()) {
+				    			    stream = stream.filter(MTGPrice::isFoil);
+				    			}
 
-								var res = stream.toList();
+				    			final var res = stream.toList();
 
-								alert.getOffers().addAll(res);
-								okz.addAll(res);
-								prov.alertDetected(okz);
-								alert.orderDesc();
-							} catch (Exception e) {
-								logger.error("error loading price {}", prov, e);
-							}
-						}
-					}
+				    			alert.getOffers().addAll(res);
+				    			okz.addAll(res);
+				    			prov.alertDetected(okz);
+				    			alert.orderDesc();
+				    		} catch (final Exception e) {
+				    			logger.error("error loading price {}", prov, e);
+				    		}
+				    	}
+				    }
+				}
 
-				var notif = new MTGNotification();
+				final var notif = new MTGNotification();
 				notif.setTitle("New offers");
 				notif.setType(MESSAGE_TYPE.INFO);
-				for (var not : getArray("NOTIFIER")) {
+				for (final var not : getArray("NOTIFIER")) {
 					try {
 
-						var notifier = getPlugin(not, MTGNotifier.class);
+						final var notifier = getPlugin(not, MTGNotifier.class);
 						notif.setMessage(notifFormater.generate(notifier.getFormat(),
 								getEnabledPlugin(MTGDao.class).listAlerts(), MTGAlert.class));
 						notifier.send(notif);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.error(e);
 					}
 				}
@@ -90,7 +92,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 
 		};
 
-		var t = getLong(TIMEOUT_MINUTE);
+		final var t = getLong(TIMEOUT_MINUTE);
 		timer.scheduleAtFixedRate(tache, 0, t * 60000);
 		logger.info("Server start with {}min timeout", t);
 

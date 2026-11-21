@@ -22,7 +22,7 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 
 	public MTGJsonTokensProvider() {
 
-		if (MTG.getEnabledPlugin(MTGCardsProvider.class) instanceof AbstractMTGJsonProvider p) {
+		if (MTG.getEnabledPlugin(MTGCardsProvider.class) instanceof final AbstractMTGJsonProvider p) {
 			this.prov = p;
 		} else {
 			prov = (AbstractMTGJsonProvider) MTG.getPlugin(getString("PROVIDER"), MTGCardsProvider.class);
@@ -51,7 +51,7 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 
 	@Override
 	public BufferedImage getPictures(MTGCard tok) throws IOException {
-		String url = new ScryFallPicturesProvider().generateUrl(tok, false);
+		final String url = new ScryFallPicturesProvider().generateUrl(tok, false);
 		return URLTools.extractAsImage(url);
 	}
 

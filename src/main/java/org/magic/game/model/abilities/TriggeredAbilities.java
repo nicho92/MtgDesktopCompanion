@@ -21,19 +21,23 @@ public class TriggeredAbilities extends AbstractAbilities {
 	private KEYWORDS key;
 	private EnumCardsPatterns trigger;
 
+	@Deprecated
 	public String getEvent() {
 		return event;
 	}
 
+	@Deprecated
 	public EnumCardsPatterns getTrigger() {
 		return trigger;
 	}
 
+	@Deprecated
 	@Override
 	public boolean isTriggered() {
 		return true;
 	}
 
+	@Deprecated
 	public void init(KEYWORDS key, List<String> list) {
 		this.key = key;
 		String s = list.get(0);
@@ -49,15 +53,17 @@ public class TriggeredAbilities extends AbstractAbilities {
 		setEffects(EffectsFactory.getInstance().parseEffect(getCard(), list));
 
 		Arrays.asList(EnumCardsPatterns.values()).stream().filter(p -> p.name().startsWith("TRIGGER_")).forEach(p -> {
-			if (EnumCardsPatterns.hasPattern(event, p))
-				trigger = p;
+			if (EnumCardsPatterns.hasPattern(event, p)) {
+			    trigger = p;
+			}
 		});
 
 	}
 
+	@Deprecated
 	@Override
 	public String toString() {
-		var build = new StringBuilder();
+		final var build = new StringBuilder();
 		build.append("\nTRIGGER:\n").append(key).append(":\n\t").append(event).append("\n\tDO :");
 		getEffects().forEach(e -> build.append("\n\t").append(e));
 		build.append("\nEND");
@@ -65,6 +71,7 @@ public class TriggeredAbilities extends AbstractAbilities {
 
 	}
 
+	@Deprecated
 	@Override
 	public String getTitle() {
 		return getEvent();

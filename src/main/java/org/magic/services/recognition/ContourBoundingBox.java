@@ -25,7 +25,7 @@ import georegression.struct.point.Point2D_I32;
 
 public class ContourBoundingBox {
 	private static Point2D_I32[] farpoints;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 
 	static {
 		farpoints = new Point2D_I32[4];
@@ -35,18 +35,18 @@ public class ContourBoundingBox {
 		farpoints[3] = new Point2D_I32(-9999, 9999);
 	}
 
-	private Point2D_I32[] corners;
-	private Point2D_F64[] cornersf;
-	private Point2D_I32[] midpoints;
-	private double[] slopes;
+	private final Point2D_I32[] corners;
+	private final Point2D_F64[] cornersf;
+	private final Point2D_I32[] midpoints;
+	private final double[] slopes;
 	private double longestSide;
 	private double shortestSide;
 
 	public BufferedImage getTransformedImage(BufferedImage in, boolean flip) {
 		try {
-			Planar<GrayF32> input = ConvertBufferedImage.convertFromPlanar(in, null, true, GrayF32.class);
+			final Planar<GrayF32> input = ConvertBufferedImage.convertFromPlanar(in, null, true, GrayF32.class);
 
-			RemovePerspectiveDistortion<Planar<GrayF32>> removePerspective = new RemovePerspectiveDistortion<>(300, 418,
+			final RemovePerspectiveDistortion<Planar<GrayF32>> removePerspective = new RemovePerspectiveDistortion<>(300, 418,
 					ImageType.pl(3, GrayF32.class));
 
 			int start = longEdge();
@@ -63,30 +63,30 @@ public class ContourBoundingBox {
 					new Point2D_F64(corners[(start + 3) % 4].x, corners[(start + 3) % 4].y))) {
 				return null;
 			}
-			Planar<GrayF32> output = removePerspective.getOutput();
+			final Planar<GrayF32> output = removePerspective.getOutput();
 			return ConvertBufferedImage.convertTo_F32(output, null, true);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("RemovePerspectiveDistortion.apply", e);
 			return in;
 		}
 	}
 
 	public static List<ContourBoundingBox> getContourBoundingBox(BufferedImage in) {
-		List<ContourBoundingBox> bounds = new ArrayList<>();
-		GrayU8 img = ConvertBufferedImage.convertFromSingle(in, null, GrayU8.class);
-		GrayU8 binary = img.createSameShape();
+		final List<ContourBoundingBox> bounds = new ArrayList<>();
+		final GrayU8 img = ConvertBufferedImage.convertFromSingle(in, null, GrayU8.class);
+		final GrayU8 binary = img.createSameShape();
 		GThresholdImageOps.localMean(img, binary, ConfigLength.fixed(20), 1.0, true, null, null, null);
 
-		GrayU8 filtered = BinaryImageOps.erode8(binary, 2, null);
-		var label = new GrayS32(img.width, img.height);
+		final GrayU8 filtered = BinaryImageOps.erode8(binary, 2, null);
+		final var label = new GrayS32(img.width, img.height);
 
-		int imgArea = img.getHeight() * img.getWidth();
+		final int imgArea = img.getHeight() * img.getWidth();
 
-		List<Contour> contours = BinaryImageOps.contour(filtered, ConnectRule.EIGHT, label);
+		final List<Contour> contours = BinaryImageOps.contour(filtered, ConnectRule.EIGHT, label);
 		bounds.clear();
-		for (Contour contour : contours) {
-			var bb = new ContourBoundingBox(contour.external);
-			double ratio = bb.area() / imgArea;
+		for (final Contour contour : contours) {
+			final var bb = new ContourBoundingBox(contour.external);
+			final double ratio = bb.area() / imgArea;
 			if (ratio > 0.05 && ratio < 0.5 && bb.isRoughlyRecttangular()) {
 				bounds.add(bb);
 			}
@@ -100,13 +100,13 @@ public class ContourBoundingBox {
 		slopes = new double[4];
 		cornersf = new Point2D_F64[4];
 
-		for (Point2D_I32 p : contour) {
+		for (final Point2D_I32 p : contour) {
 			for (var i = 0; i < 4; i++) {
 				if (corners[i] == null) {
 					corners[i] = p.copy();
 				} else {
-					double d1 = corners[i].distance(farpoints[i]);
-					double d2 = p.distance(farpoints[i]);
+					final double d1 = corners[i].distance(farpoints[i]);
+					final double d2 = p.distance(farpoints[i]);
 					if (d2 < d1) {
 						corners[i] = p.copy();
 					}
@@ -116,7 +116,7 @@ public class ContourBoundingBox {
 
 		for (var i = 0; i < 4; i++) {
 			cornersf[i] = new Point2D_F64(corners[i].x, corners[i].y);
-			int j = (i + 1) % 4;
+			final int j = (i + 1) % 4;
 			midpoints[i] = new Point2D_I32((corners[i].x + corners[j].x) / 2, (corners[i].y + corners[j].y) / 2);
 			slopes[i] = slope(corners[i], corners[j]);
 		}
@@ -127,8 +127,8 @@ public class ContourBoundingBox {
 		double shortest = Integer.MAX_VALUE;
 		var shortestIX = 0;
 		for (var i = 0; i < 4; i++) {
-			int j = (i + 1) % 4;
-			double d = corners[i].distance(corners[j]);
+			final int j = (i + 1) % 4;
+			final double d = corners[i].distance(corners[j]);
 			if (d < shortest) {
 				shortest = d;
 				shortestIX = i;
@@ -141,8 +141,8 @@ public class ContourBoundingBox {
 		shortestSide = Integer.MAX_VALUE;
 		longestSide = 0;
 		for (var i = 0; i < 4; i++) {
-			int j = (i + 1) % 4;
-			double d = corners[i].distance(corners[j]);
+			final int j = (i + 1) % 4;
+			final double d = corners[i].distance(corners[j]);
 			if (d < shortestSide) {
 				shortestSide = d;
 			}
@@ -157,8 +157,8 @@ public class ContourBoundingBox {
 	}
 
 	public boolean isRoughlyRecttangular() {
-		double d1 = midpoints[0].distance(midpoints[2]);
-		double d2 = midpoints[1].distance(midpoints[3]);
+		final double d1 = midpoints[0].distance(midpoints[2]);
+		final double d2 = midpoints[1].distance(midpoints[3]);
 		double ratio;
 		if (d1 > d2) {
 			ratio = d1 / d2;
@@ -166,7 +166,7 @@ public class ContourBoundingBox {
 			ratio = d2 / d1;
 		}
 		if (shortestSide != 0) {
-			double shortLong = longestSide / shortestSide;
+			final double shortLong = longestSide / shortestSide;
 			return ratio > 1 && ratio < 2 && shortLong < 2;
 		} else {
 			return false;
@@ -188,7 +188,7 @@ public class ContourBoundingBox {
 			} else {
 				g.setColor(Color.WHITE);
 			}
-			int j = (i + 1) % 4;
+			final int j = (i + 1) % 4;
 			g.drawLine(corners[i].x, corners[i].y, corners[j].x, corners[j].y);
 		}
 	}

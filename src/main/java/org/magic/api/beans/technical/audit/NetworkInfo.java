@@ -59,11 +59,11 @@ public class NetworkInfo extends AbstractAuditableItem {
 			};
 			request.setURI(URI.create(o.get("url").getAsString()));
 
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
-		var sl = new StatusLine() {
+		final var sl = new StatusLine() {
 
 			@Override
 			public int getStatusCode() {
@@ -73,8 +73,9 @@ public class NetworkInfo extends AbstractAuditableItem {
 			@Override
 			public String getReasonPhrase() {
 
-				if (o.get(REPONSES_MESSAGE) != null)
-					return o.get(REPONSES_MESSAGE).getAsString();
+				if (o.get(REPONSES_MESSAGE) != null) {
+				    return o.get(REPONSES_MESSAGE).getAsString();
+				}
 
 				return "";
 			}
@@ -87,7 +88,7 @@ public class NetworkInfo extends AbstractAuditableItem {
 
 		response = new BasicHttpResponse(sl);
 
-		var entity = new BasicHttpEntity();
+		final var entity = new BasicHttpEntity();
 		entity.setContentType(o.get(CONTENT_TYPE).getAsString());
 
 		response.setEntity(entity);
@@ -99,7 +100,7 @@ public class NetworkInfo extends AbstractAuditableItem {
 	}
 
 	public JsonObject toJson() {
-		var jo = new JsonObject();
+		final var jo = new JsonObject();
 		jo.addProperty("url", getRequest().getURI().toASCIIString());
 		jo.addProperty("method", getRequest().getMethod());
 		jo.addProperty("start", getStart().toEpochMilli());
@@ -111,10 +112,10 @@ public class NetworkInfo extends AbstractAuditableItem {
 
 		if (getResponse() != null) {
 
-			var servT = getResponse().getFirstHeader("Server");
+			final var servT = getResponse().getFirstHeader("Server");
 
 			if (getResponse().getEntity() != null) {
-				var contentT = getResponse().getEntity().getContentType();
+				final var contentT = getResponse().getEntity().getContentType();
 				jo.addProperty(CONTENT_TYPE, contentT != null ? contentT.getValue() : "");
 			} else {
 				jo.addProperty(CONTENT_TYPE, "");

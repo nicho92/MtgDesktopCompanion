@@ -27,10 +27,11 @@ public class RarityRepartitionPanel extends Abstract3DPieChart<MTGCard, String> 
 
 	@Override
 	protected void initPlot() {
-		var source = new StandardColorSource<String>();
+		final var source = new StandardColorSource<String>();
 
-		for (EnumRarity r : EnumRarity.values())
-			source.setColor(r.toPrettyString(), r.getColor());
+		for (final EnumRarity r : EnumRarity.values()) {
+		    source.setColor(r.toPrettyString(), r.getColor());
+		}
 
 		plot.setSectionColorSource(source);
 
@@ -39,8 +40,8 @@ public class RarityRepartitionPanel extends Abstract3DPieChart<MTGCard, String> 
 	@Override
 	public PieDataset3D<String> getDataSet() {
 
-		var dataset = new StandardPieDataset3D<String>();
-		for (Entry<EnumRarity, Integer> data : manager.analyseRarities(items).entrySet()) {
+		final var dataset = new StandardPieDataset3D<String>();
+		for (final Entry<EnumRarity, Integer> data : manager.analyseRarities(items).entrySet()) {
 			dataset.add(data.getKey().toPrettyString(), data.getValue());
 		}
 		return dataset;

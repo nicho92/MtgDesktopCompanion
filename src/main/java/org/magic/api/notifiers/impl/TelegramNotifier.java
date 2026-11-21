@@ -29,11 +29,11 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 
-		var message = SendMessage.builder().chatId(getString("CHANNEL")).text(notification.getMessage()).build();
+		final var message = SendMessage.builder().chatId(getString("CHANNEL")).text(notification.getMessage()).build();
 
 		try {
 			new OkHttpTelegramClient(getAuthenticator().get("TOKEN")).execute(message);
-		} catch (TelegramApiException e) {
+		} catch (final TelegramApiException e) {
 			throw new IOException(e);
 		}
 

@@ -52,13 +52,13 @@ import org.reflections.Reflections;
 @SuppressWarnings("rawtypes")
 public class PluginRegistry {
 
-	private Map<Class, PluginEntry> registry;
+	private final Map<Class, PluginEntry> registry;
 	private static PluginRegistry instance;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private ClassLoader classLoader;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
+	private final ClassLoader classLoader;
 	private boolean hasUpdated = false;
 	private XMLConfiguration config;
-	private Map<String, String> pluginsToDelete;
+	private final Map<String, String> pluginsToDelete;
 	private boolean needUpdate;
 
 	public Map<String, String> getPluginsToDelete() {
@@ -66,16 +66,17 @@ public class PluginRegistry {
 	}
 
 	public List<String> getStringMethod(Class<?> classe) {
-		List<String> meths = new ArrayList<>();
-		Method[] mths = classe.getMethods();
-		for (Method m : mths) {
-			var sb = new StringBuilder();
+		final List<String> meths = new ArrayList<>();
+		final Method[] mths = classe.getMethods();
+		for (final Method m : mths) {
+			final var sb = new StringBuilder();
 			sb.append(m.getName()).append('(');
-			Class<?>[] params = m.getParameterTypes();
+			final Class<?>[] params = m.getParameterTypes();
 			for (var j = 0; j < params.length; j++) {
 				sb.append(params[j].getSimpleName());
-				if (j < (params.length - 1))
-					sb.append(',');
+				if (j < (params.length - 1)) {
+				    sb.append(',');
+				}
 			}
 			sb.append(')');
 			meths.add(sb.toString());
@@ -84,8 +85,9 @@ public class PluginRegistry {
 	}
 
 	public static PluginRegistry inst() {
-		if (instance == null)
-			instance = new PluginRegistry();
+		if (instance == null) {
+		    instance = new PluginRegistry();
+		}
 
 		return instance;
 	}
@@ -166,7 +168,7 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> List<Class<T>> listClasses() {
-		List<Class<T>> ret = new ArrayList<>();
+		final List<Class<T>> ret = new ArrayList<>();
 		registry.keySet().forEach(ret::add);
 		return ret;
 	}
@@ -174,20 +176,21 @@ public class PluginRegistry {
 	@SuppressWarnings("unchecked")
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe) {
 
-		PluginEntry<T> entry = registry.get(classe);
+		final PluginEntry<T> entry = registry.get(classe);
 
-		if (!entry.getPlugins().isEmpty())
-			return entry.getPlugins();
+		if (!entry.getPlugins().isEmpty()) {
+		    return entry.getPlugins();
+		}
 
-		var listRemoved = new ArrayList<String>();
+		final var listRemoved = new ArrayList<String>();
 
 		logger.debug("loading {}", classe.getSimpleName());
 		for (var i = 1; i <= config.getList("/" + entry.getElement() + "/class").size(); i++) {
-			var s = config.getString(entry.getXpath() + "[" + i + "]/class");
+			final var s = config.getString(entry.getXpath() + "[" + i + "]/class");
 			T prov = null;
 			try {
 				prov = newInstance(s);
-			} catch (ClassNotFoundException _) {
+			} catch (final ClassNotFoundException _) {
 				logger.error("\t{} is not found", s);
 				listRemoved.add(entry.getXpath() + "[class='" + s + "']");
 				needUpdate = true;
@@ -195,7 +198,7 @@ public class PluginRegistry {
 			if (prov != null) {
 				try {
 					prov.enable(config.getBoolean(entry.getXpath() + "[" + i + "]/enable"));
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.trace(e);
 					prov.enable(true);
 				}
@@ -219,17 +222,18 @@ public class PluginRegistry {
 	}
 
 	public List<MTGPlugin> listPlugins() {
-		var list = new ArrayList<MTGPlugin>();
+		final var list = new ArrayList<MTGPlugin>();
 		PluginRegistry.inst().listClasses().forEach(c -> PluginRegistry.inst().listPlugins(c).forEach(list::add));
 		return list;
 	}
 
 	public List<Class<? extends MTGPlugin>> getClasses(String packageName) {
-		var classes = new ArrayList<Class<? extends MTGPlugin>>();
-		var classReflections = new Reflections(packageName);
-		for (Class<? extends MTGPlugin> c : classReflections.getSubTypesOf(MTGPlugin.class)) {
-			if (!c.isInterface() && !Modifier.isAbstract(c.getModifiers()))
-				classes.add(c);
+		final var classes = new ArrayList<Class<? extends MTGPlugin>>();
+		final var classReflections = new Reflections(packageName);
+		for (final Class<? extends MTGPlugin> c : classReflections.getSubTypesOf(MTGPlugin.class)) {
+			if (!c.isInterface() && !Modifier.isAbstract(c.getModifiers())) {
+			    classes.add(c);
+			}
 		}
 		return classes;
 	}
@@ -237,8 +241,9 @@ public class PluginRegistry {
 	@SuppressWarnings("unchecked")
 	public boolean updateConfigWithNewModule() {
 		entrySet().forEach(p -> {
-			for (Class<MTGPlugin> c : extractMissing(p.getValue().getClasspath(), p.getValue().getXpath()))
-				MTGControler.getInstance().addProperty(p.getValue().getXpath(), c);
+			for (final Class<MTGPlugin> c : extractMissing(p.getValue().getClasspath(), p.getValue().getXpath())) {
+			    MTGControler.getInstance().addProperty(p.getValue().getXpath(), c);
+			}
 
 		});
 		return hasUpdated;
@@ -247,10 +252,10 @@ public class PluginRegistry {
 
 	private List<Class> extractMissing(String packages, String k) {
 
-		var retour = new ArrayList<Class>();
-		for (var c : getClasses(packages)) {
+		final var retour = new ArrayList<Class>();
+		for (final var c : getClasses(packages)) {
 			if (!c.isAnonymousClass() && !c.getName().contains("$")) {
-				var path = k + "[class='" + c.getName() + "']/class";
+				final var path = k + "[class='" + c.getName() + "']/class";
 				if (MTGControler.getInstance().get(path).isEmpty()) {
 					hasUpdated = true;
 					retour.add(c);
@@ -262,12 +267,13 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> T getPlugin(String name, Class<T> type) {
-		var r = listPlugins(type).stream().filter(s -> s.getName().equalsIgnoreCase(name)).findFirst();
+		final var r = listPlugins(type).stream().filter(s -> s.getName().equalsIgnoreCase(name)).findFirst();
 
-		if (r.isPresent())
-			return r.get();
+		if (r.isPresent()) {
+		    return r.get();
+		}
 
-		var cname = name.replaceAll("[\n\r\t]", "_");
+		final var cname = name.replaceAll("[\n\r\t]", "_");
 		 throw new RuntimeException(cname + " doesn't exist or is not enabled");
 	}
 
@@ -276,22 +282,24 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {
-		var r = listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst();
-		
-		if (r.isPresent())
-			return r.get();
-		
+		final var r = listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst();
+
+		if (r.isPresent()) {
+		    return r.get();
+		}
+
 		throw new RuntimeException(t + " doesn't exist or is not enabled");
-		
+
 	}
 
 	public MTGPlugin getPluginById(String id) {
-		var r= listPlugins().stream().filter(p -> p.getId().equals(id)).findFirst();
-		
+		final var r= listPlugins().stream().filter(p -> p.getId().equals(id)).findFirst();
 
-		if (r.isPresent())
-			return r.get();
-		
+
+		if (r.isPresent()) {
+		    return r.get();
+		}
+
 		throw new RuntimeException(id + " doesn't exist or is not enabled");
 	}
 

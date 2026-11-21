@@ -29,14 +29,14 @@ public class TransformActions extends AbstractCardAction {
 
 			card.removeAllCounters();
 
-			var rCard = card.getMagicCard().getRotatedCard();
+			final var rCard = card.getMagicCard().getRotatedCard();
 			rCard.setRulings(card.getMagicCard().getRulings());
 			card.setMagicCard(rCard);
 			card.revalidate();
 			card.repaint();
 			card.initActions();
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error("error transformation", ex);
 		}
 

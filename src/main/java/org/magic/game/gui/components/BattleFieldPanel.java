@@ -29,23 +29,24 @@ public class BattleFieldPanel extends DraggablePanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPopupMenu battlefieldMenu = new JPopupMenu();
+	private final JPopupMenu battlefieldMenu = new JPopupMenu();
 	private transient BufferedImage image;
 
 	public List<DisplayableCard> getCards() {
-		List<DisplayableCard> selected = new ArrayList<>();
-		for (Component c : getComponents()) {
-			DisplayableCard card = (DisplayableCard) c;
+		final List<DisplayableCard> selected = new ArrayList<>();
+		for (final Component c : getComponents()) {
+			final DisplayableCard card = (DisplayableCard) c;
 			selected.add(card);
 		}
 		return selected;
 	}
 
 	public List<DisplayableCard> getSelectedCards() {
-		List<DisplayableCard> selected = new ArrayList<>();
-		for (DisplayableCard card : getCards()) {
-			if (card.isSelected())
-				selected.add(card);
+		final List<DisplayableCard> selected = new ArrayList<>();
+		for (final DisplayableCard card : getCards()) {
+			if (card.isSelected()) {
+			    selected.add(card);
+			}
 		}
 
 		return selected;
@@ -65,14 +66,15 @@ public class BattleFieldPanel extends DraggablePanel {
 		super();
 		setLayout(null);
 
-		if (MTGControler.getInstance().get("/game/player-profil/background") != null)
-			try {
-				BufferedImage im = ImageTools
-						.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
-				setBackgroundPicture(im);
-			} catch (IOException _) {
-				// do nothing
-			}
+		if (MTGControler.getInstance().get("/game/player-profil/background") != null) {
+		    try {
+		    	final BufferedImage im = ImageTools
+		    			.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
+		    	setBackgroundPicture(im);
+		    } catch (final IOException _) {
+		    	// do nothing
+		    }
+		}
 
 		battlefieldMenu.removeAll();
 		battlefieldMenu.add(new JMenuItem(new UnselectAllAction()));

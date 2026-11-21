@@ -24,9 +24,10 @@ public class FileCache extends AbstractCacheProvider {
 	public FileCache() {
 		super();
 
-		File dir = getFile(DIRECTORY);
-		if (!dir.exists())
-			dir.mkdir();
+		final File dir = getFile(DIRECTORY);
+		if (!dir.exists()) {
+		    dir.mkdir();
+		}
 	}
 
 	@Override
@@ -41,15 +42,17 @@ public class FileCache extends AbstractCacheProvider {
 			logger.trace("search in cache : {} {}", mc, mc.getEdition());
 
 			var save = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());
-			if (!save.exists())
-				save.mkdir();
+			if (!save.exists()) {
+			    save.mkdir();
+			}
 
 			save = new File(save, removeCon(mc.getEdition().getId()));
-			if (!save.exists())
-				save.mkdir();
+			if (!save.exists()) {
+			    save.mkdir();
+			}
 
 			return ImageTools.read(new File(save, generateIdIndex(mc) + "." + getString(FORMAT)));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.trace("search in cache : {} {} not found : {}", mc, mc.getEdition(), e);
 
 			return null;
@@ -61,19 +64,22 @@ public class FileCache extends AbstractCacheProvider {
 		logger.debug("save in cache : {} {} ", mc, mc.getEdition());
 
 		var f = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());
-		if (!f.exists())
-			f.mkdir();
+		if (!f.exists()) {
+		    f.mkdir();
+		}
 
 		f = new File(f, removeCon(mc.getEdition().getId()));
-		if (!f.exists())
-			f.mkdir();
+		if (!f.exists()) {
+		    f.mkdir();
+		}
 
 		ImageTools.saveImage(im, new File(f, generateIdIndex(mc) + "." + getString(FORMAT)), getString(FORMAT));
 	}
 
 	private String removeCon(String a) {
-		if (a.equalsIgnoreCase("con"))
-			return a + "_set";
+		if (a.equalsIgnoreCase("con")) {
+		    return a + "_set";
+		}
 
 		return a;
 	}
@@ -82,7 +88,7 @@ public class FileCache extends AbstractCacheProvider {
 	public void clear() {
 		try {
 			FileTools.cleanDirectory(getFile(DIRECTORY));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("Couldn't clean {}", getFile(DIRECTORY), e);
 		}
 
@@ -103,8 +109,9 @@ public class FileCache extends AbstractCacheProvider {
 	@Override
 	public long size() {
 
-		if (getFile(DIRECTORY) != null)
-			return FileTools.sizeOfDirectory(getFile(DIRECTORY));
+		if (getFile(DIRECTORY) != null) {
+		    return FileTools.sizeOfDirectory(getFile(DIRECTORY));
+		}
 
 		return 0;
 	}
@@ -117,8 +124,9 @@ public class FileCache extends AbstractCacheProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

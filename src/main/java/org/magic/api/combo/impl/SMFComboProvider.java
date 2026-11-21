@@ -18,8 +18,8 @@ public class SMFComboProvider extends AbstractComboProvider {
 	@Override
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 
-		List<MTGCombo> cbos = new ArrayList<>();
-		var c = URLTools.newClient();
+		final List<MTGCombo> cbos = new ArrayList<>();
+		final var c = URLTools.newClient();
 		String cardId = "";
 		try {
 			var cardString = RequestBuilder.build().url(BASE_URL + "/index.php?objet=carte&action=searchCardTypeAhead")
@@ -29,10 +29,10 @@ public class SMFComboProvider extends AbstractComboProvider {
 					.addHeader("sec-fetch-site", "same-origin").toContentString();
 
 			cardString = cardString.substring(cardString.indexOf("["));
-			var cardObj = URLTools.toJson(cardString);
+			final var cardObj = URLTools.toJson(cardString);
 			cardId = cardObj.getAsJsonArray().get(0).getAsJsonObject().get("car_id").getAsString();
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return cbos;
 		}
@@ -47,12 +47,12 @@ public class SMFComboProvider extends AbstractComboProvider {
 					.addContent("dataIsTerminated", "1").addContent("print", "1").addContent("page", "1")
 					.addContent("dataText", "").addContent("tri", "dataPublicationDate").addContent("login", "")
 					.toHtml();
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			return cbos;
 		}
 
 		d.select("div.col div.card").forEach(el -> {
-			var cbo = new MTGCombo();
+			final var cbo = new MTGCombo();
 			cbo.setName(el.getElementsByTag("h4").text());
 			cbo.setPlugin(this);
 
@@ -60,9 +60,9 @@ public class SMFComboProvider extends AbstractComboProvider {
 			try {
 				details = RequestBuilder.build().url(BASE_URL + "/" + el.getElementsByTag("a").attr("href")).get()
 						.setClient(c).toHtml();
-				var article = details.getElementById("fullDeckDescription");
+				final var article = details.getElementById("fullDeckDescription");
 				cbo.setComment(article.html());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 

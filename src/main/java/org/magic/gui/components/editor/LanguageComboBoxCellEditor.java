@@ -22,14 +22,15 @@ public class LanguageComboBoxCellEditor extends DefaultCellEditor {
 	@SuppressWarnings("unchecked")
 	public LanguageComboBoxCellEditor() {
 		super(new JComboBox<>());
-		if(getComponent() instanceof JComboBox cb)
+		if(getComponent() instanceof final JComboBox cb) {
 		    model = (DefaultComboBoxModel<String>)cb.getModel();
+		}
 	}
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 		model.removeAllElements();
-		List<String> selectedItem = Lists.newArrayList(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
+		final List<String> selectedItem = Lists.newArrayList(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		Collections.sort(selectedItem);
 		model.addAll(selectedItem);
 

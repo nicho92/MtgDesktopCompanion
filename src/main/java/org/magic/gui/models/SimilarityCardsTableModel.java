@@ -27,7 +27,7 @@ public class SimilarityCardsTableModel extends GenericTableModel<MTGCard> {
 	@Override
 	public Object getValueAt(int row, int column) {
 
-		MTGCard r = new ArrayList<>(map.keySet()).get(row);
+		final MTGCard r = new ArrayList<>(map.keySet()).get(row);
 		switch (column) {
 			case 0 :
 				return r;
@@ -52,10 +52,11 @@ public class SimilarityCardsTableModel extends GenericTableModel<MTGCard> {
 
 	@Override
 	public int getRowCount() {
-		if (map == null)
-			return 0;
-		else
-			return map.size();
+		if (map == null) {
+		    return 0;
+		} else {
+		    return map.size();
+		}
 	}
 
 }

@@ -18,7 +18,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String generateUrl(MTGCard mc, boolean crop) {
 
-		var url = new StringBuilder("https://cards.scryfall.io/");
+		final var url = new StringBuilder("https://cards.scryfall.io/");
 
 		if (crop) {
 			url.append("art_crop");
@@ -26,18 +26,20 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			url.append(getProperty("PIC_SIZE", LARGE));
 		}
 
-		if (mc.isDoubleFaced() && !mc.getSide().equals("a") && mc.getLayout() != EnumLayout.MELD)
-			url.append("/back/");
-		else
-			url.append("/front/");
+		if (mc.isDoubleFaced() && !mc.getSide().equals("a") && mc.getLayout() != EnumLayout.MELD) {
+		    url.append("/back/");
+		} else {
+		    url.append("/front/");
+		}
 
 		url.append(mc.getScryfallId().charAt(0)).append("/").append(mc.getScryfallId().charAt(1)).append("/")
 				.append(mc.getScryfallId());
 
-		if (getString("PIC_SIZE").equals("display"))
-			url.append(".webp");
-		else
-			url.append(".jpg");
+		if (getString("PIC_SIZE").equals("display")) {
+		    url.append(".webp");
+		} else {
+		    url.append(".jpg");
+		}
 
 		return url.toString();
 
@@ -52,10 +54,10 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
-		var url = generateUrl(mc, false);
+		final var url = generateUrl(mc, false);
 		try {
 			return extractAsImage(url);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return null;
 		}
 	}
@@ -67,10 +69,10 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage extractPicture(MTGCard mc) throws IOException {
-		var u = generateUrl(mc, true);
+		final var u = generateUrl(mc, true);
 		try {
 			return extractAsImage(u);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return getBackPicture(mc);
 		}

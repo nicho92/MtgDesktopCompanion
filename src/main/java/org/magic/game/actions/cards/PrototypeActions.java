@@ -18,9 +18,9 @@ public class PrototypeActions extends AbstractCardAction {
 
 	private static final String K = "Prototype";
 	private final Pattern p = Pattern.compile("/*" + K + " \\{(.*?)\\ ", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-	
-	
-	
+
+
+
 	public PrototypeActions(DisplayableCard card) {
 		super(card, K);
 		putValue(SHORT_DESCRIPTION, "Cast creature as Prototype");
@@ -31,14 +31,15 @@ public class PrototypeActions extends AbstractCardAction {
 	private void parse(String text) {
 		var cost = "";
 		try {
-			var m = p.matcher(text);
+			final var m = p.matcher(text);
 
-			if (m.find())
-				cost = m.group().replace(K, "").trim();
-			else
-				cost = text.substring(text.indexOf(K + "\u2014") + K.length(), text.indexOf('('));
+			if (m.find()) {
+			    cost = m.group().replace(K, "").trim();
+			} else {
+			    cost = text.substring(text.indexOf(K + "\u2014") + K.length(), text.indexOf('('));
+			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			cost = "";
 		}

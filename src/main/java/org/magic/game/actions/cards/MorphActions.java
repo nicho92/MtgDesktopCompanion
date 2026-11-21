@@ -35,17 +35,18 @@ public class MorphActions extends AbstractCardAction {
 
 	private String parse() {
 		try {
-			String regex = "/*" + k + " \\{(.*?)\\ ";
-			String text = card.getMagicCard().getText();
-			var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-			var m = p.matcher(text);
+			final String regex = "/*" + k + " \\{(.*?)\\ ";
+			final String text = card.getMagicCard().getText();
+			final var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+			final var m = p.matcher(text);
 
-			if (m.find())
-				cost = m.group().replaceAll(k, "").trim();
-			else
-				cost = text.substring(text.indexOf(k + "\u2014") + k.length(), text.indexOf('('));
+			if (m.find()) {
+			    cost = m.group().replaceAll(k, "").trim();
+			} else {
+			    cost = text.substring(text.indexOf(k + "\u2014") + k.length(), text.indexOf('('));
+			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			cost = "";
 		}
@@ -55,7 +56,7 @@ public class MorphActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (!card.isRotated()) {
-			var mc = new MTGCard();
+			final var mc = new MTGCard();
 			mc.setName("Morphed Creature");
 			mc.setPower("2");
 			mc.setToughness("2");
@@ -63,7 +64,7 @@ public class MorphActions extends AbstractCardAction {
 			mc.setCost("{3}");
 			mc.setEditions(card.getMagicCard().getEditions());
 			mc.setRotatedCard(card.getMagicCard());
-			var r = new MTGRuling();
+			final var r = new MTGRuling();
 			r.setText(AbstractKeyWordsManager.getInstance().generateFromKeyString(k).toString());
 			mc.getRulings().add(r);
 			mc.setText(k + " " + cost);
@@ -76,18 +77,18 @@ public class MorphActions extends AbstractCardAction {
 			try {
 				card.setImage(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc)
 						.getScaledInstance(card.getWidth(), card.getHeight(), Image.SCALE_SMOOTH)));
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				logger.error(e1);
 			}
 		} else {
 			try {
-				MTGCard mc = card.getMagicCard().getRotatedCard();
+				final MTGCard mc = card.getMagicCard().getRotatedCard();
 				card.setMagicCard(mc);
 				card.setRotated(false);
 				card.removeAllCounters();
 				card.showPT(false);
 				card.initActions();
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				logger.error(e1);
 			}
 		}

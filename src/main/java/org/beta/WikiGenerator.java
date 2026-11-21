@@ -30,9 +30,9 @@ public class WikiGenerator {
 
 	@SuppressWarnings("unchecked")
 	private static void buildePluginsIndex() throws IOException {
-		var builder = new StringBuilder();
+		final var builder = new StringBuilder();
 
-		var content = """
+		final var content = """
 				Plugins extend and implement various functions in MTG Companion. There are a number of different categories of plugins, each with their own configuration and purpose. Check the page for the specific plugin for information on how to configure it.
 
 				Some plugins are still under development. If a plugin is in a DEV status be aware that there could be issues with it.
@@ -44,9 +44,10 @@ public class WikiGenerator {
 
 		builder.append("### SUMMARY\n");
 
-		for (var k : PluginRegistry.inst().entrySet().stream().map(e -> e.getValue().getType().name()).sorted()
-				.toList())
-			builder.append("* [").append(k).append("](#").append(k).append(")\n");
+		for (final var k : PluginRegistry.inst().entrySet().stream().map(e -> e.getValue().getType().name()).sorted()
+				.toList()) {
+		    builder.append("* [").append(k).append("](#").append(k).append(")\n");
+		}
 
 		PluginRegistry.inst().entrySet().stream().filter(e -> e.getValue().getType() != PLUGINS.DASHLET).forEach(e -> {
 
@@ -54,12 +55,13 @@ public class WikiGenerator {
 
 			builder.append(e.getValue().getDesc()).append(".");
 
-			if (!e.getValue().isMultiprovider())
-				builder.append(" Only one can be active at a time.\n\n");
-			else
-				builder.append(" Multiple can be active.\n\n");
+			if (!e.getValue().isMultiprovider()) {
+			    builder.append(" Only one can be active at a time.\n\n");
+			} else {
+			    builder.append(" Multiple can be active.\n\n");
+			}
 
-			List<MTGPlugin> ps = PluginRegistry.inst().listPlugins(e.getKey()).stream().sorted().toList();
+			final List<MTGPlugin> ps = PluginRegistry.inst().listPlugins(e.getKey()).stream().sorted().toList();
 
 			builder.append("|     |  Name | Status |\n");
 			builder.append("|----|---------|---------|\n");
@@ -88,7 +90,7 @@ public class WikiGenerator {
 
 		PluginRegistry.inst().listPlugins().stream().filter(p -> p.getType() != PLUGINS.DASHLET).forEach(p -> {
 
-			var temp = new StringBuilder();
+			final var temp = new StringBuilder();
 			temp.append("# Technical information").append("\n");
 			temp.append("* File Location : ")
 					.append(p.getConfFile().getAbsolutePath()
@@ -115,7 +117,7 @@ public class WikiGenerator {
 					if (e.getValue().getAllowedProperties() == null) {
 						temp.append("").append("|");
 					} else {
-						for (var v : e.getValue().getAllowedProperties()) {
+						for (final var v : e.getValue().getAllowedProperties()) {
 							temp.append(v).append("<br>");
 						}
 						temp.append("|");
@@ -134,11 +136,11 @@ public class WikiGenerator {
 				p.listAuthenticationAttributes().forEach(e -> temp.append(e).append("\n\n"));
 			}
 
-			File exportFile = new File(WIKIDIR + "\\plugins\\" + p.getType() + "-" + p.getName() + ".md");
+			final File exportFile = new File(WIKIDIR + "\\plugins\\" + p.getType() + "-" + p.getName() + ".md");
 
 			try {
 				FileTools.saveFile(exportFile, temp.toString());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				e.printStackTrace();
 			}
 
@@ -148,27 +150,32 @@ public class WikiGenerator {
 
 	private static String parseType(String s) {
 
-		if (s == null)
-			return "";
+		if (s == null) {
+		    return "";
+		}
 
 		try {
 			Integer.parseInt(s);
 			return "Number";
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
-		if (s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false"))
-			return "Boolean";
+		if (s.equalsIgnoreCase("true") || s.equalsIgnoreCase("false")) {
+		    return "Boolean";
+		}
 
-		if (s.startsWith(USER_HOME_VAR))
-			return "File";
+		if (s.startsWith(USER_HOME_VAR)) {
+		    return "File";
+		}
 
-		if (s.startsWith("http"))
-			return "Url";
+		if (s.startsWith("http")) {
+		    return "Url";
+		}
 
-		if (s.length() > 1 && s.contains(","))
-			return "Array";
+		if (s.length() > 1 && s.contains(",")) {
+		    return "Array";
+		}
 
 		return "Text";
 

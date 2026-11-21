@@ -22,8 +22,9 @@ public class Contact implements MTGSerializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Contact c)
-			return c.getId() == getId();
+		if (obj instanceof final Contact c) {
+		    return c.getId() == getId();
+		}
 
 		return false;
 	}

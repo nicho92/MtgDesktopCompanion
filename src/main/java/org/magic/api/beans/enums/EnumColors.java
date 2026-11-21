@@ -17,12 +17,12 @@ import com.google.gson.annotations.SerializedName;
 
 public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 
-	@SerializedName(alternate = "White", value = "WHITE") WHITE("W", Color.WHITE, 1), 
-	@SerializedName(alternate = "Blue", value = "BLUE") BLUE("U", new Color(33, 129, 226), 2), 
-	@SerializedName(alternate = "Black", value = "BLACK") BLACK("B", Color.BLACK, 3), 
-	@SerializedName(alternate = "Red", value = "RED") RED("R", new Color(214, 10, 10), 4), 
+	@SerializedName(alternate = "White", value = "WHITE") WHITE("W", Color.WHITE, 1),
+	@SerializedName(alternate = "Blue", value = "BLUE") BLUE("U", new Color(33, 129, 226), 2),
+	@SerializedName(alternate = "Black", value = "BLACK") BLACK("B", Color.BLACK, 3),
+	@SerializedName(alternate = "Red", value = "RED") RED("R", new Color(214, 10, 10), 4),
 	@SerializedName(alternate = "Green", value = "GREEN") GREEN("G", new Color(52, 211, 16), 5),
-	UNCOLOR("C", Color.GRAY, 7), 
+	UNCOLOR("C", Color.GRAY, 7),
 	GOLD("Gold", new Color(232, 232, 0), 6);
 
 	private final String code;
@@ -77,17 +77,19 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 	public static EnumColors colorByName(String s) {
 		try {
 			return EnumColors.valueOf(s.toUpperCase());
-		} catch (IllegalArgumentException _) {
+		} catch (final IllegalArgumentException _) {
 			return null;
 		}
 	}
 
 	public static EnumColors determine(List<EnumColors> colors) {
-		if (colors == null || colors.isEmpty())
-			return EnumColors.UNCOLOR;
+		if (colors == null || colors.isEmpty()) {
+		    return EnumColors.UNCOLOR;
+		}
 
-		if (colors.size() > 1)
-			return EnumColors.GOLD;
+		if (colors.size() > 1) {
+		    return EnumColors.GOLD;
+		}
 
 		return colors.getFirst();
 	}
@@ -97,8 +99,9 @@ public enum EnumColors implements Comparator<EnumColors>, MTGIconable {
 	}
 
 	private static List<EnumColors> parse(EnumCardsPatterns p, String c) {
-		if (c == null || c.isEmpty())
-			return new ArrayList<>();
+		if (c == null || c.isEmpty()) {
+		    return new ArrayList<>();
+		}
 
 		return Pattern.compile(p.getPattern()).matcher(c).results().map(mr -> mr.group(1)).distinct()
 				.map(EnumColors::colorByCode).filter(Objects::nonNull).toList();

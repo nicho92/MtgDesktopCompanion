@@ -19,10 +19,10 @@ public class ManaPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private FlowLayout fl = new FlowLayout();
+	private final FlowLayout fl = new FlowLayout();
 	private String manaCost;
 
-	private Pattern p;
+	private final Pattern p;
 
 	public ManaPanel() {
 		fl.setAlignment(FlowLayout.LEFT);
@@ -37,25 +37,27 @@ public class ManaPanel extends JPanel {
 	public void setManaCost(String manaCost) {
 
 		this.removeAll();
-		if (manaCost == null)
-			return;
+		if (manaCost == null) {
+		    return;
+		}
 
 		manaCost = manaCost.replace("{}", "");
 
-		var m = p.matcher(manaCost);
+		final var m = p.matcher(manaCost);
 
 		fl.setVgap(0);
 		fl.setHgap(0);
 		while (m.find()) {
-			var lab = new JLabel();
-			var img = IconsProvider.getInstance().getManaSymbol(m.group(1));
+			final var lab = new JLabel();
+			final var img = IconsProvider.getInstance().getManaSymbol(m.group(1));
 
 			var w = MTGConstants.TABLE_ROW_HEIGHT;
 
-			if (m.group(1).equals("100"))
-				w = 36;
-			else if (m.group(1).equals("1000000"))
-				w = 90;
+			if (m.group(1).equals("100")) {
+			    w = 36;
+			} else if (m.group(1).equals("1000000")) {
+			    w = 90;
+			}
 
 			lab.setIcon(new ImageIcon(img.getScaledInstance(w, MTGConstants.TABLE_ROW_HEIGHT, Image.SCALE_DEFAULT)));
 			lab.setHorizontalAlignment(SwingConstants.CENTER);

@@ -7,11 +7,13 @@ public class CmcSorter implements MTGComparator<MTGCard> {
 
 	@Override
 	public int compare(MTGCard o1, MTGCard o2) {
-		if (o1.getCmc() < o2.getCmc())
-			return -1;
+		if (o1.getCmc() < o2.getCmc()) {
+		    return -1;
+		}
 
-		if (o1.getCmc() > o2.getCmc())
-			return 1;
+		if (o1.getCmc() > o2.getCmc()) {
+		    return 1;
+		}
 
 		return 0;
 	}

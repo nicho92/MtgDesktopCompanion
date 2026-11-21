@@ -23,15 +23,15 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public List<MTGWallpaper> search(String search) {
-		List<MTGWallpaper> list = new ArrayList<>();
+		final List<MTGWallpaper> list = new ArrayList<>();
 		try {
 
-			Collection<File> res = FileTools.listFiles(getFile("DIRECTORY"),
+			final Collection<File> res = FileTools.listFiles(getFile("DIRECTORY"),
 					WildcardFileFilter.builder().setWildcards("*" + search + "*").setIoCase(IOCase.INSENSITIVE).get(),
 					TrueFileFilter.INSTANCE);
 
-			for (File f : res) {
-				var w = new MTGWallpaper();
+			for (final File f : res) {
+				final var w = new MTGWallpaper();
 				w.setName(f.getName());
 				w.setUrl(f.toURI());
 				w.setUrlThumb(f.toURI());
@@ -44,7 +44,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 
 			logger.info("{} return {} results", getName(), list.size());
 			return list;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return list;
 		}

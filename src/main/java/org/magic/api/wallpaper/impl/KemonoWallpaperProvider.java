@@ -37,11 +37,11 @@ public class KemonoWallpaperProvider extends AbstractJsonWallpaperProvider {
 	@Override
 	protected List<MTGWallpaper> parse(JsonObject obj) {
 
-		var ret = new ArrayList<MTGWallpaper>();
+		final var ret = new ArrayList<MTGWallpaper>();
 
-		for (var att : obj.get("attachments").getAsJsonArray()) {
+		for (final var att : obj.get("attachments").getAsJsonArray()) {
 
-			var wall = new MTGWallpaper();
+			final var wall = new MTGWallpaper();
 			wall.setProvider(getName());
 			wall.setPublishDate(UITools.parseDate(obj.get("published").getAsString(), "yyyy-MM-dd'T'HH:mm:ss"));
 			wall.setName(att.getAsJsonObject().get("name").getAsString());
@@ -69,7 +69,7 @@ public class KemonoWallpaperProvider extends AbstractJsonWallpaperProvider {
 	protected void sleep() {
 		try {
 			Thread.sleep(6000);
-		} catch (InterruptedException _) {
+		} catch (final InterruptedException _) {
 			Thread.currentThread().interrupt();
 		}
 	}
@@ -77,18 +77,19 @@ public class KemonoWallpaperProvider extends AbstractJsonWallpaperProvider {
 	@Override
 	protected JsonArray extractArrayFromQuery(RequestBuilder req) {
 		try {
-		    var json = req.toJson();
-		    var obj = json.getAsJsonObject();
+		    final var json = req.toJson();
+		    final var obj = json.getAsJsonObject();
 
-			if (obj.get("posts") != null)
-				return obj.get("posts").getAsJsonArray();
-			else
-				return new JsonArray();
-		} catch (IOException e) {
+			if (obj.get("posts") != null) {
+			    return obj.get("posts").getAsJsonArray();
+			} else {
+			    return new JsonArray();
+			}
+		} catch (final IOException e) {
 		    logger.error(e);
 		    return new JsonArray(0);
 		}
-		
+
 
 	}
 

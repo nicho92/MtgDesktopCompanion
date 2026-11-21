@@ -43,9 +43,9 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
-		for (Map.Entry<MTGCard, Integer> entry : deck.getMain().entrySet()) {
+		for (final Map.Entry<MTGCard, Integer> entry : deck.getMain().entrySet()) {
 			temp.append(entry.getValue()).append(" ").append(entry.getKey()).append(" (")
 					.append(aliases.getReversedSetIdFor(this, entry.getKey().getEdition()).toUpperCase()).append(")")
 					.append(" ").append(entry.getKey().getNumber()).append("\r\n");
@@ -53,15 +53,16 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
 		}
 
-		if (!deck.getSideBoard().isEmpty())
-			for (Map.Entry<MTGCard, Integer> entry : deck.getSideBoard().entrySet()) {
-				temp.append("\r\n").append(entry.getValue()).append(" ").append(entry.getKey()).append(" (")
-						.append(aliases.getReversedSetIdFor(this, entry.getKey().getEdition()).toUpperCase())
-						.append(")").append(" ").append(entry.getKey().getNumber());
-				notify(entry.getKey());
-			}
+		if (!deck.getSideBoard().isEmpty()) {
+		    for (final Map.Entry<MTGCard, Integer> entry : deck.getSideBoard().entrySet()) {
+		    	temp.append("\r\n").append(entry.getValue()).append(" ").append(entry.getKey()).append(" (")
+		    			.append(aliases.getReversedSetIdFor(this, entry.getKey().getEdition()).toUpperCase())
+		    			.append(")").append(" ").append(entry.getKey().getNumber());
+		    	notify(entry.getKey());
+		    }
+		}
 
-		var selection = new StringSelection(temp.toString());
+		final var selection = new StringSelection(temp.toString());
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
 
 		logger.debug("saved in clipboard");
@@ -70,10 +71,10 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String dname) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(dname);
 		side = false;
-		var trf = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
+		final var trf = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
 
 		if (trf == null) {
 			MTG.notifyError("Clipboard is empty");
@@ -85,7 +86,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 			txt = trf.getTransferData(DataFlavor.stringFlavor).toString();
 
 			logger.debug("copy from clipboard ok : {}", txt);
-		} catch (UnsupportedFlavorException e) {
+		} catch (final UnsupportedFlavorException e) {
 			throw new IOException(e);
 		}
 
@@ -94,21 +95,22 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 				side = true;
 			} else {
 				try {
-					var qte = Integer.parseInt(m.group(1));
-					String name = m.group(2).trim();
-					String ed = aliases.getSetIdFor(this, m.group(3));
-					MTGEdition me = getEnabledPlugin(MTGCardsProvider.class).getSetById(ed);
-					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name.trim(), me, true)
+					final var qte = Integer.parseInt(m.group(1));
+					final String name = m.group(2).trim();
+					final String ed = aliases.getSetIdFor(this, m.group(3));
+					final MTGEdition me = getEnabledPlugin(MTGCardsProvider.class).getSetById(ed);
+					final MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name.trim(), me, true)
 							.get(0);
 					notify(mc);
-					if (!side)
-						deck.getMain().put(mc, qte);
-					else
-						deck.getSideBoard().put(
-								getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name.trim(), me, true).get(0),
-								qte);
+					if (!side) {
+					    deck.getMain().put(mc, qte);
+					} else {
+					    deck.getSideBoard().put(
+					    		getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name.trim(), me, true).get(0),
+					    		qte);
+					}
 
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("Error loading cards {}", m.group(), e);
 				}
 
@@ -138,8 +140,9 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

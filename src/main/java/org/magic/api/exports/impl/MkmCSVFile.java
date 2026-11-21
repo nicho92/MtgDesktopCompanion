@@ -31,7 +31,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var build = new StringBuilder();
+		final var build = new StringBuilder();
 		build.append(header);
 		FileTools.saveFile(dest, build.toString());
 	}
@@ -39,7 +39,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MTGCardStock> ret = new ArrayList<>();
+		final List<MTGCardStock> ret = new ArrayList<>();
 
 		content = content.replace("\"MYS\"", "\"MB1\"").replace("\"DTL\"", "\"FBB\"");
 
@@ -50,24 +50,25 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 			if (mc == null) {
 				try {
 					mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("Card is not found with this provider : {}", m.group());
 				}
 			}
 
 			if (mc != null) {
-				var stock = new MTGCardStock(mc);
+				final var stock = new MTGCardStock(mc);
 				stock.setLanguage(m.group(3));
 				stock.setFoil(Boolean.parseBoolean(m.group(9)));
 				stock.setSigned(Boolean.parseBoolean(m.group(10)));
 				stock.setAltered(Boolean.parseBoolean(m.group(11)));
 				var count = Integer.parseInt(m.group(5));
-				if (Boolean.parseBoolean(m.group(12)))
-					count = count * 4;
+				if (Boolean.parseBoolean(m.group(12))) {
+				    count = count * 4;
+				}
 
 				try {
 					stock.setPrice(Double.parseDouble(m.group(4)));
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 				stock.setQte(count);

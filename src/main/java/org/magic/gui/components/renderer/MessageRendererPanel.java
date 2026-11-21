@@ -38,15 +38,15 @@ public class MessageRendererPanel extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel lblTime;
-	private JLabel lblAuthor;
-	private JLabel lblAvatar;
-	private JLabel lblIcon;
-	private JTextPane textArea;
-	private int iconSize = 25;
-	private JPanel separator;
-	private PrettyTime prettyTime;
-	
+	private final JLabel lblTime;
+	private final JLabel lblAuthor;
+	private final JLabel lblAvatar;
+	private final JLabel lblIcon;
+	private final JTextPane textArea;
+	private final int iconSize = 25;
+	private final JPanel separator;
+	private final PrettyTime prettyTime;
+
 	private int fixedWidth = -1;
 
 	public void setFixedWidth(int width) {
@@ -55,16 +55,17 @@ public class MessageRendererPanel extends JPanel {
 
 	@Override
 	public Dimension getPreferredSize() {
-		if (fixedWidth <= 0)
-			return super.getPreferredSize();
+		if (fixedWidth <= 0) {
+		    return super.getPreferredSize();
+		}
 
-		GridBagLayout gbl = (GridBagLayout) getLayout();
-		GridBagConstraints cSep = gbl.getConstraints(separator);
-		GridBagConstraints cTxt = gbl.getConstraints(textArea);
-		Insets in = getInsets();
+		final GridBagLayout gbl = (GridBagLayout) getLayout();
+		final GridBagConstraints cSep = gbl.getConstraints(separator);
+		final GridBagConstraints cTxt = gbl.getConstraints(textArea);
+		final Insets in = getInsets();
 
 		// largeur réellement disponible pour le texte
-		int sepWidth = Math.max(10, separator.getPreferredSize().width); // colonne 0 : 10 px minimum
+		final int sepWidth = Math.max(10, separator.getPreferredSize().width); // colonne 0 : 10 px minimum
 		int textWidth = fixedWidth - in.left - in.right
 				- sepWidth - cSep.insets.left - cSep.insets.right
 				- cTxt.insets.left - cTxt.insets.right;
@@ -74,13 +75,13 @@ public class MessageRendererPanel extends JPanel {
 		textArea.setSize(textWidth, Short.MAX_VALUE);
 
 		// le layout additionne tout : lignes, insets des contraintes, bordure
-		Dimension d = gbl.preferredLayoutSize(this);
+		final Dimension d = gbl.preferredLayoutSize(this);
 		return new Dimension(fixedWidth, d.height);
 	}
-	
-	
+
+
 	public MessageRendererPanel() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		final GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{10, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
@@ -109,16 +110,16 @@ public class MessageRendererPanel extends JPanel {
 		add(lblAvatar, UITools.createGridBagConstraints(null, null, 1, 0));
 		add(lblAuthor, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 0));
 
-		var gbcseparator = UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 0, 0);
+		final var gbcseparator = UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 0, 0);
 		gbcseparator.gridheight = 3;
 		gbcseparator.insets = new Insets(0, 0, 0, 5);
 		add(separator, gbcseparator);
 
-		var gbctextArea = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1);
+		final var gbctextArea = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1);
 		gbctextArea.gridwidth = 2;
 		add(textArea, gbctextArea);
 
-		var gbclblTime = UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 1,
+		final var gbclblTime = UITools.createGridBagConstraints(GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, 1,
 				2);
 		gbclblTime.gridwidth = 2;
 		add(lblTime, gbclblTime);
@@ -137,32 +138,35 @@ public class MessageRendererPanel extends JPanel {
 		lblIcon.setIcon(null);
 		lblTime.setText("(" + prettyTime.format(new Date(value.getStart().toEpochMilli())) + ")");
 
-		if (value.getAuthor().getAvatar() != null)
-			lblAvatar.setIcon(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize)));
-		else
-			lblAvatar.setIcon(null);
+		if (value.getAuthor().getAvatar() != null) {
+		    lblAvatar.setIcon(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize)));
+		} else {
+		    lblAvatar.setIcon(null);
+		}
 
 		if (value.getTypeMessage() == MSG_TYPE.SEARCH) {
-			var item = ((SearchMessage) value).getAttachement();
+			final var item = ((SearchMessage) value).getAttachement();
 			try {
 				lblIcon.setIcon(read(item));
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				// do nothing
 			}
 		}
 
 		if (value.getTypeMessage() == MSG_TYPE.TALK) {
-			var item = ((TalkMessage) value).getAttachement();
-			if (item != null)
-				try {
-					lblIcon.setIcon(read(item));
-				} catch (IOException _) {
-					// do nothing
-				}
+			final var item = ((TalkMessage) value).getAttachement();
+			if (item != null) {
+			    try {
+			    	lblIcon.setIcon(read(item));
+			    } catch (final IOException _) {
+			    	// do nothing
+			    }
+			}
 		}
 
-		if (value.getTypeMessage() == MSG_TYPE.DECK)
-			lblIcon.setIcon(MTGConstants.ICON_DECK);
+		if (value.getTypeMessage() == MSG_TYPE.DECK) {
+		    lblIcon.setIcon(MTGConstants.ICON_DECK);
+		}
 
 	}
 
@@ -170,10 +174,11 @@ public class MessageRendererPanel extends JPanel {
 
 		BufferedImage bi = null;
 
-		if (item.getTypeProduct() == EnumItems.CARD)
-			bi = MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture((MTGCard) item);
-		else
-			bi = URLTools.extractAsImage(item.getUrl());
+		if (item.getTypeProduct() == EnumItems.CARD) {
+		    bi = MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture((MTGCard) item);
+		} else {
+		    bi = URLTools.extractAsImage(item.getUrl());
+		}
 
 		bi = ImageTools.scaleResize(bi, iconSize * 2);
 		return new ImageIcon(bi);

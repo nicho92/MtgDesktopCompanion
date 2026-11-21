@@ -28,14 +28,14 @@ public class EmblemActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			var tok = getEnabledPlugin(MTGTokensProvider.class).generateEmblemFor(card.getMagicCard());
-			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
+			final var tok = getEnabledPlugin(MTGTokensProvider.class).generateEmblemFor(card.getMagicCard());
+			final var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);
 			GamePanelGUI.getInstance().getPanelBattleField().revalidate();
 			GamePanelGUI.getInstance().getPanelBattleField().repaint();
 			GamePanelGUI.getInstance().getPlayer().logAction("generate " + tok + " emblem");
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error("error", ex);
 		}
 

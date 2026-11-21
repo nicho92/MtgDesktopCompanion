@@ -18,10 +18,10 @@ import org.magic.services.tools.FileTools;
 import com.google.gson.JsonObject;
 
 public class ApilayerCurrencyConverter {
-	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private HashMap<String, Double> map;
-	private File cache;
-	private String token;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
+	private final HashMap<String, Double> map;
+	private final File cache;
+	private final String token;
 
 	public ApilayerCurrencyConverter(String token) {
 		this.token = token;
@@ -31,24 +31,27 @@ public class ApilayerCurrencyConverter {
 
 	public Currency getCurrentCurrency() {
 
-		if (!MTGControler.getInstance().get("currency").isEmpty())
-			return Currency.getInstance(MTGControler.getInstance().get("currency"));
-		else
-			return Currency.getInstance(MTGControler.getInstance().getLocale());
+		if (!MTGControler.getInstance().get("currency").isEmpty()) {
+		    return Currency.getInstance(MTGControler.getInstance().get("currency"));
+		} else {
+		    return Currency.getInstance(MTGControler.getInstance().getLocale());
+		}
 	}
 
 	public Double convertTo(Currency from, Double value) {
-		if (value == null)
-			return 0.0;
+		if (value == null) {
+		    return 0.0;
+		}
 
 		return convert(from.getCurrencyCode(), getCurrentCurrency().getCurrencyCode(), value);
 	}
 
 	public Date getCurrencyDateCache() {
-		if (cache.exists())
-			return new Date(cache.lastModified());
-		else
-			return null;
+		if (cache.exists()) {
+		    return new Date(cache.lastModified());
+		} else {
+		    return null;
+		}
 	}
 
 	public Double convert(Currency from, Currency to, double value) {
@@ -58,17 +61,19 @@ public class ApilayerCurrencyConverter {
 	public Double convert(String from, String to, double value) {
 		double ret = 0;
 
-		if (from.equalsIgnoreCase(to))
-			return value;
+		if (from.equalsIgnoreCase(to)) {
+		    return value;
+		}
 
 		try {
-			if (!from.equalsIgnoreCase("USD") && !to.equalsIgnoreCase("USD"))
-				ret = usdConvert("USD", to, 1) * usdConvert(from, "USD", 1) * value;
-			else
-				ret = usdConvert(from, to, value);
+			if (!from.equalsIgnoreCase("USD") && !to.equalsIgnoreCase("USD")) {
+			    ret = usdConvert("USD", to, 1) * usdConvert(from, "USD", 1) * value;
+			} else {
+			    ret = usdConvert(from, to, value);
+			}
 
 			return ret;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error convert {} to {}, return default value", from, to, e);
 			return value;
 		}
@@ -107,7 +112,7 @@ public class ApilayerCurrencyConverter {
 		if (!cache.exists() && !token.isEmpty()) {
 
 			logger.debug("{} doesn't exist. Will create it from website", cache.getAbsolutePath());
-			var parse = URLTools.extractAsJson("http://apilayer.net/api/live?access_key=" + token);
+			final var parse = URLTools.extractAsJson("http://apilayer.net/api/live?access_key=" + token);
 			obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
 			FileTools.saveFile(cache, obj.toString());
 			logger.debug("{} created", cache.getAbsolutePath());

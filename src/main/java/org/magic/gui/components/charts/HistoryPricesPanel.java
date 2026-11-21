@@ -45,7 +45,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	private transient HistoryPrice<?> cpVariationsF;
 	private MTGCard mc;
 	private MTGEdition me;
-	private AbstractBuzyIndicatorComponent buzy;
+	private final AbstractBuzyIndicatorComponent buzy;
 	private TimeSeries series1;
 
 	@Override
@@ -62,8 +62,8 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		if (showOption) {
-			var panelActions = new JPanel();
-			var gblpanel = new GridBagLayout();
+			final var panelActions = new JPanel();
+			final var gblpanel = new GridBagLayout();
 
 			add(panelActions, BorderLayout.EAST);
 			add(buzy, BorderLayout.SOUTH);
@@ -95,33 +95,34 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		this.me = me;
 		this.title = title;
 
-		if (card == null && me == null)
-			return;
+		if (card == null && me == null) {
+		    return;
+		}
 
 		if (isVisible()) {
 			buzy.start();
-			SwingWorker<Void, Void> sw = new SwingWorker<>() {
+			final SwingWorker<Void, Void> sw = new SwingWorker<>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
 					if (card == null) {
 						try {
 							cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(me);
-						} catch (IOException e1) {
+						} catch (final IOException e1) {
 							logger.error("error init {}", me, e1);
 						}
 					} else {
 						try {
 							cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, false);
 
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							logger.error("error init {}", card, e);
 						}
 
 						try {
 							cpVariationsF = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, true);
 
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							logger.error("error init FOIL {}", card, e);
 						}
 					}
@@ -142,7 +143,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
 	@Override
 	public TimeSeriesCollection getDataSet() {
-		var dataset = new TimeSeriesCollection();
+		final var dataset = new TimeSeriesCollection();
 
 		series1 = null;
 
@@ -150,17 +151,19 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
 			series1 = new TimeSeries(cpVariations.toString());
 
-			for (Entry<Date, Double> d : cpVariations.entrySet())
-				series1.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
+			for (final Entry<Date, Double> d : cpVariations.entrySet()) {
+			    series1.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
+			}
 
 			dataset.addSeries(series1);
 		}
 
 		if (cpVariationsF != null && !cpVariationsF.isEmpty()) {
-			var series2 = new TimeSeries(cpVariationsF.toString());
+			final var series2 = new TimeSeries(cpVariationsF.toString());
 
-			for (Entry<Date, Double> d : cpVariationsF.entrySet())
-				series2.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
+			for (final Entry<Date, Double> d : cpVariationsF.entrySet()) {
+			    series2.add(new Day(d.getKey()), UITools.roundDouble(d.getValue().doubleValue()));
+			}
 
 			dataset.addSeries(series2);
 		}
@@ -174,26 +177,26 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 			List<MTGEdition> list = new ArrayList<>();
 			try {
 				list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				logger.error(e1);
 			}
 
-			for (MTGEdition edition : list) {
+			for (final MTGEdition edition : list) {
 				if (edition.getReleaseDate() != null && !edition.getReleaseDate().isEmpty()) {
 					try {
-						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
-						TimeSeriesDataItem item = series1.getDataItem(new Day(d));
+						final Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
+						final TimeSeriesDataItem item = series1.getDataItem(new Day(d));
 						if (item != null) {
-							var x = item.getPeriod().getFirstMillisecond();
-							var y = item.getValue().doubleValue();
-							var annot = new XYImageAnnotation(x, y,
+							final var x = item.getPeriod().getFirstMillisecond();
+							final var y = item.getValue().doubleValue();
+							final var annot = new XYImageAnnotation(x, y,
 									IconsProvider.getInstance().get16(edition.getId()).getImage());
 							annot.setToolTipText(edition.getSet());
 
 							((XYPlot) chart.getPlot()).addAnnotation(annot);
 						}
 
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("error show eds {}:{}", edition, e);
 					}
 				}

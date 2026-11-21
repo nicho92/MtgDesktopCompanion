@@ -14,7 +14,7 @@ public class GuessGameService {
     private MTGCard result;
     private MTGCard current;
     private List<Character> revealedLetters;
-    private String hiddenString = "_ ";
+    private final String hiddenString = "_ ";
     private int maxAttemps = 8;
 
     public enum GameStatus { GAMING, WIN, LOST}
@@ -22,17 +22,17 @@ public class GuessGameService {
 
     public void setMaxAttemps(int maxAttempts) {
 	this.maxAttemps  = maxAttempts;
-	
+
     }
-    
+
     public int getMaxAttemps() {
 	return maxAttemps;
     }
-    
+
     boolean isWordComplete() {
         return !current.getName().contains(hiddenString);
     }
-    
+
 
     public int getAttemptsRemaining() {
 	return getMaxAttemps() - getAttempts();
@@ -47,14 +47,14 @@ public class GuessGameService {
             return GameStatus.GAMING;
         }
     }
-    
-    
+
+
     public void init() throws IOException
     {
-	
-	var card = new ScryFallProvider().randomCard();
-	card.setUrl(new ScryFallPicturesProvider().generateUrl(card, true));	
-	
+
+	final var card = new ScryFallProvider().randomCard();
+	card.setUrl(new ScryFallPicturesProvider().generateUrl(card, true));
+
 	init(card);
     }
 
@@ -84,14 +84,14 @@ public class GuessGameService {
 
     private String anonymise(String text)
     {
-	var result = new StringBuilder();
-	for (var c : text.toCharArray()) {
-	    
+	final var result = new StringBuilder();
+	for (final var c : text.toCharArray()) {
+
 	    if (!Character.isLetter(c) && !Character.isDigit(c)) {
 		result.append(c);
 		continue;
 	    }
-	    
+
 	    if (revealedLetters.contains(Character.toLowerCase(c))) {
 		result.append(c);
 	    } else {
@@ -102,15 +102,16 @@ public class GuessGameService {
     }
 
     public void suggest( Character l) {
-	
-	if(l!=null)
+
+	if(l!=null) {
 	    revealedLetters.add(Character.toLowerCase(l));
+	}
 
 	try {
 	    current = BeanTools.cloneBean(result);
 	    current.setName(anonymise(result.getName()));
 	    current.setText(anonymise(result.getText()));
-	} catch (Exception e) {
+	} catch (final Exception e) {
 	   //do nothing
 	}
 

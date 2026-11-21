@@ -32,32 +32,36 @@ public class MapTableModel<K, V> extends GenericTableModel<Entry<K, V>> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (items == null || items.isEmpty())
-			return super.getColumnClass(columnIndex);
+		if (items == null || items.isEmpty()) {
+		    return super.getColumnClass(columnIndex);
+		}
 
 		if (columnIndex == 0) {
 			return items.get(0).getKey().getClass();
 		} else {
-			if (items.get(0).getValue() != null)
-				return items.get(0).getValue().getClass();
-			else
-				return super.getColumnClass(columnIndex);
+			if (items.get(0).getValue() != null) {
+			    return items.get(0).getValue().getClass();
+			} else {
+			    return super.getColumnClass(columnIndex);
+			}
 		}
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		if (column == 0)
-			return items.get(row).getKey();
-		else
-			return items.get(row).getValue();
+		if (column == 0) {
+		    return items.get(row).getKey();
+		} else {
+		    return items.get(row).getValue();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		if (column == 1)
-			items.get(row).setValue((V) aValue);
+		if (column == 1) {
+		    items.get(row).setValue((V) aValue);
+		}
 	}
 
 }

@@ -23,7 +23,7 @@ public class CardStockChooseDialog extends AbstractDelegatedImporterDialog<MTGCa
 
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 
-		var sw2 = new AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao>(buzy,
+		final var sw2 = new AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao>(buzy,
 				MTG.getEnabledPlugin(MTGDao.class)) {
 
 			@Override

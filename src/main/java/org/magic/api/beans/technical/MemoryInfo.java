@@ -24,7 +24,7 @@ public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
 	public double getAvg() {
 		try {
 			return (double) size / count;
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return 0;
 		}
 	}

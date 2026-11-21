@@ -66,8 +66,9 @@ public class MTGCrit<T> {
 	@Override
 	public String toString() {
 
-		if (!isList())
-			return att + " " + operator + " " + getFirst();
+		if (!isList()) {
+		    return att + " " + operator + " " + getFirst();
+		}
 
 		return att + " " + operator + " " + Arrays.toString(val);
 	}

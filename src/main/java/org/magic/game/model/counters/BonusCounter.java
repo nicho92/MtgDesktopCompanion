@@ -6,8 +6,8 @@ import org.magic.game.interfaces.AbstractCounter;
 public class BonusCounter extends AbstractCounter {
 
 	private static final long serialVersionUID = 1L;
-	private int powerModifier;
-	private int toughnessModifier;
+	private final int powerModifier;
+	private final int toughnessModifier;
 
 	public BonusCounter(int powerModifier, int toughnessModifier) {
 		this.powerModifier = powerModifier;
@@ -21,13 +21,13 @@ public class BonusCounter extends AbstractCounter {
 
 		try {
 			power = Integer.parseInt(displayableCard.getMagicCard().getPower());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			power = 0;
 		}
 
 		try {
 			toughness = Integer.parseInt(displayableCard.getMagicCard().getToughness());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			toughness = 0;
 		}
 
@@ -45,13 +45,13 @@ public class BonusCounter extends AbstractCounter {
 
 		try {
 			power = Integer.parseInt(displayableCard.getMagicCard().getPower());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
 		try {
 			toughness = Integer.parseInt(displayableCard.getMagicCard().getToughness());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -66,19 +66,21 @@ public class BonusCounter extends AbstractCounter {
 	@Override
 	public String describe() {
 
-		var build = new StringBuilder();
+		final var build = new StringBuilder();
 
-		if (powerModifier >= 0)
-			build.append("+").append(powerModifier);
-		else
-			build.append(powerModifier);
+		if (powerModifier >= 0) {
+		    build.append("+").append(powerModifier);
+		} else {
+		    build.append(powerModifier);
+		}
 
 		build.append("/");
 
-		if (toughnessModifier >= 0)
-			build.append("+").append(toughnessModifier);
-		else
-			build.append(toughnessModifier);
+		if (toughnessModifier >= 0) {
+		    build.append("+").append(toughnessModifier);
+		} else {
+		    build.append(toughnessModifier);
+		}
 
 		build.append(" counter");
 		return build.toString();
@@ -93,8 +95,9 @@ public class BonusCounter extends AbstractCounter {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

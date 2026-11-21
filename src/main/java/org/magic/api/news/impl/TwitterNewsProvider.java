@@ -43,18 +43,18 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 							getAuthenticator().get("ACCESS_TOKEN_SECRET"))
 					.prettyDebugEnabled(getBoolean("LOG")).build();
 		}
-		var query = Query.of(n.getName());
+		final var query = Query.of(n.getName());
 		query.count(getInt("MAX_RESULT"));
 
-		List<MTGNewsContent> ret = new ArrayList<>();
+		final List<MTGNewsContent> ret = new ArrayList<>();
 
 		QueryResult result;
 		try {
 			result = twitter.v1().search().search(query);
-			for (Status status : result.getTweets()) {
+			for (final Status status : result.getTweets()) {
 
 				if (!status.isRetweet()) {
-					var content = new MTGNewsContent();
+					final var content = new MTGNewsContent();
 					content.setAuthor(status.getUser().getScreenName());
 					content.setDate(Date.from(status.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()));
 					content.setContent(status.getText());
@@ -65,7 +65,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 					ret.add(content);
 				}
 			}
-		} catch (TwitterException e) {
+		} catch (final TwitterException e) {
 			throw new IOException(e);
 		}
 

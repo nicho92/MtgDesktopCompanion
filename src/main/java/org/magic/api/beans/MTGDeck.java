@@ -49,8 +49,8 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	public MTGDeck getMergedDeck() {
-		var mergeCardList = new ArrayList<MTGCard>();
-		var cardNames = new ArrayList<String>();
+		final var mergeCardList = new ArrayList<MTGCard>();
+		final var cardNames = new ArrayList<String>();
 
 		getMainAsList().forEach(mc -> {
 			if (!cardNames.contains(mc.getName())) {
@@ -60,7 +60,7 @@ public class MTGDeck implements MTGSerializable {
 			}
 		});
 
-		var mergedDeck = toDeck(mergeCardList);
+		final var mergedDeck = toDeck(mergeCardList);
 		mergedDeck.setName("merged cards deck");
 
 		return mergedDeck;
@@ -96,7 +96,7 @@ public class MTGDeck implements MTGSerializable {
 
 	public List<MTGCard> getAllUniqueCards() {
 
-		var list = new ArrayList<MTGCard>();
+		final var list = new ArrayList<MTGCard>();
 
 		list.addAll(getMain().keySet().stream().toList());
 		list.addAll(getSideBoard().keySet().stream().toList());
@@ -110,21 +110,23 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	public void remove(MTGCard mc) {
-		if (getMain().get(mc) == 0)
-			getMain().remove(mc);
-		else
-			getMain().put(mc, getMain().get(mc) - 1);
+		if (getMain().get(mc) == 0) {
+		    getMain().remove(mc);
+		} else {
+		    getMain().put(mc, getMain().get(mc) - 1);
+		}
 	}
 
 	public void removeSide(MTGCard mc) {
-		if (getSideBoard().get(mc) == 0)
-			getSideBoard().remove(mc);
-		else
-			getSideBoard().put(mc, getSideBoard().get(mc) - 1);
+		if (getSideBoard().get(mc) == 0) {
+		    getSideBoard().remove(mc);
+		} else {
+		    getSideBoard().put(mc, getSideBoard().get(mc) - 1);
+		}
 	}
 
 	public void delete(MTGCard mc, BOARD board) {
-		var deck = ((board == BOARD.SIDE) ? mapSideBoard : mapDeck);
+		final var deck = ((board == BOARD.SIDE) ? mapSideBoard : mapDeck);
 		deck.remove(mc);
 	}
 
@@ -138,16 +140,17 @@ public class MTGDeck implements MTGSerializable {
 
 	public boolean hasCard(MTGCard mc, boolean strict) {
 
-		if (strict)
-			return !getMain().keySet().stream().filter(k -> k.equals(mc)).findAny().isEmpty();
+		if (strict) {
+		    return !getMain().keySet().stream().filter(k -> k.equals(mc)).findAny().isEmpty();
+		}
 
 		return !getMain().keySet().stream().filter(k -> k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
 	}
 
 	public Set<MTGFormat> getLegality() {
-		var cmap = new LinkedHashSet<MTGFormat>();
-		for (var mc : getMain().keySet()) {
-			for (var mf : mc.getLegalities()) {
+		final var cmap = new LinkedHashSet<MTGFormat>();
+		for (final var mc : getMain().keySet()) {
+			for (final var mf : mc.getLegalities()) {
 				cmap.add(mf);
 			}
 		}
@@ -156,16 +159,17 @@ public class MTGDeck implements MTGSerializable {
 
 	public String getColors() {
 
-		var cmap = new LinkedHashSet<EnumColors>();
-		for (MTGCard mc : getUniqueCards()) {
+		final var cmap = new LinkedHashSet<EnumColors>();
+		for (final MTGCard mc : getUniqueCards()) {
 			if ((mc.getCmc() != null)) {
-				for (EnumColors c : mc.getColors()) {
-					if (c != null)
-						cmap.add(c);
+				for (final EnumColors c : mc.getColors()) {
+					if (c != null) {
+					    cmap.add(c);
+					}
 				}
 			}
 		}
-		var tmp = new StringBuilder();
+		final var tmp = new StringBuilder();
 
 		cmap.stream().sorted().map(EnumColors::toManaCode).forEach(tmp::append);
 		return tmp.toString();
@@ -180,37 +184,41 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	private List<MTGCard> toList(Set<Entry<MTGCard, Integer>> entrySet) {
-		var deck = new ArrayList<MTGCard>();
+		final var deck = new ArrayList<MTGCard>();
 
-		for (Entry<MTGCard, Integer> c : entrySet)
-			for (var i = 0; i < c.getValue(); i++)
-				deck.add(c.getKey());
+		for (final Entry<MTGCard, Integer> c : entrySet) {
+		    for (var i = 0; i < c.getValue(); i++) {
+		        deck.add(c.getKey());
+		    }
+		}
 
 		return deck;
 
 	}
 
 	public boolean isCompatibleFormat(MTGFormat mf) {
-		for (MTGCard mc : mapDeck.keySet()) {
-			long num = mc.getLegalities().stream().filter(mf::equals).toList().stream()
+		for (final MTGCard mc : mapDeck.keySet()) {
+			final long num = mc.getLegalities().stream().filter(mf::equals).toList().stream()
 					.filter(f -> f.getFormatLegality() == AUTHORIZATION.LEGAL
 							|| f.getFormatLegality() == AUTHORIZATION.RESTRICTED)
 					.count();
 
-			if (num <= 0)
-				return false;
+			if (num <= 0) {
+			    return false;
+			}
 
 		}
 		return true;
 	}
 
 	public static MTGDeck toDeck(List<MTGCard> cards) {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName("export");
 		d.setDescription("");
 
-		if (cards == null)
-			return d;
+		if (cards == null) {
+		    return d;
+		}
 
 		cards.forEach(d::add);
 
@@ -296,20 +304,21 @@ public class MTGDeck implements MTGSerializable {
 
 	public MTGCard getCompanion() {
 
-		Optional<MTGCard> opt = getUniqueCards().stream().filter(MTGCard::isCompanion).findFirst();
+		final Optional<MTGCard> opt = getUniqueCards().stream().filter(MTGCard::isCompanion).findFirst();
 
-		if (opt.isPresent())
-			return opt.get();
-		else
-			return null;
+		if (opt.isPresent()) {
+		    return opt.get();
+		} else {
+		    return null;
+		}
 
 	}
 
 	public String toStringList() {
-	    var buff = new StringBuffer();
+	    final var buff = new StringBuffer();
 	    getMain().entrySet().forEach(e->buff.append(e.getValue()).append(" ").append(e.getKey().getName()).append(System.lineSeparator()));
 	    return buff.toString();
-	    
+
 	}
 
 }

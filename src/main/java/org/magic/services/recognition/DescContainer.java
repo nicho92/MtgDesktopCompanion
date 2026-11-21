@@ -2,8 +2,8 @@ package org.magic.services.recognition;
 
 public class DescContainer implements Comparable<DescContainer> {
 
-	private ImageDesc descData;
-	private String stringData;
+	private final ImageDesc descData;
+	private final String stringData;
 	private double match = 0;
 
 	public DescContainer(ImageDesc descData, String stringData) {

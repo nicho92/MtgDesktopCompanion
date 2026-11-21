@@ -24,7 +24,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
 		temp.append("[metadata]\n");
 		temp.append("Name=").append(deck.getName()).append("\n");
@@ -53,11 +53,11 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MTGDeck importDeck(String content, String name) throws IOException {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName(name);
 
-		var deckNameTag = "Name=";
-		for (String s : splitLines(content, true)) {
+		final var deckNameTag = "Name=";
+		for (final String s : splitLines(content, true)) {
 			if (s.startsWith(deckNameTag)) {
 				d.setName(s.substring(s.indexOf(deckNameTag) + deckNameTag.length()));
 				break;
@@ -66,7 +66,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 
 		var side = false;
 		var commander = false;
-		for (Matcher m : matches(content, true)) {
+		for (final Matcher m : matches(content, true)) {
 			if (m.group().equalsIgnoreCase("[Sideboard]")) {
 				side = true;
 			}
@@ -76,14 +76,15 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 
 			if (m.groupCount() > 1) {
 				try {
-					MTGCard mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
-					var qty = Integer.parseInt(m.group(2));
+					final MTGCard mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+					final var qty = Integer.parseInt(m.group(2));
 
 					if (mc != null) {
-						if (side)
-							d.getSideBoard().put(mc, qty);
-						else
-							d.getMain().put(mc, qty);
+						if (side) {
+						    d.getSideBoard().put(mc, qty);
+						} else {
+						    d.getMain().put(mc, qty);
+						}
 
 						if (commander) {
 							d.setCommander(mc);
@@ -95,7 +96,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 					} else {
 						logger.error("no card for {}", m != null ? m.group() : "");
 					}
-				} catch (NullPointerException _) {
+				} catch (final NullPointerException _) {
 					// do nothing
 				}
 

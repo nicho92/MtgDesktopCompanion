@@ -14,7 +14,7 @@ import com.google.gson.JsonSerializer;
 public class FileAdapter implements JsonSerializer<File>, JsonDeserializer<File> {
 	@Override
 	public JsonElement serialize(File src, Type typeOfSrc, JsonSerializationContext context) {
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 		obj.addProperty("path", src.getAbsolutePath());
 		return obj;
 	}

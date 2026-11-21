@@ -25,8 +25,8 @@ public class RequestBuilder {
 
 	private String url;
 	private METHOD method;
-	private Map<String, String> headers;
-	private Map<String, String> content;
+	private final Map<String, String> headers;
+	private final Map<String, String> content;
 	private MTGHttpClient client;
 	public enum METHOD {
 		POST, GET, PUT
@@ -63,7 +63,7 @@ public class RequestBuilder {
 
 	@Override
 	public String toString() {
-		var builder = new StringBuilder();
+		final var builder = new StringBuilder();
 
 		builder.append(method).append(" ").append(url).append("\n");
 
@@ -141,7 +141,7 @@ public class RequestBuilder {
 	public RequestBuilder updateContent(String k, String v) {
 		return removeContent(k).addContent(k, v);
 	}
-	
+
 	public RequestBuilder addContent(String k, String c) {
 		content.put(k, c);
 		return this;
@@ -170,8 +170,9 @@ public class RequestBuilder {
 	}
 
 	public HttpResponse execute() throws IOException {
-		if (client != null)
-			return client.execute(this);
+		if (client != null) {
+		    return client.execute(this);
+		}
 
 		throw new IOException("You must set a httpClient with .setClient()");
 	}
@@ -188,7 +189,7 @@ public class RequestBuilder {
 	public org.w3c.dom.Document toXml() throws IOException {
 		try {
 			return XMLTools.createSecureXMLDocumentBuilder().parse(execute().getEntity().getContent());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 	}
@@ -204,12 +205,12 @@ public class RequestBuilder {
 
 	public void download(File dest) throws IOException {
 
-		var c = new Chrono();
+		final var c = new Chrono();
 		c.start();
-		var stream = BoundedInputStream.builder().setInputStream(execute().getEntity().getContent()).get();
+		final var stream = BoundedInputStream.builder().setInputStream(execute().getEntity().getContent()).get();
 		FileTools.copyInputStreamToFile(stream, dest);
-		var csi = c.stop();
-		var size = UITools.humanReadableSize(stream.getCount());
+		final var csi = c.stop();
+		final var size = UITools.humanReadableSize(stream.getCount());
 		MTGLogger.getLogger(this.getClass()).debug("{} : {} in {}s", getUrl(), size, csi);
 
 	}

@@ -15,7 +15,7 @@ import org.magic.services.keywords.AbstractKeyWordsManager;
 public class CardAbilitiesPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JTextPane textPane;
+	private final JTextPane textPane;
 	private MTGCard mc;
 
 	public CardAbilitiesPanel() {
@@ -43,15 +43,17 @@ public class CardAbilitiesPanel extends MTGUIComponent {
 	public void init(MTGCard mc) {
 		this.mc = mc;
 
-		if (!isVisible() || (mc == null))
-			return;
+		if (!isVisible() || (mc == null)) {
+		    return;
+		}
 
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 		temp.append("KEYWORDS : \n");
 		AbstractKeyWordsManager.getInstance().getKeywordsFrom(mc).forEach(kw -> {
 			temp.append("\t").append(kw.getKeyword()).append(" ");
-			if (kw.getEvent() != null)
-				temp.append(kw.getEvent());
+			if (kw.getEvent() != null) {
+			    temp.append(kw.getEvent());
+			}
 
 			temp.append("\n");
 

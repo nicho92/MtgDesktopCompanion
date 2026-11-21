@@ -38,30 +38,35 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 	@Override
 	public EnumExportCategory getCategory() {
-		if (needFile())
-			return EnumExportCategory.FILE;
+		if (needFile()) {
+		    return EnumExportCategory.FILE;
+		}
 
 		return EnumExportCategory.NONE;
 	}
 
 	protected String commated(String name) {
-		if (name.indexOf(',') > -1)
-			return "\"" + name + "\"";
+		if (name.indexOf(',') > -1) {
+		    return "\"" + name + "\"";
+		}
 
 		return name;
 	}
 
 	protected String cleanName(String cname) {
 
-		if (cname == null)
-			return "";
+		if (cname == null) {
+		    return "";
+		}
 
 		cname = cname.replace("\"", "").trim();
-		if (cname.indexOf('/') > 1)
-			cname = cname.substring(0, cname.indexOf('/')).trim();
+		if (cname.indexOf('/') > 1) {
+		    cname = cname.substring(0, cname.indexOf('/')).trim();
+		}
 
-		if (cname.indexOf('(') > 1)
-			cname = cname.substring(0, cname.indexOf('(')).trim();
+		if (cname.indexOf('(') > 1) {
+		    cname = cname.substring(0, cname.indexOf('(')).trim();
+		}
 
 		return cname;
 	}
@@ -78,11 +83,12 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName(name);
 
-		for (MTGCardStock st : importStock(f))
-			d.getMain().put(st.getProduct(), st.getQte());
+		for (final MTGCardStock st : importStock(f)) {
+		    d.getMain().put(st.getProduct(), st.getQte());
+		}
 
 		return d;
 	}
@@ -95,20 +101,20 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName(FilenameUtils.getBaseName(f.getName()));
 
-		for (MTGCardStock mcs : stock) {
+		for (final MTGCardStock mcs : stock) {
 			d.getMain().put(mcs.getProduct(), mcs.getQte());
 		}
 		exportDeck(d, f);
 	}
 
 	protected List<MTGCardStock> importFromDeck(MTGDeck deck) {
-		List<MTGCardStock> mcs = new ArrayList<>();
+		final List<MTGCardStock> mcs = new ArrayList<>();
 
-		for (MTGCard mc : deck.getMain().keySet()) {
-			MTGCardStock stock = MTGControler.getInstance().getDefaultStock();
+		for (final MTGCard mc : deck.getMain().keySet()) {
+			final MTGCardStock stock = MTGControler.getInstance().getDefaultStock();
 			stock.setProduct(mc);
 			stock.setQte(deck.getMain().get(mc));
 			stock.setComment("import from " + deck.getName());

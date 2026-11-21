@@ -27,26 +27,27 @@ import org.magic.services.workers.StockExportWorker;
 
 public class JExportButton extends JButton {
 	private static final long serialVersionUID = 1L;
-	private MODS mod;
+	private final MODS mod;
 
 	public JExportButton(MODS mod) {
 		this.mod = mod;
 		setName(mod.toString());
 
-		if (mod == MODS.EXPORT)
-			setIcon(MTGConstants.ICON_EXPORT);
-		else
-			setIcon(MTGConstants.ICON_IMPORT);
+		if (mod == MODS.EXPORT) {
+		    setIcon(MTGConstants.ICON_EXPORT);
+		} else {
+		    setIcon(MTGConstants.ICON_IMPORT);
+		}
 	}
 
 	public void initAlertsExport(Callable<List<MTGAlert>> callable, AbstractBuzyIndicatorComponent lblLoading) {
 
 		addActionListener(_ -> {
-			var menu = new JPopupMenu();
+			final var menu = new JPopupMenu();
 
-			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
+			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
-					var it = new JMenuItem(exp.getName(), exp.getIcon());
+					final var it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(_ -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
@@ -54,13 +55,13 @@ public class JExportButton extends JButton {
 
 						try {
 							export = callable.call();
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							MTGControler.getInstance().notify(e);
 							return;
 						}
 
 						if (exp.needFile()) {
-							var jf = new JFileChooser(".");
+							final var jf = new JFileChooser(".");
 							jf.setSelectedFile(new File("alerts" + exp.getStockFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
@@ -80,7 +81,7 @@ public class JExportButton extends JButton {
 				}
 
 			}
-			Point p = this.getLocationOnScreen();
+			final Point p = this.getLocationOnScreen();
 			menu.show(this, 0, 0);
 			menu.setLocation(p.x, p.y + this.getHeight());
 		});
@@ -89,11 +90,11 @@ public class JExportButton extends JButton {
 	public void initCardsExport(Callable<MTGDeck> callable, AbstractBuzyIndicatorComponent lblLoading) {
 
 		addActionListener(_ -> {
-			var menu = new JPopupMenu();
+			final var menu = new JPopupMenu();
 
-			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
+			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
-					var it = new JMenuItem(exp.getName(), exp.getIcon());
+					final var it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(_ -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
@@ -101,13 +102,13 @@ public class JExportButton extends JButton {
 
 						try {
 							export = callable.call();
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							MTGControler.getInstance().notify(e);
 							return;
 						}
 
 						if (exp.needFile()) {
-							var jf = new JFileChooser(".");
+							final var jf = new JFileChooser(".");
 							jf.setSelectedFile(new File(export.getName() + exp.getDeckFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
@@ -126,7 +127,7 @@ public class JExportButton extends JButton {
 				}
 
 			}
-			Point p = this.getLocationOnScreen();
+			final Point p = this.getLocationOnScreen();
 			menu.show(this, 0, 0);
 			menu.setLocation(p.x, p.y + this.getHeight());
 		});
@@ -135,11 +136,11 @@ public class JExportButton extends JButton {
 	public void initStockExport(Callable<List<MTGCardStock>> callable, AbstractBuzyIndicatorComponent lblLoading) {
 
 		addActionListener(_ -> {
-			var menu = new JPopupMenu();
+			final var menu = new JPopupMenu();
 
-			for (MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
+			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == mod) {
-					var it = new JMenuItem(exp.getName(), exp.getIcon());
+					final var it = new JMenuItem(exp.getName(), exp.getIcon());
 					it.addActionListener(_ -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
@@ -147,13 +148,13 @@ public class JExportButton extends JButton {
 
 						try {
 							export = callable.call();
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							MTGControler.getInstance().notify(e);
 							return;
 						}
 
 						if (exp.needFile()) {
-							var jf = new JFileChooser(".");
+							final var jf = new JFileChooser(".");
 							jf.setSelectedFile(new File("stocks" + exp.getStockFileExtension()));
 							result = jf.showSaveDialog(null);
 							f = jf.getSelectedFile();
@@ -173,7 +174,7 @@ public class JExportButton extends JButton {
 				}
 
 			}
-			Point p = this.getLocationOnScreen();
+			final Point p = this.getLocationOnScreen();
 			menu.show(this, 0, 0);
 			menu.setLocation(p.x, p.y + this.getHeight());
 		});

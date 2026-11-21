@@ -40,7 +40,7 @@ public class DeckSnifferDialog extends JDialog {
 	private JComboBox<String> cboFormats;
 	private DeckSnifferTableModel model;
 	private MTGDeck importedDeck;
-	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
+	private final AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 	private JPanel cardFilterPanel;
 
 	private MTGCard filteredCard = null;
@@ -62,19 +62,19 @@ public class DeckSnifferDialog extends JDialog {
 
 		model = new DeckSnifferTableModel();
 		table = UITools.createNewTable(model, true);
-		var panelButton = new JPanel();
+		final var panelButton = new JPanel();
 		cboSniffers = UITools.createComboboxPlugins(MTGDeckSniffer.class, false);
 
-		var btnLoad = new JButton(MTGConstants.ICON_SEARCH);
+		final var btnLoad = new JButton(MTGConstants.ICON_SEARCH);
 		cboFormats = UITools.createCombobox(getSelectedSniffer().listFilter());
-		var labCardFilter = new JLabel("With this card : ");
-		var btnCardImport = UITools.createBindableJButton("", MTGConstants.ICON_TAB_IMPORT, KeyEvent.VK_I, "WithCard");
-		var lblCard = new JLabel();
-		var btnRemoveCard = new JButton(MTGConstants.ICON_SMALL_DELETE);
+		final var labCardFilter = new JLabel("With this card : ");
+		final var btnCardImport = UITools.createBindableJButton("", MTGConstants.ICON_TAB_IMPORT, KeyEvent.VK_I, "WithCard");
+		final var lblCard = new JLabel();
+		final var btnRemoveCard = new JButton(MTGConstants.ICON_SMALL_DELETE);
 		cardFilterPanel = UITools.createFlowPanel(labCardFilter, btnCardImport, lblCard, btnRemoveCard);
-		var panelNorth = UITools.createFlowPanel(cboSniffers, cboFormats, cardFilterPanel, btnLoad, lblLoad);
-		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
-		var btnImport = new JButton(MTGConstants.ICON_CHECK);
+		final var panelNorth = UITools.createFlowPanel(cboSniffers, cboFormats, cardFilterPanel, btnLoad, lblLoad);
+		final var btnClose = new JButton(MTGConstants.ICON_CANCEL);
+		final var btnImport = new JButton(MTGConstants.ICON_CHECK);
 
 		cardFilterPanel.setVisible(getSelectedSniffer().hasCardFilter());
 		btnClose.setToolTipText(capitalize("CANCEL"));
@@ -95,7 +95,7 @@ public class DeckSnifferDialog extends JDialog {
 		btnClose.addActionListener(_ -> dispose());
 
 		btnCardImport.addActionListener(_ -> {
-			var importer = new CardImporterDialog();
+			final var importer = new CardImporterDialog();
 			importer.setVisible(true);
 
 			if (importer.hasSelected()) {
@@ -114,8 +114,9 @@ public class DeckSnifferDialog extends JDialog {
 			cboFormats.removeAllItems();
 			model.clear();
 
-			for (String s : getSelectedSniffer().listFilter())
-				cboFormats.addItem(s);
+			for (final String s : getSelectedSniffer().listFilter()) {
+			    cboFormats.addItem(s);
+			}
 
 			cardFilterPanel.setVisible(getSelectedSniffer().hasCardFilter());
 
@@ -129,10 +130,11 @@ public class DeckSnifferDialog extends JDialog {
 
 						@Override
 						protected List<RetrievableDeck> doInBackground() throws Exception {
-							if (plug.hasCardFilter() && filteredCard != null)
-								return plug.getDeckList(cboFormats.getSelectedItem().toString(), filteredCard);
-							else
-								return plug.getDeckList(cboFormats.getSelectedItem().toString(), null);
+							if (plug.hasCardFilter() && filteredCard != null) {
+							    return plug.getDeckList(cboFormats.getSelectedItem().toString(), filteredCard);
+							} else {
+							    return plug.getDeckList(cboFormats.getSelectedItem().toString(), null);
+							}
 						}
 
 						@Override
@@ -145,7 +147,7 @@ public class DeckSnifferDialog extends JDialog {
 
 		btnImport.addActionListener(_ -> {
 
-			var sw = new AbstractObservableWorker<MTGDeck, MTGCard, MTGDeckSniffer>(lblLoad, getSelectedSniffer()) {
+			final var sw = new AbstractObservableWorker<MTGDeck, MTGCard, MTGDeckSniffer>(lblLoad, getSelectedSniffer()) {
 
 				@Override
 				protected void process(List<MTGCard> chunks) {

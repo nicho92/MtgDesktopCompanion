@@ -64,32 +64,34 @@ public class URLTools {
 	public static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 
 	public static final String AUTHORIZATION = "Authorization";
-	
-	
+
+
 	private static final Pattern p = Pattern.compile("<(.*?)>;\\srel=\"(.*?)\"");
-	
+
 	private URLTools() {
 	}
 
 	public static String getExternalIp() {
 		try {
 			return extractAsString("http://checkip.amazonaws.com");
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			return "0.0.0.0";
 		}
 	}
 
 	public static Map<String, String> parseLinksHeader(Header header) {
-		var map = new HashMap<String, String>();
+		final var map = new HashMap<String, String>();
 
-		if (header == null)
-			return map;
+		if (header == null) {
+		    return map;
+		}
 
-		
 
-		var m = p.matcher(header.getValue());
-		while (m.find())
-			map.put(m.group(2), m.group(1));
+
+		final var m = p.matcher(header.getValue());
+		while (m.find()) {
+		    map.put(m.group(2), m.group(1));
+		}
 
 		return map;
 
@@ -114,13 +116,13 @@ public class URLTools {
 	public static JsonElement toJson(InputStream content) {
 		try (var reader = new InputStreamReader(content)) {
 			return JsonParser.parseReader(reader);
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			return null;
 		}
 	}
 
 	public static String toHtmlFromMarkdown(String c) {
-		var document = MARKDOWN_PARSER.parse(c);
+		final var document = MARKDOWN_PARSER.parse(c);
 		return MARKDOWN_RENDERER.render(document);
 	}
 
@@ -139,7 +141,7 @@ public class URLTools {
 	}
 
 	public static InputStream extractAsInputStream(String url) throws IOException {
-		var content = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent()
+		final var content = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent()
 				.readAllBytes();
 		return new ByteArrayInputStream(content);
 
@@ -156,19 +158,21 @@ public class URLTools {
 	}
 
 	public static Document extractMarkdownAsHtml(String url) throws IOException {
-		var ret = toHtmlFromMarkdown(extractAsString(url));
+		final var ret = toHtmlFromMarkdown(extractAsString(url));
 		return toHtml(ret);
 	}
 
 	public static BufferedImage extractAsImage(String url) throws IOException {
 
-		if (url.startsWith("file:"))
-			return ImageTools.readLocal(URI.create(url).toURL());
+		if (url.startsWith("file:")) {
+		    return ImageTools.readLocal(URI.create(url).toURL());
+		}
 
-		if (url.startsWith("//"))
-			url = "https:" + url;
+		if (url.startsWith("//")) {
+		    url = "https:" + url;
+		}
 
-		var client = URLTools.newClient();
+		final var client = URLTools.newClient();
 		return RequestBuilder.build().setClient(client).url(url).get().toImage();
 
 	}
@@ -176,10 +180,10 @@ public class URLTools {
 	public static boolean isCorrectConnection(String url) {
 		int resp;
 		try {
-			var client = URLTools.newClient();
+			final var client = URLTools.newClient();
 			resp = RequestBuilder.build().setClient(client).url(url).get().execute().getStatusLine().getStatusCode();
 			return resp >= 200 && resp < 300;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 			return false;
 		}
@@ -190,11 +194,11 @@ public class URLTools {
 	}
 
 	public static String getLocation(String url) {
-		var c = URLTools.newClient();
+		final var c = URLTools.newClient();
 		try {
 			RequestBuilder.build().setClient(c).url(url).get().execute();
 			return c.getHttpContext().getRedirectLocations().get(0).toASCIIString();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 			return url;
 		}
@@ -202,22 +206,23 @@ public class URLTools {
 	}
 
 	public static byte[] readAsBinary(String url) throws IOException {
-		var is = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent();
+		final var is = RequestBuilder.build().newClient().url(url).get().execute().getEntity().getContent();
 		return IOUtils.toByteArray(is);
 	}
 
 	public static String getInternalIP() {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return "127.0.0.1";
 		}
 	}
 
 	public static String extractElementText(@Nullable Element element) {
 
-		if (element == null)
-			return "";
+		if (element == null) {
+		    return "";
+		}
 
 		return element.text();
 	}

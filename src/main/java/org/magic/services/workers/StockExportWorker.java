@@ -20,7 +20,7 @@ import org.utils.patterns.observer.Observer;
 public class StockExportWorker extends SwingWorker<Void, MTGCard> {
 
 	private MTGCardsExport exp;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private Observer o;
 	private AbstractBuzyIndicatorComponent buzy;
 	private File f;
@@ -46,7 +46,7 @@ public class StockExportWorker extends SwingWorker<Void, MTGCard> {
 	protected Void doInBackground() {
 		try {
 			exp.exportStock(export, f);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			err = e;
 			logger.error("error export with {}", exp, e);
 		}
@@ -62,7 +62,7 @@ public class StockExportWorker extends SwingWorker<Void, MTGCard> {
 	protected void done() {
 		try {
 			exp.removeObserver(o);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 		buzy.end();

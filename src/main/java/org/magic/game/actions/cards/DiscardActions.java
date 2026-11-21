@@ -13,7 +13,7 @@ public class DiscardActions extends AbstractAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard card;
+	private final DisplayableCard card;
 
 	public DiscardActions(DisplayableCard card) {
 		super("Discard");

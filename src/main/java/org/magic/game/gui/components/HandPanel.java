@@ -18,7 +18,7 @@ import org.magic.services.threads.ThreadManager;
 public class HandPanel extends DraggablePanel {
 
 	private static final long serialVersionUID = 1L;
-	private GridBagConstraints c;
+	private final GridBagConstraints c;
 	private int index = 0;
 	private int val = 7;
 	private transient SwingWorker<Void, MTGCard> sw;
@@ -66,8 +66,9 @@ public class HandPanel extends DraggablePanel {
 		i.setVerticalTextPosition(SwingConstants.BOTTOM);
 		i.enableDrag(dragging);
 
-		if (i.isTapped())
-			i.tap(false);
+		if (i.isTapped()) {
+		    i.tap(false);
+		}
 
 		add(i, c);
 		index++;
@@ -78,7 +79,7 @@ public class HandPanel extends DraggablePanel {
 	public void initThumbnails(final List<MTGCard> cards, final boolean activateCards, final boolean rightClick) {
 
 		if (sw != null && !sw.isDone()) {
-			boolean ret = sw.cancel(true);
+			final boolean ret = sw.cancel(true);
 			logger.debug("Closing initThumbnails SwingWorker : {}", ret);
 		}
 
@@ -92,15 +93,16 @@ public class HandPanel extends DraggablePanel {
 		this.removeAll();
 		index = 0;
 
-		if (d == null)
-			d = MTGControler.getInstance().getCardsGameDimension();
+		if (d == null) {
+		    d = MTGControler.getInstance().getCardsGameDimension();
+		}
 
 		sw = new SwingWorker<>() {
 
 			@Override
 			protected void process(List<MTGCard> cards) {
-				for (MTGCard mc : cards) {
-					var lab = new DisplayableCard(mc, d, activateCards, rightClick);
+				for (final MTGCard mc : cards) {
+					final var lab = new DisplayableCard(mc, d, activateCards, rightClick);
 					lab.setTappable(activateCards);
 					addComponent(lab);
 				}
@@ -119,7 +121,7 @@ public class HandPanel extends DraggablePanel {
 				try {
 					get();
 
-				} catch (CancellationException _) {
+				} catch (final CancellationException _) {
 
 					logger.info("{} is canceled", this);
 				} catch (InterruptedException | ExecutionException _) {

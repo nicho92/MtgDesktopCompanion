@@ -17,16 +17,16 @@ public class PSAGrader extends AbstractGradersProvider {
 
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
-		var doc = URLTools.extractAsHtml(getWebSite() + "/cert/" + identifier);
+		final var doc = URLTools.extractAsHtml(getWebSite() + "/cert/" + identifier);
 
-		for (var it : doc.select("table tr")) {
+		for (final var it : doc.select("table tr")) {
 			if (it.getElementsByTag("th").first().text().equals("Grade")) {
-				var result = it.getElementsByTag("td").html();
+				final var result = it.getElementsByTag("td").html();
 
-				var condition = result.split(" ")[0].trim();
-				var note = UITools.parseDouble(result.split(" ")[1].trim());
+				final var condition = result.split(" ")[0].trim();
+				final var note = UITools.parseDouble(result.split(" ")[1].trim());
 				logger.debug("result : {} note={}", result, note);
-				var g = new MTGGrading();
+				final var g = new MTGGrading();
 				g.setNumberID(identifier);
 				g.setUrlInfo(getWebSite() + "/cert/" + identifier);
 				g.setGraderName(getName());

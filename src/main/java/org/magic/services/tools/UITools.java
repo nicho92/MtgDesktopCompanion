@@ -143,10 +143,10 @@ public class UITools {
 
 	private UITools() {
 	}
-	
+
 	public static void loadFonts() {
 
-	        List<String> fonts = List.of(
+	        final List<String> fonts = List.of(
 	            "/fonts/beleren-bold_P1.01.ttf",
 	            "/fonts/belerensmallcaps-bold.ttf",
 	            "/fonts/GothamPro-Medium.ttf",
@@ -157,24 +157,25 @@ public class UITools {
 	            "/fonts/Goudy Mediaeval Regular.ttf"
 	        );
 
-	        var ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	        final var ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-	        for (var path : fonts) {
+	        for (final var path : fonts) {
 	            try (var is = UITools.class.getResourceAsStream(path)) {
 	        	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, is));
-	            } catch (Exception e) {
+	            } catch (final Exception e) {
 	                logger.error("Unable to load font: {}",path,e);
 	            }
 	        }
 	    }
-	
-	
+
+
 	public static final int getComponentIndex(Component component) {
 		if (component != null && component.getParent() != null) {
-			var c = component.getParent();
+			final var c = component.getParent();
 			for (var i = 0; i < c.getComponentCount(); i++) {
-				if (c.getComponent(i) == component)
-					return i;
+				if (c.getComponent(i) == component) {
+				    return i;
+				}
 			}
 		}
 
@@ -182,12 +183,12 @@ public class UITools {
 	}
 
 	public static String humanReadableSize(long bytes) {
-		var absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
+		final var absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
 		if (absB < 1024) {
 			return bytes + " B";
 		}
 		var value = absB;
-		var ci = new StringCharacterIterator("KMGTPE");
+		final var ci = new StringCharacterIterator("KMGTPE");
 		for (int i = 40; i >= 0 && absB > 0xfffccccccccccccL >> i; i -= 10) {
 			value >>= 10;
 			ci.next();
@@ -209,15 +210,15 @@ public class UITools {
 
 	public static void buildCategorizedMenu(JPopupMenu menu, JMenuItem it, MTGCardsExport exp) {
 		var foundCateg = false;
-		for (var m : menu.getSubElements()) {
-			if (m instanceof JMenuItem subMenuCategory && subMenuCategory.getText().equals(exp.getCategory().name())) {
+		for (final var m : menu.getSubElements()) {
+			if (m instanceof final JMenuItem subMenuCategory && subMenuCategory.getText().equals(exp.getCategory().name())) {
 				foundCateg = true;
 				subMenuCategory.add(it);
 				break;
 			}
 		}
 		if (!foundCateg) {
-			var itCateg = new JMenu(exp.getCategory().name());
+			final var itCateg = new JMenu(exp.getCategory().name());
 			itCateg.setIcon(exp.getCategory().getIcon());
 			itCateg.add(it);
 			menu.add(itCateg);
@@ -228,16 +229,17 @@ public class UITools {
 		try {
 			logger.debug("Opening browser to {}", uri);
 			Desktop.getDesktop().browse(new URI(uri));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 	}
 
 	public static JXTable createNewTable(TableModel mod, boolean enableFilter) {
-		var table = new JXTable();
+		final var table = new JXTable();
 
-		if (mod != null)
-			table.setModel(mod);
+		if (mod != null) {
+		    table.setModel(mod);
+		}
 
 		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
@@ -256,33 +258,37 @@ public class UITools {
 		table.setDefaultRenderer(MoneyValue.class, new MoneyCellRenderer());
 		table.setDefaultRenderer(MTGGrading.class, new GradingCellRenderer());
 
-		for (var c : List.of(MTGCardStock.class, MTGSealedStock.class))
-			table.setDefaultRenderer(c, new MTGStockItemRenderer());
+		for (final var c : List.of(MTGCardStock.class, MTGSealedStock.class)) {
+		    table.setDefaultRenderer(c, new MTGStockItemRenderer());
+		}
 
 		table.setDefaultRenderer(Map.class, (JTable t, Object value, boolean isSelected, boolean _, int _, int _) -> {
-			var pane = new JPanel();
+			final var pane = new JPanel();
 
-			if (value != null)
-				((Map<String, Object>) value).entrySet().forEach(e -> {
-					var plug = PluginRegistry.inst().listPlugins().stream()
-							.filter(p -> p.getName().equalsIgnoreCase(e.getKey())).findFirst().orElse(null);
-					if (plug != null)
-						pane.add(new JLabel(ImageTools.resize(plug.getIcon(),
-								new Dimension(MTGConstants.TABLE_ROW_HEIGHT, MTGConstants.TABLE_ROW_HEIGHT))));
-					else
-						pane.add(new JLabel(e.getKey()));
-				});
+			if (value != null) {
+			    ((Map<String, Object>) value).entrySet().forEach(e -> {
+			    	final var plug = PluginRegistry.inst().listPlugins().stream()
+			    			.filter(p -> p.getName().equalsIgnoreCase(e.getKey())).findFirst().orElse(null);
+			    	if (plug != null) {
+			    	    pane.add(new JLabel(ImageTools.resize(plug.getIcon(),
+			    	    		new Dimension(MTGConstants.TABLE_ROW_HEIGHT, MTGConstants.TABLE_ROW_HEIGHT))));
+			    	} else {
+			    	    pane.add(new JLabel(e.getKey()));
+			    	}
+			    });
+			}
 
 			pane.setBackground(t.getBackground());
 
-			if (isSelected)
-				pane.setBackground(t.getSelectionBackground());
+			if (isSelected) {
+			    pane.setBackground(t.getSelectionBackground());
+			}
 
 			return pane;
 
 		});
 
-		for (var c : List.of(MTGCollection.class, EnumCondition.class, EnumRarity.class, EnumColors.class,
+		for (final var c : List.of(MTGCollection.class, EnumCondition.class, EnumRarity.class, EnumColors.class,
 				EnumTransactionDirection.class, EnumTransactionStatus.class)) {
 			table.setDefaultRenderer(c, new MTGIconableTableCellRenderer());
 		}
@@ -306,14 +312,14 @@ public class UITools {
 		try {
 			table.setDefaultEditor(MTGEdition.class, new ComboBoxEditor<>(
 					getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().toList()));
-		} catch (IOException e2) {
+		} catch (final IOException e2) {
 			logger.error(e2);
 		}
 
 		try {
 			table.setDefaultEditor(MTGCollection.class,
 					new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
 			logger.error(e1);
 		}
 
@@ -324,19 +330,20 @@ public class UITools {
 
 		try {
 			table.packAll();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
-		if (enableFilter)
-			initTableFilter(table);
+		if (enableFilter) {
+		    initTableFilter(table);
+		}
 
 		// TODO dev for columns state records
 		table.getColumnModel().addColumnModelListener(new TableColumnModelExtListenerAdapter() {
 			@Override
 			public void columnPropertyChange(PropertyChangeEvent event) {
 				if (event.getPropertyName().equals("visible") && MTGControler.getInstance().isLoaded()) {
-					var tce = (TableColumnExt) event.getSource();
+					final var tce = (TableColumnExt) event.getSource();
 
 					logger.trace("{} {} {} {}", table.getModel().getClass(), tce.getModelIndex(), tce.getIdentifier(),
 							Boolean.valueOf(event.getNewValue().toString()));
@@ -348,20 +355,23 @@ public class UITools {
 	}
 
 	public static String[] stringLineSplit(String s, boolean removeBlank) {
-		if (removeBlank)
-			return s.split("[" + System.lineSeparator() + "]+");
+		if (removeBlank) {
+		    return s.split("[" + System.lineSeparator() + "]+");
+		}
 
 		return s.lines().toArray(String[]::new);
 	}
 
 	public static GridBagConstraints createGridBagConstraints(Integer anchor, Integer fill, int col, int line) {
-		var cons = new GridBagConstraints();
+		final var cons = new GridBagConstraints();
 
-		if (anchor != null)
-			cons.anchor = anchor;
+		if (anchor != null) {
+		    cons.anchor = anchor;
+		}
 
-		if (fill != null)
-			cons.fill = fill;
+		if (fill != null) {
+		    cons.fill = fill;
+		}
 
 		cons.insets = new Insets(0, 0, 5, 5);
 		cons.gridx = col;
@@ -372,13 +382,15 @@ public class UITools {
 
 	public static GridBagConstraints createGridBagConstraints(Integer anchor, Integer fill, int col, int line,
 			Integer gridW, Integer gridH) {
-		var cons = createGridBagConstraints(anchor, fill, col, line);
+		final var cons = createGridBagConstraints(anchor, fill, col, line);
 
-		if (gridW != null)
-			cons.gridwidth = gridW;
+		if (gridW != null) {
+		    cons.gridwidth = gridW;
+		}
 
-		if (gridH != null)
-			cons.gridheight = gridH;
+		if (gridH != null) {
+		    cons.gridheight = gridH;
+		}
 
 		return cons;
 	}
@@ -407,8 +419,9 @@ public class UITools {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				res.clear();
-				if (!txtSearch.getText().isEmpty() && txtSearch.getText().length() > 2)
-					res.addAll(getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
+				if (!txtSearch.getText().isEmpty() && txtSearch.getText().length() > 2) {
+				    res.addAll(getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
+				}
 
 			}
 		});
@@ -417,19 +430,20 @@ public class UITools {
 	}
 
 	public static <T extends MTGPlugin> JComboBox<T> createComboboxPlugins(Class<T> classe, boolean all) {
-		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
-		JComboBox<T> combo = new JComboBox<>(model);
-		if (all)
-			listPlugins(classe).forEach(model::addElement);
-		else
-			listEnabledPlugins(classe).forEach(model::addElement);
+		final DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
+		final JComboBox<T> combo = new JComboBox<>(model);
+		if (all) {
+		    listPlugins(classe).forEach(model::addElement);
+		} else {
+		    listEnabledPlugins(classe).forEach(model::addElement);
+		}
 
 		combo.setRenderer(new PluginIconListRenderer());
 		return combo;
 	}
 
 	public static JButton createBindableJButton(String text, Icon ic, int key, String name) {
-		var b = new JButton(text, ic);
+		final var b = new JButton(text, ic);
 		b.setName(name);
 		ShortKeyManager.inst().setShortCutTo(key, b);
 		return b;
@@ -441,20 +455,20 @@ public class UITools {
 	}
 
 	public static JComboBox<MTGEdition> createComboboxEditions(List<MTGEdition> value, SIZE s) {
-		var combo = UITools.createCombobox(value);
+		final var combo = UITools.createCombobox(value);
 		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
 	}
 
 	public static JComboBox<MTGEdition> createComboboxEditions() {
 		try {
-			List<MTGEdition> list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+			final List<MTGEdition> list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(list);
-			var cbo = createComboboxEditions(list, SIZE.MEDIUM);
+			final var cbo = createComboboxEditions(list, SIZE.MEDIUM);
 			AutoCompleteDecorator.decorate(cbo);
 
 			return cbo;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 			return new JComboBox<>();
 		}
@@ -465,8 +479,8 @@ public class UITools {
 	}
 
 	public static <T> JComboBox<T> createCombobox(List<T> items) {
-		var model = new DefaultComboBoxModel<T>();
-		var combo = new JComboBox<T>(model);
+		final var model = new DefaultComboBoxModel<T>();
+		final var combo = new JComboBox<>(model);
 
 		items.forEach(model::addElement);
 
@@ -476,14 +490,14 @@ public class UITools {
 				l = new JLabel();
 			} else {
 				l = new JLabel(value.toString());
-				if (value instanceof LookAndFeelInfo lafi) {
+				if (value instanceof final LookAndFeelInfo lafi) {
 					l = new JLabel(lafi.getName());
 					l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
-				} else if (value instanceof MTGIconable qa) {
+				} else if (value instanceof final MTGIconable qa) {
 					l.setIcon(qa.getIcon());
 				} else if (value instanceof Webcam) {
 					l.setIcon(MTGConstants.ICON_WEBCAM);
-				} else if (value instanceof MTGEdition ed) {
+				} else if (value instanceof final MTGEdition ed) {
 					l.setIcon(IconsProvider.getInstance().get16(ed.getId()));
 				} else {
 					l.setIcon(MTGConstants.ICON_MANA_INCOLOR);
@@ -509,7 +523,7 @@ public class UITools {
 
 		try {
 			return createCombobox(getEnabledPlugin(MTGDao.class).listCollections());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return new JComboBox<>();
 		}
@@ -519,17 +533,19 @@ public class UITools {
 	public static Double parseDouble(String text) {
 		try {
 
-			if (text.isBlank())
-				return 0.0;
+			if (text.isBlank()) {
+			    return 0.0;
+			}
 
 			text = text.replace(",", ".").replaceAll("[€,]", "").replaceAll("[$,]", "").replaceAll("[£,]", "")
 					.replaceAll("[%,]", "").replace('\u00A0', ' ').replace('\uFFFD', ' ').replace("\u0080", "").trim();
 
-			if (StringUtils.countMatches(text, '.') > 1)
-				text = text.replaceFirst("\\.", "");
+			if (StringUtils.countMatches(text, '.') > 1) {
+			    text = text.replaceFirst("\\.", "");
+			}
 
 			return Double.parseDouble(text);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error parsing '{}':{}", text, e);
 			return 0.0;
 		}
@@ -548,13 +564,15 @@ public class UITools {
 	}
 
 	public static String formatDouble(Object f, String format, Character separator) {
-		if (f == null)
-			return "";
+		if (f == null) {
+		    return "";
+		}
 
-		var otherSymbols = new DecimalFormatSymbols(MTGControler.getInstance().getLocale());
+		final var otherSymbols = new DecimalFormatSymbols(MTGControler.getInstance().getLocale());
 
-		if (separator != null)
-			otherSymbols.setDecimalSeparator(separator);
+		if (separator != null) {
+		    otherSymbols.setDecimalSeparator(separator);
+		}
 
 		return new DecimalFormat(format, otherSymbols).format(f);
 	}
@@ -562,17 +580,18 @@ public class UITools {
 	public static void initTableFilter(JXTable table) {
 		try {
 			FilterSettings.ignoreCase = true;
-			var filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
+			final var filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
 			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error setting TableFilter of {}", table, e);
 		}
 
 	}
 
 	public static <T> void initTableVisibility(JXTable table, GenericTableModel<T> model) {
-		for (int i : model.defaultHiddenColumns())
-			table.getColumnExt(model.getColumnName(i)).setVisible(false);
+		for (final int i : model.defaultHiddenColumns()) {
+		    table.getColumnExt(model.getColumnName(i)).setVisible(false);
+		}
 	}
 
 	public static <V> void initCardToolTipTable(final JTable table, final Integer cardNamePos, final Integer edPos,
@@ -588,31 +607,34 @@ public class UITools {
 					ThreadManager.getInstance().submitCallable(dblClick);
 				} else {
 
-					var row = table.rowAtPoint(e.getPoint());
+					final var row = table.rowAtPoint(e.getPoint());
 
-					if (row < 0)
-						return;
+					if (row < 0) {
+					    return;
+					}
 
-					var pane = new MagicCardMainDetailPanel();
+					final var pane = new MagicCardMainDetailPanel();
 					pane.enableThumbnail(true);
 					table.setRowSelectionInterval(row, row);
 
 					var cardName = getModelValueAt(table, row, cardNamePos.intValue()).toString();
 
-					if (cardName.indexOf('(') >= 0)
-						cardName = cardName.substring(0, cardName.indexOf('(')).trim();
+					if (cardName.indexOf('(') >= 0) {
+					    cardName = cardName.substring(0, cardName.indexOf('(')).trim();
+					}
 
 					MTGEdition ed = null;
 					try {
 						if (edPos != null) {
 
-							if (getModelValueAt(table, row, edPos) instanceof MTGEdition se)
-								ed = se;
-							else
-								ed = MTG.getEnabledPlugin(MTGCardsProvider.class)
-										.getSetById(getModelValueAt(table, row, edPos).toString());
+							if (getModelValueAt(table, row, edPos) instanceof final MTGEdition se) {
+							    ed = se;
+							} else {
+							    ed = MTG.getEnabledPlugin(MTGCardsProvider.class)
+							    		.getSetById(getModelValueAt(table, row, edPos).toString());
+							}
 						}
-					} catch (Exception _) {
+					} catch (final Exception _) {
 						logger.error("no edition defined");
 					}
 
@@ -622,7 +644,7 @@ public class UITools {
 					try {
 
 						if (extraPos != null) {
-							var key = getModelValueAt(table, row, extraPos);
+							final var key = getModelValueAt(table, row, extraPos);
 							if (key != null) {
 								extraVariations = EnumCardVariation.valueOf(key.toString());
 								mc = getEnabledPlugin(MTGCardsProvider.class)
@@ -644,9 +666,9 @@ public class UITools {
 						popUp.show(table, e.getX() + 5, e.getY() + 5);
 						popUp.setVisible(true);
 
-					} catch (IndexOutOfBoundsException _) {
+					} catch (final IndexOutOfBoundsException _) {
 						logger.error("{} is not found with extra={}", cardName, extraVariations);
-					} catch (IOException e1) {
+					} catch (final IOException e1) {
 						logger.error("error loading {}", cardName, e1);
 					}
 
@@ -656,9 +678,9 @@ public class UITools {
 	}
 
 	public static <T> List<T> getTableSelections(JTable tableCards, int columnID) {
-		int[] viewRow = tableCards.getSelectedRows();
-		List<T> listCards = new ArrayList<>();
-		for (int i : viewRow) {
+		final int[] viewRow = tableCards.getSelectedRows();
+		final List<T> listCards = new ArrayList<>();
+		for (final int i : viewRow) {
 			listCards.add(getModelValueAt(tableCards, i, columnID));
 		}
 		return listCards;
@@ -667,7 +689,7 @@ public class UITools {
 	public static <T> T getTableSelection(JTable tableCards, int columnID) {
 		try {
 			return (T) getTableSelections(tableCards, columnID).get(0);
-		} catch (IndexOutOfBoundsException _) {
+		} catch (final IndexOutOfBoundsException _) {
 			return null;
 		}
 	}
@@ -687,24 +709,26 @@ public class UITools {
 	}
 
 	public static Date parseDate(String indexDate, String format) {
-		if (indexDate == null)
-			return new Date();
+		if (indexDate == null) {
+		    return new Date();
+		}
 
 		try {
 			return new SimpleDateFormat(format).parse(indexDate);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			logger.error(e);
 			return new Date();
 		}
 	}
 
 	public static Date parseDate(String indexDate, String format, Locale local) {
-		if (indexDate == null)
-			return new Date();
+		if (indexDate == null) {
+		    return new Date();
+		}
 
 		try {
 			return new SimpleDateFormat(format, local).parse(indexDate);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			logger.error(e);
 			return new Date();
 		}
@@ -717,8 +741,9 @@ public class UITools {
 
 	public static String formatDate(Date indexDate, String format) {
 
-		if (indexDate == null)
-			return "";
+		if (indexDate == null) {
+		    return "";
+		}
 
 		return new SimpleDateFormat(format).format(indexDate);
 	}
@@ -729,8 +754,9 @@ public class UITools {
 	}
 
 	public static String formatDateTime(Date indexDate) {
-		if (indexDate == null)
-			return "";
+		if (indexDate == null) {
+		    return "";
+		}
 
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT) + " HH:mm:ss")
 				.format(indexDate);
@@ -746,28 +772,29 @@ public class UITools {
 	}
 
 	public static List<Integer> getSelectedRows(JXTable table) {
-		int[] viewRow = table.getSelectedRows();
+		final int[] viewRow = table.getSelectedRows();
 
-		var ret = new ArrayList<Integer>();
-		for (int i : viewRow)
-			ret.add(table.convertRowIndexToModel(i));
+		final var ret = new ArrayList<Integer>();
+		for (final int i : viewRow) {
+		    ret.add(table.convertRowIndexToModel(i));
+		}
 
 		return ret;
 	}
 
 	public static void setSorter(JTable table, int i, NumberSorter numberSorter) {
-		var sorter = new TableRowSorter<TableModel>(table.getModel());
+		final var sorter = new TableRowSorter<>(table.getModel());
 		sorter.setComparator(i, numberSorter);
 		table.setRowSorter(sorter);
-		var sortKeys = new ArrayList<RowSorter.SortKey>();
+		final var sortKeys = new ArrayList<RowSorter.SortKey>();
 		sortKeys.add(new RowSorter.SortKey(i, SortOrder.ASCENDING));
 		sorter.setSortKeys(sortKeys);
 	}
 
 	public static void sort(JTable table, int index, SortOrder order) {
-		var sorter = new TableRowSorter<TableModel>(table.getModel());
+		final var sorter = new TableRowSorter<>(table.getModel());
 		table.setRowSorter(sorter);
-		var sortKeys = new ArrayList<RowSorter.SortKey>();
+		final var sortKeys = new ArrayList<RowSorter.SortKey>();
 		sortKeys.add(new RowSorter.SortKey(index, order));
 		sorter.setSortKeys(sortKeys);
 	}
@@ -777,10 +804,11 @@ public class UITools {
 	}
 
 	public static JPanel createFlowPanel(JComponent... of) {
-		var tempPanel = new JPanel();
+		final var tempPanel = new JPanel();
 		((FlowLayout) tempPanel.getLayout()).setAlignment(FlowLayout.LEFT);
-		for (var c : of)
-			tempPanel.add(c);
+		for (final var c : of) {
+		    tempPanel.add(c);
+		}
 
 		tempPanel.revalidate();
 
@@ -788,10 +816,11 @@ public class UITools {
 	}
 
 	public static JPanel createFlowCenterPanel(JComponent... of) {
-		var tempPanel = new JPanel();
+		final var tempPanel = new JPanel();
 		((FlowLayout) tempPanel.getLayout()).setAlignment(FlowLayout.CENTER);
-		for (var c : of)
-			tempPanel.add(c);
+		for (final var c : of) {
+		    tempPanel.add(c);
+		}
 
 		tempPanel.revalidate();
 
@@ -805,9 +834,9 @@ public class UITools {
 
 			@Override
 			public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
-				var g2 = (Graphics2D) g;
+				final var g2 = (Graphics2D) g;
 				ImageTools.initGraphics(g2);
-				var circle = new Ellipse2D.Double(0, 0, getIconWidth(), getIconHeight());
+				final var circle = new Ellipse2D.Double(0, 0, getIconWidth(), getIconHeight());
 				g2.setColor(color);
 				g2.fill(circle);
 

@@ -38,14 +38,14 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
 		try {
 			locator = ActiveMQClient.createServerLocator(url);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 
 		try {
 
 			factory = locator.createSessionFactory();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 
@@ -53,13 +53,13 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 			session = factory.createSession(player.getName(), "password", false, true, true, true, 0,
 					String.valueOf(player.getId()));
 
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 
 		try {
 			session.start();
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 	}
@@ -68,15 +68,15 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	public void switchAddress(String adress) throws IOException {
 		try {
 			producer = session.createProducer(adress);
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 
 		try {
-			var cqc = createQueueConf(adress);
+			final var cqc = createQueueConf(adress);
 			session.createQueue(cqc);
 			consumer = session.createConsumer(cqc.getName());
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 	}
@@ -91,12 +91,12 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	public void sendMessage(AbstractMessage obj) throws IOException {
 		obj.setAuthor(player);
 
-		var message = session.createMessage(obj.getTypeMessage() == MSG_TYPE.TALK);
+		final var message = session.createMessage(obj.getTypeMessage() == MSG_TYPE.TALK);
 		message.getBodyBuffer().writeString(toJson(obj));
 		try {
 			producer.send(message);
 			logger.debug("{} send {} : {}", obj.getAuthor().getName(), obj.getTypeMessage(), obj.getMessage());
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 	}
@@ -105,7 +105,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	public void disableConsummer() {
 		try {
 			consumer.close();
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			logger.error(e);
 		}
 	}
@@ -119,12 +119,13 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 				msg = consumer.receive();
 				logger.debug("consume {}", msg);
 			}
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 
-		if (msg == null)
-			return null;
+		if (msg == null) {
+		    return null;
+		}
 
 		return msg.getBodyBuffer().readString();
 	}
@@ -134,7 +135,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		try {
 			sendMessage(new StatutMessage(EnumPlayerStatus.DISCONNECTED));
 			session.close();
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 		locator.close();
@@ -142,12 +143,12 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
 		try {
 			producer.close();
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 		try {
 			consumer.close();
-		} catch (ActiveMQException e) {
+		} catch (final ActiveMQException e) {
 			throw new IOException(e);
 		}
 
@@ -180,10 +181,10 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 			logger.info("Getting a search stock query {}", s);
 
 			if (s.getAttachement().getTypeProduct() == EnumItems.CARD) {
-				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard) s.getAttachement());
+				final var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard) s.getAttachement());
 				sendMessage(new SendStockMessage(s, ret));
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 

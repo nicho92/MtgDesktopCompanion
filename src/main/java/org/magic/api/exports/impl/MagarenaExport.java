@@ -26,7 +26,7 @@ public class MagarenaExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var build = new StringBuilder();
+		final var build = new StringBuilder();
 		deck.getMain().entrySet().forEach(e -> build.append(e.getValue()).append(" ").append(e.getKey()).append("\n"));
 
 		build.append(">").append(deck.getDescription());
@@ -36,21 +36,22 @@ public class MagarenaExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(name);
 		matches(f, true).forEach(m -> {
 
 			try {
-				MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4), null, true).get(0);
-				var qty = Integer.parseInt(m.group(3));
+				final MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4), null, true).get(0);
+				final var qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(mc, qty);
 
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("error getting {}", m.group(4));
 			}
 
-			if (m.group().startsWith(">"))
-				deck.setDescription(m.group());
+			if (m.group().startsWith(">")) {
+			    deck.setDescription(m.group());
+			}
 
 		});
 

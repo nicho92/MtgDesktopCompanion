@@ -50,8 +50,8 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
 		init();
 
-		var type = (typeStock == EnumItems.CARD ? EnumType.SINGLE : EnumType.SEALED);
-		var item = service.getSellerInventoryById(type, id);
+		final var type = (typeStock == EnumItems.CARD ? EnumType.SINGLE : EnumType.SEALED);
+		final var item = service.getSellerInventoryById(type, id);
 
 		return convert(item);
 	}
@@ -133,15 +133,16 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	protected List<MTGStockItem> loadStock(String search) throws IOException {
 		init();
 
-		var ret = new ArrayList<MTGStockItem>();
+		final var ret = new ArrayList<MTGStockItem>();
 
 		service.getSellerInventory().forEach(item -> {
 			try {
 
-				if (item.getProduct().getName().contains(search) || StringUtils.isEmpty(search))
-					ret.add(convert(item));
+				if (item.getProduct().getName().contains(search) || StringUtils.isEmpty(search)) {
+				    ret.add(convert(item));
+				}
 
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 		});
@@ -149,11 +150,12 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	}
 
 	private void init() {
-		if (service == null)
-			service = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
+		if (service == null) {
+		    service = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
+		}
 
 		service.getClient().setCallListener((URLCallInfo callInfo) -> {
-			var netinfo = new NetworkInfo();
+			final var netinfo = new NetworkInfo();
 			netinfo.setStart(callInfo.getStart());
 			netinfo.setEnd(callInfo.getEnd());
 			netinfo.setRequest(callInfo.getRequest());
@@ -166,7 +168,7 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	}
 
 	private Transaction convert(Order o) {
-		var t = new Transaction();
+		final var t = new Transaction();
 
 		t.setCurrency(Currency.getInstance("USD"));
 		t.setDateCreation(o.getCreatedAtDate());
@@ -176,9 +178,9 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 		o.getItems().forEach(item -> {
 
 			try {
-				var it = convert(item);
+				final var it = convert(item);
 				t.getItems().add(it);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 
@@ -191,9 +193,9 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 	private MTGStockItem convert(ProductItem obj) throws IOException {
 
 		if (obj.getType() == EnumType.SINGLE) {
-			var card = MTG.getEnabledPlugin(MTGCardsProvider.class)
+			final var card = MTG.getEnabledPlugin(MTGCardsProvider.class)
 					.getCardByScryfallId(obj.getSingle().getScryfallId());
-			var item = ProductFactory.generateStockItem(card);
+			final var item = ProductFactory.generateStockItem(card);
 			item.setFoil(obj.getSingle().getFinishId() == EnumFinish.FO);
 			item.setEdition(card.getEdition());
 			item.setEtched(obj.getSingle().getFinishId() == EnumFinish.EF);
@@ -206,13 +208,14 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 			sealed.setName(obj.getName());
 			sealed.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(obj.getSealed().getSet()));
 
-			if (obj.getName().contains("Booster Box"))
-				sealed = MTG.getEnabledPlugin(MTGSealedProvider.class).get(sealed.getEdition(), EnumItems.BOX).get(0);
-			else if (obj.getName().contains("Booster Pack"))
-				sealed = MTG.getEnabledPlugin(MTGSealedProvider.class).get(sealed.getEdition(), EnumItems.BOOSTER)
-						.get(0);
+			if (obj.getName().contains("Booster Box")) {
+			    sealed = MTG.getEnabledPlugin(MTGSealedProvider.class).get(sealed.getEdition(), EnumItems.BOX).get(0);
+			} else if (obj.getName().contains("Booster Pack")) {
+			    sealed = MTG.getEnabledPlugin(MTGSealedProvider.class).get(sealed.getEdition(), EnumItems.BOOSTER)
+			    		.get(0);
+			}
 
-			var item = ProductFactory.generateStockItem(sealed);
+			final var item = ProductFactory.generateStockItem(sealed);
 			item.setLanguage(obj.getLanguage().getLabel());
 			item.getTiersAppIds().put(getName(), obj.getId());
 			item.setEdition(sealed.getEdition());
@@ -222,7 +225,7 @@ public class ManaPoolExternalShop extends AbstractExternalShop {
 
 	private MTGStockItem convert(InventoryItem obj) throws IOException {
 
-		var item = convert(obj.getProduct());
+		final var item = convert(obj.getProduct());
 		item.setPrice(obj.getPriceValue());
 		return item;
 	}

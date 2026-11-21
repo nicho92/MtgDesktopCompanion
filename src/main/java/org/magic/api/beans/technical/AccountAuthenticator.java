@@ -26,7 +26,7 @@ public class AccountAuthenticator implements Serializable {
 	}
 
 	public Properties getTokensAsProperties() {
-		var prop = new Properties();
+		final var prop = new Properties();
 		getTokens().forEach(prop::put);
 		return prop;
 

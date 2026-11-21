@@ -66,7 +66,7 @@ public class EmailNotifier extends AbstractMTGNotifier {
 			email.addTo(sendMail);
 			email.send();
 
-		} catch (EmailException ex) {
+		} catch (final EmailException ex) {
 			throw new IOException(ex);
 		}
 
@@ -86,11 +86,12 @@ public class EmailNotifier extends AbstractMTGNotifier {
 			email.setFrom(getString("FROM"));
 			email.setSubject(notification.getTitle());
 			email.setTextMsg(notification.getMessage());
-			for (String to : getArray("SEND_TO"))
-				email.addTo(to);
+			for (final String to : getArray("SEND_TO")) {
+			    email.addTo(to);
+			}
 			email.send();
 
-		} catch (EmailException ex) {
+		} catch (final EmailException ex) {
 			throw new IOException(ex);
 		}
 

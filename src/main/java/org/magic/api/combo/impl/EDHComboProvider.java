@@ -23,31 +23,32 @@ public class EDHComboProvider extends AbstractComboProvider {
 
     @Override
     public List<MTGCombo> loadComboWith(MTGCard mc) {
-	var result = new ArrayList<MTGCombo>();
+	final var result = new ArrayList<MTGCombo>();
 
 	try {
-	    var arr = RequestBuilder.build().newClient().get().url("https://edh-combos.com/api/search").addContent("s", mc.getName()).toJson().getAsJsonObject().get("combos").getAsJsonArray();
+	    final var arr = RequestBuilder.build().newClient().get().url("https://edh-combos.com/api/search").addContent("s", mc.getName()).toJson().getAsJsonObject().get("combos").getAsJsonArray();
 
-	    if(arr.isEmpty())
+	    if(arr.isEmpty()) {
 		return result;
+	    }
 
-	    for(var e : arr)
+	    for(final var e : arr)
 	    {
-		var obj = e.getAsJsonObject();
+		final var obj = e.getAsJsonObject();
 
-		var combo = new MTGCombo();
+		final var combo = new MTGCombo();
 		combo.setPlugin(this);
 		combo.setName(obj.get("i").toString());
 		combo.setComment(obj.get("r").getAsString());
 
-		for(var c : obj.get("c").getAsJsonArray())
+		for(final var c : obj.get("c").getAsJsonArray())
 		{
 
-		    var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(c.getAsString(), null, true).getFirst();
+		    final var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(c.getAsString(), null, true).getFirst();
 		    combo.getCards().add(card);
 		}
 
-		var doc= URLTools.extractAsHtml("https://edh-combos.com/combo/"+obj.get("d").getAsString());
+		final var doc= URLTools.extractAsHtml("https://edh-combos.com/combo/"+obj.get("d").getAsString());
 
 		combo.setComment(doc.select("main").html());
 
@@ -58,7 +59,7 @@ public class EDHComboProvider extends AbstractComboProvider {
 
 	    }
 
-	} catch (IOException e) {
+	} catch (final IOException e) {
 	    logger.error(e);
 	}
 	return result;

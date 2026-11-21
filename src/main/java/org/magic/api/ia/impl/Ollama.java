@@ -15,7 +15,7 @@ public class Ollama extends AbstractIA {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("URL", new MTGProperty("http://localhost:11434", "accessible url for ollama endpoint"));
 		m.put("MODEL", new MTGProperty("llama3.1", "model used for generation by Oolama", "gemma", "gemma2", "llama2",
 				"llama3", "llama3.1", "mistral", "mixtral", "deepseek-r1", "llava", "llava-phi3", "neural-chat",
@@ -45,11 +45,12 @@ public class Ollama extends AbstractIA {
 
 	@Override
 	public ChatModel getEngine(ResponseFormat format) {
-		var b = OllamaChatModel.builder().baseUrl(getString("URL")).modelName(getString("MODEL"))
+		final var b = OllamaChatModel.builder().baseUrl(getString("URL")).modelName(getString("MODEL"))
 				.logRequests(getBoolean("LOG")).logResponses(getBoolean("LOG")).temperature(getDouble("TEMPERATURE"));
 
-		if (format != null)
-			b.responseFormat(format);
+		if (format != null) {
+		    b.responseFormat(format);
+		}
 
 		return b.build();
 	}

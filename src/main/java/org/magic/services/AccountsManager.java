@@ -19,12 +19,12 @@ import com.google.gson.JsonObject;
 public class AccountsManager {
 
 	private static AccountsManager inst;
-	private Map<MTGPlugin, AccountAuthenticator> keys;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Map<MTGPlugin, AccountAuthenticator> keys;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public String getKey() throws IOException {
 
-		var key = FileTools.readFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(), "key"));
+		final var key = FileTools.readFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(), "key"));
 		if (key.isEmpty()) {
 			throw new IOException("Please create a keypass");
 		}
@@ -38,8 +38,9 @@ public class AccountsManager {
 	}
 
 	public static AccountsManager inst() {
-		if (inst == null)
-			inst = new AccountsManager();
+		if (inst == null) {
+		    inst = new AccountsManager();
+		}
 
 		return inst;
 	}
@@ -64,12 +65,12 @@ public class AccountsManager {
 	}
 
 	public JsonObject toJson() {
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 
 		keys.entrySet().forEach(e -> {
 
-			var plugEntry = new JsonObject();
-			var tokens = new JsonObject();
+			final var plugEntry = new JsonObject();
+			final var tokens = new JsonObject();
 
 			e.getValue().getTokens().entrySet().forEach(t -> tokens.addProperty(t.getKey(), t.getValue()));
 			plugEntry.add("tokens", tokens);
@@ -103,14 +104,15 @@ public class AccountsManager {
 
 	public String exportConfig(boolean crypted) {
 		try {
-		    var data = toJson().toString();
-		    
-			if(crypted)
+		    final var data = toJson().toString();
+
+			if(crypted) {
 			    return CryptoUtils.encrypt(data, getKey());
-			else
+			} else {
 			    return data;
-			
-		} catch (IOException e) {
+			}
+
+		} catch (final IOException e) {
 			logger.error("Error getting keypass : {}", e.getMessage());
 			return "";
 		}
@@ -121,7 +123,7 @@ public class AccountsManager {
 		if ((content != null) && !content.isEmpty()) {
 			try {
 				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(content, getKey()), JsonObject.class));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("Error while decryptions");
 			}
 		} else {
@@ -130,15 +132,17 @@ public class AccountsManager {
 	}
 
 	private void loadConfig(JsonObject o) {
-		if (o != null && !o.isJsonNull())
-			o.keySet().forEach(name -> {
-				var tokens = o.get(name).getAsJsonObject().get("tokens").getAsJsonObject();
-				var tok = new AccountAuthenticator();
-				tokens.entrySet().forEach(e -> tok.addToken(e.getKey(), e.getValue().getAsString()));
-				var plug = loadAuthenticator(name);
-				if (plug != null)
-					keys.put(plug, tok);
-			});
+		if (o != null && !o.isJsonNull()) {
+		    o.keySet().forEach(name -> {
+		    	final var tokens = o.get(name).getAsJsonObject().get("tokens").getAsJsonObject();
+		    	final var tok = new AccountAuthenticator();
+		    	tokens.entrySet().forEach(e -> tok.addToken(e.getKey(), e.getValue().getAsString()));
+		    	final var plug = loadAuthenticator(name);
+		    	if (plug != null) {
+		    	    keys.put(plug, tok);
+		    	}
+		    });
+		}
 	}
 
 	public static List<String> generateLoginPasswordsKeys() {

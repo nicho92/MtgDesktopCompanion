@@ -22,14 +22,15 @@ public final class MTGStockItemAdapter implements JsonDeserializer<MTGStockItem>
 		try {
 			return context.deserialize(elem, typeForName(EnumItems.valueOf(
 					elem.getAsJsonObject().get("product").getAsJsonObject().get("typeProduct").getAsString())));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return context.deserialize(elem, typeForName(EnumItems.SEALED));
 		}
 	}
 
 	private Type typeForName(final EnumItems t) {
-		if (t.equals(EnumItems.CARD))
-			return MTGCardStock.class;
+		if (t.equals(EnumItems.CARD)) {
+		    return MTGCardStock.class;
+		}
 
 		return MTGSealedStock.class;
 

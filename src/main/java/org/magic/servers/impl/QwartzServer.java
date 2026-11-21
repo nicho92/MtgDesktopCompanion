@@ -42,7 +42,7 @@ public class QwartzServer extends AbstractMTGServer {
 			}
 
 			scheduler = new StdSchedulerFactory(getProperties()).getScheduler();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 	}
@@ -51,7 +51,7 @@ public class QwartzServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		try {
 			scheduler.start();
-		} catch (SchedulerException e) {
+		} catch (final SchedulerException e) {
 			throw new IOException(e);
 		}
 	}
@@ -61,7 +61,7 @@ public class QwartzServer extends AbstractMTGServer {
 		try {
 			scheduler.standby();
 
-		} catch (SchedulerException e) {
+		} catch (final SchedulerException e) {
 			throw new IOException(e);
 		}
 
@@ -72,7 +72,7 @@ public class QwartzServer extends AbstractMTGServer {
 		try {
 
 			return scheduler.isStarted() && !scheduler.isInStandbyMode();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return false;
 		}
 	}
@@ -80,9 +80,10 @@ public class QwartzServer extends AbstractMTGServer {
 	@Override
 	public void unload() {
 		try {
-			if (scheduler != null)
-				scheduler.shutdown();
-		} catch (Exception e) {
+			if (scheduler != null) {
+			    scheduler.shutdown();
+			}
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 	}
@@ -105,7 +106,7 @@ public class QwartzServer extends AbstractMTGServer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 		m.put("org.quartz.scheduler.instanceName",
 				new MTGProperty("MTGCompanion-schedule", "the instance name of qwartz"));
 		m.put("org.quartz.threadPool.threadCount",
@@ -132,7 +133,7 @@ public class QwartzServer extends AbstractMTGServer {
 			return new MTGDocumentation(URI
 					.create("http://www.quartz-scheduler.org/documentation/quartz-2.3.0/configuration/ConfigMain.html")
 					.toURL(), FORMAT_NOTIFICATION.HTML);
-		} catch (MalformedURLException _) {
+		} catch (final MalformedURLException _) {
 			return super.getDocumentation();
 		}
 	}
@@ -143,8 +144,8 @@ public class QwartzServer extends AbstractMTGServer {
 	}
 
 	public JsonObject toJsonDetails() throws SchedulerException {
-		var schedulerMetaData = scheduler.getMetaData();
-		var quartzInformation = new JsonObject();
+		final var schedulerMetaData = scheduler.getMetaData();
+		final var quartzInformation = new JsonObject();
 		quartzInformation.addProperty("version", schedulerMetaData.getVersion());
 		quartzInformation.addProperty("schedulerName", schedulerMetaData.getSchedulerName());
 		quartzInformation.addProperty("schedulerInstanceId", schedulerMetaData.getSchedulerInstanceId());
@@ -156,19 +157,19 @@ public class QwartzServer extends AbstractMTGServer {
 		quartzInformation.addProperty("numberOfJobsExecuted", schedulerMetaData.getNumberOfJobsExecuted());
 		quartzInformation.addProperty("isStandByMode", schedulerMetaData.isInStandbyMode());
 		quartzInformation.addProperty("runningSince", UITools.formatDateTime(schedulerMetaData.getRunningSince()));
-		var simpleJobList = new JsonArray();
+		final var simpleJobList = new JsonArray();
 
-		for (String groupName : scheduler.getJobGroupNames()) {
-			for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
-				for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
-					var jobObj = new JsonObject();
+		for (final String groupName : scheduler.getJobGroupNames()) {
+			for (final JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
+				for (final Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
+					final var jobObj = new JsonObject();
 					jobObj.addProperty("jobGroup", jobKey.getGroup());
 					jobObj.addProperty("jobName", jobKey.getName());
 					jobObj.addProperty("nextFireTime", trigger.getNextFireTime().getTime());
 
 					try {
 						jobObj.addProperty("lastFireTime", trigger.getPreviousFireTime().getTime());
-					} catch (Exception _) {
+					} catch (final Exception _) {
 						jobObj.addProperty("lastFireTime", 0);
 					}
 
@@ -181,11 +182,11 @@ public class QwartzServer extends AbstractMTGServer {
 	}
 
 	public List<JsonObject> getJobs() {
-		var ret = new ArrayList<JsonObject>();
+		final var ret = new ArrayList<JsonObject>();
 
 		try {
 			toJsonDetails().get("jobs").getAsJsonArray().forEach(je -> ret.add(je.getAsJsonObject()));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 		return ret;

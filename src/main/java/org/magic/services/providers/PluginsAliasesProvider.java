@@ -13,13 +13,14 @@ import com.google.gson.JsonObject;
 public class PluginsAliasesProvider {
 
 	private JsonObject jsonData;
-	private Logger logger = MTGLogger.getLogger(PluginsAliasesProvider.class);
+	private final Logger logger = MTGLogger.getLogger(PluginsAliasesProvider.class);
 	private static PluginsAliasesProvider inst;
-	private boolean useLocalAliases = false; // true uses local source
+	private final boolean useLocalAliases = false; // true uses local source
 
 	public static PluginsAliasesProvider inst() {
-		if (inst == null)
-			inst = new PluginsAliasesProvider();
+		if (inst == null) {
+		    inst = new PluginsAliasesProvider();
+		}
 
 		return inst;
 	}
@@ -30,13 +31,13 @@ public class PluginsAliasesProvider {
 			try {
 				logger.error(MTGConstants.MTG_DESKTOP_ALIASES_FILE);
 				jsonData = URLTools.toJson(MTGConstants.MTG_DESKTOP_ALIASES_FILE.openStream()).getAsJsonObject();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("No Error getting file {} : {}", MTGConstants.MTG_DESKTOP_ALIASES_URL, e.getMessage());
 			}
 		} else {
 			try {
 				jsonData = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_ALIASES_URL).getAsJsonObject();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("No Error getting file {} : {}", MTGConstants.MTG_DESKTOP_ALIASES_URL, e.getMessage());
 			}
 		}
@@ -48,34 +49,35 @@ public class PluginsAliasesProvider {
 
 	public String getReversedSetIdFor(MTGPlugin plug, String setId) {
 		try {
-			var ret = jsonData.get(plug.getName()).getAsJsonObject().get("idSet").getAsJsonObject().entrySet().stream()
+			final var ret = jsonData.get(plug.getName()).getAsJsonObject().get("idSet").getAsJsonObject().entrySet().stream()
 					.filter(e -> e.getValue().getAsString().equals(setId)).findFirst().orElseThrow();
 			return ret.getKey();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return setId;
 		}
 	}
 
 	public String getReversedSetNameFor(MTGPlugin plug, String setName) {
 		try {
-			var ret = jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().entrySet()
+			final var ret = jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().entrySet()
 					.stream().filter(e -> e.getValue().getAsString().equals(setName)).findFirst().orElseThrow();
 			return ret.getKey();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return setName;
 		}
 	}
 
 	public EnumCondition getReversedConditionFor(MTGPlugin plug, String conditionName, EnumCondition defaultCondition) {
-		if (conditionName == null || conditionName.isEmpty())
-			return defaultCondition;
+		if (conditionName == null || conditionName.isEmpty()) {
+		    return defaultCondition;
+		}
 
 		try {
-			var ret = jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().entrySet()
+			final var ret = jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().entrySet()
 					.stream().filter(e -> e.getValue().getAsString().equals(conditionName)).findFirst().orElseThrow();
 			return EnumCondition.valueOf(ret.getKey());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.trace("can't get condition value \"{}\" for {} : msg={}", conditionName, plug, e.getMessage());
 			return defaultCondition;
 		}
@@ -84,7 +86,7 @@ public class PluginsAliasesProvider {
 	public String getRegexFor(MTGPlugin plug, String k) {
 		try {
 			return jsonData.get(plug.getName()).getAsJsonObject().get("regex").getAsJsonObject().get(k).getAsString();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("error getting regex for {} with key={}. Return default", plug.getName(), k);
 			return jsonData.get(plug.getName()).getAsJsonObject().get("regex").getAsJsonObject().get("default")
 					.getAsString();
@@ -97,13 +99,14 @@ public class PluginsAliasesProvider {
 
 	public String getConditionFor(MTGPlugin plug, EnumCondition condition, String defaults) {
 
-		if (condition == null)
-			return "";
+		if (condition == null) {
+		    return "";
+		}
 
 		try {
 			return jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject()
 					.get(condition.name()).getAsString();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("Error getting condition {} for plug {}", condition.name(), plug);
 			return defaults;
 		}
@@ -120,7 +123,7 @@ public class PluginsAliasesProvider {
 	public String getSetIdFor(MTGPlugin plug, String ed) {
 		try {
 			return jsonData.get(plug.getName()).getAsJsonObject().get("idSet").getAsJsonObject().get(ed).getAsString();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return ed;
 		}
 	}
@@ -129,7 +132,7 @@ public class PluginsAliasesProvider {
 		try {
 			return jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().get(ed)
 					.getAsString();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return ed;
 		}
 	}

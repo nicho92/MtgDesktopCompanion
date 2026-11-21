@@ -22,59 +22,66 @@ public class BeckettGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		var c = URLTools.newClient();
+		final var c = URLTools.newClient();
 
-		var urlLogin = getWebSite() + "/login?utm_content=bkthp&utm_term=login";
-		var urlCheking = getWebSite() + "/grading/card-lookup";
+		final var urlLogin = getWebSite() + "/login?utm_content=bkthp&utm_term=login";
+		final var urlCheking = getWebSite() + "/grading/card-lookup";
 
 		var d = RequestBuilder.build().url(urlLogin).setClient(c).get().toHtml();
-		var token = d.select("input[name='login_token']").first().attr("value");
+		final var token = d.select("input[name='login_token']").first().attr("value");
 
 		d = RequestBuilder.build().url(urlLogin).setClient(c).post()
 				.addContent("redirect_url", getWebSite() + "/account").addContent("login_token", token)
 				.addContent("email", getAuthenticator().getLogin())
 				.addContent("password", getAuthenticator().getPassword()).toHtml();
 
-		var connected = !d.getElementsByTag("title").html().equalsIgnoreCase("Member Login");
+		final var connected = !d.getElementsByTag("title").html().equalsIgnoreCase("Member Login");
 
-		if (!connected)
-			throw new IOException("Error when login to website");
+		if (!connected) {
+		    throw new IOException("Error when login to website");
+		}
 
 		d = RequestBuilder.build().url(urlCheking).setClient(c).get().addContent("item_type", "BGS")
 				.addContent("item_id", identifier).toHtml();
 
-		var table = d.select("table.cardDetail").first();
+		final var table = d.select("table.cardDetail").first();
 
-		if (table == null)
-			return null;
+		if (table == null) {
+		    return null;
+		}
 
-		var trs = table.select("tr");
-		var grad = new MTGGrading();
+		final var trs = table.select("tr");
+		final var grad = new MTGGrading();
 		grad.setGraderName(getName());
 		grad.setNumberID(identifier);
 		grad.setUrlInfo(getWebSite() + "?item_id=" + identifier);
 
 		trs.forEach(tr -> {
-			if (tr.text().startsWith("Centering"))
-				grad.setCentering(Double.parseDouble(tr.text().replace("Centering Grade : ", "").trim()));
+			if (tr.text().startsWith("Centering")) {
+			    grad.setCentering(Double.parseDouble(tr.text().replace("Centering Grade : ", "").trim()));
+			}
 
-			if (tr.text().startsWith("Corner"))
-				grad.setCorners(Double.parseDouble(tr.text().replace("Corner Grade : ", "").trim()));
+			if (tr.text().startsWith("Corner")) {
+			    grad.setCorners(Double.parseDouble(tr.text().replace("Corner Grade : ", "").trim()));
+			}
 
-			if (tr.text().startsWith("Edges"))
-				grad.setEdges(Double.parseDouble(tr.text().replace("Edges Grade : ", "").trim()));
+			if (tr.text().startsWith("Edges")) {
+			    grad.setEdges(Double.parseDouble(tr.text().replace("Edges Grade : ", "").trim()));
+			}
 
-			if (tr.text().startsWith("Surfaces"))
-				grad.setSurface(Double.parseDouble(tr.text().replace("Surfaces Grade : ", "").trim()));
+			if (tr.text().startsWith("Surfaces")) {
+			    grad.setSurface(Double.parseDouble(tr.text().replace("Surfaces Grade : ", "").trim()));
+			}
 
-			if (tr.text().startsWith("Final"))
-				grad.setGradeNote(Double.parseDouble(tr.text().replace("Final Grade : ", "").trim()));
+			if (tr.text().startsWith("Final")) {
+			    grad.setGradeNote(Double.parseDouble(tr.text().replace("Final Grade : ", "").trim()));
+			}
 
 			if (tr.text().startsWith("Date")) {
 				try {
 					grad.setGradeDate(new SimpleDateFormat("EEEEE, MMMMM dd, yyyy", Locale.US)
 							.parse(tr.text().replace("Date Graded : ", "").trim()));
-				} catch (ParseException e) {
+				} catch (final ParseException e) {
 					logger.error(e);
 				}
 			}

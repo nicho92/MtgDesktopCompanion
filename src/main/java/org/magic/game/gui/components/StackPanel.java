@@ -24,8 +24,8 @@ public class StackPanel extends MTGUIComponent implements Observer {
 	private static final long serialVersionUID = 1L;
 	private static final String START = "Start";
 	private static final String PAUSE = "Pause";
-	private JList<AbstractSpell> listStack;
-	private DefaultListModel<AbstractSpell> model;
+	private final JList<AbstractSpell> listStack;
+	private final DefaultListModel<AbstractSpell> model;
 	private JLabel lblCounter;
 	private Timer timer;
 	private static final int SECONDE = 10;
@@ -56,7 +56,7 @@ public class StackPanel extends MTGUIComponent implements Observer {
 			});
 
 			lblCounter = new JLabel(String.valueOf(startTime));
-			var panelChrono = new JPanel();
+			final var panelChrono = new JPanel();
 
 			add(panelChrono, BorderLayout.NORTH);
 			panelChrono.add(lblCounter);
@@ -86,8 +86,9 @@ public class StackPanel extends MTGUIComponent implements Observer {
 
 	public void enableChrono(boolean b) {
 
-		if (!enabledChrono)
-			return;
+		if (!enabledChrono) {
+		    return;
+		}
 
 		startTime = SECONDE;
 
@@ -112,7 +113,7 @@ public class StackPanel extends MTGUIComponent implements Observer {
 	public void removeStack() {
 		try {
 			model.removeElementAt(0);
-		} catch (ArrayIndexOutOfBoundsException _) {
+		} catch (final ArrayIndexOutOfBoundsException _) {
 			// do nothing
 		}
 	}
@@ -120,10 +121,11 @@ public class StackPanel extends MTGUIComponent implements Observer {
 	@Override
 	public void update(Observable o, Object ob) {
 
-		if (ob != null)
-			addStack((AbstractSpell) ob);
-		else
-			removeStack();
+		if (ob != null) {
+		    addStack((AbstractSpell) ob);
+		} else {
+		    removeStack();
+		}
 	}
 
 	@Override

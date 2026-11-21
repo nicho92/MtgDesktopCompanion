@@ -23,7 +23,7 @@ public class XMLTools {
 	public static DocumentBuilder createSecureXMLDocumentBuilder() throws ParserConfigurationException {
 		try {
 
-			var df = DocumentBuilderFactory.newInstance();
+			final var df = DocumentBuilderFactory.newInstance();
 			df.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
 			df.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
 			df.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
@@ -31,7 +31,7 @@ public class XMLTools {
 			df.setExpandEntityReferences(false);
 			return df.newDocumentBuilder();
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error creating XMLBuilder", e);
 			return null;
 		}

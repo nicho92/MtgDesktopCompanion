@@ -34,10 +34,11 @@ public class CardEffect extends AbstractSpell {
 
 	@Override
 	public String toString() {
-		var build = new StringBuilder();
+		final var build = new StringBuilder();
 		build.append(getEffectDescription());
-		if (childEffect != null)
-			build.append("\nAND ").append(getChildEffect());
+		if (childEffect != null) {
+		    build.append("\nAND ").append(getChildEffect());
+		}
 
 		return build.toString();
 

@@ -12,20 +12,24 @@ public class StaticAbilities extends AbstractAbilities {
 	private static final long serialVersionUID = 1L;
 	private MTGKeyWord key;
 
+	@Deprecated
 	@Override
 	public boolean isStatic() {
 		return true;
 	}
 
+	@Deprecated
 	public void init(MTGKeyWord key) {
 		this.key = key;
 	}
 
+	@Deprecated
 	@Override
 	public String toString() {
 		return "\nSTATIC: " + key.getKeyword();
 	}
 
+	@Deprecated
 	public StaticAbilities(MTGKeyWord k) {
 		init(k);
 	}

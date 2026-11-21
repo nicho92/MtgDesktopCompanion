@@ -27,16 +27,16 @@ import org.magic.services.tools.UITools;
 public class CardsDeckCheckerPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private AbstractBuzyIndicatorComponent buzyLabel;
-	private JXTable table;
-	private DeckSelectionTableModel model;
+	private final AbstractBuzyIndicatorComponent buzyLabel;
+	private final JXTable table;
+	private final DeckSelectionTableModel model;
 	private MTGCard selectedCard;
 	private transient MTGDeckManager manager;
 
 	public CardsDeckCheckerPanel() {
 		setLayout(new BorderLayout(0, 0));
 		buzyLabel = AbstractBuzyIndicatorComponent.createLabelComponent();
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		manager = new MTGDeckManager();
 		model = new DeckSelectionTableModel();
 		table = UITools.createNewTable(model, false);
@@ -73,7 +73,7 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 		if (isVisible() && selectedCard != null) {
 			buzyLabel.start();
 			buzyLabel.setText("looking for decks with " + selectedCard);
-			var sw = new SwingWorker<List<MTGDeck>, Void>() {
+			final var sw = new SwingWorker<List<MTGDeck>, Void>() {
 
 				@Override
 				protected List<MTGDeck> doInBackground() throws Exception {
@@ -83,9 +83,9 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 				protected void done() {
 					try {
 						model.init(get());
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (ExecutionException e) {
+					} catch (final ExecutionException e) {
 						MTGControler.getInstance().notify(e);
 					}
 					buzyLabel.end();

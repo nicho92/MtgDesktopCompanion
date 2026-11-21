@@ -75,36 +75,39 @@ public class ImagePanel2 extends JXPanel {
 			}
 		});
 
-		if (zoomable)
-			addMouseWheelListener(e -> {
-				double delta = 0.1 * e.getPreciseWheelRotation();
-				scale = Math.max(0.1, scale - delta);
-				MTGControler.getInstance().setProperty("/card-pictures-dimension/zoom", scale);
-				repaint();
-			});
+		if (zoomable) {
+		    addMouseWheelListener(e -> {
+		    	final double delta = 0.1 * e.getPreciseWheelRotation();
+		    	scale = Math.max(0.1, scale - delta);
+		    	MTGControler.getInstance().setProperty("/card-pictures-dimension/zoom", scale);
+		    	repaint();
+		    });
+		}
 
-		if (moveable)
-			addMouseMotionListener(new MouseMotionAdapter() {
-				@Override
-				public void mouseDragged(MouseEvent e) {
-					if (dragging) {
-						double dx = e.getX() - lastMouseX;
-						double dy = e.getY() - lastMouseY;
-						translateX += dx;
-						translateY += dy;
+		if (moveable) {
+		    addMouseMotionListener(new MouseMotionAdapter() {
+		    	@Override
+		    	public void mouseDragged(MouseEvent e) {
+		    		if (dragging) {
+		    			final double dx = e.getX() - lastMouseX;
+		    			final double dy = e.getY() - lastMouseY;
+		    			translateX += dx;
+		    			translateY += dy;
 
-						lastMouseX = e.getX();
+		    			lastMouseX = e.getX();
 
-						lastMouseY = e.getY();
-						repaint();
-					}
-				}
-			});
+		    			lastMouseY = e.getY();
+		    			repaint();
+		    		}
+		    	}
+		    });
+		}
 	}
 
 	public void setImg(BufferedImage img, BufferedImage imgBack) {
-		if (img == null)
-			return;
+		if (img == null) {
+		    return;
+		}
 
 		back = imgBack;
 		front = img;
@@ -121,7 +124,7 @@ public class ImagePanel2 extends JXPanel {
 	public void setReflexion(boolean reflexion) {
 	    this.reflexion = reflexion;
 	}
-	
+
 	public BufferedImage getFront() {
 		return front;
 	}
@@ -135,8 +138,9 @@ public class ImagePanel2 extends JXPanel {
 	}
 
 	public void init(MTGCard mc) {
-		if (mc == null)
-			return;
+		if (mc == null) {
+		    return;
+		}
 
 		ThreadManager.getInstance().executeThread(new MTGRunnable() {
 			@Override
@@ -145,15 +149,17 @@ public class ImagePanel2 extends JXPanel {
 
 					front = getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(mc);
 
-					if (mc.isDoubleFaced())
-						back = getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(mc.getRotatedCard());
-					else
-						back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
+					if (mc.isDoubleFaced()) {
+					    back = getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(mc.getRotatedCard());
+					} else {
+					    back = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
+					}
 
 					back = ImageTools.resize(back, front.getHeight(), front.getWidth());
 
-					if (mc.isFlippable())
-						back = ImageTools.rotate(front, 180);
+					if (mc.isFlippable()) {
+					    back = ImageTools.rotate(front, 180);
+					}
 
 					if (mc.getLayout() == EnumLayout.SPLIT) {
 						front = ImageTools.rotate(front, 90);
@@ -166,7 +172,7 @@ public class ImagePanel2 extends JXPanel {
 					}
 
 					print = front;
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					front = back;
 				}
 
@@ -179,12 +185,12 @@ public class ImagePanel2 extends JXPanel {
 
 	private void animateRotation() {
 		rotating = true;
-		Timer timer = new Timer(MTGConstants.ROTATED_TIMEOUT, null);
+		final Timer timer = new Timer(MTGConstants.ROTATED_TIMEOUT, null);
 		final int[] frame = {0};
 		final double totalFrames = MTGConstants.ROTATED_FRAMES;
 		timer.addActionListener(_ -> {
 			frame[0]++;
-			var progress = frame[0] / totalFrames;
+			final var progress = frame[0] / totalFrames;
 			rotationX = Math.cos(progress * Math.PI);
 			if (progress >= 0.5 && back!=null) {
 				print = ImageTools.mirroring(back);
@@ -208,13 +214,14 @@ public class ImagePanel2 extends JXPanel {
 
 		super.paintComponent(g);
 
-		if (print == null)
-			return;
+		if (print == null) {
+		    return;
+		}
 
-		var g2 = (Graphics2D) g;
+		final var g2 = (Graphics2D) g;
 		ImageTools.initGraphics(g2);
 
-		var transform = new AffineTransform();
+		final var transform = new AffineTransform();
 		transform.translate(getWidth() / 2.0, getHeight() / 2.0);
 		transform.translate(translateX, translateY);
 		transform.scale(scale * rotationX, scale);

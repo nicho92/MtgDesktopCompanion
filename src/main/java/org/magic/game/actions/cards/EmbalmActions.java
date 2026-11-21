@@ -29,14 +29,14 @@ public class EmbalmActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			var tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
+			final var tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
 
 			if (tok == null) {
 				MTGControler.getInstance().notify(new Exception("Can't generate token for " + card.getMagicCard()));
 				return;
 			}
 
-			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
+			final var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.addCounter(new ItemCounter("Embalm"));
 
 			dc.setMagicCard(tok);
@@ -48,7 +48,7 @@ public class EmbalmActions extends AbstractCardAction {
 			GamePanelGUI.getInstance().getPanelGrave().postTreatment(card);
 			GamePanelGUI.getInstance().getPlayer().playToken(tok);
 			GamePanelGUI.getInstance().getPlayer().logAction("Embalm " + card);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error(ex);
 		}
 

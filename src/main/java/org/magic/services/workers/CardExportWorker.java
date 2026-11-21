@@ -20,7 +20,7 @@ import org.utils.patterns.observer.Observer;
 public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 
 	private MTGCardsExport exp;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private Observer o;
 	private AbstractBuzyIndicatorComponent buzy;
 	private File f;
@@ -29,7 +29,7 @@ public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 
 	public CardExportWorker(MTGCardsExport exp, List<MTGCard> export, AbstractBuzyIndicatorComponent buzy, File f) {
 
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName("Export Alerts");
 		export.forEach(mc -> d.getMain().put(mc, 1));
 
@@ -54,7 +54,7 @@ public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 	protected Void doInBackground() {
 		try {
 			exp.exportDeck(export, f);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			err = e;
 			logger.error("error export with {}", exp, e);
 		}
@@ -70,7 +70,7 @@ public class CardExportWorker extends SwingWorker<Void, MTGCard> {
 	protected void done() {
 		try {
 			exp.removeObserver(o);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 		buzy.end();

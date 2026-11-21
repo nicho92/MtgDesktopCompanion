@@ -36,7 +36,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 		serv = new CardTraderService(getAuthenticator().get("TOKEN"));
 
 		serv.setListener((URLCallInfo callInfo) -> {
-			var netinfo = new NetworkInfo();
+			final var netinfo = new NetworkInfo();
 			netinfo.setEnd(callInfo.getEnd());
 			netinfo.setStart(callInfo.getStart());
 			netinfo.setRequest(callInfo.getRequest());
@@ -60,12 +60,13 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		if (serv == null)
-			init();
+		if (serv == null) {
+		    init();
+		}
 
 		stock.forEach(mcs -> {
 			try {
-				var returnId = serv.addProduct(mcs.getProduct().getScryfallId(), Identifier.scryfall_id,
+				final var returnId = serv.addProduct(mcs.getProduct().getScryfallId(), Identifier.scryfall_id,
 						mcs.getValue().doubleValue(), mcs.getQte(), mcs.getComment(),
 						ConditionEnum.parseByLabel(aliases.getConditionFor(this, mcs.getCondition())),
 						String.valueOf(mcs.getId()));
@@ -73,7 +74,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 				mcs.getTiersAppIds().put(getName(), String.valueOf(returnId));
 
 				notify(mcs.getProduct());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 
@@ -83,14 +84,15 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		if (serv == null)
-			init();
+		if (serv == null) {
+		    init();
+		}
 
-		var ret = new ArrayList<MTGCardStock>();
+		final var ret = new ArrayList<MTGCardStock>();
 		serv.listStock().forEach(mp -> {
-			var mcs = new MTGCardStock();
-			var exp = mp.getExpansion();
-			var bluePrint = serv.listBluePrintsByExpansion(exp).stream()
+			final var mcs = new MTGCardStock();
+			final var exp = mp.getExpansion();
+			final var bluePrint = serv.listBluePrintsByExpansion(exp).stream()
 					.filter(bp -> bp.getId().equals(mp.getIdBlueprint())).findFirst().orElse(null);
 			if (bluePrint != null) {
 				MTGCard mc = null;
@@ -106,12 +108,13 @@ public class CardTraderStockExport extends AbstractCardExport {
 					mcs.setQte(mp.getQty());
 					mcs.setUpdated(true);
 					notify(mcs.getProduct());
-				} catch (IOException _) {
+				} catch (final IOException _) {
 					logger.error("Error for getting card {}", bluePrint.getProductUrl());
 				}
 
-				if (mc != null)
-					ret.add(mcs);
+				if (mc != null) {
+				    ret.add(mcs);
+				}
 			} else {
 				logger.error("BluePrints {} not found", mp.getIdBlueprint());
 			}

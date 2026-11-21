@@ -43,17 +43,17 @@ import org.magic.services.tools.UITools;
 public class RssGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JXTable table;
-	private MagicNewsTableModel model;
-	private MTGUIBrowserComponent editorPane;
+	private final JXTable table;
+	private final MagicNewsTableModel model;
+	private final MTGUIBrowserComponent editorPane;
 	private DefaultMutableTreeNode curr;
-	private NewsEditorPanel newsPanel;
-	private DefaultMutableTreeNode rootNode;
-	private JTree tree;
-	private AbstractBuzyIndicatorComponent lblLoading;
-	private JButton btnNewButton;
-	private JButton btnSave;
-	private JButton btnDelete;
+	private final NewsEditorPanel newsPanel;
+	private final DefaultMutableTreeNode rootNode;
+	private final JTree tree;
+	private final AbstractBuzyIndicatorComponent lblLoading;
+	private final JButton btnNewButton;
+	private final JButton btnSave;
+	private final JButton btnDelete;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -72,10 +72,10 @@ public class RssGUI extends MTGUIComponent {
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 
 		tree = new JTree();
-		var splitNews = new JSplitPane();
+		final var splitNews = new JSplitPane();
 		editorPane = MTGUIBrowserComponent.createBrowser();
-		var splitTreeTable = new JSplitPane();
-		var leftPanel = new JPanel();
+		final var splitTreeTable = new JSplitPane();
+		final var leftPanel = new JPanel();
 		rootNode = new DefaultMutableTreeNode(capitalize("RSS_MODULE"));
 
 		btnNewButton = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "new news entry");
@@ -98,9 +98,9 @@ public class RssGUI extends MTGUIComponent {
 		splitTreeTable.setLeftComponent(leftPanel);
 		leftPanel.add(new JScrollPane(tree), BorderLayout.CENTER);
 
-		var panelControl = UITools.createFlowCenterPanel(btnNewButton, btnSave, btnDelete, lblLoading);
+		final var panelControl = UITools.createFlowCenterPanel(btnNewButton, btnSave, btnDelete, lblLoading);
 
-		var bottomPanel = new JPanel();
+		final var bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
 		bottomPanel.add(newsPanel);
@@ -127,7 +127,7 @@ public class RssGUI extends MTGUIComponent {
 			try {
 				getEnabledPlugin(MTGDao.class).saveOrUpdateNews(newsPanel.getMagicNews());
 				initTree();
-			} catch (SQLException ex) {
+			} catch (final SQLException ex) {
 				logger.error("Error saving news", ex);
 				MTGControler.getInstance().notify(ex);
 			}
@@ -137,18 +137,18 @@ public class RssGUI extends MTGUIComponent {
 			try {
 				getEnabledPlugin(MTGDao.class).deleteNews(newsPanel.getMagicNews());
 				initTree();
-			} catch (SQLException ex) {
+			} catch (final SQLException ex) {
 				logger.error("Error delete news", ex);
 				MTGControler.getInstance().notify(ex);
 			}
 		});
 
 		tree.addTreeSelectionListener(tse -> {
-			var path = tse.getPath();
+			final var path = tse.getPath();
 			curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
-			if (curr.getUserObject() instanceof MTGNews n) {
-				var sw = new SwingWorker<List<MTGNewsContent>, MTGNews>() {
+			if (curr.getUserObject() instanceof final MTGNews n) {
+				final var sw = new SwingWorker<List<MTGNewsContent>, MTGNews>() {
 
 					@Override
 					protected List<MTGNewsContent> doInBackground() throws Exception {
@@ -161,9 +161,9 @@ public class RssGUI extends MTGUIComponent {
 							model.init(get());
 							model.fireTableDataChanged();
 
-						} catch (InterruptedException _) {
+						} catch (final InterruptedException _) {
 							Thread.currentThread().interrupt();
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							logger.error(e);
 						}
 						lblLoading.end();
@@ -178,18 +178,18 @@ public class RssGUI extends MTGUIComponent {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				MTGNewsContent sel = UITools.getTableSelection(table, 0);
+				final MTGNewsContent sel = UITools.getTableSelection(table, 0);
 
 				if (me.getClickCount() == 2) {
 					try {
 						UITools.browse(sel.getLink().toURI().toASCIIString());
 
-					} catch (Exception e1) {
+					} catch (final Exception e1) {
 						logger.error(e1);
 					}
 				} else {
 
-					var sw = new SwingWorker<Void, URL>() {
+					final var sw = new SwingWorker<Void, URL>() {
 						@Override
 						protected void done() {
 							lblLoading.end();
@@ -200,7 +200,7 @@ public class RssGUI extends MTGUIComponent {
 						protected void process(List<URL> chunks) {
 							try {
 								editorPane.loadURL(chunks.get(0).toString());
-							} catch (Exception e) {
+							} catch (final Exception e) {
 								logger.error("error loading {}", chunks.get(0), e);
 							}
 
@@ -225,7 +225,7 @@ public class RssGUI extends MTGUIComponent {
 	private void initTree() {
 		rootNode.removeAllChildren();
 
-		SwingWorker<Void, MTGNews> sw = new SwingWorker<>() {
+		final SwingWorker<Void, MTGNews> sw = new SwingWorker<>() {
 
 			@Override
 			protected void process(List<MTGNews> chunks) {
@@ -234,8 +234,9 @@ public class RssGUI extends MTGUIComponent {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				for (var cat : getEnabledPlugin(MTGDao.class).listNews())
-					publish(cat);
+				for (final var cat : getEnabledPlugin(MTGDao.class).listNews()) {
+				    publish(cat);
+				}
 
 				return null;
 			}
@@ -244,8 +245,9 @@ public class RssGUI extends MTGUIComponent {
 			protected void done() {
 				((DefaultTreeModel) tree.getModel()).reload();
 
-				for (var i = 0; i < tree.getRowCount(); i++)
-					tree.expandRow(i + 1);
+				for (var i = 0; i < tree.getRowCount(); i++) {
+				    tree.expandRow(i + 1);
+				}
 
 			}
 		};
@@ -253,15 +255,15 @@ public class RssGUI extends MTGUIComponent {
 	}
 
 	private void add(String cat, MTGNews n) {
-		var node = getNodeCateg(cat);
+		final var node = getNodeCateg(cat);
 		node.add(new DefaultMutableTreeNode(n));
 		rootNode.add(node);
 	}
 
 	private DefaultMutableTreeNode getNodeCateg(String cat) {
-		var e = rootNode.breadthFirstEnumeration();
+		final var e = rootNode.breadthFirstEnumeration();
 		while (e.hasMoreElements()) {
-			var node = (DefaultMutableTreeNode) e.nextElement();
+			final var node = (DefaultMutableTreeNode) e.nextElement();
 			if (node.getUserObject().toString().equalsIgnoreCase(cat)) {
 				return node;
 			}

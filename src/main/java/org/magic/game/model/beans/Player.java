@@ -200,7 +200,7 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public List<MTGCard> scry(int number) {
-		List<MTGCard> list = library.subList(0, number);
+		final List<MTGCard> list = library.subList(0, number);
 		logAction("Scry " + number + " cards");
 
 		return list;
@@ -225,13 +225,15 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public void drawCard(int number) {
-		for (var i = 0; i < number; i++)
-			hand.add(library.getCards().remove(i));
+		for (var i = 0; i < number; i++) {
+		    hand.add(library.getCards().remove(i));
+		}
 
-		if (number > 1)
-			logAction("Draw " + number + " cards");
-		else
-			logAction("Draw " + number + " card");
+		if (number > 1) {
+		    logAction("Draw " + number + " cards");
+		} else {
+		    logAction("Draw " + number + " card");
+		}
 
 	}
 
@@ -266,9 +268,9 @@ public class Player extends Observable implements Serializable {
 
 	public List<MTGCard> discardCardFromLibrary(int number) {
 
-		List<MTGCard> ret = new ArrayList<>();
+		final List<MTGCard> ret = new ArrayList<>();
 		for (var i = 0; i < number; i++) {
-			var mc = library.getCards().remove(i);
+			final var mc = library.getCards().remove(i);
 			if (mc != null) {
 				ret.add(mc);
 				graveyard.add(mc);
@@ -354,13 +356,15 @@ public class Player extends Observable implements Serializable {
 
 	public void setLife(int l) {
 
-		int previouslife = this.life;
+		final int previouslife = this.life;
 
-		if (previouslife > l)
-			lifeLoose(previouslife - l);
+		if (previouslife > l) {
+		    lifeLoose(previouslife - l);
+		}
 
-		if (previouslife < l)
-			lifeGain(l - previouslife);
+		if (previouslife < l) {
+		    lifeGain(l - previouslife);
+		}
 
 	}
 
@@ -457,10 +461,11 @@ public class Player extends Observable implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 
-		if ((obj == null) || (this.getClass() != obj.getClass()))
-			return false;
+		if ((obj == null) || (this.getClass() != obj.getClass())) {
+		    return false;
+		}
 
-		Player p2 = (Player) obj;
+		final Player p2 = (Player) obj;
 		return getId().equals(p2.getId());
 	}
 

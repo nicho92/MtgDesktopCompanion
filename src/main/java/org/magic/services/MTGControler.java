@@ -51,12 +51,12 @@ public class MTGControler {
 	private static final String FALSE = "false";
 	private static MTGControler inst;
 	private XMLConfiguration config;
-	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
+	private final FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private LanguageService langService;
-	private ApilayerCurrencyConverter currencyService;
+	private final ApilayerCurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private File xmlConfigFile;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
+	private final File xmlConfigFile;
 	private MTGNotifier notifier;
 	private VersionChecker versionChecker;
 	private WebShopService webshopService;
@@ -68,27 +68,29 @@ public class MTGControler {
 
 		xmlConfigFile = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 
-		if (!xmlConfigFile.exists())
-			try {
-				logger.info("{} file doesn't exist. creating one from default file", xmlConfigFile);
-				FileTools.copyURLToFile(getClass().getResource("/data/default-conf.xml"), xmlConfigFile);
-				var content = FileTools.readFile(xmlConfigFile);
-				content = content.replace("$username", System.getProperty("user.name"));
-				FileTools.saveFile(xmlConfigFile, content);
+		if (!xmlConfigFile.exists()) {
+		    try {
+		    	logger.info("{} file doesn't exist. creating one from default file", xmlConfigFile);
+		    	FileTools.copyURLToFile(getClass().getResource("/data/default-conf.xml"), xmlConfigFile);
+		    	var content = FileTools.readFile(xmlConfigFile);
+		    	content = content.replace("$username", System.getProperty("user.name"));
+		    	FileTools.saveFile(xmlConfigFile, content);
 
-				logger.info("conf file created");
-			} catch (IOException e1) {
-				logger.error(e1);
-			}
+		    	logger.info("conf file created");
+		    } catch (final IOException e1) {
+		    	logger.error(e1);
+		    }
+		}
 
-		if (!MTGConstants.DATA_DIR.exists())
-			try {
-				FileTools.forceMkdir(MTGConstants.DATA_DIR);
-			} catch (IOException e1) {
-				logger.error("error creating {}", MTGConstants.DATA_DIR, e1);
-			}
+		if (!MTGConstants.DATA_DIR.exists()) {
+		    try {
+		    	FileTools.forceMkdir(MTGConstants.DATA_DIR);
+		    } catch (final IOException e1) {
+		    	logger.error("error creating {}", MTGConstants.DATA_DIR, e1);
+		    }
+		}
 
-		var params = new Parameters();
+		final var params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<>(XMLConfiguration.class)
 				.configure(params.xml().setFile(xmlConfigFile).setSchemaValidation(false).setValidating(false)
 						.setEncoding(MTGConstants.DEFAULT_ENCODING.displayName())
@@ -98,9 +100,9 @@ public class MTGControler {
 			config = builder.getConfiguration();
 			versionChecker = new VersionChecker(Boolean.parseBoolean(get("notifyPrerelease", FALSE)));
 
-			var head = "***************" + MTGConstants.MTG_APP_NAME + " - " + versionChecker.getVersion()
+			final var head = "***************" + MTGConstants.MTG_APP_NAME + " - " + versionChecker.getVersion()
 					+ "**********";
-			var bottom = StringUtils.repeat("*", head.length());
+			final var bottom = StringUtils.repeat("*", head.length());
 			logger.info(head);
 			logger.info("Java {}. Vendor: {}", Runtime.version(), SystemUtils.JAVA_VENDOR);
 			logger.info("OS {}, Version: {}", SystemUtils.OS_NAME, SystemUtils.OS_VERSION);
@@ -117,54 +119,54 @@ public class MTGControler {
 
 			AbstractTechnicalServiceManager.inst().enable(get("technical-log/enable").equals("true"));
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error init", e);
 		}
 
 		try {
 			webshopService = new WebShopService();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("error init webshopconfig", e);
 		}
 
 		currencyService = new ApilayerCurrencyConverter(get("currencylayer-access-api"));
 		try {
 			currencyService.init();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.warn("error init currency services {}", e.getMessage());
 			setProperty("/currencylayer-converter-enable", FALSE);
 
 		}
 	}
-	
+
 	 public void downloadComposerDatas() {
 		if(!MTGConstants.MTG_COMPOSER_DIR.exists())
 		{
 		    logger.info("{} doesn't exist. Downloading it",MTGConstants.MTG_COMPOSER_DIR);
 		    try {
-			
-			var zipFile = new File( MTGConstants.MTG_COMPOSER_DIR,"composer.zip");
-			
+
+			final var zipFile = new File( MTGConstants.MTG_COMPOSER_DIR,"composer.zip");
+
 			URLTools.download(MTGConstants.MTG_DESKTOP_COMPOSER_URL, zipFile);
 			 logger.info("{} downloaded",zipFile);
-			
+
 			FileTools.unzipInDirectory(zipFile, MTGConstants.MTG_COMPOSER_DIR);
 			logger.info("{} unzipped",zipFile);
-			
+
 			FileTools.deleteFile(zipFile);
 			logger.info("{} cleaned",zipFile);
-			
-		    } catch (IOException e) {
+
+		    } catch (final IOException e) {
 			logger.error(e);
 		    }
-		    
-		    
+
+
 		}
-		
-		
-		
+
+
+
 	    }
-	
+
 
 	public VersionChecker getVersionChecker() {
 		return versionChecker;
@@ -180,15 +182,16 @@ public class MTGControler {
 	private Font f;
 	private boolean loaded = false;
 	public Font getFont() {
-		if (f != null)
-			return f;
+		if (f != null) {
+		    return f;
+		}
 
 		try {
-			var family = get("/ui/font/family");
-			var style = Integer.parseInt(get("/ui/font/style"));
-			var size = Integer.parseInt(get("/ui/font/size"));
+			final var family = get("/ui/font/family");
+			final var style = Integer.parseInt(get("/ui/font/style"));
+			final var size = Integer.parseInt(get("/ui/font/size"));
 			f = new Font(family, style, size);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			f = MTGConstants.DEFAULT_FONT;
 		}
 
@@ -221,7 +224,7 @@ public class MTGControler {
 	}
 
 	public MTGCardStock getDefaultStock() {
-		var st = new MTGCardStock();
+		final var st = new MTGCardStock();
 		st.setSigned(Boolean.parseBoolean(get("collections/defaultStock/signed", FALSE)));
 		st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered", FALSE)));
 		st.setFoil(Boolean.parseBoolean(get("collections/defaultStock/foil", FALSE)));
@@ -236,22 +239,23 @@ public class MTGControler {
 	}
 
 	public MTGCardStock getDefaultStock(MTGCollection c) {
-		var mcs = getDefaultStock();
+		final var mcs = getDefaultStock();
 		mcs.setMagicCollection(c);
 		return mcs;
 	}
 
 	private ThreadPoolConfig getThreadPoolConfig() {
-		var tpc = new ThreadPoolConfig();
+		final var tpc = new ThreadPoolConfig();
 
 		tpc.setThreadPool(THREADPOOL.valueOf(get("threadsExecutor/threadPool", "FIXED")));
 		tpc.setDaemon(Boolean.parseBoolean(get("threadsExecutor/daemon", "true")));
 		tpc.setNameFormat(get("threadsExecutor/nameFormat", "mtg-threadpool-%d"));
 
-		if (get("threadsExecutor/value", "AUTO").equals("AUTO"))
-			tpc.setCorePool(Runtime.getRuntime().availableProcessors());
-		else
-			tpc.setCorePool(Integer.parseInt(get("threadsExecutor/value", "-1")));
+		if (get("threadsExecutor/value", "AUTO").equals("AUTO")) {
+		    tpc.setCorePool(Runtime.getRuntime().availableProcessors());
+		} else {
+		    tpc.setCorePool(Integer.parseInt(get("threadsExecutor/value", "-1")));
+		}
 
 		return tpc;
 	}
@@ -279,8 +283,9 @@ public class MTGControler {
 	}
 
 	public static MTGControler getInstance() {
-		if (inst == null)
-			inst = new MTGControler();
+		if (inst == null) {
+		    inst = new MTGControler();
+		}
 		return inst;
 	}
 
@@ -293,15 +298,15 @@ public class MTGControler {
 	}
 
 	public Dimension getCardsGameDimension() {
-		var w = Integer.parseInt(get("/game/cards/card-width"));
-		var h = Integer.parseInt(get("/game/cards/card-height"));
+		final var w = Integer.parseInt(get("/game/cards/card-width"));
+		final var h = Integer.parseInt(get("/game/cards/card-height"));
 		return new Dimension(w, h);
 	}
 
 	public <T extends MTGPlugin> void addProperty(String path, Class<T> classname) {
-		var k = path.split("/");
-		var root = k[1];
-		var elem = k[2];
+		final var k = path.split("/");
+		final var root = k[1];
+		final var elem = k[2];
 		try {
 
 			if (config.childConfigurationsAt("/" + root).isEmpty()) {
@@ -313,7 +318,7 @@ public class MTGControler {
 			setProperty(classname.getDeclaredConstructor().newInstance(), false);
 			logger.debug("add module {} {}", path, classname.getName());
 
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			logger.error("Error inserting : {} for {}", path, classname, e);
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
 				| SecurityException e) {
@@ -336,13 +341,13 @@ public class MTGControler {
 
 			config.setProperty(path, c);
 
-			var info = new FileAccessInfo(xmlConfigFile);
+			final var info = new FileAccessInfo(xmlConfigFile);
 			builder.save();
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.WRITE);
 			AbstractTechnicalServiceManager.inst().store(info);
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error saving {}={}", k, c, e);
 		}
 	}
@@ -350,7 +355,7 @@ public class MTGControler {
 	public Locale getLocale() {
 		try {
 			return LocaleUtils.toLocale(config.getString("locale"));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("Could not load {}", config.getString("locale"));
 			return langService.getDefault();
 		}
@@ -365,15 +370,16 @@ public class MTGControler {
 	}
 
 	public Player getProfilPlayer() {
-		var p = new Player("Player");
+		final var p = new Player("Player");
 		p.setName(config.getString("/game/player-profil/name"));
 		p.setColor(new Color(Integer.parseInt(get("/game/player-profil/foreground", "-16777216"))));
 
-		var url = config.getString("/game/player-profil/avatar");
+		final var url = config.getString("/game/player-profil/avatar");
 		try {
-			if (!url.isEmpty())
-				p.setAvatar(ImageTools.resize(ImageTools.read(new File(url)), 100, 100));
-		} catch (Exception e) {
+			if (!url.isEmpty()) {
+			    p.setAvatar(ImageTools.resize(ImageTools.read(new File(url)), 100, 100));
+			}
+		} catch (final Exception e) {
 			logger.error("error loading icon player {},{}", p, e.getMessage());
 		}
 		return p;
@@ -390,11 +396,12 @@ public class MTGControler {
 
 	public void notify(MTGNotification notif) {
 		try {
-			if (notifier == null)
-				notifier = getPlugin(MTGConstants.DEFAULT_NOTIFIER_NAME, MTGNotifier.class);
+			if (notifier == null) {
+			    notifier = getPlugin(MTGConstants.DEFAULT_NOTIFIER_NAME, MTGNotifier.class);
+			}
 
 			notifier.send(notif);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error(notif.getMessage());
 		}
 	}
@@ -407,7 +414,7 @@ public class MTGControler {
 			try {
 				builder.save();
 				logger.info("cleaning " + MTGConstants.CONF_FILENAME + " done");
-			} catch (ConfigurationException e) {
+			} catch (final ConfigurationException e) {
 				logger.error(e);
 			}
 		}

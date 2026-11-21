@@ -29,7 +29,7 @@ public class PackagesBrowserPanel extends MTGUIComponent {
 	private DefaultTreeModel model;
 	private ImagePanel2 panelDraw;
 	private JXTree tree;
-	private boolean view;
+	private final boolean view;
 	private DefaultMutableTreeNode firstItem;
 
 	public PackagesBrowserPanel(boolean viewThumbnail) {
@@ -47,14 +47,14 @@ public class PackagesBrowserPanel extends MTGUIComponent {
 	}
 
 	public void init(MTGEdition ed) {
-		var root = (DefaultMutableTreeNode) model.getRoot();
+		final var root = (DefaultMutableTreeNode) model.getRoot();
 		root.setUserObject(ed);
 		root.removeAllChildren();
 
 		Arrays.asList(EnumItems.values()).forEach(t -> {
-			List<MTGSealedProduct> pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
+			final List<MTGSealedProduct> pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
 			if (!pks.isEmpty()) {
-				var dir = new DefaultMutableTreeNode(t);
+				final var dir = new DefaultMutableTreeNode(t);
 				pks.forEach(p -> dir.add(new DefaultMutableTreeNode(p)));
 				root.add(dir);
 			}
@@ -64,8 +64,9 @@ public class PackagesBrowserPanel extends MTGUIComponent {
 			tree.expandRow(i);
 		}
 
-		if (view)
-			panelDraw.setImg(null);
+		if (view) {
+		    panelDraw.setImg(null);
+		}
 
 	}
 
@@ -79,7 +80,7 @@ public class PackagesBrowserPanel extends MTGUIComponent {
 			add(panelDraw, BorderLayout.CENTER);
 		}
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		panel.setLayout(new BorderLayout(0, 0));
 		if (!view) {
 			add(panel, BorderLayout.CENTER);
@@ -93,13 +94,14 @@ public class PackagesBrowserPanel extends MTGUIComponent {
 		panel.add(new JScrollPane(tree), BorderLayout.CENTER);
 
 		tree.addTreeSelectionListener(_ -> {
-			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+			final DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
-			if (selectedNode != null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
-				load(msp);
+			if (selectedNode != null && (selectedNode.getUserObject() instanceof final MTGSealedProduct msp)) {
+			    load(msp);
+			}
 		});
 
-		SwingWorker<Void, Void> sw = new SwingWorker<>() {
+		final SwingWorker<Void, Void> sw = new SwingWorker<>() {
 			@Override
 			protected Void doInBackground() throws Exception {
 				initTree();
@@ -122,12 +124,12 @@ public class PackagesBrowserPanel extends MTGUIComponent {
 
 	public List<MTGSealedProduct> getSelecteds() {
 
-		var ret = new ArrayList<MTGSealedProduct>();
+		final var ret = new ArrayList<MTGSealedProduct>();
 
-		for (var p : tree.getSelectionPaths()) {
-			var selectedNode = (DefaultMutableTreeNode) p.getLastPathComponent();
+		for (final var p : tree.getSelectionPaths()) {
+			final var selectedNode = (DefaultMutableTreeNode) p.getLastPathComponent();
 
-			if (selectedNode != null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp)) {
+			if (selectedNode != null && (selectedNode.getUserObject() instanceof final MTGSealedProduct msp)) {
 				ret.add(msp);
 			}
 
@@ -137,28 +139,30 @@ public class PackagesBrowserPanel extends MTGUIComponent {
 	}
 
 	public void initTree() {
-		var root = (DefaultMutableTreeNode) model.getRoot();
+		final var root = (DefaultMutableTreeNode) model.getRoot();
 		root.removeAllChildren();
 
 		MTG.getEnabledPlugin(MTGSealedProvider.class).listSets().stream().sorted().forEach(ed -> {
 
-			var edNode = new DefaultMutableTreeNode(ed);
+			final var edNode = new DefaultMutableTreeNode(ed);
 
 			Arrays.asList(EnumItems.values()).forEach(t -> {
-				var pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
+				final var pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
 				if (!pks.isEmpty()) {
-					var dir = new DefaultMutableTreeNode(t);
+					final var dir = new DefaultMutableTreeNode(t);
 					pks.forEach(p -> dir.add(new DefaultMutableTreeNode(p)));
 					edNode.add(dir);
 				}
 			});
 
-			if (!edNode.isLeaf())
-				root.add(edNode);
+			if (!edNode.isLeaf()) {
+			    root.add(edNode);
+			}
 		});
 
-		if (view)
-			panelDraw.setImg(null);
+		if (view) {
+		    panelDraw.setImg(null);
+		}
 
 		firstItem.setUserObject("Package");
 

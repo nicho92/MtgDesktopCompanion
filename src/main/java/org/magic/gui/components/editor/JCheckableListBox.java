@@ -17,8 +17,9 @@ public class JCheckableListBox<T> extends CheckComboBox {
 
 	public void addElement(T element, boolean checked) {
 		getModel().addElement(element);
-		if (checked)
-			getModel().addCheck(element);
+		if (checked) {
+		    getModel().addCheck(element);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -27,8 +28,9 @@ public class JCheckableListBox<T> extends CheckComboBox {
 	}
 
 	public void setSelectedElements(List<T> elements) {
-		for (T e : elements)
-			getModel().addCheck(e);
+		for (final T e : elements) {
+		    getModel().addCheck(e);
+		}
 
 	}
 

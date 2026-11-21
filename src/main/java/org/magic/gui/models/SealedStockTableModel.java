@@ -51,10 +51,11 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		MTGSealedStock it = items.get(row);
+		final MTGSealedStock it = items.get(row);
 
-		if (it == null)
-			return null;
+		if (it == null) {
+		    return null;
+		}
 
 		switch (column) {
 			case 0 :
@@ -90,7 +91,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 
-		MTGSealedStock it = items.get(row);
+		final MTGSealedStock it = items.get(row);
 
 		switch (column) {
 			case 4 :

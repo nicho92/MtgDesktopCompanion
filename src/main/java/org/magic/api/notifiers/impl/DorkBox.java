@@ -16,10 +16,11 @@ public class DorkBox extends AbstractMTGNotifier {
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 
-		Notify n = Notify.Companion.create().title(notification.getTitle()).text(notification.getMessage());
+		final Notify n = Notify.Companion.create().title(notification.getTitle()).text(notification.getMessage());
 
-		if (getBoolean("DARK"))
-			n.setTheme(Theme.Companion.getDefaultDark());
+		if (getBoolean("DARK")) {
+		    n.setTheme(Theme.Companion.getDefaultDark());
+		}
 
 		switch (notification.getType()) {
 			case WARNING -> n.showWarning();

@@ -22,7 +22,7 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DefaultComboBoxModel<MTGEdition> model;
+	private final DefaultComboBoxModel<MTGEdition> model;
 
 	public MagicEditionsComboBoxCellEditor() {
 		super(new JComboBox<>());
@@ -36,17 +36,18 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 
 		try {
 			selectedItem = (List<MTGEdition>) table.getValueAt(row, column);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			try {
 				selectedItem = MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions();
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				selectedItem = new ArrayList<>();
 			}
 		}
 		Collections.sort(selectedItem);
 
-		for (MTGEdition e : selectedItem)
-			model.addElement(e);
+		for (final MTGEdition e : selectedItem) {
+		    model.addElement(e);
+		}
 
 		return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
 	}

@@ -61,9 +61,9 @@ public class ManaPoolExport extends AbstractCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var inventoryManager = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
+		final var inventoryManager = new ManaPoolAPIService(getAuthenticator().get("EMAIL"), getAuthenticator().get("TOKEN"));
 		inventoryManager.getClient().setCallListener((URLCallInfo callInfo) -> {
-			var netinfo = new NetworkInfo();
+			final var netinfo = new NetworkInfo();
 			netinfo.setStart(callInfo.getStart());
 			netinfo.setEnd(callInfo.getEnd());
 			netinfo.setRequest(callInfo.getRequest());
@@ -73,33 +73,35 @@ public class ManaPoolExport extends AbstractCardExport {
 
 		});
 
-		var items = stock.stream().map(mcs -> {
+		final var items = stock.stream().map(mcs -> {
 
-			var item = new ProductQueryEntry();
+			final var item = new ProductQueryEntry();
 			item.setScryfallId(mcs.getProduct().getScryfallId());
 			item.setQuantity(mcs.getQte());
 
-			if (MTGControler.getInstance().getCurrencyService().isEnable())
-				item.setPrice(MTGControler.getInstance().getCurrencyService().convertTo(Currency.getInstance("USD"),
-						mcs.getValue().doubleValue()));
-			else
-				item.setPrice(mcs.getValue().doubleValue());
+			if (MTGControler.getInstance().getCurrencyService().isEnable()) {
+			    item.setPrice(MTGControler.getInstance().getCurrencyService().convertTo(Currency.getInstance("USD"),
+			    		mcs.getValue().doubleValue()));
+			} else {
+			    item.setPrice(mcs.getValue().doubleValue());
+			}
 
 			try {
 				item.setCondition(EnumCondition.valueOf(aliases.getConditionFor(this, mcs.getCondition())));
-			} catch (IllegalArgumentException _) {
+			} catch (final IllegalArgumentException _) {
 				logger.warn("EnumCondition {} is not found", mcs.getCondition().name());
 				item.setCondition(EnumCondition.NM);
 			}
 			item.setFinishId(mcs.isFoil() ? EnumFinish.FO : EnumFinish.NF);
 
-			if (mcs.isEtched())
-				item.setFinishId(EnumFinish.EF);
+			if (mcs.isEtched()) {
+			    item.setFinishId(EnumFinish.EF);
+			}
 
-			var lcode = mcs.getLanguage().toUpperCase().substring(0, 2);
+			final var lcode = mcs.getLanguage().toUpperCase().substring(0, 2);
 			try {
 				item.setLanguage(EnumLangages.valueOf(lcode));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.warn("EnumLangage not found for {}", lcode);
 				item.setLanguage(EnumLangages.EN);
 			}
@@ -110,16 +112,17 @@ public class ManaPoolExport extends AbstractCardExport {
 
 		inventoryManager.addInventoryItems(items).forEach(it -> {
 
-			var mcs = filter(stock, it.getProduct().getSingle());
+			final var mcs = filter(stock, it.getProduct().getSingle());
 
-			if (mcs != null)
-				mcs.getTiersAppIds().put(getName(), it.getId());
+			if (mcs != null) {
+			    mcs.getTiersAppIds().put(getName(), it.getId());
+			}
 		});
 
 	}
 
 	private MTGCardStock filter(List<MTGCardStock> stock, Product p) {
-		var opt = stock.stream().filter(mcs ->
+		final var opt = stock.stream().filter(mcs ->
 
 		mcs.getProduct().getScryfallId().equals(p.getScryfallId())
 				&& (p.getFinishId() == EnumFinish.FO ? mcs.isFoil() : true) && (p.getCondition() == EnumCondition
@@ -127,8 +130,9 @@ public class ManaPoolExport extends AbstractCardExport {
 
 		).findFirst();
 
-		if (opt.isPresent())
-			return opt.get();
+		if (opt.isPresent()) {
+		    return opt.get();
+		}
 
 		return null;
 

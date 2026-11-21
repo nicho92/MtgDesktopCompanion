@@ -46,8 +46,9 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 	public void init(List<T> items) {
 		this.items = items;
 
-		if (isVisible())
-			refresh();
+		if (isVisible()) {
+		    refresh();
+		}
 	}
 
 }

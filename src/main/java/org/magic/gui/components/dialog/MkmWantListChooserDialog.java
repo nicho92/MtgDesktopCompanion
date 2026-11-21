@@ -30,11 +30,11 @@ public class MkmWantListChooserDialog extends JDialog {
 
 		try {
 
-			var pane = new JPanel();
+			final var pane = new JPanel();
 			cboWants = UITools.createCombobox(serv.getWantList());
-			var btnNewWantList = new JButton(MTGConstants.ICON_NEW);
-			var btnOK = new JButton(MTGConstants.ICON_CHECK);
-			var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+			final var btnNewWantList = new JButton(MTGConstants.ICON_NEW);
+			final var btnOK = new JButton(MTGConstants.ICON_CHECK);
+			final var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 
 			pane.add(btnNewWantList);
 			pane.add(btnOK);
@@ -46,12 +46,12 @@ public class MkmWantListChooserDialog extends JDialog {
 			pack();
 
 			btnNewWantList.addActionListener(_ -> {
-				String name = JOptionPane.showInputDialog("Want List Name ? ");
+				final String name = JOptionPane.showInputDialog("Want List Name ? ");
 				try {
-					Wantslist created = serv.createWantList(name);
+					final Wantslist created = serv.createWantList(name);
 					cboWants.addItem(created);
 					cboWants.setSelectedItem(created);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					MTGControler.getInstance().notify(e);
 				}
 			});
@@ -62,15 +62,16 @@ public class MkmWantListChooserDialog extends JDialog {
 				dispose();
 			});
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			MTGControler.getInstance().notify(e);
 		}
 	}
 
 	public Wantslist getSelectedWantList() {
 
-		if (cboWants.getSelectedItem() != null)
-			return (Wantslist) cboWants.getSelectedItem();
+		if (cboWants.getSelectedItem() != null) {
+		    return (Wantslist) cboWants.getSelectedItem();
+		}
 
 		return null;
 	}

@@ -18,8 +18,8 @@ import org.magic.services.tools.UITools;
 public class ShopGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JTabbedPane pane;
-	private JTabbedPane subPane;
+	private final JTabbedPane pane;
+	private final JTabbedPane subPane;
 
 	public ShopGUI() {
 		setLayout(new BorderLayout());

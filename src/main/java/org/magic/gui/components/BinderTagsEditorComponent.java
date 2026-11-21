@@ -47,28 +47,28 @@ import org.magic.services.tools.ImageTools;
 public class BinderTagsEditorComponent extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel previewPanel;
+	private final JPanel previewPanel;
 	private transient BinderTagsManager tagMaker;
 	private transient BufferedImage img;
-	private JComboBox<LOGO> cboLogo;
-	private JCheckBox chckbxBorder;
-	private JCheckBox chckbxAddHeader;
-	private JButton btnBackgroundColor;
-	private JButton btnSave;
-	private JPanel panel1;
-	private JPanel leftPanel;
-	private JButton btnNew;
-	private JPanel panelInterspace;
-	private JLabel lblInterSpace;
-	private JSpinner spinSpace;
+	private final JComboBox<LOGO> cboLogo;
+	private final JCheckBox chckbxBorder;
+	private final JCheckBox chckbxAddHeader;
+	private final JButton btnBackgroundColor;
+	private final JButton btnSave;
+	private final JPanel panel1;
+	private final JPanel leftPanel;
+	private final JButton btnNew;
+	private final JPanel panelInterspace;
+	private final JLabel lblInterSpace;
+	private final JSpinner spinSpace;
 
-	private JList<MTGEdition> listEditions;
-	private JList<MTGEdition> listSelected;
-	private DefaultListModel<MTGEdition> model;
-	private DefaultListModel<MTGEdition> modelSelect;
-	private JButton btnRefresh;
-	private JPanel panneauBas;
-	private JPanel panel;
+	private final JList<MTGEdition> listEditions;
+	private final JList<MTGEdition> listSelected;
+	private final DefaultListModel<MTGEdition> model;
+	private final DefaultListModel<MTGEdition> modelSelect;
+	private final JButton btnRefresh;
+	private final JPanel panneauBas;
+	private final JPanel panel;
 
 	public void updateInfo() {
 		img = ImageTools.trimAlpha(tagMaker.generate());
@@ -78,10 +78,10 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 	private void init() {
 		var d = new Dimension(567, 2173);
-		double mmW = ImageTools.toMM(d.getWidth());
-		double mmH = ImageTools.toMM(d.getHeight());
-		String res = JOptionPane.showInputDialog("Dimension in mm", mmW + "x" + mmH);
-		String[] result = res.split("x");
+		final double mmW = ImageTools.toMM(d.getWidth());
+		final double mmH = ImageTools.toMM(d.getHeight());
+		final String res = JOptionPane.showInputDialog("Dimension in mm", mmW + "x" + mmH);
+		final String[] result = res.split("x");
 
 		d = new Dimension((int) ImageTools.toPX(Double.parseDouble(result[0])),
 				(int) ImageTools.toPX(Double.parseDouble(result[1])));
@@ -103,7 +103,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		init();
 
 		leftPanel = new JPanel();
-		var editorPanel = new JPanel();
+		final var editorPanel = new JPanel();
 		model = new DefaultListModel<>();
 		modelSelect = new DefaultListModel<>();
 		listSelected = new JList<>(modelSelect);
@@ -113,12 +113,13 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 		try {
 
-			List<MTGEdition> lst = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+			final List<MTGEdition> lst = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(lst);
-			for (MTGEdition ed : lst)
-				model.addElement(ed);
+			for (final MTGEdition ed : lst) {
+			    model.addElement(ed);
+			}
 
-		} catch (IOException e2) {
+		} catch (final IOException e2) {
 			logger.error(e2);
 		}
 
@@ -128,8 +129,9 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				if (img != null)
-					g.drawImage(img, 0, 0, null);
+				if (img != null) {
+				    g.drawImage(img, 0, 0, null);
+				}
 
 				this.revalidate();
 			}
@@ -138,7 +140,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 		previewPanel.setBackground(Color.white);
 
-		var scrollPane = new JScrollPane(previewPanel);
+		final var scrollPane = new JScrollPane(previewPanel);
 		scrollPane.setPreferredSize(new Dimension(250, 250));
 		add(scrollPane, BorderLayout.CENTER);
 		add(leftPanel, BorderLayout.WEST);
@@ -152,7 +154,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 		panel1 = new JPanel();
 		panneauBas.add(panel1);
-		var flowLayout = (FlowLayout) panel1.getLayout();
+		final var flowLayout = (FlowLayout) panel1.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 
 		chckbxAddHeader = new JCheckBox("add Header");
@@ -165,7 +167,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 		panelInterspace = new JPanel();
 		panneauBas.add(panelInterspace);
-		var flowLayout1 = (FlowLayout) panelInterspace.getLayout();
+		final var flowLayout1 = (FlowLayout) panelInterspace.getLayout();
 		flowLayout1.setAlignment(FlowLayout.LEFT);
 
 		lblInterSpace = new JLabel("Space :");
@@ -186,7 +188,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		listEditions = new JList<>(model);
 		listEditions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		var deco = JListFilterDecorator.decorate(listEditions,
+		final var deco = JListFilterDecorator.decorate(listEditions,
 				(MTGEdition t, String u) -> t.getSet().toLowerCase().contains(u.toLowerCase()));
 
 		listEditions.setCellRenderer(new MagicEditionIconListRenderer());
@@ -195,7 +197,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		panel.add(new JLabel("\u2193"));
 
 		panel.add(new JScrollPane(listSelected));
-		var commandsPanel = new JPanel();
+		final var commandsPanel = new JPanel();
 		leftPanel.add(commandsPanel, BorderLayout.SOUTH);
 
 		btnNew = new JButton(MTGConstants.ICON_NEW);
@@ -221,7 +223,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		});
 
 		btnBackgroundColor.addActionListener(_ -> {
-			var selected = JColorChooser.showDialog(null, "Color Selection", Color.WHITE);
+			final var selected = JColorChooser.showDialog(null, "Color Selection", Color.WHITE);
 			tagMaker.setBackColor(selected);
 			updateInfo();
 		});
@@ -236,8 +238,9 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		});
 
 		cboLogo.addItemListener(_ -> {
-			if (chckbxAddHeader.isSelected())
-				tagMaker.setLogo((LOGO) cboLogo.getSelectedItem());
+			if (chckbxAddHeader.isSelected()) {
+			    tagMaker.setLogo((LOGO) cboLogo.getSelectedItem());
+			}
 
 			updateInfo();
 		});
@@ -258,7 +261,7 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 		});
 
 		btnSave.addActionListener(_ -> {
-			var choose = new JFileChooser(MTGConstants.DATA_DIR);
+			final var choose = new JFileChooser(MTGConstants.DATA_DIR);
 
 			choose.setFileFilter(new FileFilter() {
 
@@ -273,13 +276,13 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 				}
 			});
 
-			int res = choose.showSaveDialog(null);
+			final int res = choose.showSaveDialog(null);
 
 			if (res == JFileChooser.APPROVE_OPTION) {
-				var f = choose.getSelectedFile();
+				final var f = choose.getSelectedFile();
 				try {
 					ImageTools.saveImageInPng(img, f);
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					logger.error("error", e1);
 					MTGControler.getInstance().notify(e1);
 				}

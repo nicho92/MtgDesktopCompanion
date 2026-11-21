@@ -23,10 +23,10 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	private Color c;
 
 	// Reuse renderers
-	private DoubleCellEditorRenderer doubleRenderer;
-	private BooleanCellEditorRenderer booleanRenderer;
-	private DateTableCellEditorRenderer dateRenderer;
-	private JLabel iconLabel;
+	private final DoubleCellEditorRenderer doubleRenderer;
+	private final BooleanCellEditorRenderer booleanRenderer;
+	private final DateTableCellEditorRenderer dateRenderer;
+	private final JLabel iconLabel;
 
 	public MagicCollectionTableCellRenderer() {
 
@@ -45,7 +45,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
 		if (value instanceof Double) {
 			pane = doubleRenderer.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		} else if (value instanceof ImageIcon ic) {
+		} else if (value instanceof final ImageIcon ic) {
 			iconLabel.setIcon(ic);
 			pane = iconLabel;
 		} else if (value instanceof Boolean) {
@@ -59,7 +59,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		pane.setBackground(c);
 		pane.setForeground(Color.BLACK);
 
-		double val = (double) table.getValueAt(row, 4);
+		final double val = (double) table.getValueAt(row, 4);
 
 		if (val >= 1.0) {
 			pane.setBackground(MTGConstants.COLLECTION_100PC);

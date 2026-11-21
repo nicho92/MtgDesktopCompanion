@@ -46,20 +46,20 @@ public class LigaMagicExport extends AbstractCardExport {
 
 		try (Workbook workbook = new XSSFWorkbook(); var out = new FileOutputStream(f)) {
 
-			var sheet = workbook.createSheet(MTGConstants.MTG_APP_NAME);
+			final var sheet = workbook.createSheet(MTGConstants.MTG_APP_NAME);
 
 			var colNum = 0;
 			var rowNum = 0;
 			Row row = sheet.createRow(rowNum++);
-			for (String s : new String[]{"Nome do Produto (PT)", "Nome do Produto (EN)", "Categoria", "Quantidade",
+			for (final String s : new String[]{"Nome do Produto (PT)", "Nome do Produto (EN)", "Categoria", "Quantidade",
 					"Preço", "Idioma", "Qualidade", "Foil (0, 1)", "Foil Etched(0, 1)", "Alterada (0, 1)",
 					"Assinada (0, 1)", "Buy A Box (0, 1)", "DCI (0, 1)", "FNM (0, 1)", "Oversize (0, 1)",
 					"Pre Release (0, 1)", "Promo (0, 1)", "Textless (0, 1)", "Missprint (0, 1)"}) {
-				var cell = row.createCell(colNum++, CellType.STRING);
+				final var cell = row.createCell(colNum++, CellType.STRING);
 				cell.setCellValue(s);
 			}
 
-			for (MTGCardStock st : stock) {
+			for (final MTGCardStock st : stock) {
 				colNum = 0;
 				row = sheet.createRow(rowNum++);
 				row.createCell(colNum++, CellType.STRING)
@@ -98,32 +98,32 @@ public class LigaMagicExport extends AbstractCardExport {
 	@Override
 	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
 
-		var ret = new ArrayList<MTGCardStock>();
+		final var ret = new ArrayList<MTGCardStock>();
 
 		try (Workbook workbook = WorkbookFactory.create(f)) {
 
-			Iterator<Row> it = workbook.getSheetAt(0).iterator();
+			final Iterator<Row> it = workbook.getSheetAt(0).iterator();
 			it.next(); // skip title line
 
 			while (it.hasNext()) {
-				Row row = it.next();
+				final Row row = it.next();
 
 				var enName = "";
 				try {
 					enName = row.getCell(1).getStringCellValue();
-					var edName = row.getCell(2) != null ? row.getCell(2).getStringCellValue() : null;
-					var qte = row.getCell(3) != null ? (int) row.getCell(3).getNumericCellValue() : 1;
-					var priceItem = row.getCell(4) != null ? row.getCell(4).getNumericCellValue() : 0.0;
-					var language = row.getCell(5) != null ? row.getCell(5).getStringCellValue() : "";
-					var quality = row.getCell(6) != null ? row.getCell(6).getStringCellValue() : "";
-					var foil = row.getCell(7) != null && row.getCell(7).getNumericCellValue() == 1;
-					var etched = row.getCell(8) != null && row.getCell(8).getNumericCellValue() == 1;
-					var altered = row.getCell(9) != null && row.getCell(9).getNumericCellValue() == 1;
+					final var edName = row.getCell(2) != null ? row.getCell(2).getStringCellValue() : null;
+					final var qte = row.getCell(3) != null ? (int) row.getCell(3).getNumericCellValue() : 1;
+					final var priceItem = row.getCell(4) != null ? row.getCell(4).getNumericCellValue() : 0.0;
+					final var language = row.getCell(5) != null ? row.getCell(5).getStringCellValue() : "";
+					final var quality = row.getCell(6) != null ? row.getCell(6).getStringCellValue() : "";
+					final var foil = row.getCell(7) != null && row.getCell(7).getNumericCellValue() == 1;
+					final var etched = row.getCell(8) != null && row.getCell(8).getNumericCellValue() == 1;
+					final var altered = row.getCell(9) != null && row.getCell(9).getNumericCellValue() == 1;
 
-					var mc = findCard(enName, edName);
+					final var mc = findCard(enName, edName);
 
 					if (mc != null) {
-						var stockItem = new MTGCardStock(mc);
+						final var stockItem = new MTGCardStock(mc);
 						stockItem.setAltered(altered);
 						stockItem.setFoil(foil);
 						stockItem.setLanguage(language);
@@ -136,7 +136,7 @@ public class LigaMagicExport extends AbstractCardExport {
 						logger.error("can't find card {}", enName);
 					}
 
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("Error importing {}", enName);
 				}
 
@@ -147,17 +147,18 @@ public class LigaMagicExport extends AbstractCardExport {
 	}
 
 	private MTGCard findCard(String enName, String edName) throws IOException {
-		var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(edName);
+		final var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(edName);
 
-		if (set == null)
-			logger.warn("Can't find set '{}' for card {}", edName, enName);
+		if (set == null) {
+		    logger.warn("Can't find set '{}' for card {}", edName, enName);
+		}
 
 		return MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(enName, set, true).get(0);
 	}
 
 	@Override
 	public MTGDeck importDeckFromFile(File f) throws IOException {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName(FilenameUtils.getBaseName(f.getName()));
 
 		importStockFromFile(f).forEach(mcs -> d.getMain().put(mcs.getProduct(), mcs.getQte()));

@@ -13,8 +13,9 @@ public enum EnumTransactionDirection implements MTGIconable {
 
 	@Override
 	public Icon getIcon() {
-		if (equals(BUY))
-			return UITools.generateRoundedIcon(Color.RED);
+		if (equals(BUY)) {
+		    return UITools.generateRoundedIcon(Color.RED);
+		}
 
 		return UITools.generateRoundedIcon(Color.GREEN);
 	}

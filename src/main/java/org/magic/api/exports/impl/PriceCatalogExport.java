@@ -45,45 +45,49 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		String[] exportedPricesProperties = new String[]{"site", "price", "foilPrice"};
-		String[] exportedCardsProperties = getArray(PROPERTIES_CARD);
-		var bw = new StringBuilder();
+		final String[] exportedPricesProperties = new String[]{"site", "price", "foilPrice"};
+		final String[] exportedCardsProperties = getArray(PROPERTIES_CARD);
+		final var bw = new StringBuilder();
 
-		for (String k : exportedCardsProperties)
-			bw.append(k).append(getSeparator());
+		for (final String k : exportedCardsProperties) {
+		    bw.append(k).append(getSeparator());
+		}
 
-		for (String k : exportedPricesProperties)
-			bw.append(k).append(getSeparator());
+		for (final String k : exportedPricesProperties) {
+		    bw.append(k).append(getSeparator());
+		}
 
 		bw.append(System.lineSeparator());
 
-		if (getString(PRICER).isEmpty())
-			throw new IOException("PRICER parameter must be set");
+		if (getString(PRICER).isEmpty()) {
+		    throw new IOException("PRICER parameter must be set");
+		}
 
-		for (String pricer : getArray(PRICER)) {
-			MTGPricesProvider prov = getPlugin(pricer, MTGPricesProvider.class);
+		for (final String pricer : getArray(PRICER)) {
+			final MTGPricesProvider prov = getPlugin(pricer, MTGPricesProvider.class);
 
-			for (MTGCard mc : deck.getMain().keySet()) {
-				for (String k : exportedCardsProperties) {
+			for (final MTGCard mc : deck.getMain().keySet()) {
+				for (final String k : exportedCardsProperties) {
 					String val;
 					try {
 						val = BeanUtils.getProperty(mc, k);
-						if (val == null)
-							val = "";
+						if (val == null) {
+						    val = "";
+						}
 						bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
 					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 						throw new IOException(e);
 					}
 				}
 
-				var pricesList = prov.getPrice(mc);
+				final var pricesList = prov.getPrice(mc);
 
 				if (pricesList.isEmpty()) {
 					bw.append(System.lineSeparator());
 				} else {
 
-					var mpNormal = pricesList.stream().filter(mp -> !mp.isFoil()).findFirst();
-					var mpFoil = pricesList.stream().filter(MTGPrice::isFoil).findFirst();
+					final var mpNormal = pricesList.stream().filter(mp -> !mp.isFoil()).findFirst();
+					final var mpFoil = pricesList.stream().filter(MTGPrice::isFoil).findFirst();
 
 					bw.append(prov.getName()).append(getSeparator());
 					bw.append(mpNormal.isPresent()
@@ -114,7 +118,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put(PRICER, new MTGProperty("mkm", "select pricer to pull price. See [Pricer plugins](Plugins#pricer)"));
 
 		try {
@@ -122,7 +126,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 					new MTGProperty("name,edition,number,types,border,frameEffects",
 							"choose cards attributs you want to export. Separated by comma",
 							BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 
 			m.put(PROPERTIES_CARD, new MTGProperty("name,edition,number,types,border,frameEffects",
 					"choose cards attributs you want to export. Separated by comma"));

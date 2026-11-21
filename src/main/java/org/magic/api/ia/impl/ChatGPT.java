@@ -35,7 +35,7 @@ public class ChatGPT extends AbstractIA {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = super.getDefaultAttributes();
+		final var map = super.getDefaultAttributes();
 
 		map.put("MODEL", new MTGProperty(OpenAiChatModelName.GPT_4_1.name(), "choose langage model",
 				Arrays.stream(OpenAiChatModelName.values()).map(Enum::name).toList().toArray(new String[0])));
@@ -44,12 +44,13 @@ public class ChatGPT extends AbstractIA {
 
 	@Override
 	public ChatModel getEngine(ResponseFormat format) {
-		var b = OpenAiChatModel.builder().apiKey(getAuthenticator().get(TOKEN))
+		final var b = OpenAiChatModel.builder().apiKey(getAuthenticator().get(TOKEN))
 				.modelName(OpenAiChatModelName.valueOf(getString("MODEL"))).maxTokens(getInt("MAX_TOKEN"))
 				.logRequests(getBoolean("LOG")).logResponses(getBoolean("LOG")).temperature(getDouble("TEMPERATURE"));
 
-		if (format != null)
-			b.responseFormat(format.toString());
+		if (format != null) {
+		    b.responseFormat(format.toString());
+		}
 
 		return b.build();
 	}

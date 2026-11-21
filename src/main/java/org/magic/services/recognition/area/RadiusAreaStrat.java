@@ -33,27 +33,27 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 	private static final int BUCKET_ANGLE = 3;
 	private static final int NUM_BUCKETS = 180 / BUCKET_ANGLE;
 
-	private Point2D_F32 center = new Point2D_F32(320, 240);
+	private final Point2D_F32 center = new Point2D_F32(320, 240);
 	private double radius = 200;
 
-	private List<List<LineSegment2D_F32>> segments = new ArrayList<>(3);
-	private List<LineSegment2D_F32> found = new ArrayList<>();
+	private final List<List<LineSegment2D_F32>> segments = new ArrayList<>(3);
+	private final List<LineSegment2D_F32> found = new ArrayList<>();
 
-	private List<Point2D_F32> visPoints = new ArrayList<>();
+	private final List<Point2D_F32> visPoints = new ArrayList<>();
 
 	private boolean configChanged = true;
-	private ConfigLineRansac config = new ConfigLineRansac();
+	private final ConfigLineRansac config = new ConfigLineRansac();
 	private DetectLineSegment<GrayU8> detector;
 
-	private Point2D_I32[] points = new Point2D_I32[2];
+	private final Point2D_I32[] points = new Point2D_I32[2];
 	private int offx;
 	private int offy = 0;
 	private int draggingPoint = -1;
 	private int width;
 	private int height;
 
-	private List<ContourBoundingBox> candidates = new ArrayList<>();
-	private List<MatchResult> result = new ArrayList<>();
+	private final List<ContourBoundingBox> candidates = new ArrayList<>();
+	private final List<MatchResult> result = new ArrayList<>();
 
 	public RadiusAreaStrat() {
 		for (int i = 0; i < COLLATEFRAMES; i++) {
@@ -65,16 +65,16 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 	public List<MatchResult> recognize(BufferedImage in, MTGCardRecognition strat, int recogTresh) {
 		result.clear();
 		candidates.clear();
-		List<LineSegment2D_F32> frameSegments = segments.remove(COLLATEFRAMES - 1);
+		final List<LineSegment2D_F32> frameSegments = segments.remove(COLLATEFRAMES - 1);
 		frameSegments.clear();
 		segments.add(0, frameSegments);
 		if (draggingPoint == -1) {
 			// convert the line into a single band image
-			GrayU8 input = ConvertBufferedImage.convertFromSingle(in, null, GrayU8.class);
-			GrayU8 blurred = input.createSameShape();
+			final GrayU8 input = ConvertBufferedImage.convertFromSingle(in, null, GrayU8.class);
+			final GrayU8 blurred = input.createSameShape();
 
 			// Blur smooths out gradient and improves results
-			int blurRad = Math.max(1, (int) (radius / 20));
+			final int blurRad = Math.max(1, (int) (radius / 20));
 			GBlurImageOps.gaussian(input, blurred, 0, blurRad, null);
 
 			if (configChanged) {
@@ -84,11 +84,11 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 			frameSegments.addAll(detector.detect(blurred));
 			processSegments();
 
-			for (ContourBoundingBox bound : candidates) {
-				BufferedImage norm = ImageTools.getScaledImage(bound.getTransformedImage(in, false));
-				BufferedImage flip = ImageTools.getScaledImage(bound.getTransformedImage(in, true));
-				ImageDesc i = new ImageDesc(norm, flip);
-				MatchResult mr = strat.getMatch(i, recogTresh / 100.0);
+			for (final ContourBoundingBox bound : candidates) {
+				final BufferedImage norm = ImageTools.getScaledImage(bound.getTransformedImage(in, false));
+				final BufferedImage flip = ImageTools.getScaledImage(bound.getTransformedImage(in, true));
+				final ImageDesc i = new ImageDesc(norm, flip);
+				final MatchResult mr = strat.getMatch(i, recogTresh / 100.0);
 				if (mr != null) {
 					result.add(mr);
 				}
@@ -99,13 +99,13 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 
 	private void processSegments() {
 		found.clear();
-		for (List<LineSegment2D_F32> frameSegments : segments) {
+		for (final List<LineSegment2D_F32> frameSegments : segments) {
 			found.addAll(frameSegments);
 		}
 		// eliminate segments outside of the recognition area
 		int i = 0;
 		while (i < found.size()) {
-			LineSegment2D_F32 line = found.get(i);
+			final LineSegment2D_F32 line = found.get(i);
 			if (!isGoodSegment(line)) {
 				found.remove(i);
 			} else {
@@ -125,16 +125,16 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 	}
 
 	public void doAngleHistogram() {
-		ArrayList<Double> angles = new ArrayList<>(found.size());
+		final ArrayList<Double> angles = new ArrayList<>(found.size());
 		final int HALF_BUCKETS = NUM_BUCKETS / 2;
 		final double HALF_ANGLE = BUCKET_ANGLE / 2.0;
-		for (LineSegment2D_F32 segment : found) {
+		for (final LineSegment2D_F32 segment : found) {
 			angles.add(getAngle(segment));
 		}
-		int[] count = new int[NUM_BUCKETS];
-		for (double a : angles) {
-			double angle = (a + HALF_ANGLE) % 180;
-			int i = (int) (angle) / BUCKET_ANGLE;
+		final int[] count = new int[NUM_BUCKETS];
+		for (final double a : angles) {
+			final double angle = (a + HALF_ANGLE) % 180;
+			final int i = (int) (angle) / BUCKET_ANGLE;
 			count[i] += 1;
 		}
 		int max = 0;
@@ -146,16 +146,16 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 			}
 		}
 		if (maxix != -1) {
-			int correspix = (maxix + HALF_BUCKETS) % NUM_BUCKETS;
+			final int correspix = (maxix + HALF_BUCKETS) % NUM_BUCKETS;
 			if (count[maxix] >= 2 && count[correspix] >= 2) {
 				int ix = 0;
-				List<LineSegment2D_F32> seg1 = new ArrayList<>(count[maxix]);
-				List<LineSegment2D_F32> seg2 = new ArrayList<>(count[correspix]);
+				final List<LineSegment2D_F32> seg1 = new ArrayList<>(count[maxix]);
+				final List<LineSegment2D_F32> seg2 = new ArrayList<>(count[correspix]);
 				float trueAngle = 0;
 				while (ix < found.size()) {
-					double a = angles.get(ix);
-					double angle = (a + HALF_ANGLE) % 180;
-					int i = (int) (angle) / BUCKET_ANGLE;
+					final double a = angles.get(ix);
+					final double angle = (a + HALF_ANGLE) % 180;
+					final int i = (int) (angle) / BUCKET_ANGLE;
 					if (i == maxix) {
 						seg1.add(found.get(ix));
 						trueAngle += Math.toRadians(a);
@@ -175,41 +175,41 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 
 	@SuppressWarnings("unchecked")
 	private void doCollateLines(List<LineSegment2D_F32> seg1, List<LineSegment2D_F32> seg2, double rad) {
-		LineSegment2D_F32[] tangents = new LineSegment2D_F32[4];
-		List<PointCluster>[] intersects = new List[4];
-		List<LineSegment2D_F32>[] segs = new List[]{seg1, seg2};
-		LineSegment2D_F32[] foundLines = new LineSegment2D_F32[4];
+		final LineSegment2D_F32[] tangents = new LineSegment2D_F32[4];
+		final List<PointCluster>[] intersects = new List[4];
+		final List<LineSegment2D_F32>[] segs = new List[]{seg1, seg2};
+		final LineSegment2D_F32[] foundLines = new LineSegment2D_F32[4];
 
-		float thresh = (float) (radius / 5);
+		final float thresh = (float) (radius / 5);
 
 		// Init tangent lines
 		for (int i = 0; i < 4; i++) {
 			intersects[i] = new ArrayList<>();
-			double ax = radius * Math.cos(rad) + center.x;
-			double ay = radius * Math.sin(rad) + center.y;
+			final double ax = radius * Math.cos(rad) + center.x;
+			final double ay = radius * Math.sin(rad) + center.y;
 			rad += Math.PI / 2;
-			double bx = ax + 100 * Math.cos(rad);
-			double by = ay + 100 * Math.sin(rad);
-			var a = new Point2D_F32((float) ax, (float) ay);
-			var b = new Point2D_F32((float) bx, (float) by);
+			final double bx = ax + 100 * Math.cos(rad);
+			final double by = ay + 100 * Math.sin(rad);
+			final var a = new Point2D_F32((float) ax, (float) ay);
+			final var b = new Point2D_F32((float) bx, (float) by);
 			tangents[i] = new LineSegment2D_F32(a, b);
 		}
 
 		// For the two sets of segments, intersect with each tangent line,
 		// and cluster intersection points based on radius
 		for (int i = 0; i < 2; i++) {
-			List<LineSegment2D_F32> samples = segs[i];
+			final List<LineSegment2D_F32> samples = segs[i];
 			for (int j = 0; j < 2; j++) {
-				int ix = i + (2 * j);
-				LineSegment2D_F32 tan = tangents[ix];
+				final int ix = i + (2 * j);
+				final LineSegment2D_F32 tan = tangents[ix];
 
 				// Add to cluster, or create a new cluster
-				for (LineSegment2D_F32 s : samples) {
-					Point2D_F32 inter = extrapolateAndCollide(tan, s);
-					float len = s.getLength();
-					List<PointCluster> inters = intersects[ix];
+				for (final LineSegment2D_F32 s : samples) {
+					final Point2D_F32 inter = extrapolateAndCollide(tan, s);
+					final float len = s.getLength();
+					final List<PointCluster> inters = intersects[ix];
 					boolean matched = false;
-					for (PointCluster cluster : inters) {
+					for (final PointCluster cluster : inters) {
 						if (cluster.testAndAdd(inter, len, thresh)) {
 							matched = true;
 							break;
@@ -228,12 +228,12 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 			// If there are 2 or more points on each side, match the top
 			// 2 of each side into 2 line segments
 			if (intersects[i].size() >= 2 && intersects[i + 2].size() >= 2) {
-				var a1 = intersects[i].get(0).getPoint();
-				var b1 = intersects[i].get(1).getPoint();
+				final var a1 = intersects[i].get(0).getPoint();
+				final var b1 = intersects[i].get(1).getPoint();
 				var a2 = intersects[i + 2].get(0).getPoint();
 				var b2 = intersects[i + 2].get(1).getPoint();
 				if (a1.distance(a2) > a1.distance(b2)) {
-					Point2D_F32 temp = a2;
+					final Point2D_F32 temp = a2;
 					a2 = b2;
 					b2 = temp;
 				}
@@ -243,23 +243,23 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 				return;
 			}
 		}
-		List<Point2D_I32> corners = new ArrayList<>();
+		final List<Point2D_I32> corners = new ArrayList<>();
 		for (int i = 0; i < 4; i++) {
-			var l1 = foundLines[i];
-			var l2 = foundLines[(i + 1) % 4];
-			Point2D_F32 corner = extrapolateAndCollide(l1, l2);
+			final var l1 = foundLines[i];
+			final var l2 = foundLines[(i + 1) % 4];
+			final Point2D_F32 corner = extrapolateAndCollide(l1, l2);
 			corners.add(new Point2D_I32((int) corner.x, (int) corner.y));
 		}
 		candidates.add(new ContourBoundingBox(corners));
 	}
 
 	private boolean isGoodSegment(LineSegment2D_F32 segment) {
-		var effectiveRadius = radius * 1.1;
-		var inRadius = segment.a.distance(center) <= effectiveRadius && segment.b.distance(center) <= effectiveRadius;
-		var perp = Math.toRadians(getAngle(segment) + 90);
-		var out = new Point2D_F32((float) (center.x + Math.cos(perp)), (float) (center.y + Math.sin(perp)));
-		var inter = extrapolateAndCollide(segment, new LineSegment2D_F32(center, out));
-		var farEnough = inter.distance(center) >= radius / 4;
+		final var effectiveRadius = radius * 1.1;
+		final var inRadius = segment.a.distance(center) <= effectiveRadius && segment.b.distance(center) <= effectiveRadius;
+		final var perp = Math.toRadians(getAngle(segment) + 90);
+		final var out = new Point2D_F32((float) (center.x + Math.cos(perp)), (float) (center.y + Math.sin(perp)));
+		final var inter = extrapolateAndCollide(segment, new LineSegment2D_F32(center, out));
+		final var farEnough = inter.distance(center) >= radius / 4;
 
 		return inRadius && farEnough;
 	}
@@ -289,35 +289,39 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 			return null;
 		}
 
-		float x = (b2 - b1) / (m1 - m2);
-		float y = m1 * x + b1;
+		final float x = (b2 - b1) / (m1 - m2);
+		final float y = m1 * x + b1;
 		return new Point2D_F32(x, y);
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		for (int i = 0; i < points.length; i++) {
-			Point2D_I32 p = points[i];
+			final Point2D_I32 p = points[i];
 
-			if (draggingPoint == i)
-				g.setColor(Color.RED);
-			else
-				g.setColor(Color.WHITE);
+			if (draggingPoint == i) {
+			    g.setColor(Color.RED);
+			} else {
+			    g.setColor(Color.WHITE);
+			}
 
 			g.fillOval(p.x - 3, p.y - 3, 7, 7);
 		}
-		if (draggingPoint != -1)
-			g.setColor(Color.RED);
-		else
-			g.setColor(Color.WHITE);
+		if (draggingPoint != -1) {
+		    g.setColor(Color.RED);
+		} else {
+		    g.setColor(Color.WHITE);
+		}
 
 		g.drawOval((int) (center.x - radius), (int) (center.y - radius), (int) (radius * 2), (int) (radius * 2));
 
-		for (Point2D_F32 p : visPoints)
-			g.fillOval((int) p.x - 3, (int) p.y - 3, 7, 7);
+		for (final Point2D_F32 p : visPoints) {
+		    g.fillOval((int) p.x - 3, (int) p.y - 3, 7, 7);
+		}
 
-		for (ContourBoundingBox bound : candidates)
-			bound.draw(g);
+		for (final ContourBoundingBox bound : candidates) {
+		    bound.draw(g);
+		}
 	}
 
 	private void updateCircle() {
@@ -336,14 +340,14 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 		this.width = width;
 		this.height = height;
 		points[0] = new Point2D_I32(width / 2, height / 2);
-		int dist = (int) (height / 2.0 * 0.85);
+		final int dist = (int) (height / 2.0 * 0.85);
 		points[1] = new Point2D_I32(width / 2 + dist, height / 2);
 		updateCircle();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		Point p = e.getPoint();
+		final Point p = e.getPoint();
 		double dist = p.distance(points[0].x, points[0].y);
 		if (Math.abs(radius - dist) <= 3) {
 			draggingPoint = 1;
@@ -367,7 +371,7 @@ public class RadiusAreaStrat extends AbstractRecognitionArea {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (draggingPoint != -1) {
-			Point p = e.getPoint();
+			final Point p = e.getPoint();
 			if (p.x >= 0 && p.x <= this.width) {
 				points[draggingPoint].x = p.x;
 			}

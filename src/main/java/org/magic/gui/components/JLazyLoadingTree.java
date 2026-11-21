@@ -34,8 +34,8 @@ public class JLazyLoadingTree extends JTree {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DefaultTreeModel model;
-	private MyNode root;
+	private final DefaultTreeModel model;
+	private final MyNode root;
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -49,8 +49,8 @@ public class JLazyLoadingTree extends JTree {
 		addTreeWillExpandListener(new TreeWillExpandListener() {
 			@Override
 			public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
-				TreePath path = event.getPath();
-				MyNode node = (MyNode) path.getLastPathComponent();
+				final TreePath path = event.getPath();
+				final MyNode node = (MyNode) path.getLastPathComponent();
 				node.loadChildren();
 			}
 
@@ -86,32 +86,34 @@ public class JLazyLoadingTree extends JTree {
 		private void setChildren(List<MyNode> children) {
 			removeAllChildren();
 			setAllowsChildren(!children.isEmpty());
-			for (MutableTreeNode node : children) {
+			for (final MutableTreeNode node : children) {
 				add(node);
 			}
 		}
 
 		private void loadChildren() {
-			if (obj instanceof String)
-				loadCollection();
+			if (obj instanceof String) {
+			    loadCollection();
+			}
 
-			if (obj instanceof MTGCollection col)
-				loadEditionFromCollection(col);
+			if (obj instanceof final MTGCollection col) {
+			    loadEditionFromCollection(col);
+			}
 
-			if (obj instanceof MTGEdition ed) {
+			if (obj instanceof final MTGEdition ed) {
 				loadCardsFromEdition(new MTGCollection(getPath()[1].toString()), ed);
 			}
 
 		}
 
 		private void loadCollection() {
-			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
+			final SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
 				protected List<MyNode> doInBackground() throws Exception {
 
-					List<MyNode> children = new ArrayList<>();
-					for (MTGCollection c : getEnabledPlugin(MTGDao.class).listCollections()) {
-						var n = new MyNode(c);
+					final List<MyNode> children = new ArrayList<>();
+					for (final MTGCollection c : getEnabledPlugin(MTGDao.class).listCollections()) {
+						final var n = new MyNode(c);
 						children.add(n);
 					}
 					return children;
@@ -122,11 +124,11 @@ public class JLazyLoadingTree extends JTree {
 					try {
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
 					}
 
-					catch (Exception e) {
+					catch (final Exception e) {
 						logger.error(e);
 					}
 					super.done();
@@ -138,21 +140,21 @@ public class JLazyLoadingTree extends JTree {
 
 		private void loadCardsFromEdition(final MTGCollection col, final MTGEdition ed) {
 
-			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
+			final SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
 				protected List<MyNode> doInBackground() {
 					logger.trace("loading cards from {}/{}", col, ed);
 
-					List<MyNode> children = new ArrayList<>();
+					final List<MyNode> children = new ArrayList<>();
 					try {
-						List<MTGCard> res = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
+						final List<MTGCard> res = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
 						Collections.sort(res, new CardsEditionSorter());
 
-						for (MTGCard card : res) {
-							var n = new MyNode(card);
+						for (final MTGCard card : res) {
+							final var n = new MyNode(card);
 							children.add(n);
 						}
-					} catch (SQLException _) {
+					} catch (final SQLException _) {
 						logger.error("unknow edition {}", ed.getId());
 					}
 					return children;
@@ -164,9 +166,9 @@ public class JLazyLoadingTree extends JTree {
 						logger.trace("loading cards from {}/{} done", col, ed);
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("error loading tree", e);
 					}
 					super.done();
@@ -178,13 +180,13 @@ public class JLazyLoadingTree extends JTree {
 
 		private void loadEditionFromCollection(final MTGCollection c) {
 
-			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
+			final SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
 				protected List<MyNode> doInBackground() throws Exception {
 					logger.debug("loading editions from {}", c);
-					List<MyNode> children = new ArrayList<>();
-					for (String ed : getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(c)) {
-						var n = new MyNode(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed));
+					final List<MyNode> children = new ArrayList<>();
+					for (final String ed : getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(c)) {
+						final var n = new MyNode(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed));
 						children.add(n);
 					}
 					Collections.sort(children);
@@ -197,9 +199,9 @@ public class JLazyLoadingTree extends JTree {
 						logger.debug("loading editions from {} done", c);
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("error loading edition from {}", c, e);
 					}
 					super.done();
@@ -221,8 +223,9 @@ public class JLazyLoadingTree extends JTree {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == null)
-				return false;
+			if (obj == null) {
+			    return false;
+			}
 
 			return obj.toString() == this.toString();
 		}

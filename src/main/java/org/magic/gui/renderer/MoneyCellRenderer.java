@@ -20,9 +20,9 @@ public class MoneyCellRenderer extends JLabel implements TableCellRenderer {
 		var text = "";
 
 		try {
-			var val = (MoneyValue) value;
+			final var val = (MoneyValue) value;
 			text = UITools.formatDouble(val.doubleValue()) + " " + val.getCurrency().getSymbol();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 

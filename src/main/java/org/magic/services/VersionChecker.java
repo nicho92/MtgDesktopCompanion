@@ -10,20 +10,21 @@ import org.magic.services.tools.GithubUtils;
 
 public class VersionChecker {
 
-	private String actualVersion;
+	private final String actualVersion;
 	private String onlineVersion;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public String getVersion() {
-		var input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
+		final var input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
 		try (var read = new BufferedReader(new InputStreamReader(input))) {
-			var version = read.readLine();
+			final var version = read.readLine();
 
-			if (version.startsWith("${"))
-				return "0.0";
-			else
-				return version;
-		} catch (IOException _) {
+			if (version.startsWith("${")) {
+			    return "0.0";
+			} else {
+			    return version;
+			}
+		} catch (final IOException _) {
 			return "";
 		}
 	}
@@ -47,13 +48,14 @@ public class VersionChecker {
 	public boolean hasNewVersion() {
 
 		try {
-			var res = Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
+			final var res = Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
 
-			if (res)
-				logger.warn("New online version avaiblable. Current :{} . Online :{}", actualVersion, onlineVersion);
+			if (res) {
+			    logger.warn("New online version avaiblable. Current :{} . Online :{}", actualVersion, onlineVersion);
+			}
 
 			return res;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e.getMessage());
 			return false;
 		}

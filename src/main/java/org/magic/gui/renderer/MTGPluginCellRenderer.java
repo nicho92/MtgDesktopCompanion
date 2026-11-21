@@ -19,17 +19,19 @@ public class MTGPluginCellRenderer extends JLabel implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
-		if (value == null)
-			return new DefaultTableCellRenderer();
+		if (value == null) {
+		    return new DefaultTableCellRenderer();
+		}
 
-		var plug = ((MTGPlugin) value);
+		final var plug = ((MTGPlugin) value);
 
 		setIcon(ImageTools.resize(plug.getIcon(), 24, 24));
 		setText(plug.getName());
 		setOpaque(true);
 
-		if (plug.isPartner())
-			setFont(getFont().deriveFont(Font.BOLD));
+		if (plug.isPartner()) {
+		    setFont(getFont().deriveFont(Font.BOLD));
+		}
 
 		if (isSelected) {
 			setBackground(table.getSelectionBackground());

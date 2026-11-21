@@ -20,17 +20,18 @@ public class NewsTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
 		setText(String.valueOf(value));
 
-		if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGNews news) {
+		if (((DefaultMutableTreeNode) value).getUserObject() instanceof final MTGNews news) {
 			try {
 				setIcon(news.getProvider().getIcon());
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				setIcon(null);
 			}
 
 		}
 
-		if (((DefaultMutableTreeNode) value).getUserObject() instanceof String)
-			setIcon(MTGConstants.ICON_NEWS);
+		if (((DefaultMutableTreeNode) value).getUserObject() instanceof String) {
+		    setIcon(MTGConstants.ICON_NEWS);
+		}
 
 		return this;
 	}

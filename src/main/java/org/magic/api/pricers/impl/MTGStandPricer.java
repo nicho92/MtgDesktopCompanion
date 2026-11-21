@@ -26,25 +26,25 @@ public class MTGStandPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		var c = URLTools.newClient();
-		var cur = MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
-		var j = RequestBuilder.build().setClient(c).get().url(BASE_URL + "/data-singlecard.php")
+		final var c = URLTools.newClient();
+		final var cur = MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
+		final var j = RequestBuilder.build().setClient(c).get().url(BASE_URL + "/data-singlecard.php")
 				.addContent("job", "getsinglecard").addContent("sid", card.getScryfallId())
 				.addContent("userCurrencyBuyer", cur).addContent("useridbuyer", "ZmxNd2tjSzFiNzB4bWN3V2M2TmVWUT09")
 				.toJson().getAsJsonObject();
 		logger.debug("{} looking for prices", getName());
-		List<MTGPrice> ret = new ArrayList<>();
-		var arr = j.get("data").getAsJsonArray();
+		final List<MTGPrice> ret = new ArrayList<>();
+		final var arr = j.get("data").getAsJsonArray();
 
 		if (arr.size() <= 0) {
 			logger.info("{} found nothing", getName());
 			return ret;
 		}
 
-		for (JsonElement el : arr) {
-			var obj = el.getAsJsonObject();
-			var p = new MTGPrice();
-			var htCountry = URLTools.toHtml(obj.get("seller").getAsString()).select("img").attr("src");
+		for (final JsonElement el : arr) {
+			final var obj = el.getAsJsonObject();
+			final var p = new MTGPrice();
+			final var htCountry = URLTools.toHtml(obj.get("seller").getAsString()).select("img").attr("src");
 
 			p.setCurrency(cur);
 			p.setCardData(card);

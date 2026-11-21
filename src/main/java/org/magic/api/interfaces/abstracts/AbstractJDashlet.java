@@ -41,7 +41,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public ObjectName getObjectName() {
 		try {
 			return new ObjectName("org.magic.api:type=" + getType() + ",name=" + getName());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return null;
 		}
 	}
@@ -65,7 +65,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public Icon getIcon() {
 		try {
 			return new ImageIcon(getDashletIcon().getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}
@@ -97,7 +97,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 			return new MTGDocumentation(URI
 					.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL + "/" + getName().replace(" ", "-") + ".md").toURL(),
 					FORMAT_NOTIFICATION.MARKDOWN);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return null;
 		}
 
@@ -109,7 +109,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		if (!confdir.exists()) {
 			try {
 				FileTools.forceMkdir(confdir);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error("Error creating {}", confdir, e);
 			}
 		}

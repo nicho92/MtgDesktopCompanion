@@ -22,12 +22,13 @@ public class DeepSeek extends AbstractIA {
 
 	@Override
 	public ChatModel getEngine(ResponseFormat format) {
-		var b = OpenAiChatModel.builder().apiKey(getAuthenticator().get(API_KEY)).baseUrl("https://api.deepseek.com")
+		final var b = OpenAiChatModel.builder().apiKey(getAuthenticator().get(API_KEY)).baseUrl("https://api.deepseek.com")
 				.modelName("deepseek-chat").maxTokens(getInt("MAX_TOKEN")).logRequests(getBoolean("LOG"))
 				.logResponses(getBoolean("LOG")).temperature(getDouble("TEMPERATURE"));
 
-		if (format != null)
-			b.responseFormat(format.toString());
+		if (format != null) {
+		    b.responseFormat(format.toString());
+		}
 
 		return b.build();
 	}

@@ -78,19 +78,19 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		BoostersTableModel boostersModel;
 		DefaultListModel<MTGCard> cardsModel;
 		JTextPane txtDetailBox;
-		var panneauHaut = new JPanel();
+		final var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
-		JComboBox<MTGEdition> cboEditions = UITools.createComboboxEditions();
-		JComboBox<EnumExtra> cboExtras = UITools.createCombobox(EnumExtra.values());
+		final JComboBox<MTGEdition> cboEditions = UITools.createComboboxEditions();
+		final JComboBox<EnumExtra> cboExtras = UITools.createCombobox(EnumExtra.values());
 
 		cboEditions.insertItemAt(null, 0);
 		panneauHaut.add(cboEditions);
 		panneauHaut.add(cboExtras);
 
-		var lblBoxSize = new JLabel("Box size: ");
+		final var lblBoxSize = new JLabel("Box size: ");
 		panneauHaut.add(lblBoxSize);
 
-		var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		final var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		buzy.setVisible(false);
 
 		boxSizeSpinner = new JSpinner();
@@ -104,23 +104,23 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		table = UITools.createNewTable(boostersModel, false);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
-		var panneauBas = new JPanel();
+		final var panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 
-		var btnCalculate = new JButton(MTGConstants.ICON_OPEN);
+		final var btnCalculate = new JButton(MTGConstants.ICON_OPEN);
 		panneauHaut.add(btnCalculate);
 
-		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		final var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.EAST);
 
 		txtDetailBox = new JTextPane();
 		txtDetailBox.setEditable(false);
 		tabbedPane.addTab("Box", null, txtDetailBox, null);
 
-		var scrollPane1 = new JScrollPane();
+		final var scrollPane1 = new JScrollPane();
 		tabbedPane.addTab("Booster", null, scrollPane1, null);
 
-		JList<MTGCard> list1 = new JList<>();
+		final JList<MTGCard> list1 = new JList<>();
 		list1.setModel(cardsModel);
 		list1.setCellRenderer(new MagicCardListRenderer());
 		scrollPane1.setViewportView(list1);
@@ -130,12 +130,12 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 			boostersModel.clear();
 			cardsModel.clear();
 			txtDetailBox.setText("");
-			var sw = new AbstractObservableWorker<List<MTGBooster>, MTGBooster, MTGCardsProvider>(buzy,
+			final var sw = new AbstractObservableWorker<List<MTGBooster>, MTGBooster, MTGCardsProvider>(buzy,
 					getEnabledPlugin(MTGCardsProvider.class)) {
 
 				private EditionsShakers prices;
 				private double total = 0;
-				private Map<EnumRarity, Double> priceRarity = new EnumMap<>(EnumRarity.class);
+				private final Map<EnumRarity, Double> priceRarity = new EnumMap<>(EnumRarity.class);
 
 				@Override
 				protected List<MTGBooster> doInBackground() throws Exception {
@@ -150,33 +150,36 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 				@Override
 				protected void notifyEnd() {
 					int number = 1;
-					for (var booster : getResult()) {
+					for (final var booster : getResult()) {
 						double price = 0;
 
-						for (MTGCard mc : booster.getCards()) {
-							for (CardShake cs : prices)
-								if (cs.getName().equalsIgnoreCase(mc.getName())) {
-									price += cs.getPrice().doubleValue();
-									booster.setPrice(price);
-									EnumRarity rarity = mc.getRarity();
+						for (final MTGCard mc : booster.getCards()) {
+							for (final CardShake cs : prices) {
+							    if (cs.getName().equalsIgnoreCase(mc.getName())) {
+							    	price += cs.getPrice().doubleValue();
+							    	booster.setPrice(price);
+							    	final EnumRarity rarity = mc.getRarity();
 
-									if (priceRarity.get(rarity) != null)
-										priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice().doubleValue());
-									else
-										priceRarity.put(rarity, cs.getPrice().doubleValue());
-								}
+							    	if (priceRarity.get(rarity) != null) {
+							    	    priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice().doubleValue());
+							    	} else {
+							    	    priceRarity.put(rarity, cs.getPrice().doubleValue());
+							    	}
+							    }
+							}
 						}
 						booster.setBoosterNumber(number++);
 						boostersModel.addItem(booster);
 						total = total + booster.getPrice();
 					}
 
-					var temp = new StringBuilder();
+					final var temp = new StringBuilder();
 					temp.append("TOTAL: ").append(UITools.formatDouble(total)).append("\n");
 
-					for (Entry<EnumRarity, Double> s : priceRarity.entrySet())
-						temp.append(s.getKey()).append(": ").append(UITools.formatDouble(priceRarity.get(s.getKey())))
-								.append("\n");
+					for (final Entry<EnumRarity, Double> s : priceRarity.entrySet()) {
+					    temp.append(s.getKey()).append(": ").append(UITools.formatDouble(priceRarity.get(s.getKey())))
+					    		.append("\n");
+					}
 
 					txtDetailBox.setText(temp.toString());
 				}
@@ -189,24 +192,26 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
-				int viewRow = table.getSelectedRow();
+				final int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
-					int modelRow = table.convertRowIndexToModel(viewRow);
-					List<MTGCard> list = ((MTGBooster) table.getModel().getValueAt(modelRow, 0)).getCards();
+					final int modelRow = table.convertRowIndexToModel(viewRow);
+					final List<MTGCard> list = ((MTGBooster) table.getModel().getValueAt(modelRow, 0)).getCards();
 					cardsModel.clear();
-					for (MTGCard mc : list)
-						cardsModel.addElement(mc);
+					for (final MTGCard mc : list) {
+					    cardsModel.addElement(mc);
+					}
 				}
 			}
 		});
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 			setBounds(r);
 
-			if (getString("EDITION") != null)
-				cboEditions.setSelectedItem(new MTGEdition(getString("EDITION")));
+			if (getString("EDITION") != null) {
+			    cboEditions.setSelectedItem(new MTGEdition(getString("EDITION")));
+			}
 
 		}
 	}

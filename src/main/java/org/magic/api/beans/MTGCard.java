@@ -32,10 +32,11 @@ public class MTGCard extends AbstractProduct {
 
     public static boolean isBasicLand(String cardName) {
 
-	if (cardName == null)
+	if (cardName == null) {
 	    return false;
+	}
 
-	String name = cardName.trim();
+	final String name = cardName.trim();
 
 	return (name.equals("Plains") || name.equals("Island") || name.equals("Swamp") || name.equals("Mountain")
 		|| name.equals("Forest") || name.equals("Wastes") || name.equals("Snow-Covered Plains")
@@ -46,10 +47,10 @@ public class MTGCard extends AbstractProduct {
 
     public static int calculateManaCost(String manaCost) {
 	int total = 0;
-	var matcher = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern()).matcher(manaCost);
+	final var matcher = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern()).matcher(manaCost);
 
 	while (matcher.find()) {
-	    var symbol = matcher.group(1);
+	    final var symbol = matcher.group(1);
 
 	    if (symbol.matches("\\d+")) {
 		total += Integer.parseInt(symbol);
@@ -156,8 +157,9 @@ public class MTGCard extends AbstractProduct {
     @Override
     public MTGEdition getEdition() {
 
-	if (edition == null && !getEditions().isEmpty())
+	if (edition == null && !getEditions().isEmpty()) {
 	    edition = getEditions().get(0);
+	}
 
 	return edition;
     }
@@ -165,7 +167,7 @@ public class MTGCard extends AbstractProduct {
     @Override
     public boolean equals(Object obj) {
 
-	if (obj instanceof MTGCard c) {
+	if (obj instanceof final MTGCard c) {
 	    if (c.getScryfallId() == null) {
 		if (c.getId() != null && getId() != null) {
 		    return c.getId().equals(getId());
@@ -240,8 +242,9 @@ public class MTGCard extends AbstractProduct {
     public void setNumber(String number) {
 	this.number = number;
 
-	if (getRotatedCard() != null)
+	if (getRotatedCard() != null) {
 	    getRotatedCard().setNumber(number);
+	}
 
     }
 
@@ -294,7 +297,7 @@ public class MTGCard extends AbstractProduct {
     }
 
     public List<EnumCardVariation> getExtra() {
-	var ret = new ArrayList<EnumCardVariation>();
+	final var ret = new ArrayList<EnumCardVariation>();
 	if (isJapanese()) {
 	    ret.add(EnumCardVariation.JAPANESEALT);
 	}
@@ -364,20 +367,20 @@ public class MTGCard extends AbstractProduct {
     }
 
     public String getFullType() {
-	var temp = new StringBuilder();
+	final var temp = new StringBuilder();
 	if (!getSupertypes().isEmpty()) {
-	    for (String s : getSupertypes()) {
+	    for (final String s : getSupertypes()) {
 		temp.append(s).append(" ");
 	    }
 	}
 
-	for (String s : getTypes()) {
+	for (final String s : getTypes()) {
 	    temp.append(s).append(" ");
 	}
 
 	if (!getSubtypes().isEmpty()) {
 	    temp.append("- ");
-	    for (String s : getSubtypes()) {
+	    for (final String s : getSubtypes()) {
 		temp.append(s).append(" ");
 	    }
 	}
@@ -435,8 +438,9 @@ public class MTGCard extends AbstractProduct {
 
     public String getPT()
     {
-	if(!isCreature())
+	if(!isCreature()) {
 	    return "";
+	}
 
 	return getPower()+"/"+getToughness();
     }
@@ -510,8 +514,9 @@ public class MTGCard extends AbstractProduct {
     @Override
     public int hashCode() {
 
-	if (getId() == null)
+	if (getId() == null) {
 	    return getProductId().hashCode();
+	}
 
 	return getId().hashCode();
     }
@@ -582,14 +587,14 @@ public class MTGCard extends AbstractProduct {
     public boolean isExtraCard() {
 
 	try {
-	    var n = Integer.parseInt(getNumber());
+	    final var n = Integer.parseInt(getNumber());
 
 	    if (n == 0 || getEdition().getCardCountOfficial() == 0) {
 		return false;
 	    }
 
 	    return n > getEdition().getCardCountOfficial();
-	} catch (Exception _) {
+	} catch (final Exception _) {
 	    return false;
 	}
     }
@@ -966,8 +971,8 @@ public class MTGCard extends AbstractProduct {
 
     public MTGCard toForeign(MTGCardNames fn) {
 	try {
-	    var mc2 = new MTGCard();
-	    var ed = new MTGEdition();
+	    final var mc2 = new MTGCard();
+	    final var ed = new MTGEdition();
 
 	    BeanUtils.copyProperties(mc2, this);
 	    BeanUtils.copyProperties(ed, this.getEdition());
@@ -981,13 +986,13 @@ public class MTGCard extends AbstractProduct {
 	    mc2.setText(fn.getText());
 	    return mc2;
 
-	} catch (Exception _) {
+	} catch (final Exception _) {
 	    return null;
 	}
     }
 
     public JsonObject toLightJson() {
-	var obj = new JsonObject();
+	final var obj = new JsonObject();
 	obj.addProperty("id", getId());
 	obj.addProperty("name", getName());
 	obj.addProperty("cost", getCost());

@@ -27,19 +27,19 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		List<MTGCardStock> list = new ArrayList<>();
+		final List<MTGCardStock> list = new ArrayList<>();
 
 		matches(content, true).forEach(m -> {
 
 			MTGCard mc = null;
 			try {
 				mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3), null, true).get(0);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 
 			if (mc != null) {
-				var st = MTGControler.getInstance().getDefaultStock();
+				final var st = MTGControler.getInstance().getDefaultStock();
 				st.setProduct(mc);
 				st.setLanguage(m.group(6));
 				st.setQte(Integer.parseInt(m.group(1)));
@@ -57,7 +57,7 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var buff = new StringBuilder(COLUMNS).append(System.lineSeparator());
+		final var buff = new StringBuilder(COLUMNS).append(System.lineSeparator());
 
 		stock.forEach(mcs -> {
 			buff.append("\"").append(mcs.getQte()).append("\"").append(getSeparator()).append("\"").append(mcs.getQte())

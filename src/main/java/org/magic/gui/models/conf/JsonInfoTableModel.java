@@ -17,11 +17,13 @@ public class JsonInfoTableModel extends GenericTableModel<JsonQueryInfo> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex == 2 || columnIndex == 3)
-			return Instant.class;
+		if (columnIndex == 2 || columnIndex == 3) {
+		    return Instant.class;
+		}
 
-		if (columnIndex == 4)
-			return Long.class;
+		if (columnIndex == 4) {
+		    return Long.class;
+		}
 
 		return super.getColumnClass(columnIndex);
 	}
@@ -29,8 +31,9 @@ public class JsonInfoTableModel extends GenericTableModel<JsonQueryInfo> {
 	@Override
 	public Object getValueAt(int row, int column) {
 
-		if (column == 8)
-			return items.get(row).getHeaders().get(URLTools.ORIGIN);
+		if (column == 8) {
+		    return items.get(row).getHeaders().get(URLTools.ORIGIN);
+		}
 
 		return super.getValueAt(row, column);
 	}

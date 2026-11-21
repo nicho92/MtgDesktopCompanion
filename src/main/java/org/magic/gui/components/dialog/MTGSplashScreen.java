@@ -20,7 +20,7 @@ import org.utils.patterns.observer.Observer;
 public class MTGSplashScreen extends JWindow implements Observer {
 
 	private static final long serialVersionUID = 1L;
-	private JProgressBar progressBar;
+	private final JProgressBar progressBar;
 
 	public void start() {
 		setVisible(true);
@@ -28,7 +28,7 @@ public class MTGSplashScreen extends JWindow implements Observer {
 	}
 
 	public MTGSplashScreen() {
-		JPanel panel = new JPanel() {
+		final JPanel panel = new JPanel() {
 			/**
 			 *
 			 */
@@ -36,11 +36,11 @@ public class MTGSplashScreen extends JWindow implements Observer {
 
 			@Override
 			protected void paintComponent(Graphics g) {
-				if (g instanceof Graphics2D g2d) {
+				if (g instanceof final Graphics2D g2d) {
 					final var R = 240;
 					final var G = 240;
 					final var B = 240;
-					Paint p = new GradientPaint(0.0f, 0.0f, new Color(R, G, B, 0), 0.0f, getHeight(),
+					final Paint p = new GradientPaint(0.0f, 0.0f, new Color(R, G, B, 0), 0.0f, getHeight(),
 							new Color(R, G, B, 0), true);
 					g2d.setPaint(p);
 					g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -52,7 +52,7 @@ public class MTGSplashScreen extends JWindow implements Observer {
 		getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		var lblIcons = new JLabel(MTGConstants.ICON_SPLASHSCREEN);
+		final var lblIcons = new JLabel(MTGConstants.ICON_SPLASHSCREEN);
 		panel.add(lblIcons, BorderLayout.CENTER);
 		lblIcons.setOpaque(false);
 
@@ -74,7 +74,7 @@ public class MTGSplashScreen extends JWindow implements Observer {
 	@Override
 	public void update(Observable o, Object msg) {
 
-		if (msg instanceof Message le) {
+		if (msg instanceof final Message le) {
 			progressBar.setString(le.getFormattedMessage());
 		} else {
 			progressBar.setString(String.valueOf(msg));

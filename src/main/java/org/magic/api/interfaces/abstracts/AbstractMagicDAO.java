@@ -69,8 +69,9 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	@Override
 	public List<MTGAlert> listAlerts() {
-		if (alerts.isEmpty())
-			loadAlerts();
+		if (alerts.isEmpty()) {
+		    loadAlerts();
+		}
 
 		return alerts.values();
 	}
@@ -83,7 +84,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	@Override
 	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException {
-		var mcs = MTGControler.getInstance().getDefaultStock(collection);
+		final var mcs = MTGControler.getInstance().getDefaultStock(collection);
 		mcs.setProduct(mc);
 		saveOrUpdateCardStock(mcs);
 
@@ -97,7 +98,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	@Override
 	public void saveOrUpdateCardStock(MTGCard mc) throws SQLException {
-		var st = MTGControler.getInstance().getDefaultStock();
+		final var st = MTGControler.getInstance().getDefaultStock();
 		st.setProduct(mc);
 		saveOrUpdateCardStock(st);
 	}
@@ -135,7 +136,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	@Override
 	public List<MTGStockItem> listStockItems() throws SQLException {
-		List<MTGStockItem> ret = new ArrayList<>();
+		final List<MTGStockItem> ret = new ArrayList<>();
 
 		ret.addAll(listStocks());
 		ret.addAll(listSealedStocks());
@@ -145,18 +146,20 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws SQLException {
-		if (typeStock == EnumItems.CARD)
-			return getStockById(id);
+		if (typeStock == EnumItems.CARD) {
+		    return getStockById(id);
+		}
 
 		return getSealedStockById(id);
 	}
 
 	@Override
 	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException {
-		if (stock.getProduct().getTypeProduct() == EnumItems.CARD)
-			saveOrUpdateCardStock((MTGCardStock) stock);
-		else
-			saveOrUpdateSealedStock((MTGSealedStock) stock);
+		if (stock.getProduct().getTypeProduct() == EnumItems.CARD) {
+		    saveOrUpdateCardStock((MTGCardStock) stock);
+		} else {
+		    saveOrUpdateSealedStock((MTGSealedStock) stock);
+		}
 	}
 
 	@Override
@@ -193,8 +196,9 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	@Override
 	public void deleteTransaction(List<Transaction> t) throws SQLException {
-		for (Transaction transaction : t)
-			deleteTransaction(transaction);
+		for (final Transaction transaction : t) {
+		    deleteTransaction(transaction);
+		}
 
 	}
 
@@ -210,7 +214,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	@Override
 	public void deleteStock(MTGCardStock state) throws SQLException {
-		ArrayList<MTGCardStock> stock = new ArrayList<>();
+		final ArrayList<MTGCardStock> stock = new ArrayList<>();
 		stock.add(state);
 		deleteStock(stock);
 	}
@@ -223,8 +227,9 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	@Override
 	public MTGCardStock getStockWithTiersID(String key, String id) throws SQLException {
 
-		if (key == null)
-			return null;
+		if (key == null) {
+		    return null;
+		}
 
 		return listStocks().stream().filter(st -> id.equals(st.getTiersAppIds(key))).findAny().orElse(null);
 	}
@@ -234,66 +239,68 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 		dao.init(null);
 		logger.debug("duplicate collection");
-		for (MTGCollection col : listCollections()) {
+		for (final MTGCollection col : listCollections()) {
 			try {
 				dao.saveCollection(col);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 		}
 
 		logger.debug("duplicate stock");
-		for (MTGCardStock stock : listStocks()) {
+		for (final MTGCardStock stock : listStocks()) {
 			stock.setId(-1);
 			dao.saveOrUpdateCardStock(stock);
 		}
 
 		logger.debug("duplicate alerts");
-		for (MTGAlert alert : listAlerts())
-			dao.saveAlert(alert);
+		for (final MTGAlert alert : listAlerts()) {
+		    dao.saveAlert(alert);
+		}
 
 		logger.debug("duplicate news");
-		for (MTGNews news : listNews()) {
+		for (final MTGNews news : listNews()) {
 			news.setId(-1);
 			dao.saveOrUpdateNews(news);
 		}
 
 		logger.debug("duplicate sealed");
-		for (MTGSealedStock oe : listSealedStocks()) {
+		for (final MTGSealedStock oe : listSealedStocks()) {
 			oe.setId(-1);
 			dao.saveOrUpdateSealedStock(oe);
 		}
 
 		logger.debug("duplicate decks");
-		for (MTGDeck oe : listDecks()) {
+		for (final MTGDeck oe : listDecks()) {
 			oe.setId(-1);
 			dao.saveOrUpdateDeck(oe);
 		}
 
 		logger.debug("duplicate contact");
-		for (Contact oe : listContacts()) {
+		for (final Contact oe : listContacts()) {
 			oe.setId(-1);
 			dao.saveOrUpdateContact(oe);
 		}
 
 		logger.debug("duplicate transactions");
-		for (Transaction oe : listTransactions()) {
+		for (final Transaction oe : listTransactions()) {
 			oe.setId(-1);
 			oe.setContact(dao.getContactByEmail(oe.getContact().getEmail()));
 			dao.saveOrUpdateTransaction(oe);
 		}
 
 		logger.debug("duplicate announces");
-		for (MTGAnnounce oe : listAnnounces()) {
+		for (final MTGAnnounce oe : listAnnounces()) {
 			oe.setId(-1);
 			dao.saveOrUpdateAnnounce(oe);
 		}
 
 		logger.debug("duplicate customs");
-		for (var set : listCustomSets()) {
+		for (final var set : listCustomSets()) {
 			dao.saveCustomSet(set);
-			for (var c : listCustomCards(set))
-				dao.saveCustomCard(c);
+			for (final var c : listCustomCards(set)) {
+			    dao.saveCustomCard(c);
+			}
 		}
 
 	}
@@ -306,8 +313,9 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

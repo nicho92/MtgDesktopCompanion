@@ -11,7 +11,7 @@ import org.magic.services.tools.FileTools;
 
 public class CardCastleExport extends AbstractFormattedFileCardExport {
 
-	private String header = "Count" + getSeparator() + "Card Name" + getSeparator() + "Set Name" + getSeparator()
+	private final String header = "Count" + getSeparator() + "Card Name" + getSeparator() + "Set Name" + getSeparator()
 			+ "Foil";
 
 	@Override
@@ -26,15 +26,16 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var build = new StringBuilder();
+		final var build = new StringBuilder();
 		build.append(header).append("\n");
 
 		deck.getMain().entrySet().forEach(entry -> {
 
 			String name = entry.getKey().getName();
 
-			if (name.contains(","))
-				name = "\"" + name + "\"";
+			if (name.contains(",")) {
+			    name = "\"" + name + "\"";
+			}
 
 			build.append(entry.getValue()).append(getSeparator());
 			build.append(name).append(getSeparator());
@@ -47,11 +48,11 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(name);
 
 		matches(f, true).forEach(m -> {
-			MTGCard mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
+			final MTGCard mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
 			if (mc != null) {
 				deck.add(mc);
 				notify(mc);

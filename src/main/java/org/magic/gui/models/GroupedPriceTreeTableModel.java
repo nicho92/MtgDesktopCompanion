@@ -13,7 +13,7 @@ import org.magic.api.beans.technical.MoneyValue;
 
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
-	private String[] columnsNames = {capitalize("NAME"), capitalize("QTY"), capitalize("VALUE"), capitalize("LANG"),
+	private final String[] columnsNames = {capitalize("NAME"), capitalize("QTY"), capitalize("VALUE"), capitalize("LANG"),
 			capitalize("QUALITY"), capitalize("FOIL")};
 	private Map<String, List<MTGPrice>> listElements;
 
@@ -29,19 +29,22 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 	@Override
 	public Class<?> getColumnClass(int column) {
-		if (column == 5)
-			return Boolean.class;
+		if (column == 5) {
+		    return Boolean.class;
+		}
 
-		if (column == 2)
-			return MoneyValue.class;
+		if (column == 2) {
+		    return MoneyValue.class;
+		}
 
 		return super.getColumnClass(column);
 	}
 
 	protected int getPosition(MTGPrice k, List<MTGPrice> p) {
 		for (var i = 0; i < p.size(); i++) {
-			if (p.get(i).equals(k))
-				return i;
+			if (p.get(i).equals(k)) {
+			    return i;
+			}
 		}
 		return -1;
 	}
@@ -75,7 +78,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 				default :
 					return "";
 			}
-		} else if (node instanceof MTGPrice emp) {
+		} else if (node instanceof final MTGPrice emp) {
 
 			switch (column) {
 
@@ -97,9 +100,9 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
 		try {
-			MTGPrice k = (MTGPrice) child;
+			final MTGPrice k = (MTGPrice) child;
 			return getPosition(k, listElements.get(parent));
-		} catch (ClassCastException _) {
+		} catch (final ClassCastException _) {
 			return 0;
 		}
 	}

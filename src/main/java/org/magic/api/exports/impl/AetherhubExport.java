@@ -18,8 +18,8 @@ import org.magic.services.tools.MTG;
 
 public class AetherhubExport extends AbstractFormattedFileCardExport {
 
-	private String columns = "Count,Tradelist Count,Wishlist Count,Name,AetherHub Card Id,Set Code,Card Number,Multiverse Id,Mtgo Id,Scryfall Id,TCGplayer Id,Cardmarket Id,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint";
-	private Charset charset = StandardCharsets.UTF_16;
+	private final String columns = "Count,Tradelist Count,Wishlist Count,Name,AetherHub Card Id,Set Code,Card Number,Multiverse Id,Mtgo Id,Scryfall Id,TCGplayer Id,Cardmarket Id,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint";
+	private final Charset charset = StandardCharsets.UTF_16;
 
 	@Override
 	public EnumExportCategory getCategory() {
@@ -33,9 +33,9 @@ public class AetherhubExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		var builder = new StringBuilder();
+		final var builder = new StringBuilder();
 		builder.append(columns).append(System.lineSeparator());
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			builder.append(mcs.getQte()).append(getSeparator());
 			builder.append(0).append(getSeparator());
 			builder.append(0).append(getSeparator());
@@ -67,14 +67,14 @@ public class AetherhubExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		var l = new ArrayList<MTGCardStock>();
+		final var l = new ArrayList<MTGCardStock>();
 
 		matches(content, true).forEach(m -> {
 
 			try {
-				var product = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(10));
+				final var product = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(10));
 
-				var mcs = MTGControler.getInstance().getDefaultStock();
+				final var mcs = MTGControler.getInstance().getDefaultStock();
 
 				mcs.setProduct(product);
 				mcs.setQte(Integer.parseInt(m.group(1)));
@@ -84,7 +84,7 @@ public class AetherhubExport extends AbstractFormattedFileCardExport {
 				mcs.setAltered(m.group(18).equals("1"));
 				mcs.setCondition(aliases.getReversedConditionFor(this, m.group(13), EnumCondition.NEAR_MINT));
 				l.add(mcs);
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				logger.error("no card found by scryfallId {}", m.group(10));
 			}
 		});

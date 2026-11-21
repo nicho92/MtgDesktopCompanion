@@ -27,7 +27,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			items.add(t);
 		} else {
 
-			var index = items.indexOf(t);
+			final var index = items.indexOf(t);
 			if (index > -1) {
 				items.get(index).setQte(items.get(index).getQte() + t.getQte());
 				items.get(index).setUpdated(true);
@@ -77,10 +77,11 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 
-		if (isWritable())
-			return column > 1;
-		else
-			return false;
+		if (isWritable()) {
+		    return column > 1;
+		} else {
+		    return false;
+		}
 	}
 
 	@Override

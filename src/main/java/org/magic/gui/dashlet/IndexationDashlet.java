@@ -40,19 +40,19 @@ public class IndexationDashlet extends AbstractJDashlet {
 	@Override
 	public void initGUI() {
 
-		var panneauHaut = new JPanel();
+		final var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		try {
 			cboField = UITools.createCombobox(getEnabledPlugin(MTGCardsIndexer.class).listFields());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			cboField.addItem("NO INDEXER FILE FOUND");
 		}
 
 		panneauHaut.add(cboField);
 		indexModel = new MapTableModel<>();
 		indexModel.setColumns("Term", "Occurences");
-		var table = UITools.createNewTable(indexModel, false);
+		final var table = UITools.createNewTable(indexModel, false);
 
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
@@ -63,7 +63,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		});
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);
@@ -76,7 +76,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		try {
 			indexModel.init(getEnabledPlugin(MTGCardsIndexer.class).terms(cboField.getSelectedItem().toString()));
 			indexModel.fireTableDataChanged();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			MTGControler.getInstance().notify(new NullPointerException("Indexation is not initied"));
 		}
 	}

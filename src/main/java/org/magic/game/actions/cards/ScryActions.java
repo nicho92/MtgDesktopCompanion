@@ -17,7 +17,7 @@ public class ScryActions extends AbstractCardAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private String k = "scry";
+	private final String k = "scry";
 	private String value;
 
 	public ScryActions(DisplayableCard c) {
@@ -34,7 +34,7 @@ public class ScryActions extends AbstractCardAction {
 					.substring(card.getMagicCard().getText().toLowerCase().indexOf(k) + k.length(),
 							card.getMagicCard().getText().toLowerCase().indexOf(k) + k.length() + 2)
 					.trim();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			value = "X";
 		}
 		return value;
@@ -43,8 +43,9 @@ public class ScryActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if (value.equals("X"))
-			value = JOptionPane.showInputDialog("How many scry cards ?");
+		if (value.equals("X")) {
+		    value = JOptionPane.showInputDialog("How many scry cards ?");
+		}
 
 		if (value != null) {
 			new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(),

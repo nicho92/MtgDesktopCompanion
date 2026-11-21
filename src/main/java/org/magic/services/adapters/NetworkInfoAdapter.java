@@ -20,7 +20,7 @@ public class NetworkInfoAdapter implements JsonSerializer<NetworkInfo>, JsonDese
 	@Override
 	public NetworkInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
 			throws JsonParseException {
-		var ni = new NetworkInfo();
+		final var ni = new NetworkInfo();
 		ni.fromJson(json.getAsJsonObject());
 		return ni;
 	}

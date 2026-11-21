@@ -23,8 +23,9 @@ public class GithubUtils {
     protected Logger logger = MTGLogger.getLogger(this.getClass());
 
     public static GithubUtils inst() {
-	if (inst == null)
+	if (inst == null) {
 	    inst = new GithubUtils();
+	}
 
 	return inst;
     }
@@ -37,7 +38,7 @@ public class GithubUtils {
     private GithubUtils() {
 	try {
 	    releases = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
-	}catch(Exception e)
+	}catch(final Exception e)
 	{
 	    logger.error(e.getMessage());
 	    releases = new JsonArray();
@@ -50,12 +51,14 @@ public class GithubUtils {
 	var selected = 0;
 	try {
 
-	    if (!updatetoprerelease)
-		while (releases.get(selected).getAsJsonObject().get("prerelease").getAsBoolean())
+	    if (!updatetoprerelease) {
+		while (releases.get(selected).getAsJsonObject().get("prerelease").getAsBoolean()) {
 		    selected++;
+		}
+	    }
 
 	    setSelectedRelease(selected);
-	} catch (Exception _) {
+	} catch (final Exception _) {
 	    // do nothing
 	}
 
@@ -86,10 +89,11 @@ public class GithubUtils {
     }
 
     public String getVersion() {
-	if(selectedRelease!=null)
+	if(selectedRelease!=null) {
 	    return selectedRelease.get("tag_name").getAsString();
-	else
+	} else {
 	    return "version unknow";
+	}
     }
 
     public String getVersionName() {
@@ -100,17 +104,18 @@ public class GithubUtils {
 	try {
 	    return URLTools
 		    .extractAsImage(selectedRelease.get("author").getAsJsonObject().get("avatar_url").getAsString());
-	} catch (IOException _) {
+	} catch (final IOException _) {
 	    return null;
 	}
     }
 
     public int downloadCount() {
 	var count = 0;
-	for (JsonElement obj : releases) {
-	    if (obj.getAsJsonObject().get(ASSETS).getAsJsonArray().size() > 0)
+	for (final JsonElement obj : releases) {
+	    if (obj.getAsJsonObject().get(ASSETS).getAsJsonArray().size() > 0) {
 		count += obj.getAsJsonObject().get(ASSETS).getAsJsonArray().get(0).getAsJsonObject()
 		.get("download_count").getAsInt();
+	    }
 	}
 	return count;
     }

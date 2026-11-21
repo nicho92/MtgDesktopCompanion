@@ -29,8 +29,8 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public static final String ALL = "all";
 
 	protected TCache<MTGCard> cacheCards;
-	private TCache<MTGEdition> cacheEditions;
-	private TCache<String> cacheLanguages;
+	private final TCache<MTGEdition> cacheEditions;
+	private final TCache<String> cacheLanguages;
 
 	protected abstract List<QueryAttribute> loadQueryableAttributs();
 	public abstract List<MTGEdition> loadEditions() throws IOException;
@@ -54,12 +54,13 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	@Override
 	public List<String> getLanguages() {
-		if (cacheLanguages.isEmpty())
-			try {
-				loadCardsLangs().forEach(s -> cacheLanguages.put(s, s));
-			} catch (Exception e) {
-				logger.error(e);
-			}
+		if (cacheLanguages.isEmpty()) {
+		    try {
+		    	loadCardsLangs().forEach(s -> cacheLanguages.put(s, s));
+		    } catch (final Exception e) {
+		    	logger.error(e);
+		    }
+		}
 
 		return cacheLanguages.values();
 	}
@@ -80,7 +81,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public QueryAttribute[] getQueryableAttributs() {
 
-		List<QueryAttribute> atts = loadQueryableAttributs();
+		final List<QueryAttribute> atts = loadQueryableAttributs();
 		atts.add(new QueryAttribute(SET_FIELD, MTGEdition.class));
 		atts.add(new QueryAttribute(ALL, String.class));
 		return atts.stream().toArray(QueryAttribute[]::new);
@@ -89,17 +90,19 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public static void postTreatmentCard(MTGCard mc) {
 
 		try {
-			var releaseYear = Integer.parseInt(mc.getEdition().getReleaseDate().substring(0, 4));
-			var frameYear = mc.getFrameVersion().getYear();
-			if ((frameYear >= 1993 && frameYear <= 1997) && releaseYear > 2019)
-				mc.setRetro(true);
-			else
-				mc.setRetro(false);
-			
-			if (mc.getEdition().getId().endsWith("BLB") && mc.getName().startsWith("Season of "))
-				mc.setText(mc.getText().replace("{P}", "{Paw Print}"));
+			final var releaseYear = Integer.parseInt(mc.getEdition().getReleaseDate().substring(0, 4));
+			final var frameYear = mc.getFrameVersion().getYear();
+			if ((frameYear >= 1993 && frameYear <= 1997) && releaseYear > 2019) {
+			    mc.setRetro(true);
+			} else {
+			    mc.setRetro(false);
+			}
 
-		} catch (Exception _) {
+			if (mc.getEdition().getId().endsWith("BLB") && mc.getName().startsWith("Season of ")) {
+			    mc.setText(mc.getText().replace("{P}", "{Paw Print}"));
+			}
+
+		} catch (final Exception _) {
 			// do nothign
 		}
 	}
@@ -107,8 +110,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}
@@ -146,8 +150,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact,
 			EnumCardVariation extra) throws IOException {
 
-		if (extra == null)
-			return searchCardByCriteria(att, crit, me, exact).stream().toList();
+		if (extra == null) {
+		    return searchCardByCriteria(att, crit, me, exact).stream().toList();
+		}
 
 		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc -> mc.getExtra().contains(extra)).toList();
 	}
@@ -163,7 +168,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		try {
 			return listEditions().stream().filter(ed -> ed.getId().equalsIgnoreCase(id)).findFirst()
 					.orElse(new MTGEdition(id, "Not found set " + id));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 			return null;
 		}
@@ -182,50 +187,56 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public List<MTGBooster> generateBooster(MTGEdition me, EnumExtra typeBooster, int qty) throws IOException {
 
-		var list = new ArrayList<MTGBooster>();
+		final var list = new ArrayList<MTGBooster>();
 
 		for (int i = 0; i < qty; i++) {
 
 			logger.debug("opening booster for {}", me);
-			List<MTGCard> common = new ArrayList<>();
-			List<MTGCard> uncommon = new ArrayList<>();
-			List<MTGCard> rare = new ArrayList<>();
-			List<MTGCard> lands = new ArrayList<>();
-			var b = new MTGBooster();
+			final List<MTGCard> common = new ArrayList<>();
+			final List<MTGCard> uncommon = new ArrayList<>();
+			final List<MTGCard> rare = new ArrayList<>();
+			final List<MTGCard> lands = new ArrayList<>();
+			final var b = new MTGBooster();
 
 			try {
-				for (MTGCard mc : searchCardByEdition(me).stream().filter(MTGCard::isMainFace).toList()) {
-					if (mc.getRarity() == EnumRarity.COMMON && !mc.isBasicLand())
-						common.add(mc);
+				for (final MTGCard mc : searchCardByEdition(me).stream().filter(MTGCard::isMainFace).toList()) {
+					if (mc.getRarity() == EnumRarity.COMMON && !mc.isBasicLand()) {
+					    common.add(mc);
+					}
 
-					if (mc.getRarity() == EnumRarity.UNCOMMON)
-						uncommon.add(mc);
+					if (mc.getRarity() == EnumRarity.UNCOMMON) {
+					    uncommon.add(mc);
+					}
 
-					if (mc.getRarity() == EnumRarity.RARE)
-						rare.add(mc);
+					if (mc.getRarity() == EnumRarity.RARE) {
+					    rare.add(mc);
+					}
 
-					if (mc.getRarity() == EnumRarity.MYTHIC)
-						rare.add(mc);
+					if (mc.getRarity() == EnumRarity.MYTHIC) {
+					    rare.add(mc);
+					}
 
-					if (mc.isBasicLand())
-						lands.add(mc);
+					if (mc.isBasicLand()) {
+					    lands.add(mc);
+					}
 
 				}
 				Collections.shuffle(lands);
 				Collections.shuffle(common);
 				Collections.shuffle(uncommon);
 				Collections.shuffle(rare);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Error opening booster", e);
 			}
 
-			List<MTGCard> resList = new ArrayList<>();
+			final List<MTGCard> resList = new ArrayList<>();
 			resList.addAll(common.subList(0, 11));
 			resList.addAll(uncommon.subList(0, 3));
 			resList.add(rare.get(0));
 
-			if (!lands.isEmpty())
-				resList.addAll(lands.subList(0, 1));
+			if (!lands.isEmpty()) {
+			    resList.addAll(lands.subList(0, 1));
+			}
 
 			b.setCards(resList);
 			b.setEdition(me);

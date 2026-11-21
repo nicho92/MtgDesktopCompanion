@@ -22,13 +22,13 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 	public abstract JComponent getBuzyComponent();
 
 	public static AbstractBuzyIndicatorComponent createLabelComponent() {
-		var buzy = new JBuzyLabel();
+		final var buzy = new JBuzyLabel();
 		buzy.setVisible(false);
 		return buzy;
 	}
 
 	public static AbstractBuzyIndicatorComponent createProgressComponent() {
-		var buzy = new JBuzyProgress();
+		final var buzy = new JBuzyProgress();
 		buzy.setVisible(false);
 		return buzy;
 	}
@@ -43,8 +43,9 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 	}
 
 	public void progressSmooth(int step) {
-		for (var i = 0; i < step; i++)
-			progress();
+		for (var i = 0; i < step; i++) {
+		    progress();
+		}
 	}
 
 	public void progress(int step) {
@@ -53,7 +54,7 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 
 	@Override
 	public void update(Observable o, Object obj) {
-		if (obj instanceof Integer i) {
+		if (obj instanceof final Integer i) {
 			setValue(i);
 		} else {
 			setText(String.valueOf(obj));

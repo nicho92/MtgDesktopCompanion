@@ -49,7 +49,7 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 		type = EnumTransactionDirection.BUY;
 		creationDate = new Date();
 		startDate = new Date();
-		var c = Calendar.getInstance();
+		final var c = Calendar.getInstance();
 		c.setTime(startDate);
 		c.add(Calendar.DAY_OF_MONTH, 15);
 		endDate = c.getTime();
@@ -125,7 +125,7 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj instanceof MTGAnnounce b) {
+		if (obj instanceof final MTGAnnounce b) {
 			return b.getId() == this.getId();
 		}
 
@@ -220,11 +220,13 @@ public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 
 	@Override
 	public int compareTo(MTGAnnounce o) {
-		if (o.getId() > getId())
-			return 1;
+		if (o.getId() > getId()) {
+		    return 1;
+		}
 
-		if (o.getId() < getId())
-			return -1;
+		if (o.getId() < getId()) {
+		    return -1;
+		}
 
 		return 0;
 

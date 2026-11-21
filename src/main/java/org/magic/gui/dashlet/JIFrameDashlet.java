@@ -34,7 +34,7 @@ public class JIFrameDashlet extends AbstractJDashlet {
 		comp = MTGUIBrowserComponent.createBrowser();
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			txtUrl.setText(getString("URL"));
@@ -45,8 +45,9 @@ public class JIFrameDashlet extends AbstractJDashlet {
 		add(comp, BorderLayout.CENTER);
 		add(txtUrl, BorderLayout.NORTH);
 
-		if (!StringUtils.isBlank(getString("URL")))
-			comp.loadURL(getString("URL"));
+		if (!StringUtils.isBlank(getString("URL"))) {
+		    comp.loadURL(getString("URL"));
+		}
 
 		comp.addObserver((Observable _, Object arg) -> {
 
@@ -62,8 +63,9 @@ public class JIFrameDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 
-		if (!txtUrl.getText().startsWith("http"))
-			txtUrl.setText("https://" + txtUrl.getText());
+		if (!txtUrl.getText().startsWith("http")) {
+		    txtUrl.setText("https://" + txtUrl.getText());
+		}
 
 		comp.loadURL(txtUrl.getText());
 		setProperty("URL", txtUrl.getText());

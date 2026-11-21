@@ -39,11 +39,11 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 		try {
 
 			jda = JDABuilder.createDefault(getAuthenticator().get("TOKEN")).build().awaitReady();
-			var chan = jda.getTextChannelById(chanID);
+			final var chan = jda.getTextChannelById(chanID);
 			notification.setSender(String.valueOf(jda.getSelfUser()));
-			var msg = new StringBuilder();
+			final var msg = new StringBuilder();
 
-			var emoji = switch (notification.getType()) {
+			final var emoji = switch (notification.getType()) {
 				case ERROR -> ":error:";
 				case WARNING -> ":warning:";
 				case INFO -> ":information_source:";
@@ -66,17 +66,18 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			if (notification.getFile() == null) {
 				chan.sendMessage(message).queue();
 			} else {
-				var ret = chan.sendFiles(FileUpload.fromData(notification.getFile()));
+				final var ret = chan.sendFiles(FileUpload.fromData(notification.getFile()));
 				chan.sendMessage(ret.complete().getContentDisplay()).queue();
 			}
 
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			logger.error("error await", e);
 			Thread.currentThread().interrupt();
 
 		} finally {
-			if (jda != null)
-				jda.shutdown();
+			if (jda != null) {
+			    jda.shutdown();
+			}
 		}
 
 	}

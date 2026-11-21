@@ -80,8 +80,9 @@ public class WooCommerceExport extends AbstractCardExport {
 	}
 
 	public WooCommerce getWooCommerce() {
-		if (wooCommerce == null)
-			init();
+		if (wooCommerce == null) {
+		    init();
+		}
 
 		return wooCommerce;
 	}
@@ -91,15 +92,15 @@ public class WooCommerceExport extends AbstractCardExport {
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		init();
 
-		List<MTGCardStock> stocks = new ArrayList<>();
-		Map<String, String> productInfo = new HashMap<>();
+		final List<MTGCardStock> stocks = new ArrayList<>();
+		final Map<String, String> productInfo = new HashMap<>();
 		productInfo.put("category", getString(CATEGORY_ID));
 
-		List<JsonElement> ret = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), productInfo);
+		final List<JsonElement> ret = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), productInfo);
 
-		for (JsonElement e : ret) {
+		for (final JsonElement e : ret) {
 			try {
-				var id = String.valueOf(e.getAsJsonObject().get("id").getAsInt());
+				final var id = String.valueOf(e.getAsJsonObject().get("id").getAsInt());
 				var st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
 
 				if (st == null) {
@@ -107,7 +108,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					st = MTGControler.getInstance().getDefaultStock();
 					st.getTiersAppIds().put(getName(), id);
 
-					var mc = getEnabledPlugin(MTGCardsProvider.class)
+					final var mc = getEnabledPlugin(MTGCardsProvider.class)
 							.searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true).stream()
 							.findFirst().orElse(null);
 					if (mc != null) {
@@ -129,7 +130,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 				notify(st.getProduct());
 
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				logger.error("error importStock", e1);
 			}
 
@@ -147,7 +148,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			try {
 				categs = new WooCommerceExternalShop().listCategories();
 				logger.info("Loading {} categories", categs.size());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error("error getting categories", e);
 			}
 		}
@@ -157,9 +158,9 @@ public class WooCommerceExport extends AbstractCardExport {
 			return;
 		}
 
-		for (MTGCardStock st : stocks) {
+		for (final MTGCardStock st : stocks) {
 
-			Map<String, Object> productInfo = build(st);
+			final Map<String, Object> productInfo = build(st);
 
 			Map<String, JsonElement> ret;
 
@@ -190,44 +191,47 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	@SuppressWarnings("unchecked")
 	public Map<String, Object> build(MTGStockItem st) {
-		Map<String, Object> productInfo = new HashMap<>();
+		final Map<String, Object> productInfo = new HashMap<>();
 
-		if (st.getProduct() == null)
-			return productInfo;
+		if (st.getProduct() == null) {
+		    return productInfo;
+		}
 
-		if (st.getTiersAppIds().get(getName()) != null)
-			productInfo.put("id", st.getTiersAppIds(getName()));
+		if (st.getTiersAppIds().get(getName()) != null) {
+		    productInfo.put("id", st.getTiersAppIds(getName()));
+		}
 
-		if (st.getProduct().getTypeProduct() == EnumItems.CARD)
-			productInfo.put("name", toForeign(st.getProduct()).getName());
-		else
-			productInfo.put("name", st.getProduct().getName());
+		if (st.getProduct().getTypeProduct() == EnumItems.CARD) {
+		    productInfo.put("name", toForeign(st.getProduct()).getName());
+		} else {
+		    productInfo.put("name", st.getProduct().getName());
+		}
 
 		productInfo.put("type", "simple");
 		productInfo.put("regular_price", String.valueOf(st.getValue().doubleValue()));
 		productInfo.put("price", String.valueOf(st.getValue().doubleValue()));
 
 		if (getBoolean(CATEGORY_EDITION_MAPPING)) {
-			Optional<Category> opt = categs.stream()
+			final Optional<Category> opt = categs.stream()
 					.filter(c -> c.getCategoryName().equalsIgnoreCase(st.getProduct().getEdition().getSet()))
 					.findFirst();
 			if (opt.isPresent()) {
 				productInfo.put("categories",
 						WooCommerceTools.entryToJsonArray("id", String.valueOf(opt.get().getIdCategory())));
 			} else {
-				Map<String, Object> categoryMap = new HashMap<>();
+				final Map<String, Object> categoryMap = new HashMap<>();
 				try {
-					var categ = new Category();
+					final var categ = new Category();
 					categ.setCategoryName(st.getProduct().getEdition().getSet());
 					categoryMap.put("name", categ.getCategoryName());
 					categoryMap.put("slug", st.getProduct().getEdition().getId());
-					Map<String, JsonElement> ret = wooCommerce.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),
+					final Map<String, JsonElement> ret = wooCommerce.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),
 							categoryMap);
 					categ.setIdCategory(ret.get("id").getAsInt());
 					categs.add(categ);
 					logger.warn("Can't find category named {}. create new one", st.getProduct().getEdition().getSet());
 					productInfo.put("categories", WooCommerceTools.entryToJsonArray("id", "" + categ.getIdCategory()));
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("can't create Category with {} : {}", categoryMap, e.getMessage());
 				}
 			}
@@ -248,11 +252,11 @@ public class WooCommerceExport extends AbstractCardExport {
 
 			productInfo.put("images", WooCommerceTools.entryToJsonArray("src", new ScryFallProvider()
 					.getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error getting image for {} : {}", st.getProduct(), e.getMessage());
 		}
 
-		var arr = new JsonArray();
+		final var arr = new JsonArray();
 		arr.add(WooCommerceTools.createAttributes("mtg_comp_collection", String.valueOf(st.getMagicCollection()),
 				false));
 		arr.add(WooCommerceTools.createAttributes("mtg_comp_foil", String.valueOf(st.isFoil()), true));
@@ -274,25 +278,25 @@ public class WooCommerceExport extends AbstractCardExport {
 	@SuppressWarnings("unchecked")
 	private void batchExport(List<List<MTGCardStock>> partition) {
 
-		for (List<MTGCardStock> stocks : partition) {
-			Map<String, Object> params = new HashMap<>();
+		for (final List<MTGCardStock> stocks : partition) {
+			final Map<String, Object> params = new HashMap<>();
 
-			List<MTGCardStock> creates = stocks.stream().filter(st -> st.getTiersAppIds().get(getName()) == null)
+			final List<MTGCardStock> creates = stocks.stream().filter(st -> st.getTiersAppIds().get(getName()) == null)
 					.toList();
 
 			params.put(CREATE, creates.stream().map(this::build).toList());
 			params.put(UPDATE,
 					stocks.stream().filter(st -> st.getTiersAppIds().get(getName()) != null).map(this::build).toList());
 
-			Map<String, JsonElement> ret = wooCommerce.batch(EndpointBaseType.PRODUCTS.getValue(), params);
+			final Map<String, JsonElement> ret = wooCommerce.batch(EndpointBaseType.PRODUCTS.getValue(), params);
 
 			logger.debug(ret);
 
 			if (ret.get(CREATE) != null) {
-				var arrRet = ret.get(CREATE).getAsJsonArray();
+				final var arrRet = ret.get(CREATE).getAsJsonArray();
 
 				for (var i = 0; i < arrRet.size(); i++) {
-					var obj = arrRet.get(i).getAsJsonObject();
+					final var obj = arrRet.get(i).getAsJsonObject();
 
 					try {
 						if (obj.get("id").getAsInt() == 0) {
@@ -302,7 +306,7 @@ public class WooCommerceExport extends AbstractCardExport {
 							creates.get(i).setUpdated(true);
 							logger.debug("Update {}", creates.get(i).getId());
 						}
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("error updating at {} : {}, Error:{}", i, obj, e.getMessage());
 					}
 
@@ -315,8 +319,9 @@ public class WooCommerceExport extends AbstractCardExport {
 				logger.debug("Update done");
 			}
 
-			for (MTGCardStock st : stocks)
-				notify(st.getProduct());
+			for (final MTGCardStock st : stocks) {
+			    notify(st.getProduct());
+			}
 
 		}
 
@@ -325,8 +330,8 @@ public class WooCommerceExport extends AbstractCardExport {
 	private String desc(MTGProduct prod) {
 
 		if (prod.getTypeProduct() == EnumItems.CARD) {
-			MTGCard mc2 = toForeign((MTGCard) prod);
-			var build = new StringBuilder();
+			final MTGCard mc2 = toForeign((MTGCard) prod);
+			final var build = new StringBuilder();
 			build.append("<html>").append(mc2).append("<br/>").append(mc2.getFullType()).append("<br/>")
 					.append(mc2.getText()).append("</html>");
 			return build.toString();
@@ -339,25 +344,27 @@ public class WooCommerceExport extends AbstractCardExport {
 	private MTGCard toForeign(MTGCard mc) {
 		MTGCard mc2;
 
-		if (!getString(CARD_LANG_DESCRIPTION).isEmpty())
-			mc2 = mc.toForeign(mc.getForeignNames().stream()
-					.filter(fn -> fn.getLanguage().equalsIgnoreCase(getString(CARD_LANG_DESCRIPTION))).findFirst()
-					.orElse(null));
-		else
-			mc2 = mc;
+		if (!getString(CARD_LANG_DESCRIPTION).isEmpty()) {
+		    mc2 = mc.toForeign(mc.getForeignNames().stream()
+		    		.filter(fn -> fn.getLanguage().equalsIgnoreCase(getString(CARD_LANG_DESCRIPTION))).findFirst()
+		    		.orElse(null));
+		} else {
+		    mc2 = mc;
+		}
 
-		if (mc2 == null)
-			return mc;
+		if (mc2 == null) {
+		    return mc;
+		}
 
 		return mc2;
 	}
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName(name);
 
-		for (MTGCardStock st : importStock(f)) {
+		for (final MTGCardStock st : importStock(f)) {
 			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
@@ -370,7 +377,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put(CATEGORY_EDITION_MAPPING,
 				MTGProperty.newBooleanProperty("true", "create a category for each card's set"));
 		m.put(CATEGORY_ID, new MTGProperty("", "Woocommerce category id you want to import"));

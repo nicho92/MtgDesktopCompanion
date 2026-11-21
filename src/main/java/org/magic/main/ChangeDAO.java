@@ -17,23 +17,23 @@ public class ChangeDAO {
     static void main() {
 		MTGControler.getInstance().loadAccountsConfiguration();
 
-		var cboDao = UITools.createComboboxPlugins(MTGDao.class, true);
-		var cboProvider = UITools.createComboboxPlugins(MTGCardsProvider.class, true);
+		final var cboDao = UITools.createComboboxPlugins(MTGDao.class, true);
+		final var cboProvider = UITools.createComboboxPlugins(MTGCardsProvider.class, true);
 
-		var btnValid = new JButton("Validate");
+		final var btnValid = new JButton("Validate");
 
-		var pane = new JPanel();
+		final var pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 		pane.add(UITools.createFlowCenterPanel(cboProvider, cboDao), BorderLayout.CENTER);
 		pane.add(btnValid, BorderLayout.SOUTH);
 
-		var diag = MTGUIComponent.createJDialog(
+		final var diag = MTGUIComponent.createJDialog(
 				MTGUIComponent.build(pane, "Change Providers and DAO", MTGConstants.ICON_TAB_DAO), false, false);
 		diag.setVisible(true);
 
 		btnValid.addActionListener(_ -> {
 
-			var selectedDao = (MTGDao) cboDao.getSelectedItem();
+			final var selectedDao = (MTGDao) cboDao.getSelectedItem();
 			selectedDao.enable(true);
 			MTGControler.getInstance().setProperty(selectedDao, selectedDao.isEnable());
 
@@ -42,7 +42,7 @@ public class ChangeDAO {
 				MTGControler.getInstance().setProperty(p, p.isEnable());
 			});
 
-			var selectedProvider = (MTGCardsProvider) cboProvider.getSelectedItem();
+			final var selectedProvider = (MTGCardsProvider) cboProvider.getSelectedItem();
 			selectedProvider.enable(true);
 			MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 

@@ -23,11 +23,12 @@ public class FlipaCoinActions extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		var b = CryptoUtils.randomBoolean();
-		if (b)
-			GamePanelGUI.getInstance().getPlayer().logAction("Flip a coin : Tails");
-		else
-			GamePanelGUI.getInstance().getPlayer().logAction("Flip a coin : Heads");
+		final var b = CryptoUtils.randomBoolean();
+		if (b) {
+		    GamePanelGUI.getInstance().getPlayer().logAction("Flip a coin : Tails");
+		} else {
+		    GamePanelGUI.getInstance().getPlayer().logAction("Flip a coin : Heads");
+		}
 
 	}
 

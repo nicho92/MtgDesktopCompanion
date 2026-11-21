@@ -50,8 +50,8 @@ public class WooCommerceTools {
 	public static WooCommerce newClient(String key, String secret, String website, String version) {
 		return new WooCommerce() {
 
-			private OAuthConfig config = new OAuthConfig(website, key, secret);
-			private ApiVersionType apiVersion = ApiVersionType.valueOf(version);
+			private final OAuthConfig config = new OAuthConfig(website, key, secret);
+			private final ApiVersionType apiVersion = ApiVersionType.valueOf(version);
 			private static final String API_URL_FORMAT = "%s/wp-json/wc/%s/%s";
 			private static final String API_URL_BATCH_FORMAT = "%s/wp-json/wc/%s/%s/batch";
 			private static final String API_URL_ONE_ENTITY_FORMAT = "%s/wp-json/wc/%s/%s/%d";
@@ -61,11 +61,11 @@ public class WooCommerceTools {
 
 			@Override
 			public Map<String, JsonElement> update(String endpointBase, int id, Map<String, Object> object) {
-				Map<String, JsonElement> map = new HashMap<>();
+				final Map<String, JsonElement> map = new HashMap<>();
 				try {
-					var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase, id);
-					MTGHttpClient c = URLTools.newClient();
-					Map<String, String> header = new HashMap<>();
+					final var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase, id);
+					final MTGHttpClient c = URLTools.newClient();
+					final Map<String, String> header = new HashMap<>();
 					header.put(URLTools.CONTENT_TYPE, contentType);
 
 					var resp = c
@@ -80,11 +80,11 @@ public class WooCommerceTools {
 										object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)),
 								header);
 					}
-					var ret = c.toString(resp);
+					final var ret = c.toString(resp);
 
-					var obj = URLTools.toJson(ret).getAsJsonObject();
+					final var obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e -> map.put(e.getKey(), e.getValue()));
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					logger.error(e);
 				}
 
@@ -94,11 +94,11 @@ public class WooCommerceTools {
 			@Override
 			public Map<String, JsonElement> create(String endpointBase, Map<String, Object> object) {
 
-				Map<String, JsonElement> map = new HashMap<>();
+				final Map<String, JsonElement> map = new HashMap<>();
 				try {
-					var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
-					var c = URLTools.newClient();
-					Map<String, String> header = new HashMap<>();
+					final var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
+					final var c = URLTools.newClient();
+					final Map<String, String> header = new HashMap<>();
 					header.put(URLTools.CONTENT_TYPE, contentType);
 
 					HttpResponse resp = null;
@@ -114,9 +114,9 @@ public class WooCommerceTools {
 										object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)),
 								header);
 					}
-					var obj = URLTools.toJson(c.toString(resp)).getAsJsonObject();
+					final var obj = URLTools.toJson(c.toString(resp)).getAsJsonObject();
 					obj.entrySet().forEach(e -> map.put(e.getKey(), e.getValue()));
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 
@@ -130,11 +130,11 @@ public class WooCommerceTools {
 
 			@Override
 			public List<JsonElement> getAll(String endpoint, Map<String, String> vars) {
-				var max = 100;
+				final var max = 100;
 				var page = 1;
 				vars.put("per_page", String.valueOf(max));
 
-				List<JsonElement> returnList = new ArrayList<>();
+				final List<JsonElement> returnList = new ArrayList<>();
 				List<JsonElement> list = readPaginate(endpoint, vars);
 
 				returnList.addAll(list);
@@ -151,17 +151,18 @@ public class WooCommerceTools {
 
 			private List<JsonElement> readPaginate(String endpointBase, Map<String, String> params) {
 
-				var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
-				var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET, params);
-				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
-				List<JsonElement> ret = new ArrayList<>();
+				final var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
+				final var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET, params);
+				final var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
+				final List<JsonElement> ret = new ArrayList<>();
 				try {
 
-					var arr = URLTools.extractAsJson(securedUrl);
-					for (JsonElement e : arr.getAsJsonArray())
-						ret.add(e);
+					final var arr = URLTools.extractAsJson(securedUrl);
+					for (final JsonElement e : arr.getAsJsonArray()) {
+					    ret.add(e);
+					}
 
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 				return ret;
@@ -169,18 +170,18 @@ public class WooCommerceTools {
 
 			@Override
 			public Map<String, JsonElement> get(String endpointBase, int id) {
-				var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase, id);
-				var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET);
-				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
-				Map<String, JsonElement> map = new HashMap<>();
+				final var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase, id);
+				final var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET);
+				final var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
+				final Map<String, JsonElement> map = new HashMap<>();
 
 				try {
-				    var el = URLTools.extractAsJson(securedUrl).getAsJsonObject();
+				    final var el = URLTools.extractAsJson(securedUrl).getAsJsonObject();
 				    el.entrySet().forEach(e -> map.put(e.getKey(), e.getValue()));
-				} catch (IOException e) {
+				} catch (final IOException e) {
 				    logger.error(e);
 				}
-				
+
 				return map;
 
 			}
@@ -192,23 +193,23 @@ public class WooCommerceTools {
 
 			@Override
 			public Map<String, JsonElement> batch(String endpointBase, Map<String, Object> object) {
-				var url = String.format(API_URL_BATCH_FORMAT, config.getUrl(), apiVersion, endpointBase);
-				MTGHttpClient c = URLTools.newClient();
-				Map<String, String> header = new HashMap<>();
+				final var url = String.format(API_URL_BATCH_FORMAT, config.getUrl(), apiVersion, endpointBase);
+				final MTGHttpClient c = URLTools.newClient();
+				final Map<String, String> header = new HashMap<>();
 				header.put(URLTools.CONTENT_TYPE, contentType);
 
-				Map<String, JsonElement> ret = new HashMap<>();
+				final Map<String, JsonElement> ret = new HashMap<>();
 				try {
-					var resp = c
+					final var resp = c
 							.doPost(url + "?" + OAuthSignature.getAsQueryString(config, url, HttpMethod.POST),
 									new ByteArrayEntity(
 											new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)),
 									header);
-					var str = c.toString(resp);
+					final var str = c.toString(resp);
 
-					var obj = URLTools.toJson(str).getAsJsonObject();
+					final var obj = URLTools.toJson(str).getAsJsonObject();
 					obj.entrySet().forEach(e -> ret.put(e.getKey(), e.getValue()));
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					logger.error("Error in batch", e);
 				}
 
@@ -218,20 +219,22 @@ public class WooCommerceTools {
 	}
 
 	public static JsonObject createAttributes(String key, String val, boolean visible) {
-		if (val == null || val.equals("null"))
-			createAttributes(key, new String[]{""}, visible);
+		if (val == null || val.equals("null")) {
+		    createAttributes(key, new String[]{""}, visible);
+		}
 
 		return createAttributes(key, new String[]{val}, visible);
 	}
 
 	public static JsonObject createAttributes(String key, String[] val, boolean visible) {
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 		obj.addProperty("name", key);
 		obj.addProperty("visible", String.valueOf(visible));
 
-		var arr = new JsonArray();
-		for (String s : val)
-			arr.add(s);
+		final var arr = new JsonArray();
+		for (final String s : val) {
+		    arr.add(s);
+		}
 
 		obj.add("options", arr);
 		return obj;
@@ -239,10 +242,10 @@ public class WooCommerceTools {
 
 	public static JsonArray entryToJsonArray(String string, String value) {
 
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 		obj.addProperty(string, value);
 
-		var arr = new JsonArray();
+		final var arr = new JsonArray();
 		arr.add(obj);
 
 		return arr;

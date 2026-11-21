@@ -26,16 +26,16 @@ import org.magic.services.workers.AbstractObservableWorker;
 public class TokensTablePanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JXTable table;
-	private MagicCardTableModel model;
+	private final JXTable table;
+	private final MagicCardTableModel model;
 	private MTGEdition currentEdition;
-	private AbstractBuzyIndicatorComponent buzy;
+	private final AbstractBuzyIndicatorComponent buzy;
 	private transient AbstractObservableWorker<List<MTGCard>, MTGCard, MTGTokensProvider> sw;
 
 	public TokensTablePanel() {
 		setLayout(new BorderLayout(0, 0));
 
-		var panneauHaut = new JPanel();
+		final var panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
 
 		model.setDefaultHiddenComlumns(1, 2, 5, 8, 9, 11, 12, 13, 14, 15);
@@ -83,13 +83,15 @@ public class TokensTablePanel extends MTGUIComponent {
 
 	public void init(MTGEdition ed) {
 		this.currentEdition = ed;
-		if (isVisible())
-			refresh();
+		if (isVisible()) {
+		    refresh();
+		}
 	}
 
 	private void refresh() {
-		if (currentEdition == null)
-			return;
+		if (currentEdition == null) {
+		    return;
+		}
 
 		if (sw != null && !sw.isDone()) {
 			sw.cancel(true);
@@ -119,7 +121,7 @@ public class TokensTablePanel extends MTGUIComponent {
 					model.init(get());
 				} catch (InterruptedException | CancellationException _) {
 					Thread.currentThread().interrupt();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 			}

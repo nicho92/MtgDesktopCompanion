@@ -28,7 +28,7 @@ public class BoosterPanel extends JPanel {
 
 	public BoosterPanel() {
 		super();
-		var flowLayout = new FlowLayout();
+		final var flowLayout = new FlowLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		setLayout(flowLayout);
 	}
@@ -48,8 +48,9 @@ public class BoosterPanel extends JPanel {
 				@Override
 				public void moveCard(DisplayableCard mc, ZoneEnum to) {
 
-					if (to == ZoneEnum.DECK)
-						list.remove(mc.getMagicCard());
+					if (to == ZoneEnum.DECK) {
+					    list.remove(mc.getMagicCard());
+					}
 				}
 			};
 			add(p);

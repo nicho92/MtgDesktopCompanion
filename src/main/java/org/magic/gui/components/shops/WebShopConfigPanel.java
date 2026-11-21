@@ -87,7 +87,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private RSyntaxTextArea txtExtraCss;
 
 	private JPanel createBoxPanel(String keyName, Icon ic, LayoutManager layout, boolean collapsed) {
-		var pane = new JXTaskPane();
+		final var pane = new JXTaskPane();
 		pane.setTitle(capitalize(keyName));
 		pane.setIcon(ic);
 		pane.setCollapsed(collapsed);
@@ -99,16 +99,16 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 		setLayout(new BorderLayout());
 		contactPanel = new ContactSelectionPanel();
-		var container = new JXTaskPaneContainer();
+		final var container = new JXTaskPaneContainer();
 		container.setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 
-		var conf = MTGControler.getInstance().getWebshopService().getWebConfig();
-		var btnSave = new JButton("Save", MTGConstants.ICON_SAVE);
+		final var conf = MTGControler.getInstance().getWebshopService().getWebConfig();
+		final var btnSave = new JButton("Save", MTGConstants.ICON_SAVE);
 
-		var panelGeneral = createBoxPanel("GENERAL", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0),
+		final var panelGeneral = createBoxPanel("GENERAL", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0),
 				false);
 
-		var lblTitleSite = new JLangLabel("SITETITLE");
+		final var lblTitleSite = new JLangLabel("SITETITLE");
 		panelGeneral.add(lblTitleSite);
 
 		txtSiteTitle = new JTextField(conf.getSiteTitle());
@@ -134,14 +134,15 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelGeneral.add(new JLangLabel("GED_ENABLE"));
 		panelGeneral.add(chkEnableGed);
 
-		var panelSlides = createBoxPanel("SLIDES", MTGConstants.ICON_TAB_PICTURE, new BorderLayout(0, 0), true);
+		final var panelSlides = createBoxPanel("SLIDES", MTGConstants.ICON_TAB_PICTURE, new BorderLayout(0, 0), true);
 
-		var btnDeleteLink = new JButton(MTGConstants.ICON_SMALL_DELETE);
+		final var btnDeleteLink = new JButton(MTGConstants.ICON_SMALL_DELETE);
 		btnDeleteLink.setEnabled(false);
 		listModel = new DefaultListModel<>();
 
-		for (String s : conf.getSlidesLinksImage())
-			listModel.addElement(s);
+		for (final String s : conf.getSlidesLinksImage()) {
+		    listModel.addElement(s);
+		}
 
 		txtURLSlides = new JTextField();
 		txtURLSlides.addActionListener(_ -> {
@@ -155,12 +156,12 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		listSlides.setFixedCellHeight(25);
 		panelSlides.add(new JScrollPane(listSlides), BorderLayout.CENTER);
 
-		var deleteButtonLinkPanel = new JPanel();
+		final var deleteButtonLinkPanel = new JPanel();
 		panelSlides.add(deleteButtonLinkPanel, BorderLayout.EAST);
 
 		deleteButtonLinkPanel.add(btnDeleteLink);
 
-		var panelCss = createBoxPanel("CSS", MTGConstants.ICON_TAB_JSON, new BorderLayout(0, 0), true);
+		final var panelCss = createBoxPanel("CSS", MTGConstants.ICON_TAB_JSON, new BorderLayout(0, 0), true);
 		txtExtraCss = new RSyntaxTextArea(conf.getExtraCss(), 25, 1);
 
 		txtExtraCss.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSS);
@@ -168,21 +169,21 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelCss.setLayout(new BorderLayout());
 		panelCss.add(new JScrollPane(txtExtraCss));
 
-		var panelContact = createBoxPanel("CONTACT", MTGConstants.ICON_TAB_EVENTS, new GridLayout(0, 2, 0, 0), true);
+		final var panelContact = createBoxPanel("CONTACT", MTGConstants.ICON_TAB_EVENTS, new GridLayout(0, 2, 0, 0), true);
 		panelContact.setLayout(new BorderLayout());
 		panelContact.add(contactPanel, BorderLayout.CENTER);
 		contactPanel.setContact(conf.getContact());
 
-		var panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
-		var serverStatPanel = new ServerStatePanel(false, getPlugin(new ShoppingServer().getName(), MTGServer.class));
+		final var panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
+		final var serverStatPanel = new ServerStatePanel(false, getPlugin(new ShoppingServer().getName(), MTGServer.class));
 		panelServer.add(serverStatPanel, BorderLayout.CENTER);
-		var btnClearCache = new JButton("Clear Cache", MTGConstants.ICON_TAB_CACHE);
+		final var btnClearCache = new JButton("Clear Cache", MTGConstants.ICON_TAB_CACHE);
 		btnClearCache.addActionListener(
 				_ -> ((JSONHttpServer) getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache());
 
 		panelServer.add(UITools.createFlowCenterPanel(btnSave, btnClearCache), BorderLayout.SOUTH);
 
-		var panelStock = createBoxPanel("STOCK", MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0), true);
+		final var panelStock = createBoxPanel("STOCK", MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0), true);
 		cboCollections = new JCheckableListBox<>();
 		needCollection = new JCheckableListBox<>();
 		chkEnableStock = new JCheckBox();
@@ -191,11 +192,11 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		chkAutomaticValidation.setSelected(conf.isAutomaticValidation());
 
 		try {
-			for (MTGCollection mc : MTG.getEnabledPlugin(MTGDao.class).listCollections()) {
+			for (final MTGCollection mc : MTG.getEnabledPlugin(MTGDao.class).listCollections()) {
 				cboCollections.addElement(mc, conf.getCollections().contains(mc));
 				needCollection.addElement(mc, conf.getNeedcollections().contains(mc));
 			}
-		} catch (SQLException e1) {
+		} catch (final SQLException e1) {
 			logger.error(e1);
 		}
 
@@ -211,39 +212,40 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelStock.add(new JLangLabel("ENABLE_SEALED_STOCK"));
 		panelStock.add(chkEnableStock);
 
-		var panelProduct = createBoxPanel("PRODUCT", MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2), true);
+		final var panelProduct = createBoxPanel("PRODUCT", MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2), true);
 		topProduct = conf.getTopProduct();
-		var b = new JButton("Choose Top Product Card", MTGConstants.ICON_SEARCH);
+		final var b = new JButton("Choose Top Product Card", MTGConstants.ICON_SEARCH);
 		chkAutoProduct = new JCheckBox("Automatic Top Product");
 		b.setEnabled(!chkAutoProduct.isSelected());
 
 		spinnerReduction = new JSpinner(new SpinnerNumberModel(conf.getPercentReduction() * 100, 0, 100, 0.5));
 
 		maxLastProductSlide = new JSlider(0, 16, conf.getMaxLastProduct());
-		var lblMaxProductValue = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
+		final var lblMaxProductValue = new JLabel(String.valueOf(maxLastProductSlide.getValue()));
 		maxLastProductSlide
 				.addChangeListener(_ -> lblMaxProductValue.setText(String.valueOf(maxLastProductSlide.getValue())));
 
 		productPagination = new JSlider(0, 50, conf.getProductPagination());
-		var lblProductPaginationValue = new JLabel(String.valueOf(productPagination.getValue()));
+		final var lblProductPaginationValue = new JLabel(String.valueOf(productPagination.getValue()));
 		productPagination.addChangeListener(
 				_ -> lblProductPaginationValue.setText(String.valueOf(productPagination.getValue())));
 
-		var cardPanel = new StockItemPanelRenderer();
+		final var cardPanel = new StockItemPanelRenderer();
 
-		if (topProduct != null)
-			cardPanel.setProduct(topProduct);
+		if (topProduct != null) {
+		    cardPanel.setProduct(topProduct);
+		}
 
-		var paneSlide = new JPanel();
+		final var paneSlide = new JPanel();
 		paneSlide.add(maxLastProductSlide);
 		paneSlide.add(lblMaxProductValue);
 
-		var paneSlide2 = new JPanel();
+		final var paneSlide2 = new JPanel();
 		paneSlide2.add(productPagination);
 		paneSlide2.add(lblProductPaginationValue);
 
 		b.addActionListener(_ -> {
-			var diag = new CardStockChooseDialog();
+			final var diag = new CardStockChooseDialog();
 			diag.setVisible(true);
 			if (diag.hasSelected()) {
 				topProduct = diag.getSelectedItem();
@@ -251,7 +253,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			}
 		});
 
-		var sw = new SwingWorker<MTGCardStock, MTGCardStock>() {
+		final var sw = new SwingWorker<MTGCardStock, MTGCardStock>() {
 
 			@Override
 			protected MTGCardStock doInBackground() throws Exception {
@@ -265,9 +267,9 @@ public class WebShopConfigPanel extends MTGUIComponent {
 					cardPanel.setProduct(topProduct);
 				} catch (InterruptedException | ExecutionException _) {
 					Thread.currentThread().interrupt();
-				} catch (NoSuchElementException _) {
+				} catch (final NoSuchElementException _) {
 					logger.warn("No best product found");
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					logger.error(e1);
 				}
 			}
@@ -282,7 +284,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 		chkAutoProduct.setSelected(conf.isAutomaticProduct());
 
-		var panelButton = new JPanel();
+		final var panelButton = new JPanel();
 		panelButton.setLayout(new GridLayout(2, 1));
 		panelButton.add(b);
 		panelButton.add(chkAutoProduct);
@@ -297,12 +299,12 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelProduct.add(new JLangLabel("PERCENT_REDUCTION_FOR_SELL"));
 		panelProduct.add(spinnerReduction);
 
-		JPanel panelDelivery = createBoxPanel("DELIVERY", MTGConstants.ICON_TAB_DELIVERY, new BorderLayout(), true);
+		final JPanel panelDelivery = createBoxPanel("DELIVERY", MTGConstants.ICON_TAB_DELIVERY, new BorderLayout(), true);
 		averageDeliverayDay = new JSpinner(new SpinnerNumberModel(conf.getAverageDeliveryTime(), 0, 8, 1));
 		txtdeliveryRules = new RSyntaxTextArea(10, 1);
 		txtdeliveryRules.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVASCRIPT);
 		txtdeliveryRules.setText(conf.getShippingRules());
-		var panelHaut = new JPanel();
+		final var panelHaut = new JPanel();
 		((FlowLayout) panelHaut.getLayout()).setAlignment(FlowLayout.LEFT);
 		panelHaut.add(new JLangLabel("DELIVERY_DAY"));
 		panelHaut.add(averageDeliverayDay);
@@ -311,7 +313,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelDelivery.add(new JLangLabel("DELIVERY_RULES"), BorderLayout.WEST);
 		panelDelivery.add(new JScrollPane(txtdeliveryRules), BorderLayout.CENTER);
 
-		JPanel panelPayment = createBoxPanel("PAYMENT", MTGConstants.ICON_TAB_PRICES, new GridLayout(0, 2, 0, 0), true);
+		final JPanel panelPayment = createBoxPanel("PAYMENT", MTGConstants.ICON_TAB_PRICES, new GridLayout(0, 2, 0, 0), true);
 
 		txtPaypalClientId = new JTextField(conf.getPaypalClientId());
 		panelPayment.add(new JLangLabel("PAYPAL_CLIENT_ID"));
@@ -323,7 +325,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 		txtIban = new JTextField(conf.getIban(), 20);
 		txtBic = new JTextField(conf.getBic(), 10);
-		var panelIbanBic = new JPanel();
+		final var panelIbanBic = new JPanel();
 
 		((FlowLayout) panelIbanBic.getLayout()).setAlignment(FlowLayout.LEFT);
 
@@ -350,7 +352,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		btnDeleteLink.addActionListener(_ -> listModel.removeElement(listSlides.getSelectedValue()));
 		btnSave.addActionListener(_ -> {
 
-			WebShopConfig newBean = MTGControler.getInstance().getWebshopService().getWebConfig();
+			final WebShopConfig newBean = MTGControler.getInstance().getWebshopService().getWebConfig();
 
 			newBean.setAboutText(txtAbout.getText());
 			newBean.setBannerText(txtBannerText.getText());
@@ -375,7 +377,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			newBean.setEnableGed(chkEnableGed.isSelected());
 			try {
 				newBean.setPaypalSendMoneyUri(new URI(txtPaypalSendMoneyLink.getText()));
-			} catch (URISyntaxException e1) {
+			} catch (final URISyntaxException e1) {
 				MTGControler.getInstance().notify(e1);
 			}
 
@@ -386,9 +388,10 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			newBean.getNeedcollections().addAll(needCollection.getSelectedElements());
 
 			newBean.getSlidesLinksImage().clear();
-			Iterator<String> it = listModel.elements().asIterator();
-			while (it.hasNext())
-				newBean.getSlidesLinksImage().add(it.next());
+			final Iterator<String> it = listModel.elements().asIterator();
+			while (it.hasNext()) {
+			    newBean.getSlidesLinksImage().add(it.next());
+			}
 
 			newBean.setContact(contactPanel.getContact());
 

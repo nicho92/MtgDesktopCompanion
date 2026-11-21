@@ -38,13 +38,15 @@ public abstract class Abstract3DPieChart<B, C extends Comparable<C>> extends MTG
 
 		plot = (PiePlot3D) chart.getPlot();
 
-		if (!showLegend())
-			chart.setLegendBuilder((Plot3D _, Anchor2D _, Orientation _, ChartStyle _) -> new TextElement(""));
+		if (!showLegend()) {
+		    chart.setLegendBuilder((Plot3D _, Anchor2D _, Orientation _, ChartStyle _) -> new TextElement(""));
+		}
 
-		if (showLabel())
-			plot.setSectionLabelGenerator((PieDataset3D _, Comparable<?> key) -> key.toString());
-		else
-			plot.setSectionLabelGenerator((PieDataset3D _, Comparable<?> _) -> "");
+		if (showLabel()) {
+		    plot.setSectionLabelGenerator((PieDataset3D _, Comparable<?> key) -> key.toString());
+		} else {
+		    plot.setSectionLabelGenerator((PieDataset3D _, Comparable<?> _) -> "");
+		}
 
 		plot.setToolTipGenerator(
 				(PieDataset3D dataset, Comparable<?> key) -> key.toString() + " : " + dataset.getValue(key));

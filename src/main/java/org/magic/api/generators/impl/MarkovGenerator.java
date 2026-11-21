@@ -24,16 +24,18 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 
 	@Override
 	public String generateText() {
-		if (rs == null)
-			init();
+		if (rs == null) {
+		    init();
+		}
 
 		return StringUtils.join(rs.generate(), System.lineSeparator());
 	}
 
 	@Override
 	public String[] suggestWords(String[] start) {
-		if (rs == null)
-			init();
+		if (rs == null) {
+		    init();
+		}
 
 		return rs.completions(start);
 	}
@@ -45,12 +47,12 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 
 		if (!cache.exists() || cache.length() == 0) {
 			logger.info("Init {} ", getName());
-			var build = new StringBuilder();
+			final var build = new StringBuilder();
 			var count = 0;
-			for (var mc : getEnabledPlugin(MTGCardsIndexer.class).listCards()) {
+			for (final var mc : getEnabledPlugin(MTGCardsIndexer.class).listCards()) {
 
 				if ((mc.getText() != null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
-					var r = mc.getText().replace(EnumCardsPatterns.REMINDER.getPattern(), "").replace("\n", " ")
+					final var r = mc.getText().replace(EnumCardsPatterns.REMINDER.getPattern(), "").replace("\n", " ")
 							.replace(mc.getName(), getString("TAG_NAME")).trim();
 
 					count++;
@@ -61,12 +63,13 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 			}
 
 			try {
-				if (count > 0)
-					saveCache(build.toString());
-				else
-					logger.warn("No cards to index {}", count);
+				if (count > 0) {
+				    saveCache(build.toString());
+				} else {
+				    logger.warn("No cards to index {}", count);
+				}
 
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error("error saving file {}", cache.getAbsolutePath(), e);
 			}
 
@@ -74,7 +77,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 			try {
 				logger.debug("loading cache from {}", cache);
 				FileTools.readAllLines(cache).forEach(rs::addText);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("error loading file {} ", cache.getAbsolutePath(), e);
 			}
 		}

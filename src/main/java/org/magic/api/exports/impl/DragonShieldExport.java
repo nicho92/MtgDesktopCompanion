@@ -23,7 +23,7 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File f) throws IOException {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 		temp.append(COLUMNS_DECK).append(System.lineSeparator());
 
 		deck.getMain().entrySet().forEach(e -> {
@@ -53,16 +53,17 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 	@Override
 	public MTGDeck importDeck(String content, String name) throws IOException {
 
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 
 		matches(content, true, aliases.getRegexFor(this, "deck")).forEach(m -> {
-			var mc = parseMatcherWithGroup(m, 4, -1, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+			final var mc = parseMatcherWithGroup(m, 4, -1, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 
 			if (mc != null) {
-				if (m.group(1).equalsIgnoreCase("sideboard"))
-					d.getSideBoard().put(mc, Integer.parseInt(m.group(2)));
-				else
-					d.getMain().put(mc, Integer.parseInt(m.group(2)));
+				if (m.group(1).equalsIgnoreCase("sideboard")) {
+				    d.getSideBoard().put(mc, Integer.parseInt(m.group(2)));
+				} else {
+				    d.getMain().put(mc, Integer.parseInt(m.group(2)));
+				}
 
 				notify(mc);
 			} else {
@@ -75,7 +76,7 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		StringBuilder temp = new StringBuilder();
+		final StringBuilder temp = new StringBuilder();
 		temp.append(COLUMNS_STOCK).append(System.lineSeparator());
 
 		stock.forEach(mcs -> {
@@ -99,11 +100,11 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		var list = new ArrayList<MTGCardStock>();
+		final var list = new ArrayList<MTGCardStock>();
 
 		matches(content, true, aliases.getRegexFor(this, "stock")).forEach(m -> {
-			var stock = MTGControler.getInstance().getDefaultStock();
-			var mc = parseMatcherWithGroup(m, 7, 5, false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
+			final var stock = MTGControler.getInstance().getDefaultStock();
+			final var mc = parseMatcherWithGroup(m, 7, 5, false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
 			if (mc != null) {
 				stock.setProduct(mc);
 				stock.setQte(Integer.parseInt(m.group(2)));

@@ -41,7 +41,7 @@ public class CardTransfertHandler extends TransferHandler {
 		window.setBackground(new Color(0, true));
 
 		DragSource.getDefaultDragSource().addDragSourceMotionListener(dsde -> {
-			var pt = dsde.getLocation();
+			final var pt = dsde.getLocation();
 			pt.translate(5, 5);
 			window.setLocation(pt);
 			window.setVisible(true);
@@ -68,7 +68,7 @@ public class CardTransfertHandler extends TransferHandler {
 
 			@Override
 			public boolean isDataFlavorSupported(DataFlavor flavor) {
-				for (DataFlavor f : getTransferDataFlavors()) {
+				for (final DataFlavor f : getTransferDataFlavors()) {
 					if (flavor.equals(f)) {
 						return true;
 					}
@@ -85,8 +85,8 @@ public class CardTransfertHandler extends TransferHandler {
 
 	@Override
 	public int getSourceActions(JComponent c) {
-		DisplayableCard p = (DisplayableCard) c;
-		var pt = p.getLocation();
+		final DisplayableCard p = (DisplayableCard) c;
+		final var pt = p.getLocation();
 		SwingUtilities.convertPointToScreen(pt, p);
 		dragLab.setIcon(p.toIcon());
 		window.setLocation(pt);
@@ -95,11 +95,12 @@ public class CardTransfertHandler extends TransferHandler {
 
 	@Override
 	public boolean importData(TransferSupport support) {
-		if (!canImport(support))
-			return false;
+		if (!canImport(support)) {
+		    return false;
+		}
 		try {
-			Draggable target = (Draggable) support.getComponent();
-			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
+			final Draggable target = (Draggable) support.getComponent();
+			final DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
 			if ((((Draggable) src.getParent()).getOrigine() != target.getOrigine())) {
 				src.getParent().revalidate();
 				target.updatePanel();
@@ -114,7 +115,7 @@ public class CardTransfertHandler extends TransferHandler {
 				target.postTreatment(src);
 			}
 			return true;
-		} catch (Exception ufe) {
+		} catch (final Exception ufe) {
 			logger.error("Error transfert", ufe);
 		}
 		return false;
@@ -122,14 +123,15 @@ public class CardTransfertHandler extends TransferHandler {
 
 	@Override
 	protected void exportDone(JComponent c, Transferable data, int action) {
-		DisplayableCard src = (DisplayableCard) c;
+		final DisplayableCard src = (DisplayableCard) c;
 		if (action == TransferHandler.MOVE) {
 			dragLab.setIcon(null);
 			window.setVisible(false);
 
-			if (c.getParent() instanceof DraggablePanel dest) {
-				if (dest.getMousePosition() != null)
-					src.setLocation(dest.getMousePosition());
+			if (c.getParent() instanceof final DraggablePanel dest) {
+				if (dest.getMousePosition() != null) {
+				    src.setLocation(dest.getMousePosition());
+				}
 				dest.postTreatment(src);
 			}
 		}

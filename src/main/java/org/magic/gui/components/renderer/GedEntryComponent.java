@@ -28,10 +28,10 @@ import org.magic.services.tools.ImageTools;
 public class GedEntryComponent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private GedEntry entry;
+	private final GedEntry entry;
 	private boolean selected = false;
-	private Color defaultColor;
-	private JLabel lblDelete;
+	private final Color defaultColor;
+	private final JLabel lblDelete;
 	private int w = 150;
 	private int h = 100;
 	protected transient Logger logger = MTGLogger.getLogger(GedEntryComponent.class);
@@ -54,22 +54,23 @@ public class GedEntryComponent extends JPanel {
 		lblDelete.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblDelete, BorderLayout.NORTH);
 
-		var l = new JXLabel();
+		final var l = new JXLabel();
 		l.setHorizontalAlignment(SwingConstants.CENTER);
 		this.entry = e;
 		l.setText(entry.getName());
 
 		try {
 			l.setIcon(new ImageIcon(entry.getContent()));
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error(ex);
 		}
 
 		l.setLineWrap(true);
 		defaultColor = getBackground();
 
-		if (entry.isImage())
-			l.setIcon(getThumbnail());
+		if (entry.isImage()) {
+		    l.setIcon(getThumbnail());
+		}
 
 		l.setVerticalTextPosition(SwingConstants.BOTTOM);
 		l.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -83,10 +84,11 @@ public class GedEntryComponent extends JPanel {
 	}
 
 	public ImageIcon getThumbnail() {
-		var buff = getPicture();
+		final var buff = getPicture();
 
-		if (buff != null)
-			return new ImageIcon(buff.getScaledInstance(w, h, Image.SCALE_SMOOTH));
+		if (buff != null) {
+		    return new ImageIcon(buff.getScaledInstance(w, h, Image.SCALE_SMOOTH));
+		}
 
 		return null;
 	}
@@ -95,7 +97,7 @@ public class GedEntryComponent extends JPanel {
 		if (entry.isImage()) {
 			try {
 				return ImageTools.read(entry.getContent());
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				return null;
 			}
 		}
@@ -111,17 +113,18 @@ public class GedEntryComponent extends JPanel {
 				if (me.getClickCount() == 2) {
 					try {
 						callable.call();
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error(e);
 					}
 
 				} else {
 					selected = !selected;
 
-					if (selected)
-						setBackground(SystemColor.activeCaption);
-					else
-						setBackground(defaultColor);
+					if (selected) {
+					    setBackground(SystemColor.activeCaption);
+					} else {
+					    setBackground(defaultColor);
+					}
 				}
 
 			}

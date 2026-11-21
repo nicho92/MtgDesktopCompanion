@@ -50,8 +50,9 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 		running = false;
 		logger.debug("Closing cam done");
 
-		if (swWebcamReader != null)
-			swWebcamReader.cancel(true);
+		if (swWebcamReader != null) {
+		    swWebcamReader.cancel(true);
+		}
 
 	}
 
@@ -59,20 +60,20 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 		snapshotImages = new ArrayList<>();
 		setLayout(new BorderLayout(0, 0));
 
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
 
-		var panelControl = new JPanel();
-		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam());
-		var controlWebcamPanel = new JPanel();
-		var btnStarting = new JButton("Start", MTGConstants.PLAY_ICON);
-		var btnSnap = new JButton("Snap", MTGConstants.ICON_WEBCAM);
+		final var panelControl = new JPanel();
+		final var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam());
+		final var controlWebcamPanel = new JPanel();
+		final var btnStarting = new JButton("Start", MTGConstants.PLAY_ICON);
+		final var btnSnap = new JButton("Snap", MTGConstants.ICON_WEBCAM);
 		btnClose = new JButton(MTGConstants.ICON_IMPORT);
-		var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
-		var btnAddCam = new JButton(MTGConstants.ICON_NEW);
+		final var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
+		final var btnAddCam = new JButton(MTGConstants.ICON_NEW);
 
 		webcamCanvas = new WebcamCanvas((Webcam) cboWebcams.getSelectedItem(), null);
 
@@ -98,11 +99,12 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 		});
 
 		btnAddCam.addActionListener(_ -> {
-			var diag = new IPCamAddDialog();
+			final var diag = new IPCamAddDialog();
 			diag.setModal(true);
 			diag.setVisible(true);
-			if (diag.isHasNew())
-				btnReloadCams.doClick();
+			if (diag.isHasNew()) {
+			    btnReloadCams.doClick();
+			}
 		});
 
 		btnSnap.addActionListener(_ -> {
@@ -127,7 +129,7 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 					while (running && isVisible()) {
 						webcamCanvas.draw();
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("Error in webcam", e);
 				}
 
@@ -141,12 +143,12 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 					logger.info("Stopping webcam {}", webcamCanvas.getWebcam());
 					running = false;
 					get();
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (CancellationException _) {
+				} catch (final CancellationException _) {
 					running = false;
 					logger.error("Cancelling");
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					running = false;
 					logger.error("Error Stopping webcam {}", webcamCanvas.getWebcam(), e);
 				}

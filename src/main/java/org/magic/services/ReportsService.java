@@ -16,8 +16,8 @@ import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.TemplateExceptionHandler;
 
 public class ReportsService {
-	private Configuration cfg;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Configuration cfg;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean errorLoading = false;
 
 	public ReportsService() {
@@ -27,7 +27,7 @@ public class ReportsService {
 			cfg.setDefaultEncoding(MTGConstants.DEFAULT_ENCODING.displayName());
 			cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 			cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(MTGConstants.FREEMARKER_VERSION).build());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			errorLoading = true;
 			logger.error("error init Freemarker ", e);
 		}
@@ -35,7 +35,7 @@ public class ReportsService {
 	}
 
 	public <T> String generate(FORMAT_NOTIFICATION f, T obj, String type) {
-		List<T> t = new ArrayList<>();
+		final List<T> t = new ArrayList<>();
 		t.add(obj);
 		return generate(f, t, type);
 	}
@@ -45,21 +45,22 @@ public class ReportsService {
 	}
 
 	public <T> String generate(FORMAT_NOTIFICATION f, List<T> list, String type) {
-		if (errorLoading)
-			return list.toString();
+		if (errorLoading) {
+		    return list.toString();
+		}
 
-		Map<String, Object> input = new HashMap<>();
+		final Map<String, Object> input = new HashMap<>();
 		input.put("modele", list);
 		try {
 
-			String tmpl = type + "." + f.name().toLowerCase();
-			var template = cfg.getTemplate(tmpl);
-			Writer writer = new StringWriter();
+			final String tmpl = type + "." + f.name().toLowerCase();
+			final var template = cfg.getTemplate(tmpl);
+			final Writer writer = new StringWriter();
 			template.process(input, writer);
 
 			return writer.toString();
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error to generate notif : {}", f, e);
 		}
 		return list.toString();

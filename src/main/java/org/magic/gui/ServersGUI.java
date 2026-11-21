@@ -30,7 +30,7 @@ public class ServersGUI extends MTGUIComponent {
 	}
 
 	public ServersGUI() {
-		var sw = new SwingWorker<List<MTGServer>, Void>() {
+		final var sw = new SwingWorker<List<MTGServer>, Void>() {
 			@Override
 			protected List<MTGServer> doInBackground() throws Exception {
 				return listPlugins(MTGServer.class);
@@ -41,13 +41,13 @@ public class ServersGUI extends MTGUIComponent {
 				try {
 					setLayout(new GridLayout(get().size(), 1, 0, 0));
 
-					for (var s : get()) {
+					for (final var s : get()) {
 						add(new ServerStatePanel(s));
 					}
 
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					logger.error(e);
 				}
 

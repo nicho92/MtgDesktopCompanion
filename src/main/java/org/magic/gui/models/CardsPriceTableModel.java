@@ -51,7 +51,7 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 	public Object getValueAt(int row, int column) {
 		try {
 
-			MTGPrice mp = items.get(row);
+			final MTGPrice mp = items.get(row);
 
 			switch (column) {
 				case 0 :
@@ -75,7 +75,7 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 				default :
 					return 0;
 			}
-		} catch (IndexOutOfBoundsException _) {
+		} catch (final IndexOutOfBoundsException _) {
 			return null;
 		}
 	}

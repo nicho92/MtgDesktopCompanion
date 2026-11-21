@@ -19,6 +19,7 @@ public class QueryAttribute implements Serializable, Comparable<QueryAttribute>,
 		this.type = type;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}

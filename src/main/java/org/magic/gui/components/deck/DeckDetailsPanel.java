@@ -43,24 +43,24 @@ public class DeckDetailsPanel extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
 	private MTGDeck magicDeck = new MTGDeck();
-	private JTextField nameJTextField;
-	private JTextArea textArea;
-	private ManaPanel manaPanel;
-	private JPanel panelLegalities;
-	private JProgressBar nbCardsProgress;
-	private JLabel lbstd;
-	private JLabel lbmnd;
-	private JLabel lbvin;
-	private JLabel lbcmd;
-	private JLabel lbLeg;
-	private JProgressBar nbSideProgress;
-	private JPanel panelDeckPictures;
-	private JTagsPanel tagsPanel;
-	private JLabel lblDate;
-	private JLabel lblDateInformation;
+	private final JTextField nameJTextField;
+	private final JTextArea textArea;
+	private final ManaPanel manaPanel;
+	private final JPanel panelLegalities;
+	private final JProgressBar nbCardsProgress;
+	private final JLabel lbstd;
+	private final JLabel lbmnd;
+	private final JLabel lbvin;
+	private final JLabel lbcmd;
+	private final JLabel lbLeg;
+	private final JProgressBar nbSideProgress;
+	private final JPanel panelDeckPictures;
+	private final JTagsPanel tagsPanel;
+	private final JLabel lblDate;
+	private final JLabel lblDateInformation;
 
 	public DeckDetailsPanel() {
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 140, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{28, 30, 35, 0, 132, 31, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 1.0E-4};
@@ -73,7 +73,7 @@ public class DeckDetailsPanel extends JComponent {
 
 		add(new JLangLabel("CARD_LEGALITIES", true), UITools.createGridBagConstraints(null, null, 1, 1));
 		panelLegalities = new JPanel();
-		var flowLayout = (FlowLayout) panelLegalities.getLayout();
+		final var flowLayout = (FlowLayout) panelLegalities.getLayout();
 		flowLayout.setHgap(10);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panelLegalities, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 1));
@@ -149,36 +149,42 @@ public class DeckDetailsPanel extends JComponent {
 	}
 
 	public void init(MTGDeck newMagicDeck) {
-		if (newMagicDeck != null)
-			setMagicDeck(newMagicDeck, true);
+		if (newMagicDeck != null) {
+		    setMagicDeck(newMagicDeck, true);
+		}
 	}
 
 	public void setLegalities() {
 
-		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.STANDARD))
-			lbstd.setBackground(Color.RED);
-		else
-			lbstd.setBackground(Color.GREEN);
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.STANDARD)) {
+		    lbstd.setBackground(Color.RED);
+		} else {
+		    lbstd.setBackground(Color.GREEN);
+		}
 
-		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.MODERN))
-			lbmnd.setBackground(Color.RED);
-		else
-			lbmnd.setBackground(Color.GREEN);
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.MODERN)) {
+		    lbmnd.setBackground(Color.RED);
+		} else {
+		    lbmnd.setBackground(Color.GREEN);
+		}
 
-		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.LEGACY))
-			lbLeg.setBackground(Color.RED);
-		else
-			lbLeg.setBackground(Color.GREEN);
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.LEGACY)) {
+		    lbLeg.setBackground(Color.RED);
+		} else {
+		    lbLeg.setBackground(Color.GREEN);
+		}
 
-		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.VINTAGE))
-			lbvin.setBackground(Color.RED);
-		else
-			lbvin.setBackground(Color.GREEN);
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.VINTAGE)) {
+		    lbvin.setBackground(Color.RED);
+		} else {
+		    lbvin.setBackground(Color.GREEN);
+		}
 
-		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.COMMANDER))
-			lbcmd.setBackground(Color.RED);
-		else
-			lbcmd.setBackground(Color.GREEN);
+		if (!MTGDeckManager.isLegal(magicDeck, FORMATS.COMMANDER)) {
+		    lbcmd.setBackground(Color.RED);
+		} else {
+		    lbcmd.setBackground(Color.GREEN);
+		}
 	}
 
 	public void setMagicDeck(MTGDeck newMagicDeck, boolean update) {
@@ -197,17 +203,19 @@ public class DeckDetailsPanel extends JComponent {
 
 	public void updatePicture() {
 
-		if (magicDeck == null || magicDeck.getMain().isEmpty())
-			return;
+		if (magicDeck == null || magicDeck.getMain().isEmpty()) {
+		    return;
+		}
 
 		panelDeckPictures.removeAll();
-		SwingWorker<Void, BufferedImage> sw = new SwingWorker<>() {
+		final SwingWorker<Void, BufferedImage> sw = new SwingWorker<>() {
 
 			@Override
 			protected Void doInBackground() throws Exception {
 
-				for (var e : magicDeck.getMain().keySet().stream().skip(0).limit(4).toList())
-					publish(getEnabledPlugin(MTGPictureProvider.class).extractPicture(e));
+				for (final var e : magicDeck.getMain().keySet().stream().skip(0).limit(4).toList()) {
+				    publish(getEnabledPlugin(MTGPictureProvider.class).extractPicture(e));
+				}
 
 				return null;
 
@@ -215,8 +223,9 @@ public class DeckDetailsPanel extends JComponent {
 
 			@Override
 			protected void process(List<BufferedImage> chunks) {
-				for (var b : chunks)
-					panelDeckPictures.add(new JLabel(new ImageIcon(ImageTools.resize(b, 150, 220))));
+				for (final var b : chunks) {
+				    panelDeckPictures.add(new JLabel(new ImageIcon(ImageTools.resize(b, 150, 220))));
+				}
 			}
 
 			@Override
@@ -232,16 +241,16 @@ public class DeckDetailsPanel extends JComponent {
 	}
 
 	protected BindingGroup initDataBindings() {
-		BeanProperty<MTGDeck, String> nameProperty = BeanProperty.create("name");
-		BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
-		AutoBinding<MTGDeck, String, JTextField, String> autoBinding1 = Bindings
+		final BeanProperty<MTGDeck, String> nameProperty = BeanProperty.create("name");
+		final BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
+		final AutoBinding<MTGDeck, String, JTextField, String> autoBinding1 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, nameProperty, nameJTextField, textProperty1);
 		autoBinding1.bind();
 		//
 
-		BeanProperty<MTGDeck, Integer> nbCardsProperty = BeanProperty.create("nbCards");
-		BeanProperty<JProgressBar, Integer> textProperty4 = BeanProperty.create("value");
-		AutoBinding<MTGDeck, Integer, JProgressBar, Integer> autoBinding2 = Bindings
+		final BeanProperty<MTGDeck, Integer> nbCardsProperty = BeanProperty.create("nbCards");
+		final BeanProperty<JProgressBar, Integer> textProperty4 = BeanProperty.create("value");
+		final AutoBinding<MTGDeck, Integer, JProgressBar, Integer> autoBinding2 = Bindings
 				.createAutoBinding(UpdateStrategy.READ, magicDeck, nbCardsProperty, nbCardsProgress, textProperty4);
 		autoBinding2.bind();
 		nbCardsProgress.setString("" + magicDeck.getNbCards());
@@ -249,34 +258,35 @@ public class DeckDetailsPanel extends JComponent {
 
 		setLegalities();
 		//
-		BeanProperty<MTGDeck, String> descriptionProperty = BeanProperty.create("description");
-		BeanProperty<JTextArea, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MTGDeck, String, JTextArea, String> autoBinding3 = Bindings
+		final BeanProperty<MTGDeck, String> descriptionProperty = BeanProperty.create("description");
+		final BeanProperty<JTextArea, String> textProperty2 = BeanProperty.create("text");
+		final AutoBinding<MTGDeck, String, JTextArea, String> autoBinding3 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, descriptionProperty, textArea, textProperty2);
 		autoBinding3.bind();
 		//
-		BeanProperty<MTGDeck, String> colorIdentityProperty = BeanProperty.create("colors");
-		BeanProperty<ManaPanel, String> manaCostProperty3 = BeanProperty.create("manaCost");
-		AutoBinding<MTGDeck, String, ManaPanel, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ,
+		final BeanProperty<MTGDeck, String> colorIdentityProperty = BeanProperty.create("colors");
+		final BeanProperty<ManaPanel, String> manaCostProperty3 = BeanProperty.create("manaCost");
+		final AutoBinding<MTGDeck, String, ManaPanel, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ,
 				magicDeck, colorIdentityProperty, manaPanel, manaCostProperty3);
 		autoBinding4.bind();
 		//
 
-		var bindingGroup = new BindingGroup();
+		final var bindingGroup = new BindingGroup();
 		bindingGroup.addBinding(autoBinding1);
 		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding3);
 		bindingGroup.addBinding(autoBinding4);
 
 		if (magicDeck != null && magicDeck.getDateCreation() != null) {
-			var df = DateFormat.getDateInstance(DateFormat.SHORT, MTGControler.getInstance().getLocale());
+			final var df = DateFormat.getDateInstance(DateFormat.SHORT, MTGControler.getInstance().getLocale());
 			lblDateInformation.setText(df.format(magicDeck.getDateCreation()));
 		}
 
 		tagsPanel.clean();
 
-		if (magicDeck != null)
-			tagsPanel.bind(magicDeck.getTags());
+		if (magicDeck != null) {
+		    tagsPanel.bind(magicDeck.getTags());
+		}
 
 		return bindingGroup;
 	}

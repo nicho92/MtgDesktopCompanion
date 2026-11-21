@@ -52,15 +52,15 @@ public class ManualImportDialog extends JDialog {
 		setTitle(capitalize("MANUAL_IMPORT"));
 		setIconImage(MTGConstants.ICON_TAB_IMPORT.getImage());
 		setModal(true);
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		tagsPanel = new JTagsPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
-		var btnImport = new JButton(MTGConstants.ICON_SAVE);
+		final var btnImport = new JButton(MTGConstants.ICON_SAVE);
 		btnImport.setToolTipText(capitalize("IMPORT"));
 		panel.add(btnImport);
 
-		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+		final var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.setToolTipText(capitalize("CANCEL"));
 		btnCancel.addActionListener(_ -> {
 			editorPane.setText("");
@@ -71,11 +71,11 @@ public class ManualImportDialog extends JDialog {
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		panel.add(lblLoading);
 
-		var lblPastYourDeck = new JLabel(capitalize("IMPORT_HELP"));
+		final var lblPastYourDeck = new JLabel(capitalize("IMPORT_HELP"));
 
 		getContentPane().add(lblPastYourDeck, BorderLayout.NORTH);
 
-		var panelCenter = new JPanel();
+		final var panelCenter = new JPanel();
 		getContentPane().add(panelCenter, BorderLayout.CENTER);
 		panelCenter.setLayout(new BorderLayout(0, 0));
 		editorPane = new JTextPane();
@@ -90,18 +90,18 @@ public class ManualImportDialog extends JDialog {
 		tagsPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				var name = tagsPanel.getTagAt(e.getPoint());
+				final var name = tagsPanel.getTagAt(e.getPoint());
 				try {
 					editorPane.getDocument().remove(start, position - start);
 					editorPane.getDocument().insertString(start, " " + name, null);
 					editorPane.requestFocus();
-					var r = new Robot();
+					final var r = new Robot();
 					r.keyPress(KeyEvent.VK_ENTER);
 					start = 0;
 
-				} catch (BadLocationException e1) {
+				} catch (final BadLocationException e1) {
 					logger.error("error editing at s:{} e:{}", start, (position - start), e1);
-				} catch (AWTException e1) {
+				} catch (final AWTException e1) {
 					logger.error("Error loading key enter", e1);
 				}
 
@@ -114,20 +114,22 @@ public class ManualImportDialog extends JDialog {
 				position = editorPane.getCaretPosition();
 				try {
 
-					if (ke.getKeyCode() == KeyEvent.VK_SPACE && start <= 0)
-						start = position - 1;
+					if (ke.getKeyCode() == KeyEvent.VK_SPACE && start <= 0) {
+					    start = position - 1;
+					}
 
-					if (ke.getKeyCode() == KeyEvent.VK_ENTER)
-						start = 0;
+					if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+					    start = 0;
+					}
 
 					if (start >= 0) {
-						String currentName = editorPane.getText(start, (position - start)).trim();
+						final String currentName = editorPane.getText(start, (position - start)).trim();
 						if (currentName.length() >= 3) {
 							tagsPanel.bind(getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(currentName));
 						}
 
 					}
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("error", e);
 				}
 
@@ -136,7 +138,7 @@ public class ManualImportDialog extends JDialog {
 
 		btnImport.addActionListener(_ -> {
 
-			DeckImportWorker sw = new DeckImportWorker(
+			final DeckImportWorker sw = new DeckImportWorker(
 					getPlugin(MTGConstants.DEFAULT_MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading, null) {
 
 				@Override
@@ -144,7 +146,7 @@ public class ManualImportDialog extends JDialog {
 
 					try {
 						importedDeck = exp.importDeck(editorPane.getText(), "manual");
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						err = e;
 						logger.error("error export with {}", exp, e);
 					}

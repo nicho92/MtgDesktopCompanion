@@ -29,20 +29,21 @@ public class ThreadManager {
 
 	private static ThreadManager inst;
 	private ThreadPoolExecutor executor;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
 
 	public static ThreadManager getInstance() {
-		if (inst == null)
-			inst = new ThreadManager();
+		if (inst == null) {
+		    inst = new ThreadManager();
+		}
 
 		return inst;
 	}
-	
+
 	public ThreadPoolExecutor getExecutor() {
 	    return executor;
 	}
-	
+
 
 	public void executeThread(MTGRunnable task, String name) {
 
@@ -78,7 +79,7 @@ public class ThreadManager {
 
 	public void runInEdt(SwingWorker<?, ?> runnable, String name) {
 
-		var info = new TaskInfo(runnable);
+		final var info = new TaskInfo(runnable);
 		info.setName(name);
 		info.setType(TYPE.WORKER);
 		AbstractTechnicalServiceManager.inst().store(info);
@@ -135,7 +136,7 @@ public class ThreadManager {
 	}
 
 	public JsonObject toJson() {
-		var objExe = new JsonObject();
+		final var objExe = new JsonObject();
 		objExe.addProperty("activeCount", executor.getActiveCount());
 		objExe.addProperty("completeTaskCount", executor.getCompletedTaskCount());
 		objExe.addProperty("corePoolSize", executor.getCorePoolSize());
@@ -144,7 +145,7 @@ public class ThreadManager {
 		objExe.addProperty("factory", executor.getThreadFactory().toString());
 		objExe.addProperty("executor", executor.getClass().getCanonicalName());
 
-		var objRet = new JsonObject();
+		final var objRet = new JsonObject();
 		objRet.add("factory", objExe);
 		objRet.add("tasks", new JsonExport().toJsonArray(AbstractTechnicalServiceManager.inst().getTasksInfos()));
 
@@ -154,7 +155,7 @@ public class ThreadManager {
 	public void timer(MTGRunnable mtgRunnable, String name, int time, TimeUnit timeUnit) {
 		logger.debug("Starting {} service with frequence = {} {}", name, time, timeUnit);
 		mtgRunnable.getInfo().setName(name);
-		var timer = new Timer(true);
+		final var timer = new Timer(true);
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
@@ -167,7 +168,7 @@ public class ThreadManager {
 	public void sleep(int i) {
 		try {
 			Thread.sleep(i);
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			Thread.currentThread().interrupt();
 			logger.error(e);
 		}

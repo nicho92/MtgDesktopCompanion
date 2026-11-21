@@ -74,7 +74,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	@Override
 	public Object getValueAt(int row, int column) {
 
-		Transaction it = items.get(row);
+		final Transaction it = items.get(row);
 		switch (column) {
 			case 0 :
 				return it;
@@ -124,29 +124,37 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex == 0)
-			return Transaction.class;
+		if (columnIndex == 0) {
+		    return Transaction.class;
+		}
 
-		if (columnIndex == 1 || columnIndex == 7 || columnIndex == 9)
-			return Date.class;
+		if (columnIndex == 1 || columnIndex == 7 || columnIndex == 9) {
+		    return Date.class;
+		}
 
-		if (columnIndex == 3)
-			return Integer.class;
+		if (columnIndex == 3) {
+		    return Integer.class;
+		}
 
-		if (columnIndex == 2)
-			return Contact.class;
+		if (columnIndex == 2) {
+		    return Contact.class;
+		}
 
-		if (columnIndex == 4 || columnIndex == 5 || columnIndex == 6)
-			return MoneyValue.class;
+		if (columnIndex == 4 || columnIndex == 5 || columnIndex == 6) {
+		    return MoneyValue.class;
+		}
 
-		if (columnIndex == 12)
-			return EnumTransactionStatus.class;
+		if (columnIndex == 12) {
+		    return EnumTransactionStatus.class;
+		}
 
-		if (columnIndex == 8)
-			return EnumPaymentProvider.class;
+		if (columnIndex == 8) {
+		    return EnumPaymentProvider.class;
+		}
 
-		if (columnIndex == 13)
-			return EnumTransactionDirection.class;
+		if (columnIndex == 13) {
+		    return EnumTransactionDirection.class;
+		}
 
 		return super.getColumnClass(columnIndex);
 	}

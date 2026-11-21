@@ -17,9 +17,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 
 public class SQLTools {
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 
-	private DSLContext ctx;
+	private final DSLContext ctx;
 
 	public SQLTools(SQLDialect dialect) {
 
@@ -28,7 +28,7 @@ public class SQLTools {
 		System.setProperty("org.jooq.no-tips", "true");
 		System.setProperty("org.jooq.no-logo", "true");
 
-		var settings = new Settings().withStatementType(StatementType.STATIC_STATEMENT)
+		final var settings = new Settings().withStatementType(StatementType.STATIC_STATEMENT)
 				.withRenderQuotedNames(RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED) // Defaults to
 																					// EXPLICIT_DEFAULT_QUOTED
 				.withRenderNameCase(RenderNameCase.LOWER_IF_UNQUOTED);
@@ -42,9 +42,10 @@ public class SQLTools {
 	}
 
 	public String insertDefaultCollections() {
-		var d = ctx.insertInto(table("collections"), field("name"));
-		for (var s : MTGConstants.defaultCollectionsNames())
-			d.values(s);
+		final var d = ctx.insertInto(table("collections"), field("name"));
+		for (final var s : MTGConstants.defaultCollectionsNames()) {
+		    d.values(s);
+		}
 
 		return d.getSQL();
 	}
@@ -55,7 +56,7 @@ public class SQLTools {
 
 	public String insertMainContact() {
 
-		var c = MTGConstants.DEFAULT_CONTACT;
+		final var c = MTGConstants.DEFAULT_CONTACT;
 
 		return ctx
 				.insertInto(table("contacts"), field("contact_id"), field("contact_name"), field("contact_lastname"),

@@ -30,7 +30,7 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		chart = new TransactionBalanceChartPanel();
@@ -38,7 +38,7 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 		getContentPane().add(chart, BorderLayout.CENTER);
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);
@@ -49,7 +49,7 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 
-		var sw = new SwingWorker<List<Transaction>, Void>() {
+		final var sw = new SwingWorker<List<Transaction>, Void>() {
 			@Override
 			protected List<Transaction> doInBackground() throws Exception {
 				return TransactionService.listTransactions();
@@ -58,9 +58,9 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 			protected void done() {
 				try {
 					chart.init(get());
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					logger.error(e);
 				}
 			}

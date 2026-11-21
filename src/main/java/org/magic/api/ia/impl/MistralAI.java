@@ -23,12 +23,13 @@ public class MistralAI extends AbstractIA {
 
 	@Override
 	public ChatModel getEngine(ResponseFormat format) {
-		var b = MistralAiChatModel.builder().apiKey(getAuthenticator().get("API_KEY"))
+		final var b = MistralAiChatModel.builder().apiKey(getAuthenticator().get("API_KEY"))
 				.modelName(MistralAiChatModelName.valueOf(getString("MODEL"))).logRequests(getBoolean("LOG"))
 				.logResponses(getBoolean("LOG")).temperature(getDouble("TEMPERATURE"));
 
-		if (format != null)
-			b.responseFormat(format);
+		if (format != null) {
+		    b.responseFormat(format);
+		}
 
 		return b.build();
 	}
@@ -46,7 +47,7 @@ public class MistralAI extends AbstractIA {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = super.getDefaultAttributes();
+		final var map = super.getDefaultAttributes();
 		map.put("MODEL", new MTGProperty(MistralAiChatModelName.MISTRAL_SMALL_LATEST.name(), "choose langage model",
 				Arrays.stream(MistralAiChatModelName.values()).map(Enum::name).toList().toArray(new String[0])));
 		return map;

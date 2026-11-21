@@ -20,7 +20,7 @@ import org.magic.services.tools.FileTools;
 
 public class MTGStockExport extends AbstractFormattedFileCardExport {
 
-	private String columns = "\"Card\",\"Set\",\"Quantity\",\"Price\",\"Condition\",\"Language\",\"Foil\",\"Signed\"";
+	private final String columns = "\"Card\",\"Set\",\"Quantity\",\"Price\",\"Condition\",\"Language\",\"Foil\",\"Signed\"";
 
 	@Override
 	public String getStockFileExtension() {
@@ -40,7 +40,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 		temp.append(columns).append("\n");
 
 		stock.forEach(st -> {
@@ -60,27 +60,27 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MTGCardStock> ret = new ArrayList<>();
+		final List<MTGCardStock> ret = new ArrayList<>();
 
 		matches(content, true).forEach(m -> {
-			String cname = cleanName(m.group(1));
+			final String cname = cleanName(m.group(1));
 			MTGEdition ed = null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("Edition not found for {}", m.group(2));
 			}
 
 			MTGCard card = null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				logger.error("no card found for {}/{}", cname, ed);
 			}
 
 			if (card != null) {
-				Integer qty = Integer.parseInt(m.group(3));
-				MTGCardStock st = MTGControler.getInstance().getDefaultStock();
+				final Integer qty = Integer.parseInt(m.group(3));
+				final MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 				st.setProduct(card);
 				st.setQte(qty);
 				st.setPrice(Double.parseDouble(m.group(4)));
@@ -99,27 +99,27 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	@Override
 	public MTGDeck importDeck(String f, String dname) throws IOException {
 
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(dname);
 
 		matches(f, true).forEach(m -> {
-			String cname = cleanName(m.group(1));
+			final String cname = cleanName(m.group(1));
 			MTGEdition ed = null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("Edition not found for {}", m.group(2));
 			}
 
 			MTGCard card = null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				logger.error("no card found for {}/{}", cname, ed);
 			}
 
 			if (card != null) {
-				Integer qty = Integer.parseInt(m.group(3));
+				final Integer qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(card, qty);
 				notify(card);
 			}

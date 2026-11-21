@@ -235,8 +235,9 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof MTGStockItem))
-			return false;
+		if (!(obj instanceof MTGStockItem)) {
+		    return false;
+		}
 
 		return getId() == ((MTGStockItem) obj).getId();
 	}

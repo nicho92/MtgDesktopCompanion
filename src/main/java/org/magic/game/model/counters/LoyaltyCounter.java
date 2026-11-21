@@ -13,8 +13,8 @@ public class LoyaltyCounter extends AbstractCounter {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private LoyaltyCost value;
-	private String label;
+	private final LoyaltyCost value;
+	private final String label;
 
 	public LoyaltyCounter(LoyaltyAbilities la) {
 
@@ -28,12 +28,12 @@ public class LoyaltyCounter extends AbstractCounter {
 		var loy = 0;
 		try {
 			loy = displayableCard.getMagicCard().getLoyalty();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
 		if (value.isX()) {
-			String x = JOptionPane.showInputDialog("X ?");
+			final String x = JOptionPane.showInputDialog("X ?");
 			value.setX(Integer.parseInt(x));
 		}
 		displayableCard.getMagicCard().setLoyalty(loy + value.getValue());
@@ -45,7 +45,7 @@ public class LoyaltyCounter extends AbstractCounter {
 		var loy = 0;
 		try {
 			loy = displayableCard.getMagicCard().getLoyalty();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -66,8 +66,9 @@ public class LoyaltyCounter extends AbstractCounter {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

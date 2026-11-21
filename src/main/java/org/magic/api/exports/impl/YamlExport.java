@@ -31,8 +31,8 @@ public class YamlExport extends AbstractCardExport {
 
 	private void init() {
 
-		var loaderoptions = new LoaderOptions();
-		TagInspector taginspector = tag -> tag.getClassName().startsWith("org.magic.api.beans");
+		final var loaderoptions = new LoaderOptions();
+		final TagInspector taginspector = tag -> tag.getClassName().startsWith("org.magic.api.beans");
 
 		loaderoptions.setTagInspector(taginspector);
 
@@ -67,10 +67,10 @@ public class YamlExport extends AbstractCardExport {
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		init();
 
-		var list = new ArrayList<MTGCardStock>();
+		final var list = new ArrayList<MTGCardStock>();
 		yaml.loadAll(content).forEach(o -> {
 
-			var st = (MTGCardStock) o;
+			final var st = (MTGCardStock) o;
 			list.add(st);
 			notify(st.getProduct());
 		});

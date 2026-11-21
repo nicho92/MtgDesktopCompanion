@@ -77,7 +77,7 @@ class DummyWebcamDevice implements WebcamDevice {
 	public void setFile(File f) {
 		try {
 			bounce = ImageTools.read(f);
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			bounce = null;
 		}
 	}
@@ -85,7 +85,7 @@ class DummyWebcamDevice implements WebcamDevice {
 	public void setURL(URL f) {
 		try {
 			bounce = URLTools.extractAsImage(f.toString());
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			bounce = null;
 		}
 	}
@@ -130,8 +130,8 @@ class DummyWebcamDevice implements WebcamDevice {
 	}
 
 	private void update() {
-		long now = System.currentTimeMillis();
-		double delta = (now - time) / 1000.0;
+		final long now = System.currentTimeMillis();
+		final double delta = (now - time) / 1000.0;
 		time = now;
 		bounceX += xvel * delta;
 		bounceY += yvel * delta;

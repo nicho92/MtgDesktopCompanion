@@ -24,14 +24,15 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 
 	@Override
 	public Map<String, List<MTGPrice>> getPricesBySeller(List<MTGCard> cards) throws IOException {
-		Map<String, List<MTGPrice>> map = new HashMap<>();
+		final Map<String, List<MTGPrice>> map = new HashMap<>();
 
-		for (MTGCard mc : cards) {
+		for (final MTGCard mc : cards) {
 			notify(mc);
-			List<MTGPrice> prices = getPrice(mc);
+			final List<MTGPrice> prices = getPrice(mc);
 
-			for (MTGPrice mp : prices)
-				map.computeIfAbsent(mp.getSeller(), _ -> new ArrayList<>()).add(mp);
+			for (final MTGPrice mp : prices) {
+			    map.computeIfAbsent(mp.getSeller(), _ -> new ArrayList<>()).add(mp);
+			}
 		}
 		return map;
 	}
@@ -40,18 +41,18 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 	public MTGPrice getBestPrice(MTGCard card) {
 		try {
 			return getPrice(card).stream().min(new MagicPricesComparator()).orElse(null);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 			return null;
 		}
 	}
 
 	private List<MTGPrice> retrieveMap(Map<MTGCard, Integer> map) {
-		List<MTGPrice> ret = new ArrayList<>();
+		final List<MTGPrice> ret = new ArrayList<>();
 
 		map.entrySet().forEach(e -> {
 			try {
-				MTGPrice p = getPrice(e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
+				final MTGPrice p = getPrice(e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
 				if (p != null) {
 					p.setCardData(e.getKey());
 					p.setQty(e.getValue());
@@ -59,7 +60,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 					ret.add(p);
 					notify(p);
 				}
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				logger.error(e1);
 			}
 		});
@@ -70,11 +71,12 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 	@Override
 	public List<MTGPrice> getPrice(MTGDeck d, boolean side) throws IOException {
 
-		List<MTGPrice> ret = new ArrayList<>();
+		final List<MTGPrice> ret = new ArrayList<>();
 		ret.addAll(retrieveMap(d.getMain()));
 
-		if (side)
-			ret.addAll(retrieveMap(d.getSideBoard()));
+		if (side) {
+		    ret.addAll(retrieveMap(d.getSideBoard()));
+		}
 
 		return ret;
 	}
@@ -85,7 +87,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 			return getPrice(mc).stream()
 					.filter(mp -> mp.isFoil() == foil && mp.getScryfallId().equals(mc.getScryfallId()))
 					.min(new MagicPricesComparator()).orElse(new MTGPrice()).getValue();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return 0.0;
 		}

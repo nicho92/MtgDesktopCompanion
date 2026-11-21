@@ -21,54 +21,54 @@ public class NerdLeaguesComboProvider extends AbstractComboProvider {
     public String getName() {
 	return "NerdLeagues";
     }
- 
+
     @Override
     public List<MTGCombo> loadComboWith(MTGCard mc) {
-	var result = new ArrayList<MTGCombo>();
-	
-	var payload = new JsonObject();
-	var cardsP = new JsonArray();
-	
+	final var result = new ArrayList<MTGCombo>();
+
+	final var payload = new JsonObject();
+	final var cardsP = new JsonArray();
+
 	cardsP.add(mc.getName());
-	
+
 	payload.add("cards", cardsP);
 	payload.addProperty("page", 1);
-	
+
 	  try {
-	      
-	      var c = URLTools.newClient();
-	      
-	      var element = c.doPost("https://www.nerdleagues.com/combos/search-by-card", URLTools.toJson(payload.toString()), Map.of(URLTools.REFERER,"https://www.nerdleagues.com/combos")).getAsJsonObject();
-	      	      
-	    
-	    for(var e : element.get("results").getAsJsonObject().get("included").getAsJsonArray())
+
+	      final var c = URLTools.newClient();
+
+	      final var element = c.doPost("https://www.nerdleagues.com/combos/search-by-card", URLTools.toJson(payload.toString()), Map.of(URLTools.REFERER,"https://www.nerdleagues.com/combos")).getAsJsonObject();
+
+
+	    for(final var e : element.get("results").getAsJsonObject().get("included").getAsJsonArray())
 	    {
-		var obj = e.getAsJsonObject();
-		
-		var combo = new MTGCombo();;
-		
-		combo.setName(obj.get("identity").getAsString());	
+		final var obj = e.getAsJsonObject();
+
+		final var combo = new MTGCombo();
+
+		combo.setName(obj.get("identity").getAsString());
 		combo.setComment(obj.get("description").getAsString());
 		combo.setPlugin(this);
-		
-		for(var el : obj.get("uses").getAsJsonArray())
+
+		for(final var el : obj.get("uses").getAsJsonArray())
 		{
-		    var id = el.getAsJsonObject().get("card").getAsJsonObject().get("name").getAsString();
-		    
-		    var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(id,null,true).getFirst();
-		    
+		    final var id = el.getAsJsonObject().get("card").getAsJsonObject().get("name").getAsString();
+
+		    final var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(id,null,true).getFirst();
+
 		    combo.getCards().add(card);
 		}
 		notify(combo);
 		result.add(combo);
 	    }
-	} catch (IOException e) {
+	} catch (final IOException e) {
 	   logger.error(e);
 	}
-	
-	
-	
-	
+
+
+
+
 	return result;
     }
 

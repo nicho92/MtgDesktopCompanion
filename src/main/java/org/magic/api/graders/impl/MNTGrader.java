@@ -14,9 +14,9 @@ public class MNTGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		MTGHttpClient c = URLTools.newClient();
+		final MTGHttpClient c = URLTools.newClient();
 
-		var el = RequestBuilder.build().setClient(c).url(getWebSite() + "/wp-admin/admin-ajax.php").post()
+		final var el = RequestBuilder.build().setClient(c).url(getWebSite() + "/wp-admin/admin-ajax.php").post()
 				.addContent("verification_number", identifier).addContent("action", "mnt_verification_lookup")
 				.addHeader(URLTools.REFERER, getWebSite() + "/verification-lookup/")
 				.addHeader("x-requested-with", "XMLHttpRequest").addHeader(":authority", "mntgrading.com")
@@ -24,7 +24,7 @@ public class MNTGrader extends AbstractGradersProvider {
 				.addHeader(URLTools.CONTENT_TYPE, "application/x-www-form-urlencoded; charset=UTF-8")
 				.addHeader("sec-fetch-dest", "empty").addHeader("sec-fetch-mode", "cors").toJson();
 
-		var grad = new MTGGrading();
+		final var grad = new MTGGrading();
 		grad.setNumberID(identifier);
 		final String valueKey = "value";
 		grad.setCentering(el.getAsJsonObject().get("grade_center").getAsJsonObject().get(valueKey).getAsDouble());

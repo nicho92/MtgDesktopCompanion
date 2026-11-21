@@ -30,12 +30,13 @@ import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
 
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public static boolean isArenaDeck(MTGDeck d) {
-		for (MTGCard mc : d.getUniqueCards()) {
-			if (!mc.isArenaCard())
-				return false;
+		for (final MTGCard mc : d.getUniqueCards()) {
+			if (!mc.isArenaCard()) {
+			    return false;
+			}
 		}
 
 		return true;
@@ -43,13 +44,15 @@ public class MTGDeckManager extends Observable {
 
 	public static boolean isLegal(MTGDeck magicDeck, MTGFormat.FORMATS format) {
 
-		if (format == FORMATS.COMMANDER)
-			return isCommander(magicDeck);
+		if (format == FORMATS.COMMANDER) {
+		    return isCommander(magicDeck);
+		}
 
-		if (magicDeck.getMainAsList().size() < 60)
-			return false;
+		if (magicDeck.getMainAsList().size() < 60) {
+		    return false;
+		}
 
-		var mf = new MTGFormat();
+		final var mf = new MTGFormat();
 		mf.setFormat(MTGFormat.toString(format));
 		return magicDeck.isCompatibleFormat(mf);
 
@@ -57,12 +60,14 @@ public class MTGDeckManager extends Observable {
 
 	public static boolean isCommander(MTGDeck magicDeck) {
 
-		if (magicDeck.getMainAsList().size() != 100)
-			return false;
+		if (magicDeck.getMainAsList().size() != 100) {
+		    return false;
+		}
 
-		for (Entry<MTGCard, Integer> entry : magicDeck.getMain().entrySet()) {
-			if (!entry.getKey().isBasicLand() && entry.getValue() > 1)
-				return false;
+		for (final Entry<MTGCard, Integer> entry : magicDeck.getMain().entrySet()) {
+			if (!entry.getKey().isBasicLand() && entry.getValue() > 1) {
+			    return false;
+			}
 		}
 
 		return true;
@@ -71,7 +76,7 @@ public class MTGDeckManager extends Observable {
 	public MTGDeck getDeck(Integer id) {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).getDeckById(id);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error getting deck with id={}", id, e);
 			return null;
 		}
@@ -80,15 +85,15 @@ public class MTGDeckManager extends Observable {
 	public List<MTGDeck> listDecks() {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listDecks();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 			return new ArrayList<>();
 		}
 	}
 
 	public List<MTGDeck> listDecksWith(MTGCard mc, boolean strict) {
-		List<MTGDeck> decks = new ArrayList<>();
-		for (MTGDeck deck : listDecks()) {
+		final List<MTGDeck> decks = new ArrayList<>();
+		for (final MTGDeck deck : listDecks()) {
 			if (deck.hasCard(mc, strict)) {
 				decks.add(deck);
 				setChanged();
@@ -101,7 +106,7 @@ public class MTGDeckManager extends Observable {
 	public void saveDeck(MTGDeck deck) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateDeck(deck);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 			throw new IOException(e);
 		}
@@ -111,42 +116,44 @@ public class MTGDeckManager extends Observable {
 	public void remove(MTGDeck selectedDeck) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).deleteDeck(selectedDeck);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 			throw new IOException(e);
 		}
 	}
 
 	public Map<String, Boolean> analyseLegalities(MTGDeck d) {
-		var temp = new TreeMap<String, Boolean>();
+		final var temp = new TreeMap<String, Boolean>();
 
-		for (MTGFormat.FORMATS s : MTGFormat.FORMATS.values()) {
+		for (final MTGFormat.FORMATS s : MTGFormat.FORMATS.values()) {
 			temp.put(s.name(), isLegal(d, s));
 		}
 		return temp;
 	}
 
 	public Map<Integer, Integer> analyseCMC(List<MTGCard> cards) {
-		var cmcs = new TreeMap<Integer, Integer>();
+		final var cmcs = new TreeMap<Integer, Integer>();
 		cards.forEach(card -> {
-			if ((card.getCmc() != null) && !card.isLand())
-				cmcs.put(card.getCmc(), cmcs.get(card.getCmc()) == null ? 1 : cmcs.get(card.getCmc()) + 1);
+			if ((card.getCmc() != null) && !card.isLand()) {
+			    cmcs.put(card.getCmc(), cmcs.get(card.getCmc()) == null ? 1 : cmcs.get(card.getCmc()) + 1);
+			}
 		});
 
 		return cmcs;
 	}
 
 	public Map<String, Integer> analyseTypes(List<MTGCard> cards) {
-		var types = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+		final var types = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
 		cards.forEach(card -> types.compute(card.getTypes().get(0), (_, v) -> (v == null) ? 1 : v + 1));
 		return types;
 	}
 
 	public Map<EnumColors, Integer> analyseColors(List<MTGCard> cards) {
-		var colors = new TreeMap<EnumColors, Integer>();
+		final var colors = new TreeMap<EnumColors, Integer>();
 
-		if (cards == null)
-			return colors;
+		if (cards == null) {
+		    return colors;
+		}
 
 		cards.forEach(
 				card -> colors.compute(EnumColors.determine(card.getColors()), (_, v) -> (v == null) ? 1 : v + 1));
@@ -155,10 +162,10 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<MTGCard, List<Double>> analyseDrawing(MTGDeck d) {
-		var ret = new HashMap<MTGCard, List<Double>>();
+		final var ret = new HashMap<MTGCard, List<Double>>();
 
-		for (var mc : d.getUniqueCards()) {
-			var list = new ArrayList<Double>();
+		for (final var mc : d.getUniqueCards()) {
+			final var list = new ArrayList<Double>();
 			for (var i = 0; i < 10; i++) {
 				list.add(getProbability(d, i, mc));
 			}
@@ -169,7 +176,7 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<EnumRarity, Integer> analyseRarities(List<MTGCard> cards) {
-		var rarity = new TreeMap<EnumRarity, Integer>();
+		final var rarity = new TreeMap<EnumRarity, Integer>();
 		cards.forEach(card -> rarity.compute(card.getRarity(), (_, v) -> (v == null) ? 1 : v + 1));
 
 		return rarity;
@@ -177,21 +184,23 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public double getProbability(MTGDeck deck, int turn, MTGCard mc) {
-		if ((deck == null) || (mc == null))
-			return 0;
+		if ((deck == null) || (mc == null)) {
+		    return 0;
+		}
 
 		var drawedCards = 7;
 
-		if (turn <= 0)
-			drawedCards = 7;
-		else
-			drawedCards = drawedCards + turn;
+		if (turn <= 0) {
+		    drawedCards = 7;
+		} else {
+		    drawedCards = drawedCards + turn;
+		}
 
-		var cardCount = deck.getCardCountByName(mc.getName());
-		var deckSize = deck.getNbCards();
+		final var cardCount = deck.getCardCountByName(mc.getName());
+		final var deckSize = deck.getNbCards();
 		try {
 			return new HypergeometricDistribution(deckSize, cardCount, drawedCards).upperCumulativeProbability(1);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return 0;
 		}
 
@@ -199,25 +208,26 @@ public class MTGDeckManager extends Observable {
 
 	public MTGDeck generateRandomDeck() throws IOException {
 		try {
-			var random = SecureRandom.getInstanceStrong();
+			final var random = SecureRandom.getInstanceStrong();
 
-			var deckServices = listEnabledPlugins(MTGDeckSniffer.class).stream()
+			final var deckServices = listEnabledPlugins(MTGDeckSniffer.class).stream()
 					.filter(p -> p.getStatut() == STATUT.STABLE).toList();
-			var sniffer = deckServices.get(random.nextInt(deckServices.size()));
-			var formats = sniffer.listFilter();
-			var f = formats[random.nextInt(formats.length)];
-			var availableDecks = sniffer.getDeckList(f, null);
+			final var sniffer = deckServices.get(random.nextInt(deckServices.size()));
+			final var formats = sniffer.listFilter();
+			final var f = formats[random.nextInt(formats.length)];
+			final var availableDecks = sniffer.getDeckList(f, null);
 
-			if (availableDecks.isEmpty())
-				throw new IOException("No deck found for " + sniffer + " " + f);
+			if (availableDecks.isEmpty()) {
+			    throw new IOException("No deck found for " + sniffer + " " + f);
+			}
 
-			var d = availableDecks.get(random.nextInt(availableDecks.size()));
+			final var d = availableDecks.get(random.nextInt(availableDecks.size()));
 
 			logger.info("Generating random deck from {} : {} ", sniffer, d.getName());
 
 			return sniffer.getDeck(d);
 
-		} catch (NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			logger.error(e);
 			return new MTGDeck();
 		}

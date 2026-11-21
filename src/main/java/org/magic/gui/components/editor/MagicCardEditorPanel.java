@@ -62,37 +62,37 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private transient BindingGroup mbindingGroup;
 	private MTGCard magicCard = new MTGCard();
 
-	private JTextField artistJTextField;
-	private JTextField costJTextField;
-	private JTextField flavorJTextField;
-	private JTextField loyaltyJTextField;
-	private JTextField nameJTextField;
-	private JTextField numberJTextField;
-	private JTextField powerJTextField;
-	private JTextField txtSubTypes;
-	private JTextField toughnessJTextField;
-	private JTextField subsetJTextField;
+	private final JTextField artistJTextField;
+	private final JTextField costJTextField;
+	private final JTextField flavorJTextField;
+	private final JTextField loyaltyJTextField;
+	private final JTextField nameJTextField;
+	private final JTextField numberJTextField;
+	private final JTextField powerJTextField;
+	private final JTextField txtSubTypes;
+	private final JTextField toughnessJTextField;
+	private final JTextField subsetJTextField;
 
-	private MagicTextPane textJEditorPane;
-	private JSpinner spinnerTextSize;
-	private JButton btnImage;
-	private JButton btnUrl;
-	private JButton btnWallpaper;
-	private JCheckBox chkMatureContent;
+	private final MagicTextPane textJEditorPane;
+	private final JSpinner spinnerTextSize;
+	private final JButton btnImage;
+	private final JButton btnUrl;
+	private final JButton btnWallpaper;
+	private final JCheckBox chkMatureContent;
 	private final JCheckBox chkPromo;
 	private final JCheckBox chkRetro;
 	private final JCheckBox chkShowSetIcon;
 	private final JComboBox<String> cboColorAccent;
 	private final JCheckableListBox<EnumFrameEffects> cboFrameEffects;
 	private final JComboBox<EnumLayout> cboLayout;
-	private JComboBox<EnumBorders> cboBorders;
-	private JComboBox<String> cboSide;
-	private JComboBox<EnumRarity> cboRarity;
-	private JComboBox<MTGCard> cboReversedCards;
-	private JCheckableListBox<String> cboSuperType;
-	private JCheckableListBox<String> cboTypes;
-	private JCheckableListBox<String> cboSubtypes;
-	private JCheckBox chkUseProxy;
+	private final JComboBox<EnumBorders> cboBorders;
+	private final JComboBox<String> cboSide;
+	private final JComboBox<EnumRarity> cboRarity;
+	private final JComboBox<MTGCard> cboReversedCards;
+	private final JCheckableListBox<String> cboSuperType;
+	private final JCheckableListBox<String> cboTypes;
+	private final JCheckableListBox<String> cboSubtypes;
+	private final JCheckBox chkUseProxy;
 
 	@Override
 	public String getTitle() {
@@ -100,7 +100,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	}
 
 	public MagicCardEditorPanel() {
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 279, 122, 103, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, 1.0};
@@ -108,9 +108,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				0.0, 0.0, 0.0};
 		setLayout(gridBagLayout);
 
-		var panelButton = new JPanel();
-		var textEditorPanel = new JPanel();
-		var pictureEditorPanel = new JPanel();
+		final var panelButton = new JPanel();
+		final var textEditorPanel = new JPanel();
+		final var pictureEditorPanel = new JPanel();
 
 		nameJTextField = new JTextField();
 		costJTextField = new JTextField();
@@ -124,10 +124,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		textJEditorPane = new MagicTextPane(false);
 		flavorJTextField = new JTextField();
 		cboFrameEffects = new JCheckableListBox<>();
-		
-		for(var f : EnumFrameEffects.values())
-		    cboFrameEffects.addElement(f, false);		
-		
+
+		for(final var f : EnumFrameEffects.values()) {
+		    cboFrameEffects.addElement(f, false);
+		}
+
 		cboLayout= UITools.createCombobox(EnumLayout.values());
 		cboBorders = UITools.createCombobox(EnumBorders.values());
 		cboReversedCards = new JComboBox<>();
@@ -140,15 +141,15 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		chkShowSetIcon = new JCheckBox("Show Icon Set");
 		spinnerTextSize = new JSpinner(new SpinnerNumberModel(32, 18, 38, 1));
 		chkUseProxy = new JCheckBox("use proxy");
-		
+
 		btnUrl = new JButton("URL", MTGConstants.ICON_WEBSITE);
 		btnImage = new JButton("File", MTGConstants.ICON_NEW);
 		btnWallpaper = new JButton("WallPaper", MTGConstants.ICON_WALLPAPER);
 		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[]{"", "C", "A", "W", "WU", "WB", "U","UB", "UR", "B", "BR", "BG", "R", "RG", "RW", "G", "GW", "GU"}));
 
-		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane));
-		var modelSt = new DefaultListCheckModel();
-		var model = new DefaultListCheckModel();
+		final var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane));
+		final var modelSt = new DefaultListCheckModel();
+		final var model = new DefaultListCheckModel();
 		powerJTextField = new JTextField(2);
 		toughnessJTextField = new JTextField(2);
 
@@ -203,7 +204,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		pictureEditorPanel.add(UITools.createFlowPanel(btnUrl, btnImage, btnWallpaper,chkUseProxy));
 		pictureEditorPanel.add(UITools.createFlowPanel(new JLangLabel("SIZE", true), spinnerTextSize));
 
-		for (var s : new String[]{"W", "U", "B", "R", "G", "C", "T", "E"}) {
+		for (final var s : new String[]{"W", "U", "B", "R", "G", "C", "T", "E"}) {
 			final var btnG = new JButton();
 			btnG.setToolTipText(s);
 			btnG.setIcon(new ImageIcon(
@@ -214,7 +215,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				try {
 					textJEditorPane.getDocument().insertString(textJEditorPane.getCaretPosition(),
 							" {" + btnG.getToolTipText() + "}", null);
-				} catch (BadLocationException e1) {
+				} catch (final BadLocationException e1) {
 					textJEditorPane.setText(textJEditorPane.getText() + " {" + btnG.getToolTipText() + "}");
 					logger.error(e1);
 				}
@@ -226,7 +227,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				var g = new ManaCostDialog();
+				final var g = new ManaCostDialog();
 				g.setVisible(true);
 
 				if (g.hasSelected()) {
@@ -243,9 +244,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		});
 
 		btnImage.addActionListener(_ -> {
-			var choose = new JFileChooser();
+			final var choose = new JFileChooser();
 			choose.showOpenDialog(MagicCardEditorPanel.this);
-			var pics = choose.getSelectedFile();
+			final var pics = choose.getSelectedFile();
 			if (pics != null) {
 				magicCard.setUrl(pics.getAbsolutePath());
 			}
@@ -255,7 +256,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 		btnWallpaper.addActionListener(_ -> {
 
-			var wallChooser = new WallPaperChooseDialog();
+			final var wallChooser = new WallPaperChooseDialog();
 			wallChooser.setVisible(true);
 
 			if (wallChooser.hasSelected()) {
@@ -267,48 +268,50 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		});
 
 		cboReversedCards.addItemListener(event -> {
-			if (event.getStateChange() == ItemEvent.SELECTED)
-				magicCard.setRotatedCard(cboReversedCards.getItemAt(cboReversedCards.getSelectedIndex()));
+			if (event.getStateChange() == ItemEvent.SELECTED) {
+			    magicCard.setRotatedCard(cboReversedCards.getItemAt(cboReversedCards.getSelectedIndex()));
+			}
 		});
-		
-		
+
+
 		cboFrameEffects.getModel().addListCheckListener(new ListCheckListener() {
-		    
+
 		    @Override
 		    public void removeCheck(ListEvent event) {
 			cboReversedCards.setVisible(event.getValues().toString().contains("DFC"));
-			
+
 		    }
-		    
+
 		    @Override
 		    public void addCheck(ListEvent event) {
 			cboReversedCards.setVisible(event.getValues().toString().contains("DFC"));
 			cboReversedCards.removeAllItems();
 			cboReversedCards.addItem(null);
-			
+
 			try {
 				MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class)
 						.searchCardByEdition(magicCard.getEdition()).stream().sorted(new CardNameSorter()).toList()
 						.forEach(cboReversedCards::addItem);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
-			
-			
-			if (magicCard.isDoubleFaced())
-				cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
-			
+
+
+			if (magicCard.isDoubleFaced()) {
+			    cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
+			}
+
 		    }
 		});
 		mbindingGroup = initDataBindings();
 
 	}
-	
+
 	public boolean isProxied()
 	{
 		return chkUseProxy.isSelected();
 	}
-	
+
 
 	public MTGCard getMagicCard() {
 		magicCard.setTypes(cboTypes.getSelectedElements());
@@ -316,7 +319,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		magicCard.setText(textJEditorPane.getText());
 		magicCard.setBorder(cboBorders.getItemAt(cboBorders.getSelectedIndex()));
-		magicCard.setLayout(cboLayout.getItemAt(cboLayout.getSelectedIndex()));		
+		magicCard.setLayout(cboLayout.getItemAt(cboLayout.getSelectedIndex()));
 		magicCard.setFrameEffects(cboFrameEffects.getSelectedElements());
 		magicCard.setColors(EnumColors.parseColorsFromText(magicCard.getCost()));
 		magicCard.setColorIdentity(EnumColors.parseColorsFromText(magicCard.getCost()));
@@ -351,7 +354,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		chkMatureContent.setSelected(magicCard.isHasContentWarning());
 		chkPromo.setSelected(magicCard.isPromoCard());
 		chkRetro.setSelected(magicCard.isRetro());
-		
+
 		chkShowSetIcon.setSelected(Boolean.parseBoolean(
 				magicCard.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")));
 		cboBorders.setSelectedItem(magicCard.getBorder());
@@ -360,10 +363,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		magicCard.getSubtypes().forEach(s -> cboSubtypes.addElement(s, true));
 		cboReversedCards.setSelectedItem(magicCard.getRotatedCard());
 		cboFrameEffects.getModel().addCheck(magicCard.getFrameEffects());
-		
-		
+
+
 		cboLayout.setSelectedItem(magicCard.getLayout());
-		
+
 
 		spinnerTextSize.addChangeListener(_ -> magicCard.getCustomMetadata().put(EnumExtraCardMetaData.SIZE,
 				spinnerTextSize.getValue().toString()));
@@ -376,84 +379,85 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				"" + chkShowSetIcon.isSelected()));
 
 		cboBorders.addItemListener(_ -> {
-			if (cboBorders.getSelectedItem() != null)
-				magicCard.setBorder(EnumBorders.valueOf(String.valueOf(cboBorders.getSelectedItem())));
+			if (cboBorders.getSelectedItem() != null) {
+			    magicCard.setBorder(EnumBorders.valueOf(String.valueOf(cboBorders.getSelectedItem())));
+			}
 		});
 
-		BeanProperty<MTGCard, String> artistProperty = BeanProperty.create("artist");
-		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(
+		final BeanProperty<MTGCard, String> artistProperty = BeanProperty.create("artist");
+		final BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, artistProperty, artistJTextField, textProperty);
 
 		autoBinding.bind();
 		//
-		BeanProperty<MTGCard, String> costProperty = BeanProperty.create("cost");
-		BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding2 = Bindings
+		final BeanProperty<MTGCard, String> costProperty = BeanProperty.create("cost");
+		final BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding2 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, costJTextField, textProperty1);
 		autoBinding2.bind();
 		//
-		BeanProperty<MTGCard, String> flavorProperty = BeanProperty.create("flavor");
-		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
+		final BeanProperty<MTGCard, String> flavorProperty = BeanProperty.create("flavor");
+		final BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, flavorProperty, flavorJTextField, textProperty2);
 		autoBinding3.bind();
 		//
-		BeanProperty<MTGCard, String> nameProperty = BeanProperty.create("name");
-		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding10 = Bindings
+		final BeanProperty<MTGCard, String> nameProperty = BeanProperty.create("name");
+		final BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding10 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty5);
 		autoBinding10.bind();
 		//
-		BeanProperty<MTGCard, String> powerProperty = BeanProperty.create("power");
-		BeanProperty<JTextField, Object> valueProperty4 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, Object> autoBinding13 = Bindings.createAutoBinding(
+		final BeanProperty<MTGCard, String> powerProperty = BeanProperty.create("power");
+		final BeanProperty<JTextField, Object> valueProperty4 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, Object> autoBinding13 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, valueProperty4);
 		autoBinding13.bind();
 		//
-		BeanProperty<MTGCard, Object> rarityProperty = BeanProperty.create("rarity");
-		BeanProperty<JComboBox<EnumRarity>, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
-		AutoBinding<MTGCard, Object, JComboBox<EnumRarity>, Object> autoBinding14 = Bindings.createAutoBinding(
+		final BeanProperty<MTGCard, Object> rarityProperty = BeanProperty.create("rarity");
+		final BeanProperty<JComboBox<EnumRarity>, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
+		final AutoBinding<MTGCard, Object, JComboBox<EnumRarity>, Object> autoBinding14 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, rarityProperty, cboRarity, selectedIndexProperty1);
 		autoBinding14.bind();
 		//
-		BeanProperty<MTGCard, String> sideProperty = BeanProperty.create("side");
-		BeanProperty<JComboBox<String>, String> selectedSideProperty = BeanProperty.create("selectedItem");
-		AutoBinding<MTGCard, String, JComboBox<String>, String> autoBinding15 = Bindings
+		final BeanProperty<MTGCard, String> sideProperty = BeanProperty.create("side");
+		final BeanProperty<JComboBox<String>, String> selectedSideProperty = BeanProperty.create("selectedItem");
+		final AutoBinding<MTGCard, String, JComboBox<String>, String> autoBinding15 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, sideProperty, cboSide, selectedSideProperty);
 		autoBinding15.bind();
 		//
-		BeanProperty<MTGCard, String> textProperty8 = BeanProperty.create("text");
-		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, MagicTextPane, String> autoBinding16 = Bindings
+		final BeanProperty<MTGCard, String> textProperty8 = BeanProperty.create("text");
+		final BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, MagicTextPane, String> autoBinding16 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty8, textJEditorPane, textProperty9);
 		autoBinding16.bind();
 		//
-		BeanProperty<MTGCard, String> toughnessProperty = BeanProperty.create("toughness");
-		BeanProperty<JTextField, Object> valueProperty5 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, Object> autoBinding17 = Bindings.createAutoBinding(
+		final BeanProperty<MTGCard, String> toughnessProperty = BeanProperty.create("toughness");
+		final BeanProperty<JTextField, Object> valueProperty5 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, Object> autoBinding17 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, valueProperty5);
 		autoBinding17.bind();
 
-		BeanProperty<MTGCard, String> loyaltyProperty = BeanProperty.create("loyalty");
-		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(
+		final BeanProperty<MTGCard, String> loyaltyProperty = BeanProperty.create("loyalty");
+		final BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
 		autoBinding20.bind();
 
-		BeanProperty<MTGCard, String> numberProperty = BeanProperty.create("number");
-		BeanProperty<JTextField, String> numberTxtProperty = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding22 = Bindings.createAutoBinding(
+		final BeanProperty<MTGCard, String> numberProperty = BeanProperty.create("number");
+		final BeanProperty<JTextField, String> numberTxtProperty = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding22 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, numberTxtProperty);
 		autoBinding22.bind();
 
-		BeanProperty<MTGCard, String> subsetProperty = BeanProperty.create("subsets");
-		BeanProperty<JTextField, String> subsetTxtProperty = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding23 = Bindings.createAutoBinding(
+		final BeanProperty<MTGCard, String> subsetProperty = BeanProperty.create("subsets");
+		final BeanProperty<JTextField, String> subsetTxtProperty = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding23 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicCard, subsetProperty, subsetJTextField, subsetTxtProperty);
 		autoBinding23.bind();
 
-		var bindingGroup = new BindingGroup();
+		final var bindingGroup = new BindingGroup();
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding3);

@@ -63,20 +63,21 @@ public class JTagsPanel extends JComponent {
 
 		btnAdd = new JButton();
 
-		var action = new AbstractAction("+") {
+		final var action = new AbstractAction("+") {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				var field = new JTextField(10);
+				final var field = new JTextField(10);
 				panelTags.add(field);
 				field.requestFocus();
 				panelTags.revalidate();
 				btnAdd.setEnabled(false);
 				field.addActionListener(_ -> {
-					var s = field.getText();
+					final var s = field.getText();
 					panelTags.remove(field);
-					if (!s.equals(""))
-						addTag(s);
+					if (!s.equals("")) {
+					    addTag(s);
+					}
 
 					btnAdd.setEnabled(true);
 					btnAdd.requestFocus();
@@ -113,12 +114,13 @@ public class JTagsPanel extends JComponent {
 		isEditable = l;
 		panelAdds.setVisible(isEditable);
 
-		if (isEditable)
-			for (Component c : getComponents()) {
-				if (c instanceof TagLabel t) {
-					c.addMouseListener(new TagMouseListener(t));
-				}
-			}
+		if (isEditable) {
+		    for (final Component c : getComponents()) {
+		    	if (c instanceof final TagLabel t) {
+		    		c.addMouseListener(new TagMouseListener(t));
+		    	}
+		    }
+		}
 	}
 
 	public void clean() {
@@ -143,10 +145,11 @@ public class JTagsPanel extends JComponent {
 	}
 
 	private void addLabel(String s) {
-		var tab = new TagLabel(s, componentFont);
+		final var tab = new TagLabel(s, componentFont);
 
-		if (isEditable)
-			tab.addMouseListener(new TagMouseListener(tab));
+		if (isEditable) {
+		    tab.addMouseListener(new TagMouseListener(tab));
+		}
 
 		panelTags.add(tab);
 
@@ -155,7 +158,7 @@ public class JTagsPanel extends JComponent {
 	}
 
 	class TagMouseListener extends MouseAdapter {
-		private TagLabel tagLabel;
+		private final TagLabel tagLabel;
 
 		public TagMouseListener(TagLabel tagLabel) {
 			this.tagLabel = tagLabel;
@@ -164,8 +167,9 @@ public class JTagsPanel extends JComponent {
 		@Override
 		public void mouseClicked(MouseEvent me) {
 			me.consume();
-			if (me.getClickCount() == clickcounttoDelete)
-				removeTag(tagLabel);
+			if (me.getClickCount() == clickcounttoDelete) {
+			    removeTag(tagLabel);
+			}
 
 		}
 
@@ -173,9 +177,9 @@ public class JTagsPanel extends JComponent {
 
 	public String getTagAt(Point point) {
 		try {
-			TagLabel t = (TagLabel) panelTags.getComponentAt(point);
+			final TagLabel t = (TagLabel) panelTags.getComponentAt(point);
 			return t.getText();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return "";
 		}
 	}
@@ -209,8 +213,9 @@ class TagLabel extends JLabel {
 
 	@Override
 	public boolean equals(Object obj) {
-		if ((obj == null) || (obj.getClass() != this.getClass()))
-			return false;
+		if ((obj == null) || (obj.getClass() != this.getClass())) {
+		    return false;
+		}
 
 		return this.getText().equals(((TagLabel) obj).getText());
 

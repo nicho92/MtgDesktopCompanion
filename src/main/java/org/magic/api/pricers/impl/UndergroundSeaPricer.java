@@ -23,8 +23,8 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 
 	private static final String PROXYCARDSLIST_HTML = "/proxycardslist.html";
 	private static final String BASE_URL = "http://www.usmtgproxy.com/";
-	private String priceToken = "price = ";
-	private String editionToken = "cardVersion =";
+	private final String priceToken = "price = ";
+	private final String editionToken = "cardVersion =";
 
 	private MTGPrice mp = null;
 
@@ -34,10 +34,10 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 	}
 
 	private String getUrl() {
-		var uploadPath = "wp-content/uploads/";
+		final var uploadPath = "wp-content/uploads/";
 
 		var month = String.format("%02d", Calendar.getInstance().get(Calendar.MONTH) + 1);
-		int year = Calendar.getInstance().get(Calendar.YEAR);
+		final int year = Calendar.getInstance().get(Calendar.YEAR);
 		String url = BASE_URL + uploadPath + year + "/" + month + PROXYCARDSLIST_HTML;
 
 		if (!URLTools.isCorrectConnection(url)) {
@@ -56,11 +56,11 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		Document d = URLTools.extractAsHtml(getUrl());
-		AstNode root = new Parser().parse(d.select("script").get(1).html(), "", 1);
-		List<MTGPrice> ret = new ArrayList<>();
+		final Document d = URLTools.extractAsHtml(getUrl());
+		final AstNode root = new Parser().parse(d.select("script").get(1).html(), "", 1);
+		final List<MTGPrice> ret = new ArrayList<>();
 
-		String url = getUrl();
+		final String url = getUrl();
 
 		root.visit(visitedNode -> {
 			if (visitedNode.getType() == Token.NEW) {
@@ -76,12 +76,13 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 			}
 
 			if (visitedNode.getType() == Token.EXPR_RESULT) {
-				String value = visitedNode.toSource();
+				final String value = visitedNode.toSource();
 
 				if (value.startsWith("cardslist") || value.startsWith("createTable")
 						|| value.startsWith("window.onload") || value.startsWith("confirmBtn")
-						|| value.startsWith("infos"))
-					return false;
+						|| value.startsWith("infos")) {
+				    return false;
+				}
 
 				String content = visitedNode.toSource().substring(visitedNode.toSource().indexOf('.') + 1).trim();
 

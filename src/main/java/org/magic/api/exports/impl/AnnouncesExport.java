@@ -52,17 +52,17 @@ public class AnnouncesExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		try {
-			var a = new MTGAnnounce();
+			final var a = new MTGAnnounce();
 			a.setCategorie(EnumItems.DECK);
 			a.setTitle(deck.getName());
 			a.setCondition(EnumCondition.OPENED);
 			a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 			a.setTotalPrice(deck.getAveragePrice());
 			a.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
-			var sb = new StringBuilder("//MAIN<br/>");
+			final var sb = new StringBuilder("//MAIN<br/>");
 
 			deck.getMain().entrySet().forEach(e -> {
-				var p = MTGControler.getInstance().getDefaultStock();
+				final var p = MTGControler.getInstance().getDefaultStock();
 				p.setProduct(e.getKey());
 				a.getItems().add(p);
 				sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>");
@@ -74,7 +74,7 @@ public class AnnouncesExport extends AbstractCardExport {
 			a.setDescription(sb.toString());
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -82,9 +82,9 @@ public class AnnouncesExport extends AbstractCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			try {
-				var a = new MTGAnnounce();
+				final var a = new MTGAnnounce();
 				a.setCategorie(mcs.getProduct().getTypeProduct());
 				a.setTitle(mcs.getProduct().getName());
 				a.setCondition(mcs.getCondition());
@@ -95,7 +95,7 @@ public class AnnouncesExport extends AbstractCardExport {
 				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
 
 				notify(mcs.getProduct());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 		}
@@ -104,7 +104,7 @@ public class AnnouncesExport extends AbstractCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("MODE", new MTGProperty("SELL", "Choose announce mode. to Buy or to Sell",
 				Arrays.stream(EnumTransactionDirection.values()).map(Enum::name).toList().toArray(new String[0])));
 

@@ -12,13 +12,14 @@ import com.google.gson.JsonObject;
 
 public class IPTranslator {
 
-	private TCache<Location> cache;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final TCache<Location> cache;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private static IPTranslator inst;
 
 	public static IPTranslator getInstance() {
-		if (inst == null)
-			inst = new IPTranslator();
+		if (inst == null) {
+		    inst = new IPTranslator();
+		}
 
 		return inst;
 	}
@@ -30,30 +31,31 @@ public class IPTranslator {
 	public Location getLocationFor(String ip) {
 
 		try {
-			var inaddr = InetAddresses.forString(ip);
-			if (inaddr.isAnyLocalAddress() || inaddr.isLoopbackAddress() || inaddr.isSiteLocalAddress())
-				return null;
+			final var inaddr = InetAddresses.forString(ip);
+			if (inaddr.isAnyLocalAddress() || inaddr.isLoopbackAddress() || inaddr.isSiteLocalAddress()) {
+			    return null;
+			}
 
 			return cache.get(ip, new Callable<Location>() {
 				@Override
 				public Location call() throws Exception {
 
-					var o = RequestBuilder.build().url("http://ip-api.com/json/" + ip
+					final var o = RequestBuilder.build().url("http://ip-api.com/json/" + ip
 							+ "?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp")
 							.newClient().get().toJson();
 					return translate(o.getAsJsonObject());
 				}
 			});
-		} catch (IllegalArgumentException _) {
+		} catch (final IllegalArgumentException _) {
 			return null;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return null;
 		}
 	}
 
 	private Location translate(JsonObject o) {
-		var loc = new Location();
+		final var loc = new Location();
 
 		if (o.get("error") != null) {
 			logger.error("error getting IP={}", o);

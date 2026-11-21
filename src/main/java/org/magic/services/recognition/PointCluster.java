@@ -2,7 +2,7 @@ package org.magic.services.recognition;
 import georegression.struct.point.Point2D_F32;
 
 public class PointCluster implements Comparable<PointCluster> {
-	private Point2D_F32 loc;
+	private final Point2D_F32 loc;
 	private int count;
 	private float totalLen;
 
@@ -13,7 +13,7 @@ public class PointCluster implements Comparable<PointCluster> {
 	}
 
 	public boolean testAndAdd(Point2D_F32 p, float len, float thresh) {
-		float dist = loc.distance(p);
+		final float dist = loc.distance(p);
 		if (dist <= thresh) {
 			loc.x = ((loc.x * count) + p.x) / (count + 1);
 			loc.y = ((loc.y * count) + p.y) / (count + 1);

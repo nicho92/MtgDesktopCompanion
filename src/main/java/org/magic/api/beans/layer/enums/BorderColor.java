@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public enum BorderColor {
 
-	BLACK(Color.BLACK), 
+	BLACK(Color.BLACK),
 	WHITE(Color.WHITE),
 	SILVER(Color.LIGHT_GRAY),
 	GOLD(new Color(189, 155, 22)),
@@ -16,19 +16,19 @@ public enum BorderColor {
 	BorderColor(Color c) {
 		this.color = c;
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name().substring(0, 1).toUpperCase() + name().substring(1).toLowerCase();
 	}
-	
+
 	public void setColor(Color color) {
 		this.color = color;
 	}
-	
-	
+
+
 }

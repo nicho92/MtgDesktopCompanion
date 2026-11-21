@@ -20,17 +20,17 @@ public class ScripterJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 
-		var name = context.getJobDetail().getJobDataMap().get("SCRIPT_NAME").toString();
+		final var name = context.getJobDetail().getJobDataMap().get("SCRIPT_NAME").toString();
 
-		var optScripter = PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream()
+		final var optScripter = PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream()
 				.filter(s -> FilenameUtils.getExtension(name).toLowerCase().endsWith(s.getExtension().toLowerCase()))
 				.findAny();
 		if (optScripter.isPresent()) {
-			var p = optScripter.get();
-			var f = new File(p.getScriptDirectory(), name);
+			final var p = optScripter.get();
+			final var f = new File(p.getScriptDirectory(), name);
 			try {
 				p.run(f);
-			} catch (ScriptException e) {
+			} catch (final ScriptException e) {
 				logger.error(e);
 			}
 		} else {

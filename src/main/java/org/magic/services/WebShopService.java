@@ -26,28 +26,29 @@ public class WebShopService {
 	private static final String PRODUCTS_KEY = "products";
 	private static final String BANQ_KEYS = "banqAccount";
 
-	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private File configFile;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
+	private final File configFile;
 
 	public WebShopService() throws IOException {
 		configFile = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_WEBSHOP_FILENAME);
-		if (!configFile.exists())
-			try {
-				logger.info("{} file doesn't exist. creating one from default file", configFile);
-				FileTools.copyURLToFile(getClass().getResource("/data/default-shop.json"), configFile);
-				logger.info("webshop conf file created");
-			} catch (IOException e1) {
-				logger.error(e1);
-			}
+		if (!configFile.exists()) {
+		    try {
+		    	logger.info("{} file doesn't exist. creating one from default file", configFile);
+		    	FileTools.copyURLToFile(getClass().getResource("/data/default-shop.json"), configFile);
+		    	logger.info("webshop conf file created");
+		    } catch (final IOException e1) {
+		    	logger.error(e1);
+		    }
+		}
 	}
 
 	public WebShopConfig getWebConfig() {
-		var conf = new WebShopConfig();
+		final var conf = new WebShopConfig();
 
 		JsonObject jsonData;
 		try {
 			jsonData = FileTools.readJson(configFile).getAsJsonObject();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("error reading {}", configFile, e);
 			return conf;
 		}
@@ -70,14 +71,17 @@ public class WebShopService {
 		conf.setAutomaticProduct(jsonData.get(CONFIG_KEY).getAsJsonObject().get(PRODUCTS_KEY).getAsJsonObject()
 				.get("autoSelection").getAsBoolean());
 
-		for (var s : jsonData.get(CONFIG_KEY).getAsJsonObject().get("collections").getAsJsonArray())
-			conf.getCollections().add(new MTGCollection(s.getAsString()));
+		for (final var s : jsonData.get(CONFIG_KEY).getAsJsonObject().get("collections").getAsJsonArray()) {
+		    conf.getCollections().add(new MTGCollection(s.getAsString()));
+		}
 
-		for (var s : jsonData.get(CONFIG_KEY).getAsJsonObject().get("needCollections").getAsJsonArray())
-			conf.getNeedcollections().add(new MTGCollection(s.getAsString()));
+		for (final var s : jsonData.get(CONFIG_KEY).getAsJsonObject().get("needCollections").getAsJsonArray()) {
+		    conf.getNeedcollections().add(new MTGCollection(s.getAsString()));
+		}
 
-		for (var s : jsonData.get(CONFIG_KEY).getAsJsonObject().get("slides").getAsJsonArray())
-			conf.getSlidesLinksImage().add(s.getAsString());
+		for (final var s : jsonData.get(CONFIG_KEY).getAsJsonObject().get("slides").getAsJsonArray()) {
+		    conf.getSlidesLinksImage().add(s.getAsString());
+		}
 
 		conf.setPaypalClientId(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get("paypalclientId").getAsString());
 
@@ -89,7 +93,7 @@ public class WebShopService {
 		try {
 			conf.setPaypalSendMoneyUri(
 					new URI(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get("paypalSendMoneyUri").getAsString()));
-		} catch (URISyntaxException _) {
+		} catch (final URISyntaxException _) {
 			conf.setPaypalSendMoneyUri(null);
 		}
 
@@ -98,16 +102,17 @@ public class WebShopService {
 
 		try {
 
-			if (conf.isAutomaticProduct())
-				conf.setTopProduct(TransactionService.getBestProduct());
-			else
-				conf.setTopProduct(MTG.getEnabledPlugin(MTGDao.class).getStockById(jsonData.get(CONFIG_KEY)
-						.getAsJsonObject().get(PRODUCTS_KEY).getAsJsonObject().get("top").getAsLong()));
-		} catch (Exception _) {
+			if (conf.isAutomaticProduct()) {
+			    conf.setTopProduct(TransactionService.getBestProduct());
+			} else {
+			    conf.setTopProduct(MTG.getEnabledPlugin(MTGDao.class).getStockById(jsonData.get(CONFIG_KEY)
+			    		.getAsJsonObject().get(PRODUCTS_KEY).getAsJsonObject().get("top").getAsLong()));
+			}
+		} catch (final Exception _) {
 			logger.warn("No top product selected for webshop");
 		}
 
-		var id = jsonData.get(CONFIG_KEY).getAsJsonObject().get("contact").getAsInt();
+		final var id = jsonData.get(CONFIG_KEY).getAsJsonObject().get("contact").getAsInt();
 
 		Contact contact = new Contact();
 		try {
@@ -122,18 +127,18 @@ public class WebShopService {
 
 	public void saveWebConfig(WebShopConfig wsc) {
 
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 
-		var jsonconfig = new JsonObject();
+		final var jsonconfig = new JsonObject();
 		obj.add(CONFIG_KEY, jsonconfig);
 
-		var jsondelivery = new JsonObject();
+		final var jsondelivery = new JsonObject();
 		obj.add(DELIVERY_KEY, jsondelivery);
 
-		var productConf = new JsonObject();
+		final var productConf = new JsonObject();
 		jsonconfig.add(PRODUCTS_KEY, productConf);
 
-		var paymentConf = new JsonObject();
+		final var paymentConf = new JsonObject();
 		obj.add(PAYMENTS_KEY, paymentConf);
 
 		jsonconfig.addProperty("siteTitle", wsc.getSiteTitle());
@@ -151,27 +156,28 @@ public class WebShopService {
 		jsonconfig.addProperty("contact", wsc.getContact().getId());
 		jsonconfig.addProperty("productPaginationSlide", wsc.getProductPagination());
 
-		var arrSlides = new JsonArray();
+		final var arrSlides = new JsonArray();
 		wsc.getSlidesLinksImage().forEach(arrSlides::add);
 		jsonconfig.add("slides", arrSlides);
 
-		var arrNeeds = new JsonArray();
+		final var arrNeeds = new JsonArray();
 		wsc.getNeedcollections().forEach(c -> arrNeeds.add(c.getName()));
 		jsonconfig.add("needCollections", arrNeeds);
 
-		var arrCols = new JsonArray();
+		final var arrCols = new JsonArray();
 		wsc.getCollections().forEach(c -> arrCols.add(c.getName()));
 		jsonconfig.add("collections", arrCols);
 
 		productConf.addProperty("autoSelection", wsc.isAutomaticProduct());
 
-		if (wsc.getTopProduct().getId() != null)
-			productConf.addProperty("top", wsc.getTopProduct().getId());
+		if (wsc.getTopProduct().getId() != null) {
+		    productConf.addProperty("top", wsc.getTopProduct().getId());
+		}
 
 		jsondelivery.addProperty("shippingRules", wsc.getShippingRules());
 		jsondelivery.addProperty("deliveryDay", wsc.getAverageDeliveryTime());
 
-		var objBanq = new JsonObject();
+		final var objBanq = new JsonObject();
 		objBanq.addProperty("bic", wsc.getBic());
 		objBanq.addProperty("iban", wsc.getIban());
 		paymentConf.add(BANQ_KEYS, objBanq);
@@ -181,7 +187,7 @@ public class WebShopService {
 
 		try {
 			FileTools.saveFile(configFile, obj.toString());
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("error saving {} file ", configFile.getAbsolutePath(), e);
 		}
 

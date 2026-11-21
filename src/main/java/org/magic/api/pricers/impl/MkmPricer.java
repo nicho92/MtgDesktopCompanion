@@ -28,7 +28,7 @@ public class MkmPricer extends AbstractPricesProvider {
 
 		MTGJsonPricerProvider.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
 
-		var ret = MTGJsonPricerProvider.getInstance().getPriceFor(card, VENDOR.CARDMARKET);
+		final var ret = MTGJsonPricerProvider.getInstance().getPriceFor(card, VENDOR.CARDMARKET);
 
 		ret.forEach(p -> p.setSite(getName()));
 

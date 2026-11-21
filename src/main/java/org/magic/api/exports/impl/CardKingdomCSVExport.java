@@ -25,7 +25,7 @@ import org.magic.services.tools.UITools;
 
 public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 
-	private String columns = "Name,Edition,Foil,Qty\n";
+	private final String columns = "Name,Edition,Foil,Qty\n";
 
 	@Override
 	public EnumExportCategory getCategory() {
@@ -39,10 +39,10 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
-		var line = new StringBuilder(columns);
-		for (MTGCardStock mc : stock) {
-			String name = CardKingdomTools.getCKFormattedName(mc.getProduct());
-			String set = CardKingdomTools.getCKFormattedSet(mc.getProduct());
+		final var line = new StringBuilder(columns);
+		for (final MTGCardStock mc : stock) {
+			final String name = CardKingdomTools.getCKFormattedName(mc.getProduct());
+			final String set = CardKingdomTools.getCKFormattedSet(mc.getProduct());
 
 			line.append(commated(name)).append(getSeparator());
 			line.append(set).append(getSeparator());
@@ -56,7 +56,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MTGCardStock> list = new ArrayList<>();
+		final List<MTGCardStock> list = new ArrayList<>();
 
 		matches(content, true).forEach(m -> {
 
@@ -65,16 +65,16 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			try {
 				ed = MTG.getEnabledPlugin(MTGCardsProvider.class)
 						.getSetByName(aliases.getReversedSetNameFor(new CardKingdomCardExport(), m.group(4)));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("Edition not found for {}", m.group(4));
 			}
 
-			String cname = cleanName(m.group(3));
+			final String cname = cleanName(m.group(3));
 
 			String number = null;
 			try {
 				number = m.group(5);
-			} catch (IndexOutOfBoundsException _) {
+			} catch (final IndexOutOfBoundsException _) {
 				// do nothing
 			}
 
@@ -83,7 +83,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			if (number != null && ed != null) {
 				try {
 					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("no card found with number {}/{}", number, ed);
 				}
 			}
@@ -91,26 +91,28 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			if (mc == null) {
 				try {
 					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("no card found for {} / {} ", cname, ed);
 				}
 			}
 
 			if (mc != null) {
-				MTGCardStock mcs = MTGControler.getInstance().getDefaultStock();
+				final MTGCardStock mcs = MTGControler.getInstance().getDefaultStock();
 				mcs.setQte(Integer.parseInt(m.group(1)));
 				mcs.setProduct(mc);
 				mcs.setCondition(aliases.getReversedConditionFor(new CardKingdomCardExport(), m.group(6), null));
 
-				if (!m.group(7).isEmpty())
-					mcs.setLanguage(m.group(7));
+				if (!m.group(7).isEmpty()) {
+				    mcs.setLanguage(m.group(7));
+				}
 
 				mcs.setFoil(m.group(8) != null);
 				mcs.setSigned(m.group(9) != null);
 				mcs.setAltered(m.group(11) != null);
 
-				if (!m.group(15).isEmpty())
-					mcs.setPrice(UITools.parseDouble(m.group(15)));
+				if (!m.group(15).isEmpty()) {
+				    mcs.setPrice(UITools.parseDouble(m.group(15)));
+				}
 
 				list.add(mcs);
 			} else {

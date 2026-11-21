@@ -16,16 +16,17 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		var url = getWebSite() + "/produit/" + identifier;
+		final var url = getWebSite() + "/produit/" + identifier;
 
-		var d = RequestBuilder.build().get().newClient().url(url).toHtml();
+		final var d = RequestBuilder.build().get().newClient().url(url).toHtml();
 
-		var trs = d.select("table.table-product tr");
+		final var trs = d.select("table.table-product tr");
 
-		if (trs.isEmpty())
-			return null;
+		if (trs.isEmpty()) {
+		    return null;
+		}
 
-		var grad = new MTGGrading();
+		final var grad = new MTGGrading();
 		grad.setGraderName(getName());
 		grad.setNumberID(identifier);
 		grad.setUrlInfo(url);

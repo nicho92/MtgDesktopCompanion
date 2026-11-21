@@ -44,9 +44,9 @@ public class CardTraderWantListExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
-		for (var entry : deck.getMain().entrySet().stream().filter(e -> e.getKey().getSide().equalsIgnoreCase("a"))
+		for (final var entry : deck.getMain().entrySet().stream().filter(e -> e.getKey().getSide().equalsIgnoreCase("a"))
 				.toList()) {
 			temp.append(entry.getValue()).append(" ").append(entry.getKey().getFullName()).append(" (")
 					.append(getSetId(entry.getKey())).append(")").append(System.lineSeparator());
@@ -54,21 +54,22 @@ public class CardTraderWantListExport extends AbstractCardExport {
 			notify(entry.getKey());
 		}
 
-		for (var entry : deck.getSideBoard().entrySet().stream().filter(e -> e.getKey().getSide().equalsIgnoreCase("a"))
+		for (final var entry : deck.getSideBoard().entrySet().stream().filter(e -> e.getKey().getSide().equalsIgnoreCase("a"))
 				.toList()) {
 			temp.append(entry.getValue()).append(" ").append(entry.getKey().getFullName()).append(" (")
 					.append(getSetId(entry.getKey())).append(")").append(System.lineSeparator());
 			notify(entry.getKey());
 		}
 
-		StringSelection selection = new StringSelection(temp.toString());
+		final StringSelection selection = new StringSelection(temp.toString());
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
 	}
 
 	private String getSetId(MTGCard card) {
 
-		if (card.isExtraCard())
-			return "C" + card.getEdition().getId();
+		if (card.isExtraCard()) {
+		    return "C" + card.getEdition().getId();
+		}
 
 		return card.getEdition().getId();
 

@@ -27,18 +27,19 @@ public class CardChooseDialog extends JDialog {
 
 		comboBox = new JComboBox<>();
 
-		for (DisplayableCard c : GamePanelGUI.getInstance().getPanelBattleField().getCards())
-			comboBox.addItem(c);
+		for (final DisplayableCard c : GamePanelGUI.getInstance().getPanelBattleField().getCards()) {
+		    comboBox.addItem(c);
+		}
 
 		getContentPane().add(comboBox, BorderLayout.CENTER);
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
-		var btnOK = new JButton("Select");
+		final var btnOK = new JButton("Select");
 		panel.add(btnOK);
 
-		var btnCancel = new JButton("Cancel");
+		final var btnCancel = new JButton("Cancel");
 		panel.add(btnCancel);
 
 		pack();

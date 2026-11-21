@@ -35,7 +35,7 @@ public class ImageExporter extends AbstractCardExport {
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	public BufferedImage generateImageFor(MTGDeck d) {
-		List<MTGCard> cards = d.getMainAsList();
+		final List<MTGCard> cards = d.getMainAsList();
 
 		MTGComparator<MTGCard> sorter = new CardNameSorter();
 
@@ -43,14 +43,14 @@ public class ImageExporter extends AbstractCardExport {
 			try {
 				sorter = (MTGComparator) PluginRegistry.inst()
 						.newInstance("org.magic.api.sorters." + getString(SORTER));
-			} catch (ClassNotFoundException e) {
+			} catch (final ClassNotFoundException e) {
 				logger.error("Can't load {} sorter : {}. Using default CardNameSorter.", getString(SORTER),
 						e.getMessage());
 			}
 		}
 
 		Collections.sort(cards, sorter);
-		int suggestedNbLines = cards.size() / ((cardGroup) * columnsCount);
+		final int suggestedNbLines = cards.size() / ((cardGroup) * columnsCount);
 
 		BufferedImage tempPic = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(cards.get(0));
 		tempPic = ImageTools.scaleResize(tempPic, cardWidthSize);
@@ -58,12 +58,12 @@ public class ImageExporter extends AbstractCardExport {
 		logger.debug("{} cards, by group of {} and columns={} lines={}.w={} h={}", cards.size(), cardGroup,
 				columnsCount, suggestedNbLines, tempPic.getWidth(), tempPic.getHeight());
 
-		int cardSpace = (int) (tempPic.getHeight() / 9.72);
-		int picHeight = suggestedNbLines * (tempPic.getHeight() + ((cardGroup + 1) * cardSpace)) + headerSize;
+		final int cardSpace = (int) (tempPic.getHeight() / 9.72);
+		final int picHeight = suggestedNbLines * (tempPic.getHeight() + ((cardGroup + 1) * cardSpace)) + headerSize;
 
-		var ret = new BufferedImage((cardWidthSize + columnsSpace) * columnsCount, picHeight,
+		final var ret = new BufferedImage((cardWidthSize + columnsSpace) * columnsCount, picHeight,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = (Graphics2D) ret.getGraphics();
+		final Graphics2D g = (Graphics2D) ret.getGraphics();
 
 		var start = headerSize + 10;
 		var ycard = start;
@@ -73,7 +73,7 @@ public class ImageExporter extends AbstractCardExport {
 
 		drawHeader(g, d, ret);
 
-		for (MTGCard mc : cards) {
+		for (final MTGCard mc : cards) {
 
 			try {
 				BufferedImage cardPic = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
@@ -102,7 +102,7 @@ public class ImageExporter extends AbstractCardExport {
 
 				notify(mc);
 
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 
@@ -119,7 +119,7 @@ public class ImageExporter extends AbstractCardExport {
 		try {
 			g.drawImage(ImageTools.readLocal(ImageExporter.class.getResource("/icons/logo_src.png")), 10, 10, 50, 50,
 					null);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("error loading logo_src.png :{} ", e.getMessage());
 		}
 
@@ -157,7 +157,7 @@ public class ImageExporter extends AbstractCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put(FORMAT, new MTGProperty("PNG", "File format for the image", "PNG", "JPG"));
 		m.put(SORTER, new MTGProperty("ColorSorter", "how is sorted your export", "ColorSorter", "CardNameSorter",
 				"NumberSorter", "RaritySorter", "TypesSorter", "CmcSorter"));

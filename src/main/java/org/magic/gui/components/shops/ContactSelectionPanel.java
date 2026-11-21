@@ -35,7 +35,7 @@ public class ContactSelectionPanel extends MTGUIComponent {
 	public ContactSelectionPanel() {
 		cbo = new JComboBox<>();
 		cbo.setRenderer((JList<? extends Contact> _, Contact value, int _, boolean _, boolean _) -> {
-			var l = new JLabel(MTGConstants.ICON_TAB_USER);
+			final var l = new JLabel(MTGConstants.ICON_TAB_USER);
 			l.setText(value.getName() + " " + value.getLastName());
 			l.setHorizontalAlignment(SwingConstants.LEFT);
 			return l;
@@ -45,7 +45,7 @@ public class ContactSelectionPanel extends MTGUIComponent {
 
 		this.add(cbo, BorderLayout.CENTER);
 
-		var sw = new SwingWorker<List<Contact>, Void>() {
+		final var sw = new SwingWorker<List<Contact>, Void>() {
 			@Override
 			protected List<Contact> doInBackground() throws Exception {
 				return MTG.getEnabledPlugin(MTGDao.class).listContacts();
@@ -56,9 +56,9 @@ public class ContactSelectionPanel extends MTGUIComponent {
 
 				try {
 					get().forEach(cbo::addItem);
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					logger.error(e);
 				}
 			}

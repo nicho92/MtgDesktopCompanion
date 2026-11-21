@@ -25,16 +25,15 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonObject;
-import com.kitfox.svg.SVGException;
 import com.kitfox.svg.SVGUniverse;
 
 public class IconsProvider {
 
 	private static IconsProvider inst;
-	private Map<String, ImageIcon> cache24;
-	private Map<String, ImageIcon> cache16;
-	private File localDirectory;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Map<String, ImageIcon> cache24;
+	private final Map<String, ImageIcon> cache16;
+	private final File localDirectory;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final String EXT = "_set.png";
 	private Map<String, String> equiv;
 	private TreeMap<String, Integer> map;
@@ -114,48 +113,50 @@ public class IconsProvider {
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		initManaSymbols();
 
-		var chrono = new Chrono();
+		final var chrono = new Chrono();
 
 		localDirectory = new File(MTGConstants.DATA_DIR, "sets_icons");
 
 		try {
 			initEquiv();
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			logger.error("Error init Equiv SetFile");
 		}
 
-		if (!localDirectory.exists())
-			localDirectory.mkdir();
+		if (!localDirectory.exists()) {
+		    localDirectory.mkdir();
+		}
 
 		try {
 			chrono.start();
 			logger.trace("Init IconSet cache");
 			initCache();
 			logger.trace("Init IconSet cache : done {}sec", chrono.stop());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error init cache", e);
 		}
 	}
 
 	public static IconsProvider getInstance() {
-		if (inst == null)
-			inst = new IconsProvider();
+		if (inst == null) {
+		    inst = new IconsProvider();
+		}
 
 		return inst;
 	}
 
 	public BufferedImage getSetColoredSetImage(EnumRarity r, String setCode) throws IOException {
-		var universe = new SVGUniverse();
+		final var universe = new SVGUniverse();
 		var svgString = URLTools.extractAsString("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+ getEquiv(setCode).toLowerCase() + ".svg");
 		svgString = svgString.replaceAll("fill=\"#[^\"]+\"", "fill=\"" + r.getColorHexa() + "\"");
-		var uri = universe.loadSVG(new StringReader(svgString), setCode);
-		var diagram = universe.getDiagram(uri);
-		var image = new BufferedImage((int) diagram.getWidth(), (int) diagram.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		var g = image.createGraphics();
+		final var uri = universe.loadSVG(new StringReader(svgString), setCode);
+		final var diagram = universe.getDiagram(uri);
+		final var image = new BufferedImage((int) diagram.getWidth(), (int) diagram.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		final var g = image.createGraphics();
 		ImageTools.initGraphics(g);
 		try {
 			diagram.render(g);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 		g.dispose();
@@ -164,7 +165,7 @@ public class IconsProvider {
 
 	private BufferedImage extract(String id) throws IOException {
 
-		var iconFile = new File(localDirectory, id + EXT);
+		final var iconFile = new File(localDirectory, id + EXT);
 		if (iconFile.exists()) {
 			logger.trace("load from cache {}", iconFile);
 			return ImageTools.read(iconFile);
@@ -173,10 +174,10 @@ public class IconsProvider {
 			logger.trace("load from jar {}", id);
 
 			try {
-				var equivSet = getEquiv(id);
+				final var equivSet = getEquiv(id);
 				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
 				ImageTools.saveImage(im, iconFile, "png");
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.trace("couldnt load icons for {}={}", id, getEquiv(id));
 				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR + "PMTG1_set.png"));
 			}
@@ -192,7 +193,7 @@ public class IconsProvider {
 
 		try {
 			obj = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_SET_ALIASES_URL).getAsJsonObject();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			obj = URLTools.toJson(MTGConstants.MTG_DESKTOP_SETS_FILE.openStream()).getAsJsonObject();
 		}
 
@@ -202,18 +203,20 @@ public class IconsProvider {
 	}
 
 	private String getEquiv(String set) {
-		if (equiv.get(set) != null)
-			return equiv.get(set);
+		if (equiv.get(set) != null) {
+		    return equiv.get(set);
+		}
 
-		if (set.length() == 4 && set.toLowerCase().startsWith("p")) // TODO remove this code
+		if (set.length() == 4 && set.toLowerCase().startsWith("p")) { // TODO remove this code
 			set = set.substring(1);
+		}
 
 		return set;
 	}
 
 	private void initCache() throws IOException {
-		for (var e : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
-			var im = extract(e.getId().toUpperCase());
+		for (final var e : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+			final var im = extract(e.getId().toUpperCase());
 			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)) {
 				private static final long serialVersionUID = 1L;
 				@Override
@@ -232,15 +235,17 @@ public class IconsProvider {
 	}
 
 	public ImageIcon get24(String id) {
-		if (id == null)
-			return null;
+		if (id == null) {
+		    return null;
+		}
 
 		return cache24.get(id);
 	}
 
 	public ImageIcon get16(String id) {
-		if (id == null)
-			return null;
+		if (id == null) {
+		    return null;
+		}
 
 		return cache16.get(id);
 	}
@@ -249,22 +254,24 @@ public class IconsProvider {
 		var val = 0;
 		try {
 			val = Integer.parseInt(el);
-		} catch (NumberFormatException _) {
-			if (map.get(el) != null)
-				val = map.get(el);
-			else {
+		} catch (final NumberFormatException _) {
+			if (map.get(el) != null) {
+			    val = map.get(el);
+			} else {
 				logger.error("can't find icon for mana={}", el);
 				val = 21;
 			}
 		}
 
-		var imgs = ImageTools.splitManaImage();
+		final var imgs = ImageTools.splitManaImage();
 
-		if (val == 100)// mox lotus
+		if (val == 100) { // mox lotus
 			return ImageTools.joinBufferedImage(List.of(imgs[65], imgs[66]));
+		}
 
-		if (val == 1_000_000)// gleemax
+		if (val == 1_000_000) { // gleemax
 			return ImageTools.joinBufferedImage(List.of(imgs[60], imgs[61], imgs[62], imgs[63], imgs[64]));
+		}
 
 		return imgs[val];
 	}

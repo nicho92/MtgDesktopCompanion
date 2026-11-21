@@ -47,7 +47,7 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected List<MTGWallpaper> parse(JsonObject obj) {
-		var wall = new MTGWallpaper();
+		final var wall = new MTGWallpaper();
 		wall.setProvider(getName());
 		wall.setName(obj.get("id").getAsString());
 		wall.setMature(obj.get("purity").getAsString().equals("nsfw"));
@@ -66,12 +66,13 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 		JsonElement je=null;
 		try {
 		    je = req.toJson();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 		   logger.error(e);
 		}
 
-		if (je == null || je.isJsonNull())
-			return new JsonArray(0);
+		if (je == null || je.isJsonNull()) {
+		    return new JsonArray(0);
+		}
 
 		return je.getAsJsonObject().get("data").getAsJsonArray();
 	}
@@ -79,14 +80,16 @@ public class WallhavenWallpaperProvider extends AbstractJsonWallpaperProvider {
 	@Override
 	protected RequestBuilder createQuery(String search, int page) {
 
-		var catBuilder = new StringBuilder();
-		var pBuilder = new StringBuilder();
+		final var catBuilder = new StringBuilder();
+		final var pBuilder = new StringBuilder();
 
-		for (var c : getDefaultAttributes().get(CATEGORIES).getAllowedProperties())
-			catBuilder.append(ArrayUtils.contains(getArray(CATEGORIES), c) ? "1" : "0");
+		for (final var c : getDefaultAttributes().get(CATEGORIES).getAllowedProperties()) {
+		    catBuilder.append(ArrayUtils.contains(getArray(CATEGORIES), c) ? "1" : "0");
+		}
 
-		for (var c : getDefaultAttributes().get(PURITY).getAllowedProperties())
-			pBuilder.append(ArrayUtils.contains(getArray(PURITY), c) ? "1" : "0");
+		for (final var c : getDefaultAttributes().get(PURITY).getAllowedProperties()) {
+		    pBuilder.append(ArrayUtils.contains(getArray(PURITY), c) ? "1" : "0");
+		}
 
 		return RequestBuilder.build().get().newClient().url("https://wallhaven.cc/api/v1/search")
 				.addContent(getPaginationKey(), String.valueOf(page + 1)).addContent("q", search)

@@ -29,7 +29,7 @@ import org.magic.services.tools.ImageTools;
 
 public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin implements MTGCardRecognition {
 
-	private Map<String, List<DescContainer>> dataList;
+	private final Map<String, List<DescContainer>> dataList;
 
 	@Override
 	public PLUGINS getType() {
@@ -38,7 +38,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 		m.put("DATA", MTGProperty.newFileProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "recog")));
 
 		return m;
@@ -76,15 +76,16 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		var ix = 0;
 		double max = 0;
 		for (var i = 0; i < size; i++) {
-			double score = in.compareSURF(datas.get(i).getDescData());
+			final double score = in.compareSURF(datas.get(i).getDescData());
 			if (score > max) {
 				max = score;
 				ix = i;
 			}
 		}
 
-		if (!datas.isEmpty())
-			logger.debug("Max ={} {}", max, datas.get(ix).getStringData());
+		if (!datas.isEmpty()) {
+		    logger.debug("Max ={} {}", max, datas.get(ix).getStringData());
+		}
 
 		if (max > threshhold) {
 			return new MatchResult(datas.get(ix).getStringData(), max);
@@ -109,7 +110,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 
 	@Override
 	public final void loadAllCachedData() throws IOException {
-		for (File f : getFile("DATA").listFiles()) {
+		for (final File f : getFile("DATA").listFiles()) {
 			loadDatasFromFile(f);
 		}
 	}
@@ -119,14 +120,14 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 			logger.trace("{} is already loaded", handle);
 		} else {
 			logger.info("Loading {}", handle.getAbsolutePath());
-			ByteBuffer buf = FileTools.getBuffer(handle);
+			final ByteBuffer buf = FileTools.getBuffer(handle);
 			FileTools.readUTF8(buf);
 			buf.getInt();
-			var rec = buf.getInt();
+			final var rec = buf.getInt();
 			for (var i = 0; i < rec; i++) {
-				String s = FileTools.readUTF8(buf);
-				var id = ImageDesc.readIn(buf);
-				var dc = new DescContainer(id, s);
+				final String s = FileTools.readUTF8(buf);
+				final var id = ImageDesc.readIn(buf);
+				final var dc = new DescContainer(id, s);
 				if (!MTGCard.isBasicLand(dc.getName())) {
 					add(dc);
 				}
@@ -138,17 +139,17 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	@Override
 	public File downloadCardsData(MTGEdition set) throws IOException {
 		logger.info("downloading {}", set);
-		List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(set);
+		final List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(set);
 		logger.info("Loading cards from {} {} found", set, cards.size());
 
-		for (MTGCard card : cards) {
+		for (final MTGCard card : cards) {
 			if (!card.isBasicLand()) {
 				addFromCard(card);
 				notify(card);
 			}
 		}
 
-		File f = getSetDirectory(set.getId());
+		final File f = getSetDirectory(set.getId());
 		FileTools.writeSetRecognition(f, set, cards.size(), dataList.get(set.getId()));
 
 		return f;
@@ -157,18 +158,18 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 
 	@Override
 	public final void loadDatasForSet(MTGEdition set) {
-		File f = getSetDirectory(set.getId());
+		final File f = getSetDirectory(set.getId());
 		if (f.exists()) {
 			try {
 				loadDatasFromFile(f);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 		} else {
 			logger.info("{} doesn't exist. Building it", set);
 			try {
 				loadDatasFromFile(downloadCardsData(set));
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 		}
@@ -179,17 +180,17 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		BufferedImage topimg;
 		try {
 			topimg = getEnabledPlugin(MTGPictureProvider.class).getPicture(card);
-		} catch (IOException e1) {
+		} catch (final IOException e1) {
 			logger.error(e1);
 			topimg = null;
 		}
 
 		if (topimg != null) {
-			String key = card.getName() + "|" + card.getEdition().getId() + "|" + card.getNumber() + "|"
+			final String key = card.getName() + "|" + card.getEdition().getId() + "|" + card.getNumber() + "|"
 					+ card.getScryfallId();
 			try {
 				add(new DescContainer(new ImageDesc(ImageTools.getScaledImage(topimg)), key));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Couldn't process card: {} : {} ", card, e);
 			}
 		}

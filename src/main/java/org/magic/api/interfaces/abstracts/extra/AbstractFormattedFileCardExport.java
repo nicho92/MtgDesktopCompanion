@@ -46,8 +46,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	protected String[] splitLines(String content, boolean removeBlank) {
 		String[] arr = UITools.stringLineSplit(content, removeBlank);
 
-		if (skipFirstLine())
-			arr = ArrayUtils.remove(arr, 0);
+		if (skipFirstLine()) {
+		    arr = ArrayUtils.remove(arr, 0);
+		}
 
 		return arr;
 	}
@@ -58,21 +59,23 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		if (gEdition > -1) {
 
 			try {
-				if (setSearch == FORMAT_SEARCH.ID)
-					ed = getEnabledPlugin(MTGCardsProvider.class)
-							.getSetById(aliases.getSetIdFor(this, m.group(gEdition)));
-				else
-					ed = getEnabledPlugin(MTGCardsProvider.class)
-							.getSetByName(aliases.getSetNameFor(this, m.group(gEdition)));
+				if (setSearch == FORMAT_SEARCH.ID) {
+				    ed = getEnabledPlugin(MTGCardsProvider.class)
+				    		.getSetById(aliases.getSetIdFor(this, m.group(gEdition)));
+				} else {
+				    ed = getEnabledPlugin(MTGCardsProvider.class)
+				    		.getSetByName(aliases.getSetNameFor(this, m.group(gEdition)));
+				}
 
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				ed = null;
 			}
 		}
 		String cname = m.group(gCard);
 
-		if (cleaning)
-			cname = cleanName(cname);
+		if (cleaning) {
+		    cname = cleanName(cname);
+		}
 
 		try {
 
@@ -87,7 +90,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 					return null;
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Couldn't find card {} [{}] : {}", cname, ed, e);
 			return null;
 		}
@@ -101,18 +104,19 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 		logger.info("Reading deck with regex {}", pattern);
 
-		var ret = new ArrayList<Matcher>();
-		var p = Pattern.compile(pattern);
+		final var ret = new ArrayList<Matcher>();
+		final var p = Pattern.compile(pattern);
 		for (var line : splitLines(content, removeBlank)) {
 			line = line.trim();
 
 			if (!Strings.CS.startsWithAny(line, skipLinesStartWith())) {
-				var m = p.matcher(line);
+				final var m = p.matcher(line);
 				if (m.find()) {
 					logger.debug("Found {}", line);
 					ret.add(m);
-				} else
-					logger.error("no match for {}", line);
+				} else {
+				    logger.error("no match for {}", line);
+				}
 			}
 
 		}
@@ -121,7 +125,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("SEPARATOR", new MTGProperty(",", "Item separator used for export"));
 		return m;
 	}

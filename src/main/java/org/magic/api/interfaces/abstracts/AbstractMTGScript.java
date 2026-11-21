@@ -36,12 +36,13 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	private static final String DIR = "DIR";
 
 	protected AbstractMTGScript() {
-		if (!getFile(DIR).exists())
-			try {
-				FileTools.forceMkdir(getFile(DIR));
-			} catch (IOException e) {
-				logger.error("Error creating {} {}", getFile(DIR), e);
-			}
+		if (!getFile(DIR).exists()) {
+		    try {
+		    	FileTools.forceMkdir(getFile(DIR));
+		    } catch (final IOException e) {
+		    	logger.error("Error creating {} {}", getFile(DIR), e);
+		    }
+		}
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		try {
 			logger.debug("running {}", f);
 			return runContent(FileTools.readFile(f));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new ScriptException(e);
 		}
 	}
@@ -106,7 +107,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put(DIR, MTGProperty.newDirectoryProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "scripts")));
 		return m;
 	}

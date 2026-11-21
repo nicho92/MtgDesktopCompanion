@@ -36,12 +36,13 @@ public abstract class MTGUIBrowserComponent extends MTGUIComponent {
 	}
 
 	public static MTGUIBrowserComponent createBrowser() {
-		if (MTGControler.getInstance().get("ui/chromedisabled").equals("true"))
-			return new JEditorPaneBrowser();
+		if (MTGControler.getInstance().get("ui/chromedisabled").equals("true")) {
+		    return new JEditorPaneBrowser();
+		}
 
 		try {
 			return new ChromiumBrowserComponent();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return new JEditorPaneBrowser();
 		}
 	}

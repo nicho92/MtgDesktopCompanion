@@ -37,9 +37,9 @@ public class LayersListPanel extends JPanel {
 
 	setLayout(new BorderLayout());
 
-	
-	JLabel title = new JLabel("Layers");
-	
+
+	final JLabel title = new JLabel("Layers");
+
 	title.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 	add(title, BorderLayout.NORTH);
@@ -54,16 +54,16 @@ public class LayersListPanel extends JPanel {
 
 	add(new JScrollPane(list), BorderLayout.CENTER);
 
-	var buttons = new JPanel();
+	final var buttons = new JPanel();
 
-	var upButton = new JButton(MTGConstants.ICON_UP);
-	var downButton = new JButton(MTGConstants.ICON_DOWN);
-	var deleteButton = new JButton(MTGConstants.ICON_SMALL_DELETE);
+	final var upButton = new JButton(MTGConstants.ICON_UP);
+	final var downButton = new JButton(MTGConstants.ICON_DOWN);
+	final var deleteButton = new JButton(MTGConstants.ICON_SMALL_DELETE);
 	copyButton = new JButton(MTGConstants.ICON_SMALL_COPY);
-	
-	
+
+
 	copyButton.setEnabled(false);
-	
+
 	buttons.setLayout(new GridLayout(0, 4, 0, 0));
 
 	buttons.add(upButton);
@@ -79,24 +79,24 @@ public class LayersListPanel extends JPanel {
 
 	deleteButton.addActionListener(_ -> removeSelected());
 
-	
+
 	copyButton.addActionListener(_->{
-	
+
 	    try {
-		var copy = BeanTools.cloneBean(getSelectedLayer());
+		final var copy = BeanTools.cloneBean(getSelectedLayer());
 		copy.setName(getSelectedLayer().getName()+"(copy)");
-		
+
 		model.addElement(copy);
 		canvas.addLayer(copy);
-		
-	    } catch (Exception e) {
+
+	    } catch (final Exception e) {
 		logger.error(e);
-	    } 
-	    
-	    
+	    }
+
+
 	});
-	
-	
+
+
 	list.addMouseListener(new MouseAdapter() {
 
 	    @Override
@@ -106,7 +106,7 @@ public class LayersListPanel extends JPanel {
 		    return;
 		}
 
-		var layer = list.getSelectedValue();
+		final var layer = list.getSelectedValue();
 
 		if (layer == null) {
 		    return;
@@ -130,15 +130,15 @@ public class LayersListPanel extends JPanel {
     // =====================================================================
 
     public void setLayers(List<Layer> layers) {
-	
+
 	if(layers==null)
 	{
 	    model.clear();
 	    return;
 	}
-	
-	
-	var selected = getSelectedLayer();
+
+
+	final var selected = getSelectedLayer();
 
 	model.clear();
 
@@ -172,7 +172,7 @@ public class LayersListPanel extends JPanel {
 	}
 
 	copyButton.setEnabled(layer!=null);
-	
+
 	list.setSelectedValue(layer, true);
     }
 
@@ -182,7 +182,7 @@ public class LayersListPanel extends JPanel {
 	    return;
 	}
 
-	var layer = getSelectedLayer();
+	final var layer = getSelectedLayer();
 
 	if (layer == null) {
 	    return;
@@ -201,7 +201,7 @@ public class LayersListPanel extends JPanel {
 	    return;
 	}
 
-	var layer = getSelectedLayer();
+	final var layer = getSelectedLayer();
 
 	if (layer == null) {
 	    return;
@@ -220,7 +220,7 @@ public class LayersListPanel extends JPanel {
 	    return;
 	}
 
-	var layer = getSelectedLayer();
+	final var layer = getSelectedLayer();
 
 	if (layer == null) {
 	    return;
@@ -257,7 +257,7 @@ public class LayersListPanel extends JPanel {
     private class LayerCellRenderer extends DefaultListCellRenderer {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -265,7 +265,7 @@ public class LayersListPanel extends JPanel {
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean selected,
 		boolean focus) {
 
-	    var layer = (Layer) value;
+	    final var layer = (Layer) value;
 	    return super.getListCellRendererComponent(list, layer.getName(), index, selected, focus);
 	}
     }

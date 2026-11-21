@@ -28,21 +28,21 @@ public class ShortKeyManagerUI extends MTGUIComponent {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JXTable tableKeys;
-	private ShortKeyModel model;
-	private JTextField textField;
+	private final JXTable tableKeys;
+	private final ShortKeyModel model;
+	private final JTextField textField;
 	private int currentKeyCode;
 
 	@SuppressWarnings("null")
 	public ShortKeyManagerUI() {
 		setLayout(new BorderLayout(0, 0));
 
-		var panneauHaut = new JPanel();
-		var btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "delete shortkey");
-		var btnSaveBinding = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S,
+		final var panneauHaut = new JPanel();
+		final var btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "delete shortkey");
+		final var btnSaveBinding = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S,
 				"save shortkey");
 		textField = new JTextField(10);
-		var panneauBas = new JPanel();
+		final var panneauBas = new JPanel();
 
 		model = new ShortKeyModel();
 		model.setMainObjectIndex(1);
@@ -58,7 +58,7 @@ public class ShortKeyManagerUI extends MTGUIComponent {
 
 		panneauHaut.add(btnDelete);
 
-		var gblpanneauBas = new GridBagLayout();
+		final var gblpanneauBas = new GridBagLayout();
 		gblpanneauBas.columnWidths = new int[]{108, 247, 0, 0};
 		gblpanneauBas.rowHeights = new int[]{0, 0};
 		gblpanneauBas.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -79,22 +79,23 @@ public class ShortKeyManagerUI extends MTGUIComponent {
 		});
 
 		btnDelete.addActionListener(_ -> {
-			JButton c = UITools.getTableSelection(tableKeys, model.getMainObjectIndex());
+			final JButton c = UITools.getTableSelection(tableKeys, model.getMainObjectIndex());
 			ShortKeyManager.inst().removeMnemonic(c);
 			model.fireTableDataChanged();
 		});
 
 		btnSaveBinding.addActionListener(_ -> {
-			JButton b = UITools.getTableSelection(tableKeys, model.getMainObjectIndex());
-			if (b != null)
-				ShortKeyManager.inst().setShortCutTo(currentKeyCode, b);
+			final JButton b = UITools.getTableSelection(tableKeys, model.getMainObjectIndex());
+			if (b != null) {
+			    ShortKeyManager.inst().setShortCutTo(currentKeyCode, b);
+			}
 
 			ShortKeyManager.inst().store();
 		});
 
 		tableKeys.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
-				JButton b = UITools.getTableSelection(tableKeys, model.getMainObjectIndex());
+				final JButton b = UITools.getTableSelection(tableKeys, model.getMainObjectIndex());
 
 				btnDelete.setEnabled(b != null);
 

@@ -20,19 +20,20 @@ public class GradingCellRenderer extends JLabel implements TableCellRenderer {
 			int row, int column) {
 
 		setOpaque(true);
-		var grad = (MTGGrading) g;
+		final var grad = (MTGGrading) g;
 
 		try {
-			var c = PluginRegistry.inst().getPlugin(grad.getGraderName(), MTGGraders.class).getIcon();
+			final var c = PluginRegistry.inst().getPlugin(grad.getGraderName(), MTGGraders.class).getIcon();
 			setText(grad.toString());
 			setIcon(c);
 			setHorizontalAlignment(SwingConstants.LEADING);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			setText(null);
 		}
 
-		if (isSelected)
-			setBackground(table.getSelectionBackground());
+		if (isSelected) {
+		    setBackground(table.getSelectionBackground());
+		}
 
 		return this;
 

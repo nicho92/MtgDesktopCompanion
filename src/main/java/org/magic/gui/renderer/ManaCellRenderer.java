@@ -17,10 +17,11 @@ public class ManaCellRenderer extends ManaPanel implements TableCellRenderer {
 
 		setManaCost(String.valueOf(value));
 
-		if (isSelected)
-			setBackground(table.getSelectionBackground());
-		else
-			setBackground(table.getBackground());
+		if (isSelected) {
+		    setBackground(table.getSelectionBackground());
+		} else {
+		    setBackground(table.getBackground());
+		}
 
 		return this;
 

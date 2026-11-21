@@ -17,7 +17,7 @@ import org.magic.services.threads.ThreadManager;
 public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JEditorPane browse;
+	private final JEditorPane browse;
 	private transient MTGHttpClient client;
 	private String currentUrl = "";
 
@@ -25,7 +25,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 		setLayout(new BorderLayout());
 		browse = new JEditorPane();
 		browse.setContentType(URLTools.HEADER_HTML);
-		var kit = new HTMLEditorKit();
+		final var kit = new HTMLEditorKit();
 		browse.setEditorKit(kit);
 		browse.setEditable(false);
 		add(browse, BorderLayout.CENTER);
@@ -42,11 +42,11 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	public void loadURL(String url) {
 		logger.debug("loading {}", url);
 		currentUrl = url;
-		var sw = new SwingWorker<String, Void>() {
+		final var sw = new SwingWorker<String, Void>() {
 
 			@Override
 			protected String doInBackground() throws Exception {
-				var w = Safelist.basic();
+				final var w = Safelist.basic();
 				w.addTags("img");
 				w.addAttributes("img", "src");
 
@@ -58,9 +58,9 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 				try {
 					browse.setText(get());
 					browse.setCaretPosition(1);
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					browse.setText(e.getMessage());
 				}
 			}

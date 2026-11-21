@@ -15,7 +15,7 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("LIMIT_TO_TOP_N_HASH_MATCH", MTGProperty.newIntegerProperty("500", "maximum MatchResult", 10, -1));
 		return m;
 	}

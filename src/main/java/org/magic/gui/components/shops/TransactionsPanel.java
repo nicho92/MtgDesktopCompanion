@@ -65,7 +65,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		panneauHaut = new JPanel();
-		var splitPanel = new JSplitPane();
+		final var splitPanel = new JSplitPane();
 		stockDetailPanel = new StockItemPanel();
 		panneauBas = new TransactionTotalPanel();
 		contactPanel = new ContactPanel(true);
@@ -73,12 +73,12 @@ public class TransactionsPanel extends MTGUIComponent {
 		viewerPanel = new ObjectViewerPanel();
 		trackPanel = new TransactionTrackingPanel();
 		gedPanel = new GedPanel<>();
-		var chkEditingMode = new JCheckBox("Editing mode");
+		final var chkEditingMode = new JCheckBox("Editing mode");
 
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		btnNew = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "new");
-		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_FILTER, KeyEvent.VK_S, "search");
-		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "reload");
+		final var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_FILTER, KeyEvent.VK_S, "search");
+		final var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "reload");
 		btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE, KeyEvent.VK_M, "merge");
 		btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_D, "delete");
 		btnContact = UITools.createBindableJButton("", MTGConstants.ICON_CONTACT, KeyEvent.VK_C, "contact");
@@ -101,8 +101,9 @@ public class TransactionsPanel extends MTGUIComponent {
 		UITools.addTab(getContextTabbedPane(), trackPanel);
 		UITools.addTab(getContextTabbedPane(), gedPanel);
 
-		if (MTG.readPropertyAsBoolean("debug-json-panel"))
-			UITools.addTab(getContextTabbedPane(), viewerPanel);
+		if (MTG.readPropertyAsBoolean("debug-json-panel")) {
+		    UITools.addTab(getContextTabbedPane(), viewerPanel);
+		}
 
 		tableTransactions.packAll();
 
@@ -137,24 +138,26 @@ public class TransactionsPanel extends MTGUIComponent {
 
 		btnNew.addActionListener(_ -> {
 
-			var t = new Transaction();
+			final var t = new Transaction();
 			t.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
 			transactionModel.addItem(t);
 		});
 
 		btnSearch.addActionListener(_ -> {
-			var text = JOptionPane.showInputDialog("List Transaction with product : ");
+			final var text = JOptionPane.showInputDialog("List Transaction with product : ");
 
 			@SuppressWarnings("unchecked")
+			final
 			TableRowSorter<TransactionsTableModel> sorter = (TableRowSorter<TransactionsTableModel>) tableTransactions
 					.getRowSorter();
-			RowFilter<TransactionsTableModel, Integer> filter = new RowFilter<>() {
+			final RowFilter<TransactionsTableModel, Integer> filter = new RowFilter<>() {
 				@Override
 				public boolean include(Entry<? extends TransactionsTableModel, ? extends Integer> entry) {
-					for (var t : entry.getModel().getItemAt(entry.getIdentifier()).getItems()) {
+					for (final var t : entry.getModel().getItemAt(entry.getIdentifier()).getItems()) {
 
-						if (t.getProduct() != null && (t.getProduct() + "").toUpperCase().contains(text.toUpperCase()))
-							return true;
+						if (t.getProduct() != null && (t.getProduct() + "").toUpperCase().contains(text.toUpperCase())) {
+						    return true;
+						}
 					}
 					return false;
 				}
@@ -165,15 +168,15 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 
 		btnImportTransaction.addActionListener(_ -> {
-			var diag = new TransactionsImporterDialog();
+			final var diag = new TransactionsImporterDialog();
 			diag.setVisible(true);
 
 			if (diag.hasSelected()) {
-				for (var t : diag.getSelectedItems()) {
+				for (final var t : diag.getSelectedItems()) {
 					try {
 						TransactionService.saveTransaction(t, false);
 						reload();
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.error(e);
 					}
 					transactionModel.fireTableDataChanged();
@@ -183,16 +186,18 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 
 		tableTransactions.getSelectionModel().addListSelectionListener(lsl -> {
-			if (lsl.getValueIsAdjusting())
-				return;
+			if (lsl.getValueIsAdjusting()) {
+			    return;
+			}
 
-			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
+			final List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
 
-			if (t.isEmpty())
-				return;
+			if (t.isEmpty()) {
+			    return;
+			}
 
 			buzy.start();
-			var sw = new SwingWorker<List<MTGStockItem>, Void>() {
+			final var sw = new SwingWorker<List<MTGStockItem>, Void>() {
 
 				@Override
 				protected List<MTGStockItem> doInBackground() throws Exception {
@@ -213,8 +218,9 @@ public class TransactionsPanel extends MTGUIComponent {
 					gedPanel.init(Transaction.class, t.get(0));
 					btnGenerateBill.setEnabled(t.size() == 1);
 
-					if (MTG.readPropertyAsBoolean("debug-json-panel"))
-						viewerPanel.init(t.get(0));
+					if (MTG.readPropertyAsBoolean("debug-json-panel")) {
+					    viewerPanel.init(t.get(0));
+					}
 
 					buzy.end();
 				}
@@ -226,10 +232,10 @@ public class TransactionsPanel extends MTGUIComponent {
 
 		trackPanel.getComboBox().addItemListener((ItemEvent event) -> {
 
-			var transaction = trackPanel.getTransaction();
+			final var transaction = trackPanel.getTransaction();
 			transaction.setTransporter(trackPanel.getComboBox().getSelectedItem().toString());
 
-			var sw = new SwingWorker<Void, Void>() {
+			final var sw = new SwingWorker<Void, Void>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
@@ -255,14 +261,14 @@ public class TransactionsPanel extends MTGUIComponent {
 				try {
 
 					buzy.start();
-					var sw = new SwingWorker<Void, Void>() {
+					final var sw = new SwingWorker<Void, Void>() {
 
 						@Override
 						protected Void doInBackground() throws Exception {
 							try {
 								TransactionService.saveTransaction(transactionModel.getItemAt(tml.getFirstRow()),
 										false);
-							} catch (IOException e) {
+							} catch (final IOException e) {
 								logger.error(e);
 							}
 							return null;
@@ -277,7 +283,7 @@ public class TransactionsPanel extends MTGUIComponent {
 					};
 
 					ThreadManager.getInstance().runInEdt(sw, "Saving transaction ");
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					MTGControler.getInstance().notify(e);
 				}
 
@@ -288,11 +294,11 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnRefresh.addActionListener(_ -> reload());
 
 		btnGenerateBill.addActionListener(_ -> {
-			Transaction t = UITools.getTableSelection(tableTransactions, 0);
+			final Transaction t = UITools.getTableSelection(tableTransactions, 0);
 
 			buzy.start();
 
-			var sw = new SwingWorker<Void, Void>() {
+			final var sw = new SwingWorker<Void, Void>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
@@ -306,9 +312,9 @@ public class TransactionsPanel extends MTGUIComponent {
 					buzy.end();
 					try {
 						get();
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						MTGControler.getInstance().notify(e);
 					}
 
@@ -321,20 +327,20 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 
 		btnContact.addActionListener(_ -> {
-			var diag = new ContactChooseDialog();
+			final var diag = new ContactChooseDialog();
 			diag.setVisible(true);
 
 			if (diag.hasSelected()) {
-				Transaction t = UITools.getTableSelection(tableTransactions, 0);
-				var c = diag.getSelectedItem();
-				int res = JOptionPane.showConfirmDialog(this, "Confirm " + c + " to transaction #" + t.getId(),
+				final Transaction t = UITools.getTableSelection(tableTransactions, 0);
+				final var c = diag.getSelectedItem();
+				final int res = JOptionPane.showConfirmDialog(this, "Confirm " + c + " to transaction #" + t.getId(),
 						"Confirm", JOptionPane.YES_NO_OPTION);
 
 				if (res == JOptionPane.YES_OPTION) {
 					t.setContact(c);
 					try {
 						TransactionService.saveTransaction(t, false);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.error(e);
 					}
 				}
@@ -342,42 +348,42 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 
 		btnDelete.addActionListener(_ -> {
-			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
-			int res = JOptionPane.showConfirmDialog(this,
+			final List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
+			final int res = JOptionPane.showConfirmDialog(this,
 					"Delete " + t.size() + " transaction(s) will NOT update stock", "Delete ?",
 					JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				try {
 					TransactionService.deleteTransaction(t);
 					reload();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					MTGControler.getInstance().notify(e);
 				}
 			}
 		});
 
 		btnMerge.addActionListener(_ -> {
-			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
+			final List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
 			try {
 				TransactionService.mergeTransactions(t);
 				reload();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				MTGControler.getInstance().notify(e);
 			}
 
 		});
 
 		btnValidateTransaction.addActionListener(_ -> {
-			Transaction t = UITools.getTableSelection(tableTransactions, 0);
+			final Transaction t = UITools.getTableSelection(tableTransactions, 0);
 
-			int res = JOptionPane.showConfirmDialog(this,
+			final int res = JOptionPane.showConfirmDialog(this,
 					"Validate #" + t.getId() + " transaction willupdate stock (" + t.getItems().size() + " items)",
 					"Validate ?", JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				try {
 					TransactionService.validateTransaction(t);
 					reload();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					MTGControler.getInstance().notify(e);
 				}
 			}
@@ -400,7 +406,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			transactionModel.clear();
 			transactionModel.addItems(list);
 			transactionModel.fireTableDataChanged();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error loading transactions", e);
 		}
 	}
@@ -408,13 +414,14 @@ public class TransactionsPanel extends MTGUIComponent {
 	private void reload() {
 		buzy.start();
 
-		var sw = new SwingWorker<List<Transaction>, Void>() {
+		final var sw = new SwingWorker<List<Transaction>, Void>() {
 
 			@Override
 			protected List<Transaction> doInBackground() throws Exception {
 
-				if (contact != null)
-					return TransactionService.listTransactions(contact);
+				if (contact != null) {
+				    return TransactionService.listTransactions(contact);
+				}
 
 				return TransactionService.listTransactions();
 			}
@@ -425,9 +432,9 @@ public class TransactionsPanel extends MTGUIComponent {
 					transactionModel.clear();
 					transactionModel.addItems(get());
 					panneauBas.calulate(get(), transactionModel);
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				} finally {
 					buzy.end();

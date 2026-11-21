@@ -52,8 +52,9 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 	@Override
 	public Object getValueAt(int row, int column) {
 
-		if (getItems().isEmpty())
-			return null;
+		if (getItems().isEmpty()) {
+		    return null;
+		}
 
 		switch (column) {
 			case 0 :
@@ -82,20 +83,20 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		MTGAlert alert = getItems().get(row);
+		final MTGAlert alert = getItems().get(row);
 		if (column == 1) {
-			MTGEdition ed = (MTGEdition) aValue;
+			final MTGEdition ed = (MTGEdition) aValue;
 			try {
 				if (!ed.equals(alert.getCard().getEdition())) {
 					getEnabledPlugin(MTGDao.class).deleteAlert(alert);
-					MTGCard mc = CardsManagerService.switchEditions(alert.getCard(), ed);
-					var alert2 = new MTGAlert();
+					final MTGCard mc = CardsManagerService.switchEditions(alert.getCard(), ed);
+					final var alert2 = new MTGAlert();
 					alert2.setCard(mc);
 					alert2.setPrice(alert.getPrice());
 					getEnabledPlugin(MTGDao.class).saveAlert(alert2);
 
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("error {}", aValue, e);
 			}
 		}
@@ -104,7 +105,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 			alert.setQty(Integer.parseInt(aValue.toString()));
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("error setting set {}", aValue, e);
 			}
 		}
@@ -113,7 +114,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 			alert.setFoil(Boolean.parseBoolean(aValue.toString()));
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("error setting foil for {}", aValue, e);
 			}
 		}
@@ -122,7 +123,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 			alert.setPrice(Double.parseDouble(aValue.toString()));
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("error setting price for {}", aValue, e);
 			}
 		}

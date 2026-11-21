@@ -23,7 +23,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String COLLECTION = "COLLECTION";
-	private Timer timer;
+	private final Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
 
@@ -56,15 +56,15 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 					evaluator = new CollectionEvaluator(new MTGCollection(getString(COLLECTION)));
 					logger.debug("backuping files");
 					dest = new File(evaluator.getDirectory(), new SimpleDateFormat("yyyyMMdd").format(new Date()));
-				} catch (IOException e1) {
+				} catch (final IOException e1) {
 					logger.error(e1);
 					return;
 				}
 
-				for (File f : evaluator.getDirectory().listFiles(pathname -> !pathname.isDirectory())) {
+				for (final File f : evaluator.getDirectory().listFiles(pathname -> !pathname.isDirectory())) {
 					try {
 						FileTools.moveFileToDirectory(f, dest, true);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.error(e);
 					}
 				}
@@ -72,7 +72,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 				logger.debug("updating cache");
 				try {
 					evaluator.initCache();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					logger.error(e);
 				}
 				logger.info("cache update done");

@@ -28,7 +28,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 
 		m.put("AUTOMATIC_ADD_CART",
 				MTGProperty.newBooleanProperty("false", "set to true if you want add finded item to your online cart"));
@@ -58,11 +58,11 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		init();
 		if (getBoolean("AUTOMATIC_ADD_CART")) {
 
-			for (var price : p) {
-				var mk = (MarketProduct) price.getShopItem();
-				var c = MTGControler.getInstance().getWebshopService().getWebConfig().getContact();
+			for (final var price : p) {
+				final var mk = (MarketProduct) price.getShopItem();
+				final var c = MTGControler.getInstance().getWebshopService().getWebConfig().getContact();
 
-				var addr = new Address();
+				final var addr = new Address();
 				addr.setName(c.getName() + " " + c.getLastName());
 				addr.setCity(c.getCity());
 				addr.setCountry(c.getCountry());
@@ -71,7 +71,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 				try {
 					service.addProductToCart(mk, true, 1, addr, addr);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("Error adding product to cart", e);
 				}
 
@@ -84,19 +84,19 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 		init();
 
-		var ret = new ArrayList<MTGPrice>();
+		final var ret = new ArrayList<MTGPrice>();
 
-		var set = service.getExpansionByCode(card.getEdition().getId());
+		final var set = service.getExpansionByCode(card.getEdition().getId());
 
-		var bps = service.listBluePrints(card.getName(), set);
+		final var bps = service.listBluePrints(card.getName(), set);
 
 		if (bps.isEmpty()) {
 			logger.info("{} found nothing", getName());
 			return ret;
 		}
 
-		var bp = service.getBluePrintById(bps.get(0).getId());
-		Chrono c = new Chrono();
+		final var bp = service.getBluePrintById(bps.get(0).getId());
+		final Chrono c = new Chrono();
 		c.start();
 		logger.debug("Begin searching {}", bp);
 		service.listMarketProductByBluePrint(bp).forEach(marketItem -> {
@@ -104,7 +104,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 			if (ArrayUtils.contains(getArray(COUNTRY_FILTER), marketItem.getSeller().getCountryCode())
 					|| getString(COUNTRY_FILTER).isEmpty()) {
 
-				var mp = new MTGPrice();
+				final var mp = new MTGPrice();
 				mp.setCountry(marketItem.getSeller().getCountryCode());
 				mp.setCurrency(marketItem.getPrice().getCurrency());
 				mp.setLanguage(marketItem.getLanguage());
@@ -130,12 +130,13 @@ public class CardTraderPricer extends AbstractPricesProvider {
 	}
 
 	private void init() {
-		if (service == null)
-			service = new CardTraderService(getAuthenticator().get("TOKEN"));
+		if (service == null) {
+		    service = new CardTraderService(getAuthenticator().get("TOKEN"));
+		}
 
 		service.setListener((URLCallInfo callInfo) -> {
 
-			var ni = new NetworkInfo();
+			final var ni = new NetworkInfo();
 			ni.setStart(callInfo.getStart());
 			ni.setEnd(callInfo.getEnd());
 			ni.setReponse(callInfo.getResponse());

@@ -28,17 +28,17 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		List<MTGPrice> ret = new ArrayList<>();
-		var c = URLTools.newClient();
+		final List<MTGPrice> ret = new ArrayList<>();
+		final var c = URLTools.newClient();
 
 		RequestBuilder.build().setClient(c).get().url(BASE_URL).execute();
 
-		String cardName = card.getName();
+		final String cardName = card.getName();
 
-		var payload = "{\"Keyword\":\"\",\"Variant\":{\"MaxPerPage\":32},\"FacetSelections\":{\"card_name\":[\""
+		final var payload = "{\"Keyword\":\"\",\"Variant\":{\"MaxPerPage\":32},\"FacetSelections\":{\"card_name\":[\""
 				+ cardName + "\"]},\"MaxPerPage\":24,\"clientguid\":\"cc3be22005ef47d3969c3de28f09571b\"}";
 
-		var hds = new ImmutableMap.Builder<String, String>().put("Accept-Encoding", "gzip, deflate, br")
+		final var hds = new ImmutableMap.Builder<String, String>().put("Accept-Encoding", "gzip, deflate, br")
 				.put("Accept", "*/*").put("Accept-Language", "fr-FR,fr;q=0.9,en;q=0.8")
 				.put("Sec-Ch-Ua", "\"Google Chrome\";v=\"117\", \"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"117\"")
 				.put("Sec-Ch-Ua-Mobile", "?0").put("Sec-Ch-Ua-Platform", "Window").put("Sec-Fetch-Dest", "empty")
@@ -46,19 +46,19 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 				.put("Origin", BASE_URL).put("Content-Type", "application/json")
 				.put("User-Agent", MTGConstants.USER_AGENT).build();
 
-		var json = c.doPost("https://essearchapi-na.hawksearch.com/api/v2/search", URLTools.toJson(payload), hds)
+		final var json = c.doPost("https://essearchapi-na.hawksearch.com/api/v2/search", URLTools.toJson(payload), hds)
 				.getAsJsonObject().get("Results").getAsJsonArray();
 
 		json.forEach(je -> {
 
-			var arr = je.getAsJsonObject().get("Document").getAsJsonObject().get("child_information").getAsJsonArray();
+			final var arr = je.getAsJsonObject().get("Document").getAsJsonObject().get("child_information").getAsJsonArray();
 
 			arr.forEach(str -> {
-				var jinfo = URLTools.toJson(str.getAsString()).getAsJsonObject();
+				final var jinfo = URLTools.toJson(str.getAsString()).getAsJsonObject();
 
 				if (jinfo.get("qty").getAsInt() > 0 && jinfo.get("sku").getAsString().toUpperCase()
 						.contains(card.getEdition().getId().toUpperCase())) {
-					var mp = new MTGPrice();
+					final var mp = new MTGPrice();
 					mp.setCardData(card);
 					mp.setCurrency(Currency.getInstance("USD"));
 					mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));

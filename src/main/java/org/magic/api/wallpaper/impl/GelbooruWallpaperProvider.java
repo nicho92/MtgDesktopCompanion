@@ -37,7 +37,7 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 	@Override
 	protected List<MTGWallpaper> parse(JsonObject el) {
 		try {
-			var pic = new MTGWallpaper();
+			final var pic = new MTGWallpaper();
 			pic.setAuthor(el.get("owner").getAsString());
 			pic.setFormat(el.get("image").getAsString().substring(el.get("image").getAsString().length() - 3));
 			pic.setPublishDate(new Date(el.get("change").getAsLong() * 1000));
@@ -46,11 +46,12 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 			pic.setUrlThumb(URI.create(el.get("preview_url").getAsString()));
 			pic.setUrl(URI.create(el.get("file_url").getAsString()));
 			pic.addHeader(URLTools.REFERER, BASE_URL);
-			for (var s : el.get("tags").getAsString().split(" "))
-				pic.getTags().add(s);
+			for (final var s : el.get("tags").getAsString().split(" ")) {
+			    pic.getTags().add(s);
+			}
 
 			return List.of(pic);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("error parsing json for {}", el);
 			return new ArrayList<>();
 		}
@@ -73,15 +74,13 @@ public class GelbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 		JsonElement je=null;
 		try {
 		    je = req.toJson();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 		    logger.error(e);
 		}
 
-		if (je == null || je.isJsonNull())
-			return new JsonArray(0);
-
-		if (je.getAsJsonObject().get("post") == null)
-			return new JsonArray(0);
+		if (je == null || je.isJsonNull() || (je.getAsJsonObject().get("post") == null)) {
+		    return new JsonArray(0);
+		}
 
 		return je.getAsJsonObject().get("post").getAsJsonArray();
 

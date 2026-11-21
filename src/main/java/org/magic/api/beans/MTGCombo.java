@@ -47,11 +47,13 @@ public class MTGCombo {
 	}
 
 	public String getColors() {
-		Set<String> cmap = new LinkedHashSet<>();
-		for (MTGCard mc : getCards()) {
-			if ((mc.getCmc() != null))
-				for (EnumColors c : mc.getColors())
-					cmap.add(c.toManaCode());
+		final Set<String> cmap = new LinkedHashSet<>();
+		for (final MTGCard mc : getCards()) {
+			if ((mc.getCmc() != null)) {
+			    for (final EnumColors c : mc.getColors()) {
+			        cmap.add(c.toManaCode());
+			    }
+			}
 		}
 		return cmap.toString();
 	}

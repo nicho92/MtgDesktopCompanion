@@ -15,7 +15,7 @@ public class MTGStockItemRenderer extends JLabel implements TableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable t, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
-		var obj = (MTGStockItem) value;
+		final var obj = (MTGStockItem) value;
 
 		setText(obj.getId() + " " + (obj.isUpdated() ? "*" : ""));
 		setOpaque(true);

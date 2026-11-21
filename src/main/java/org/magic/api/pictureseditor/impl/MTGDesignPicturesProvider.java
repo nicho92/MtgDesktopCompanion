@@ -37,7 +37,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 	private static final String FALSE = "false";
 	private static final String DESIGNER = "designer";
 	private static final String BASE_URI = "https://mtg.design";
-	private MTGHttpClient httpclient;
+	private final MTGHttpClient httpclient;
 
 	public MTGDesignPicturesProvider() {
 		super();
@@ -56,25 +56,26 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 	}
 
 	private void connect() throws IOException {
-		String u = BASE_URI + "/login";
+		final String u = BASE_URI + "/login";
 
-		if (getAuthenticator().getLogin().isEmpty() || getAuthenticator().getPassword().isEmpty())
-			throw new IOException("Please fill LOGIN/PASSWORD field in account panel");
+		if (getAuthenticator().getLogin().isEmpty() || getAuthenticator().getPassword().isEmpty()) {
+		    throw new IOException("Please fill LOGIN/PASSWORD field in account panel");
+		}
 
-		var p = httpclient.doGet(u).getEntity();
-		var token = URLTools.toHtml(EntityUtils.toString(p)).select("input[name=_token]").first().attr("value");
-		var nvps = new ArrayList<NameValuePair>();
+		final var p = httpclient.doGet(u).getEntity();
+		final var token = URLTools.toHtml(EntityUtils.toString(p)).select("input[name=_token]").first().attr("value");
+		final var nvps = new ArrayList<NameValuePair>();
 		nvps.add(new BasicNameValuePair("email", getAuthenticator().getLogin()));
 		nvps.add(new BasicNameValuePair("password", getAuthenticator().getPassword()));
 		nvps.add(new BasicNameValuePair("remember", "on"));
 		nvps.add(new BasicNameValuePair("_token", token));
 
-		var headers = new HashMap<String, String>();
+		final var headers = new HashMap<String, String>();
 		headers.put(URLTools.REFERER, u);
 		headers.put(URLTools.UPGR_INSECURE_REQ, "1");
 		headers.put(URLTools.ORIGIN, BASE_URI);
 
-		var resp = httpclient.doPost(u, new UrlEncodedFormEntity(nvps), headers);
+		final var resp = httpclient.doPost(u, new UrlEncodedFormEntity(nvps), headers);
 
 		logger.debug("Connection : {}", resp.getStatusLine().getReasonPhrase());
 
@@ -87,13 +88,14 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 	@Override
 	public BufferedImage generatePicture(MTGCard mc, MTGEdition me) throws IOException {
-		if (httpclient.getCookies().isEmpty())
-			connect();
-		
+		if (httpclient.getCookies().isEmpty()) {
+		    connect();
+		}
+
 		mc.setFrameVersion(EnumFrameVersion.FRAME_2015);
-		
-		
-		var build = new URIBuilder();
+
+
+		final var build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");
 
 		if (me != null) {
@@ -110,61 +112,73 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 		build.addParameter("card-title", mc.getName());
 		build.addParameter("mana-cost", mc.getCost());
 
-		if (mc.getBorder() == null)
-			build.addParameter("card-border", "black");
-		else
-			build.addParameter("card-border", mc.getBorder().name().toLowerCase());
+		if (mc.getBorder() == null) {
+		    build.addParameter("card-border", "black");
+		} else {
+		    build.addParameter("card-border", mc.getBorder().name().toLowerCase());
+		}
 
-		if (!mc.getSupertypes().isEmpty())
-			build.addParameter("super-type", String.join(" ", mc.getSupertypes()));
+		if (!mc.getSupertypes().isEmpty()) {
+		    build.addParameter("super-type", String.join(" ", mc.getSupertypes()));
+		}
 
-		if (!mc.getTypes().isEmpty())
-			build.addParameter("type", String.join(" ", mc.getTypes()));
+		if (!mc.getTypes().isEmpty()) {
+		    build.addParameter("type", String.join(" ", mc.getTypes()));
+		}
 
-		if (!mc.getSubtypes().isEmpty() && !mc.isSaga())
-			build.addParameter("sub-type", String.join(" ", mc.getSubtypes()));
+		if (!mc.getSubtypes().isEmpty() && !mc.isSaga()) {
+		    build.addParameter("sub-type", String.join(" ", mc.getSubtypes()));
+		}
 
 		build.addParameter("text-size", mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SIZE, "30"));
 
-		if (mc.getRarity() != null)
-			build.addParameter("rarity", mc.getRarity().name().substring(0, 1).toUpperCase());
-		else
-			build.addParameter("rarity", "C");
+		if (mc.getRarity() != null) {
+		    build.addParameter("rarity", mc.getRarity().name().substring(0, 1).toUpperCase());
+		} else {
+		    build.addParameter("rarity", "C");
+		}
 
-		if (!mc.getArtist().isEmpty())
-			build.addParameter("artist", mc.getArtist());
+		if (!mc.getArtist().isEmpty()) {
+		    build.addParameter("artist", mc.getArtist());
+		}
 
-		if (!StringUtils.isEmpty(mc.getPower()))
-			build.addParameter("power", mc.getPower());
+		if (!StringUtils.isEmpty(mc.getPower())) {
+		    build.addParameter("power", mc.getPower());
+		}
 
-		if (!StringUtils.isEmpty(mc.getToughness()))
-			build.addParameter("toughness", mc.getToughness());
+		if (!StringUtils.isEmpty(mc.getToughness())) {
+		    build.addParameter("toughness", mc.getToughness());
+		}
 
-		if (mc.getLoyalty() != null)
-			build.addParameter("loyalty", String.valueOf(mc.getLoyalty()));
+		if (mc.getLoyalty() != null) {
+		    build.addParameter("loyalty", String.valueOf(mc.getLoyalty()));
+		}
 
-		if (mc.getUrl() != null && mc.getUrl().startsWith("http"))
-			build.addParameter("artwork", mc.getUrl());
+		if (mc.getUrl() != null && mc.getUrl().startsWith("http")) {
+		    build.addParameter("artwork", mc.getUrl());
+		}
 
 		build.addParameter(DESIGNER, getString(DESIGNER));
 
-		if ((mc.isLand() || mc.isConspiracy()) && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT) != null)
-			build.addParameter("land-overlay", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT));
-		else
-			build.addParameter("land-overlay", "C");
+		if ((mc.isLand() || mc.isConspiracy()) && mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT) != null) {
+		    build.addParameter("land-overlay", mc.getCustomMetadata().get(EnumExtraCardMetaData.ACCENT));
+		} else {
+		    build.addParameter("land-overlay", "C");
+		}
 
 		build.addParameter("watermark", "0");
 		build.addParameter("set-symbol", "0");
 
-		if (mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.CENTER, FALSE).equals(TRUE))
-			build.addParameter("centered", "true");
+		if (mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.CENTER, FALSE).equals(TRUE)) {
+		    build.addParameter("centered", "true");
+		}
 
 		build.addParameter("card-layout", getFrame(mc));
 
 		if (!mc.getText().isEmpty()) {
 			if (mc.isPlaneswalker()) {
 
-				var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
+				final var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 
 				for (var i = 0; i < abs.size(); i++) {
@@ -182,21 +196,23 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 				build.addParameter("saga-reminder",
 						"(As this Saga enters and after your draw step, add a lore counter. Sacrifice after III.)");
 
-				var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getSagaAbilities();
+				final var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getSagaAbilities();
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 				for (var i = 0; i < abs.size(); i++) {
-					if (i == 0)
-						build.addParameter("rules-text", abs.get(i).text());
-					else
-						build.addParameter(PW_TEXT + (i + 1), abs.get(i).text());
+					if (i == 0) {
+					    build.addParameter("rules-text", abs.get(i).text());
+					} else {
+					    build.addParameter(PW_TEXT + (i + 1), abs.get(i).text());
+					}
 				}
 			} else {
 				build.addParameter("rules-text", mc.getText());
 			}
 		}
 
-		if (!StringUtils.isEmpty(mc.getFlavor()))
-			build.addParameter("flavor-text", mc.getFlavor());
+		if (!StringUtils.isEmpty(mc.getFlavor())) {
+		    build.addParameter("flavor-text", mc.getFlavor());
+		}
 
 		if (mc.isHybride()) {
 			build.addParameter(CARD_TEMPLATE, mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "C"));
@@ -216,8 +232,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 			build.addParameter(CARD_ACCENT, "C");
 		}
 
-		if (mc.isLand())
-			build.addParameter("land-overlay", mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "C"));
+		if (mc.isLand()) {
+		    build.addParameter("land-overlay", mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "C"));
+		}
 
 		if (mc.getCost().isEmpty() && mc.getSide().equals("b")) {
 			build.addParameter(CARD_TEMPLATE, mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "C"));
@@ -226,18 +243,19 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 		build.addParameter("edit", FALSE);
 
-		if (mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, FALSE).equals("true"))
-			build.addParameter("set-symbol",new SMFIconsSetProvider().getSetFor(me, mc.getRarity()).toASCIIString());
-		//	build.addParameter("set-symbol", "https://my.mtgcompanion.org:1234/editions/logo/"+ (me != null ? me.getId() : "pmei") + "/" + mc.getRarity().name())
+		if (mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, FALSE).equals("true")) {
+		    build.addParameter("set-symbol",new SMFIconsSetProvider().getSetFor(me, mc.getRarity()).toASCIIString());
+	build.addParameter("set-symbol", "https://my.mtgcompanion.org:1234/editions/logo/"+ (me != null ? me.getId() : "pmei") + "/" + mc.getRarity().name())
+		}
 
 		try {
 			logger.debug("generate {}", build.build());
-			var resp = httpclient.doGet(build.build().toASCIIString());
+			final var resp = httpclient.doGet(build.build().toASCIIString());
 			logger.info("generate {}", resp.getStatusLine().getReasonPhrase());
-			var im = ImageTools.read(resp.getEntity().getContent());
+			final var im = ImageTools.read(resp.getEntity().getContent());
 			EntityUtils.consume(resp.getEntity());
 			return im;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error generate : ", e);
 			return null;
 		}
@@ -246,48 +264,53 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 	private String getFrame(MTGCard mc) {
 
-	    
+
 	    	if (mc.getTypes().contains("Conspiracy")) {
 	    	    	mc.setWatermarks("conspiracy");
 			return "conspiracy";
 	    	}
-	    
+
 		if (mc.getTypes().contains("Token")) {
 			mc.setLayout(EnumLayout.TOKEN);
 			return "token";
 		}
 
-		if (mc.isPromoCard())
-			return "mgdpromo";
+		if (mc.isPromoCard()) {
+		    return "mgdpromo";
+		}
 
 		mc.setLayout(EnumLayout.MODAL_DFC);
 
 		if (mc.getFrameEffects().contains(EnumFrameEffects.SUNMOONDFC)) {
-			if (mc.getSide().equals("a"))
-				return "transform-sun";
-			else
-				return "transform-moon";
+			if (mc.getSide().equals("a")) {
+			    return "transform-sun";
+			} else {
+			    return "transform-moon";
+			}
 		}
 
 		if (mc.getFrameEffects().contains(EnumFrameEffects.COMPASSLANDDFC)) {
-			if (mc.getSide().equals("a"))
-				return "transform-compass";
-			else
-				return "transform-land";
+			if (mc.getSide().equals("a")) {
+			    return "transform-compass";
+			} else {
+			    return "transform-land";
+			}
 		}
 
 		if (mc.getFrameEffects().contains(EnumFrameEffects.MOONELDRAZIDFC)) {
-			if (mc.getSide().equals("a"))
-				return "transform-mooneldrazi";
-			else
-				return "transform-eldrazi";
+			if (mc.getSide().equals("a")) {
+			    return "transform-mooneldrazi";
+			} else {
+			    return "transform-eldrazi";
+			}
 		}
 
 		if (mc.getFrameEffects().contains(EnumFrameEffects.ORIGINPWDFC)) {
-			if (mc.getSide().equals("a"))
-				return "transform-origin";
-			else
-				return "transform-spark";
+			if (mc.getSide().equals("a")) {
+			    return "transform-origin";
+			} else {
+			    return "transform-spark";
+			}
 		}
 
 		mc.setLayout(EnumLayout.NORMAL);
@@ -296,14 +319,17 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 
 	private String getAccents(String code) {
 
-		if (code.equals("WR"))
-			return "RW";
+		if (code.equals("WR")) {
+		    return "RW";
+		}
 
-		if (code.equals("WG"))
-			return "GW";
+		if (code.equals("WG")) {
+		    return "GW";
+		}
 
-		if (code.equals("UG"))
-			return "GU";
+		if (code.equals("UG")) {
+		    return "GU";
+		}
 
 		return code;
 
@@ -327,8 +353,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

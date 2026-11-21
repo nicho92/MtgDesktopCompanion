@@ -17,9 +17,9 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private MagicCardMainDetailPanel paneMain;
+	private final MagicCardMainDetailPanel paneMain;
 	private MagicCardSubDetailPanel paneSub;
-	private boolean full;
+	private final boolean full;
 
 	@Override
 	public String getTitle() {
@@ -60,8 +60,9 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	public void init(MTGCard mc) {
 		paneMain.init(mc);
 
-		if (full)
-			paneSub.init(mc);
+		if (full) {
+		    paneSub.init(mc);
+		}
 	}
 
 	@Override

@@ -5,15 +5,16 @@ import java.util.List;
 
 public class Observable {
 	private boolean changed = false;
-	private List<Observer> obs;
+	private final List<Observer> obs;
 
 	public Observable() {
 		obs = new ArrayList<>();
 	}
 
 	public synchronized void addObserver(Observer o) {
-		if (o == null)
-			throw new NullPointerException();
+		if (o == null) {
+		    throw new NullPointerException();
+		}
 		if (!obs.contains(o)) {
 			obs.add(o);
 		}
@@ -26,14 +27,16 @@ public class Observable {
 	public void notifyObservers(Object arg) {
 		Object[] arrLocal;
 		synchronized (this) {
-			if (!changed)
-				return;
+			if (!changed) {
+			    return;
+			}
 			arrLocal = obs.toArray();
 			clearChanged();
 		}
 
-		for (var i = arrLocal.length - 1; i >= 0; i--)
-			((Observer) arrLocal[i]).update(this, arg);
+		for (var i = arrLocal.length - 1; i >= 0; i--) {
+		    ((Observer) arrLocal[i]).update(this, arg);
+		}
 	}
 
 	public synchronized void setChanged() {
@@ -45,8 +48,9 @@ public class Observable {
 	}
 
 	public synchronized void removeObserver(Observer o) {
-		if (o == null)
-			throw new NullPointerException();
+		if (o == null) {
+		    throw new NullPointerException();
+		}
 		if (obs.contains(o)) {
 			obs.remove(o);
 		}

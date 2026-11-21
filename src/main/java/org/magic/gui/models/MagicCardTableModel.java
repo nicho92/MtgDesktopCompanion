@@ -54,7 +54,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 	@Override
 	public Object getValueAt(int row, int column) {
 		try {
-			MTGCard mc = items.get(row);
+			final MTGCard mc = items.get(row);
 			switch (column) {
 				case 0 :
 					return mc;
@@ -97,7 +97,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 				default :
 					return mc;
 			}
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return null;
 		}
 
@@ -105,18 +105,20 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 
 	private String powerorloyalty(MTGCard mc) {
 
-		if (mc.isCreature() || mc.isVehicule())
-			return mc.getPT();
-		else if (mc.isPlaneswalker())
-			return String.valueOf(mc.getLoyalty());
+		if (mc.isCreature() || mc.isVehicule()) {
+		    return mc.getPT();
+		} else if (mc.isPlaneswalker()) {
+		    return String.valueOf(mc.getLoyalty());
+		}
 
 		return "";
 	}
 
 	private String getName(List<MTGCardNames> foreignNames) {
-		for (MTGCardNames name : foreignNames) {
-			if (name.getLanguage().equals(MTGControler.getInstance().get("langage")))
-				return name.getName();
+		for (final MTGCardNames name : foreignNames) {
+			if (name.getLanguage().equals(MTGControler.getInstance().get("langage"))) {
+			    return name.getName();
+			}
 		}
 		return "";
 	}

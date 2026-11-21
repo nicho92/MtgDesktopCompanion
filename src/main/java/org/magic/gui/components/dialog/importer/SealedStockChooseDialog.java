@@ -23,11 +23,11 @@ public class SealedStockChooseDialog extends AbstractDelegatedImporterDialog<MTG
 
 	@Override
 	public JComponent getSelectComponent() {
-		var model = new SealedStockTableModel();
+		final var model = new SealedStockTableModel();
 		table = UITools.createNewTable(model, true);
-		var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		final var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 
-		var sw2 = new AbstractObservableWorker<List<MTGSealedStock>, MTGSealedStock, MTGDao>(buzy,
+		final var sw2 = new AbstractObservableWorker<List<MTGSealedStock>, MTGSealedStock, MTGDao>(buzy,
 				MTG.getEnabledPlugin(MTGDao.class)) {
 
 			@Override

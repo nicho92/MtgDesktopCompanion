@@ -1,12 +1,12 @@
 package org.magic.services.recognition;
 
 public class MatchResult {
-	private String result;
-	private String name;
-	private String setCode;
-	private String number;
-	private String scryfallId;
-	private double score;
+	private final String result;
+	private final String name;
+	private final String setCode;
+	private final String number;
+	private final String scryfallId;
+	private final double score;
 	private String id;
 
 	public String getSetCode() {
@@ -37,7 +37,7 @@ public class MatchResult {
 		super();
 		this.result = result;
 		this.score = score;
-		String[] split = result.split("\\|");
+		final String[] split = result.split("\\|");
 		name = split[0];
 		setCode = split[1].toUpperCase();
 		number = split[2];
@@ -54,16 +54,20 @@ public class MatchResult {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if ((obj == null) || (getClass() != obj.getClass()))
-			return false;
-		var other = (MatchResult) obj;
+		if (this == obj) {
+		    return true;
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
+		    return false;
+		}
+		final var other = (MatchResult) obj;
 		if (result == null) {
-			if (other.result != null)
-				return false;
-		} else if (!result.equals(other.result))
-			return false;
+			if (other.result != null) {
+			    return false;
+			}
+		} else if (!result.equals(other.result)) {
+		    return false;
+		}
 		return true;
 	}
 

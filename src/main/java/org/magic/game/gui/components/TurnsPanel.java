@@ -27,10 +27,10 @@ public class TurnsPanel extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel lblTurnNumber;
+	private final JLabel lblTurnNumber;
 
 	public TurnsPanel() {
-		var flowLayout = (FlowLayout) getLayout();
+		final var flowLayout = (FlowLayout) getLayout();
 		flowLayout.setVgap(1);
 		flowLayout.setHgap(1);
 		flowLayout.setAlignment(FlowLayout.LEFT);
@@ -53,8 +53,8 @@ public class TurnsPanel extends JPanel {
 	}
 
 	public void disableButtonsTo(JButton b) {
-		for (Component c : getComponents()) {
-			if (c instanceof JButton but) {
+		for (final Component c : getComponents()) {
+			if (c instanceof final JButton but) {
 				if (!but.equals(b)) {
 					but.getAction().setEnabled(false);
 				} else {
@@ -65,9 +65,11 @@ public class TurnsPanel extends JPanel {
 	}
 
 	public void initTurn() {
-		for (Component c : getComponents())
-			if (c instanceof JButton b)
-				b.getAction().setEnabled(true);
+		for (final Component c : getComponents()) {
+		    if (c instanceof final JButton b) {
+		        b.getAction().setEnabled(true);
+		    }
+		}
 
 		lblTurnNumber.setText("Turn " + GameManager.getInstance().getTurns().size());
 	}

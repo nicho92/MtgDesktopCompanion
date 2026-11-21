@@ -25,13 +25,13 @@ public class MTGProTracker extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		var ret = new ArrayList<MTGCardStock>();
+		final var ret = new ArrayList<MTGCardStock>();
 
 		matches(content, true).forEach(m -> {
 
-			var mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+			final var mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 			if (mc != null) {
-				var mcs = MTGControler.getInstance().getDefaultStock();
+				final var mcs = MTGControler.getInstance().getDefaultStock();
 				mcs.setProduct(mc);
 				mcs.setCondition(EnumCondition.MINT);
 				mcs.setDigital(true);

@@ -39,10 +39,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private static final String GET_FOIL = "GET_FOIL";
 	private static final String PRICE_VALUE = "AVERAGE_MARKET";
 	private static final String INTEREST_TYPE = "INTEREST_TYPE";
-	private CardsService cardService;
-	private InterestsService interestService;
-	private PriceService pricesService;
-	private AnalyticsService analyticService;
+	private final CardsService cardService;
+	private final InterestsService interestService;
+	private final PriceService pricesService;
+	private final AnalyticsService analyticService;
 
 	@Override
 	public String getVersion() {
@@ -60,9 +60,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		pricesService = new PriceService();
 		analyticService = new AnalyticsService();
 
-		URLCallListener urlNotifier = (URLCallInfo callInfo) -> {
+		final URLCallListener urlNotifier = (URLCallInfo callInfo) -> {
 
-			var netinfo = new NetworkInfo();
+			final var netinfo = new NetworkInfo();
 			netinfo.setStart(callInfo.getStart());
 			netinfo.setEnd(callInfo.getEnd());
 			netinfo.setRequest(callInfo.getRequest());
@@ -79,7 +79,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	private SealedProduct guess(List<SealedProduct> products, MTGSealedProduct packaging) {
-		List<SealedProduct> ret = new ArrayList<>();
+		final List<SealedProduct> ret = new ArrayList<>();
 
 		switch (packaging.getTypeProduct()) {
 			case BOOSTER :
@@ -141,10 +141,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	protected HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
 
-		HistoryPrice<MTGSealedProduct> ret = new HistoryPrice<>(packaging);
-		CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
-		var product = guess(cardService.getSealedProduct(cs), packaging);
-		PRICES p = PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
+		final HistoryPrice<MTGSealedProduct> ret = new HistoryPrice<>(packaging);
+		final CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
+		final var product = guess(cardService.getSealedProduct(cs), packaging);
+		final PRICES p = PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
 
 		if (product != null) {
 			ret.setFoil(false);
@@ -158,26 +158,28 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected List<CardShake> getOnlineShakerFor(FORMATS f) throws IOException {
-		List<CardShake> ret = new ArrayList<>();
+		final List<CardShake> ret = new ArrayList<>();
 
 		FORMAT mtgstockformat = null;
 
-		if (f != null)
-			mtgstockformat = FORMAT.valueOf(f.name());
+		if (f != null) {
+		    mtgstockformat = FORMAT.valueOf(f.name());
+		}
 
-		var p = INTEREST.valueOf(getString(PRICE_VALUE).toUpperCase());
+		final var p = INTEREST.valueOf(getString(PRICE_VALUE).toUpperCase());
 
 		logger.debug("Parsing shakers for {} {} ", f, p);
 
 		List<Interest> st;
 
-		if (getBoolean(GET_FOIL))
-			st = interestService.getInterestFor(p, mtgstockformat);
-		else
-			st = interestService.getInterestFor(p, false, mtgstockformat);
+		if (getBoolean(GET_FOIL)) {
+		    st = interestService.getInterestFor(p, mtgstockformat);
+		} else {
+		    st = interestService.getInterestFor(p, false, mtgstockformat);
+		}
 
 		st.stream().filter(inte -> inte.getInterestType().equalsIgnoreCase(getString(INTEREST_TYPE))).forEach(i -> {
-			CardShake cs = initFromPrint(i.getPrint());
+			final CardShake cs = initFromPrint(i.getPrint());
 			cs.setDateUpdate(i.getDate());
 			cs.setPrice(i.getPricePresent());
 			cs.setPercentDayChange(i.getPercentage() / 100);
@@ -193,17 +195,18 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MTGEdition ed) throws IOException {
 
-		var es = new EditionsShakers();
+		final var es = new EditionsShakers();
 		es.setProviderName(getName());
 		es.setDate(new Date());
 		es.setEdition(ed);
 
-		var c = PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
+		final var c = PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
 
 		fillEditionShaker(c, ed, es, false);
 
-		if (getBoolean(GET_FOIL))
-			fillEditionShaker(c, ed, es, true);
+		if (getBoolean(GET_FOIL)) {
+		    fillEditionShaker(c, ed, es, true);
+		}
 
 		return es;
 	}
@@ -213,12 +216,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		logger.debug("Parsing shakers for {} {}", ed, c);
 
 		cardService.getPrintsBySetCode(ed.getId()).forEach(p -> {
-			CardShake cs = initFromPrint(p);
+			final CardShake cs = initFromPrint(p);
 			cs.setEd(ed.getId());
 			try {
 				cs.init(p.getLatestPrices().get(c.name()), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
 
-			} catch (NullPointerException e) {
+			} catch (final NullPointerException e) {
 				logger.error("{} : {}", p, e);
 			}
 			cs.setFoil(b);
@@ -235,22 +238,22 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
-		HistoryPrice<MTGCard> hp = new HistoryPrice<>(mc);
+		final HistoryPrice<MTGCard> hp = new HistoryPrice<>(mc);
 		if (mc == null) {
 			logger.error("couldn't calculate edition only");
 			return hp;
 		}
 
-		MTGEdition ed = mc.getEdition();
+		final MTGEdition ed = mc.getEdition();
 
 		Integer id = mc.getMtgstocksId();
 
 		if (id == null) {
 			logger.debug("id is null. Looking throught api");
-			var rs = cardService.getBestResult(mc.getName());
-			var fp = cardService.getCard(rs);
-			var set = cardService.getSetByCode(ed.getId());
-			var fpSet = fp.getPrintForSetId(set.getId());
+			final var rs = cardService.getBestResult(mc.getName());
+			final var fp = cardService.getCard(rs);
+			final var set = cardService.getSetByCode(ed.getId());
+			final var fpSet = fp.getPrintForSetId(set.getId());
 
 			if (fpSet == null) {
 				logger.warn("fpSet is null for {} so return", set.getId());
@@ -262,8 +265,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		var p = PRICES.AVG;
 
-		if (foil || ed.isFoilOnly())
-			p = PRICES.FOIL;
+		if (foil || ed.isFoilOnly()) {
+		    p = PRICES.FOIL;
+		}
 
 		pricesService.getPricesFor(id, p).forEach(e -> {
 
@@ -278,20 +282,21 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	private CardShake initFromPrint(Print p) {
-		var cs = new CardShake();
+		final var cs = new CardShake();
 		cs.setCurrency(getCurrency());
 		cs.setName(p.getCleanName());
 		cs.setFoil(p.isFoil());
 		cs.setLink(p.getWebPage());
 
-		if (p.isExtendedArt())
-			cs.setCardVariation(EnumCardVariation.EXTENDEDART);
-		else if (p.isShowcase())
-			cs.setCardVariation(EnumCardVariation.SHOWCASE);
-		else if (p.isBorderless())
-			cs.setCardVariation(EnumCardVariation.BORDERLESS);
-		else if (p.isJapanese())
-			cs.setCardVariation(EnumCardVariation.JAPANESEALT);
+		if (p.isExtendedArt()) {
+		    cs.setCardVariation(EnumCardVariation.EXTENDEDART);
+		} else if (p.isShowcase()) {
+		    cs.setCardVariation(EnumCardVariation.SHOWCASE);
+		} else if (p.isBorderless()) {
+		    cs.setCardVariation(EnumCardVariation.BORDERLESS);
+		} else if (p.isJapanese()) {
+		    cs.setCardVariation(EnumCardVariation.JAPANESEALT);
+		}
 
 		cs.setEd(String.valueOf(cardService.getSetById(p.getSetId()).getAbbrevation()).toUpperCase());
 		return cs;
@@ -310,7 +315,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 
 		m.put(PRICE_VALUE, new MTGProperty("MARKET", "select if you want price from market or average",
 				ArrayUtils.toStringArray(MTGStockConstants.PRICES.values())));

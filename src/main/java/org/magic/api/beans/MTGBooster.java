@@ -52,8 +52,9 @@ public class MTGBooster implements Serializable {
 	}
 
 	public Double getPrice() {
-		if (price == null)
-			return 0.0;
+		if (price == null) {
+		    return 0.0;
+		}
 
 		return price;
 	}

@@ -16,11 +16,11 @@ public class TransactionHistoryChartPanel extends Abstract2DHistoChart<Transacti
 
 	@Override
 	public TimeSeriesCollection getDataSet() {
-		var dataset = new TimeSeriesCollection();
-		var dataSell = new TimeSeries("Sell");
-		var dataBuy = new TimeSeries("Buy");
+		final var dataset = new TimeSeriesCollection();
+		final var dataSell = new TimeSeries("Sell");
+		final var dataBuy = new TimeSeries("Buy");
 
-		for (Date d : items.stream().map(Transaction::getDateCreation).distinct().sorted().toList()) {
+		for (final Date d : items.stream().map(Transaction::getDateCreation).distinct().sorted().toList()) {
 			dataBuy.add(new Day(d), items.stream().filter(oe -> oe.getTypeTransaction() == EnumTransactionDirection.BUY)
 					.filter(oe -> DateUtils.isSameDay(d, oe.getDateCreation())).mapToDouble(Transaction::total).sum());
 			dataSell.add(new Day(d),

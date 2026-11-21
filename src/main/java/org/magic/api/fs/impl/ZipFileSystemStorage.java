@@ -14,7 +14,7 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 
 	@Override
 	public void initFileSystem() throws IOException {
-		Map<String, Object> env = new HashMap<>();
+		final Map<String, Object> env = new HashMap<>();
 		env.put("create", "true");
 		fs = FileSystems.newFileSystem(getFile("ROOT").toPath(), env);
 	}
@@ -34,12 +34,14 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 	public void unload() {
 
 		try {
-			if (getFilesSystem() == null)
-				return;
+			if (getFilesSystem() == null) {
+			    return;
+			}
 
-			if (getFilesSystem().isOpen())
-				getFilesSystem().close();
-		} catch (IOException e) {
+			if (getFilesSystem().isOpen()) {
+			    getFilesSystem().close();
+			}
+		} catch (final IOException e) {
 			logger.error("Error closing fs", e);
 		}
 

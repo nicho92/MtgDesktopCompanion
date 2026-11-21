@@ -31,7 +31,7 @@ public class ShoppingEntryTableModel extends GenericTableModel<RetrievableTransa
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		RetrievableTransaction e = items.get(row);
+		final RetrievableTransaction e = items.get(row);
 		switch (column) {
 			case 0 :
 				return e;

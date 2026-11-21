@@ -29,9 +29,10 @@ public class R34WallPaperProvider extends AbstractJsonWallpaperProvider {
 		String s;
 
 		if (search.indexOf("+") > -1) {
-			var builder = new StringBuilder();
-			for (var st : search.split("\\+"))
-				builder.append(st.trim().toLowerCase().replace(" ", "_")).append(" ");
+			final var builder = new StringBuilder();
+			for (final var st : search.split("\\+")) {
+			    builder.append(st.trim().toLowerCase().replace(" ", "_")).append(" ");
+			}
 
 			s = builder.toString();
 		} else {
@@ -60,7 +61,7 @@ public class R34WallPaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected List<MTGWallpaper> parse(JsonObject obj) {
-		var wall = new MTGWallpaper();
+		final var wall = new MTGWallpaper();
 
 		wall.setProvider(getName());
 		wall.setAuthor(obj.get("owner").getAsString());

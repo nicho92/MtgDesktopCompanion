@@ -56,13 +56,14 @@ public class JXDateTimePicker extends JXDatePicker {
 	}
 
 	private JPanel createTimePanel() {
-		JPanel newPanel = new JPanel();
+		final JPanel newPanel = new JPanel();
 		newPanel.setLayout(new FlowLayout());
 
-		SpinnerDateModel dateModel = new SpinnerDateModel();
+		final SpinnerDateModel dateModel = new SpinnerDateModel();
 		timeSpinner = new JSpinner(dateModel);
-		if (timeFormat == null)
-			timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+		if (timeFormat == null) {
+		    timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+		}
 		updateTextFieldFormat();
 		newPanel.add(new JLabel("Time:"));
 		newPanel.add(timeSpinner);
@@ -71,37 +72,38 @@ public class JXDateTimePicker extends JXDatePicker {
 	}
 
 	private void updateTextFieldFormat() {
-		if (timeSpinner == null)
-			return;
-		JFormattedTextField tf = ((JSpinner.DefaultEditor) timeSpinner.getEditor()).getTextField();
-		DefaultFormatterFactory factory = (DefaultFormatterFactory) tf.getFormatterFactory();
-		DateFormatter formatter = (DateFormatter) factory.getDefaultFormatter();
+		if (timeSpinner == null) {
+		    return;
+		}
+		final JFormattedTextField tf = ((JSpinner.DefaultEditor) timeSpinner.getEditor()).getTextField();
+		final DefaultFormatterFactory factory = (DefaultFormatterFactory) tf.getFormatterFactory();
+		final DateFormatter formatter = (DateFormatter) factory.getDefaultFormatter();
 		// Change the date format to only show the hours
 		formatter.setFormat(timeFormat);
 	}
 
 	private void commitTime() {
-		Date date = getDate();
+		final Date date = getDate();
 		if (date != null) {
-			Date time = (Date) timeSpinner.getValue();
-			GregorianCalendar timeCalendar = new GregorianCalendar();
+			final Date time = (Date) timeSpinner.getValue();
+			final GregorianCalendar timeCalendar = new GregorianCalendar();
 			timeCalendar.setTime(time);
 
-			GregorianCalendar calendar = new GregorianCalendar();
+			final GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTime(date);
 			calendar.set(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY));
 			calendar.set(Calendar.MINUTE, timeCalendar.get(Calendar.MINUTE));
 			calendar.set(Calendar.SECOND, 0);
 			calendar.set(Calendar.MILLISECOND, 0);
 
-			Date newDate = calendar.getTime();
+			final Date newDate = calendar.getTime();
 			setDate(newDate);
 		}
 
 	}
 
 	private void setTimeSpinners() {
-		Date date = getDate();
+		final Date date = getDate();
 		if (date != null) {
 			timeSpinner.setValue(date);
 		}

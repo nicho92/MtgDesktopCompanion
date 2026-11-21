@@ -16,8 +16,9 @@ public class WebcamUtils {
 	private static WebcamUtils inst;
 
 	public static WebcamUtils inst() {
-		if (inst == null)
-			inst = new WebcamUtils();
+		if (inst == null) {
+		    inst = new WebcamUtils();
+		}
 
 		return inst;
 	}
@@ -28,9 +29,10 @@ public class WebcamUtils {
 
 	public List<Webcam> listWebcam() {
 
-		List<Webcam> pcams = new ArrayList<>();
-		for (Webcam cam : Webcam.getWebcams())
-			pcams.add(cam);
+		final List<Webcam> pcams = new ArrayList<>();
+		for (final Webcam cam : Webcam.getWebcams()) {
+		    pcams.add(cam);
+		}
 
 		pcams.add(new SimulatedWebcam());
 
@@ -41,7 +43,7 @@ public class WebcamUtils {
 		try {
 			IpCamDeviceRegistry.register(new IpCamDevice(name, address, mode));
 			return true;
-		} catch (MalformedURLException _) {
+		} catch (final MalformedURLException _) {
 			return false;
 		}
 	}

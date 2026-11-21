@@ -14,8 +14,8 @@ public class Round implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
-	private Map<Player, Integer> score;
-	private int roundNumber;
+	private final Map<Player, Integer> score;
+	private final int roundNumber;
 
 	public void start() {
 		startTime = LocalDateTime.now(ZoneId.systemDefault());
@@ -47,11 +47,12 @@ public class Round implements Serializable {
 	}
 
 	public Player getWinner() {
-		Optional<Entry<Player, Integer>> opt = score.entrySet().stream()
+		final Optional<Entry<Player, Integer>> opt = score.entrySet().stream()
 				.max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1);
 
-		if (opt.isPresent())
-			return opt.get().getKey();
+		if (opt.isPresent()) {
+		    return opt.get().getKey();
+		}
 
 		return null;
 	}

@@ -20,7 +20,7 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 
 	protected static final String LIMIT = "LIMIT";
 
-	private Set<String> rejectExt = Set.of("mp4", "zip", "bin", "psd", "rar", "pdf", "docx", "mp3");
+	private final Set<String> rejectExt = Set.of("mp4", "zip", "bin", "psd", "rar", "pdf", "docx", "mp3");
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
@@ -44,38 +44,40 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 		JsonElement je;
 		try {
 		    je = req.toJson();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 		    logger.error(e);
 		    je = null;
 		}
-		
+
 		logger.debug("ret={}", je);
-		
-		if (je == null || je.isJsonNull())
-			return new JsonArray(0);
+
+		if (je == null || je.isJsonNull()) {
+		    return new JsonArray(0);
+		}
 
 		return je.getAsJsonArray();
 	}
 
 	@Override
 	public List<MTGWallpaper> search(String search) {
-		var results = new ArrayList<MTGWallpaper>();
+		final var results = new ArrayList<MTGWallpaper>();
 		var pidStart = 0;
 		var req = createQuery(search, pidStart);
 
 		var filtered = 0;
 
 		while (results.size() < getInt(LIMIT)) {
-			var arr = extractArrayFromQuery(req);
+			final var arr = extractArrayFromQuery(req);
 
-			if (arr.isEmpty())
-				break;
+			if (arr.isEmpty()) {
+			    break;
+			}
 
 			filtered = 0;
-			for (var e : arr) {
+			for (final var e : arr) {
 				try {
 
-					for (var wall : parse(e.getAsJsonObject())) {
+					for (final var wall : parse(e.getAsJsonObject())) {
 						if (!isBinary(wall.getFormat())
 								&& !CollectionUtils.containsAny(wall.getTags(), getList("FILTER"))) {
 							results.add(wall);
@@ -85,17 +87,19 @@ public abstract class AbstractJsonWallpaperProvider extends AbstractWallpaperPro
 						}
 					}
 
-					if (results.size() >= getInt(LIMIT))
-						break;
+					if (results.size() >= getInt(LIMIT)) {
+					    break;
+					}
 
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					logger.error("Error getting wall for {} : {}", e, ex.getMessage());
 				}
 			}
 			logger.debug("read {}={}. return {} items. Filtered={} . Complete ={}/{}.", getPaginationKey(), pidStart,arr.size(), filtered, results.size(), getInt(LIMIT));
 
-			if (arr.size() < getResultsPerPage())
-				break;
+			if (arr.size() < getResultsPerPage()) {
+			    break;
+			}
 
 			pidStart = pidStart + getOffsetSequence();
 

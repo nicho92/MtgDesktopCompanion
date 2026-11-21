@@ -10,7 +10,7 @@ import org.magic.game.model.beans.ZoneEnum;
 public class AbilitiesActions extends AbstractCardAction {
 
 	private static final long serialVersionUID = 1L;
-	private AbstractAbilities abs;
+	private final AbstractAbilities abs;
 
 	public AbilitiesActions(AbstractAbilities abs) {
 		super(null, abs.getCosts() + " " + abs.getEffects());

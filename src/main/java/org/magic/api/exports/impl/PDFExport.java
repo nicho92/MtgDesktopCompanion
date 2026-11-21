@@ -36,7 +36,7 @@ import com.itextpdf.layout.element.Table;
 public class PDFExport extends AbstractCardExport {
 
 	private static final String SPACE = "SPACE";
-	private float userPoint = 72f;
+	private final float userPoint = 72f;
 
 	@Override
 	public MODS getMods() {
@@ -50,21 +50,23 @@ public class PDFExport extends AbstractCardExport {
 		try {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(card),
 					null);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(card), null);
 		}
 
-		var image = new Image(imageData);
+		final var image = new Image(imageData);
 
 		image.scaleAbsolute(2.49f * userPoint, 3.48f * userPoint);
-		var cell = new Cell();
+		final var cell = new Cell();
 		if (getBoolean("PRINT_CUT_LINE")) {
 			cell.setBorder(new DottedBorder(0.5f));
-		} else
-			cell.setBorder(Border.NO_BORDER);
+		} else {
+		    cell.setBorder(Border.NO_BORDER);
+		}
 
-		if (getInt(SPACE) != null)
-			cell.setPadding(getInt(SPACE));
+		if (getInt(SPACE) != null) {
+		    cell.setPadding(getInt(SPACE));
+		}
 
 		cell.add(image);
 
@@ -78,29 +80,29 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File f) throws IOException {
-		var table = new Table(3).useAllAvailableWidth();
+		final var table = new Table(3).useAllAvailableWidth();
 
 		try (var pdfDocDest = new PdfDocument(new PdfWriter(f)); Document doc = new Document(pdfDocDest)) {
 			pdfDocDest.setDefaultPageSize(PageSize.A4);
-			PdfDocumentInfo info = pdfDocDest.getDocumentInfo();
+			final PdfDocumentInfo info = pdfDocDest.getDocumentInfo();
 			info.setTitle(deck.getName());
 			info.setAuthor(getString("AUTHOR"));
 			info.setCreator(MTGConstants.MTG_APP_NAME);
 			info.setKeywords(deck.getTags().stream().collect(Collectors.joining(",")));
 			info.addCreationDate();
 
-			var mainList = deck.getMainAsList();
+			final var mainList = deck.getMainAsList();
 
 			Collections.sort(mainList, new CardsDeckSorter(deck));
 
-			for (MTGCard card : mainList) {
+			for (final MTGCard card : mainList) {
 				table.addCell(createCell(card));
 				notify(card);
 			}
 
 			doc.add(table);
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error in pdf creation {}", f, e);
 		}
 	}

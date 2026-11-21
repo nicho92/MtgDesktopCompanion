@@ -52,7 +52,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		setTitle(capitalize("MASS_CARDS_IMPORT"));
 		try {
 			initGUI();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error init", e);
 		}
 	}
@@ -63,14 +63,15 @@ public class MassCollectionImporterDialog extends JDialog {
 			ret = new ArrayList<>(getEnabledPlugin(MTGCardsProvider.class)
 					.searchCardByEdition((MTGEdition) cboEditions.getSelectedItem()));
 
-			if (cboByType.getSelectedItem().equals(NUMBER))
-				ret.removeIf(ca -> without.contains(ca.getNumber()));
-			else
-				ret.removeIf(ca -> without.contains(ca.getName()));
+			if (cboByType.getSelectedItem().equals(NUMBER)) {
+			    ret.removeIf(ca -> without.contains(ca.getNumber()));
+			} else {
+			    ret.removeIf(ca -> without.contains(ca.getName()));
+			}
 
 			return ret;
 
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			return ret;
 		}
 	}
@@ -78,36 +79,36 @@ public class MassCollectionImporterDialog extends JDialog {
 	private void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		deck = new MTGDeck();
-		var panelCollectionInput = new JPanel();
+		final var panelCollectionInput = new JPanel();
 		getContentPane().add(panelCollectionInput, BorderLayout.NORTH);
 
-		var lblImport = new JLabel(capitalize("IMPORT") + " ");
+		final var lblImport = new JLabel(capitalize("IMPORT") + " ");
 		panelCollectionInput.add(lblImport);
 
 		cboEditions = UITools.createComboboxEditions();
 		panelCollectionInput.add(cboEditions);
 
-		var lblNewLabel = new JLabel(capitalize("BY"));
+		final var lblNewLabel = new JLabel(capitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
 
 		cboByType = UITools.createCombobox(new String[]{NUMBER, NAME});
 		panelCollectionInput.add(cboByType);
 
-		var lblIn = new JLabel("in");
+		final var lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
 
-		JComboBox<MTGCollection> cboCollections = UITools.createComboboxCollection();
+		final JComboBox<MTGCollection> cboCollections = UITools.createComboboxCollection();
 		panelCollectionInput.add(cboCollections);
 
-		var panneauBas = new JPanel();
+		final var panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
-		var progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
+		final var progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 
 		final var checkNewOne = new JCheckBox(capitalize("IMPORT_OTHER_SERIE"));
 
-		var btnInverse = new JButton("Inverse");
+		final var btnInverse = new JButton("Inverse");
 
-		var btnImport = new JButton(capitalize("IMPORT"), MTGConstants.ICON_MASS_IMPORT);
+		final var btnImport = new JButton(capitalize("IMPORT"), MTGConstants.ICON_MASS_IMPORT);
 
 		panneauBas.add(btnInverse);
 
@@ -117,7 +118,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		panneauBas.add(progressBar);
 
-		var txtNumbersInput = new JTextPane();
+		final var txtNumbersInput = new JTextPane();
 
 		txtNumbersInput.setPreferredSize(new Dimension(600, 300));
 
@@ -129,11 +130,12 @@ public class MassCollectionImporterDialog extends JDialog {
 		pack();
 
 		btnInverse.addActionListener(_ -> {
-			List<String> elements = Arrays
+			final List<String> elements = Arrays
 					.asList(txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" "));
-			var temp = new StringBuilder();
-			for (MTGCard s : ids(elements))
-				temp.append(s.getNumber()).append(" ");
+			final var temp = new StringBuilder();
+			for (final MTGCard s : ids(elements)) {
+			    temp.append(s.getNumber()).append(" ");
+			}
 
 			txtNumbersInput.setText(temp.toString());
 		});
@@ -142,12 +144,13 @@ public class MassCollectionImporterDialog extends JDialog {
 			final MTGEdition ed = (MTGEdition) cboEditions.getSelectedItem();
 			final MTGCollection col = (MTGCollection) cboCollections.getSelectedItem();
 
-			if (cboByType.getSelectedItem().equals(NUMBER))
-				ids = txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" ");
-			else
-				ids = txtNumbersInput.getText().split("\n");
+			if (cboByType.getSelectedItem().equals(NUMBER)) {
+			    ids = txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" ");
+			} else {
+			    ids = txtNumbersInput.getText().split("\n");
+			}
 
-			AbstractObservableWorker<Void, MTGCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(progressBar,
+			final AbstractObservableWorker<Void, MTGCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(progressBar,
 					getEnabledPlugin(MTGCardsProvider.class), ids.length) {
 
 				@Override
@@ -166,20 +169,21 @@ public class MassCollectionImporterDialog extends JDialog {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					for (String id : ids) {
+					for (final String id : ids) {
 						try {
 							MTGCard mc = null;
 
-							if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER))
-								mc = plug.getCardByNumber(id.trim(), ed);
-							else
-								mc = plug.searchCardByName(id.replace("\n", " ").replace("  ", " ").trim(),
-										(MTGEdition) cboEditions.getSelectedItem(), true).get(0);
+							if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER)) {
+							    mc = plug.getCardByNumber(id.trim(), ed);
+							} else {
+							    mc = plug.searchCardByName(id.replace("\n", " ").replace("  ", " ").trim(),
+							    		(MTGEdition) cboEditions.getSelectedItem(), true).get(0);
+							}
 
 							deck.add(mc);
 							CardsManagerService.saveCard(mc, col, null);
 
-						} catch (Exception e1) {
+						} catch (final Exception e1) {
 							logger.error(e1);
 						}
 					}

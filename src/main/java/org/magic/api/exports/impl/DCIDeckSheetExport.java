@@ -39,7 +39,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	private static final String LAST_NAME = "LAST_NAME";
 	private static final String EVENT_NAME = "EVENT_NAME";
 	private static final String DECK_DESIGNER = "DECK_DESIGNER";
-	private String space = "          ";
+	private final String space = "          ";
 
 	@Override
 	public MODS getMods() {
@@ -64,12 +64,12 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	private Paragraph createParagraphe(String text, float x, float y) {
 
 		try {
-			var font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
+			final var font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 
 			return new Paragraph(text).setFont(font).setFontSize(11).setFixedPosition(x, y, 200)
 					.setTextAlignment(TextAlignment.LEFT);
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 
 			return new Paragraph(text).setFontSize(11).setFixedPosition(x, y, 200).setTextAlignment(TextAlignment.LEFT);
@@ -87,37 +87,39 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			pdfDest.setDefaultPageSize(PageSize.A4);
 			pdfSrc.copyPagesTo(1, 1, pdfDest);
 
-			float h = pdfDest.getDefaultPageSize().getHeight();
-			float w = pdfDest.getDefaultPageSize().getWidth();
+			final float h = pdfDest.getDefaultPageSize().getHeight();
+			final float w = pdfDest.getDefaultPageSize().getWidth();
 
 			// HEADER
 			docDest.add(createParagraphe(getString(LAST_NAME).substring(0, 1).toUpperCase(), w - 35, h - 103));
 
-			if (!getString(FORCED_DATE).equalsIgnoreCase(""))
-				docDest.add(createParagraphe(getString(FORCED_DATE), w / 3.2f, h - 127));
-			else
-				docDest.add(createParagraphe(new SimpleDateFormat(getString(DATE_FORMAT)).format(new Date()), w / 3.2f,
-						h - 127));
+			if (!getString(FORCED_DATE).equalsIgnoreCase("")) {
+			    docDest.add(createParagraphe(getString(FORCED_DATE), w / 3.2f, h - 127));
+			} else {
+			    docDest.add(createParagraphe(new SimpleDateFormat(getString(DATE_FORMAT)).format(new Date()), w / 3.2f,
+			    		h - 127));
+			}
 
 			docDest.add(createParagraphe(getString(LOCATION), w / 3.2f, h - 150));
 
 			docDest.add(createParagraphe(getString(EVENT_NAME), w / 1.40f, h - 127));
 			docDest.add(createParagraphe(deck.getName(), w / 1.40f, h - 150));
-			if (getString(DECK_DESIGNER).equals(""))
-				docDest.add(createParagraphe(getString(LAST_NAME) + " " + getString(FIRST_NAME), w / 1.40f, h - 175));
-			else
-				docDest.add(createParagraphe(getString(DECK_DESIGNER), w / 1.40f, h - 175));
+			if (getString(DECK_DESIGNER).equals("")) {
+			    docDest.add(createParagraphe(getString(LAST_NAME) + " " + getString(FIRST_NAME), w / 1.40f, h - 175));
+			} else {
+			    docDest.add(createParagraphe(getString(DECK_DESIGNER), w / 1.40f, h - 175));
+			}
 
 			// MAIN DECK
 			var count = 0;
-			for (Entry<MTGCard, Integer> e : deck.getMain().entrySet().stream().filter(e -> !e.getKey().isBasicLand())
+			for (final Entry<MTGCard, Integer> e : deck.getMain().entrySet().stream().filter(e -> !e.getKey().isBasicLand())
 					.toList()) {
 				docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(), w / 6.4f, h - 240 - count));
 				count += 18;
 				notify(e.getKey());
 			}
 			count = 0;
-			for (Entry<MTGCard, Integer> e : deck.getMain().entrySet().stream().filter(e -> e.getKey().isBasicLand())
+			for (final Entry<MTGCard, Integer> e : deck.getMain().entrySet().stream().filter(e -> e.getKey().isBasicLand())
 					.toList()) {
 				docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(), w / 1.65f, h - 240 - count));
 				count += 18;
@@ -126,7 +128,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 			// SIDEBOARD
 			count = 0;
-			for (MTGCard mc : deck.getSideBoard().keySet()) {
+			for (final MTGCard mc : deck.getSideBoard().keySet()) {
 				docDest.add(createParagraphe(deck.getSideBoard().get(mc) + space + mc.getName(), w / 1.65f,
 						h - 474 - count));
 				notify(mc);
@@ -146,10 +148,10 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			p.setRotationAngle(1.5708f);
 			docDest.add(p);
 
-			var dci = getString(DCI_NUMBER);
+			final var dci = getString(DCI_NUMBER);
 			count = 0;
 			for (var i = 0; i < dci.length(); i++) {
-				var c = dci.charAt(i);
+				final var c = dci.charAt(i);
 
 				p = createParagraphe(String.valueOf(c), 60, (430 + count));
 				p.setRotationAngle(1.5708f);
@@ -157,7 +159,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 				count += 22;
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e.getMessage());
 		}
 	}
@@ -180,7 +182,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 
 		m.put(EVENT_NAME, new MTGProperty("My Event", "the name of the event"));
 		m.put(DECK_DESIGNER, new MTGProperty("MTGCompanion", "Tool you used to build the deck"));

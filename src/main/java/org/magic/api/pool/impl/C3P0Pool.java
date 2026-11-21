@@ -48,7 +48,7 @@ public class C3P0Pool extends AbstractPoolProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = new HashMap<String, MTGProperty>();
+		final var map = new HashMap<String, MTGProperty>();
 
 		map.put("maxConnectionAge", MTGProperty.newIntegerProperty("0",
 				"Seconds, effectively a time to live. A Connection older than maxConnectionAge will be destroyed and purged from the pool. This differs from maxIdleTime in that it refers to absolute age. Even a Connection which has not been much idle will be purged from the pool if it exceeds maxConnectionAge. Zero means no maximum absolute age is enforced.",

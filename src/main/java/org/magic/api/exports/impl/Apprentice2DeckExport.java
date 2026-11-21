@@ -38,15 +38,15 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var temp = new StringBuilder();
-		for (var mc : deck.getMain().keySet()) {
+		final var temp = new StringBuilder();
+		for (final var mc : deck.getMain().keySet()) {
 			temp.append("MD").append(getSeparator());
 			temp.append(deck.getMain().get(mc)).append(getSeparator());
 			temp.append(formatName(mc)).append(getSeparator());
 			temp.append(mc.getEdition().getId()).append(System.lineSeparator());
 			notify(mc);
 		}
-		for (var mc : deck.getSideBoard().keySet()) {
+		for (final var mc : deck.getSideBoard().keySet()) {
 			temp.append("SB").append(getSeparator());
 			temp.append(deck.getSideBoard().get(mc)).append(getSeparator());
 			temp.append(formatName(mc)).append(getSeparator());
@@ -59,8 +59,9 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	private String formatName(MTGCard mc) {
-		if (mc.getName().indexOf(' ') > -1)
-			return "\"" + mc.getName() + "\"";
+		if (mc.getName().indexOf(' ') > -1) {
+		    return "\"" + mc.getName() + "\"";
+		}
 
 		return commated(mc.getName());
 
@@ -68,18 +69,19 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(name);
 
-		for (var m : matches(f, true)) {
-			var mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
-			var qte = Integer.parseInt(m.group(2));
+		for (final var m : matches(f, true)) {
+			final var mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+			final var qte = Integer.parseInt(m.group(2));
 
 			if (mc != null) {
-				if (m.group(1) == null || m.group(1).equalsIgnoreCase("MD"))
-					deck.getMain().put(mc, qte);
-				else
-					deck.getSideBoard().put(mc, qte);
+				if (m.group(1) == null || m.group(1).equalsIgnoreCase("MD")) {
+				    deck.getMain().put(mc, qte);
+				} else {
+				    deck.getSideBoard().put(mc, qte);
+				}
 
 				notify(mc);
 			}

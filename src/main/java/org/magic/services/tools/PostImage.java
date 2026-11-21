@@ -17,7 +17,7 @@ import com.google.gson.JsonObject;
 
 public class PostImage {
 
-    private Logger logger = MTGLogger.getLogger(PostImage.class);
+    private final Logger logger = MTGLogger.getLogger(PostImage.class);
     private int expirationDay = 0;
     private static final String BASE_URL = "https://postimages.org/";
     MTGHttpClient client = URLTools.newClient();
@@ -34,17 +34,18 @@ public class PostImage {
 
     public String upload(String path) throws IOException
     {
-	if(path.startsWith("http"))
+	if(path.startsWith("http")) {
 	    return uploadUrl(path);
-	else
+	} else {
 	    return uploadFile(new File(path));
+	}
     }
 
 
 
     public String uploadFile(File f) throws IOException {
 
-	var ret = client.doPost(BASE_URL + "/json", MultipartEntityBuilder.create().addPart("file", new FileBody(f))
+	final var ret = client.doPost(BASE_URL + "/json", MultipartEntityBuilder.create().addPart("file", new FileBody(f))
 		.addTextBody("gallery","")
 		.addTextBody("expire",String.valueOf(expirationDay))
 		.addTextBody("numfiles","1")
@@ -58,7 +59,7 @@ public class PostImage {
 
     public String uploadUrl(String url) throws IOException {
 
-	var jsonRet = RequestBuilder.build().setClient(client).post().url(BASE_URL + "/json")
+	final var jsonRet = RequestBuilder.build().setClient(client).post().url(BASE_URL + "/json")
 		.addHeaders(generateHeaders())
 		.addContent("gallery", "")
 		.addContent("optsize", "0")
@@ -84,7 +85,7 @@ public class PostImage {
 		"Cache-Control", "no-cache",
 		"x-requested-with", "XMLHttpRequest");
     }
-    
+
 
     private String generateSessionId() {
 	return new Date().getTime() + Double.toString(CryptoUtils.randomDouble(Double.MAX_VALUE)).substring(1);
@@ -92,10 +93,10 @@ public class PostImage {
 
     private String directLink(JsonObject jsonRet) throws IOException {
 
-	var url = jsonRet.get("url").getAsString();
+	final var url = jsonRet.get("url").getAsString();
 	try {
 	    return RequestBuilder.build().setClient(client).get().url(url).toHtml().getElementById("direct").attr("value");
-	} catch (Exception _) {
+	} catch (final Exception _) {
 	    logger.error("error to upload {} : {}", url, jsonRet);
 	    throw new IOException("Error at upload");
 	}

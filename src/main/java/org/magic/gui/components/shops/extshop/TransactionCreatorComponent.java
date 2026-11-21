@@ -26,27 +26,27 @@ import org.magic.services.workers.AbstractObservableWorker;
 public class TransactionCreatorComponent extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JComboBox<MTGExternalShop> cboInput;
-	private JComboBox<MTGExternalShop> cboOutput;
+	private final JComboBox<MTGExternalShop> cboInput;
+	private final JComboBox<MTGExternalShop> cboOutput;
 
-	private JList<Transaction> listOutput;
-	private DefaultListModel<Transaction> modelOutput;
+	private final JList<Transaction> listOutput;
+	private final DefaultListModel<Transaction> modelOutput;
 
-	private AbstractBuzyIndicatorComponent buzy;
-	private JButton btnSend;
+	private final AbstractBuzyIndicatorComponent buzy;
+	private final JButton btnSend;
 
-	private TransactionsPanel panelTransactions;
+	private final TransactionsPanel panelTransactions;
 
 	public TransactionCreatorComponent() {
 		setLayout(new BorderLayout(0, 0));
 
 		btnSend = UITools.createBindableJButton("Export", MTGConstants.ICON_EXPORT, KeyEvent.VK_S, "searchProduct");
-		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_F, "searchProduct");
+		final var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_F, "searchProduct");
 
-		var panelNorth = new JPanel();
-		var panelWest = new JPanel();
+		final var panelNorth = new JPanel();
+		final var panelWest = new JPanel();
 		panelWest.setLayout(new BorderLayout());
-		var panelEast = new JPanel();
+		final var panelEast = new JPanel();
 		panelEast.setLayout(new BorderLayout());
 
 		cboInput = UITools.createComboboxPlugins(MTGExternalShop.class, true);
@@ -88,19 +88,20 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 
 	private void sendTransaction() {
 
-		List<Transaction> list = UITools.getTableSelections(panelTransactions.getTable(), 0);
+		final List<Transaction> list = UITools.getTableSelections(panelTransactions.getTable(), 0);
 
-		AbstractObservableWorker<Void, Transaction, MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,
+		final AbstractObservableWorker<Void, Transaction, MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,
 				(MTGExternalShop) cboOutput.getSelectedItem(), list.size()) {
 			@Override
 			protected Void doInBackground() throws Exception {
-				for (Transaction t : list) {
+				for (final Transaction t : list) {
 
-					if (!t.getSourceShopName().equals(plug.getName()))
-						t.setId(-1);
+					if (!t.getSourceShopName().equals(plug.getName())) {
+					    t.setId(-1);
+					}
 
 					if (t.getContact().getId() < 0) {
-						var cId = plug.saveOrUpdateContact(t.getContact());
+						final var cId = plug.saveOrUpdateContact(t.getContact());
 						t.getContact().setId(cId);
 					}
 					plug.saveOrUpdateTransaction(t);
@@ -126,7 +127,7 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 	private void loadTransactions() {
 		panelTransactions.getModel().clear();
 
-		AbstractObservableWorker<List<Transaction>, Transaction, MTGExternalShop> sw = new AbstractObservableWorker<>(
+		final AbstractObservableWorker<List<Transaction>, Transaction, MTGExternalShop> sw = new AbstractObservableWorker<>(
 				buzy, (MTGExternalShop) cboInput.getSelectedItem()) {
 			@Override
 			protected List<Transaction> doInBackground() throws Exception {

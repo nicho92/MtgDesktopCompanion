@@ -14,7 +14,7 @@ public class KonachanWallpaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected List<MTGWallpaper> parse(JsonObject el) {
-		var pic = new MTGWallpaper();
+		final var pic = new MTGWallpaper();
 		pic.setAuthor(el.get("author").getAsString());
 		pic.setFormat(el.get("file_url").getAsString().substring(el.get("file_url").getAsString().length() - 3));
 		pic.setUrlThumb(URI.create(el.get("preview_url").getAsString()));
@@ -22,8 +22,9 @@ public class KonachanWallpaperProvider extends AbstractJsonWallpaperProvider {
 		pic.setPublishDate(new Date(el.get("created_at").getAsLong() * 1000));
 		pic.setName(el.get("id").getAsString());
 		pic.setProvider(getName());
-		for (var s : el.get("tags").getAsString().split(" "))
-			pic.getTags().add(s);
+		for (final var s : el.get("tags").getAsString().split(" ")) {
+		    pic.getTags().add(s);
+		}
 
 		return List.of(pic);
 	}

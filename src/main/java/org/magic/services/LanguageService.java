@@ -23,9 +23,10 @@ public class LanguageService {
 	}
 
 	public String combine(String... keys) {
-		var sb = new StringBuilder();
-		for (var k : keys)
-			sb.append(get(k)).append(" ");
+		final var sb = new StringBuilder();
+		for (final var k : keys) {
+		    sb.append(get(k)).append(" ");
+		}
 
 		return sb.toString();
 	}
@@ -48,16 +49,17 @@ public class LanguageService {
 	}
 
 	public void changeLocal(Locale l) {
-		if (l != null)
-			rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, l);
-		else
-			rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, getDefault());
+		if (l != null) {
+		    rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, l);
+		} else {
+		    rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, getDefault());
+		}
 	}
 
 	public String get(String key) {
 		try {
 			return rbundle.getString(key);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return key.toLowerCase();
 		}
 	}

@@ -56,16 +56,18 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
-		var builder = new StringBuilder();
+		final var builder = new StringBuilder();
 
-		for (var e : deck.getMain().entrySet())
-			write(builder, e);
+		for (final var e : deck.getMain().entrySet()) {
+		    write(builder, e);
+		}
 
 		if (!deck.getSideBoard().isEmpty()) {
 			builder.append(System.lineSeparator()).append("SIDEBOARD:").append(System.lineSeparator());
 
-			for (var e : deck.getSideBoard().entrySet())
-				write(builder, e);
+			for (final var e : deck.getSideBoard().entrySet()) {
+			    write(builder, e);
+			}
 		}
 
 		FileTools.saveFile(dest, builder.toString());
@@ -74,28 +76,29 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
 
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName(name);
 
 		var sideboard = false;
 
-		for (var m : matches(f, true, aliases.getRegexFor(this, "deck"))) {
+		for (final var m : matches(f, true, aliases.getRegexFor(this, "deck"))) {
 			if (m.group().equals("SIDEBOARD")) {
 				sideboard = true;
 			} else if (!m.group().isBlank()) {
-				var qty = Integer.parseInt(m.group(1));
-				var setId = m.group(3);
-				var number = m.group(4);
+				final var qty = Integer.parseInt(m.group(1));
+				final var setId = m.group(3);
+				final var number = m.group(4);
 
 				try {
-					var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, setId);
+					final var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, setId);
 					notify(card);
-					if (!sideboard)
-						d.getMain().put(card, qty);
-					else
-						d.getSideBoard().put(card, qty);
+					if (!sideboard) {
+					    d.getMain().put(card, qty);
+					} else {
+					    d.getSideBoard().put(card, qty);
+					}
 
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("No card found for {}/{}", setId, number);
 				}
 
@@ -108,23 +111,23 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		var list = new ArrayList<MTGCardStock>();
+		final var list = new ArrayList<MTGCardStock>();
 		matches(content, true).forEach(m -> {
 
 			MTGEdition ed = null;
 
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("Edition not found for {}", m.group(4));
 			}
 
-			String cname = cleanName(m.group(3));
+			final String cname = cleanName(m.group(3));
 
 			String number = null;
 			try {
 				number = m.group(10);
-			} catch (IndexOutOfBoundsException _) {
+			} catch (final IndexOutOfBoundsException _) {
 				// do nothing
 			}
 
@@ -133,7 +136,7 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 			if (number != null && ed != null) {
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("no card found with number {}/{}", number, ed);
 				}
 			}
@@ -141,26 +144,28 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 			if (mc == null) {
 				try {
 					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("no card found for {}/{}", cname, ed);
 				}
 			}
 
 			if (mc != null) {
-				var mcs = MTGControler.getInstance().getDefaultStock();
+				final var mcs = MTGControler.getInstance().getDefaultStock();
 				mcs.setQte(Integer.parseInt(m.group(1)));
 				mcs.setProduct(mc);
 				mcs.setCondition(aliases.getReversedConditionFor(this, m.group(5), null));
 
-				if (!m.group(6).isEmpty())
-					mcs.setLanguage(m.group(6));
+				if (!m.group(6).isEmpty()) {
+				    mcs.setLanguage(m.group(6));
+				}
 
 				mcs.setFoil(m.group(7).equals("foil"));
 				mcs.setSigned(m.group(9).equalsIgnoreCase("true"));
 				mcs.setAltered(m.group(11).equalsIgnoreCase("true"));
 
-				if (!m.group(13).isEmpty())
-					mcs.setPrice(UITools.parseDouble(m.group(13)));
+				if (!m.group(13).isEmpty()) {
+				    mcs.setPrice(UITools.parseDouble(m.group(13)));
+				}
 
 				notify(mcs.getProduct());
 				list.add(mcs);
@@ -176,10 +181,10 @@ public class MoxFieldExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		var sb = new StringBuilder(columns);
+		final var sb = new StringBuilder(columns);
 		sb.append(System.lineSeparator());
 
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			sb.append("\"").append(mcs.getQte()).append("\"").append(getSeparator());
 			sb.append("\"1\"").append(getSeparator());
 			sb.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());

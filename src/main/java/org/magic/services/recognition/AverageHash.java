@@ -25,7 +25,7 @@ public class AverageHash {
 	public static AverageHash avgHash(BufferedImage img, int w, int h) {
 		g.drawImage(img.getScaledInstance(8 * w, 8 * h, Image.SCALE_FAST), 0, 0, null);
 
-		var d = new AverageHash();
+		final var d = new AverageHash();
 		d.digest = new long[w * h];
 		d.width = w;
 		d.height = h;
@@ -41,7 +41,7 @@ public class AverageHash {
 	}
 
 	private static long hashChunk(BufferedImage chunk) {
-		WritableRaster r = chunk.getRaster();
+		final WritableRaster r = chunk.getRaster();
 		long hash = 0;
 		var avg = 0;
 		for (var x = 0; x < 8; x++) {
@@ -69,7 +69,7 @@ public class AverageHash {
 		if (width != b.width || height != b.height) {
 			return -1;
 		}
-		int ix = width * height;
+		final int ix = width * height;
 
 		var bits = 0;
 		for (var i = 0; i < ix; i++) {
@@ -99,7 +99,7 @@ public class AverageHash {
 	}
 
 	public static AverageHash readIn(ByteBuffer buf) {
-		var d = new AverageHash();
+		final var d = new AverageHash();
 		d.width = buf.getInt();
 		d.height = buf.getInt();
 		d.digest = new long[d.width * d.height];

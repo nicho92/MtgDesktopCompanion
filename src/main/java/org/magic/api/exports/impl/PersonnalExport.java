@@ -28,11 +28,11 @@ public class PersonnalExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
-		var panel = new ExportConfiguratorPanel();
+		final var panel = new ExportConfiguratorPanel();
 		panel.setRegex(getString(REGEX));
 		panel.initTree(deck.getMainAsList().get(0));
 
-		var d = MTGUIComponent.createJDialog(panel, true, true);
+		final var d = MTGUIComponent.createJDialog(panel, true, true);
 
 		panel.getBtnExport().addActionListener(_ -> {
 			regx = panel.getResult();
@@ -42,22 +42,23 @@ public class PersonnalExport extends AbstractCardExport {
 
 		d.setVisible(true);
 
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
 		logger.debug("Parsing with : {}", regx);
 
-		for (MTGCard mc : deck.getMainAsList())
-			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
+		for (final MTGCard mc : deck.getMainAsList()) {
+		    temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
+		}
 
 		FileTools.saveFile(dest, temp.toString());
 	}
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
-		var panel = new ExportConfiguratorPanel();
+		final var panel = new ExportConfiguratorPanel();
 		panel.initTree(stock.get(0));
 		panel.setRegex(getString(REGEX));
-		var d = MTGUIComponent.createJDialog(panel, true, true);
+		final var d = MTGUIComponent.createJDialog(panel, true, true);
 
 		panel.getBtnExport().addActionListener(_ -> {
 			regx = panel.getResult();
@@ -67,11 +68,11 @@ public class PersonnalExport extends AbstractCardExport {
 
 		d.setVisible(true);
 
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
 		logger.debug("Parsing with : {}", regx);
 
-		for (MTGCardStock mc : stock) {
+		for (final MTGCardStock mc : stock) {
 			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
 			notify(mc.getProduct());
 		}

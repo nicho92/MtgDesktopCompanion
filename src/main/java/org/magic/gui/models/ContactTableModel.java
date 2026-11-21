@@ -19,7 +19,7 @@ public class ContactTableModel extends GenericTableModel<Contact> {
 	@Override
 	public Object getValueAt(int row, int column) {
 
-		Contact it = items.get(row);
+		final Contact it = items.get(row);
 
 		switch (column) {
 			case 0 :
@@ -51,8 +51,9 @@ public class ContactTableModel extends GenericTableModel<Contact> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex >= 9)
-			return Boolean.class;
+		if (columnIndex >= 9) {
+		    return Boolean.class;
+		}
 
 		return super.getColumnClass(columnIndex);
 	}

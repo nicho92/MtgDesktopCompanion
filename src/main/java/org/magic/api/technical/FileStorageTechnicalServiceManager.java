@@ -19,7 +19,7 @@ import com.google.common.io.Files;
 
 public class FileStorageTechnicalServiceManager extends AbstractTechnicalServiceManager {
 
-	private File logsDirectory = new File(MTGConstants.DATA_DIR, "audits");
+	private final File logsDirectory = new File(MTGConstants.DATA_DIR, "audits");
 
 	public FileStorageTechnicalServiceManager() {
 		super();
@@ -27,7 +27,7 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 		if (!logsDirectory.exists()) {
 			try {
 				FileTools.forceMkdir(logsDirectory);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error("error creating {} : {}", logsDirectory.getAbsolutePath(), e);
 			}
 		}
@@ -37,15 +37,17 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 	protected <T extends AbstractAuditableItem> List<T> restore(Class<T> classe, Instant start, Instant end)
 			throws IOException {
 
-		if (serializer == null)
-			serializer = new JsonExport();
+		if (serializer == null) {
+		    serializer = new JsonExport();
+		}
 
-		Predicate<T> p = t -> {
-			var b1 = t.getStart().isAfter(start);
+		final Predicate<T> p = t -> {
+			final var b1 = t.getStart().isAfter(start);
 			var b2 = true;
 
-			if (t.getEnd() != null)
-				b2 = t.getEnd().isBefore(end == null ? Instant.now() : end);
+			if (t.getEnd() != null) {
+			    b2 = t.getEnd().isBefore(end == null ? Instant.now() : end);
+			}
 
 			return b1 && b2;
 		};
@@ -57,18 +59,21 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 
 	@Override
 	protected <T extends AbstractAuditableItem> void store(Class<T> classe, List<T> items) throws IOException {
-		if (serializer == null)
-			serializer = new JsonExport();
+		if (serializer == null) {
+		    serializer = new JsonExport();
+		}
 
-		if (items.isEmpty())
-			return;
+		if (items.isEmpty()) {
+		    return;
+		}
 
-		var f = Paths.get(logsDirectory.getAbsolutePath(), classe.getSimpleName() + ".json").toFile();
+		final var f = Paths.get(logsDirectory.getAbsolutePath(), classe.getSimpleName() + ".json").toFile();
 
-		if (!f.exists())
-			Files.touch(f);
+		if (!f.exists()) {
+		    Files.touch(f);
+		}
 
-		var itemsStored = serializer.fromJsonList(new FileReader(f), classe);
+		final var itemsStored = serializer.fromJsonList(new FileReader(f), classe);
 		itemsStored.addAll(items.stream().filter(Objects::nonNull).toList());
 
 		FileTools.saveLargeFile(f, serializer.toJson(itemsStored), MTGConstants.DEFAULT_ENCODING);

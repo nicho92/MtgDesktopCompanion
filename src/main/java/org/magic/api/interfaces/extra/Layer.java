@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 
 
 public interface Layer {
-    
+
     String getName();
 
     void setName(String name);
@@ -28,7 +28,7 @@ public interface Layer {
     void setHeight(int height);
 
     void setWidth(int width);
-    
+
     void reload();
 
     String getLayerType();

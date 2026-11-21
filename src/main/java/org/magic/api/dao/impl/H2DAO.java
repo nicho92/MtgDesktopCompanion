@@ -33,12 +33,13 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	public void init() throws SQLException {
 		super.init();
 
-		if (getBoolean("WEB_ENABLE"))
-			Server.createWebServer("-webPort", getString("WEB_PORT"), "-tcpAllowOthers").start();
+		if (getBoolean("WEB_ENABLE")) {
+		    Server.createWebServer("-webPort", getString("WEB_PORT"), "-tcpAllowOthers").start();
+		}
 	}
 
 	private String parseJson(String json) {
-		var str = StringEscapeUtils.unescapeJson(json);
+		final var str = StringEscapeUtils.unescapeJson(json);
 		return StringUtils.substring(str, 1, str.length() - 1);
 	}
 
@@ -50,11 +51,11 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	@Override
 	protected Map<MTGCard, Integer> readDeckBoard(ResultSet rs, String field) throws SQLException {
 
-		Map<MTGCard, Integer> ret = new HashMap<>();
+		final Map<MTGCard, Integer> ret = new HashMap<>();
 		serialiser.fromJson(parseJson(rs.getString(field)), JsonArray.class).forEach(je -> {
 
-			var mc = serialiser.fromJson(je.getAsJsonObject().get("card").toString(), MTGCard.class);
-			Integer qte = je.getAsJsonObject().get("qty").getAsInt();
+			final var mc = serialiser.fromJson(je.getAsJsonObject().get("card").toString(), MTGCard.class);
+			final Integer qte = je.getAsJsonObject().get("qty").getAsInt();
 
 			ret.put(mc, qte);
 
@@ -79,7 +80,7 @@ public class H2DAO extends AbstractMagicSQLDAO {
 		MTGCard mc = null;
 		try {
 			mc = serialiser.fromJson(parseJson(rs.getString(field)), MTGCard.class);
-		} catch (NullPointerException _) {
+		} catch (final NullPointerException _) {
 			return null;
 		}
 		return mc;
@@ -113,13 +114,15 @@ public class H2DAO extends AbstractMagicSQLDAO {
 
 	@Override
 	public Map<String, Long> getDBSize() {
-		var map = new HashMap<String, Long>();
+		final var map = new HashMap<String, Long>();
 
-		if (getString(MODE).equals("mem"))
-			map.put("mem", 0L);
+		if (getString(MODE).equals("mem")) {
+		    map.put("mem", 0L);
+		}
 
-		if (getFile(SERVERNAME).exists())
-			map.put("file", FileTools.sizeOfDirectory(getFile(SERVERNAME)));
+		if (getFile(SERVERNAME).exists()) {
+		    map.put("file", FileTools.sizeOfDirectory(getFile(SERVERNAME)));
+		}
 
 		return map;
 	}
@@ -131,7 +134,7 @@ public class H2DAO extends AbstractMagicSQLDAO {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 
 		m.get(SERVERNAME)
 				.setDefaultValue(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath()).toFile().getAbsolutePath());

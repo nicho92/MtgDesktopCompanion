@@ -26,10 +26,11 @@ public class JWallThumb extends JLabel {
 
 	public void selected(boolean s) {
 		selected = s;
-		if (selected)
-			setBorder(new LineBorder(Color.RED));
-		else
-			setBorder(null);
+		if (selected) {
+		    setBorder(new LineBorder(Color.RED));
+		} else {
+		    setBorder(null);
+		}
 
 	}
 
@@ -46,7 +47,7 @@ public class JWallThumb extends JLabel {
 		wall = w;
 		setText(w.getName());
 
-		var b = new StringBuilder("<html>");
+		final var b = new StringBuilder("<html>");
 		b.append("<b>").append(w.getName()).append("</b>").append(BR);
 		b.append("Author : ").append(w.getAuthor()).append(BR);
 		b.append("Date : ").append(UITools.formatDateTime(w.getPublishDate())).append(BR);

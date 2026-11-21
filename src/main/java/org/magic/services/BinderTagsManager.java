@@ -19,16 +19,16 @@ import org.magic.services.tools.MTG;
 
 public class BinderTagsManager {
 
-	private MTGSealedProvider prov;
+	private final MTGSealedProvider prov;
 	private Color backColor = null;
-	private Dimension d;
+	private final Dimension d;
 	private boolean border;
 	private LOGO addlogo;
-	private List<BufferedImage> lst;
+	private final List<BufferedImage> lst;
 	private int height = 1;
 	private int width = 1;
 	private int space;
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public Dimension getDimension() {
 		return d;
@@ -61,12 +61,12 @@ public class BinderTagsManager {
 	}
 
 	public void addIds(List<String> ids) {
-		List<BufferedImage> ims = new ArrayList<>();
-		for (String id : ids) {
+		final List<BufferedImage> ims = new ArrayList<>();
+		for (final String id : ids) {
 			try {
-				BufferedImage im = prov.getPictureFor(prov.get(new MTGEdition(id), EnumItems.SET).get(0));
+				final BufferedImage im = prov.getPictureFor(prov.get(new MTGEdition(id), EnumItems.SET).get(0));
 				ims.add(im);
-			} catch (IndexOutOfBoundsException _) {
+			} catch (final IndexOutOfBoundsException _) {
 				logger.error("No {} found for {}", EnumItems.SET, id);
 			}
 
@@ -80,20 +80,22 @@ public class BinderTagsManager {
 
 	private void create(List<BufferedImage> imgs) {
 
-		var offset = 1;
+		final var offset = 1;
 		height = offset;
 		width = 1;
 
-		if (d == null)
-			width = imgs.get(0).getWidth(null);
-		else
-			width = (int) d.getWidth();
+		if (d == null) {
+		    width = imgs.get(0).getWidth(null);
+		} else {
+		    width = (int) d.getWidth();
+		}
 
 		if (addlogo != null) {
-			if (!lst.isEmpty())
-				lst.set(0, ImageTools.scaleResize(prov.getLogo(addlogo), width));
-			else
-				lst.add(ImageTools.scaleResize(prov.getLogo(addlogo), width));
+			if (!lst.isEmpty()) {
+			    lst.set(0, ImageTools.scaleResize(prov.getLogo(addlogo), width));
+			} else {
+			    lst.add(ImageTools.scaleResize(prov.getLogo(addlogo), width));
+			}
 		}
 
 		for (BufferedImage im : imgs) {
@@ -102,15 +104,16 @@ public class BinderTagsManager {
 			lst.add(im);
 		}
 
-		if (d != null && d.getHeight() > 0)
-			height = (int) d.getHeight();
+		if (d != null && d.getHeight() > 0) {
+		    height = (int) d.getHeight();
+		}
 
 	}
 
 	public BufferedImage generate() {
 
-		var newImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g2 = newImage.createGraphics();
+		final var newImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+		final Graphics2D g2 = newImage.createGraphics();
 
 		if (backColor != null) {
 			g2.setColor(backColor);
@@ -118,14 +121,14 @@ public class BinderTagsManager {
 		}
 
 		if (border) {
-			var thik = 1;
+			final var thik = 1;
 			g2.setColor(Color.BLACK);
 			g2.setStroke(new BasicStroke(thik));
 			g2.drawRect(0, 0, newImage.getWidth() - thik, newImage.getHeight() - thik);
 		}
 
 		var x = 10;
-		for (BufferedImage im : lst) {
+		for (final BufferedImage im : lst) {
 			g2.drawImage(im, null, 0, x);
 			x += im.getHeight() + space;
 		}

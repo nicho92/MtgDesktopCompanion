@@ -34,15 +34,15 @@ import org.magic.services.tools.UITools;
 public class PricesTablePanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private CardsPriceTableModel model;
-	private JXTable tablePrices;
-	private AbstractBuzyIndicatorComponent lblLoading;
+	private final CardsPriceTableModel model;
+	private final JXTable tablePrices;
+	private final AbstractBuzyIndicatorComponent lblLoading;
 	private transient DefaultRowSorter<TableModel, Integer> sorterPrice;
 	private MTGCard currentCard;
 	private boolean foilOnly;
 
 	public PricesTablePanel() {
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 
 		model = new CardsPriceTableModel();
@@ -52,8 +52,9 @@ public class PricesTablePanel extends MTGUIComponent {
 		tablePrices.setRowSorter(sorterPrice);
 		tablePrices.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
 
-		for (var i : model.defaultHiddenColumns())
-			tablePrices.getColumnExt(model.getColumnName(i)).setVisible(false);
+		for (final var i : model.defaultHiddenColumns()) {
+		    tablePrices.getColumnExt(model.getColumnName(i)).setVisible(false);
+		}
 
 		add(panel, BorderLayout.NORTH);
 
@@ -76,7 +77,7 @@ public class PricesTablePanel extends MTGUIComponent {
 			public void mouseClicked(MouseEvent ev) {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
-					MTGPrice url = UITools.getTableSelection(tablePrices, 0);
+					final MTGPrice url = UITools.getTableSelection(tablePrices, 0);
 					UITools.browse(url.getUrl());
 				}
 
@@ -96,37 +97,39 @@ public class PricesTablePanel extends MTGUIComponent {
 
 	public void init(MTGCard card, boolean foilOnly) {
 
-		if (card == null)
-			return;
+		if (card == null) {
+		    return;
+		}
 
 		currentCard = card;
 		this.foilOnly = foilOnly;
 
 		if (isVisible()) {
 			model.clear();
-			List<MTGPricesProvider> providers = listEnabledPlugins(MTGPricesProvider.class);
+			final List<MTGPricesProvider> providers = listEnabledPlugins(MTGPricesProvider.class);
 			lblLoading.start(providers.size());
 
-			var cdl = new CountDownLatch(listEnabledPlugins(MTGPricesProvider.class).size());
+			final var cdl = new CountDownLatch(listEnabledPlugins(MTGPricesProvider.class).size());
 
-			for (MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class)) {
-				SwingWorker<List<MTGPrice>, MTGPrice> sw = new SwingWorker<>() {
+			for (final MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class)) {
+				final SwingWorker<List<MTGPrice>, MTGPrice> sw = new SwingWorker<>() {
 					@Override
 					protected List<MTGPrice> doInBackground() throws Exception {
 
-						List<MTGPrice> list = new ArrayList<>();
+						final List<MTGPrice> list = new ArrayList<>();
 						lblLoading.setText(capitalize("LOADING_PRICES") + " : " + currentCard + "("
 								+ currentCard.getEdition() + ")");
 						try {
 
 							List<MTGPrice> l = prov.getPrice(currentCard);
 
-							if (foilOnly)
-								l = l.stream().filter(MTGPrice::isFoil).toList();
+							if (foilOnly) {
+							    l = l.stream().filter(MTGPrice::isFoil).toList();
+							}
 
 							publish(l.toArray(new MTGPrice[l.size()]));
 							list.addAll(l);
-						} catch (Exception e) {
+						} catch (final Exception e) {
 							logger.error("error with {}", prov, e);
 						}
 

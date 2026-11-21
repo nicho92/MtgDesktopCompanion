@@ -48,7 +48,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			document = URLTools.extractAsXml(getString("URL"));
 			xPath = XPathFactory.newInstance().newXPath();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 	}
@@ -56,15 +56,16 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public boolean isTokenizer(MTGCard mc) {
 
-		if (xPath == null)
-			init();
+		if (xPath == null) {
+		    init();
+		}
 
-		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'Emblem'))]";
+		final String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'Emblem'))]";
 		logger.trace("looking for token : {}", expression);
 		try {
-			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			final var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
-		} catch (XPathExpressionException _) {
+		} catch (final XPathExpressionException _) {
 			return false;
 		}
 	}
@@ -72,19 +73,21 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public boolean isEmblemizer(MTGCard mc) {
 
-		if (mc.isEmblem())
-			return false;
+		if (mc.isEmblem()) {
+		    return false;
+		}
 
-		if (xPath == null)
-			init();
+		if (xPath == null) {
+		    init();
+		}
 
-		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
+		final String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 
 		logger.trace("looking for emblem : {}", expression);
 		try {
-			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			final var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
-		} catch (XPathExpressionException _) {
+		} catch (final XPathExpressionException _) {
 			return false;
 		}
 	}
@@ -92,21 +95,23 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public List<MTGCard> listTokensFor(MTGEdition ed) throws IOException {
 
-		if (xPath == null)
-			init();
+		if (xPath == null) {
+		    init();
+		}
 
-		String expression = "//card[set=\'" + ed.getId() + "']";
+		final String expression = "//card[set=\'" + ed.getId() + "']";
 		logger.debug("Expression ={}", expression);
 		try {
-			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			final var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 
-			var ret = new ArrayList<MTGCard>();
+			final var ret = new ArrayList<MTGCard>();
 
-			for (var i = 0; i < nodeList.getLength(); i++)
-				ret.add(build((Element) nodeList.item(i), ed));
+			for (var i = 0; i < nodeList.getLength(); i++) {
+			    ret.add(build((Element) nodeList.item(i), ed));
+			}
 
 			return ret;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -116,16 +121,17 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public MTGCard generateEmblemFor(MTGCard mc) throws IOException {
 
-		if (xPath == null)
-			init();
+		if (xPath == null) {
+		    init();
+		}
 
-		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
+		final String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 		logger.debug(expression);
 		try {
-			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			final var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return build(((Element) nodeList.item(0)), mc.getEdition());
 
-		} catch (XPathExpressionException e) {
+		} catch (final XPathExpressionException e) {
 			logger.error("Erreur XPath", e);
 			return null;
 		}
@@ -134,18 +140,19 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public MTGCard generateTokenFor(MTGCard mc) {
 
-		if (xPath == null)
-			init();
+		if (xPath == null) {
+		    init();
+		}
 
-		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
+		final String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
 		try {
-			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			var value = (Element) nodeList.item(0);
+			final var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			final var value = (Element) nodeList.item(0);
 			return build(value, mc.getEdition());
-		} catch (XPathExpressionException e) {
+		} catch (final XPathExpressionException e) {
 			logger.error("erreur generate token for {}", mc, e);
 			return null;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("getSetById error {}", mc, e);
 			return null;
 		}
@@ -153,14 +160,14 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	private MTGCard build(Element value, MTGEdition ed) throws IOException {
 
-		var tok = new MTGCard();
+		final var tok = new MTGCard();
 
 		tok.setCmc(0);
 		tok.setName(value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(Emblem\\)", "")
 				.replaceAll("\\(Token\\)", "").trim());
-		String types = value.getElementsByTagName("type").item(0).getTextContent();
+		final String types = value.getElementsByTagName("type").item(0).getTextContent();
 
-		EnumLayout layout = types.startsWith("Emblem") ? EnumLayout.EMBLEM : EnumLayout.TOKEN;
+		final EnumLayout layout = types.startsWith("Emblem") ? EnumLayout.EMBLEM : EnumLayout.TOKEN;
 
 		tok.getSupertypes().add(layout.toPrettyString());
 
@@ -169,25 +176,29 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		tok.setLayout(layout);
 		tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
 
-		if (layout == EnumLayout.EMBLEM)
-			tok.setNumber("E");
-		else
-			tok.setNumber("T");
+		if (layout == EnumLayout.EMBLEM) {
+		    tok.setNumber("E");
+		} else {
+		    tok.setNumber("T");
+		}
 
 		if (value.getElementsByTagName(COLOR).item(0) != null) {
-			var c = EnumColors.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
+			final var c = EnumColors.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
 			tok.getColors().add(c);
 			tok.getColorIdentity().add(c);
 		}
 
-		if (types.toLowerCase().contains("legendary"))
-			tok.getSupertypes().add("Legendary");
+		if (types.toLowerCase().contains("legendary")) {
+		    tok.getSupertypes().add("Legendary");
+		}
 
-		if (types.toLowerCase().contains("artifact"))
-			tok.getTypes().add("Artifact");
+		if (types.toLowerCase().contains("artifact")) {
+		    tok.getTypes().add("Artifact");
+		}
 
-		if (types.toLowerCase().contains("creature"))
-			tok.getTypes().add("Creature");
+		if (types.toLowerCase().contains("creature")) {
+		    tok.getTypes().add("Creature");
+		}
 
 		if (value.getElementsByTagName("pt").item(0) != null) {
 			tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent()
@@ -196,16 +207,17 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 					.substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/') + 1).trim());
 		}
 
-		if (value.getElementsByTagName("text").item(0) != null)
-			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
+		if (value.getElementsByTagName("text").item(0) != null) {
+		    tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
+		}
 
-		NodeList sets = value.getElementsByTagName("set");
+		final NodeList sets = value.getElementsByTagName("set");
 
 		tok.getEditions().add(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
 		for (var s = 0; s < sets.getLength(); s++) {
-			String idSet = sets.item(s).getTextContent();
+			final String idSet = sets.item(s).getTextContent();
 			if (!idSet.equals(ed.getId())) {
-				MTGEdition ed2 = getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet);
+				final MTGEdition ed2 = getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet);
 				tok.getEditions().add(ed2);
 			}
 
@@ -218,36 +230,40 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public BufferedImage getPictures(MTGCard tok) throws IOException {
 
-		if (xPath == null)
-			init();
+		if (xPath == null) {
+		    init();
+		}
 
 		String expression = "//card[name=\"" + tok.getName() + "\"]";
 
-		if (tok.getLayout() == EnumLayout.EMBLEM)
-			expression = "//card[name=\"" + tok.getName() + " (Emblem)\"]";
+		if (tok.getLayout() == EnumLayout.EMBLEM) {
+		    expression = "//card[name=\"" + tok.getName() + " (Emblem)\"]";
+		}
 
 		logger.trace("{} for {}", expression, tok);
 
 		NodeList nodeList;
 		try {
 			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-		} catch (XPathExpressionException e1) {
+		} catch (final XPathExpressionException e1) {
 			throw new IOException(e1);
 		}
 		Map<String, URL> map = null;
 
 		for (var i = 0; i < nodeList.getLength(); i++) {
-			Element value = (Element) nodeList.item(i);
-			NodeList sets = value.getElementsByTagName("set");
+			final Element value = (Element) nodeList.item(i);
+			final NodeList sets = value.getElementsByTagName("set");
 			map = new HashMap<>();
 			for (var s = 0; s < sets.getLength(); s++) {
-				var set = sets.item(s).getTextContent();
+				final var set = sets.item(s).getTextContent();
 				var pic = "";
-				if (sets.item(s).getAttributes().getNamedItem("picURL") != null)
-					pic = sets.item(s).getAttributes().getNamedItem("picURL").getNodeValue();
+				if (sets.item(s).getAttributes().getNamedItem("picURL") != null) {
+				    pic = sets.item(s).getAttributes().getNamedItem("picURL").getNodeValue();
+				}
 
-				if (pic.startsWith("http://"))
-					pic = pic.replace("http://", "https://");
+				if (pic.startsWith("http://")) {
+				    pic = pic.replace("http://", "https://");
+				}
 
 				map.put(set, URI.create(pic).toURL());
 			}
@@ -260,14 +276,15 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			}
 
 			URL u = null;
-			if (map.get(tok.getEdition().getId()) != null) // error on
+			if (map.get(tok.getEdition().getId()) != null) { // error on
 				u = map.get(tok.getEdition().getId());
-			else
-				u = map.get(map.keySet().iterator().next());
+			} else {
+			    u = map.get(map.keySet().iterator().next());
+			}
 
 			logger.debug("Load token pics : {}", u);
 			return URLTools.extractAsImage(u.toString());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error pics reading for {}", tok, e);
 			return getEnabledPlugin(MTGPictureProvider.class).getBackPicture(tok);
 		}
@@ -294,8 +311,9 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

@@ -20,9 +20,9 @@ public class SpellRendererPanel extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private MagicTextPane textPane;
-	private JLabel lblCardName;
-	private JLabel lblIconCard;
+	private final MagicTextPane textPane;
+	private final JLabel lblCardName;
+	private final JLabel lblIconCard;
 
 	public void setColor(Color fore, Color back) {
 		lblIconCard.setBackground(back);
@@ -54,7 +54,7 @@ public class SpellRendererPanel extends JPanel {
 
 		lblCardName.setText(value.getTitle());
 
-		if (value instanceof AbstractAbilities abs) {
+		if (value instanceof final AbstractAbilities abs) {
 			textPane.setText(abs.getEffects().toString());
 
 			if (abs.isActivated()) {
@@ -68,11 +68,12 @@ public class SpellRendererPanel extends JPanel {
 		}
 
 		textPane.updateTextWithIcons();
-		var c = EnumColors.determine(value.getCard().getColors()).toColor();
+		final var c = EnumColors.determine(value.getCard().getColors()).toColor();
 		setColor(Color.BLACK, c);
 
-		if (c.equals(Color.BLACK))
-			setColor(Color.WHITE, Color.GRAY);
+		if (c.equals(Color.BLACK)) {
+		    setColor(Color.WHITE, Color.GRAY);
+		}
 	}
 
 }

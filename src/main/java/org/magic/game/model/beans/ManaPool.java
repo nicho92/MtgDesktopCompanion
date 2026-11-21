@@ -17,9 +17,9 @@ public class ManaPool extends Observable implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private Map<String, Integer> pool;
+	private final Map<String, Integer> pool;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private Pattern p;
+	private final Pattern p;
 
 	public ManaPool() {
 		pool = new HashMap<>();
@@ -28,10 +28,11 @@ public class ManaPool extends Observable implements Serializable {
 	}
 
 	public int getMana(String color) {
-		Integer ret = pool.get(color);
+		final Integer ret = pool.get(color);
 
-		if (ret == null)
-			return 0;
+		if (ret == null) {
+		    return 0;
+		}
 
 		return ret;
 
@@ -46,16 +47,17 @@ public class ManaPool extends Observable implements Serializable {
 	public void useMana(String color, Integer number) {
 		try {
 			setMana(color, pool.get(color) - number);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("error using {} {}. Pool={}", number, color, pool);
 		}
 	}
 
 	public void useMana(MTGCard mc) {
-		if (mc.getCmc() == null)
-			return;
+		if (mc.getCmc() == null) {
+		    return;
+		}
 
-		var m = p.matcher(mc.getCost());
+		final var m = p.matcher(mc.getCost());
 
 		while (m.find()) {
 			useMana(m.group(), 1);
@@ -70,10 +72,12 @@ public class ManaPool extends Observable implements Serializable {
 	@Override
 	public String toString() {
 
-		var build = new StringBuilder();
-		for (var key : pool.entrySet())
-			for (var i = 0; i < key.getValue(); i++)
-				build.append(key.getKey());
+		final var build = new StringBuilder();
+		for (final var key : pool.entrySet()) {
+		    for (var i = 0; i < key.getValue(); i++) {
+		        build.append(key.getKey());
+		    }
+		}
 
 		return build.toString();
 	}

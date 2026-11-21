@@ -46,8 +46,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
 		httpclient.doGet(URI_BASE);
-		//TODO FIX 
-		var b = RequestBuilder.build().setClient(httpclient).url(URI_BASE + "/accounts/login/").post()
+		//TODO FIX
+		final var b = RequestBuilder.build().setClient(httpclient).url(URI_BASE + "/accounts/login/").post()
 				.addContent("username", getAuthenticator().getLogin())
 				.addContent("password", getAuthenticator().getPassword())
 				.addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
@@ -62,7 +62,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				.addHeader("sec-fetch-site", "same-origin").addHeader("sec-fetch-user", "?1")
 				.addHeader("cache-control", "no-cache");
 
-		var resp = httpclient.execute(b);
+		final var resp = httpclient.execute(b);
 		EntityUtils.consume(resp.getEntity());
 		logger.info("Connection with user = {} : {}", getAuthenticator().getLogin(),
 				resp.getStatusLine().getReasonPhrase());
@@ -70,55 +70,59 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		if (httpclient == null)
-			initConnexion();
+		if (httpclient == null) {
+		    initConnexion();
+		}
 
 		logger.debug("sniff deck at {}", info.getUrl());
-		var deck = info.toBaseDeck();
-		var root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).get().toJson();
+		final var deck = info.toBaseDeck();
+		final var root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).get().toJson();
 
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());
 		for (var i = 0; i < root.getAsJsonObject().get("inventory").getAsJsonArray().size(); i++) {
-			var inv = root.getAsJsonObject().get("inventory").getAsJsonArray().get(i).getAsJsonArray();
+			final var inv = root.getAsJsonObject().get("inventory").getAsJsonArray().get(i).getAsJsonArray();
 			var cardName = inv.get(0).getAsString();
-			var position = inv.get(1).getAsJsonObject().get("b").getAsString();
-			var qte = inv.get(1).getAsJsonObject().get("qty").getAsInt();
+			final var position = inv.get(1).getAsJsonObject().get("b").getAsString();
+			final var qte = inv.get(1).getAsJsonObject().get("qty").getAsInt();
 
 			// remove foil if present
 			cardName = RegExUtils.replaceAll(cardName, "\\*.+?\\*", "").trim();
 
 			// ged ed if present
 			String idSet = null;
-			var m = Pattern.compile("\\(([^)]+)\\)").matcher(cardName);
+			final var m = Pattern.compile("\\(([^)]+)\\)").matcher(cardName);
 			while (m.find()) {
 				idSet = (m.group(1));
 			}
 			cardName = RegExUtils.replaceAll(cardName, "\\(([^)]+)\\)", "").trim();
 
 			// remove behavior if present
-			if (cardName.contains("#"))
-				cardName = cardName.substring(0, cardName.indexOf('#')).trim();
+			if (cardName.contains("#")) {
+			    cardName = cardName.substring(0, cardName.indexOf('#')).trim();
+			}
 
-			if (cardName.contains("//"))
-				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
+			if (cardName.contains("//")) {
+			    cardName = cardName.substring(0, cardName.indexOf("//")).trim();
+			}
 
 			List<MTGCard> ret;
 			if (idSet == null) {
 				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true);
 
 			} else {
-				var ed = new MTGEdition(idSet);
+				final var ed = new MTGEdition(idSet);
 				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true);
 			}
 
 			if (!ret.isEmpty()) {
 				notify(ret.get(0));
 
-				if (position.equalsIgnoreCase("main"))
-					deck.getMain().put(ret.get(0), qte);
-				else
-					deck.getSideBoard().put(ret.get(0), qte);
+				if (position.equalsIgnoreCase("main")) {
+				    deck.getMain().put(ret.get(0), qte);
+				} else {
+				    deck.getSideBoard().put(ret.get(0), qte);
+				}
 			}
 		}
 		return deck;
@@ -127,16 +131,16 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
-		var root = URLTools.extractAsJson(URI_BASE + "/api/deck/latest/" + filter + "/");
-		List<RetrievableDeck> list = new ArrayList<>();
+		final var root = URLTools.extractAsJson(URI_BASE + "/api/deck/latest/" + filter + "/");
+		final List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 0; i < root.getAsJsonArray().size(); i++) {
-			var obj = root.getAsJsonArray().get(i).getAsJsonObject();
-			var deck = new RetrievableDeck();
+			final var obj = root.getAsJsonArray().get(i).getAsJsonObject();
+			final var deck = new RetrievableDeck();
 			deck.setName(obj.get("name").getAsString());
 			try {
 				deck.setUrl(new URI(obj.get("resource_uri").getAsString()));
-			} catch (URISyntaxException _) {
+			} catch (final URISyntaxException _) {
 				deck.setUrl(null);
 			}
 			deck.setAuthor(obj.get("user").getAsString());

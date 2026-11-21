@@ -41,7 +41,7 @@ public class LibraryPanel extends DraggablePanel {
 					(int) MTGControler.getInstance().getCardsGameDimension().getHeight(), Image.SCALE_SMOOTH);
 			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 	}
@@ -87,7 +87,7 @@ public class LibraryPanel extends DraggablePanel {
 
 		try {
 			g.drawImage(i, 0, 0, null);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 

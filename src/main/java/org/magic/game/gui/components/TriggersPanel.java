@@ -22,8 +22,8 @@ public class TriggersPanel extends JPanel implements Observer {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JList<AbstractSpell> listStack;
-	private DefaultListModel<AbstractSpell> model;
+	private final JList<AbstractSpell> listStack;
+	private final DefaultListModel<AbstractSpell> model;
 
 	public TriggersPanel() {
 		model = new DefaultListModel<>();
@@ -36,9 +36,11 @@ public class TriggersPanel extends JPanel implements Observer {
 
 	public void updateElements() {
 		model.clear();
-		for (Entry<TRIGGERS, List<AbstractSpell>> e : GameManager.getInstance().getTriggers().list())
-			for (AbstractSpell sp : e.getValue())
-				model.addElement(sp);
+		for (final Entry<TRIGGERS, List<AbstractSpell>> e : GameManager.getInstance().getTriggers().list()) {
+		    for (final AbstractSpell sp : e.getValue()) {
+		        model.addElement(sp);
+		    }
+		}
 
 	}
 

@@ -58,13 +58,13 @@ public class ComboFinderPanel extends MTGUIComponent {
 	private void initGUI() {
 		model = new DefaultListModel<>();
 		setLayout(new BorderLayout(0, 0));
-		var list = new JList<MTGCombo>(model);
+		final var list = new JList<>(model);
 		textArea = new JEditorPane();
 		textArea.setContentType(URLTools.HEADER_HTML);
-		var panneauCenter = new JPanel();
+		final var panneauCenter = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
-		var panneauHaut = new JPanel();
-		var panneauBas = new HandPanel();
+		final var panneauHaut = new JPanel();
+		final var panneauBas = new HandPanel();
 
 		panneauCenter.setLayout(new BorderLayout());
 
@@ -84,7 +84,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 		panneauCenter.add(panneauBas, BorderLayout.SOUTH);
 
 		list.addListSelectionListener(_ -> {
-			var cb = list.getSelectedValue();
+			final var cb = list.getSelectedValue();
 			if (cb != null) {
 				textArea.setText(cb.getComment().replace("\n", "<br/>"));
 				panneauBas.initThumbnails(cb.getCards(), false, false);
@@ -92,7 +92,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 		});
 
 		list.setCellRenderer((JList<? extends MTGCombo> lst, MTGCombo cbo, int _, boolean isSelected, boolean _) -> {
-			var l = new JLabel(cbo.getName(), cbo.getPlugin().getIcon(), SwingConstants.LEFT);
+			final var l = new JLabel(cbo.getName(), cbo.getPlugin().getIcon(), SwingConstants.LEFT);
 			l.setOpaque(true);
 
 			if (isSelected) {
@@ -111,11 +111,13 @@ public class ComboFinderPanel extends MTGUIComponent {
 	public void init(MTGCard mc) {
 		this.mc = mc;
 
-		if (!isVisible() || (mc == null))
-			return;
+		if (!isVisible() || (mc == null)) {
+		    return;
+		}
 
-		if (sw != null && !sw.isDone())
-			sw.cancel(true);
+		if (sw != null && !sw.isDone()) {
+		    sw.cancel(true);
+		}
 
 		buzy.start();
 		sw = new SwingWorker<>() {
@@ -123,14 +125,14 @@ public class ComboFinderPanel extends MTGUIComponent {
 			@Override
 			protected List<MTGCombo> doInBackground() throws Exception {
 				model.removeAllElements();
-				List<MTGCombo> ret = new ArrayList<>();
-				for (MTGComboProvider plug : listEnabledPlugins(MTGComboProvider.class)) {
+				final List<MTGCombo> ret = new ArrayList<>();
+				for (final MTGComboProvider plug : listEnabledPlugins(MTGComboProvider.class)) {
 					try {
 						plug.getComboWith(mc).forEach(cbo -> {
 							ret.add(cbo);
 							publish(cbo);
 						});
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("error getting combo", e);
 					}
 				}

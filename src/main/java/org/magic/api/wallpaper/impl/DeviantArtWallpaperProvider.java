@@ -26,7 +26,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	private static final String TOKEN_ENDPOINT = BASE_URL + "/oauth2/token";
 
 	private String bToken;
-	private MTGHttpClient httpclient;
+	private final MTGHttpClient httpclient;
 
 	@Override
 	public STATUT getStatut() {
@@ -41,8 +41,8 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of(
-				"MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"), 
-				LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1) 
+				"MATURE",MTGProperty.newBooleanProperty(FALSE, "set to true if you want to return mature content"),
+				LIMIT,MTGProperty.newIntegerProperty("25", "Max results to return", 1, -1)
 				);
 	}
 
@@ -57,7 +57,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	public List<MTGWallpaper> clientSearch(String search) {
 
-		var list = new ArrayList<MTGWallpaper>();
+		final var list = new ArrayList<MTGWallpaper>();
 		try {
 
 			if (getAuthenticator() == null) {
@@ -66,14 +66,14 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 			}
 			initToken();
 
-			var offset = 0;
+			final var offset = 0;
 			var ret = readOffset(offset, search);
 			while (!ret.get("results").getAsJsonArray().isEmpty()) {
 				ret.get("results").getAsJsonArray().forEach(el -> {
 					try {
 
 						if (el.getAsJsonObject().get("content") != null) {
-							var p = new MTGWallpaper();
+							final var p = new MTGWallpaper();
 							p.setFormat("png");
 							p.setName(el.getAsJsonObject().get("title").getAsString());
 							p.setUrl(new URI(
@@ -84,25 +84,28 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 							p.setProvider(getName());
 							p.setMature(el.getAsJsonObject().get("is_mature").getAsBoolean());
 
-							if (el.getAsJsonObject().get("author").getAsJsonObject().get("username") != null)
-								p.setAuthor(el.getAsJsonObject().get("author").getAsJsonObject().get("username")
-										.getAsString());
+							if (el.getAsJsonObject().get("author").getAsJsonObject().get("username") != null) {
+							    p.setAuthor(el.getAsJsonObject().get("author").getAsJsonObject().get("username")
+							    		.getAsString());
+							}
 
-							if (list.size() < getInt(LIMIT))
-								list.add(p);
+							if (list.size() < getInt(LIMIT)) {
+							    list.add(p);
+							}
 						}
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("Error for {} . error : {}", el, e.getMessage());
 					}
 				});
 
-				if (list.size() >= getInt(LIMIT) || ret.get("next_offset").isJsonNull())
-					break;
+				if (list.size() >= getInt(LIMIT) || ret.get("next_offset").isJsonNull()) {
+				    break;
+				}
 
 				ret = readOffset(ret.get("next_offset").getAsInt(), search);
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error", e);
 		}
 
@@ -115,7 +118,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	}
 
 	private void initToken() throws IOException {
-		var obj = RequestBuilder.build().setClient(httpclient).get().url(TOKEN_ENDPOINT)
+		final var obj = RequestBuilder.build().setClient(httpclient).get().url(TOKEN_ENDPOINT)
 				.addContent("grant_type", "client_credentials")
 				.addContent("client_id", getAuthenticator().get(CLIENT_ID))
 				.addContent("client_secret", getAuthenticator().get("CLIENT_SECRET")).toJson().getAsJsonObject();
@@ -125,7 +128,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	}
 
 	private JsonObject readOffset(int offset, String search) throws IOException {
-		var obj = RequestBuilder.build().setClient(httpclient).get().url(BROWSE_ENDPOINT).addContent("q", search)
+		final var obj = RequestBuilder.build().setClient(httpclient).get().url(BROWSE_ENDPOINT).addContent("q", search)
 				.addContent("limit", "50").addContent("offset", String.valueOf(offset))
 				.addContent("mature_content", getString("MATURE")).addContent("access_token", bToken).toJson()
 				.getAsJsonObject();

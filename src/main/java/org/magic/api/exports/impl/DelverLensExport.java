@@ -21,7 +21,7 @@ import org.magic.services.tools.UITools;
 
 public class DelverLensExport extends AbstractFormattedFileCardExport {
 
-	private String columns = "Name; Edition; Price; Language; Collector's number; Condition; Currency; Edition code; Foil; List name; Quantity; Scryfall ID";
+	private final String columns = "Name; Edition; Price; Language; Collector's number; Condition; Currency; Edition code; Foil; List name; Quantity; Scryfall ID";
 
 	@Override
 	public String getStockFileExtension() {
@@ -36,7 +36,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var temp = new StringBuilder(columns);
+		final var temp = new StringBuilder(columns);
 		temp.append(System.lineSeparator());
 		stock.forEach(st -> {
 			temp.append(st.getProduct().getName()).append(getSeparator());
@@ -59,19 +59,19 @@ public class DelverLensExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		List<MTGCardStock> list = new ArrayList<>();
+		final List<MTGCardStock> list = new ArrayList<>();
 
 		matches(content, true).forEach(m -> {
 
 			MTGCard mc = null;
 			try {
 				mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(12));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 
 			if (mc != null) {
-				var st = MTGControler.getInstance().getDefaultStock();
+				final var st = MTGControler.getInstance().getDefaultStock();
 				st.setProduct(mc);
 				st.setLanguage(m.group(4));
 				st.setQte(Integer.parseInt(m.group(11)));
@@ -113,7 +113,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.get("SEPARATOR").setDefaultValue(";");
 		return m;
 	}

@@ -22,8 +22,9 @@ public class TomcatPool extends AbstractPoolProvider {
 
 	@Override
 	public void close() throws SQLException {
-		if (pool != null)
-			pool.close();
+		if (pool != null) {
+		    pool.close();
+		}
 
 	}
 
@@ -31,14 +32,14 @@ public class TomcatPool extends AbstractPoolProvider {
 	public void init(String url, String user, String pass) {
 
 		pool = new DataSource();
-		var dbProperty = new PoolProperties();
+		final var dbProperty = new PoolProperties();
 		dbProperty.setUrl(url);
 		dbProperty.setUsername(user);
 		dbProperty.setPassword(pass);
 
 		try {
 			dbProperty.setDriverClassName(DriverManager.getDriver(url).getClass().getName());
-		} catch (SQLException _) {
+		} catch (final SQLException _) {
 			// do nothing
 		}
 
@@ -53,7 +54,7 @@ public class TomcatPool extends AbstractPoolProvider {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = new HashMap<String, MTGProperty>();
+		final var map = new HashMap<String, MTGProperty>();
 
 		map.put("defaultAutoCommit", MTGProperty.newBooleanProperty("true",
 				"The default auto-commit state of connections created by this pool. If not set, default is JDBC driver default"));

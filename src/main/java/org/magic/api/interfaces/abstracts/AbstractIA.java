@@ -123,15 +123,16 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	@Override
 	public MTGCard generateRandomCard(String description, MTGEdition set, String number) throws IOException {
 
-		var obj = URLTools
+		final var obj = URLTools
 				.toJson(getEngine(getGeneratedCardFormat()).chat(NEW_CARD_QUERY
 						+ ((description == null || description.isEmpty()) ? "" : WITH_THIS_DESCRIPTION + description)))
 				.getAsJsonObject();
 		logger.debug("return : {}", obj);
-		var mc = new MTGCard();
+		final var mc = new MTGCard();
 
-		if (number != null)
-			mc.setNumber(number);
+		if (number != null) {
+		    mc.setNumber(number);
+		}
 
 		readJson(mc, obj, set);
 		return mc;
@@ -139,55 +140,56 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
 	@Override
 	public MTGDeck generateDeck(String description) throws IOException {
-		var obj = URLTools
+		final var obj = URLTools
 				.toJson(getEngine(getGeneratedDeckFormat()).chat(NEW_DECK_QUERY
 						+ ((description == null || description.isEmpty()) ? "" : WITH_THIS_DESCRIPTION + description)))
 				.getAsJsonObject();
 
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setDescription(obj.get("description").getAsString());
 		d.setName(obj.get(NAME).getAsString());
 
 		obj.get("mainboard").getAsJsonArray().forEach(je -> {
 
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
+				final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
 						.searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null, true).get(0);
 				d.getMain().put(mc, je.getAsJsonObject().get(QUANTITY).getAsInt());
 				notify(mc);
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("can't find card {}", je.getAsJsonObject());
 			}
 
 		});
 
-		if (obj.get("sideboard") != null && !obj.get("sideboard").isJsonNull())
-			obj.get("sideboard").getAsJsonArray().forEach(je -> {
+		if (obj.get("sideboard") != null && !obj.get("sideboard").isJsonNull()) {
+		    obj.get("sideboard").getAsJsonArray().forEach(je -> {
 
-				try {
-					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
-							.searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null, true).get(0);
-					d.getSideBoard().put(mc, je.getAsJsonObject().get(QUANTITY).getAsInt());
-					notify(mc);
-				} catch (Exception _) {
-					logger.error("can't find card {}", je.getAsJsonObject());
-				}
+		    	try {
+		    		final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
+		    				.searchCardByName(je.getAsJsonObject().get(NAME).getAsString(), null, true).get(0);
+		    		d.getSideBoard().put(mc, je.getAsJsonObject().get(QUANTITY).getAsInt());
+		    		notify(mc);
+		    	} catch (final Exception _) {
+		    		logger.error("can't find card {}", je.getAsJsonObject());
+		    	}
 
-			});
+		    });
+		}
 		return d;
 	}
 
 	@Override
 	public List<MTGCard> generateSet(String description, MTGEdition set, int qty) throws IOException {
-		var obj = URLTools
+		final var obj = URLTools
 				.toJson(getEngine(getGeneratedSetFormat()).chat(NEW_SET_QUERY.replace("X", "" + qty)
 						+ ((description == null || description.isEmpty()) ? "" : WITH_THIS_DESCRIPTION + description)))
 				.getAsJsonObject();
-		var list = new ArrayList<MTGCard>();
+		final var list = new ArrayList<MTGCard>();
 		int number = 1;
 
-		for (var je : obj.get("cards").getAsJsonArray()) {
-			var mc = new MTGCard();
+		for (final var je : obj.get("cards").getAsJsonArray()) {
+			final var mc = new MTGCard();
 			readJson(mc, je.getAsJsonObject(), set);
 			mc.setNumber(String.valueOf(number++));
 			list.add(mc);
@@ -197,7 +199,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = super.getDefaultAttributes();
+		final var map = super.getDefaultAttributes();
 		map.put("TEMPERATURE", MTGProperty.newIntegerProperty("0.7",
 				"You can think of temperature like randomness, with low value is being least random (or most deterministic) and max being most random (least deterministic)",
 				0, 1));
@@ -228,11 +230,13 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
 			obj.get(TYPES).getAsJsonArray().forEach(je -> mc.getTypes().add(je.getAsString()));
 
-			if (obj.get(SUPERTYPES) != null)
-				obj.get(SUPERTYPES).getAsJsonArray().forEach(je -> mc.getSupertypes().add(je.getAsString()));
+			if (obj.get(SUPERTYPES) != null) {
+			    obj.get(SUPERTYPES).getAsJsonArray().forEach(je -> mc.getSupertypes().add(je.getAsString()));
+			}
 
-			if (obj.get(SUBTYPES) != null)
-				obj.get(SUBTYPES).getAsJsonArray().forEach(je -> mc.getSubtypes().add(je.getAsString()));
+			if (obj.get(SUBTYPES) != null) {
+			    obj.get(SUBTYPES).getAsJsonArray().forEach(je -> mc.getSubtypes().add(je.getAsString()));
+			}
 
 			// can be overriden by PictureEditor
 			mc.setLayout(EnumLayout.NORMAL);
@@ -246,13 +250,14 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 				mc.setPower(obj.get(POWER).getAsString());
 			}
 
-			if (obj.get(TOUGHNESS) != null && !obj.get(TOUGHNESS).isJsonNull())
-				mc.setToughness(obj.get(TOUGHNESS).getAsString());
+			if (obj.get(TOUGHNESS) != null && !obj.get(TOUGHNESS).isJsonNull()) {
+			    mc.setToughness(obj.get(TOUGHNESS).getAsString());
+			}
 
 			if (obj.get(LOYALTY) != null && !obj.get(LOYALTY).isJsonNull()) {
 				mc.setLoyalty(obj.get(LOYALTY).getAsInt());
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 

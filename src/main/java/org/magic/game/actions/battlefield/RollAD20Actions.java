@@ -23,7 +23,7 @@ public class RollAD20Actions extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		int b = CryptoUtils.randomInt(20);
+		final int b = CryptoUtils.randomInt(20);
 
 		GamePanelGUI.getInstance().getPlayer().logAction("Run a D20 : " + b);
 

@@ -8,11 +8,11 @@ import org.magic.api.beans.layer.enums.ShapeType;
 
 public class ShapeLayer extends AbstractLayer {
 
-    
+
     private Color color;
-    
+
     private ShapeType shape;
-    
+
     public ShapeLayer() {
 	setX(0);
 	setY(0);
@@ -20,36 +20,37 @@ public class ShapeLayer extends AbstractLayer {
 	setHeight(200);
 	setColor(Color.WHITE);
 	setShape(ShapeType.SQUARE);
-    } 
-    
-    
+    }
+
+
     public void setColor(Color color) {
 	this.color = color;
     }
-    
+
     public Color getColor() {
 	return color;
     }
-    
+
     public void setShape(ShapeType shape) {
 	this.shape = shape;
     }
-    
+
     public ShapeType getShape() {
 	return shape;
     }
-    
-    
+
+
     @Override
     protected void paintLayer(Graphics2D g2) {
 	 g2.setColor(color);
-	 
-	 
-	 if(shape==ShapeType.CIRCLE)
-	     g2.fillOval(getX(), getY(), getWidth(), getHeight());
-	 else
-	     g2.fillRect(getX(), getY(), getWidth(), getHeight());
- 
+
+
+	 if(shape==ShapeType.CIRCLE) {
+	    g2.fillOval(getX(), getY(), getWidth(), getHeight());
+	 } else {
+	    g2.fillRect(getX(), getY(), getWidth(), getHeight());
+	 }
+
     }
 
 }

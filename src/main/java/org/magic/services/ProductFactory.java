@@ -16,17 +16,19 @@ public class ProductFactory {
 	}
 
 	public static AbstractStockItem<? extends AbstractProduct> generateStockItem(MTGProduct p) {
-		if (p.isSealed())
-			return new MTGSealedStock((MTGSealedProduct) p);
+		if (p.isSealed()) {
+		    return new MTGSealedStock((MTGSealedProduct) p);
+		}
 
 		return new MTGCardStock((MTGCard) p);
 	}
 
 	public static MTGProduct createDefaultProduct(EnumItems item) {
-		if (item == EnumItems.CARD)
-			return new MTGCard();
-		else
-			return new MTGSealedProduct();
+		if (item == EnumItems.CARD) {
+		    return new MTGCard();
+		} else {
+		    return new MTGSealedProduct();
+		}
 	}
 
 }

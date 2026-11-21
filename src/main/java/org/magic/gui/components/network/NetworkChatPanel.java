@@ -66,28 +66,28 @@ import org.magic.services.tools.UITools;
 public class NetworkChatPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtServer;
-	private JList<Player> listPlayers;
+	private final JTextField txtServer;
+	private final JList<Player> listPlayers;
 
-	private JButton btnConnect;
-	private JButton btnLogout;
-	private JTextArea txtChatMessageEditor;
-	private JComboBox<EnumPlayerStatus> cboStates;
-	private JButton btnColorChoose;
-	private JButton btnSearch;
-	private JButton btnDeck;
-	private JToggleButton btnIa;
-	private DefaultListModel<Player> listPlayerModel;
+	private final JButton btnConnect;
+	private final JButton btnLogout;
+	private final JTextArea txtChatMessageEditor;
+	private final JComboBox<EnumPlayerStatus> cboStates;
+	private final JButton btnColorChoose;
+	private final JButton btnSearch;
+	private final JButton btnDeck;
+	private final JToggleButton btnIa;
+	private final DefaultListModel<Player> listPlayerModel;
 	private final JChatPanel chatPanel;
 	private transient MTGNetworkClient client;
-	private CardStockTableModel stockResultModel;
-	private JTabbedPane tabbedPane;
+	private final CardStockTableModel stockResultModel;
+	private final JTabbedPane tabbedPane;
 
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
 
 		client = MTG.getEnabledPlugin(MTGNetworkClient.class);
-		var server = MTGControler.getInstance().get("network-config/network-last-server",
+		final var server = MTGControler.getInstance().get("network-config/network-last-server",
 				MTGConstants.MTG_CHAT_DEFAULT_URI);
 
 		btnLogout = new JButton(capitalize("LOGOUT"));
@@ -106,12 +106,12 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK, KeyEvent.VK_F, "sharedeck");
 		btnIa = new JToggleButton("", MTGConstants.ICON_IA);
 
-		var lblIp = new JLangLabel("HOST", true);
+		final var lblIp = new JLangLabel("HOST", true);
 
-		var panelChat = new JPanel();
-		var panelChatBox = new JPanel();
-		var panelSearch = new JScrollPane();
-		var tableResult = UITools.createNewTable(stockResultModel, true);
+		final var panelChat = new JPanel();
+		final var panelChatBox = new JPanel();
+		final var panelSearch = new JScrollPane();
+		final var tableResult = UITools.createNewTable(stockResultModel, true);
 
 		panelChat.setBorder(new TitledBorder(null, "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		listPlayers.setBorder(new TitledBorder(null, "Online", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -122,7 +122,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panelChatBox.setLayout(new BorderLayout());
 
 		listPlayers.setCellRenderer(new PlayerRenderer());
-		
+
 		txtChatMessageEditor.setText(capitalize("CHAT_INTRO_TEXT"));
 		txtChatMessageEditor.setLineWrap(true);
 		txtChatMessageEditor.setWrapStyleWord(true);
@@ -147,8 +147,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		initActions();
 
-		if (MTG.readPropertyAsBoolean("network-config/online-autoconnect"))
-			btnConnect.doClick();
+		if (MTG.readPropertyAsBoolean("network-config/online-autoconnect")) {
+		    btnConnect.doClick();
+		}
 
 	}
 
@@ -159,26 +160,26 @@ public class NetworkChatPanel extends MTGUIComponent {
 			public void mousePressed(MouseEvent e) {
 				if (SwingUtilities.isRightMouseButton(e)) {
 					chatPanel.setSelectedIndex(e.getPoint());
-					var menu = new JPopupMenu();
-					var selected = chatPanel.getSelectedValue();
+					final var menu = new JPopupMenu();
+					final var selected = chatPanel.getSelectedValue();
 
 					if (selected.getTypeMessage() == MSG_TYPE.DECK) {
-						var deck = ((DeckMessage) selected).getAttachement();
+						final var deck = ((DeckMessage) selected).getAttachement();
 						deck.setId(-1);
 
-						var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
+						final var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
 						itemImport.addActionListener(_ -> {
 							try {
 								new MTGDeckManager().saveDeck(deck);
-							} catch (IOException _) {
+							} catch (final IOException _) {
 								logger.error(e);
 							}
 						});
 						menu.add(itemImport);
 
-						var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
+						final var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
 						itemOpen.addActionListener(_ -> {
-							var deckV = new ConstructPanel();
+							final var deckV = new ConstructPanel();
 							deckV.hideSearchComponent(true);
 							deckV.setDeck(deck);
 
@@ -189,15 +190,16 @@ public class NetworkChatPanel extends MTGUIComponent {
 					}
 
 					if (selected.getTypeMessage() == MSG_TYPE.ANSWER) {
-						var items = ((SendStockMessage) selected).getResultItems();
+						final var items = ((SendStockMessage) selected).getResultItems();
 
-						var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
+						final var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
 						itemOpen.addActionListener(_ -> {
 
-							var panel = new StockPanelGUI();
+							final var panel = new StockPanelGUI();
 
-							for (var mc : items)
-								panel.addStock(mc);
+							for (final var mc : items) {
+							    panel.addStock(mc);
+							}
 
 							MTGUIComponent.createJDialog(panel, true, true).setVisible(true);
 
@@ -211,7 +213,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		btnConnect.addActionListener(_ -> {
 
-			var swConnect = new SwingWorker<Void, Void>() {
+			final var swConnect = new SwingWorker<Void, Void>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
@@ -232,15 +234,16 @@ public class NetworkChatPanel extends MTGUIComponent {
 						txtChatMessageEditor.setEditable(client.isActive());
 						MTGControler.getInstance().setProperty("network-config/network-last-server",
 								txtServer.getText());
-					} catch (InterruptedException ie) {
+					} catch (final InterruptedException ie) {
 						Thread.currentThread().interrupt();
 						logger.error(ie);
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						MTGControler.getInstance().notify(e);
 					}
 
-					if (client.isActive())
-						runningDaemon();
+					if (client.isActive()) {
+					    runningDaemon();
+					}
 
 				}
 
@@ -261,7 +264,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 						try {
 							IAVirtualUser.init(txtServer.getText());
 
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							MTGControler.getInstance().notify(e);
 						}
 					}
@@ -269,7 +272,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			} else {
 				try {
 					IAVirtualUser.stop();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					MTGControler.getInstance().notify(e);
 				}
 			}
@@ -278,13 +281,13 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnLogout.addActionListener(_ -> {
 			try {
 				client.logout();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 		});
 
 		btnColorChoose.addActionListener(_ -> {
-			var c = JColorChooser.showDialog(null, "Choose Text Color", client.getPlayer().getColor());
+			final var c = JColorChooser.showDialog(null, "Choose Text Color", client.getPlayer().getColor());
 			if (c != null) {
 				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
 				client.getPlayer().setColor(c);
@@ -294,8 +297,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 		txtChatMessageEditor.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent fe) {
-				if (txtChatMessageEditor.getText().equals(capitalize("CHAT_INTRO_TEXT")))
-					txtChatMessageEditor.setText("");
+				if (txtChatMessageEditor.getText().equals(capitalize("CHAT_INTRO_TEXT"))) {
+				    txtChatMessageEditor.setText("");
+				}
 			}
 		});
 
@@ -307,7 +311,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 					e.consume();
 					try {
 						client.sendMessage(txtChatMessageEditor.getText().trim());
-					} catch (IOException e1) {
+					} catch (final IOException e1) {
 						logger.error(e1);
 					}
 					txtChatMessageEditor.setText("");
@@ -318,15 +322,15 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		btnSearch.addActionListener(_ -> {
 			try {
-				var diag = new CardImporterDialog();
+				final var diag = new CardImporterDialog();
 				diag.setVisible(true);
 
 				if (diag.hasSelected()) {
-					var msg = new SearchMessage(diag.getSelectedItem());
+					final var msg = new SearchMessage(diag.getSelectedItem());
 					client.sendMessage(msg);
 				}
 
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				logger.error(e1);
 			}
 			tabbedPane.setSelectedIndex(1);
@@ -335,38 +339,40 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		btnDeck.addActionListener(_ -> {
 			try {
-				var diag = new JDeckChooserDialog();
+				final var diag = new JDeckChooserDialog();
 				diag.setVisible(true);
 
 				if (diag.getSelectedDeck() != null) {
 					client.sendMessage(new DeckMessage(diag.getSelectedDeck()));
 				}
 
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				logger.error(e1);
 			}
 		});
 
 		cboStates.addItemListener(ie -> {
-			if (ie.getStateChange() == ItemEvent.SELECTED)
-				try {
-					client.changeStatus((EnumPlayerStatus) cboStates.getSelectedItem());
-				} catch (IOException e1) {
-					logger.error(e1);
-				}
+			if (ie.getStateChange() == ItemEvent.SELECTED) {
+			    try {
+			    	client.changeStatus((EnumPlayerStatus) cboStates.getSelectedItem());
+			    } catch (final IOException e1) {
+			    	logger.error(e1);
+			    }
+			}
 		});
 
 	}
 
 	private void runningDaemon() {
-		var sw = new SwingWorker<Void, AbstractMessage>() {
+		final var sw = new SwingWorker<Void, AbstractMessage>() {
 
 			@Override
 			protected Void doInBackground() throws Exception {
 				while (client.isActive()) {
-					var s = client.consume();
-					if (s != null)
-						publish(s);
+					final var s = client.consume();
+					if (s != null) {
+					    publish(s);
+					}
 				}
 				return null;
 			}
@@ -376,10 +382,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 				try {
 					get();
-				} catch (InterruptedException e) {
+				} catch (final InterruptedException e) {
 					Thread.currentThread().interrupt();
 					logger.error(e);
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error(e);
 				}
 
@@ -399,10 +405,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 				btnLogout.setEnabled(true);
 				txtChatMessageEditor.setEditable(true);
 
-				for (var s : chunks) {
+				for (final var s : chunks) {
 					switch (s.getTypeMessage()) {
 						case CHANGESTATUS :
-							var msg = (StatutMessage) s;
+							final var msg = (StatutMessage) s;
 							switch (msg.getStatut()) {
 								case ONLINE :
 									listPlayerModel.addElement(s.getAuthor());
@@ -419,35 +425,37 @@ public class NetworkChatPanel extends MTGUIComponent {
 							break;
 
 						case SYSTEM :
-							var tm = (TechnicalMessage) s;
+							final var tm = (TechnicalMessage) s;
 							listPlayerModel.removeAllElements();
 							listPlayerModel.addAll(tm.getPlayers());
 							break;
 
 						case SEARCH :
-							var msgs = (SearchMessage) s;
+							final var msgs = (SearchMessage) s;
 							chatPanel.chatAddMessage(msgs);
 
-							if (!MTG.readPropertyAsBoolean("network-config/online-query"))
-								break;
+							if (!MTG.readPropertyAsBoolean("network-config/online-query")) {
+							    break;
+							}
 
 							try {
 								if (!msgs.getAuthor().getId().equals(client.getPlayer().getId())) {
-									var ret = MTG.getEnabledPlugin(MTGDao.class)
+									final var ret = MTG.getEnabledPlugin(MTGDao.class)
 											.listStocks((MTGCard) msgs.getAttachement()).stream()
 											.filter(mcs -> mcs.getQte() > 0).toList();
-									if (!ret.isEmpty())
-										client.sendMessage(new SendStockMessage(msgs, ret));
+									if (!ret.isEmpty()) {
+									    client.sendMessage(new SendStockMessage(msgs, ret));
+									}
 								}
-							} catch (Exception e) {
+							} catch (final Exception e) {
 								logger.error(e);
 							}
 							break;
 
 						case ANSWER :
-							var ret = ((SendStockMessage) s).getResultItems();
+							final var ret = ((SendStockMessage) s).getResultItems();
 
-							for (var c : ret) {
+							for (final var c : ret) {
 								c.setComment(s.getAuthor().getName());
 								stockResultModel.addItem(c);
 								stockResultModel.fireTableDataChanged();

@@ -18,10 +18,11 @@ public class LocalListRenderer extends JLabel implements ListCellRenderer<Locale
 	public Component getListCellRendererComponent(JList<? extends Locale> list, Locale value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 
-		if (value != null)
-			setText(StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale())));
-		else
-			setText("");
+		if (value != null) {
+		    setText(StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale())));
+		} else {
+		    setText("");
+		}
 
 		if (isSelected) {
 			setBackground(list.getSelectionBackground());

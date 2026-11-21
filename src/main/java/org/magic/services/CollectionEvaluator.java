@@ -45,15 +45,15 @@ public class CollectionEvaluator extends Observable {
 	}
 
 	public static Map<MTGEdition, Integer> analyse(MTGCollection collection) throws IOException {
-		var ret = new TreeMap<MTGEdition, Integer>();
+		final var ret = new TreeMap<MTGEdition, Integer>();
 
 		try {
 			logger.debug("Evaluate collection {}", collection);
-			var temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
-			for (var me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+			final var temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
+			for (final var me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
 				ret.put(me, (temp.get(me.getId()) == null) ? 0 : temp.get(me.getId()));
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error("error in calculation", e);
 		}
 
@@ -62,13 +62,13 @@ public class CollectionEvaluator extends Observable {
 	}
 
 	public static JsonArray analyseToJson(MTGCollection collection) throws IOException {
-		var transformer = new JsonExport();
-		var arr = new JsonArray();
+		final var transformer = new JsonExport();
+		final var arr = new JsonArray();
 		analyse(collection).entrySet().forEach(entry -> {
 
 			if (entry.getValue() > 0) {
 
-				var obj = new JsonObject();
+				final var obj = new JsonObject();
 				obj.add("edition", transformer.toJsonElement(entry.getKey()));
 				obj.addProperty("set", entry.getKey().getId());
 				obj.addProperty("name", entry.getKey().getSet());
@@ -77,10 +77,11 @@ public class CollectionEvaluator extends Observable {
 				obj.add("cardNumber", new JsonPrimitive(entry.getKey().getCardCount()));
 				obj.addProperty("defaultLibrary", MTGControler.getInstance().get("default-library"));
 				double pc = 0;
-				if (entry.getKey().getCardCount() > 0)
-					pc = entry.getValue().doubleValue() / entry.getKey().getCardCount();
-				else
-					pc = entry.getValue().doubleValue();
+				if (entry.getKey().getCardCount() > 0) {
+				    pc = entry.getValue().doubleValue() / entry.getKey().getCardCount();
+				} else {
+				    pc = entry.getValue().doubleValue();
+				}
 
 				obj.add("pc", new JsonPrimitive(pc));
 
@@ -109,8 +110,9 @@ public class CollectionEvaluator extends Observable {
 	private void init() throws IOException {
 		cache = new HashMap<>();
 		directory = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "prices").toFile();
-		if (!directory.exists())
-			FileTools.forceMkdir(directory);
+		if (!directory.exists()) {
+		    FileTools.forceMkdir(directory);
+		}
 
 		serialiser = new JsonExport();
 	}
@@ -119,7 +121,7 @@ public class CollectionEvaluator extends Observable {
 		getEnabledPlugin(MTGCardsProvider.class).listEditions().forEach(ed -> {
 			try {
 				initCache(ed);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error("couldn't load {}", ed, e);
 			}
 		});
@@ -127,10 +129,11 @@ public class CollectionEvaluator extends Observable {
 
 	public void initCache(MTGEdition edition, EditionsShakers ret) throws IOException {
 		try {
-			if (!ret.isEmpty())
-				FileTools.saveFile(new File(directory, edition.getId() + PRICE_JSON),
-						serialiser.toJsonElement(ret).toString());
-		} catch (IOException e) {
+			if (!ret.isEmpty()) {
+			    FileTools.saveFile(new File(directory, edition.getId() + PRICE_JSON),
+			    		serialiser.toJsonElement(ret).toString());
+			}
+		} catch (final IOException e) {
 			logger.error("{} is not found", edition.getId(), e);
 		}
 
@@ -140,7 +143,7 @@ public class CollectionEvaluator extends Observable {
 		var ret = new EditionsShakers();
 		try {
 			ret = getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("{} is not found ", edition.getId(), e);
 		}
 		return ret;
@@ -151,25 +154,27 @@ public class CollectionEvaluator extends Observable {
 	}
 
 	public Date getCacheDate(MTGEdition ed) {
-		var fich = new File(directory, ed.getId() + PRICE_JSON);
+		final var fich = new File(directory, ed.getId() + PRICE_JSON);
 		if (fich.exists()) {
-			var r = loadFromCache(ed);
-			if (!r.isEmpty())
-				return r.getDate();
+			final var r = loadFromCache(ed);
+			if (!r.isEmpty()) {
+			    return r.getDate();
+			}
 		}
 		return null;
 	}
 
 	private synchronized Map<MTGCard, CardShake> prices(MTGEdition ed) {
 
-		if (cache.get(ed) != null)
-			return cache.get(ed);
+		if (cache.get(ed) != null) {
+		    return cache.get(ed);
+		}
 
 		logger.trace("caculate prices for {}", ed);
 
-		var ret = new HashMap<MTGCard, CardShake>();
+		final var ret = new HashMap<MTGCard, CardShake>();
 		try {
-			var fich = new File(directory, ed.getId() + PRICE_JSON);
+			final var fich = new File(directory, ed.getId() + PRICE_JSON);
 			EditionsShakers list;
 			if (fich.exists()) {
 				list = loadFromCache(ed);
@@ -177,10 +182,10 @@ public class CollectionEvaluator extends Observable {
 				logger.trace("{} is not found for {}: {}", fich, ed.getId(), ed.getSet());
 				list = new EditionsShakers();
 			}
-			var shakesByName = list.getShakes().stream()
+			final var shakesByName = list.getShakes().stream()
 					.collect(Collectors.toMap(CardShake::getName, Function.identity(), (left, _) -> left));
-			var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
-			for (MTGCard mc : cards) {
+			final var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
+			for (final MTGCard mc : cards) {
 				var shak = shakesByName.get(mc.getName());
 				if (shak == null) {
 					shak = new CardShake();
@@ -188,12 +193,13 @@ public class CollectionEvaluator extends Observable {
 					shak.setPrice(0.0);
 				}
 
-				if (shak.getPrice().doubleValue() >= minPrice)
-					ret.put(mc, shak);
+				if (shak.getPrice().doubleValue() >= minPrice) {
+				    ret.put(mc, shak);
+				}
 			}
 			setChanged();
 			notifyObservers(ed);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 
@@ -208,11 +214,11 @@ public class CollectionEvaluator extends Observable {
 						FileTools.readFile(new File(directory, ed.getId() + PRICE_JSON), MTGConstants.DEFAULT_ENCODING),
 						EditionsShakers.class);
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error loading {}", ed, e);
 		}
 
-		var eds = new EditionsShakers();
+		final var eds = new EditionsShakers();
 		eds.setEdition(ed);
 		return eds;
 

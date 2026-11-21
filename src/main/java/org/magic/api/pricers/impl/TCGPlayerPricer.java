@@ -23,7 +23,7 @@ import com.google.gson.JsonElement;
 public class TCGPlayerPricer extends AbstractPricesProvider {
 
 	private static final String RESULTS = "results";
-	private MTGHttpClient c = URLTools.newClient();
+	private final MTGHttpClient c = URLTools.newClient();
 
 	@Override
 	public STATUT getStatut() {
@@ -32,22 +32,23 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		var list = new ArrayList<MTGPrice>();
+		final var list = new ArrayList<MTGPrice>();
 
 		var idResults = card.getTcgPlayerId();
-		if (idResults == null)
-			idResults = parseIdFor(card);
+		if (idResults == null) {
+		    idResults = parseIdFor(card);
+		}
 
 		if (idResults == null) {
 			logger.warn("{} found nothing", getName());
 			return list;
 		}
 
-		JsonArray arr = parseResultsFor(idResults);
+		final JsonArray arr = parseResultsFor(idResults);
 		logger.info("{} found {} results", getName(), arr.size());
 
-		for (JsonElement e : arr) {
-			var mp = new MTGPrice();
+		for (final JsonElement e : arr) {
+			final var mp = new MTGPrice();
 			mp.setUrl("https://www.tcgplayer.com/product/" + idResults
 					+ "?partner=MTGCompanion&utm_campaign=affiliate&utm_medium=MTGCompanion&utm_source=MTGCompanion");
 			mp.setCurrency(Currency.getInstance("USD"));
@@ -77,7 +78,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	}
 
 	private JsonArray parseResultsFor(int idResults) throws IOException {
-		var json = """
+		final var json = """
 				{
 				    "filters": {
 				        "term": {
@@ -108,11 +109,12 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 				}
 					""".replace("$MAX", getString("MAX"));
 
-		var jsonResult = c.doPost("https://mp-search-api.tcgplayer.com/v1/product/" + idResults + "/listings",
+		final var jsonResult = c.doPost("https://mp-search-api.tcgplayer.com/v1/product/" + idResults + "/listings",
 				URLTools.toJson(json), Maps.of("content-type", URLTools.HEADER_JSON));
 
-		if (jsonResult == null)
-			return new JsonArray();
+		if (jsonResult == null) {
+		    return new JsonArray();
+		}
 
 		return jsonResult.getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS)
 				.getAsJsonArray();
@@ -120,17 +122,18 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 	private Integer parseIdFor(MTGCard card) throws IOException {
 
-		var setName = card.getEdition().getSet().replace(":", "").replace(" ", "-");
+		final var setName = card.getEdition().getSet().replace(":", "").replace(" ", "-");
 
 		var extra = "";
-		if (card.isShowCase())
-			extra = " (Showcase)";
-		else if (card.isBorderLess())
-			extra = " (Borderless)";
-		else if (card.isExtendedArt())
-			extra = " (Extended Art)";
+		if (card.isShowCase()) {
+		    extra = " (Showcase)";
+		} else if (card.isBorderLess()) {
+		    extra = " (Borderless)";
+		} else if (card.isExtendedArt()) {
+		    extra = " (Extended Art)";
+		}
 
-		var json = """
+		final var json = """
 				{
 					    "algorithm": "",
 					    "from": 0,
@@ -173,13 +176,14 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 					}
 					""".replace("$cardName", card.getName() + extra).replace("$setName", setName);
 
-		var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", URLTools.toJson(json),
+		final var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", URLTools.toJson(json),
 				Maps.of("content-type", URLTools.HEADER_JSON));
-		var arr = res.getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS)
+		final var arr = res.getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS)
 				.getAsJsonArray();
 
-		if (arr.isEmpty())
-			return null;
+		if (arr.isEmpty()) {
+		    return null;
+		}
 
 		return arr.get(0).getAsJsonObject().get("productId").getAsInt();
 	}

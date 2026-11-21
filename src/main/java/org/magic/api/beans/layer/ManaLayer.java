@@ -15,100 +15,103 @@ import org.magic.services.tools.ImageTools;
 import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.StringUtils;
 
 public class ManaLayer extends AbstractLayer{
-    
+
     private String cost;
     private transient BufferedImage manaImage;
     private boolean shadowed = true;
-    
-    
-    
+
+
+
     public ManaLayer(String cost)
     {
 	setCost(cost);
 	setName("Symbol " + cost);
-	
+
     }
-    
+
     public void setShadowed(boolean shadowed) {
 	this.shadowed = shadowed;
     }
-    
+
     public boolean isShadowed() {
 	return shadowed;
     }
-    
-    
-    
+
+
+
     public String getCost() {
 	return cost;
     }
-    
+
     public void setCost(String cost) {
 	this.cost = cost;
 	reload();
     }
-    
+
     @Override
     protected void paintLayer(Graphics2D g2) {
-	
-	if(manaImage==null)
+
+	if(manaImage==null) {
 	    return;
-	
+	}
+
 	if(shadowed) {
-	    	var shadowedImage = ImageTools.createShadow(manaImage, -3,9,3,0.8f);
-	        int padX = (shadowedImage.getWidth() - manaImage.getWidth()) / 2;
-	        int padY = (shadowedImage.getHeight() - manaImage.getHeight()) / 2;
+	    	final var shadowedImage = ImageTools.createShadow(manaImage, -3,9,3,0.8f);
+	        final int padX = (shadowedImage.getWidth() - manaImage.getWidth()) / 2;
+	        final int padY = (shadowedImage.getHeight() - manaImage.getHeight()) / 2;
 	        g2.drawImage(shadowedImage, getX() - padX, getY() - padY, null);
 	}
-	
+
 	g2.drawImage(manaImage, getX(), getY(), getWidth(), getHeight(), null);
-	
+
     }
-    
+
     @Override
     public void reload() {
-	
-	if(StringUtils.isEmpty(cost))
+
+	if(StringUtils.isEmpty(cost)) {
 	    return;
-	
-	
+	}
+
+
         manaImage = ImageTools.joinBufferedImage(parseManaCost(cost));
-        
-        
-      
-        
-        if (manaImage != null) { 
-            
-            int oldWidth = getWidth();
+
+
+
+
+        if (manaImage != null) {
+
+            final int oldWidth = getWidth();
 
             setWidth(manaImage.getWidth());
             setHeight(manaImage.getHeight());
 
             var nx = getX() + oldWidth - getWidth();
-            
-            if(nx<0)
-        	nx=0;
-            
+
+            if(nx<0) {
+		nx=0;
+	    }
+
             setX(nx);
-          } 
-        else 
-        { 
-            setWidth(0); 
-            setHeight(0); 
+          }
+        else
+        {
+            setWidth(0);
+            setHeight(0);
         }
-        
+
     }
-    
+
     private List<Image> parseManaCost(String manaCost) {
 
-        var symbols = new ArrayList<Image>();
+        final var symbols = new ArrayList<Image>();
 
-        var matcher = Pattern.compile("\\{([^}]+)}").matcher(manaCost);
+        final var matcher = Pattern.compile("\\{([^}]+)}").matcher(manaCost);
         while (matcher.find()) {
 
-            var symbol = matcher.group(1);
-            var manaSymbol =ImageTools.resize(IconsProvider.getInstance().getManaSymbol(symbol), 130, 130);
-            
+            final var symbol = matcher.group(1);
+            final var manaSymbol =ImageTools.resize(IconsProvider.getInstance().getManaSymbol(symbol), 130, 130);
+
             if (manaSymbol != null) {
                 symbols.add(manaSymbol);
             }

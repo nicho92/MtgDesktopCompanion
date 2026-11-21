@@ -53,30 +53,31 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JSpinner spinLife;
-	private JSpinner spinPoison;
-	private HandPanel handPanel;
-	private BattleFieldPanel panelBattleField;
+	private final JSpinner spinLife;
+	private final JSpinner spinPoison;
+	private final HandPanel handPanel;
+	private final BattleFieldPanel panelBattleField;
 	private ManaPoolPanel manaPoolPanel;
-	private JPanel panneauDroit;
+	private final JPanel panneauDroit;
 	private JList<AbstractAction> listActions;
-	private JLabel lblPlayer;
+	private final JLabel lblPlayer;
 	private Player player;
-	private LibraryPanel panelLibrary;
-	private GraveyardPanel panelGrave;
-	private JLabel lblThumbnailPics;
-	private LightDescribeCardPanel panneauHaut;
-	private JLabel lblHandCount;
-	private JLabel lblLibraryCount;
+	private final LibraryPanel panelLibrary;
+	private final GraveyardPanel panelGrave;
+	private final JLabel lblThumbnailPics;
+	private final LightDescribeCardPanel panneauHaut;
+	private final JLabel lblHandCount;
+	private final JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
-	private JPanel panelInfo;
+	private final JPanel panelInfo;
 	private TurnsPanel turnsPanel;
-	private ExilPanel exilPanel;
-	private StackPanel stackPanel;
+	private final ExilPanel exilPanel;
+	private final StackPanel stackPanel;
 
 	public static GamePanelGUI getInstance() {
-		if (instance == null)
-			instance = new GamePanelGUI();
+		if (instance == null) {
+		    instance = new GamePanelGUI();
+		}
 
 		return instance;
 	}
@@ -108,7 +109,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		exilPanel.setPlayer(p1);
 		try {
 			lblPlayer.setIcon(new ImageIcon(ImageTools.resize(p1.getAvatar(), 60, 60)));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			lblPlayer.setIcon(MTGConstants.ICON_GAME_PLANESWALKER);
 		}
 	}
@@ -130,17 +131,17 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panneauDroit.add(panelInfo, BorderLayout.WEST);
 		panelInfo.setLayout(new BorderLayout(0, 0));
 
-		var panelActions = new JPanel();
+		final var panelActions = new JPanel();
 		panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
 		panelInfo.add(panelActions, BorderLayout.SOUTH);
-		var gblpanelActions = new GridBagLayout();
+		final var gblpanelActions = new GridBagLayout();
 		gblpanelActions.columnWidths = new int[]{30, 20, 0, 0};
 		gblpanelActions.rowHeights = new int[]{0, 23, 0, 0, 0};
 		gblpanelActions.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gblpanelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panelActions.setLayout(gblpanelActions);
 
-		var btnStart = new JButton(MTGConstants.PLAY_ICON);
+		final var btnStart = new JButton(MTGConstants.PLAY_ICON);
 		btnStart.setToolTipText(capitalize("START"));
 		btnStart.addActionListener(ae -> {
 			GameManager.getInstance().removePlayers();
@@ -157,61 +158,62 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 			clean();
 		});
 
-		var btnSideboard = new JButton(MTGConstants.ICON_IMPORT);
+		final var btnSideboard = new JButton(MTGConstants.ICON_IMPORT);
 		btnSideboard.setToolTipText(capitalize("SIDEBOARD"));
 		btnSideboard.addActionListener(_ -> {
-			var gui = new DeckSideBoardSwitcherDialog(player.getDeck());
+			final var gui = new DeckSideBoardSwitcherDialog(player.getDeck());
 			gui.setVisible(true);
 			player.setDeck(gui.getDeck());
 		});
 
-		var btnNewGame = new JButton(MTGConstants.ICON_OPEN);
+		final var btnNewGame = new JButton(MTGConstants.ICON_OPEN);
 		btnNewGame.setToolTipText(capitalize("CHOOSE_DECK"));
 		btnNewGame.addActionListener(_ -> {
-			var choose = new JDeckChooserDialog();
+			final var choose = new JDeckChooserDialog();
 			choose.setVisible(true);
 			try {
-				MTGDeck deck = choose.getSelectedDeck();
+				final MTGDeck deck = choose.getSelectedDeck();
 				if (deck != null) {
 
-					var p1 = MTGControler.getInstance().getProfilPlayer();
+					final var p1 = MTGControler.getInstance().getProfilPlayer();
 					p1.setDeck(deck);
 
-					if (MTGDeckManager.isCommander(deck))
-						p1.setLife(40);
-					else
-						p1.setLife(20);
+					if (MTGDeckManager.isCommander(deck)) {
+					    p1.setLife(40);
+					} else {
+					    p1.setLife(20);
+					}
 
 					setPlayer(p1);
 					GameManager.getInstance().initGame();
 
 				}
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Error loading deck", e);
 			}
 		});
-		var gbcbtnNewGame = new GridBagConstraints();
+		final var gbcbtnNewGame = new GridBagConstraints();
 		gbcbtnNewGame.fill = GridBagConstraints.BOTH;
 		gbcbtnNewGame.insets = new Insets(0, 0, 5, 5);
 		gbcbtnNewGame.gridx = 0;
 		gbcbtnNewGame.gridy = 0;
 		panelActions.add(btnNewGame, gbcbtnNewGame);
-		var gbcbtnSideboard = new GridBagConstraints();
+		final var gbcbtnSideboard = new GridBagConstraints();
 		gbcbtnSideboard.fill = GridBagConstraints.HORIZONTAL;
 		gbcbtnSideboard.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSideboard.gridx = 1;
 		gbcbtnSideboard.gridy = 0;
 		panelActions.add(btnSideboard, gbcbtnSideboard);
 
-		var gbcbtnStart = new GridBagConstraints();
+		final var gbcbtnStart = new GridBagConstraints();
 		gbcbtnStart.fill = GridBagConstraints.HORIZONTAL;
 		gbcbtnStart.insets = new Insets(0, 0, 5, 0);
 		gbcbtnStart.gridx = 2;
 		gbcbtnStart.gridy = 0;
 		panelActions.add(btnStart, gbcbtnStart);
 
-		var panel1 = new JPanel();
-		var gbcpanel1 = new GridBagConstraints();
+		final var panel1 = new JPanel();
+		final var gbcpanel1 = new GridBagConstraints();
 		gbcpanel1.gridheight = 2;
 		gbcpanel1.gridwidth = 3;
 		gbcpanel1.insets = new Insets(0, 0, 5, 0);
@@ -221,12 +223,12 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panelActions.add(panel1, gbcpanel1);
 		panel1.setLayout(new BorderLayout(0, 0));
 
-		var panelPoolandDescribes = new JPanel();
+		final var panelPoolandDescribes = new JPanel();
 		panelInfo.add(panelPoolandDescribes, BorderLayout.CENTER);
 
 		panelPoolandDescribes.setLayout(new BorderLayout(0, 0));
 
-		var panelPoolandHandsLib = new JPanel();
+		final var panelPoolandHandsLib = new JPanel();
 		panelPoolandDescribes.add(panelPoolandHandsLib, BorderLayout.NORTH);
 		panelPoolandHandsLib.setLayout(new BorderLayout(0, 0));
 
@@ -234,7 +236,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		manaPoolPanel.setMinimumSize(new Dimension(0, 0));
 		panelPoolandHandsLib.add(manaPoolPanel, BorderLayout.CENTER);
 
-		var panelHandLib = new JPanel();
+		final var panelHandLib = new JPanel();
 		panelPoolandHandsLib.add(panelHandLib, BorderLayout.SOUTH);
 		panelHandLib.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
@@ -251,10 +253,10 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		lblLibraryCount.setIcon(MTGConstants.ICON_GAME_LIBRARY);
 		panelHandLib.add(lblLibraryCount);
 
-		var lifePanel = new JPanel();
+		final var lifePanel = new JPanel();
 		panelPoolandHandsLib.add(lifePanel, BorderLayout.WEST);
 		lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
-		var gbllifePanel = new GridBagLayout();
+		final var gbllifePanel = new GridBagLayout();
 		gbllifePanel.columnWidths = new int[]{60, 0};
 		gbllifePanel.rowHeights = new int[]{64, 0, 0};
 		gbllifePanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
@@ -264,22 +266,22 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		lblPlayer = new JLabel("");
 		lblPlayer.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblPlayer.setIcon(MTGConstants.ICON_GAME_PLANESWALKER);
-		var gbclblPlayer = new GridBagConstraints();
+		final var gbclblPlayer = new GridBagConstraints();
 		gbclblPlayer.anchor = GridBagConstraints.WEST;
 		gbclblPlayer.insets = new Insets(0, 0, 5, 0);
 		gbclblPlayer.gridx = 0;
 		gbclblPlayer.gridy = 0;
 		lifePanel.add(lblPlayer, gbclblPlayer);
 
-		var panel = new JPanel();
-		var gbcpanel = new GridBagConstraints();
+		final var panel = new JPanel();
+		final var gbcpanel = new GridBagConstraints();
 		gbcpanel.anchor = GridBagConstraints.NORTHWEST;
 		gbcpanel.gridx = 0;
 		gbcpanel.gridy = 1;
 		lifePanel.add(panel, gbcpanel);
 		panel.setLayout(new GridLayout(2, 2, 0, 0));
 
-		var lblLife = new JLabel("");
+		final var lblLife = new JLabel("");
 		panel.add(lblLife);
 		lblLife.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLife.setIcon(MTGConstants.ICON_GAME_LIFE);
@@ -288,7 +290,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panel.add(spinLife);
 		spinLife.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 17));
 
-		var lblPoison = new JLabel("");
+		final var lblPoison = new JLabel("");
 		panel.add(lblPoison);
 		lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPoison.setIcon(MTGConstants.ICON_GAME_POISON);
@@ -298,27 +300,29 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		spinPoison.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 15));
 
 		spinPoison.addChangeListener(_ -> {
-			if (player != null)
-				player.setPoisonCounter((int) spinPoison.getValue());
+			if (player != null) {
+			    player.setPoisonCounter((int) spinPoison.getValue());
+			}
 
 		});
 		spinLife.addChangeListener(_ -> {
-			if (player != null)
-				player.setLife((int) spinLife.getValue());
+			if (player != null) {
+			    player.setLife((int) spinLife.getValue());
+			}
 		});
 
-		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		final var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
 
 		listActions = new JList<>();
 		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listActions.setModel(new DefaultListModel<>());
-		var scrollActions = new JScrollPane(listActions);
+		final var scrollActions = new JScrollPane(listActions);
 		scrollActions.setPreferredSize(
 				new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth(), 0));
 		tabbedPane.addTab(capitalize("EVENTS"), null, scrollActions, null);
 
-		var pane = new JPanel();
+		final var pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 
 		panneauHaut = new LightDescribeCardPanel();
@@ -327,7 +331,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		tabbedPane.addTab(capitalize("DESCRIPTION"), MTGConstants.ICON_TAB_DETAILS, pane, null);
 		tabbedPane.addTab(capitalize("STACK"), MTGConstants.ICON_TAB_DECK, stackPanel, null);
 
-		var panelPics = new JPanel();
+		final var panelPics = new JPanel();
 		tabbedPane.addTab(capitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, panelPics, null);
 		panelPics.setLayout(new BorderLayout(0, 0));
 
@@ -336,11 +340,11 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		lblThumbnailPics.setHorizontalAlignment(SwingConstants.CENTER);
 		panelPics.add(lblThumbnailPics);
 
-		var panelLibraryAndGrave = new JPanel();
+		final var panelLibraryAndGrave = new JPanel();
 		panneauDroit.add(panelLibraryAndGrave, BorderLayout.EAST);
 		panelLibraryAndGrave.setLayout(new BorderLayout(0, 0));
 
-		var panelDeck = new JPanel();
+		final var panelDeck = new JPanel();
 		panelLibraryAndGrave.add(panelDeck, BorderLayout.NORTH);
 
 		panelLibrary = new LibraryPanel();
@@ -364,7 +368,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 
 			}
 		});
-		var js = new JScrollPane();
+		final var js = new JScrollPane();
 		panelGrave = new GraveyardPanel();
 		js.setViewportView(panelGrave);
 		panelLibraryAndGrave.add(js);
@@ -373,7 +377,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panneauDroit.add(panelBattleField, BorderLayout.CENTER);
 		panelBattleField.setLayout(null);
 
-		var panelBottom = new JPanel();
+		final var panelBottom = new JPanel();
 		panneauDroit.add(panelBottom, BorderLayout.SOUTH);
 
 		handPanel = new HandPanel();
@@ -383,7 +387,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 		panelBottom.setLayout(new BorderLayout(0, 0));
 		handPanel.setRupture(7);
 
-		var scrollPane = new JScrollPane(handPanel);
+		final var scrollPane = new JScrollPane(handPanel);
 		panelBottom.add(scrollPane);
 		scrollPane.setPreferredSize(new Dimension(2, handPanel.getCardHeight()));
 
@@ -452,9 +456,10 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 	public void describeCard(DisplayableCard mc) {
 
 		panneauHaut.setCard(mc.getMagicCard());
-		if (mc.getFullResPics() != null)
-			lblThumbnailPics
-					.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, Image.SCALE_SMOOTH)));
+		if (mc.getFullResPics() != null) {
+		    lblThumbnailPics
+		    		.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, Image.SCALE_SMOOTH)));
+		}
 	}
 
 	public JLabel getLblHandCount() {

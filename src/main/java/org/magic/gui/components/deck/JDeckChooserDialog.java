@@ -60,7 +60,7 @@ public class JDeckChooserDialog extends JDialog {
 		setSize(950, 600);
 
 		manager = new MTGDeckManager();
-		var decksModel = new DeckSelectionTableModel();
+		final var decksModel = new DeckSelectionTableModel();
 		manager.addObserver((_, d) -> decksModel.addItem((MTGDeck) d));
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 
@@ -76,7 +76,7 @@ public class JDeckChooserDialog extends JDialog {
 			}
 		});
 
-		var sw2 = new AbstractObservableWorker<List<MTGDeck>, MTGDeck, MTGDao>(buzy,
+		final var sw2 = new AbstractObservableWorker<List<MTGDeck>, MTGDeck, MTGDao>(buzy,
 				MTG.getEnabledPlugin(MTGDao.class)) {
 
 			@Override
@@ -105,8 +105,9 @@ public class JDeckChooserDialog extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent event) {
 
-				if (UITools.getTableSelections(table, 0).isEmpty())
-					return;
+				if (UITools.getTableSelections(table, 0).isEmpty()) {
+				    return;
+				}
 
 				selectedDeck = UITools.getTableSelection(table, 0);
 				tree.setDeck(selectedDeck);
@@ -127,21 +128,22 @@ public class JDeckChooserDialog extends JDialog {
 
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
-		var panelBas = new JPanel();
+		final var panelBas = new JPanel();
 		getContentPane().add(panelBas, BorderLayout.SOUTH);
 
 		btnSelect = new JButton(MTGConstants.ICON_OPEN);
 		btnSelect.setEnabled(selectedDeck != null);
 		btnSelect.setToolTipText(capitalize("OPEN"));
 		btnSelect.addActionListener(_ -> {
-			if (selectedDeck == null)
-				MTGControler.getInstance().notify(new NullPointerException(capitalize("CHOOSE_DECK")));
-			else
-				dispose();
+			if (selectedDeck == null) {
+			    MTGControler.getInstance().notify(new NullPointerException(capitalize("CHOOSE_DECK")));
+			} else {
+			    dispose();
+			}
 		});
 		panelBas.add(btnSelect);
 
-		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+		final var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.setToolTipText(capitalize("CANCEL"));
 		btnCancel.addActionListener(_ -> {
 			selectedDeck = null;
@@ -150,21 +152,22 @@ public class JDeckChooserDialog extends JDialog {
 
 		panelBas.add(btnCancel);
 
-		var btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		final var btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnDelete.setToolTipText(capitalize("DELETE"));
 		btnDelete.addActionListener(_ -> {
 
-			if (selectedDeck == null)
-				return;
+			if (selectedDeck == null) {
+			    return;
+			}
 
-			int res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_DELETE", selectedDeck.getName()),
+			final int res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_DELETE", selectedDeck.getName()),
 					capitalize("CONFIRMATION") + " ?", JOptionPane.YES_NO_OPTION);
 
 			if (res == JOptionPane.YES_OPTION) {
 				try {
 					manager.remove(selectedDeck);
 					((DeckSelectionTableModel) table.getModel()).removeItem(selectedDeck);
-				} catch (IOException e1) {
+				} catch (final IOException e1) {
 					MTGControler.getInstance().notify(e1);
 				}
 			}
@@ -172,7 +175,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		panelBas.add(btnDelete);
 
-		var panelRight = new JSplitPane();
+		final var panelRight = new JSplitPane();
 		panelRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		getContentPane().add(panelRight, BorderLayout.EAST);
 
@@ -182,7 +185,7 @@ public class JDeckChooserDialog extends JDialog {
 
 		panelRight.setDividerLocation(300);
 
-		var panelTree = new JPanel();
+		final var panelTree = new JPanel();
 		panelTree.setLayout(new BorderLayout(0, 0));
 		panelRight.setTopComponent(panelTree);
 		tree = new DeckTree();

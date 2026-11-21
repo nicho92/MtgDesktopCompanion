@@ -16,25 +16,25 @@ public class DeckTreeCellRenderer implements TreeCellRenderer {
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,
 			int row, boolean hasFocus) {
-		var lab = new JLabel();
+		final var lab = new JLabel();
 		lab.setBackground(tree.getBackground());
 		lab.setForeground(tree.getForeground());
 
-		var node = (DefaultMutableTreeNode) value;
+		final var node = (DefaultMutableTreeNode) value;
 
-		if (node.getUserObject() instanceof String s) {
+		if (node.getUserObject() instanceof final String s) {
 
 			lab.setText(s);
 			try {
-				var ic = MTGConstants.getManaSymbol(s);
+				final var ic = MTGConstants.getManaSymbol(s);
 				lab.setIcon(ImageTools.resize(ic, 18, 18));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				// do nothing
 			}
 
 		}
 
-		if (node.getUserObject() instanceof Map.Entry entry) {
+		if (node.getUserObject() instanceof final Map.Entry entry) {
 			lab.setText(entry.getValue() + " " + entry.getKey());
 		}
 

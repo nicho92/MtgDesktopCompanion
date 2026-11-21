@@ -32,7 +32,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 		try {
 			setSize(MTGControler.getInstance().getPictureProviderDimension().getDimension());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("couldn't set size", e);
 		}
 	}
@@ -40,7 +40,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
 		try {
 			return URLTools.extractAsImage(generateUrl(mc, false));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return null;
 		}
 	}
@@ -53,14 +53,16 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			return getEnabledPlugin(MTGPictureCache.class).getItem(mc);
 		}
 
-		if (mc == null)
-			return getBackPicture(mc);
+		if (mc == null) {
+		    return getBackPicture(mc);
+		}
 
 		BufferedImage bufferedImage = null;
-		if (mc.isSpecialTokenOrExtra())
-			bufferedImage = MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
-		else
-			bufferedImage = getOnlinePicture(mc);
+		if (mc.isSpecialTokenOrExtra()) {
+		    bufferedImage = MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
+		} else {
+		    bufferedImage = getOnlinePicture(mc);
+		}
 
 		if (bufferedImage != null) {
 			getEnabledPlugin(MTGPictureCache.class).put(bufferedImage, mc);
@@ -77,7 +79,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	@Override
 	public BufferedImage getForeignNamePicture(MTGCardNames fn, MTGCard mc) throws IOException {
-		var foreignCard = mc.toForeign(fn);
+		final var foreignCard = mc.toForeign(fn);
 		return getPicture(foreignCard);
 	}
 
@@ -91,31 +93,35 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	public BufferedImage getBackPicture(MTGCard mc) {
 		try {
 
-			if (mc != null && mc.getEdition() != null && mc.getEdition().getId().equals("30A"))
-				return resizeCard(ImageTools.readLocal(MTGConstants.ANNIVERSARY_BACK_CARD), newW, newH);
+			if (mc != null && mc.getEdition() != null && mc.getEdition().getId().equals("30A")) {
+			    return resizeCard(ImageTools.readLocal(MTGConstants.ANNIVERSARY_BACK_CARD), newW, newH);
+			}
 
-			if (mc != null && mc.getEdition() != null && mc.getEdition().getId().equals("CED"))
-				return resizeCard(ImageTools.readLocal(MTGConstants.COLLECTOR_BACK_CARD), newW, newH);
+			if (mc != null && mc.getEdition() != null && mc.getEdition().getId().equals("CED")) {
+			    return resizeCard(ImageTools.readLocal(MTGConstants.COLLECTOR_BACK_CARD), newW, newH);
+			}
 
 			return resizeCard(ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD), newW, newH);
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 			return null;
 		}
 	}
 
 	private BufferedImage resizeCard(BufferedImage img, int newW, int newH) {
-		if (img == null)
-			return null;
+		if (img == null) {
+		    return null;
+		}
 		return ImageTools.resize(img, newH, newW);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

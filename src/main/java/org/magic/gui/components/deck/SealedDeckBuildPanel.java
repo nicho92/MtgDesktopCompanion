@@ -134,14 +134,14 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		panel = new JPanel();
 		panelControl.add(panel, BorderLayout.NORTH);
-		var gblpanel = new GridBagLayout();
+		final var gblpanel = new GridBagLayout();
 		gblpanel.columnWidths = new int[]{105, 65, 0, 0, 0};
 		gblpanel.rowHeights = new int[]{41, 0, 0};
 		gblpanel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gblpanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gblpanel);
 		cboEditions = UITools.createComboboxEditions();
-		var gbccboEditions = new GridBagConstraints();
+		final var gbccboEditions = new GridBagConstraints();
 		gbccboEditions.fill = GridBagConstraints.HORIZONTAL;
 		gbccboEditions.gridwidth = 4;
 		gbccboEditions.insets = new Insets(0, 0, 5, 0);
@@ -150,7 +150,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		panel.add(cboEditions, gbccboEditions);
 
 		btnAddBoosters = new JButton(MTGConstants.ICON_NEW);
-		var gbcbtnAddBoosters = new GridBagConstraints();
+		final var gbcbtnAddBoosters = new GridBagConstraints();
 		gbcbtnAddBoosters.anchor = GridBagConstraints.NORTH;
 		gbcbtnAddBoosters.insets = new Insets(0, 0, 0, 5);
 		gbcbtnAddBoosters.gridx = 0;
@@ -158,19 +158,19 @@ public class SealedDeckBuildPanel extends JPanel {
 		panel.add(btnAddBoosters, gbcbtnAddBoosters);
 
 		btnOpen = new JButton(MTGConstants.ICON_OPEN);
-		var gbcbtnOpen = UITools.createGridBagConstraints(GridBagConstraints.NORTH, null, 1, 1);
+		final var gbcbtnOpen = UITools.createGridBagConstraints(GridBagConstraints.NORTH, null, 1, 1);
 		panel.add(btnOpen, gbcbtnOpen);
 		btnOpen.setEnabled(false);
 
 		btnSaveDeck = new JButton(MTGConstants.ICON_SAVE);
-		var gbcbtnSaveDeck = new GridBagConstraints();
+		final var gbcbtnSaveDeck = new GridBagConstraints();
 		gbcbtnSaveDeck.insets = new Insets(0, 0, 0, 5);
 		gbcbtnSaveDeck.gridx = 2;
 		gbcbtnSaveDeck.gridy = 1;
 		panel.add(btnSaveDeck, gbcbtnSaveDeck);
 
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
-		var gbclblLoading = new GridBagConstraints();
+		final var gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridx = 3;
 		gbclblLoading.gridy = 1;
 		panel.add(lblLoading, gbclblLoading);
@@ -208,7 +208,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		rdioraritySort.addActionListener(_ -> sort(new RaritySorter()));
 		panelSorters.add(rdioraritySort);
 
-		var groupSorter = new ButtonGroup();
+		final var groupSorter = new ButtonGroup();
 		groupSorter.add(rdioCmcSortButton);
 		groupSorter.add(rdiocolorSort);
 		groupSorter.add(rdiotypeSort);
@@ -216,7 +216,7 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		panelAnalyseChooser = new JPanel();
 		panelSorters.add(panelAnalyseChooser);
-		var flowLayout = (FlowLayout) panelAnalyseChooser.getLayout();
+		final var flowLayout = (FlowLayout) panelAnalyseChooser.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 
 		rdioBoosterAnalyse = new JRadioButton("Booster");
@@ -229,7 +229,7 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		panelAnalyseChooser.add(rdioDeckAnalyse);
 
-		var groupAnalyser = new ButtonGroup();
+		final var groupAnalyser = new ButtonGroup();
 		groupAnalyser.add(rdioBoosterAnalyse);
 		groupAnalyser.add(rdioDeckAnalyse);
 
@@ -306,17 +306,17 @@ public class SealedDeckBuildPanel extends JPanel {
 				new DefaultComboBoxModel<>(new String[]{"Plains", "Island", "Swamp", "Mountain", "Forest"}));
 		panelLands.add(cboLands);
 
-		var btnAddLands = new JButton("+");
+		final var btnAddLands = new JButton("+");
 		btnAddLands.addActionListener(_ -> addLands());
 		panelLands.add(btnAddLands);
 
 	}
 
 	private void addLands() {
-		var qte = Integer.parseInt(txtNumberLand.getText());
-		var land = cboLands.getSelectedItem().toString();
+		final var qte = Integer.parseInt(txtNumberLand.getText());
+		final var land = cboLands.getSelectedItem().toString();
 
-		var wk = new AbstractObservableWorker<MTGCard, Void, MTGCardsProvider>(lblLoading,
+		final var wk = new AbstractObservableWorker<MTGCard, Void, MTGCardsProvider>(lblLoading,
 				getEnabledPlugin(MTGCardsProvider.class)) {
 
 			@Override
@@ -327,10 +327,10 @@ public class SealedDeckBuildPanel extends JPanel {
 			@Override
 			protected void notifyEnd() {
 
-				var mc = getResult();
+				final var mc = getResult();
 				for (var i = 0; i < qte; i++) {
 					deck.add(mc);
-					var c = createCard(mc);
+					final var c = createCard(mc);
 					panelDeck.addComponent(c);
 					panelDeck.postTreatment(c);
 				}
@@ -364,14 +364,14 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		lblLoading.start();
 		list = new ArrayList<>();
-		SwingWorker<Void, MTGBooster> sw = new SwingWorker<>() {
+		final SwingWorker<Void, MTGBooster> sw = new SwingWorker<>() {
 
 			@Override
 			protected void process(List<MTGBooster> chunks) {
 
 				chunks.forEach(e -> {
 					column++;
-					for (MTGCard mc : e.getCards()) {
+					for (final MTGCard mc : e.getCards()) {
 						list.add(mc);
 						panelOpenedBooster.addComponent(createCard(mc), column);
 					}
@@ -390,14 +390,15 @@ public class SealedDeckBuildPanel extends JPanel {
 			@Override
 			protected Void doInBackground() throws Exception {
 				column = 0;
-				for (var entry : model.getItems()) {
+				for (final var entry : model.getItems()) {
 					try {
-						var b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(entry.getLeft(),
+						final var b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(entry.getLeft(),
 								entry.getMiddle(), entry.getRight());
-						for (var booster : b)
-							publish(booster);
+						for (final var booster : b) {
+						    publish(booster);
+						}
 
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.error(e);
 						lblLoading.end();
 					}
@@ -412,7 +413,7 @@ public class SealedDeckBuildPanel extends JPanel {
 	}
 
 	private DisplayableCard createCard(MTGCard mc) {
-		var c = new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true, false);
+		final var c = new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true, false);
 		c.addObserver(panelDetail);
 		return c;
 
@@ -420,13 +421,14 @@ public class SealedDeckBuildPanel extends JPanel {
 
 	public void sort(MTGComparator<MTGCard> sorter) {
 
-		if (list == null)
-			return;
+		if (list == null) {
+		    return;
+		}
 
 		Collections.sort(list, sorter);
 		panelOpenedBooster.clear();
-		for (MTGCard mc : list) {
-			DisplayableCard c = createCard(mc);
+		for (final MTGCard mc : list) {
+			final DisplayableCard c = createCard(mc);
 			panelOpenedBooster.addComponent(c, sorter.getWeight(mc));
 		}
 
@@ -451,10 +453,10 @@ public class SealedDeckBuildPanel extends JPanel {
 	protected void save() {
 
 		try {
-			String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", deck.getName());
+			final String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", deck.getName());
 			deck.setName(name);
 			deckManager.saveDeck(deck);
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			MTGControler.getInstance().notify(ex);
 		}
 	}

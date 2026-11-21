@@ -14,12 +14,12 @@ import org.magic.services.tools.UITools;
 public class TransactionTotalPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel totalBuy;
-	private JLabel totalSell;
-	private JLabel total;
-	private JLabel selectionBuy;
-	private JLabel selectionSell;
-	private JLabel totalSelection;
+	private final JLabel totalBuy;
+	private final JLabel totalSell;
+	private final JLabel total;
+	private final JLabel selectionBuy;
+	private final JLabel selectionSell;
+	private final JLabel totalSelection;
 	private List<Transaction> entries;
 	private transient TableModel model;
 
@@ -43,8 +43,9 @@ public class TransactionTotalPanel extends JPanel {
 
 	public void calulate(List<Transaction> entries, TableModel model) {
 
-		if (entries == null)
-			return;
+		if (entries == null) {
+		    return;
+		}
 
 		this.entries = entries;
 		this.model = model;
@@ -52,31 +53,34 @@ public class TransactionTotalPanel extends JPanel {
 		double totalS = 0;
 		double totalB = 0;
 
-		for (Transaction e : entries) {
-			if (e.getTypeTransaction() == EnumTransactionDirection.BUY)
-				totalB += e.total();
-			else
-				totalS += e.total();
+		for (final Transaction e : entries) {
+			if (e.getTypeTransaction() == EnumTransactionDirection.BUY) {
+			    totalB += e.total();
+			} else {
+			    totalS += e.total();
+			}
 		}
 
 		if (entries.size() < model.getRowCount()) {
 			selectionBuy.setText(UITools.formatDouble(totalB));
 			selectionSell.setText(UITools.formatDouble(totalS));
 			totalSelection.setText(": " + UITools.formatDouble(totalS - totalB) + ")");
-			if ((totalS - totalB) > 0)
-				totalSelection.setIcon(MTGConstants.ICON_UP);
-			else
-				totalSelection.setIcon(MTGConstants.ICON_DOWN);
+			if ((totalS - totalB) > 0) {
+			    totalSelection.setIcon(MTGConstants.ICON_UP);
+			} else {
+			    totalSelection.setIcon(MTGConstants.ICON_DOWN);
+			}
 
 		} else {
 			totalBuy.setText(UITools.formatDouble(totalB));
 			totalSell.setText(UITools.formatDouble(totalS));
 			total.setText(": " + UITools.formatDouble(totalS - totalB));
 
-			if ((totalS - totalB) > 0)
-				total.setIcon(MTGConstants.ICON_UP);
-			else
-				total.setIcon(MTGConstants.ICON_DOWN);
+			if ((totalS - totalB) > 0) {
+			    total.setIcon(MTGConstants.ICON_UP);
+			} else {
+			    total.setIcon(MTGConstants.ICON_DOWN);
+			}
 		}
 	}
 

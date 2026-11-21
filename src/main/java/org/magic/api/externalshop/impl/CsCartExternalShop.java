@@ -45,9 +45,9 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	private static final String ID_CATEG = "ID_CATEG_";
 	private static final String ID_PAY = "ID_PAYMENT_";
 
-	private TCache<Category> cacheCateg = new TCache<>("categ");
+	private final TCache<Category> cacheCateg = new TCache<>("categ");
 
-	private MTGHttpClient client;
+	private final MTGHttpClient client;
 
 	@Override
 	public STATUT getStatut() {
@@ -59,7 +59,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	}
 
 	private EnumItems parseCategory(Category category) {
-		for (var e : getProperties().entrySet()) {
+		for (final var e : getProperties().entrySet()) {
 			if (e.getValue().toString().equalsIgnoreCase("" + category.getIdCategory())) {
 				return EnumItems.valueOf(e.getKey().toString().replace(ID_CATEG, ""));
 			}
@@ -70,7 +70,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	private RequestBuilder getBuilder(String endpoint, METHOD m) {
 
-		var auth = "Basic " + CryptoUtils
+		final var auth = "Basic " + CryptoUtils
 				.toBase64((getAuthenticator().get("EMAIL") + ":" + getAuthenticator().get("API_KEY")).getBytes());
 
 		return RequestBuilder.build().setClient(client).method(m)
@@ -80,12 +80,14 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
-		for (var k : EnumItems.values())
-			m.put(ID_CATEG + k.name(), new MTGProperty("", "default id category for " + k));
+		final var m = super.getDefaultAttributes();
+		for (final var k : EnumItems.values()) {
+		    m.put(ID_CATEG + k.name(), new MTGProperty("", "default id category for " + k));
+		}
 
-		for (var k : EnumPaymentProvider.values())
-			m.put(ID_PAY + k.name(), new MTGProperty("", "default id payment for " + k));
+		for (final var k : EnumPaymentProvider.values()) {
+		    m.put(ID_PAY + k.name(), new MTGProperty("", "default id payment for " + k));
+		}
 
 		return m;
 	}
@@ -97,11 +99,11 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Category> listCategories() throws IOException {
-		var ret = getBuilder("api/categories", METHOD.GET).toJson();
+		final var ret = getBuilder("api/categories", METHOD.GET).toJson();
 
 		ret.getAsJsonObject().get("categories").getAsJsonArray().forEach(je -> {
-			var jo = je.getAsJsonObject();
-			var c = new Category(jo.get("category_id").getAsInt(), jo.get("category").getAsString());
+			final var jo = je.getAsJsonObject();
+			final var c = new Category(jo.get("category_id").getAsInt(), jo.get("category").getAsString());
 			cacheCateg.put(c.getIdCategory(), c);
 		});
 		return cacheCateg.values();
@@ -109,8 +111,8 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		var list = new ArrayList<Contact>();
-		var ret = getBuilder(API_USERS, METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).toJson();
+		final var list = new ArrayList<Contact>();
+		final var ret = getBuilder(API_USERS, METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).toJson();
 
 		ret.getAsJsonObject().get(USERS).getAsJsonArray().forEach(je -> list.add(buildContact(je.getAsJsonObject())));
 		return list;
@@ -118,15 +120,15 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
-		var list = new ArrayList<MTGProduct>();
-		var build = getBuilder(API_PRODUCTS, METHOD.GET);
+		final var list = new ArrayList<MTGProduct>();
+		final var build = getBuilder(API_PRODUCTS, METHOD.GET);
 
 		if (!StringUtils.isEmpty(name)) {
 			build.addContent("pname", "Y");
 			build.addContent("q", name);
 		}
 
-		var ret = build.toJson();
+		final var ret = build.toJson();
 
 		ret.getAsJsonObject().get(PRODUCTS).getAsJsonArray()
 				.forEach(je -> list.add(buildProduct(je.getAsJsonObject())));
@@ -136,12 +138,12 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
-		var list = new ArrayList<Transaction>();
-		var ret = getBuilder(API_VENDORS + getAuthenticator().get(COMPANY_ID) + "/orders", METHOD.GET).toJson();
+		final var list = new ArrayList<Transaction>();
+		final var ret = getBuilder(API_VENDORS + getAuthenticator().get(COMPANY_ID) + "/orders", METHOD.GET).toJson();
 		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je -> {
 			try {
 				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsString()));
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				logger.error("Error getting transaction {}", je.getAsJsonObject().get(ORDER_ID));
 			}
 		});
@@ -150,12 +152,12 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
-		var list = new ArrayList<Transaction>();
-		var ret = getBuilder(API_ORDERS, METHOD.GET).addContent("user_id", String.valueOf(c.getId())).toJson();
+		final var list = new ArrayList<Transaction>();
+		final var ret = getBuilder(API_ORDERS, METHOD.GET).addContent("user_id", String.valueOf(c.getId())).toJson();
 		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je -> {
 			try {
 				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsString()));
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				logger.error("Error getting transaction {}", je.getAsJsonObject().get(ORDER_ID));
 			}
 		});
@@ -164,16 +166,16 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected List<MTGStockItem> loadStock(String search) throws IOException {
-		var endpoint = API_VENDORS + getAuthenticator().get(COMPANY_ID) + "/products/";
+		final var endpoint = API_VENDORS + getAuthenticator().get(COMPANY_ID) + "/products/";
 
-		var build = getBuilder(endpoint, METHOD.GET);
+		final var build = getBuilder(endpoint, METHOD.GET);
 
 		if (!StringUtils.isEmpty(search)) {
 			build.addContent("pname", "Y");
 			build.addContent("q", search);
 		}
 
-		var list = new ArrayList<MTGStockItem>();
+		final var list = new ArrayList<MTGStockItem>();
 
 		build.toJson().getAsJsonObject().get(PRODUCTS).getAsJsonArray()
 				.forEach(je -> list.add(buildStockItem(je.getAsJsonObject())));
@@ -184,23 +186,23 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 		try {
 		    jo = getBuilder(API_PRODUCTS + "/" + jo.get("product_id").getAsLong(), METHOD.GET).toJson().getAsJsonObject();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 		    logger.error(e);
 		}
 
-		var product = ProductFactory.createDefaultProduct(EnumItems.SEALED);
+		final var product = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 		product.setProductId(jo.get("product_id").getAsLong());
 		product.setName(jo.get("product").getAsString());
 		try {
 			product.setUrl(jo.get("main_pair").getAsJsonObject().get("detailed").getAsJsonObject().get("image_path")
 					.getAsString());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("error getting image url for {}", product.getName());
 		}
 
 		try {
 			product.setCategory(getCategoryById(jo.get("main_category").getAsInt()));
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			logger.error("error getting category for {}", product.getName());
 		}
 
@@ -210,11 +212,11 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	}
 
 	private MTGStockItem buildStockItem(JsonObject req) {
-		var product = buildProduct(req.getAsJsonObject());
-		var item = ProductFactory.generateStockItem(product);
+		final var product = buildProduct(req.getAsJsonObject());
+		final var item = ProductFactory.generateStockItem(product);
 		try {
 			item.setLanguage(req.get("lang_code").getAsString());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
@@ -226,7 +228,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	}
 
 	private Contact buildContact(JsonObject jo) {
-		var c = new Contact();
+		final var c = new Contact();
 		c.setId(jo.get("user_id").getAsInt());
 		c.setActive(jo.get("status").getAsString().equalsIgnoreCase("A"));
 		c.setLastName(jo.get("lastname").getAsString());
@@ -237,26 +239,28 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	}
 
 	private Transaction buildTransaction(JsonObject jo) {
-		var t = new Transaction();
+		final var t = new Transaction();
 		t.setSourceShopId(jo.get(ORDER_ID).getAsString());
 		t.setSourceShopName(getName());
 		t.setDateCreation(new Date(jo.get("timestamp").getAsLong() * 1000));
 		try {
 		    t.setContact(buildContact(
 		    		getBuilder(API_USERS + "/" + jo.get("issuer_id").getAsInt(), METHOD.GET).toJson().getAsJsonObject()));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 		    logger.error(e);
 		}
 		t.setId(jo.get(ORDER_ID).getAsInt());
 
-		if (jo.get("notes").isJsonNull())
-			t.setMessage(jo.get("notes").getAsString());
+		if (jo.get("notes").isJsonNull()) {
+		    t.setMessage(jo.get("notes").getAsString());
+		}
 
 		if (!jo.get("payment_method").isJsonNull()) {
-			var objP = jo.get("payment_method").getAsJsonObject();
+			final var objP = jo.get("payment_method").getAsJsonObject();
 
-			if (objP.get("description").getAsString().toLowerCase().contains("visa"))
-				t.setPaymentProvider(EnumPaymentProvider.VISA);
+			if (objP.get("description").getAsString().toLowerCase().contains("visa")) {
+			    t.setPaymentProvider(EnumPaymentProvider.VISA);
+			}
 
 		}
 
@@ -266,13 +270,13 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 			try {
 
-				var ship = getBuilder("api/shipments", METHOD.GET).addContent(ORDER_ID, jo.get(ORDER_ID).getAsString())
+				final var ship = getBuilder("api/shipments", METHOD.GET).addContent(ORDER_ID, jo.get(ORDER_ID).getAsString())
 						.toJson().getAsJsonObject().get("shipments").getAsJsonArray().get(0).getAsJsonObject();
 				t.setDateSend(new Date(ship.get("shipment_timestamp").getAsLong() * 1000));
 				t.setTransporterShippingCode(ship.get("tracking_number").getAsString());
 				t.setTransporter(ship.get("carrier_info").getAsJsonObject().get("name").getAsString());
 				t.setStatut(EnumTransactionStatus.SENT);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Error getting shipping informations", e);
 			}
 		}
@@ -314,20 +318,20 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Transaction getTransactionById(String id) throws IOException {
-		var ret = getBuilder(API_ORDERS + "/" + id, METHOD.GET).toJson();
+		final var ret = getBuilder(API_ORDERS + "/" + id, METHOD.GET).toJson();
 		return buildTransaction(ret.getAsJsonObject());
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		var ret = getBuilder(API_USERS, METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).addContent("email", email)
+		final var ret = getBuilder(API_USERS, METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).addContent("email", email)
 				.toJson();
 		return buildContact(ret.getAsJsonObject().get(USERS).getAsJsonArray().get(0).getAsJsonObject());
 	}
 
 	@Override
 	public Contact getContactByLogin(String login, String passw) throws IOException {
-		var ret = getBuilder(API_USERS, METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).addContent("user_login", login)
+		final var ret = getBuilder(API_USERS, METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).addContent("user_login", login)
 				.toJson();
 		return buildContact(ret.getAsJsonObject().get(USERS).getAsJsonArray().get(0).getAsJsonObject());
 	}
@@ -340,13 +344,13 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 				@Override
 				public Category call() throws Exception {
-					var ret = getBuilder("api/categories/" + id, METHOD.GET).toJson();
-					var jo = ret.getAsJsonObject();
+					final var ret = getBuilder("api/categories/" + id, METHOD.GET).toJson();
+					final var jo = ret.getAsJsonObject();
 					return new Category(jo.get("category_id").getAsInt(), jo.get("category").getAsString());
 
 				}
 			});
-		} catch (ExecutionException e) {
+		} catch (final ExecutionException e) {
 			throw new IOException(e);
 		}
 
@@ -354,8 +358,8 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
-		var endpoint = API_VENDORS + getAuthenticator().get(COMPANY_ID) + "/products/" + id;
-		var req = getBuilder(endpoint, METHOD.GET).toJson().getAsJsonObject();
+		final var endpoint = API_VENDORS + getAuthenticator().get(COMPANY_ID) + "/products/" + id;
+		final var req = getBuilder(endpoint, METHOD.GET).toJson().getAsJsonObject();
 		return buildStockItem(req);
 	}
 

@@ -25,11 +25,11 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		var list = new ArrayList<MTGCardStock>();
+		final var list = new ArrayList<MTGCardStock>();
 
 		matches(content, true, aliases.getRegexFor(this, "default")).forEach(m -> {
-			var stock = MTGControler.getInstance().getDefaultStock();
-			var mc = parseMatcherWithGroup(m, 3, 2, false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
+			final var stock = MTGControler.getInstance().getDefaultStock();
+			final var mc = parseMatcherWithGroup(m, 3, 2, false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
 			if (mc != null) {
 				stock.setProduct(mc);
 				stock.setFoil(m.group(5).equalsIgnoreCase("True"));
@@ -45,7 +45,7 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		var temp = new StringBuilder(COLUMNS);
+		final var temp = new StringBuilder(COLUMNS);
 		temp.append(System.lineSeparator());
 
 		stock.forEach(st -> {
@@ -79,7 +79,7 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("ACTIVE", MTGProperty.newBooleanProperty("true", "set product active or not"));
 		m.put("CATEGORY_CARD_ID", new MTGProperty("1", "set default category"));
 		return m;

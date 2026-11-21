@@ -28,15 +28,15 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 	private static final long serialVersionUID = 1L;
 	private ImageGalleryPanel panel;
 	private AbstractBuzyIndicatorComponent buzy;
-	
+
 	public WallPaperChooseDialog() {
 		super();
 		setPreferredSize(new Dimension(1024, 768));
-		var text = new JTextField(30);
+		final var text = new JTextField(30);
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		
-		var cboProviders = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
-		
+
+		final var cboProviders = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
+
 		getContentPane().add(UITools.createFlowPanel(cboProviders,text, buzy), BorderLayout.NORTH);
 
 		text.addActionListener(_ -> {
@@ -60,9 +60,9 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 
 						panel.init(get());
 
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (ExecutionException e) {
+					} catch (final ExecutionException e) {
 						logger.error(e);
 					}
 
@@ -78,13 +78,14 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 
 	@Override
 	public void onDestroy() {
-		if (panel != null)
-			panel.onDestroy();
+		if (panel != null) {
+		    panel.onDestroy();
+		}
 	}
 
 	@Override
 	public JComponent getSelectComponent() {
-		var scroll = new JScrollPane(getGalleryPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		final var scroll = new JScrollPane(getGalleryPanel(), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.getVerticalScrollBar().setUnitIncrement(16);
 		return scroll;
 	}
@@ -98,7 +99,7 @@ public class WallPaperChooseDialog extends AbstractDelegatedImporterDialog<MTGWa
 	public MTGWallpaper getSelectedItem() {
 		try {
 			return getSelectedItems().get(0);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return null;
 		}
 	}

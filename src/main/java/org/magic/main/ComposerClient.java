@@ -16,9 +16,9 @@ public class ComposerClient {
 
     public static void main(String[] args) throws Exception {
 	MTGControler.getInstance().init();
-	
+
 	SwingUtilities.invokeLater(() -> {
-	    var frame = MTGUIComponent.createJFrame(new MtgCardComposer(), true, true);
+	    final var frame = MTGUIComponent.createJFrame(new MtgCardComposer(), true, true);
 	    MTGControler.getInstance().getLafService().setLookAndFeel(frame,MTGControler.getInstance().get("lookAndFeel"), false);
 	    	 frame.setSize(1200, 900);
 	    	 frame.setLocationRelativeTo(null);

@@ -58,11 +58,11 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		ctx = new ServletContextHandler();
 		ctx.setContextPath("/");
 
-		var holderPwd = new ServletHolder("mtg-web-ui", new DefaultServlet());
+		final var holderPwd = new ServletHolder("mtg-web-ui", new DefaultServlet());
 		holderPwd.setInitParameter("resourceBase", webRootLocation.toString());
 		holderPwd.setInitParameter("dirAllowed", getString(ALLOW_LIST_DIR));
 
-		var holderJs = new ServletHolder("mtg-js-file", new DefaultServlet() {
+		final var holderJs = new ServletHolder("mtg-js-file", new DefaultServlet() {
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -70,7 +70,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 				response.setStatus(HttpServletResponse.SC_OK);
 				try {
 					response.getWriter().println("var restserver='" + getString(REST_BACKEND_URI) + "';");
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					logger.error(e);
 				}
@@ -90,7 +90,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		FileTools.copyDirJarToDirectory(getWebLocation(), dest);
 		logger.debug("copying {} to {}", getWebLocation(), dest);
 
-		var js = Paths.get(dest.getAbsolutePath(), getWebLocation(), "dist", "js", REST_JS_FILENAME).toFile();
+		final var js = Paths.get(dest.getAbsolutePath(), getWebLocation(), "dist", "js", REST_JS_FILENAME).toFile();
 		logger.debug("copying {} to {} ", js, dest);
 
 		FileTools.saveFile(js, "var restserver='" + getString(REST_BACKEND_URI) + "';");
@@ -107,17 +107,17 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 
 	public ServerConnector createHttpsConnector(HttpConfiguration httpConfig) {
 
-		var httpsConfig = new HttpConfiguration(httpConfig);
-		var src = new SecureRequestCustomizer();
+		final var httpsConfig = new HttpConfiguration(httpConfig);
+		final var src = new SecureRequestCustomizer();
 		src.setStsMaxAge(2000);
 		src.setStsIncludeSubDomains(true);
 		httpsConfig.addCustomizer(src);
 
-		var sslContextFactory = new SslContextFactory.Server();
+		final var sslContextFactory = new SslContextFactory.Server();
 		sslContextFactory.setKeyStorePath(getFile(KEYSTORE_URI).getAbsolutePath());
 		sslContextFactory.setKeyStorePassword(getString(KEYSTORE_PASS));
 
-		var https = new ServerConnector(server,
+		final var https = new ServerConnector(server,
 				new SslConnectionFactory(sslContextFactory, HttpVersion.HTTP_1_1.asString()),
 				new HttpConnectionFactory(httpsConfig));
 		https.setPort(getInt(SERVER_SSL_PORT));
@@ -133,7 +133,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 			server = new Server();
 			Connector httpsConnector = null;
 
-			var httpConfig = new HttpConfiguration();
+			final var httpConfig = new HttpConfiguration();
 			httpConfig.setSecureScheme("https");
 			httpConfig.setSecurePort(getInt(SERVER_SSL_PORT));
 			httpConfig.setOutputBufferSize(32768);
@@ -159,14 +159,15 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 			server.start();
 
 			if (getBoolean(JSON_SERVER_START)) {
-				MTGServer jserv = PluginRegistry.inst().getPlugin(new JSONHttpServer().getName(), MTGServer.class);
-				if (!jserv.isAlive())
-					jserv.start();
+				final MTGServer jserv = PluginRegistry.inst().getPlugin(new JSONHttpServer().getName(), MTGServer.class);
+				if (!jserv.isAlive()) {
+				    jserv.start();
+				}
 			}
 
 			logger.info("Server {} ({}) start on port {} @ {}", getName(), getVersion(), getInt(SERVER_PORT),
 					webRootLocation);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			throw new IOException(e);
 		}
@@ -178,7 +179,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		try {
 			server.stop();
 			logger.info("Server closed");
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 
@@ -187,10 +188,11 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	@Override
 	public boolean isAlive() {
 
-		if (server != null)
-			return server.isRunning();
-		else
-			return false;
+		if (server != null) {
+		    return server.isRunning();
+		} else {
+		    return false;
+		}
 	}
 
 	@Override
@@ -206,7 +208,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 
 		m.put(SERVER_PORT, MTGProperty.newIntegerProperty("80", "listening port for webserver", 80, -1));
 		m.put(SERVER_SSL_PORT, MTGProperty.newIntegerProperty("443", "listening port for https", 443, -1));

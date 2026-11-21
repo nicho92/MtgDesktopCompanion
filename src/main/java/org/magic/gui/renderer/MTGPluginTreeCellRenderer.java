@@ -22,12 +22,12 @@ public class MTGPluginTreeCellRenderer extends JLabel implements TreeCellRendere
 		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
 		setBackground(tree.getBackground());
 		setForeground(tree.getForeground());
-		if (value instanceof MTGPlugin p) {
+		if (value instanceof final MTGPlugin p) {
 			setFont(getFont().deriveFont(Font.BOLD));
 			setText(value.toString());
 			setIcon(ImageTools.resize(p.getIcon(), 24, 24));
 
-		} else if (value instanceof Entry<?, ?> e) {
+		} else if (value instanceof final Entry<?, ?> e) {
 			setIcon(MTGConstants.ICON_MANA_INCOLOR);
 			setText(e.getKey().toString());
 		}

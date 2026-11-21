@@ -19,9 +19,9 @@ import io.jsonwebtoken.security.Keys;
 
 public class JWTServices {
 
-	private String issuer;
+	private final String issuer;
 	private SecretKey key;
-	private List<String> refreshedTokenRepository = new ArrayList<>();
+	private final List<String> refreshedTokenRepository = new ArrayList<>();
 
 	public JWTServices(String secret, String issuer) {
 		this.issuer = issuer;
@@ -29,13 +29,14 @@ public class JWTServices {
 	}
 
 	public String generateToken(String sub, Map<String, String> claims, int timeoutInMinutes, boolean store) {
-		var tok = Jwts.builder().claims(claims).issuer(issuer).subject(sub)
+		final var tok = Jwts.builder().claims(claims).issuer(issuer).subject(sub)
 				.issuedAt(new Date(System.currentTimeMillis()))
 				.expiration(DateUtils.addMinutes(new Date(System.currentTimeMillis()), timeoutInMinutes)).signWith(key)
 				.compact();
 
-		if (store)
-			refreshedTokenRepository.add(tok);
+		if (store) {
+		    refreshedTokenRepository.add(tok);
+		}
 
 		return tok;
 	}

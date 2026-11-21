@@ -88,7 +88,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private ManaRepartitionPanel colorChart;
 	private RarityRepartitionPanel rarityChart;
 	private TypeRepartitionPanel typeChart;
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_BUILDER;
@@ -101,7 +101,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	@Override
 	public void onFirstShowing() {
-		var sw = new AbstractObservableWorker<List<MTGEdition>, Void, PrivateMTGSetProvider>(buzySet, provider) {
+		final var sw = new AbstractObservableWorker<List<MTGEdition>, Void, PrivateMTGSetProvider>(buzySet, provider) {
 
 			@Override
 			protected List<MTGEdition> doInBackground() throws Exception {
@@ -123,30 +123,30 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	public CardBuilder2GUI() {
 
 		/// INIT LOCAL COMPONENTS
-		var panelEditionHaut = new JPanel();
-		var panelSets = new JPanel();
-		var splitcardEdPanel = new JSplitPane();
-		var panelCards = new JPanel();
+		final var panelEditionHaut = new JPanel();
+		final var panelSets = new JPanel();
+		final var splitcardEdPanel = new JSplitPane();
+		final var panelCards = new JPanel();
 		panelDetails = new MagicCardSubDetailPanel();
 
-		var panelCardsHaut = new JPanel();
-		var tabbedCards = new JTabbedPane(SwingConstants.TOP);
+		final var panelCardsHaut = new JPanel();
+		final var tabbedCards = new JTabbedPane(SwingConstants.TOP);
 
-		var btnSaveEdition = new JButton(MTGConstants.ICON_SAVE);
-		var btnNewSet = new JButton(MTGConstants.ICON_NEW);
-		var btnRemoveEdition = new JButton(MTGConstants.ICON_DELETE);
-		var btnImport = new JButton(MTGConstants.ICON_IMPORT);
-		var btnRebuildSet = new JButton(MTGConstants.ICON_MASS_IMPORT);
-		var btnGenerateCard = new JButton(MTGConstants.ICON_IA);
-		var btnGenerateSet = new JButton(MTGConstants.ICON_IA);
-		var btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
-		var tabbedResult = new JTabbedPane(SwingConstants.TOP);
+		final var btnSaveEdition = new JButton(MTGConstants.ICON_SAVE);
+		final var btnNewSet = new JButton(MTGConstants.ICON_NEW);
+		final var btnRemoveEdition = new JButton(MTGConstants.ICON_DELETE);
+		final var btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		final var btnRebuildSet = new JButton(MTGConstants.ICON_MASS_IMPORT);
+		final var btnGenerateCard = new JButton(MTGConstants.ICON_IA);
+		final var btnGenerateSet = new JButton(MTGConstants.ICON_IA);
+		final var btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
+		final var tabbedResult = new JTabbedPane(SwingConstants.TOP);
 		btnRemoveCard = new JButton(MTGConstants.ICON_DELETE);
-		var btnNewCard = new JButton(MTGConstants.ICON_NEW);
-		var btnReloadSets = new JButton(MTGConstants.ICON_REFRESH);
-		var panelTableCards = new JPanel();
-		var panelEast = new JPanel();
-		var editionDetailsTabbedPane = new JTabbedPane();
+		final var btnNewCard = new JButton(MTGConstants.ICON_NEW);
+		final var btnReloadSets = new JButton(MTGConstants.ICON_REFRESH);
+		final var panelTableCards = new JPanel();
+		final var panelEast = new JPanel();
+		final var editionDetailsTabbedPane = new JTabbedPane();
 
 		/// INIT GLOBAL COMPONENTS
 		buzyCard = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -177,7 +177,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		panelTableCards.setLayout(new BorderLayout());
 		panelEast.setLayout(new GridLayout(2, 1));
 
-		var gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
+		final var gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
@@ -227,9 +227,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		editionDetailsTabbedPane.addTab("Rarities", rarityChart);
 		editionDetailsTabbedPane.addTab("Colors", colorChart);
 		editionDetailsTabbedPane.addTab("Types", typeChart);
-		
-		
-		
+
+
+
 		panelEast.add(editionDetailsTabbedPane);
 		panelEast.add(imageThumbnail);
 
@@ -265,27 +265,29 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		/// ACTION LISTENER
 
 		btnRebuildSet.addActionListener(_ -> {
-			MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
-			if (ed != null)
-				ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<Void, Void, PrivateMTGSetProvider>(
-						buzySet, provider, ed.getCardCount()) {
+			final MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
+			if (ed != null) {
+			    ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<Void, Void, PrivateMTGSetProvider>(
+			    		buzySet, provider, ed.getCardCount()) {
 
-					@Override
-					protected Void doInBackground() throws Exception {
-						plug.rebuild(ed);
-						return null;
-					}
-				}, "calculate Set " + ed);
+			    	@Override
+			    	protected Void doInBackground() throws Exception {
+			    		plug.rebuild(ed);
+			    		return null;
+			    	}
+			    }, "calculate Set " + ed);
+			}
 		});
 
 		btnRemoveCard.addActionListener(_ -> {
 
-			MTGCard mc = UITools.getTableSelection(cardsTable, 0);
+			final MTGCard mc = UITools.getTableSelection(cardsTable, 0);
 
-			if (mc == null)
-				return;
+			if (mc == null) {
+			    return;
+			}
 
-			int res = JOptionPane.showConfirmDialog(null,
+			final int res = JOptionPane.showConfirmDialog(null,
 					MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", mc));
 			if (res == JOptionPane.YES_OPTION) {
 				provider.deleteCustomCard(mc);
@@ -297,24 +299,24 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 		btnSaveEdition.addActionListener(_ -> {
 			try {
-				var ed = magicEditionDetailPanel.getMagicEdition();
+				final var ed = magicEditionDetailPanel.getMagicEdition();
 				provider.saveCustomSet(ed);
 				cboSets.removeAllItems();
 
-				var eds = provider.loadEditions();
+				final var eds = provider.loadEditions();
 
 				cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MTGEdition[eds.size()])));
 				editionModel.fireTableDataChanged();
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				MTGControler.getInstance().notify(ex);
 			}
 		});
 
 		btnImport.addActionListener(_ -> {
-			var l = new CardImporterDialog();
+			final var l = new CardImporterDialog();
 			l.setVisible(true);
 			if (l.hasSelected()) {
-				var mc = l.getSelectedItem();
+				final var mc = l.getSelectedItem();
 				mc.setUrl(MTG.getPlugin("Scryfall", MTGPictureProvider.class).generateUrl(mc, true));
 
 				initCard(mc);
@@ -323,15 +325,15 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		});
 
 		btnNewCard.addActionListener(_ -> {
-			var mc = new MTGCard();
-			var ed = (MTGEdition) cboSets.getSelectedItem();
+			final var mc = new MTGCard();
+			final var ed = (MTGEdition) cboSets.getSelectedItem();
 
 			mc.setEdition(ed);
 			mc.getEditions().add(ed);
 			try {
 				mc.setNumber(String
 						.valueOf(provider.searchCardByEdition((MTGEdition) cboSets.getSelectedItem()).size() + 1));
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				logger.error(e1);
 			}
 			initCard(mc);
@@ -340,20 +342,22 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		btnReloadSets.addActionListener(_ -> onFirstShowing());
 
 		btnGenerateSet.addActionListener(_ -> {
-			MTGEdition set = UITools.getTableSelection(editionsTable, 1);
+			final MTGEdition set = UITools.getTableSelection(editionsTable, 1);
 
-			if (set == null)
-				return;
+			if (set == null) {
+			    return;
+			}
 
-			var diag = new PromptDialog();
+			final var diag = new PromptDialog();
 			diag.showCardBuilderDialog(set);
 
-			var text = diag.getPrompt();
+			final var text = diag.getPrompt();
 
-			if (text == null || text.isEmpty())
-				return;
+			if (text == null || text.isEmpty()) {
+			    return;
+			}
 
-			var qty = diag.getCardsCreationSize();
+			final var qty = diag.getCardsCreationSize();
 
 			buzySet.start();
 			buzySet.setText("generating set from IA");
@@ -368,9 +372,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					try {
 						cardsModel.addItems(get());
 						provider.saveCustomSet(set, get());
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error(e);
 					} finally {
 						buzySet.end();
@@ -380,10 +384,11 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		});
 
 		btnNewSet.addActionListener(_ -> {
-			var id = JOptionPane.showInputDialog("ID");
+			final var id = JOptionPane.showInputDialog("ID");
 
-			if (id == null || id.isEmpty())
-				return;
+			if (id == null || id.isEmpty()) {
+			    return;
+			}
 
 			try {
 				if (provider.getSetById(id) != null) {
@@ -391,22 +396,22 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					return;
 				}
 
-				var ed = new MTGEdition(id, id);
+				final var ed = new MTGEdition(id, id);
 				ed.setReleaseDate(UITools.formatDate(new Date(), "yyyy-MM-dd"));
 				provider.saveCustomSet(ed);
 				editionModel.addItem(ed);
 				magicEditionDetailPanel.setMagicEdition(ed, true);
 				cboSets.addItem(ed);
 
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				MTGControler.getInstance().notify(e1);
 			}
 		});
 
 		btnRemoveEdition.addActionListener(_ -> {
 
-			MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
-			int res = JOptionPane.showConfirmDialog(null, MTG.capitalize("CONFIRM_DELETE", ed),
+			final MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
+			final int res = JOptionPane.showConfirmDialog(null, MTG.capitalize("CONFIRM_DELETE", ed),
 					MTG.capitalize("DELETE"), JOptionPane.YES_NO_OPTION);
 
 			if (res == JOptionPane.YES_OPTION) {
@@ -414,7 +419,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					provider.deleteCustomSet(ed);
 					cboSets.removeItem(ed);
 					editionModel.removeItem(ed);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					MTGControler.getInstance().notify(e);
 				}
 
@@ -425,12 +430,13 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 
-				if (UITools.getTableSelections(cardsTable, 1).isEmpty())
-					return;
+				if (UITools.getTableSelections(cardsTable, 1).isEmpty()) {
+				    return;
+				}
 
 				btnRemoveCard.setEnabled(true);
 
-				MTGCard mc = UITools.getTableSelection(cardsTable, 0);
+				final MTGCard mc = UITools.getTableSelection(cardsTable, 0);
 				if (me.getClickCount() == 2) {
 					initCard(mc);
 					tabbedPane.setSelectedIndex(1);
@@ -457,23 +463,21 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 		editionsTable.getSelectionModel().addListSelectionListener(l -> {
 
-			if (UITools.getTableSelections(editionsTable, 1).isEmpty())
-				return;
+			if (UITools.getTableSelections(editionsTable, 1).isEmpty() || l.getValueIsAdjusting()) {
+			    return;
+			}
 
-			if (l.getValueIsAdjusting())
-				return;
-
-			MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
+			final MTGEdition ed = UITools.getTableSelection(editionsTable, 1);
 			try {
 
-				var cards = provider.searchCardByEdition(ed);
+				final var cards = provider.searchCardByEdition(ed);
 				initEdition(ed, cards);
 				btnGenerateSet.setEnabled(true);
 				cardsModel.bind(cards);
 				cardsModel.fireTableDataChanged();
 				cardsTable.packAll();
 				btnRemoveCard.setEnabled(false);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				MTGControler.getInstance().notify(e);
 			}
 
@@ -481,13 +485,14 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 		btnGenerateCard.addActionListener(_ -> {
 
-			var promptDialog = new PromptDialog();
+			final var promptDialog = new PromptDialog();
 			promptDialog.showCardBuilderDialog();
 
-			var text = promptDialog.getPrompt();
+			final var text = promptDialog.getPrompt();
 
-			if (text == null || text.isEmpty())
-				return;
+			if (text == null || text.isEmpty()) {
+			    return;
+			}
 
 			buzyCard.start();
 			buzyCard.setText("generating card from IA");
@@ -504,9 +509,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					try {
 						initCard(get());
 
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (ExecutionException e) {
+					} catch (final ExecutionException e) {
 						logger.error(e);
 					} finally {
 						buzyCard.end();
@@ -517,14 +522,14 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		});
 
 		btnSaveCard.addActionListener(_ -> {
-			var me = (MTGEdition) cboSets.getSelectedItem();
-			var mc = magicCardEditorPanel.getMagicCard();
+			final var me = (MTGEdition) cboSets.getSelectedItem();
+			final var mc = magicCardEditorPanel.getMagicCard();
 
 			try {
 				jsonPanel.init(mc);
 				provider.saveCustomCard(me, mc);
 				picturesProvider.savePicture(panelPictures.getFront(), mc, me);
-			} catch (IOException ex) {
+			} catch (final IOException ex) {
 				MTGControler.getInstance().notify(ex);
 			}
 		});
@@ -539,14 +544,15 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			@Override
 			protected BufferedImage doInBackground() throws Exception {
-				var card = magicCardEditorPanel.getMagicCard();
-				
+				final var card = magicCardEditorPanel.getMagicCard();
+
 				if(magicCardEditorPanel.isProxied())
 				{
-					var poster = new PostImage();
-					
-					if(card.getUrl()!=null && !poster.isProxified(card.getUrl()))
-					    	card.setUrl(poster.upload(card.getUrl()));
+					final var poster = new PostImage();
+
+					if(card.getUrl()!=null && !poster.isProxified(card.getUrl())) {
+					    card.setUrl(poster.upload(card.getUrl()));
+					}
 				}
 				return getEnabledPlugin(MTGPictureEditor.class).getPicture(card,editionModel.getItemAt(cboSets.getSelectedIndex()));
 			}
@@ -558,9 +564,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					jsonPanel.init(magicCardEditorPanel.getMagicCard());
 					panelDetails.init(magicCardEditorPanel.getMagicCard());
 
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					MTGControler.getInstance().notify(e);
 				} finally {
 					buzyCard.end();
@@ -598,11 +604,12 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			var back = picturesProvider.getBackPicture(magicCardEditorPanel.getMagicCard());
 
-			if (magicCardEditorPanel.getMagicCard().isDoubleFaced())
-				back = picturesProvider.getPicture(magicCardEditorPanel.getMagicCard().getRotatedCard());
+			if (magicCardEditorPanel.getMagicCard().isDoubleFaced()) {
+			    back = picturesProvider.getPicture(magicCardEditorPanel.getMagicCard().getRotatedCard());
+			}
 
 			panel.setImg(img, ImageTools.resize(back, img.getHeight(), img.getWidth()));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			panel.setImg(new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB));
 		}
 

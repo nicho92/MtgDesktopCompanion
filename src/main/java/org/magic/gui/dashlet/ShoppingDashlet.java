@@ -38,13 +38,13 @@ public class ShoppingDashlet extends AbstractJDashlet {
 
 	@Override
 	public void initGUI() {
-		var panel = new JPanel();
-		var groupedShoppingPanel = new GroupedShoppingPanel();
-		var btnPast = new JButton(MTGConstants.ICON_PASTE);
-		DefaultListModel<MTGCard> model = new DefaultListModel<>();
-		JList<MTGCard> list = new JList<>(model);
-		var panneauHaut = new JPanel();
-		var btnClear = new JButton(MTGConstants.ICON_DELETE);
+		final var panel = new JPanel();
+		final var groupedShoppingPanel = new GroupedShoppingPanel();
+		final var btnPast = new JButton(MTGConstants.ICON_PASTE);
+		final DefaultListModel<MTGCard> model = new DefaultListModel<>();
+		final JList<MTGCard> list = new JList<>(model);
+		final var panneauHaut = new JPanel();
+		final var btnClear = new JButton(MTGConstants.ICON_DELETE);
 
 		getContentPane().add(panel, BorderLayout.NORTH);
 		list.setCellRenderer(new MagicCardListRenderer());
@@ -58,14 +58,14 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		btnPast.addActionListener(_ -> {
 
 			try {
-				MTGDeck d = getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME, MTGCardsExport.class).importDeck(null, null);
+				final MTGDeck d = getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME, MTGCardsExport.class).importDeck(null, null);
 				d.getMain().keySet().forEach(model::addElement);
 
 				groupedShoppingPanel.enableControle(!model.isEmpty());
 
 				groupedShoppingPanel.init(IntStream.range(0, model.size()).mapToObj(model::get).toList());
 
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 				MTGControler.getInstance().notify(e);
 			}
@@ -75,7 +75,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		getContentPane().add(groupedShoppingPanel, BorderLayout.EAST);
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);

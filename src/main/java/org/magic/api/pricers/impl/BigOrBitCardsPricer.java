@@ -25,19 +25,20 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 		var extra = "";
-		var ret = new ArrayList<MTGPrice>();
-		if (card.isExtendedArt())
-			extra = " (Extended Art)";
-		else if (card.isShowCase())
-			extra = " (Showcase)";
-		else if (card.isBorderLess())
-			extra = " (Borderless Art)";
-		else if (card.isTimeshifted())
-			extra = " (Retro Frame)";
+		final var ret = new ArrayList<MTGPrice>();
+		if (card.isExtendedArt()) {
+		    extra = " (Extended Art)";
+		} else if (card.isShowCase()) {
+		    extra = " (Showcase)";
+		} else if (card.isBorderLess()) {
+		    extra = " (Borderless Art)";
+		} else if (card.isTimeshifted()) {
+		    extra = " (Retro Frame)";
+		}
 
 		logger.info("{} looking for {} with extra={}", getName(), card, extra);
 
-		var doc = RequestBuilder.build().get()
+		final var doc = RequestBuilder.build().get()
 				.url("https://www.bigorbitcards.co.uk/magic-the-gathering/search/"
 						+ UITools.replaceSpecialCharacters(card.getName() + extra, "+"))
 				.addContent("resultsPerPage", "96").newClient().toHtml()
@@ -45,13 +46,13 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 
 		doc.forEach(e -> {
 
-			var title = e.select("h2.product-title a");
-			var rowDetail = e.select("span.product-row").first();
+			final var title = e.select("h2.product-title a");
+			final var rowDetail = e.select("span.product-row").first();
 
 			if (title.text().equalsIgnoreCase(card.getName())
 					&& !rowDetail.select("span.product-stock").text().equals("0 in Stock")
 					&& e.select("p").text().toLowerCase().indexOf(card.getEdition().getSet().toLowerCase()) > -1) {
-				var mp = new MTGPrice();
+				final var mp = new MTGPrice();
 				mp.setSeller(getName());
 				mp.setSite(getName());
 				mp.setCurrency(Currency.getInstance(Locale.UK));

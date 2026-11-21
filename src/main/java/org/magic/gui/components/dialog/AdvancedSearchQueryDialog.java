@@ -22,11 +22,11 @@ import org.magic.services.tools.UITools;
 
 public class AdvancedSearchQueryDialog extends JDialog {
 
-	private GridLayout layout;
-	private JPanel pContent;
+	private final GridLayout layout;
+	private final JPanel pContent;
 	private transient List<MTGCrit<?>> crits;
-	private JComboBox<MTGCollection> cboCollection;
-	private JCheckBox chkSearchInCollection;
+	private final JComboBox<MTGCollection> cboCollection;
+	private final JCheckBox chkSearchInCollection;
 
 	public AdvancedSearchQueryDialog() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -35,12 +35,12 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 		layout = new GridLayout(1, 1);
 
-		var btnNewButton = new JButton(MTGConstants.ICON_NEW);
-		var btnSearch = new JButton(MTGConstants.ICON_SEARCH);
+		final var btnNewButton = new JButton(MTGConstants.ICON_NEW);
+		final var btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 		chkSearchInCollection = new JCheckBox("Collection Only");
 		cboCollection = UITools.createComboboxCollection();
 
-		var bottom = new JPanel();
+		final var bottom = new JPanel();
 
 		bottom.add(btnNewButton);
 		bottom.add(btnSearch);
@@ -51,7 +51,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		getContentPane().add(pContent, BorderLayout.CENTER);
 		pContent.setLayout(layout);
 
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		cboCollection.setEnabled(false);
@@ -63,9 +63,9 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 		btnNewButton.addActionListener(_ -> SwingUtilities.invokeLater(() -> {
 
-			var cc = new CriteriaComponent();
+			final var cc = new CriteriaComponent();
 
-			var delete = new JButton(MTGConstants.ICON_DELETE);
+			final var delete = new JButton(MTGConstants.ICON_DELETE);
 			delete.addActionListener(_ -> {
 				pContent.remove(cc);
 				pContent.revalidate();
@@ -84,7 +84,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 			crits.clear();
 			for (var i = 0; i < pContent.getComponentCount(); i++) {
-				if (pContent.getComponent(i) instanceof CriteriaComponent comp) {
+				if (pContent.getComponent(i) instanceof final CriteriaComponent comp) {
 					crits.add(comp.getMTGCriteria());
 				}
 			}
@@ -106,8 +106,9 @@ public class AdvancedSearchQueryDialog extends JDialog {
 
 	public MTGCollection getCollection() {
 
-		if (!chkSearchInCollection.isSelected())
-			return null;
+		if (!chkSearchInCollection.isSelected()) {
+		    return null;
+		}
 
 		return (MTGCollection) cboCollection.getSelectedItem();
 	}

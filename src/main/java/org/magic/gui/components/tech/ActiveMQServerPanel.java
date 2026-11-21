@@ -20,10 +20,10 @@ import org.magic.services.tools.UITools;
 public class ActiveMQServerPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
-	private JList<Player> listPlayers;
-	private ActiveMQMessageTableModel model;
-	private DefaultListModel<Player> listModel;
+	private final JTable table;
+	private final JList<Player> listPlayers;
+	private final ActiveMQMessageTableModel model;
+	private final DefaultListModel<Player> listModel;
 
 	public ActiveMQServerPanel() {
 		setLayout(new BorderLayout(0, 0));

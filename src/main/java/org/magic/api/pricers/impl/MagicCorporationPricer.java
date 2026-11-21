@@ -25,45 +25,48 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "MagicCorporation";
 	}
-	
-	
+
+
 	private String getSetId(Document d, MTGEdition ed)
 	{
-	    var select = d.getElementById("rc-edition");
-	    
-	    for(var e : select.getElementsByTag("option"))
+	    final var select = d.getElementById("rc-edition");
+
+	    for(final var e : select.getElementsByTag("option"))
 	    {
-		if(e.text().equalsIgnoreCase(ed.getSet()))
+		if(e.text().equalsIgnoreCase(ed.getSet())) {
 		    return e.attr("value");
-		
+		}
+
 	    }
-	    
+
 	    return "";
-	    
+
 	}
-	
-	
+
+
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		var url = BASE_URL + "/cartes/recherche?q="+URLTools.encode(card.getName());
-		var ret = new ArrayList<MTGPrice>();
-		var page = RequestBuilder.build().url(url).newClient().get().toHtml();
-		var setId=getSetId(page, card.getEdition());
-		var content = RequestBuilder.build().url(url).newClient().get().addContent("q", card.getName());
-		
-		if(!setId.isEmpty())
+		final var url = BASE_URL + "/cartes/recherche?q="+URLTools.encode(card.getName());
+		final var ret = new ArrayList<MTGPrice>();
+		final var page = RequestBuilder.build().url(url).newClient().get().toHtml();
+		final var setId=getSetId(page, card.getEdition());
+		final var content = RequestBuilder.build().url(url).newClient().get().addContent("q", card.getName());
+
+		if(!setId.isEmpty()) {
 		    content.addContent("edition", setId);
-	
-		var trs = content.toHtml().select("table.w-full tbody tr");
-		
-		if (!trs.isEmpty()) 
+		}
+
+		final var trs = content.toHtml().select("table.w-full tbody tr");
+
+		if (!trs.isEmpty())
 		{
-			for (var tr : trs) 
+			for (final var tr : trs)
 			{
-				var entries = tr.getElementsByTag("td").get(8).select("select[name=variant] option");
-				if(!entries.isEmpty())
+				final var entries = tr.getElementsByTag("td").get(8).select("select[name=variant] option");
+				if(!entries.isEmpty()) {
 				    createPriceEntry(ret, tr, card,entries);
+				}
 			}
 		} else {
 			logger.debug("{} found nothing", getName());
@@ -75,16 +78,16 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 
 
 	private void createPriceEntry(List<MTGPrice> ret,Element tr, MTGCard card, Elements entries) {
-	    
-	    
-	    for(var e : entries)
+
+
+	    for(final var e : entries)
 	    {
 
-		    var mp = new MTGPrice();
+		    final var mp = new MTGPrice();
 			mp.setCardData(card);
 			mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 			mp.setCurrency("EUR");
-			mp.setSite(getName());				
+			mp.setSite(getName());
 			mp.setSeller(getName());
 			mp.setUrl(tr.getElementsByTag("td").first().getElementsByTag("a").attr("href"));
 			mp.setValue(UITools.parseDouble(e.text().split("·")[1]));
@@ -93,9 +96,9 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 			mp.setQty(Integer.parseInt(e.attr("data-max")));
 			ret.add(mp);
 	    }
-	    
-	    
-		    
+
+
+
 	}
 
 }

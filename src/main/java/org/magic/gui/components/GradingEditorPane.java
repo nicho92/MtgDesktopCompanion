@@ -44,10 +44,10 @@ public class GradingEditorPane extends MTGUIComponent {
 	private JComboBox<EnumCondition> cboSubGrade;
 	private JButton btnSave;
 	private JCheckBox chbGradded;
-	private JLabel lblCertified = new JLabel(MTGConstants.ICON_CHECK);
+	private final JLabel lblCertified = new JLabel(MTGConstants.ICON_CHECK);
 
 	public void initGUI(MTGGrading grade) {
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{166, 136, 69, 149, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
@@ -71,7 +71,7 @@ public class GradingEditorPane extends MTGUIComponent {
 		((JSpinner.NumberEditor) spinnerWeight.getEditor()).getFormat().setMaximumFractionDigits(2);
 
 		txtSerialNumber = new JTextField(10);
-		var btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE_24, KeyEvent.VK_L,
+		final var btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE_24, KeyEvent.VK_L,
 				"Grade info loading");
 		btnSave = UITools.createBindableJButton(capitalize("UPDATE"), MTGConstants.ICON_SAVE, KeyEvent.VK_G,
 				"Grade info saving");
@@ -112,7 +112,7 @@ public class GradingEditorPane extends MTGUIComponent {
 		chbGradded.setSelected(false);
 
 		btnLoad.addActionListener(_ -> {
-			MTGGraders grader = (MTGGraders) cboGraders.getSelectedItem();
+			final MTGGraders grader = (MTGGraders) cboGraders.getSelectedItem();
 
 			if (grader == null) {
 				MTG.notifyError("Choose a Grader");
@@ -121,7 +121,7 @@ public class GradingEditorPane extends MTGUIComponent {
 
 			btnLoad.setEnabled(false);
 
-			SwingWorker<MTGGrading, MTGGrading> sw = new SwingWorker<>() {
+			final SwingWorker<MTGGrading, MTGGrading> sw = new SwingWorker<>() {
 
 				@Override
 				protected MTGGrading doInBackground() throws Exception {
@@ -139,9 +139,9 @@ public class GradingEditorPane extends MTGUIComponent {
 							grad.setCertified(true);
 							setGrading(grad);
 						}
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						MTGControler.getInstance().notify(e);
 					}
 				}
@@ -153,7 +153,7 @@ public class GradingEditorPane extends MTGUIComponent {
 	}
 
 	public MTGGrading getGrading() {
-		var g = new MTGGrading();
+		final var g = new MTGGrading();
 		g.setCentering((Double) spinnerCentering.getValue());
 		g.setCorners((Double) spinnerCorner.getValue());
 		g.setEdges((Double) spinnerEdges.getValue());
@@ -171,8 +171,9 @@ public class GradingEditorPane extends MTGUIComponent {
 	}
 
 	public void setGrading(MTGGrading grade) {
-		if (grade == null)
-			grade = new MTGGrading();
+		if (grade == null) {
+		    grade = new MTGGrading();
+		}
 
 		chbGradded.setSelected(grade.isGradded());
 		spinnerCentering.setValue(grade.getCentering());
@@ -182,10 +183,11 @@ public class GradingEditorPane extends MTGUIComponent {
 		cboSubGrade.setSelectedItem(grade.getSubGrade());
 		spinnerGradeNote.setValue(grade.getGradeNote());
 
-		if (grade.isGradded())
-			cboGraders.setSelectedItem(PluginRegistry.inst().getPlugin(grade.getGraderName(), MTGGraders.class));
-		else
-			cboGraders.setSelectedItem(null);
+		if (grade.isGradded()) {
+		    cboGraders.setSelectedItem(PluginRegistry.inst().getPlugin(grade.getGraderName(), MTGGraders.class));
+		} else {
+		    cboGraders.setSelectedItem(null);
+		}
 
 		txtSerialNumber.setText(grade.getNumberID());
 		spinnerSurface.setValue(grade.getSurface());
@@ -201,10 +203,11 @@ public class GradingEditorPane extends MTGUIComponent {
 	}
 
 	public void saveTo(MTGCardStock stock) {
-		if (!chbGradded.isSelected())
-			stock.setGrade(null);
-		else
-			stock.setGrade(getGrading());
+		if (!chbGradded.isSelected()) {
+		    stock.setGrade(null);
+		} else {
+		    stock.setGrade(getGrading());
+		}
 
 		stock.setUpdated(true);
 	}

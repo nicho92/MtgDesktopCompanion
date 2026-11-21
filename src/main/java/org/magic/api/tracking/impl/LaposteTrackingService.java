@@ -37,16 +37,16 @@ public class LaposteTrackingService extends AbstractTrackingService {
 			throw new IOException("please fill " + OKAPI_KEY + " for " + getName() + " account in config panel");
 		}
 
-		var e = RequestBuilder.build().newClient().url(baseUri + "/" + number + "?lang=" + getString("LANG")).get()
+		final var e = RequestBuilder.build().newClient().url(baseUri + "/" + number + "?lang=" + getString("LANG")).get()
 				.addHeader("X-Okapi-Key", getAuthenticator().get(OKAPI_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
 
 		logger.trace("result from {} request {}", getName(), e);
 
-		var t = new Tracking(number);
+		final var t = new Tracking(number);
 		try {
 			t.setFinished(e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("isFinal").getAsBoolean());
-		} catch (NullPointerException _) {
+		} catch (final NullPointerException _) {
 			// do nothing
 		}
 
@@ -64,10 +64,11 @@ public class LaposteTrackingService extends AbstractTrackingService {
 
 		});
 
-		if (t.getProductName().equalsIgnoreCase("chronopost"))
-			t.setTrackingUri("https://www.chronopost.fr/tracking-no-cms/suivi-page?langue=fr&listeNumerosLT=" + number);
-		else
-			t.setTrackingUri("https://www.laposte.fr/outils/suivre-vos-envois?code=" + number);
+		if (t.getProductName().equalsIgnoreCase("chronopost")) {
+		    t.setTrackingUri("https://www.chronopost.fr/tracking-no-cms/suivi-page?langue=fr&listeNumerosLT=" + number);
+		} else {
+		    t.setTrackingUri("https://www.laposte.fr/outils/suivre-vos-envois?code=" + number);
+		}
 
 		return t;
 	}

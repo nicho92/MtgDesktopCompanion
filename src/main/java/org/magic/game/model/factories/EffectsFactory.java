@@ -11,8 +11,9 @@ public class EffectsFactory {
 	private static EffectsFactory instance;
 
 	public static EffectsFactory getInstance() {
-		if (instance == null)
-			instance = new EffectsFactory();
+		if (instance == null) {
+		    instance = new EffectsFactory();
+		}
 
 		return instance;
 	}
@@ -21,19 +22,21 @@ public class EffectsFactory {
 	}
 
 	public List<CardEffect> parseEffect(MTGCard mc, List<String> sentences) {
-		ArrayList<CardEffect> arr = new ArrayList<>();
+		final ArrayList<CardEffect> arr = new ArrayList<>();
 
-		if (sentences.isEmpty())
-			return arr;
+		if (sentences.isEmpty()) {
+		    return arr;
+		}
 
 		if (sentences.size() == 1) {
 			arr.add(parseEffect(mc, sentences.get(0)));
 		} else {
-			for (String element : sentences) {
+			for (final String element : sentences) {
 				arr.add(parseEffect(mc, element));
 
-				if (element.endsWith("."))
-					break;
+				if (element.endsWith(".")) {
+				    break;
+				}
 			}
 		}
 
@@ -42,7 +45,7 @@ public class EffectsFactory {
 	}
 
 	public CardEffect parseEffect(MTGCard mc, String s) {
-		var e = new CardEffect();
+		final var e = new CardEffect();
 		e.setEffectDescription(s);
 		e.setCard(mc);
 		return e;

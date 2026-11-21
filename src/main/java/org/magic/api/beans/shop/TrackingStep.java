@@ -46,8 +46,9 @@ public class TrackingStep implements Serializable, Comparable<TrackingStep> {
 
 	@Override
 	public int compareTo(TrackingStep o) {
-		if (o == null)
-			return -1;
+		if (o == null) {
+		    return -1;
+		}
 
 		return getDateStep().compareTo(o.getDateStep());
 	}

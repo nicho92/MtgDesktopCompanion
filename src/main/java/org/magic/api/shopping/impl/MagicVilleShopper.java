@@ -43,13 +43,13 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			client = URLTools.newClient();
 
 			try {
-				var res = RequestBuilder.build().post().url(urlLogin).setClient(client)
+				final var res = RequestBuilder.build().post().url(urlLogin).setClient(client)
 						.addContent("pseudo", getAuthenticator().getLogin())
 						.addContent("pass", getAuthenticator().getPassword()).addContent("return_url", urlLogin)
 						.addContent("data", "1").addContent("x", "14").addContent("y", "11").execute();
 
 				logger.debug("Connexion : {}", res.getStatusLine().getReasonPhrase());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 
@@ -59,37 +59,37 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 
-		var t = buildTransaction(rt);
+		final var t = buildTransaction(rt);
 
-		var doc = RequestBuilder.build().setClient(client).url(rt.getUrl()).get().toHtml();
-		Elements table = doc.select("table tr[onmouseover]");
+		final var doc = RequestBuilder.build().setClient(client).url(rt.getUrl()).get().toHtml();
+		final Elements table = doc.select("table tr[onmouseover]");
 
 		try {
-			var shippingTable = doc.select("table tr[height] td[align].b12");
+			final var shippingTable = doc.select("table tr[height] td[align].b12");
 			shippingTable.remove(0);
 			t.setShippingPrice(UITools.parseDouble(shippingTable.text()));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
-		for (Element e : table) {
+		for (final Element e : table) {
 			t.getItems().add(buildCard(e));
 		}
 		return t;
 	}
 
 	private MTGStockItem buildCard(Element e) {
-		var st = new MTGCardStock();
+		final var st = new MTGCardStock();
 		try {
 			st.setPrice(UITools.parseDouble(e.select("td").get(4).html()));
-		} catch (NumberFormatException _) {
+		} catch (final NumberFormatException _) {
 			logger.error("error parsing Price {}", e.select("td").get(4).html());
 		}
 
 		try {
 
 			st.setQte(Integer.parseInt(e.select("td").get(5).html()));
-		} catch (NumberFormatException _) {
+		} catch (final NumberFormatException _) {
 			logger.error("error parsing qty {}", e.select("td").get(5).html());
 		}
 
@@ -101,20 +101,20 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		MTGEdition edition = null;
 
 		try {
-			var setId = st.getTiersAppIds().get(getName()).substring(0, 3).toUpperCase();
+			final var setId = st.getTiersAppIds().get(getName()).substring(0, 3).toUpperCase();
 			edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getSetIdFor(this, setId));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("No set found for {}", st.getTiersAppIds().get(getName()));
 		}
 
 		MTGCard card = null;
 		try {
-			var name = RequestBuilder.build().setClient(client)
+			final var name = RequestBuilder.build().setClient(client)
 					.url(urlDetailOrder + "show_card_sale?gamerid=" + st.getTiersAppIds(getName())).get().toHtml()
 					.select("td.S14 a").first().html().split("<br>")[0].trim();
 			card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition, true).get(0);
 			st.setProduct(card);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.error("No card found for {} {}", st.getTiersAppIds().get(getName()).substring(3), edition);
 			st.setProduct(new MTGCard());
 		}
@@ -124,10 +124,10 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	@Override
 	public List<RetrievableTransaction> listOrders() throws IOException {
 		init();
-		var entries = new ArrayList<RetrievableTransaction>();
+		final var entries = new ArrayList<RetrievableTransaction>();
 
-		Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
-		Elements tableOrders = listOrders.select("table[border=0]").get(6).select("tr");
+		final Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
+		final Elements tableOrders = listOrders.select("table[border=0]").get(6).select("tr");
 
 		try {
 			tableOrders.remove(0); // remove header
@@ -135,21 +135,22 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			tableOrders.remove(tableOrders.size() - 1); // remove separator
 			tableOrders.remove(tableOrders.size() - 1); // remove table foot
 			logger.debug("Found {} orders", tableOrders.size());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.debug("Found no orders");
 			return entries;
 		}
 
-		for (Element tr : tableOrders) {
-			var entry = new RetrievableTransaction();
+		for (final Element tr : tableOrders) {
+			final var entry = new RetrievableTransaction();
 			entry.setSource(getName());
 			entry.setUrl(urlDetailOrder + "/" + tr.select("td").get(2).select("a").attr("href"));
 			entry.setSourceId(tr.select("td").get(2).text().replace("# ", ""));
-			var price = new String(tr.select("td").get(10).html().getBytes(StandardCharsets.ISO_8859_1),
+			final var price = new String(tr.select("td").get(10).html().getBytes(StandardCharsets.ISO_8859_1),
 					StandardCharsets.UTF_8);
 
-			if (!price.contains("n/a"))
-				entry.setTotalValue(new MoneyValue(UITools.parseDouble(price), getCurrency()));
+			if (!price.contains("n/a")) {
+			    entry.setTotalValue(new MoneyValue(UITools.parseDouble(price), getCurrency()));
+			}
 
 			entry.setDateTransaction(UITools.parseDate(tr.select("td").get(0).html(), "dd/MM/yy"));
 			entries.add(entry);

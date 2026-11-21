@@ -37,7 +37,7 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 	private TelegramClient telegramClient;
 	private TelegramBotsLongPollingApplication pool;
 	private static final String REGEX = "\\{(.*?)\\}";
-	private Pattern p = Pattern.compile(REGEX);
+	private final Pattern p = Pattern.compile(REGEX);
 
 	@Override
 	public void start() throws IOException {
@@ -53,13 +53,13 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 
 			logger.info("{} Bot is started", getName());
 
-		} catch (TelegramApiException e) {
+		} catch (final TelegramApiException e) {
 			throw new IOException(e);
 		}
 	}
 
 	public static JsonObject parse(User author) {
-		var user = new JsonObject();
+		final var user = new JsonObject();
 
 		if (author != null) {
 			user.addProperty("id", author.getId());
@@ -75,32 +75,33 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 	}
 
 	private JsonObject parse(Chat c) {
-		var channel = new JsonObject();
+		final var channel = new JsonObject();
 
 		channel.addProperty("name", c.getTitle() == null ? c.getUserName() : c.getTitle());
 		channel.addProperty("id", c.getId());
 		channel.addProperty("type", c.getType());
 		return channel;
 	}
-	
+
 
 	@Override
 	public void consume(List<Update> updates) {
-	    updates.forEach(update -> 
-	        
+	    updates.forEach(update ->
+
 	                ThreadManager.getInstance().executeThread(new MTGRunnable() {
-			    
+
 			    @Override
 			    protected void auditedRun() {
 				logger.debug("read {}", update);
 				var message = update.getMessage(); // return null if message is send to a Channel.
 
-				if (message == null)
-					message = update.getChannelPost();
+				if (message == null) {
+				    message = update.getChannelPost();
+				}
 
 				if (message != null && message.hasText()) {
 
-					var info = new MessageInfo();
+					final var info = new MessageInfo();
 					info.setSource(getName());
 					info.setUser(parse(message.getFrom()));
 					info.setChannel(parse(message.getChat()));
@@ -110,19 +111,20 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 
 				}
 
-				
+
 			    }
 			},"read telegram update")
-	         
+
 	        );
-	    
+
 	}
 
 	private void response(Message message, MessageInfo info) {
-		var m = p.matcher(message.getText());
+		final var m = p.matcher(message.getText());
 
-		if (m.find())
-			sendCard(message, m.group(1));
+		if (m.find()) {
+		    sendCard(message, m.group(1));
+		}
 
 		info.setEnd(Instant.now());
 		AbstractTechnicalServiceManager.inst().store(info);
@@ -131,14 +133,14 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 
 	private void sendCard(Message message, String cardName) {
 		try {
-			var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, false);
+			final var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, false);
 			if (!ret.isEmpty()) {
-				var card = ret.get(0);
-				var msgResponse = SendPhoto.builder().chatId(message.getChatId()).photo(new InputFile(card.getUrl()))
+				final var card = ret.get(0);
+				final var msgResponse = SendPhoto.builder().chatId(message.getChatId()).photo(new InputFile(card.getUrl()))
 						.caption(card.getName() + "/" + card.getEdition()).build();
 				telegramClient.execute(msgResponse);
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 	}
@@ -150,17 +152,19 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 	}
 
 	private void init() {
-		if (telegramClient == null)
-			telegramClient = new OkHttpTelegramClient(getAuthenticator().get("TOKEN"));
+		if (telegramClient == null) {
+		    telegramClient = new OkHttpTelegramClient(getAuthenticator().get("TOKEN"));
+		}
 	}
 
 	@Override
 	public void stop() throws IOException {
 		try {
-			if (pool != null)
-				pool.stop();
+			if (pool != null) {
+			    pool.stop();
+			}
 
-		} catch (TelegramApiException e) {
+		} catch (final TelegramApiException e) {
 			throw new IOException(e);
 		}
 
@@ -184,15 +188,16 @@ public class TelegramBotServer extends AbstractMTGServer implements LongPollingU
 	@Override
 	public boolean isAlive() {
 
-		if (pool != null)
-			return pool.isRunning();
-		else
-			return false;
+		if (pool != null) {
+		    return pool.isRunning();
+		} else {
+		    return false;
+		}
 	}
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 		m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run bot at startup"));
 		return m;
 	}

@@ -15,10 +15,10 @@ import org.ocpsoft.prettytime.PrettyTime;
 
 public class PlayerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private JLabel lblIcon;
-	private JLabel lblName;
-	private JLabel lblCountry;
-	private JLabel lblStatus;
+	private final JLabel lblIcon;
+	private final JLabel lblName;
+	private final JLabel lblCountry;
+	private final JLabel lblStatus;
 	private static final int ICONSIZE = 50;
 	/**
 	 * Create the panel.
@@ -29,7 +29,7 @@ public class PlayerPanel extends JPanel {
 		lblIcon.setPreferredSize(new Dimension(ICONSIZE, ICONSIZE));
 		add(lblIcon, BorderLayout.WEST);
 
-		JPanel panel = new JPanel();
+		final JPanel panel = new JPanel();
 		add(panel, BorderLayout.CENTER);
 		panel.setLayout(new GridLayout(3, 1, 0, 0));
 
@@ -46,7 +46,7 @@ public class PlayerPanel extends JPanel {
 	public void setPlayer(Player p) {
 		try {
 			lblIcon.setIcon(new ImageIcon(ImageTools.resize(p.getAvatar(), ICONSIZE, ICONSIZE)));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			lblIcon.setIcon(null);
 		}
 		lblName.setText(p.getName());
@@ -55,7 +55,7 @@ public class PlayerPanel extends JPanel {
 		try {
 			lblStatus.setText(p.getState().name() + " ("
 					+ new PrettyTime(MTGControler.getInstance().getLocale()).format(p.getOnlineConnectionDate()) + ")");
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			lblStatus.setText("");
 		}
 

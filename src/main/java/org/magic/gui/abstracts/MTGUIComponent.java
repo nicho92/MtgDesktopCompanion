@@ -27,12 +27,12 @@ public abstract class MTGUIComponent extends JComponent {
 	protected transient Logger logger = MTGLogger.getLogger(getClass());
 	private boolean alreadyShow = false;
 	private transient ComponentListener windowsListener;
-	private JTabbedPane contextTabbedPane;
+	private final JTabbedPane contextTabbedPane;
 
 	public abstract String getTitle();
 
 	public void setEnclosingScrollPane(JScrollPane scrollPane) {
-		JScrollPane enclosingScrollPane = scrollPane;
+		final JScrollPane enclosingScrollPane = scrollPane;
 		if (enclosingScrollPane != null) {
 			enclosingScrollPane.addComponentListener(windowsListener);
 		}
@@ -114,7 +114,7 @@ public abstract class MTGUIComponent extends JComponent {
 	}
 
 	public static MTGUIComponent build(JComponent c, String name, ImageIcon ic) {
-		MTGUIComponent pane = new MTGUIComponent() {
+		final MTGUIComponent pane = new MTGUIComponent() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -135,9 +135,10 @@ public abstract class MTGUIComponent extends JComponent {
 	}
 
 	public static JFrame createJFrame(MTGUIComponent p, boolean resizable, boolean exitOnClose) {
-		var f = new JFrame(p.getTitle());
-		if (p.getIcon() != null)
-			f.setIconImage(p.getIcon().getImage());
+		final var f = new JFrame(p.getTitle());
+		if (p.getIcon() != null) {
+		    f.setIconImage(p.getIcon().getImage());
+		}
 
 		f.getContentPane().add(p);
 		f.pack();
@@ -147,22 +148,24 @@ public abstract class MTGUIComponent extends JComponent {
 			public void windowClosing(WindowEvent e) {
 				p.onDestroy();
 
-				if (exitOnClose)
-					System.exit(0);
+				if (exitOnClose) {
+				    System.exit(0);
+				}
 			}
 		});
 		return f;
 	}
 
 	public static JDialog createJDialog(MTGUIComponent c, boolean resizable, boolean modal) {
-		var j = new JDialog();
+		final var j = new JDialog();
 
 		j.getContentPane().setLayout(new BorderLayout());
 		j.getContentPane().add(c, BorderLayout.CENTER);
 		j.setTitle(c.getTitle());
 		j.setLocationRelativeTo(SwingUtilities.getRoot(c));
-		if (c.getIcon() != null)
-			j.setIconImage(c.getIcon().getImage());
+		if (c.getIcon() != null) {
+		    j.setIconImage(c.getIcon().getImage());
+		}
 
 		j.pack();
 		j.setModal(modal);

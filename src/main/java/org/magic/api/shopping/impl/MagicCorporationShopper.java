@@ -23,15 +23,15 @@ import org.magic.services.tools.UITools;
 
 public class MagicCorporationShopper extends AbstractMagicShopper {
 
-	private String urlLogin = "https://boutique.magiccorporation.com/moncompte.php?op=login_db";
-	private String urlCommandes = "https://boutique.magiccorporation.com/moncompte.php?op=suivi_commande";
-	private String urlDetailCommandes = "https://boutique.magiccorporation.com/moncompte.php?op=commande&num_commande=";
+	private final String urlLogin = "https://boutique.magiccorporation.com/moncompte.php?op=login_db";
+	private final String urlCommandes = "https://boutique.magiccorporation.com/moncompte.php?op=suivi_commande";
+	private final String urlDetailCommandes = "https://boutique.magiccorporation.com/moncompte.php?op=commande&num_commande=";
 
 	public void init() {
 		if (client == null) {
 			try {
 				client = URLTools.newClient();
-				var res = RequestBuilder.build().post().url(urlLogin).setClient(client)
+				final var res = RequestBuilder.build().post().url(urlLogin).setClient(client)
 						.addContent("email", getAuthenticator().getLogin())
 						.addContent("pass", getAuthenticator().getPassword()).toContentString();
 
@@ -39,7 +39,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 					logger.warn("Error Login/password");
 					client = null;
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 
@@ -50,13 +50,13 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 	public List<RetrievableTransaction> listOrders() throws IOException {
 		init();
 
-		var orders = new ArrayList<RetrievableTransaction>();
+		final var orders = new ArrayList<RetrievableTransaction>();
 
-		Document doc = URLTools.toHtml(client.toString(client.doGet(urlCommandes)));
-		Elements tables = doc.select("table tbody tr");
+		final Document doc = URLTools.toHtml(client.toString(client.doGet(urlCommandes)));
+		final Elements tables = doc.select("table tbody tr");
 
-		for (Element e : tables) {
-			var order = new RetrievableTransaction();
+		for (final Element e : tables) {
+			final var order = new RetrievableTransaction();
 			order.setSourceId(e.select("td").get(0).text());
 			order.setDateTransaction(UITools.parseDate(e.select("td").get(1).text(), "dd/MM/yy"));
 			order.setSource(getName());
@@ -77,24 +77,24 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
-		var t = buildTransaction(rt);
+		final var t = buildTransaction(rt);
 
-		var d = RequestBuilder.build().setClient(client).url(rt.getUrl()).get().toHtml();
-		Elements table = d.select("table tbody tr");
+		final var d = RequestBuilder.build().setClient(client).url(rt.getUrl()).get().toHtml();
+		final Elements table = d.select("table tbody tr");
 
-		var header = d.select("div.main_bloc_article").get(2);
+		final var header = d.select("div.main_bloc_article").get(2);
 
 		fillInfo(t, header);
 
-		for (Element tr : table) {
+		for (final Element tr : table) {
 
 			// articles
 			if (tr.childNodeSize() > 2) {
-				var name = tr.select("td").get(0).text();
-				var price = UITools.parseDouble(tr.select("td").get(1).text());
-				var qty = Integer.parseInt(tr.select("td").get(2).text());
+				final var name = tr.select("td").get(0).text();
+				final var price = UITools.parseDouble(tr.select("td").get(1).text());
+				final var qty = Integer.parseInt(tr.select("td").get(2).text());
 
-				var st = new MTGSealedStock(new MTGSealedProduct());
+				final var st = new MTGSealedStock(new MTGSealedProduct());
 				st.setComment(name);
 				st.setQte(qty);
 				st.setPrice(price);
@@ -116,7 +116,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 
 	private void fillInfo(Transaction t, Element header) {
 
-		var bs = header.select("b");
+		final var bs = header.select("b");
 
 		switch (bs.get(2).text()) {
 			case "Carte Bancaire" :
@@ -130,25 +130,25 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		}
 		try {
 			t.setDateCreation(UITools.parseDate(bs.get(3).text(), "EEEE dd MMMM yyyy 'à' hh:mm", Locale.FRANCE));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
 		try {
 			t.setDatePayment(UITools.parseDate(bs.get(4).text(), "EEEE dd MMMM yyyy 'à' hh:mm", Locale.FRANCE));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			t.setDatePayment(null);
 		}
 
 		try {
 			t.setDateSend(UITools.parseDate(bs.get(7).text(), "dd/MM/yyyy 'à' hh:mm")); // 24/11/2015 à 14:48
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			t.setDateSend(null);
 		}
 
 		try {
 			t.setTransporterShippingCode(bs.get(8).text());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			t.setTransporterShippingCode(null);
 		}
 	}

@@ -37,79 +37,79 @@ import org.magic.services.tools.CardNexusTools;
 import org.magic.services.tools.MTG;
 
 public class CardNexusExternalShop extends AbstractExternalShop {
-    
-    
-    private ProductsService pService;
-    private InventoryService iService;
-    private OrdersService oService;
+
+
+    private final ProductsService pService;
+    private final InventoryService iService;
+    private final OrdersService oService;
 
     public CardNexusExternalShop() {
 	    pService = new ProductsService();
 	    iService = new InventoryService();
 	    oService = new OrdersService();
     }
-    
+
     private void init()
     {
 	CardNexusTools.initConfig();
 	try {
         	    pService.listExpansion(NexusConfig.getDefaultGameValue()); //caching
-        	} catch (IOException e) {
+        	} catch (final IOException e) {
         	    logger.error(e);
-        	} 
-	
+        	}
+
     }
-    
+
     @Override
     public STATUT getStatut() {
           return STATUT.DEV;
     }
-    
+
     @Override
     public String getVersion() {
         return NexusConfig.API_VERSION;
     }
-    
-    
+
+
     @Override
     public List<MTGProduct> listProducts(String name) throws IOException {
 	init();
-	
-	var ret = new ArrayList<MTGProduct>();
-	var req = SearchProductRequest.create().setName(name).contains();
-	var results = pService.searchProduct(req);
-		
+
+	final var ret = new ArrayList<MTGProduct>();
+	final var req = SearchProductRequest.create().setName(name).contains();
+	final var results = pService.searchProduct(req);
+
 	results.forEach(p->{
-	    if(p instanceof CardProduct card)
+	    if(p instanceof final CardProduct card)
 	    {
 		try {
-		    var ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(p.getExpansion().code());
-		    var item = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(card.getPrintNumber(),  ed);
+		    final var ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(p.getExpansion().code());
+		    final var item = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(card.getPrintNumber(),  ed);
 		    item.setUrl(card.getImageUrl());
 		    ret.add(item);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 		    logger.error(e);
 		}
 	    }
-	    else  if(p instanceof SealedProduct sealed)
+	    else  if(p instanceof final SealedProduct sealed)
 	    {
 		try {
-		    
-		    var ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(p.getExpansion().code());
-		    var items = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, parseTypeProduct(sealed.getProductCategory()));
-		    var item = items.getFirst();
-		    
+
+		    final var ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(p.getExpansion().code());
+		    final var items = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, parseTypeProduct(sealed.getProductCategory()));
+		    final var item = items.getFirst();
+
 		    item.setUrl(p.getImageUrl());
 		    ret.add(item);
-		    
-		} catch (Exception e) {
+
+		} catch (final Exception e) {
 		  logger.error(e);
 		}
 	    }
 	});
-	
+
 	return ret;
-	
+
     }
 
     private EnumItems parseTypeProduct(EnumSealedType productCategory) {
@@ -125,106 +125,107 @@ public class CardNexusExternalShop extends AbstractExternalShop {
                 	case preconstructed_deck: return EnumItems.CONSTRUCTPACK;
                 	case preconstructed_deck_box: return EnumItems.CONSTRUCTPACK;
                 	case prerelease_kit: return EnumItems.PRERELEASEPACK;
-                	default : return EnumItems.LOTS; 
+                	default : return EnumItems.LOTS;
 	}
-    }   
-    
+    }
+
     @Override
     public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
-	var line = iService.getInventoryLine(id);
-	var p = pService.getProductById(line.productId());
+	final var line = iService.getInventoryLine(id);
+	final var p = pService.getProductById(line.productId());
 	return parseStockItem(p, line);
-	
-	
+
+
     }
 
     @Override
     protected void saveOrUpdateStock(List<MTGStockItem> items) throws IOException {
-	
-	
-	
-	
+
+
+
+
 	items.forEach(item->{
-	    var listId = item.getTiersAppIds(getName());
-	    var req = UpdateInventoryRequest.create()
+	    final var listId = item.getTiersAppIds(getName());
+	    final var req = UpdateInventoryRequest.create()
 		    						.setQuantity(item.getQte())
 		    						.setComment(item.getComment())
 		    						.setLanguage(item.getLanguage());
 	    try {
-		var ret = iService.updateInventoryLine(listId, req);
-		
+		final var ret = iService.updateInventoryLine(listId, req);
+
 		logger.info("line updated {}", ret);
-		
-		
-	    } catch (IOException e) {
+
+
+	    } catch (final IOException e) {
 		logger.error(e);
 	    }
 	});
-	
+
 
     }
-    
-    
+
+
     @Override
     protected List<MTGStockItem> loadStock(String search) throws IOException {
 	init();
-	var ret = new ArrayList<MTGStockItem>();
-	
-	List<InventoryLine> lines;  
-		
+	final var ret = new ArrayList<MTGStockItem>();
+
+	List<InventoryLine> lines;
+
 	if(!StringUtils.isEmpty(search))
 	{
 	    lines = iService.inventorySearch(SearchInventoryRequest.create().setName(search).contains());
 	}
 	else
 	{
-	    
+
 	    lines = iService.getInventoryLines(InventoryLinesRequest.create());
 	}
-	
+
 	lines.forEach(il->{
-	    	    var product=pService.getProductById(il.productId());
-            	    if(product instanceof CardProduct c)
+	    	    final var product=pService.getProductById(il.productId());
+            	    if(product instanceof final CardProduct c)
             	    {
-            		ret.add(parseStockItem(c,il)); 
+            		ret.add(parseStockItem(c,il));
             	    }
-	 
+
 	});
-	
-	
+
+
 	return ret;
     }
 
 
     private MTGStockItem parseStockItem(AbstractProduct p, InventoryLine il) {
-	var item = new MTGCardStock();
-			
-		if(p instanceof CardProduct c)
+	final var item = new MTGCardStock();
+
+		if(p instanceof final CardProduct c)
 		{
-		    
+
 		    try {
 			item.setProduct(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(c.getPrintNumber(), pService.getExpansionById(c.getExpansionId()).code()));
 		    }
-		    catch(Exception e)
+		    catch(final Exception e)
 		    {
 			logger.error(e);
 			return null;
 		    }
-		    
-		    
-		
+
+
+
 		    try {
-			
-			if(!c.getPrices().isEmpty())
+
+			if(!c.getPrices().isEmpty()) {
 			    item.setPrice(c.getPrices().get(il.finish()).cardmarket().marketValue());
 			}
-			catch(Exception _)
+			}
+			catch(final Exception _)
 			{
 			    logger.error("error gettings price market for {}",c);
 			}
-		
+
 		}
-		
+
 		item.setFoil(il.finish()==EnumFinishes.Foil);
 		item.setCondition(aliases.getReversedConditionFor(this, il.condition().getLabel(), EnumCondition.NEAR_MINT));
 		item.setDateUpdate(il.updatedAt());
@@ -234,21 +235,22 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 		item.setSigned(il.finish()==EnumFinishes.Signed);
 		item.setLanguage(il.language());
 		item.getTiersAppIds().put(getName(),il.id());
-		
+
 		return item;
     }
 
     @Override
     public List<Category> listCategories() throws IOException {
-	
-	var ret = new ArrayList<Category>();
+
+	final var ret = new ArrayList<Category>();
 	int index = 0;
-	
+
 	ret.add(new Category(index++, "card"));
-	
-	for(var s : EnumSealedType.values())
+
+	for(final var s : EnumSealedType.values()) {
 	    ret.add(new Category(index++, s.name()));
-	
+	}
+
 	return ret;
     }
 
@@ -312,9 +314,9 @@ public class CardNexusExternalShop extends AbstractExternalShop {
 
     @Override
     protected List<Transaction> loadTransaction() throws IOException {
-	
-	var ret = new ArrayList<Transaction>();
-	
+
+	final var ret = new ArrayList<Transaction>();
+
 	oService.listOrders(SalesRequest.create()).forEach(o->
 	    ret.add(parseOrder(o))
 	);
@@ -322,7 +324,7 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     }
 
     private Transaction parseOrder(Order o) {
-	 var t = new Transaction();
+	 final var t = new Transaction();
 	    	t.setCurrency(o.currency());
 	    	t.setDateCreation(o.placedAt());
 	    	t.setDatePayment(o.completedAt());
@@ -333,15 +335,15 @@ public class CardNexusExternalShop extends AbstractExternalShop {
     }
 
     private Contact parseContact(User buyer) {
-	var c = new Contact();
-		
+	final var c = new Contact();
+
 	c.setName(buyer.username());
 	c.setCountry(buyer.country());
-	
+
 	return c;
     }
 
-  
+
 
 
 }

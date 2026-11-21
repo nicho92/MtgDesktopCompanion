@@ -42,7 +42,7 @@ public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		this.title = title;
 
 		if (isVisible()) {
-			SwingWorker<Void, Void> s = new SwingWorker<>() {
+			final SwingWorker<Void, Void> s = new SwingWorker<>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
@@ -63,11 +63,13 @@ public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
 	@Override
 	public TimeSeriesCollection getDataSet() {
-		var dataset = new TimeSeriesCollection();
-		var series1 = new TimeSeries(title);
-		if (cpVariations != null)
-			for (Entry<Date, Double> d : cpVariations.entrySet())
-				series1.add(new Day(d.getKey()), d.getValue().doubleValue());
+		final var dataset = new TimeSeriesCollection();
+		final var series1 = new TimeSeries(title);
+		if (cpVariations != null) {
+		    for (final Entry<Date, Double> d : cpVariations.entrySet()) {
+		        series1.add(new Day(d.getKey()), d.getValue().doubleValue());
+		    }
+		}
 
 		dataset.addSeries(series1);
 		return dataset;

@@ -29,7 +29,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 	private static final String ALERT_MIN_PERCENT = "ALERT_MIN_PERCENT";
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
 	private static final String AUTOSTART = "AUTOSTART";
-	private Timer timer;
+	private final Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
 
@@ -55,29 +55,31 @@ public class AlertTrendServer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			@Override
 			public void run() {
-				var ret = new ArrayList<CardShake>();
-				for (var alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
+				final var ret = new ArrayList<CardShake>();
+				for (final var alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 					try {
-						var cpv = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(),
+						final var cpv = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(),
 								alert.isFoil());
 						if (cpv != null) {
-							var cs = cpv.toCardShake();
+							final var cs = cpv.toCardShake();
 
 							if (cs != null) {
 								alert.setShake(cs);
 
-								if (Math.abs(cs.getPercentDayChange()) >= getInt(ALERT_MIN_PERCENT))
-									ret.add(cs);
+								if (Math.abs(cs.getPercentDayChange()) >= getInt(ALERT_MIN_PERCENT)) {
+								    ret.add(cs);
+								}
 
-								if (getInt(THREAD_PAUSE) != null)
-									ThreadManager.getInstance().sleep(getInt(THREAD_PAUSE));
+								if (getInt(THREAD_PAUSE) != null) {
+								    ThreadManager.getInstance().sleep(getInt(THREAD_PAUSE));
+								}
 
 							}
 						}
-					} catch (IOException e1) {
+					} catch (final IOException e1) {
 						logger.error(e1);
 						alert.setShake(new CardShake());
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("Error starting", e);
 						alert.setShake(new CardShake());
 						running = false;
@@ -85,18 +87,18 @@ public class AlertTrendServer extends AbstractMTGServer {
 				}
 
 				if (!ret.isEmpty()) {
-					var notif = new MTGNotification();
+					final var notif = new MTGNotification();
 					notif.setTitle("Alert Trend Cards");
 					notif.setType(MESSAGE_TYPE.INFO);
 
-					for (var not : getArray(NOTIFIER)) {
+					for (final var not : getArray(NOTIFIER)) {
 						if (!not.isEmpty()) {
 							logger.debug("notify with {} ", not);
-							var notifier = getPlugin(not, MTGNotifier.class);
+							final var notifier = getPlugin(not, MTGNotifier.class);
 							notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 							try {
 								notifier.send(notif);
-							} catch (IOException e) {
+							} catch (final IOException e) {
 								logger.error(e);
 							}
 						}
@@ -109,7 +111,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 			}
 		};
 
-		var duration = getLong(TIMEOUT_MINUTE);
+		final var duration = getLong(TIMEOUT_MINUTE);
 		timer.scheduleAtFixedRate(tache, 0, duration * 60000);
 		logger.info("Server start with {} min timeout", duration);
 

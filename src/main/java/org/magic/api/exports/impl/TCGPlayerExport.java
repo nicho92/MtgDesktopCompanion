@@ -34,19 +34,20 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stocks, File f) throws IOException {
 
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
 		temp.append(COLUMNS).append(System.lineSeparator());
 
-		for (MTGCardStock mcs : stocks) {
+		for (final MTGCardStock mcs : stocks) {
 			try {
 				temp.append(mcs.getQte()).append(getSeparator());
 				temp.append(toFullName(mcs.getProduct())).append(getSeparator());
 
-				if (mcs.getProduct().getName().contains(","))
-					temp.append("\"").append(mcs.getProduct()).append("\"");
-				else
-					temp.append(mcs.getProduct());
+				if (mcs.getProduct().getName().contains(",")) {
+				    temp.append("\"").append(mcs.getProduct()).append("\"");
+				} else {
+				    temp.append(mcs.getProduct());
+				}
 
 				temp.append(getSeparator());
 
@@ -72,7 +73,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 								Currency.getInstance("USD"), mcs.getValue().doubleValue())));
 				temp.append(System.lineSeparator());
 				notify(mcs.getProduct());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Error export {}", mcs, e);
 			}
 
@@ -81,19 +82,23 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	}
 
 	private String toFullName(MTGCard magicCard) {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
-		if (magicCard.getName().contains(","))
-			temp.append("\"").append(magicCard.getName()).append("\"");
-		else
-			temp.append(magicCard.getName());
+		if (magicCard.getName().contains(",")) {
+		    temp.append("\"").append(magicCard.getName()).append("\"");
+		} else {
+		    temp.append(magicCard.getName());
+		}
 
-		if (magicCard.isShowCase())
-			temp.append(" (Showcase)");
-		if (magicCard.isBorderLess())
-			temp.append(" (Borderless)");
-		if (magicCard.isExtendedArt())
-			temp.append(" (Extended Art)");
+		if (magicCard.isShowCase()) {
+		    temp.append(" (Showcase)");
+		}
+		if (magicCard.isBorderLess()) {
+		    temp.append(" (Borderless)");
+		}
+		if (magicCard.isExtendedArt()) {
+		    temp.append(" (Extended Art)");
+		}
 
 		return temp.toString();
 	}
@@ -101,9 +106,9 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MTGCardStock> ret = new ArrayList<>();
+		final List<MTGCardStock> ret = new ArrayList<>();
 		matches(content, true).forEach(m -> {
-			var st = new MTGCardStock();
+			final var st = new MTGCardStock();
 			st.setQte(Integer.parseInt(m.group(1)));
 			st.setLanguage(m.group(10));
 			st.getTiersAppIds().put(getName(), m.group(12));
@@ -113,23 +118,23 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			var found = false;
 
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5),
+				final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5),
 						MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getSetIdFor(this, m.group(6))));
 				st.setProduct(mc);
 				found = true;
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("not card found by number for {} for set {} : {}", m.group(5), m.group(6), e.getMessage());
 			}
 
 			if (!found) {
 				try {
-					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
+					final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
 							.searchCardByName(m.group(3).replace("\"", ""), MTG.getEnabledPlugin(MTGCardsProvider.class)
 									.getSetById(aliases.getSetIdFor(this, m.group(6))), true)
 							.get(0);
 					st.setProduct(mc);
 					found = true;
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					logger.error("no card found by name for {} for set {} : {}", m.group(3), m.group(6),
 							e.getMessage());
 				}

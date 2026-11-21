@@ -60,14 +60,14 @@ public class ManualImportExport extends AbstractCardExport {
 
 	@Override
 	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
-		var diag = new ManualImportDialog();
+		final var diag = new ManualImportDialog();
 		diag.setVisible(true);
 		return importFromDeck(diag.getSelectedItem());
 	}
 
 	@Override
 	public MTGDeck importDeckFromFile(File f) throws IOException {
-		var diag = new ManualImportDialog();
+		final var diag = new ManualImportDialog();
 		diag.setVisible(true);
 		return diag.getSelectedItem();
 	}

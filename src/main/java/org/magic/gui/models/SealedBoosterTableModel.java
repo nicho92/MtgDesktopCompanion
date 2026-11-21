@@ -51,11 +51,11 @@ public class SealedBoosterTableModel extends GenericTableModel<MutableTriple<MTG
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		if (column == 0)
-			items.get(row).setLeft((MTGEdition) aValue);
-		else if (column == 1)
-			items.get(row).setMiddle(EnumExtra.valueOf(aValue.toString().toUpperCase()));
-		else if (column == 2) {
+		if (column == 0) {
+		    items.get(row).setLeft((MTGEdition) aValue);
+		} else if (column == 1) {
+		    items.get(row).setMiddle(EnumExtra.valueOf(aValue.toString().toUpperCase()));
+		} else if (column == 2) {
 			if (Integer.parseInt(aValue.toString()) > 0) {
 				items.get(row).setRight(Integer.parseInt(aValue.toString()));
 			} else {

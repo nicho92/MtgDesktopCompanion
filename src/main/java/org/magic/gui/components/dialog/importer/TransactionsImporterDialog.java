@@ -37,7 +37,7 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 
 	private JComboBox<MTGShopper> cboSniffers;
 	private ShoppingEntryTableModel model;
-	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
+	private final AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 	private transient MTGShopper selectedSniffer;
 	private JPanel panelChoose;
 	private TransactionsPanel transactionPanel;
@@ -48,8 +48,8 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 		setTitle(capitalize("SHOP"));
 		setIconImage(MTGConstants.ICON_SHOP.getImage());
 
-		var panelHaut = new JPanel();
-		var btnLoad = new JButton(MTGConstants.ICON_OPEN);
+		final var panelHaut = new JPanel();
+		final var btnLoad = new JButton(MTGConstants.ICON_OPEN);
 		panelChoose = new JPanel();
 
 		cboSniffers = UITools.createComboboxPlugins(MTGShopper.class, false);
@@ -62,7 +62,7 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 		selectedSniffer = listEnabledPlugins(MTGShopper.class).get(0);
 		cboSniffers.addActionListener(_ -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 		btnLoad.addActionListener(_ -> {
-			AbstractObservableWorker<List<RetrievableTransaction>, RetrievableTransaction, MTGShopper> sw = new AbstractObservableWorker<>(
+			final AbstractObservableWorker<List<RetrievableTransaction>, RetrievableTransaction, MTGShopper> sw = new AbstractObservableWorker<>(
 					lblLoad, selectedSniffer) {
 				@Override
 				protected List<RetrievableTransaction> doInBackground() throws Exception {
@@ -80,30 +80,30 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 
 	@Override
 	public JComponent getSelectComponent() {
-		var splitPane = new JSplitPane();
+		final var splitPane = new JSplitPane();
 		transactionPanel = new TransactionsPanel();
 
 		model = new ShoppingEntryTableModel();
 		model.setWritable(false);
-		var table = UITools.createNewTable(model, true);
+		final var table = UITools.createNewTable(model, true);
 		transactionPanel.getModel().setWritable(false);
 		transactionPanel.disableCommands();
 
 		table.getSelectionModel().addListSelectionListener(_ -> {
 
-			List<RetrievableTransaction> rts = UITools.getTableSelections(table, 0);
-			AbstractObservableWorker<List<Transaction>, Transaction, MTGShopper> sw = new AbstractObservableWorker<>(
+			final List<RetrievableTransaction> rts = UITools.getTableSelections(table, 0);
+			final AbstractObservableWorker<List<Transaction>, Transaction, MTGShopper> sw = new AbstractObservableWorker<>(
 					lblLoad, selectedSniffer) {
 
 				@Override
 				protected List<Transaction> doInBackground() throws Exception {
-					var ret = new ArrayList<Transaction>();
+					final var ret = new ArrayList<Transaction>();
 
 					rts.forEach(rt -> {
 
 						try {
 							ret.add(plug.getTransaction(rt));
-						} catch (IOException e) {
+						} catch (final IOException e) {
 							logger.error(e);
 						}
 
@@ -117,10 +117,10 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 					super.done();
 					try {
 						transactionPanel.init(get());
-					} catch (InterruptedException e) {
+					} catch (final InterruptedException e) {
 						Thread.currentThread().interrupt();
 						logger.error(e);
-					} catch (ExecutionException e) {
+					} catch (final ExecutionException e) {
 						logger.error(e);
 					}
 				}

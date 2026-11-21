@@ -16,7 +16,7 @@ public class YandereWallpaperProvider extends AbstractJsonWallpaperProvider {
 
 	@Override
 	protected List<MTGWallpaper> parse(JsonObject el) {
-		var pic = new MTGWallpaper();
+		final var pic = new MTGWallpaper();
 		pic.setAuthor(el.get("author").getAsString());
 		pic.setFormat(el.get("file_url").getAsString().substring(el.get("file_url").getAsString().length() - 3));
 		pic.setUrlThumb(URI.create(el.get("preview_url").getAsString()));
@@ -25,8 +25,9 @@ public class YandereWallpaperProvider extends AbstractJsonWallpaperProvider {
 		pic.setName(el.get("id").getAsString());
 		pic.setProvider(getName());
 		pic.addHeader(URLTools.USER_AGENT, MTGConstants.MTG_APP_NAME);
-		for (var s : el.get("tags").getAsString().split(" "))
-			pic.getTags().add(s);
+		for (final var s : el.get("tags").getAsString().split(" ")) {
+		    pic.getTags().add(s);
+		}
 
 		return List.of(pic);
 	}

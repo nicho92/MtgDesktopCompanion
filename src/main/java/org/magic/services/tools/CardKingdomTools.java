@@ -52,32 +52,40 @@ public class CardKingdomTools {
 			}
 		}
 
-		if (card.getPromotypes().contains(EnumPromoType.BUYABOX))
-			name = name + " (Buy-a-Box Foil)";
+		if (card.getPromotypes().contains(EnumPromoType.BUYABOX)) {
+		    name = name + " (Buy-a-Box Foil)";
+		}
 
-		if (card.getPromotypes().contains(EnumPromoType.PRERELEASE))
-			name = name + " (Prerelease Foil)";
+		if (card.getPromotypes().contains(EnumPromoType.PRERELEASE)) {
+		    name = name + " (Prerelease Foil)";
+		}
 
-		if (card.getPromotypes().contains(EnumPromoType.RELEASE))
-			name = name + " (Launch Foil)";
+		if (card.getPromotypes().contains(EnumPromoType.RELEASE)) {
+		    name = name + " (Launch Foil)";
+		}
 
-		if (card.getPromotypes().contains(EnumPromoType.RELEASE))
-			name = name + " (FNM Foil)";
+		if (card.getPromotypes().contains(EnumPromoType.RELEASE)) {
+		    name = name + " (FNM Foil)";
+		}
 
-		if (card.getPromotypes().contains(EnumPromoType.PLANESWALKERDECK))
-			name = name + " (Planeswalker Deck)";
+		if (card.getPromotypes().contains(EnumPromoType.PLANESWALKERDECK)) {
+		    name = name + " (Planeswalker Deck)";
+		}
 
 		if (card.getPromotypes().contains(EnumPromoType.STARTERDECK)) {
-			if (card.getEdition().toString().contains("Welcome Deck 2016"))
-				name = name + " (Welcome 2016)";
+			if (card.getEdition().toString().contains("Welcome Deck 2016")) {
+			    name = name + " (Welcome 2016)";
+			}
 
-			if (card.getEdition().toString().contains("Welcome Deck 2017"))
-				name = name + " (Welcome 2017)";
+			if (card.getEdition().toString().contains("Welcome Deck 2017")) {
+			    name = name + " (Welcome 2017)";
+			}
 
 		}
 
-		if (card.getEdition().toString().contains("Friday Night Magic"))
-			name = name + " (FNM Foil)";
+		if (card.getEdition().toString().contains("Friday Night Magic")) {
+		    name = name + " (FNM Foil)";
+		}
 
 		// Specific set issues
 
@@ -87,11 +95,13 @@ public class CardKingdomTools {
 		}
 
 		// Specific cards
-		if (card.getName().contains("Our Market Research"))
-			name = "Our Market Research";
+		if (card.getName().contains("Our Market Research")) {
+		    name = "Our Market Research";
+		}
 
-		if (card.getName().contains("Rumors of My Death"))
-			name = "\"Rumors of My Death...\"";
+		if (card.getName().contains("Rumors of My Death")) {
+		    name = "\"Rumors of My Death...\"";
+		}
 
 		return name;
 	}
@@ -127,8 +137,9 @@ public class CardKingdomTools {
 			set = PROMOTIONAL;
 		}
 
-		if (set.contains("Friday Night Magic"))
-			set = PROMOTIONAL;
+		if (set.contains("Friday Night Magic")) {
+		    set = PROMOTIONAL;
+		}
 
 		return set;
 	}

@@ -39,7 +39,7 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 		temp.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append(System.lineSeparator()).append(
 				"<Deck xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">")
 				.append(System.lineSeparator()).append("<NetDeckID>0</NetDeckID>").append(System.lineSeparator())
@@ -61,16 +61,16 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String deckName) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(deckName);
 
 		try {
-			var b = XMLTools.createSecureXMLDocumentBuilder();
-			var d = b.parse(new ByteArrayInputStream(f.getBytes()));
-			var c = XMLTools.parseNodes(d, "//Cards");
+			final var b = XMLTools.createSecureXMLDocumentBuilder();
+			final var d = b.parse(new ByteArrayInputStream(f.getBytes()));
+			final var c = XMLTools.parseNodes(d, "//Cards");
 
 			for (int i = 0; i < c.getLength(); i++) {
-				var obj = c.item(i);
+				final var obj = c.item(i);
 
 				read(obj, deck);
 
@@ -85,9 +85,9 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 	private void read(Node obj, MTGDeck deck) throws DOMException, IOException {
 		try {
 
-			var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
+			final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
 					.searchCardByName(obj.getAttributes().getNamedItem("Name").getTextContent(), null, true).get(0);
-			var qty = Integer.parseInt(obj.getAttributes().getNamedItem("Quantity").getTextContent());
+			final var qty = Integer.parseInt(obj.getAttributes().getNamedItem("Quantity").getTextContent());
 
 			if (obj.getAttributes().getNamedItem("Sideboard").getTextContent().equalsIgnoreCase("false")) {
 				deck.getMain().put(mc, qty);
@@ -95,7 +95,7 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 				deck.getSideBoard().put(mc, qty);
 			}
 
-		} catch (IndexOutOfBoundsException _) {
+		} catch (final IndexOutOfBoundsException _) {
 			logger.error("no card found {}", obj.getAttributes().getNamedItem("Name"));
 		}
 

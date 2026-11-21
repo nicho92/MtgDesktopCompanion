@@ -26,13 +26,14 @@ public class CardsManagerService {
 	public static MTGEdition detectEdition(String desc) {
 
 		try {
-			for (var ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
-				var index = desc.indexOf(ed.getSet());
-				if (index >= 0)
-					return ed;
+			for (final var ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+				final var index = desc.indexOf(ed.getSet());
+				if (index >= 0) {
+				    return ed;
+				}
 			}
 			return null;
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			return null;
 		}
 
@@ -48,35 +49,41 @@ public class CardsManagerService {
 	}
 
 	public static void moveCard(MTGCard mc, MTGCollection from, MTGCollection to, Observer o) throws SQLException {
-		if (o != null)
-			getEnabledPlugin(MTGDao.class).addObserver(o);
+		if (o != null) {
+		    getEnabledPlugin(MTGDao.class).addObserver(o);
+		}
 
 		getEnabledPlugin(MTGDao.class).moveCard(mc, from, to);
 
-		if (o != null)
-			getEnabledPlugin(MTGDao.class).removeObserver(o);
+		if (o != null) {
+		    getEnabledPlugin(MTGDao.class).removeObserver(o);
+		}
 	}
 
 	public static void moveCard(MTGEdition ed, MTGCollection from, MTGCollection to, Observer o) throws SQLException {
 
-		if (o != null)
-			getEnabledPlugin(MTGDao.class).addObserver(o);
+		if (o != null) {
+		    getEnabledPlugin(MTGDao.class).addObserver(o);
+		}
 
 		getEnabledPlugin(MTGDao.class).moveEdition(ed, from, to);
 
-		if (o != null)
-			getEnabledPlugin(MTGDao.class).removeObserver(o);
+		if (o != null) {
+		    getEnabledPlugin(MTGDao.class).removeObserver(o);
+		}
 	}
 
 	public static void saveCard(MTGCard mc, MTGCollection collection, Observer o) throws SQLException {
 
-		if (o != null)
-			getEnabledPlugin(MTGDao.class).addObserver(o);
+		if (o != null) {
+		    getEnabledPlugin(MTGDao.class).addObserver(o);
+		}
 
 		getEnabledPlugin(MTGDao.class).saveCard(mc, collection);
 
-		if (o != null)
-			getEnabledPlugin(MTGDao.class).removeObserver(o);
+		if (o != null) {
+		    getEnabledPlugin(MTGDao.class).removeObserver(o);
+		}
 	}
 
 }

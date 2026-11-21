@@ -17,7 +17,7 @@ public class MagicEditionIconListRenderer extends JLabel implements ListCellRend
 	public enum SIZE {
 		SMALL, MEDIUM
 	}
-	private SIZE size;
+	private final SIZE size;
 
 	public MagicEditionIconListRenderer(SIZE s) {
 		size = s;
@@ -33,10 +33,11 @@ public class MagicEditionIconListRenderer extends JLabel implements ListCellRend
 
 		if (value != null) {
 			ImageIcon ic;
-			if (size == SIZE.SMALL)
-				ic = IconsProvider.getInstance().get16(value.getId());
-			else
-				ic = IconsProvider.getInstance().get24(value.getId());
+			if (size == SIZE.SMALL) {
+			    ic = IconsProvider.getInstance().get16(value.getId());
+			} else {
+			    ic = IconsProvider.getInstance().get24(value.getId());
+			}
 
 			setText(value.getSet());
 			setIcon(ic);

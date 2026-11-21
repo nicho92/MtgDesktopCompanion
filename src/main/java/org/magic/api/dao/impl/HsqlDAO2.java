@@ -36,13 +36,15 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 
 	@Override
 	public Map<String, Long> getDBSize() {
-		var map = new HashMap<String, Long>();
+		final var map = new HashMap<String, Long>();
 
-		if (getString(MODE).equals("mem"))
-			map.put("mem", 0L);
+		if (getString(MODE).equals("mem")) {
+		    map.put("mem", 0L);
+		}
 
-		if (getFile(SERVERNAME).exists())
-			map.put("file", FileTools.sizeOfDirectory(getFile(SERVERNAME)));
+		if (getFile(SERVERNAME).exists()) {
+		    map.put("file", FileTools.sizeOfDirectory(getFile(SERVERNAME)));
+		}
 
 		return map;
 
@@ -56,7 +58,7 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.get(SERVERNAME).setDefaultValue(
 				Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "hsqldao").toFile().getAbsolutePath());
 		m.get(LOGIN).setDefaultValue("SA");

@@ -25,12 +25,12 @@ public class ShortKeysCellRenderer extends JLabel implements TableCellRenderer {
 		var val = "";
 		Icon ic = null;
 
-		if (value instanceof JButton b) {
+		if (value instanceof final JButton b) {
 			val = b.getName();
 			ic = b.getIcon();
 		}
 
-		if (value instanceof MTGUIComponent b) {
+		if (value instanceof final MTGUIComponent b) {
 			val = b.getTitle();
 			ic = b.getIcon();
 		}
@@ -41,8 +41,9 @@ public class ShortKeysCellRenderer extends JLabel implements TableCellRenderer {
 		setHorizontalAlignment(SwingConstants.LEFT);
 		setOpaque(true);
 
-		if (ic != null)
-			setIcon(ImageTools.resize(ic, ICON_SIZE, ICON_SIZE));
+		if (ic != null) {
+		    setIcon(ImageTools.resize(ic, ICON_SIZE, ICON_SIZE));
+		}
 
 		if (isSelected) {
 			setBackground(table.getSelectionBackground());

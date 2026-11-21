@@ -37,7 +37,7 @@ public class VirtualKeyboardPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setOpaque(false);
 
-        for (String row : buildRows(layout, includeDigits)) {
+        for (final String row : buildRows(layout, includeDigits)) {
             add(buildRowPanel(row));
         }
     }
@@ -65,25 +65,25 @@ public class VirtualKeyboardPanel extends JPanel {
                          "JKLMNOPQR",
                          "STUVWXYZ"
                  };
-                
-                
+
+
         }
 
         if (!includeDigits) {
             return letterRows;
         }
 
-        var rows = new String[letterRows.length + 1];
+        final var rows = new String[letterRows.length + 1];
         rows[0] = "1234567890";
         System.arraycopy(letterRows, 0, rows, 1, letterRows.length);
         return rows;
     }
 
     private JPanel buildRowPanel(String rowCharacters) {
-        var rowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 4, 4));
+        final var rowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 4, 4));
         rowPanel.setOpaque(false);
-        for (var c : rowCharacters.toCharArray()) {
-            var button = new JButton(String.valueOf(c));
+        for (final var c : rowCharacters.toCharArray()) {
+            final var button = new JButton(String.valueOf(c));
             button.setMargin(new Insets(4, 4, 4, 4));
             button.setPreferredSize(new Dimension(40, 36));
             button.setFocusPainted(false);
@@ -119,7 +119,7 @@ public class VirtualKeyboardPanel extends JPanel {
 
     /** Active ou désactive une touche précise (lettre ou chiffre). */
     public void setKeyEnabled(char key, boolean enabled) {
-        var button = keyButtons.get(Character.toUpperCase(key));
+        final var button = keyButtons.get(Character.toUpperCase(key));
         if (button != null) {
             button.setEnabled(enabled);
         }
@@ -127,13 +127,13 @@ public class VirtualKeyboardPanel extends JPanel {
 
     /** Indique si une touche est actuellement activée. */
     public boolean isKeyEnabled(char key) {
-        var button = keyButtons.get(Character.toUpperCase(key));
+        final var button = keyButtons.get(Character.toUpperCase(key));
         return button != null && button.isEnabled();
     }
 
     /** Active ou désactive toutes les touches d'un coup. */
     public void setAllKeysEnabled(boolean enabled) {
-        for (var button : keyButtons.values()) {
+        for (final var button : keyButtons.values()) {
             button.setEnabled(enabled);
         }
     }

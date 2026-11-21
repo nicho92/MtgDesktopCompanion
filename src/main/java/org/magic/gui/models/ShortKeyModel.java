@@ -21,11 +21,13 @@ public class ShortKeyModel extends GenericTableModel<JButton> {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 
-		if (columnIndex == 0)
-			return MTGUIComponent.class;
+		if (columnIndex == 0) {
+		    return MTGUIComponent.class;
+		}
 
-		if (columnIndex == 1)
-			return JButton.class;
+		if (columnIndex == 1) {
+		    return JButton.class;
+		}
 
 		return super.getColumnClass(columnIndex);
 	}

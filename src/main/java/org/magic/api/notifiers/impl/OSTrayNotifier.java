@@ -19,16 +19,18 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 
 	public SystemTray getTray() {
 
-		if (tray == null)
-			init();
+		if (tray == null) {
+		    init();
+		}
 
 		return tray;
 	}
 
 	public TrayIcon getTrayNotifier() {
 
-		if (trayNotifier == null)
-			init();
+		if (trayNotifier == null) {
+		    init();
+		}
 
 		return trayNotifier;
 	}
@@ -47,7 +49,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 					tray.add(trayNotifier);
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 	}
@@ -80,8 +82,9 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

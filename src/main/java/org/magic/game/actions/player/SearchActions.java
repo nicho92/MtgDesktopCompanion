@@ -15,7 +15,7 @@ public class SearchActions extends AbstractAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private ZoneEnum pos;
+	private final ZoneEnum pos;
 
 	public SearchActions(ZoneEnum pos) {
 		putValue(NAME, "Search in " + pos);
@@ -27,7 +27,7 @@ public class SearchActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GamePanelGUI.getInstance().getPlayer().logAction("search in " + pos);
-		var f = new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(), pos);
+		final var f = new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(), pos);
 		f.setVisible(true);
 
 	}

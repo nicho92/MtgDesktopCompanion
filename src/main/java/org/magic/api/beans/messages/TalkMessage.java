@@ -18,15 +18,16 @@ public class TalkMessage extends AbstractMessage {
 		setTypeMessage(MSG_TYPE.TALK);
 		setMessage(message);
 
-		var m = Pattern.compile(REGEX).matcher(message);
+		final var m = Pattern.compile(REGEX).matcher(message);
 		if (m.find()) {
-			var cardName = m.group(1);
+			final var cardName = m.group(1);
 			try {
-				var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, false);
-				if (!ret.isEmpty())
-					mc = ret.get(0);
+				final var ret = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, false);
+				if (!ret.isEmpty()) {
+				    mc = ret.get(0);
+				}
 
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 		}

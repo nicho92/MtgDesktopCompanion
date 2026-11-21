@@ -30,7 +30,7 @@ public class HangmanPanel extends MTGUIComponent {
     private final GuessGameService game = new GuessGameService();
     private final MTGCompanionComposerProvider provider = new MTGCompanionComposerProvider();
 
-    
+
     // Écran de jeu
     private JLabel attemptsLabel;
     private JLabel messageLabel;
@@ -40,13 +40,13 @@ public class HangmanPanel extends MTGUIComponent {
 
     public HangmanPanel() {
         buildGameScreen();
-  
+
     }
 
     public void onStartGame() {
         try {
 	    game.init();
-	} catch (IOException e1) {
+	} catch (final IOException e1) {
 	   logger.error(e1);
 	}
         resetGameScreen();
@@ -63,7 +63,7 @@ public class HangmanPanel extends MTGUIComponent {
         drawingPanel.setPreferredSize(new Dimension(420, 220));
         add(drawingPanel, BorderLayout.WEST);
 
-        JPanel centerPanel = new JPanel();
+        final JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.add(Box.createVerticalStrut(8));
 
@@ -88,11 +88,11 @@ public class HangmanPanel extends MTGUIComponent {
 
         replayButton = new JButton("Restart");
         replayButton.addActionListener(_ -> onStartGame());
-        JPanel bottomPanel = new JPanel(new FlowLayout());
+        final JPanel bottomPanel = new JPanel(new FlowLayout());
         bottomPanel.add(replayButton);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        
+
     }
 
     private void resetGameScreen() {
@@ -109,9 +109,9 @@ public class HangmanPanel extends MTGUIComponent {
 
     private void updateGameDisplay() {
         attemptsLabel.setText("Remaining : " + game.getAttemptsRemaining()+ " / " + game.getMaxAttemps());
-       
 
-        var status = game.getStatus();
+
+        final var status = game.getStatus();
         if (status == GameStatus.WIN) {
             messageLabel.setForeground(new Color(0, 128, 0));
             messageLabel.setText("Win !");
@@ -123,26 +123,26 @@ public class HangmanPanel extends MTGUIComponent {
         } else {
             messageLabel.setForeground(Color.DARK_GRAY);
             messageLabel.setText(" ");
-            
+
             try {
-    	    var img = provider.getPicture(game.getCurrent(), null);
+    	    final var img = provider.getPicture(game.getCurrent(), null);
     	    drawingPanel.setImg(img);
-    	} catch (IOException e) {
+    	} catch (final IOException e) {
     	   logger.error(e);
     	}
         }
-        
-       
-	
+
+
+
     }
 
     private void endGame() {
         keyboardPanel.setAllKeysEnabled(false);
         replayButton.setText("Restart");
         drawingPanel.init(game.getResult());
-        
+
     }
-    
+
     @Override
     public String getTitle() {
 	return "Card Guesser";

@@ -31,8 +31,9 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 	protected transient Logger logger = MTGLogger.getLogger(getClass());
 
 	public T getSelectedItem() {
-		if (selectedItem.isEmpty())
-			return null;
+		if (selectedItem.isEmpty()) {
+		    return null;
+		}
 
 		return selectedItem.get(0);
 	}
@@ -91,7 +92,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 		commandePanel = new JPanel();
 		getContentPane().add(commandePanel, BorderLayout.SOUTH);
 
-		var btnSelect = new JButton(MTGConstants.ICON_OPEN);
+		final var btnSelect = new JButton(MTGConstants.ICON_OPEN);
 		btnSelect.setToolTipText(capitalize("OPEN"));
 		btnSelect.addActionListener(_ -> {
 			if (getSelectedItem() == null && getSelectedItems().isEmpty()) {
@@ -103,7 +104,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 			}
 		});
 
-		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+		final var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.setToolTipText(capitalize("CANCEL"));
 		btnCancel.addActionListener(_ -> {
 			selectedItem.clear();

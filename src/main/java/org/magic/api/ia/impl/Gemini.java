@@ -32,19 +32,20 @@ public class Gemini extends AbstractIA {
 
 	@Override
 	public ChatModel getEngine(ResponseFormat format) {
-		var b = GoogleAiGeminiChatModel.builder().apiKey(getAuthenticator().get("API_KEY"))
+		final var b = GoogleAiGeminiChatModel.builder().apiKey(getAuthenticator().get("API_KEY"))
 				.modelName(getString("MODEL")).logRequestsAndResponses(getBoolean("LOG"))
 				.temperature(getDouble("TEMPERATURE"));
 
-		if (format != null)
-			b.responseFormat(format);
+		if (format != null) {
+		    b.responseFormat(format);
+		}
 
 		return b.build();
 	}
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = super.getDefaultAttributes();
+		final var map = super.getDefaultAttributes();
 		map.put("MODEL",
 				new MTGProperty("gemini-2.5-flash", "choose langage model", "gemini-3-pro-preview", "gemini-2.5-pro",
 						"gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash", "gemini-2.0-flash-lite"));

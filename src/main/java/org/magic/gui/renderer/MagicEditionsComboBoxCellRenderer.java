@@ -14,7 +14,7 @@ import org.magic.services.tools.UITools;
 
 public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 
-	private boolean enable;
+	private final boolean enable;
 
 	public MagicEditionsComboBoxCellRenderer() {
 		enable = true;
@@ -25,10 +25,11 @@ public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
-		if (value == null)
-			return new JLabel();
+		if (value == null) {
+		    return new JLabel();
+		}
 
-		JComboBox<MTGEdition> cbo = UITools.createComboboxEditions((List<MTGEdition>) value, SIZE.SMALL);
+		final JComboBox<MTGEdition> cbo = UITools.createComboboxEditions((List<MTGEdition>) value, SIZE.SMALL);
 		cbo.setEnabled(enable);
 		cbo.setOpaque(true);
 

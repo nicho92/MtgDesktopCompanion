@@ -27,7 +27,7 @@ import org.magic.services.MTGConstants;
 public class OversightServer extends AbstractMTGServer {
 	private static final String ALERT_MIN_PERCENT = "ALERT_MIN_PERCENT";
 	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
-	private Timer timer;
+	private final Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
 
@@ -55,7 +55,7 @@ public class OversightServer extends AbstractMTGServer {
 							ret.size());
 					ret.removeIf(cs -> Math.abs(cs.getPercentDayChange()) < getInt(ALERT_MIN_PERCENT) / 100);
 					Collections.sort(ret, new PricesCardsShakeSorter(SORT.valueOf(getString("SORT_FILTER")), false));
-				} catch (IOException e1) {
+				} catch (final IOException e1) {
 					logger.error(e1);
 				}
 
@@ -64,16 +64,16 @@ public class OversightServer extends AbstractMTGServer {
 					return;
 				}
 
-				var notif = new MTGNotification();
+				final var notif = new MTGNotification();
 				notif.setTitle("Oversight");
 				notif.setType(MESSAGE_TYPE.INFO);
 
-				for (var not : getArray("NOTIFIER")) {
-					MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
+				for (final var not : getArray("NOTIFIER")) {
+					final MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
 					notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 					try {
 						notifier.send(notif);
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.error(e);
 					}
 				}
@@ -81,7 +81,7 @@ public class OversightServer extends AbstractMTGServer {
 			}
 
 		};
-		var t = getLong(TIMEOUT_MINUTE);
+		final var t = getLong(TIMEOUT_MINUTE);
 		timer.scheduleAtFixedRate(tache, 0, t * 60000);
 		logger.info("Server start with {}min timeout", t);
 

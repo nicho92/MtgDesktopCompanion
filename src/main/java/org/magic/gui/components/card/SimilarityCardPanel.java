@@ -20,8 +20,8 @@ public class SimilarityCardPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private MTGCard currentCard;
-	private JXTable tableSimilarity;
-	private SimilarityCardsTableModel model;
+	private final JXTable tableSimilarity;
+	private final SimilarityCardsTableModel model;
 
 	public JXTable getTableSimilarity() {
 		return tableSimilarity;
@@ -48,7 +48,7 @@ public class SimilarityCardPanel extends MTGUIComponent {
 		if (isVisible()) {
 			try {
 				model.init(getEnabledPlugin(MTGCardsIndexer.class).similarity(mc));
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 

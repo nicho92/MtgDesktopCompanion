@@ -44,7 +44,7 @@ public class MassMoverDialog extends JDialog {
 	private MTGEdition toSaveEd;
 	private boolean change = false;
 	private JComboBox<MTGCollection> cboCollections;
-	private AbstractBuzyIndicatorComponent lblWaiting = AbstractBuzyIndicatorComponent.createProgressComponent();
+	private final AbstractBuzyIndicatorComponent lblWaiting = AbstractBuzyIndicatorComponent.createProgressComponent();
 	private JButton btnMove;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -62,7 +62,7 @@ public class MassMoverDialog extends JDialog {
 		this.toSaveCol = col;
 		this.toSaveEd = ed;
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 
 		btnMove = new JButton(capitalize("MOVE_TO"));
@@ -74,11 +74,12 @@ public class MassMoverDialog extends JDialog {
 		model = new MagicCardTableModel();
 
 		try {
-			if (ed == null)
-				model.init(dao.listCardsFromCollection(col));
-			else
-				model.init(dao.listCardsFromCollection(col, ed));
-		} catch (SQLException e) {
+			if (ed == null) {
+			    model.init(dao.listCardsFromCollection(col));
+			} else {
+			    model.init(dao.listCardsFromCollection(col, ed));
+			}
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 
@@ -96,23 +97,24 @@ public class MassMoverDialog extends JDialog {
 		btnMove.addActionListener(_ -> {
 			btnMove.setEnabled(false);
 
-			var sw = new SwingWorker<Void, MTGCard>() {
+			final var sw = new SwingWorker<Void, MTGCard>() {
 
 				@Override
 				protected void done() {
 					model.fireTableDataChanged();
 					try {
 						get();
-						if (toSaveEd == null)
-							model.init(dao.listCardsFromCollection(toSaveCol));
-						else
-							model.init(dao.listCardsFromCollection(toSaveCol, toSaveEd));
+						if (toSaveEd == null) {
+						    model.init(dao.listCardsFromCollection(toSaveCol));
+						} else {
+						    model.init(dao.listCardsFromCollection(toSaveCol, toSaveEd));
+						}
 					} catch (SQLException | ExecutionException ex) {
 						logger.error(ex);
 						MTGControler.getInstance().notify(ex);
 						lblWaiting.end();
 						btnMove.setEnabled(true);
-					} catch (InterruptedException e) {
+					} catch (final InterruptedException e) {
 						Thread.currentThread().interrupt();
 						logger.error(e);
 						lblWaiting.end();
@@ -130,13 +132,13 @@ public class MassMoverDialog extends JDialog {
 
 				@Override
 				protected Void doInBackground() {
-					List<MTGCard> list = UITools.getTableSelections(tableCards, 0);
-					for (MTGCard mc : list) {
+					final List<MTGCard> list = UITools.getTableSelections(tableCards, 0);
+					for (final MTGCard mc : list) {
 						try {
 							dao.moveCard(mc, toSaveCol, (MTGCollection) cboCollections.getSelectedItem());
 							publish(mc);
 							change = true;
-						} catch (SQLException e1) {
+						} catch (final SQLException e1) {
 							logger.error(e1);
 						}
 					}

@@ -10,14 +10,14 @@ public class CardSpell extends AbstractSpell {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard c;
+	private final DisplayableCard c;
 
 	public CardSpell(DisplayableCard card) {
 		super();
 		this.c = card;
 		setCard(c.getMagicCard());
 		setCost(CostsFactory.getInstance().parseCosts(c.getMagicCard().getCost()));
-		var e = new CardEffect();
+		final var e = new CardEffect();
 		e.setCard(card.getMagicCard());
 		e.setEffectDescription(card.getMagicCard().getText());
 		e.setCost(CostsFactory.getInstance().parseCosts(card.getMagicCard().getCost()));

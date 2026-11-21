@@ -15,7 +15,7 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel label;
+	private final JLabel label;
 	private int max;
 	private int currentVal;
 
@@ -43,8 +43,9 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 	@Override
 	public void setValue(int i) {
 		currentVal = i;
-		if (max > -1)
-			setText(currentVal + "/" + max);
+		if (max > -1) {
+		    setText(currentVal + "/" + max);
+		}
 	}
 
 	@Override
@@ -74,8 +75,9 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 	@Override
 	public int getValue() {
 
-		if (currentVal >= max)
-			return max;
+		if (currentVal >= max) {
+		    return max;
+		}
 
 		return currentVal;
 	}

@@ -12,7 +12,7 @@ import org.magic.api.interfaces.MTGComboProvider;
 
 public abstract class AbstractComboProvider extends AbstractMTGPlugin implements MTGComboProvider {
 
-	private TCache<List<MTGCombo>> cache;
+	private final TCache<List<MTGCombo>> cache;
 
 	@Override
 	public PLUGINS getType() {
@@ -30,7 +30,7 @@ public abstract class AbstractComboProvider extends AbstractMTGPlugin implements
 					return loadComboWith(mc);
 				}
 			});
-		} catch (ExecutionException e) {
+		} catch (final ExecutionException e) {
 			logger.error("Error loading combo cache for {} : {}", getName(), e);
 			return new ArrayList<>();
 		}

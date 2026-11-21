@@ -53,7 +53,7 @@ public class MagicTextPane extends JComponent {
 		translation = new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				int pos = textPane.getCaretPosition();
+				final int pos = textPane.getCaretPosition();
 				updateTextWithIcons();
 				textPane.setCaretPosition(pos);
 			}
@@ -62,36 +62,38 @@ public class MagicTextPane extends JComponent {
 
 	public void enableTranslate(boolean b) {
 
-		if (b)
-			addKeyListener(translation);
-		else
-			removeKeyListener(translation);
+		if (b) {
+		    addKeyListener(translation);
+		} else {
+		    removeKeyListener(translation);
+		}
 	}
 
 	public void updateTextWithIcons() {
 
 		textPane.setText(textPane.getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
-		var p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
-		var m = p.matcher(textPane.getText());
+		final var p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
+		final var m = p.matcher(textPane.getText());
 
-		var text = textPane.getText();
-		var context = new StyleContext();
-		var document = new DefaultStyledDocument(context);
-		var labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
-		var italic = context.addStyle("italicStyle", labelStyle);
+		final var text = textPane.getText();
+		final var context = new StyleContext();
+		final var document = new DefaultStyledDocument(context);
+		final var labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+		final var italic = context.addStyle("italicStyle", labelStyle);
 		StyleConstants.setItalic(italic, true);
 
-		var cumule = 0;
+		final var cumule = 0;
 		try {
 			document.insertString(0, text, null);
 			while (m.find()) {
-				var ic = IconsProvider.getInstance().getManaSymbol(m.group(1));
+				final var ic = IconsProvider.getInstance().getManaSymbol(m.group(1));
 
 				var width = 15;
-				if (m.group().equals("{100}"))
-					width = 30;
+				if (m.group().equals("{100}")) {
+				    width = 30;
+				}
 
-				var label = new JLabel(new ImageIcon(ic.getScaledInstance(width, 15, Image.SCALE_DEFAULT)));
+				final var label = new JLabel(new ImageIcon(ic.getScaledInstance(width, 15, Image.SCALE_DEFAULT)));
 				label.setAlignmentY(SwingConstants.TOP);
 
 				StyleConstants.setComponent(labelStyle, label);
@@ -101,7 +103,7 @@ public class MagicTextPane extends JComponent {
 			}
 
 			textPane.setDocument(document);
-		} catch (BadLocationException _) {
+		} catch (final BadLocationException _) {
 			textPane.setText(text);
 		}
 	}

@@ -38,14 +38,14 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING)
 				.append("' standalone='yes'?>");
 		temp.append("<deck game='").append(getString("MAGIC_GAME_ID")).append("' sleeveid='")
 				.append(getString("SLEEVE_ID")).append("' >");
 		temp.append("<section name='Main' shared='").append(getString(SHARED)).append("'>");
-		for (MTGCard mc : deck.getMain().keySet()) {
+		for (final MTGCard mc : deck.getMain().keySet()) {
 			temp.append("<card qty='").append(deck.getMain().get(mc)).append("' id='").append(mc.getScryfallId())
 					.append("'>").append(mc.getName()).append("</card>");
 
@@ -53,7 +53,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		}
 		temp.append("</section>");
 		temp.append("<section name='Sideboard' shared='" + getString(SHARED) + "'>");
-		for (MTGCard mc : deck.getSideBoard().keySet()) {
+		for (final MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append("<card qty='").append(deck.getSideBoard().get(mc)).append("' id='").append(mc.getScryfallId())
 					.append("'>").append(mc.getName()).append("</card>");
 			notify(mc);
@@ -70,19 +70,19 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 	@Override
 	public MTGDeck importDeck(String f, String dname) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(dname);
 
 		try (var sr = new StringReader(f)) {
-			var d = XMLTools.createSecureXMLDocumentBuilder().parse(new InputSource(sr));
-			var xpath = XPathFactory.newInstance().newXPath();
+			final var d = XMLTools.createSecureXMLDocumentBuilder().parse(new InputSource(sr));
+			final var xpath = XPathFactory.newInstance().newXPath();
 			var expr = xpath.compile("//section[@name='Main']/card");
 			var result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
 			for (var i = 0; i < result.getLength(); i++) {
-				var it = result.item(i);
-				var name = it.getTextContent();
-				var qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-				var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
+				final var it = result.item(i);
+				final var name = it.getTextContent();
+				final var qte = it.getAttributes().getNamedItem("qty").getNodeValue();
+				final var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
 
 				deck.getMain().put(mc, Integer.parseInt(qte));
 				notify(mc);
@@ -91,16 +91,16 @@ public class OCTGNDeckExport extends AbstractCardExport {
 			expr = xpath.compile("//section[@name='Sideboard']/card");
 			result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
 			for (var i = 0; i < result.getLength(); i++) {
-				var it = result.item(i);
-				var name = it.getTextContent();
-				var qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-				var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
+				final var it = result.item(i);
+				final var name = it.getTextContent();
+				final var qte = it.getAttributes().getNamedItem("qty").getNodeValue();
+				final var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
 
 				deck.getSideBoard().put(mc, Integer.parseInt(qte));
 				notify(mc);
 			}
 			return deck;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 	}
@@ -113,7 +113,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("MAGIC_GAME_ID", new MTGProperty("a6c8d2e8-7cd8-11dd-8f94-e62b56d89593", "The MTG game ID"));
 		m.put("SLEEVE_ID", new MTGProperty("0", "The Sleeve ID"));
 		m.put(SHARED, MTGProperty.newBooleanProperty("false", "Mark the deck as shared"));

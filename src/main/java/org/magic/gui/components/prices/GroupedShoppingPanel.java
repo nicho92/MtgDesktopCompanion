@@ -71,7 +71,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
-		var panel = new JPanel();
+		final var panel = new JPanel();
 
 		add(panel, BorderLayout.NORTH);
 
@@ -86,9 +86,9 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		lblitems = new JLabel();
 		panel.add(lblitems);
 
-		var treetModel = new GroupedPriceTreeTableModel();
+		final var treetModel = new GroupedPriceTreeTableModel();
 
-		var tree = new JXTreeTable(treetModel);
+		final var tree = new JXTreeTable(treetModel);
 		tree.setShowGrid(true, false);
 		tree.setSortable(true);
 
@@ -105,9 +105,9 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 
-					Object o = UITools.getTableSelection(tree, 0);
+					final Object o = UITools.getTableSelection(tree, 0);
 
-					if (o instanceof MTGPrice mp) {
+					if (o instanceof final MTGPrice mp) {
 						UITools.browse(mp.getSellerUrl());
 					}
 
@@ -118,7 +118,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 
 		btnCheckPrice.addActionListener(_ -> {
 
-			AbstractObservableWorker<Map<String, List<MTGPrice>>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(
+			final AbstractObservableWorker<Map<String, List<MTGPrice>>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(
 					buzy, (MTGPricesProvider) cboPricers.getSelectedItem(), cards.size()) {
 
 				@Override
@@ -131,9 +131,9 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 					super.done();
 					try {
 						treetModel.init(get());
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error("error", e);
 					}
 				}

@@ -19,62 +19,62 @@ public class MTGNexusComboProvider extends AbstractComboProvider {
     public String getName() {
 	return "MTGNexus";
     }
-    
+
     @Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 		return Map.of("LIMIT",
 				MTGProperty.newIntegerProperty("50", "Limit results", 10, 100));
 	}
 
-    
-    
+
+
     @Override
     public List<MTGCombo> loadComboWith(MTGCard mc) {
-	var result = new ArrayList<MTGCombo>();
-	
+	final var result = new ArrayList<MTGCombo>();
+
 	  try {
-	    var arr = RequestBuilder.build().newClient().get().url("https://api.mtg-nexus.com/api/v1/combos/search")
+	    final var arr = RequestBuilder.build().newClient().get().url("https://api.mtg-nexus.com/api/v1/combos/search")
 	    	  								.addContent("q", mc.getName())
 	    	  								.addContent("limit", getString("LIMIT"))
 	    	  								.toJson()
 	    	  								.getAsJsonObject().get("combos").getAsJsonArray();
-	    
-	    
-	    for(var e : arr)
+
+
+	    for(final var e : arr)
 	    {
-		var obj = e.getAsJsonObject();
-		
-		var combo = new MTGCombo();;
-		
-		combo.setName(obj.get("name").getAsString());	
+		final var obj = e.getAsJsonObject();
+
+		final var combo = new MTGCombo();
+
+		combo.setName(obj.get("name").getAsString());
 		combo.setComment(obj.get("description").getAsString());
 		combo.setPlugin(this);
-		
-		for(var el : obj.get("component_cards").getAsJsonArray())
+
+		for(final var el : obj.get("component_cards").getAsJsonArray())
 		{
-		    var id = el.getAsJsonObject().get("id").getAsString();
-		    
-		    var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(id);
-		    
+		    final var id = el.getAsJsonObject().get("id").getAsString();
+
+		    final var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(id);
+
 		    combo.getCards().add(card);
-		    
-		    
+
+
 		}
-		
+
 		notify(combo);
 		result.add(combo);
-		
-		
+
+
 	    }
-	    
-	    
-	} catch (IOException e) {
+
+
+	} catch (final IOException e) {
 	   logger.error(e);
 	}
-	
-	
-	
-	
+
+
+
+
 	return result;
     }
 

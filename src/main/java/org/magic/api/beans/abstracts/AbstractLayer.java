@@ -15,18 +15,18 @@ public abstract class AbstractLayer implements Layer {
     private float alpha =1f;
     private final String layerType = this.getClass().getSimpleName();
 
-    
-    
+
+
     @Override
     public String getLayerType() {
 		return layerType;
 	}
-    
+
     @Override
     public String getName() {
         return name;
     }
-    
+
     @Override
     public void scale(double scale) {
 	    if (scale <= 0) {
@@ -36,24 +36,29 @@ public abstract class AbstractLayer implements Layer {
 	    setWidth((int) Math.round(getWidth() * scale));
 	    setHeight((int) Math.round(getHeight() * scale));
 	}
-    
 
+
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public int getX() {
         return x;
     }
 
+    @Override
     public void setX(int x) {
         this.x = x;
     }
 
+    @Override
     public int getY() {
         return y;
     }
 
+    @Override
     public void setY(int y) {
         this.y = y;
     }
@@ -66,17 +71,18 @@ public abstract class AbstractLayer implements Layer {
     public int getWidth() {
     	return width;
     }
-    
+
     @Override
     public void setHeight(int height) {
 	this.height = height;
     }
-    
+
     @Override
     public void setWidth(int width) {
 	this.width = width;
     }
 
+    @Override
     public boolean contains(int px, int py) {
 
         return px >= x
@@ -89,26 +95,26 @@ public abstract class AbstractLayer implements Layer {
     public String toString() {
         return name;
     }
-    
+
     @Override
     public void reload() {
      // do nothing by default;
-        
+
     }
-    
+
     protected abstract void paintLayer(Graphics2D g2);
-    
-    
+
+
     @Override
     public void paint(Graphics2D g2)
     {
 	g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
-	
+
 	paintLayer(g2);
-	
+
 	g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getAlpha()));
     }
-    
+
     @Override
     public void setAlpha(float alpha) {
 	this.alpha = alpha;
@@ -117,7 +123,7 @@ public abstract class AbstractLayer implements Layer {
     public float getAlpha() {
 	return alpha;
     }
-    
-    
+
+
 
 }

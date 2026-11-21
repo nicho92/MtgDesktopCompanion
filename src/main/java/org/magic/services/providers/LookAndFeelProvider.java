@@ -24,7 +24,7 @@ import com.jtattoo.plaf.AbstractLookAndFeel;
 
 public class LookAndFeelProvider {
 
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private List<LookAndFeelInfo> list;
 
 	public LookAndFeelProvider() {
@@ -38,11 +38,13 @@ public class LookAndFeelProvider {
 	public void setLookAndFeel(Component ui, String lookAndFeel, boolean saving) {
 		try {
 
-			if (saving)
-				MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
+			if (saving) {
+			    MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
+			}
 
-			if (lookAndFeel == null || lookAndFeel.isEmpty())
-				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			if (lookAndFeel == null || lookAndFeel.isEmpty()) {
+			    lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+			}
 
 			FlatLaf.registerCustomDefaultsSource(MTGConstants.DATA_DIR);
 
@@ -56,7 +58,7 @@ public class LookAndFeelProvider {
 
 			FlatAnimatedLafChange.hideSnapshotWithAnimation();
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error setLookAndFeel", e);
 		}
 	}
@@ -72,37 +74,38 @@ public class LookAndFeelProvider {
 
 	public LookAndFeelInfo[] getExtraLookAndFeel() {
 
-		if (!list.isEmpty())
-			return list.toArray(new LookAndFeelInfo[list.size()]);
+		if (!list.isEmpty()) {
+		    return list.toArray(new LookAndFeelInfo[list.size()]);
+		}
 
 		var classReflections = new Reflections("org.pushingpixels.substance.api.skin");
 		list = new ArrayList<>();
-		for (Class<? extends SubstanceLookAndFeel> c : classReflections.getSubTypesOf(SubstanceLookAndFeel.class)) {
+		for (final Class<? extends SubstanceLookAndFeel> c : classReflections.getSubTypesOf(SubstanceLookAndFeel.class)) {
 			try {
-				SubstanceLookAndFeel look = c.getConstructor().newInstance();
+				final SubstanceLookAndFeel look = c.getConstructor().newInstance();
 				list.add(new LookAndFeelInfo(look.getID(), c.getName()));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("error for {}", c, e);
 			}
 		}
 
 		classReflections = new Reflections("com.jtattoo.plaf");
-		for (Class<? extends AbstractLookAndFeel> c : classReflections.getSubTypesOf(AbstractLookAndFeel.class)) {
+		for (final Class<? extends AbstractLookAndFeel> c : classReflections.getSubTypesOf(AbstractLookAndFeel.class)) {
 			try {
-				var look = c.getConstructor().newInstance();
+				final var look = c.getConstructor().newInstance();
 				list.add(new LookAndFeelInfo("JTatoo " + look.getID(), c.getName()));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Loading {}", c, e);
 			}
 		}
 
 		classReflections = new Reflections("com.formdev.flatlaf");
-		for (Class<? extends FlatLaf> c : classReflections.getSubTypesOf(FlatLaf.class)) {
+		for (final Class<? extends FlatLaf> c : classReflections.getSubTypesOf(FlatLaf.class)) {
 			try {
-				FlatLaf look = c.getConstructor().newInstance();
+				final FlatLaf look = c.getConstructor().newInstance();
 
 				list.add(new LookAndFeelInfo("FlatLaf " + look.getID(), c.getName()));
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.trace("Loading {}:{}", c, e);
 			}
 		}

@@ -53,11 +53,11 @@ public class WebCamImport extends AbstractCardExport {
 	@Override
 	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
 
-		var c = new WebcamCardImportDialog();
+		final var c = new WebcamCardImportDialog();
 		c.setVisible(true);
 
 		return c.getFindedCards().stream().map(card -> {
-			MTGCardStock st = MTGControler.getInstance().getDefaultStock();
+			final MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(card);
 			return st;
 		}).toList();
@@ -70,7 +70,7 @@ public class WebCamImport extends AbstractCardExport {
 
 	@Override
 	public MTGDeck importDeckFromFile(File f) throws IOException {
-		var c = new WebcamCardImportDialog();
+		final var c = new WebcamCardImportDialog();
 		c.setVisible(true);
 		return c.getSelectedItem();
 	}

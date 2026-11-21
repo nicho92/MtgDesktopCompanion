@@ -21,9 +21,9 @@ public class DeckImportWorker extends SwingWorker<MTGDeck, MTGCard> {
 
 	protected MTGCardsExport exp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	private Observer o;
-	private AbstractBuzyIndicatorComponent buzy;
-	private File f;
+	private final Observer o;
+	private final AbstractBuzyIndicatorComponent buzy;
+	private final File f;
 	protected Exception err;
 
 	public DeckImportWorker(MTGCardsExport exp, AbstractBuzyIndicatorComponent buzy, File f) {
@@ -39,7 +39,7 @@ public class DeckImportWorker extends SwingWorker<MTGDeck, MTGCard> {
 	protected MTGDeck doInBackground() {
 		try {
 			return exp.importDeckFromFile(f);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			err = e;
 			logger.error("error export with {}", exp, e);
 		}
@@ -58,7 +58,7 @@ public class DeckImportWorker extends SwingWorker<MTGDeck, MTGCard> {
 	protected void done() {
 		try {
 			exp.removeObserver(o);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 		buzy.end();

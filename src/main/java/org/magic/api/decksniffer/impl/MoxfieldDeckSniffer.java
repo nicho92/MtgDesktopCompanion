@@ -24,7 +24,7 @@ import com.google.gson.JsonObject;
 public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String BASE_URI = "https://api.moxfield.com/v2";
-	private MTGHttpClient client;
+	private final MTGHttpClient client;
 
 	public MoxfieldDeckSniffer() {
 		client = URLTools.newClient();
@@ -40,15 +40,15 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		var deck = info.toBaseDeck();
+		final var deck = info.toBaseDeck();
 
-		var json = RequestBuilder.build().setClient(client).url(info.getUrl()).get().toJson().getAsJsonObject();
+		final var json = RequestBuilder.build().setClient(client).url(info.getUrl()).get().toJson().getAsJsonObject();
 
 		load(json, "mainboard", deck.getMain());
 		load(json, "sideboard", deck.getSideBoard());
 
 		if (json.get("commandersCount").getAsInt() > 0) {
-			var map = new HashMap<MTGCard, Integer>();
+			final var map = new HashMap<MTGCard, Integer>();
 			load(json, "commanders", map);
 
 			deck.setCommander(map.keySet().iterator().next());
@@ -62,13 +62,13 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 
 		json.get(key).getAsJsonObject().entrySet().forEach(entry -> {
 			try {
-				var qty = entry.getValue().getAsJsonObject().get("quantity").getAsInt();
-				var scryId = entry.getValue().getAsJsonObject().get("card").getAsJsonObject().get("scryfall_id")
+				final var qty = entry.getValue().getAsJsonObject().get("quantity").getAsInt();
+				final var scryId = entry.getValue().getAsJsonObject().get("card").getAsJsonObject().get("scryfall_id")
 						.getAsString();
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(scryId);
+				final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(scryId);
 				main.put(mc, qty);
 				notify(mc);
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				logger.error("{} is not found", entry.getKey());
 			}
 
@@ -77,7 +77,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("MAX_PAGE", MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
 		return m;
 	}
@@ -90,19 +90,19 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String fmc, MTGCard mc) throws IOException {
 
-		var ret = new ArrayList<RetrievableDeck>();
+		final var ret = new ArrayList<RetrievableDeck>();
 
 		var cardId = "";
 
 		if (mc != null) {
 			try {
-				var json = RequestBuilder.build().setClient(client).get()
+				final var json = RequestBuilder.build().setClient(client).get()
 						.url(BASE_URI + "/cards/search?page=1&q=" + URLTools.encode(mc.getName())).toJson()
 						.getAsJsonObject().get("data").getAsJsonArray();
 
 				if (!json.isEmpty()) {
 
-					for (var jo : json) {
+					for (final var jo : json) {
 						if (jo.getAsJsonObject().get("name").getAsString().equalsIgnoreCase(mc.getName())) {
 							cardId = jo.getAsJsonObject().get("id").getAsString();
 							break;
@@ -110,7 +110,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 					}
 				}
 
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("Cant get card id for {}", mc);
 				cardId = "";
 			}
@@ -118,16 +118,16 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 		}
 
 		for (var i = 1; i <= getInt("MAX_PAGE"); i++) {
-			var json = RequestBuilder.build().setClient(client).get()
+			final var json = RequestBuilder.build().setClient(client).get()
 					.url(BASE_URI + "/decks/search?pageNumber=" + i
 							+ "&pageSize=128&sortType=updated&sortDirection=Descending&fmt=" + fmc
 							+ (cardId.equals("") ? "" : "&cardId=" + cardId))
 					.toJson();
 
-			for (var je : json.getAsJsonObject().get("data").getAsJsonArray()) {
-				var jo = je.getAsJsonObject();
+			for (final var je : json.getAsJsonObject().get("data").getAsJsonArray()) {
+				final var jo = je.getAsJsonObject();
 
-				var dekElement = new RetrievableDeck();
+				final var dekElement = new RetrievableDeck();
 				dekElement.setName(jo.get("name").getAsString());
 				dekElement.setAuthor(
 						jo.get("authors").getAsJsonArray().get(0).getAsJsonObject().get("userName").getAsString());
@@ -135,7 +135,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 				dekElement.setDescription(
 						UITools.formatDateTime(UITools.parseGMTDate(jo.get("createdAtUtc").getAsString())));
 
-				var c = new StringBuilder();
+				final var c = new StringBuilder();
 				jo.get("colors").getAsJsonArray().asList().stream().map(j -> j.getAsString())
 						.forEach(s -> c.append("{").append(s).append("}"));
 

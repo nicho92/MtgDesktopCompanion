@@ -28,26 +28,26 @@ import org.magic.services.tools.UITools;
 public class CSVExport extends AbstractFormattedFileCardExport {
 
 	private static final String EXTRA_PROPERTIES = "extraProperties";
-	private String columns = "Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;number";
+	private final String columns = "Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;number";
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		List<MTGCardStock> stock = new ArrayList<>();
-		for (Matcher part : matches(content, true)) {
-			var mcs = MTGControler.getInstance().getDefaultStock();
+		final List<MTGCardStock> stock = new ArrayList<>();
+		for (final Matcher part : matches(content, true)) {
+			final var mcs = MTGControler.getInstance().getDefaultStock();
 
 			MTGEdition ed = null;
 
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(part.group(2));
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.error("edition {} is not found", part.group(2));
 			}
 
 			MTGCard mc = null;
 			try {
 				mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(part.group(12), ed);
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				logger.debug(part.group());
 				logger.error("card with number {} is not found", part.group(12));
 			}
@@ -55,7 +55,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			if (mc == null) {
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(part.group(1), ed, true).get(0);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("card with name {} is not found", part.group(1));
 				}
 			}
@@ -84,12 +84,12 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var bw = new StringBuilder();
+		final var bw = new StringBuilder();
 
 		bw.append(columns).append(getSeparator());
 		bw.append(StringUtils.join(getArray(EXTRA_PROPERTIES), getSeparator())).append(System.lineSeparator());
 
-		for (MTGCardStock mcs : stock) {
+		for (final MTGCardStock mcs : stock) {
 			bw.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
 			bw.append(mcs.getProduct().getEdition()).append(getSeparator());
 			bw.append(mcs.getLanguage()).append(getSeparator());
@@ -116,20 +116,22 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File f) throws IOException {
 
-		var bw = new StringBuilder();
-		String[] extraProperties = getArray(EXTRA_PROPERTIES);
+		final var bw = new StringBuilder();
+		final String[] extraProperties = getArray(EXTRA_PROPERTIES);
 
 		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qty");
 
-		if (extraProperties.length > 0)
-			bw.append(getSeparator());
+		if (extraProperties.length > 0) {
+		    bw.append(getSeparator());
+		}
 
-		for (String k : extraProperties)
-			bw.append(k).append(getSeparator());
+		for (final String k : extraProperties) {
+		    bw.append(k).append(getSeparator());
+		}
 
 		bw.append(System.lineSeparator());
 
-		for (Entry<MTGCard, Integer> entry : deck.getMain().entrySet()) {
+		for (final Entry<MTGCard, Integer> entry : deck.getMain().entrySet()) {
 			bw.append("\"").append(entry.getKey()).append("\"").append(getSeparator());
 			bw.append(entry.getKey().getEdition()).append(getSeparator());
 			bw.append(entry.getValue()).append(getSeparator());
@@ -139,7 +141,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 		bw.append(System.lineSeparator());
 
-		for (Entry<MTGCard, Integer> entry : deck.getSideBoard().entrySet()) {
+		for (final Entry<MTGCard, Integer> entry : deck.getSideBoard().entrySet()) {
 			bw.append("\"").append(entry.getKey()).append("\"").append(getSeparator());
 			bw.append(entry.getKey().getEdition()).append(getSeparator());
 			bw.append(entry.getValue()).append(getSeparator());
@@ -152,16 +154,17 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	}
 
 	private void writeExtraMap(MTGCard mc, StringBuilder bw) {
-		for (var k : getArray(EXTRA_PROPERTIES)) {
+		for (final var k : getArray(EXTRA_PROPERTIES)) {
 			String val = null;
 			try {
 				val = BeanUtils.getNestedProperty(mc, k);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("Error reading bean", e);
 			}
 
-			if (val == null)
-				val = "";
+			if (val == null) {
+			    val = "";
+			}
 
 			bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
 
@@ -171,32 +174,33 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public MTGDeck importDeck(String content, String n) throws IOException {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(n);
 		var isSide = false;
 
-		for (var line : UITools.stringLineSplit(content, false)) {
+		for (final var line : UITools.stringLineSplit(content, false)) {
 
 			if (line.isBlank()) {
 				isSide = true;
 			} else {
-				var part = line.split(getSeparator());
-				var name = cleanName(part[0]);
-				var qte = part[2];
-				var set = part[1];
-				var ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
+				final var part = line.split(getSeparator());
+				final var name = cleanName(part[0]);
+				final var qte = part[2];
+				final var set = part[1];
+				final var ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
 				MTGCard mc = null;
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					logger.error("no cards found for {} {} ", name, set);
 				}
 
 				if (mc != null) {
-					if (isSide)
-						deck.getSideBoard().put(mc, Integer.parseInt(qte));
-					else
-						deck.getMain().put(mc, Integer.parseInt(qte));
+					if (isSide) {
+					    deck.getSideBoard().put(mc, Integer.parseInt(qte));
+					} else {
+					    deck.getMain().put(mc, Integer.parseInt(qte));
+					}
 
 					notify(mc);
 				}
@@ -217,14 +221,14 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.get("SEPARATOR").setDefaultValue(";");
 		try {
 			m.put(EXTRA_PROPERTIES,
 					new MTGProperty("id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt",
 							"choose cards extra attributs you want to export. Separated by comma",
 							BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 
 			m.put(EXTRA_PROPERTIES,
 					new MTGProperty("id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt",

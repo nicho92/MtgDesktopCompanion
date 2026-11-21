@@ -160,8 +160,9 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj instanceof MTGEdition ed)
-			return getId().equalsIgnoreCase(ed.getId());
+		if (obj instanceof final MTGEdition ed) {
+		    return getId().equalsIgnoreCase(ed.getId());
+		}
 
 		return false;
 	}
@@ -197,16 +198,18 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 
 	public int compare(MTGEdition o1, MTGEdition o2) {
 
-		if (o1 == null || o2 == null || o1.getSet() == null || o2.getSet() == null)
-			return -1;
+		if (o1 == null || o2 == null || o1.getSet() == null || o2.getSet() == null) {
+		    return -1;
+		}
 
 		return o1.getSet().compareTo(o2.getSet());
 	}
 
 	@Override
 	public int hashCode() {
-		if (set != null)
-			return set.hashCode();
+		if (set != null) {
+		    return set.hashCode();
+		}
 
 		return -1;
 	}

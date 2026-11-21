@@ -30,32 +30,32 @@ public class LightDescribeCardPanel extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField txtName;
-	private JTextField txtType;
-	private JTextField txtPower;
-	private JTextField txtLoyalty;
-	private MagicTextPane magicTextPane;
-	private ManaPanel manaPanel;
+	private final JTextField txtName;
+	private final JTextField txtType;
+	private final JTextField txtPower;
+	private final JTextField txtLoyalty;
+	private final MagicTextPane magicTextPane;
+	private final ManaPanel manaPanel;
 
 	private transient BindingGroup mBindingGroup;
 
 	private MTGCard card;
-	private JPanel panel;
-	private JLabel label;
-	private JTextField txtT;
-	private JTabbedPane tabbedPane;
-	private JEditorPane rulesTextPane;
+	private final JPanel panel;
+	private final JLabel label;
+	private final JTextField txtT;
+	private final JTabbedPane tabbedPane;
+	private final JEditorPane rulesTextPane;
 
 	public LightDescribeCardPanel() {
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{52, 152, 0};
 		gridBagLayout.rowHeights = new int[]{0, 27, 0, 27, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
-		var lblName = new JLangLabel("NAME", true);
-		var gbclblName = new GridBagConstraints();
+		final var lblName = new JLangLabel("NAME", true);
+		final var gbclblName = new GridBagConstraints();
 		gbclblName.anchor = GridBagConstraints.EAST;
 		gbclblName.insets = new Insets(0, 0, 5, 5);
 		gbclblName.gridx = 0;
@@ -64,7 +64,7 @@ public class LightDescribeCardPanel extends JPanel {
 
 		txtName = new JTextField();
 		txtName.setEditable(false);
-		var gbctxtName = new GridBagConstraints();
+		final var gbctxtName = new GridBagConstraints();
 		gbctxtName.insets = new Insets(0, 0, 5, 0);
 		gbctxtName.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtName.gridx = 1;
@@ -72,8 +72,8 @@ public class LightDescribeCardPanel extends JPanel {
 		add(txtName, gbctxtName);
 		txtName.setColumns(10);
 
-		var lblCost = new JLangLabel("COST", true);
-		var gbclblCost = new GridBagConstraints();
+		final var lblCost = new JLangLabel("COST", true);
+		final var gbclblCost = new GridBagConstraints();
 		gbclblCost.anchor = GridBagConstraints.EAST;
 		gbclblCost.insets = new Insets(0, 0, 5, 5);
 		gbclblCost.gridx = 0;
@@ -81,15 +81,15 @@ public class LightDescribeCardPanel extends JPanel {
 		add(lblCost, gbclblCost);
 
 		manaPanel = new ManaPanel();
-		var gbcmanaPanel = new GridBagConstraints();
+		final var gbcmanaPanel = new GridBagConstraints();
 		gbcmanaPanel.insets = new Insets(0, 0, 5, 0);
 		gbcmanaPanel.fill = GridBagConstraints.BOTH;
 		gbcmanaPanel.gridx = 1;
 		gbcmanaPanel.gridy = 1;
 		add(manaPanel, gbcmanaPanel);
 
-		var lblType = new JLangLabel("TYPE", true);
-		var gbclblType = new GridBagConstraints();
+		final var lblType = new JLangLabel("TYPE", true);
+		final var gbclblType = new GridBagConstraints();
 		gbclblType.anchor = GridBagConstraints.EAST;
 		gbclblType.insets = new Insets(0, 0, 5, 5);
 		gbclblType.gridx = 0;
@@ -98,7 +98,7 @@ public class LightDescribeCardPanel extends JPanel {
 
 		txtType = new JTextField();
 		txtType.setEditable(false);
-		var gbctxtType = new GridBagConstraints();
+		final var gbctxtType = new GridBagConstraints();
 		gbctxtType.insets = new Insets(0, 0, 5, 0);
 		gbctxtType.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtType.gridx = 1;
@@ -106,8 +106,8 @@ public class LightDescribeCardPanel extends JPanel {
 		add(txtType, gbctxtType);
 		txtType.setColumns(10);
 
-		var lblSt = new JLabel("P/T :");
-		var gbclblSt = new GridBagConstraints();
+		final var lblSt = new JLabel("P/T :");
+		final var gbclblSt = new GridBagConstraints();
 		gbclblSt.anchor = GridBagConstraints.EAST;
 		gbclblSt.insets = new Insets(0, 0, 5, 5);
 		gbclblSt.gridx = 0;
@@ -115,9 +115,9 @@ public class LightDescribeCardPanel extends JPanel {
 		add(lblSt, gbclblSt);
 
 		panel = new JPanel();
-		var flowLayout = (FlowLayout) panel.getLayout();
+		final var flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		var gbcpanel = new GridBagConstraints();
+		final var gbcpanel = new GridBagConstraints();
 		gbcpanel.insets = new Insets(0, 0, 5, 0);
 		gbcpanel.fill = GridBagConstraints.BOTH;
 		gbcpanel.gridx = 1;
@@ -137,8 +137,8 @@ public class LightDescribeCardPanel extends JPanel {
 		panel.add(txtT);
 		txtT.setColumns(3);
 
-		var lblLoyalty = new JLangLabel("LOYALTY", true);
-		var gbclblLoyalty = new GridBagConstraints();
+		final var lblLoyalty = new JLangLabel("LOYALTY", true);
+		final var gbclblLoyalty = new GridBagConstraints();
 		gbclblLoyalty.anchor = GridBagConstraints.EAST;
 		gbclblLoyalty.insets = new Insets(0, 0, 5, 5);
 		gbclblLoyalty.gridx = 0;
@@ -147,7 +147,7 @@ public class LightDescribeCardPanel extends JPanel {
 
 		txtLoyalty = new JTextField();
 		txtLoyalty.setEditable(false);
-		var gbctxtLoyalty = new GridBagConstraints();
+		final var gbctxtLoyalty = new GridBagConstraints();
 		gbctxtLoyalty.insets = new Insets(0, 0, 5, 0);
 		gbctxtLoyalty.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtLoyalty.gridx = 1;
@@ -156,7 +156,7 @@ public class LightDescribeCardPanel extends JPanel {
 		txtLoyalty.setColumns(10);
 
 		tabbedPane = new JTabbedPane(SwingConstants.TOP);
-		var gbctabbedPane = new GridBagConstraints();
+		final var gbctabbedPane = new GridBagConstraints();
 		gbctabbedPane.gridheight = 2;
 		gbctabbedPane.gridwidth = 2;
 		gbctabbedPane.insets = new Insets(0, 0, 5, 5);
@@ -192,56 +192,57 @@ public class LightDescribeCardPanel extends JPanel {
 
 	protected BindingGroup initDataBindings() {
 
-		BeanProperty<MTGCard, String> nameProperty = BeanProperty.create("name");
-		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ,
+		final BeanProperty<MTGCard, String> nameProperty = BeanProperty.create("name");
+		final BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ,
 				card, nameProperty, txtName, textProperty);
 		autoBinding.bind();
 
-		BeanProperty<MTGCard, String> costProperty = BeanProperty.create("cost");
-		BeanProperty<ManaPanel, String> textProperty1 = BeanProperty.create("manaCost");
-		AutoBinding<MTGCard, String, ManaPanel, String> autoBinding1 = Bindings
+		final BeanProperty<MTGCard, String> costProperty = BeanProperty.create("cost");
+		final BeanProperty<ManaPanel, String> textProperty1 = BeanProperty.create("manaCost");
+		final AutoBinding<MTGCard, String, ManaPanel, String> autoBinding1 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, card, costProperty, manaPanel, textProperty1);
 		autoBinding1.bind();
 
-		BeanProperty<MTGCard, String> fullTypeProperty = BeanProperty.create("fullType");
-		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ,
+		final BeanProperty<MTGCard, String> fullTypeProperty = BeanProperty.create("fullType");
+		final BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ,
 				card, fullTypeProperty, txtType, textProperty2);
 		autoBinding2.bind();
 
-		BeanProperty<MTGCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
-		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
-		AutoBinding<MTGCard, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ,
+		final BeanProperty<MTGCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
+		final BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ,
 				card, loyaltyProperty, txtLoyalty, textProperty4);
 		autoBinding4.bind();
 
-		BeanProperty<MTGCard, String> textProperty8 = BeanProperty.create("text");
-		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, MagicTextPane, String> autoBinding8 = Bindings
+		final BeanProperty<MTGCard, String> textProperty8 = BeanProperty.create("text");
+		final BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, MagicTextPane, String> autoBinding8 = Bindings
 				.createAutoBinding(UpdateStrategy.READ, card, textProperty8, magicTextPane, textProperty9);
 		autoBinding8.bind();
 
-		BeanProperty<MTGCard, String> pProperty = BeanProperty.create("power");
-		BeanProperty<JTextField, String> textPropertyP = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBindingP = Bindings.createAutoBinding(UpdateStrategy.READ,
+		final BeanProperty<MTGCard, String> pProperty = BeanProperty.create("power");
+		final BeanProperty<JTextField, String> textPropertyP = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBindingP = Bindings.createAutoBinding(UpdateStrategy.READ,
 				card, pProperty, txtPower, textPropertyP);
 		autoBindingP.bind();
 
-		BeanProperty<MTGCard, String> tProperty = BeanProperty.create("toughness");
-		BeanProperty<JTextField, String> textPropertyT = BeanProperty.create("text");
-		AutoBinding<MTGCard, String, JTextField, String> autoBindingT = Bindings.createAutoBinding(UpdateStrategy.READ,
+		final BeanProperty<MTGCard, String> tProperty = BeanProperty.create("toughness");
+		final BeanProperty<JTextField, String> textPropertyT = BeanProperty.create("text");
+		final AutoBinding<MTGCard, String, JTextField, String> autoBindingT = Bindings.createAutoBinding(UpdateStrategy.READ,
 				card, tProperty, txtT, textPropertyT);
 		autoBindingT.bind();
 
-		var rules = new StringBuilder();
-		for (MTGRuling rul : card.getRulings())
-			rules.append("-").append(rul.getText()).append("\n");
+		final var rules = new StringBuilder();
+		for (final MTGRuling rul : card.getRulings()) {
+		    rules.append("-").append(rul.getText()).append("\n");
+		}
 
 		rulesTextPane.setText(rules.toString());
 
 		//
-		var bindingGroup = new BindingGroup();
+		final var bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding1);

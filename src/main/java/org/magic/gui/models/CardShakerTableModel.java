@@ -38,7 +38,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 	@Override
 	public Object getValueAt(int row, int column) {
 		try {
-			CardShake mp = items.get(row);
+			final CardShake mp = items.get(row);
 
 			switch (column) {
 				case 0 :
@@ -63,7 +63,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				default :
 					return 0;
 			}
-		} catch (IndexOutOfBoundsException ioob) {
+		} catch (final IndexOutOfBoundsException ioob) {
 			logger.error(ioob);
 			return null;
 		}

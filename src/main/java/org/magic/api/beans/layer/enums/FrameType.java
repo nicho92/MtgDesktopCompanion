@@ -15,5 +15,5 @@ public enum FrameType {
     LOYALTY_MODIFIER,
     BORDERED_FRAME,
     MDFC_HINTS
-    
+
 }

@@ -34,7 +34,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	protected AbstractDashBoard() {
 		try {
 			evaluator = new CollectionEvaluator();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 		}
 
@@ -48,8 +48,9 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}
@@ -59,16 +60,16 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		try {
 
 			if (!foil) {
-				EditionsShakers c = getShakesForEdition(mc.getEdition());
+				final EditionsShakers c = getShakesForEdition(mc.getEdition());
 				return c.getShakeFor(mc, foil).getPrice().doubleValue();
 			} else {
 				return getPriceVariation(mc, foil).getLastValue();
 			}
 
-		} catch (NullPointerException _) {
+		} catch (final NullPointerException _) {
 			logger.debug("no card found for {} foil={}", mc, foil);
 			return 0.0;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 			return 0.0;
 		}
@@ -77,7 +78,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public HistoryPrice<MTGCard> getPriceVariation(MTGCard mc, boolean foil) throws IOException {
-		var varh = getOnlinePricesVariation(mc, foil);
+		final var varh = getOnlinePricesVariation(mc, foil);
 
 		if (MTGControler.getInstance().getCurrencyService().isEnable()
 				&& varh.getCurrency() != MTGControler.getInstance().getCurrencyService().getCurrentCurrency()) {
@@ -91,7 +92,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public HistoryPrice<MTGEdition> getPriceVariation(MTGEdition ed) throws IOException {
-		var varh = getOnlinePricesVariation(ed);
+		final var varh = getOnlinePricesVariation(ed);
 
 		if (MTGControler.getInstance().getCurrencyService().isEnable()
 				&& varh.getCurrency() != MTGControler.getInstance().getCurrencyService().getCurrentCurrency()) {
@@ -105,7 +106,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public HistoryPrice<MTGSealedProduct> getPriceVariation(MTGSealedProduct packaging) throws IOException {
-		var varh = getOnlinePricesVariation(packaging);
+		final var varh = getOnlinePricesVariation(packaging);
 
 		if (MTGControler.getInstance().getCurrencyService().isEnable()
 				&& varh.getCurrency() != MTGControler.getInstance().getCurrencyService().getCurrentCurrency()) {
@@ -120,8 +121,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	@Override
 	public synchronized EditionsShakers getShakesForEdition(MTGEdition edition) throws IOException {
 
-		var c = evaluator.getCacheDate(edition);
-		var d = new Date();
+		final var c = evaluator.getCacheDate(edition);
+		final var d = new Date();
 
 		logger.trace("{} cache : {}", edition, c);
 
@@ -129,7 +130,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 			logger.debug("{} not in cache.Loading it", edition);
 			evaluator.initCache(edition, getOnlineShakesForEdition(edition));
 		}
-		EditionsShakers ret = evaluator.loadFromCache(edition);
+		final EditionsShakers ret = evaluator.loadFromCache(edition);
 
 		convert(ret.getShakes());
 
@@ -138,7 +139,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 	@Override
 	public List<CardShake> getShakerFor(MTGFormat.FORMATS format) throws IOException {
-		List<CardShake> ret = getOnlineShakerFor(format);
+		final List<CardShake> ret = getOnlineShakerFor(format);
 		convert(ret);
 		return ret;
 	}

@@ -58,14 +58,15 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 	}
 
 	private Map<String, Double> calculate(List<MTGCardStock> items, String property) {
-		var res = new HashMap<String, Double>();
+		final var res = new HashMap<String, Double>();
 
-		if (chkSumOrTotal.isSelected())
-			items.forEach(mcs -> res.compute(BeanTools.readProperty(mcs, property).toString(),
-					(_, v) -> (v == null) ? mcs.getQte() : v + mcs.getQte()));
-		else
-			items.forEach(mcs -> res.compute(BeanTools.readProperty(mcs, property).toString(), (_, v) -> UITools
-					.roundDouble((v == null) ? mcs.getValue().doubleValue() : v + mcs.getValue().doubleValue())));
+		if (chkSumOrTotal.isSelected()) {
+		    items.forEach(mcs -> res.compute(BeanTools.readProperty(mcs, property).toString(),
+		    		(_, v) -> (v == null) ? mcs.getQte() : v + mcs.getQte()));
+		} else {
+		    items.forEach(mcs -> res.compute(BeanTools.readProperty(mcs, property).toString(), (_, v) -> UITools
+		    		.roundDouble((v == null) ? mcs.getValue().doubleValue() : v + mcs.getValue().doubleValue())));
+		}
 
 		return res;
 	}
@@ -75,21 +76,22 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		chkSumOrTotal = new JCheckBox("Count");
 		lstCollections = new JCheckableListBox<>();
-		var panelMenu = new JPanel();
-		var pane = new JTabbedPane();
+		final var panelMenu = new JPanel();
+		final var pane = new JTabbedPane();
 		tableModel = new MapTableModel<>();
-		var table = UITools.createNewTable(tableModel, true);
-		var btnReload = new JButton(MTGConstants.ICON_REFRESH);
+		final var table = UITools.createNewTable(tableModel, true);
+		final var btnReload = new JButton(MTGConstants.ICON_REFRESH);
 		cboProperty = UITools.createCombobox(Lists.newArrayList("product.edition", "product.rarity", "product.types[0]",
 				"condition", "language", "comment", "foil"));
 
 		try {
 
-			for (var col : MTG.getEnabledPlugin(MTGDao.class).listCollections())
-				lstCollections.addElement(col,
-						ArrayUtils.contains(getProperty(COLLECTIONS, "Library").split("/"), col.getName()));
+			for (final var col : MTG.getEnabledPlugin(MTGDao.class).listCollections()) {
+			    lstCollections.addElement(col,
+			    		ArrayUtils.contains(getProperty(COLLECTIONS, "Library").split("/"), col.getName()));
+			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error("Error loading collections", e);
 		}
 
@@ -105,7 +107,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 
 			@Override
 			public PieDataset3D<String> getDataSet() {
-				var dataset = new StandardPieDataset3D<String>();
+				final var dataset = new StandardPieDataset3D<String>();
 				calculate(items, cboProperty.getSelectedItem().toString()).entrySet()
 						.forEach(e -> dataset.add(e.getKey(), e.getValue()));
 				return dataset;
@@ -134,18 +136,20 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		});
 
 		cboProperty.addItemListener(ie -> {
-			if (ie.getStateChange() == ItemEvent.SELECTED)
-				init();
+			if (ie.getStateChange() == ItemEvent.SELECTED) {
+			    init();
+			}
 		});
 
 		chkSumOrTotal.addItemListener(_ -> init());
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
-			if (!getString(PROPERTY).isEmpty())
-				cboProperty.setSelectedItem(getString(PROPERTY));
+			if (!getString(PROPERTY).isEmpty()) {
+			    cboProperty.setSelectedItem(getString(PROPERTY));
+			}
 
 			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
 			setBounds(r);
@@ -161,15 +165,16 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 				String.join("/", lstCollections.getSelectedElements().stream().map(MTGCollection::getName).toList()));
 
 		buzy.start();
-		var sw = new AbstractObservableWorker<List<MTGCardStock>, MTGCard, MTGDao>(buzy,
+		final var sw = new AbstractObservableWorker<List<MTGCardStock>, MTGCard, MTGDao>(buzy,
 				MTG.getEnabledPlugin(MTGDao.class)) {
 
 			@Override
 			protected List<MTGCardStock> doInBackground() throws Exception {
 
-				if (cache.isEmpty())
-					plug.listStocks(lstCollections.getSelectedElements())
-							.forEach(mcs -> cache.put(mcs.getId().toString(), mcs));
+				if (cache.isEmpty()) {
+				    plug.listStocks(lstCollections.getSelectedElements())
+				    		.forEach(mcs -> cache.put(mcs.getId().toString(), mcs));
+				}
 
 				return cache.values();
 

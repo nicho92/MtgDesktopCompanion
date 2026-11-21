@@ -45,12 +45,14 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	protected void initDefaultData() throws SQLException {
 
 		if (listCollections().isEmpty()) {
-			for (String s : MTGConstants.defaultCollectionsNames())
-				saveCollection(s);
+			for (final String s : MTGConstants.defaultCollectionsNames()) {
+			    saveCollection(s);
+			}
 		}
 
-		if (getContactById(1) == null)
-			saveOrUpdateContact(MTGConstants.DEFAULT_CONTACT);
+		if (getContactById(1) == null) {
+		    saveOrUpdateContact(MTGConstants.DEFAULT_CONTACT);
+		}
 
 	}
 
@@ -93,8 +95,9 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	public abstract Long incr(Class<?> c);
 
 	protected String key(MTGCollection c, MTGEdition ed) {
-		if (ed == null)
-			return key(c);
+		if (ed == null) {
+		    return key(c);
+		}
 
 		return key(c) + SEPARATOR + ed.getId();
 	}

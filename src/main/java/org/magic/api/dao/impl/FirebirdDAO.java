@@ -35,7 +35,7 @@ public class FirebirdDAO extends AbstractMagicSQLDAO {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.get(SERVERPORT).setDefaultValue("3050");
 		m.get(LOGIN).setDefaultValue("SYSDBA");
 		return m;

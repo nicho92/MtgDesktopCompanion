@@ -64,8 +64,9 @@ public class XMLExport extends AbstractCardExport {
 			@Override
 			public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
 				@SuppressWarnings("unchecked")
+				final
 				var map = (LinkedTreeMap<Object, Object>) source;
-				for (var entry : map.entrySet()) {
+				for (final var entry : map.entrySet()) {
 					writer.startNode(entry.getKey().toString());
 					writer.setValue(entry.getValue().toString());
 					writer.endNode();
@@ -79,7 +80,7 @@ public class XMLExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
-		String xml = xstream.toXML(deck);
+		final String xml = xstream.toXML(deck);
 		FileTools.saveFile(dest, xml);
 
 	}

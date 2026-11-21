@@ -12,8 +12,8 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 	}
 
 	protected AbstractMap.SimpleEntry<String, Integer> parseString(String s) {
-		Integer qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
-		String cardName = s.substring(s.indexOf(' '), s.length()).trim();
+		final Integer qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
+		final String cardName = s.substring(s.indexOf(' '), s.length()).trim();
 
 		return new AbstractMap.SimpleEntry<>(cardName, qte);
 	}

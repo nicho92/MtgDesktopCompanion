@@ -46,10 +46,11 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
     @Override
     public BufferedImage generatePicture(MTGCard mc, MTGEdition me) throws IOException {
-	if (httpclient == null)
+	if (httpclient == null) {
 	    connect();
+	}
 
-	var build = RequestBuilder.build();
+	final var build = RequestBuilder.build();
 
 	build.post().url(GENERATE_URL).setClient(httpclient).addContent("width", "791").addContent("height", "1107")
 	.addContent("fields[title]", mc.getName()).addContent("fields[type]", mc.getFullType())
@@ -58,7 +59,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	.addContent("fields[copyright]", getString("COPYRIGHT")).addContent("fields[cm]", mc.getCost());
 
 	if (mc.isPlaneswalker()) {
-	    var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
+	    final var abs = OracleParser.toFacade(mc.getName(), mc.getText()).getPlaneswalkerAbilities();
 	    build.addContent("template", "modern-planeswalker" + abs.size());
 	    build.addContent("fields[loyalty-base]", String.valueOf(mc.getLoyalty()));
 	    for (var i = 0; i < abs.size(); i++) {
@@ -68,27 +69,29 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	} else {
 
 	    code = "modern";
-	    if (mc.isRetro())
+	    if (mc.isRetro()) {
 		code = "old";
+	    }
 
 	    build.addContent("template", code + "-basic");
 	}
 
 	String colorBase;
 
-	if (mc.isArtifact())
+	if (mc.isArtifact()) {
 	    colorBase = "a";
-	else if (mc.isLand())
+	} else if (mc.isLand()) {
 	    colorBase = "l";
-	else if (mc.getColors().isEmpty())
+	} else if (mc.getColors().isEmpty()) {
 	    colorBase = "c";
-	else {
-	    if (mc.getColors().size() == 1)
+	} else {
+	    if (mc.getColors().size() == 1) {
 		colorBase = mc.getColors().getFirst().getCode();
-	    else if (mc.getColors().size() > 1)
+	    } else if (mc.getColors().size() > 1) {
 		colorBase = "m";
-	    else
+	    } else {
 		colorBase = mc.getColors().getFirst().getCode();
+	    }
 	}
 
 	if (mc.isHybride()) {
@@ -111,23 +114,26 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	build.addContent("fields[background-base]", colorBase.toLowerCase());
 	build.addContent("fields[background-texture]", colorBase.toLowerCase());
 
-	if (mc.isCreature() || mc.isVehicule())
+	if (mc.isCreature() || mc.isVehicule()) {
 	    build.addContent("fields[fe]", mc.getPT());
+	}
 
-	if (mc.getRarity() != null)
+	if (mc.getRarity() != null) {
 	    build.addContent("fields[se-rarity]", mc.getRarity().name().substring(0, 1).toLowerCase());
+	}
 
 	if (mc.getUrl() != null) {
-	    var f = toFile(mc.getUrl(), mc.getName() + ".png");
+	    final var f = toFile(mc.getUrl(), mc.getName() + ".png");
 
 	    if (f.exists()) {
-		String filename = upload(f);
+		final String filename = upload(f);
 		build.addContent("fields[illustration]", filename);
 	    }
 	}
 
-	if (Boolean.parseBoolean(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false")))
+	if (Boolean.parseBoolean(mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.SHOW_SET_ICON, "false"))) {
 	    build.addContent("fields[se-extension]", new SMFIconsSetProvider().getMap().get(me.getId()));
+	}
 
 	if (!mc.getCustomMetadata().getOrDefault(EnumExtraCardMetaData.ACCENT, "").isEmpty()) {
 	    build.addContent("fields[background-capabox]",
@@ -146,19 +152,20 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	logger.debug(build);
 
-	String ret = httpclient.toString(httpclient.execute(build));
+	final String ret = httpclient.toString(httpclient.execute(build));
 	logger.trace("RESPONSE: {}", ret);
 
-	var el = URLTools.toJson(ret);
+	final var el = URLTools.toJson(ret);
 
 	return ImageTools.readBase64(el.getAsJsonObject().get("image").getAsString());
     }
 
     private String upload(File f) throws IOException {
-	if (httpclient == null)
+	if (httpclient == null) {
 	    connect();
+	}
 
-	var builder = MultipartEntityBuilder.create();
+	final var builder = MultipartEntityBuilder.create();
 	builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 	builder.addPart("fcm-file-media", new FileBody(f, ContentType.DEFAULT_BINARY));
 	builder.addTextBody("fcm-field-illuscrop-x", "0");
@@ -167,14 +174,15 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	builder.addTextBody("fcm-field-illuscrop-h", "7");
 	builder.addTextBody("MAX_FILE_SIZE", "104857600");
 
-	HttpEntity ent = builder.build();
+	final HttpEntity ent = builder.build();
 
-	var response = URLTools.toJson(httpclient.toString(httpclient.doPost(UPLOAD_URL, ent,
+	final var response = URLTools.toJson(httpclient.toString(httpclient.doPost(UPLOAD_URL, ent,
 		Map.of("Host", DOMAIN, "Origin", WEBSITE, "Referer", WEBSITE, "X-Requested-With", "XMLHttpRequest"))));
 	logger.trace("response: {}", response);
 
-	if (response.getAsJsonObject().get("error") != null)
+	if (response.getAsJsonObject().get("error") != null) {
 	    throw new IOException(response.getAsJsonObject().get("error").getAsString());
+	}
 
 	return response.getAsJsonObject().get("filepath").getAsString();
     }
@@ -207,8 +215,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
     @Override
     public boolean equals(Object obj) {
 
-	if (obj == null)
+	if (obj == null) {
 	    return false;
+	}
 
 	return hashCode() == obj.hashCode();
     }
@@ -216,10 +225,11 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
     @Override
     protected EnumFrameVersion getFrameVersion() {
 
-	if (code.equalsIgnoreCase("old"))
+	if (code.equalsIgnoreCase("old")) {
 	    return EnumFrameVersion.FRAME_1993;
-	else
+	} else {
 	    return EnumFrameVersion.FRAME_2003;
+	}
 
     }
 

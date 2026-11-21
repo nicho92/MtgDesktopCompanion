@@ -16,7 +16,7 @@ public class MainPhase extends AbstractAction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String detail = "<html>Abilities that trigger at the beginning of the main phase go onto the stack.<br/>"
+	private final String detail = "<html>Abilities that trigger at the beginning of the main phase go onto the stack.<br/>"
 			+ "The active player gains priority.";
 
 	public MainPhase() {

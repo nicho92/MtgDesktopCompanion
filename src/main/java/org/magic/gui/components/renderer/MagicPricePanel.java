@@ -20,17 +20,17 @@ import org.magic.services.tools.UITools;
 public class MagicPricePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel lblName;
-	private JLabel lblpriceValue;
-	private JLangLabel lblSeller;
-	private JLabel lblSellerinfo;
-	private JLangLabel lblInfos;
+	private final JLabel lblName;
+	private final JLabel lblpriceValue;
+	private final JLangLabel lblSeller;
+	private final JLabel lblSellerinfo;
+	private final JLangLabel lblInfos;
 
 	public void init(MTGPrice price) {
 		lblName.setText(price.getSite());
 		try {
 			lblName.setIcon(PluginRegistry.inst().getPlugin(price.getSite(), MTGPricesProvider.class).getIcon());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 		lblpriceValue.setText(UITools.formatDouble(price.getValue()) + " " + price.getCurrency());
@@ -42,7 +42,7 @@ public class MagicPricePanel extends JPanel {
 	public MagicPricePanel() {
 
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{55, 108, 0};
 		gridBagLayout.rowHeights = new int[]{28, 25, 0, 20, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
@@ -54,7 +54,7 @@ public class MagicPricePanel extends JPanel {
 		lblName.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblName, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 0, 2, null));
 
-		var lblPrice = new JLangLabel("PRICE", true);
+		final var lblPrice = new JLangLabel("PRICE", true);
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblPrice, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.BOTH, 0, 1));
 
@@ -72,7 +72,7 @@ public class MagicPricePanel extends JPanel {
 		lblInfos.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 11));
 		add(lblInfos, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 3));
 
-		var lblNewLabel = new JLabel();
+		final var lblNewLabel = new JLabel();
 		add(lblNewLabel, UITools.createGridBagConstraints(null, null, 1, 3));
 	}
 }

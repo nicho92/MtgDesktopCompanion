@@ -47,8 +47,9 @@ public class SetIconLayer extends AbstractLayer {
     @Override
     public void paintLayer(Graphics2D g2) {
 
-	if(image==null)
+	if(image==null) {
 	    return;
+	}
 
 
 	g2.drawImage(
@@ -66,17 +67,18 @@ public class SetIconLayer extends AbstractLayer {
 	try {
 	    image =   IconsProvider.getInstance().getSetColoredSetImage(rarity, idSet);
 
-	    if(rarity!=EnumRarity.COMMON)
+	    if(rarity!=EnumRarity.COMMON) {
 		image = ImageTools.addOutline(image, Color.BLACK, 1);
-	    else
+	    } else {
 		image = ImageTools.addOutline(image, Color.WHITE, 1);
+	    }
 
 
 	    setWidth(image.getWidth());
 	    setHeight(image.getHeight());
 	    scale(6);
 
-	} catch (IOException e) {
+	} catch (final IOException e) {
 	    MTGLogger.getLogger(this.getClass()).error("with set {} Rarity= {}",getName(),idSet,rarity,e);
 	}
     }

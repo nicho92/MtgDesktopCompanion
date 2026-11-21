@@ -15,11 +15,11 @@ import com.google.gson.JsonObject;
 
 public class DanbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 
-	private String userAgent = MTGConstants.MTG_APP_NAME + "/1.0";
+	private final String userAgent = MTGConstants.MTG_APP_NAME + "/1.0";
 
 	@Override
 	protected List<MTGWallpaper> parse(JsonObject el) {
-		var pic = new MTGWallpaper();
+		final var pic = new MTGWallpaper();
 		pic.setAuthor(el.get("tag_string_artist").getAsString());
 		pic.setFormat(el.get("file_ext").getAsString());
 		pic.setName(el.get("id").getAsString());
@@ -30,8 +30,9 @@ public class DanbooruWallpaperProvider extends AbstractJsonWallpaperProvider {
 		pic.addHeader(URLTools.USER_AGENT, userAgent);
 		pic.setMature(true);
 
-		for (var s : el.get("tag_string").getAsString().split(" "))
-			pic.getTags().add(s);
+		for (final var s : el.get("tag_string").getAsString().split(" ")) {
+		    pic.getTags().add(s);
+		}
 
 		return List.of(pic);
 	}

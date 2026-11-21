@@ -47,13 +47,14 @@ public class CardKingdomCardExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var temp = new StringBuilder();
+		final var temp = new StringBuilder();
 
 		var s = BASE_URL
 				+ "?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion&c=";
 
-		for (Entry<MTGCard, Integer> e : deck.getMain().entrySet())
-			temp.append(e.getValue()).append(" ").append(e.getKey()).append("||");
+		for (final Entry<MTGCard, Integer> e : deck.getMain().entrySet()) {
+		    temp.append(e.getValue()).append(" ").append(e.getKey()).append("||");
+		}
 
 		s = s + URLTools.encode(temp.toString());
 

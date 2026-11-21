@@ -10,7 +10,7 @@ public class PricesCardsShakeSorter implements Comparator<CardShake> {
 		DAY_PRICE_CHANGE, DAY_PERCENT_CHANGE, PRICE
 	}
 
-	private SORT t;
+	private final SORT t;
 	private boolean asc = true;
 
 	public PricesCardsShakeSorter() {
@@ -24,13 +24,14 @@ public class PricesCardsShakeSorter implements Comparator<CardShake> {
 
 	@Override
 	public int compare(CardShake o1, CardShake o2) {
-		double val1 = getValFor(o1);
-		double val2 = getValFor(o2);
+		final double val1 = getValFor(o1);
+		final double val2 = getValFor(o2);
 
-		if (asc)
-			return Double.compare(val1, val2);
-		else
-			return Double.compare(val2, val1);
+		if (asc) {
+		    return Double.compare(val1, val2);
+		} else {
+		    return Double.compare(val2, val1);
+		}
 	}
 
 	private double getValFor(CardShake cs) {

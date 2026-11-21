@@ -18,7 +18,7 @@ public class AnnouncesUpdaterJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
-			var list = MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
+			final var list = MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
 
 			list.stream().filter(a -> a.getEndDate().before(new Date()) && a.getStatus() == STATUS.ACTIVE).toList()
 					.forEach(a -> {
@@ -26,7 +26,7 @@ public class AnnouncesUpdaterJob implements Job {
 						a.setStatus(STATUS.EXPIRED);
 						try {
 							MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
-						} catch (SQLException e) {
+						} catch (final SQLException e) {
 							logger.error("can't update {}", a, e);
 						}
 					});
@@ -37,13 +37,13 @@ public class AnnouncesUpdaterJob implements Job {
 						a.setStatus(STATUS.ACTIVE);
 						try {
 							MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
-						} catch (SQLException e) {
+						} catch (final SQLException e) {
 							logger.error("can't update {}", a, e);
 						}
 
 					});
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 

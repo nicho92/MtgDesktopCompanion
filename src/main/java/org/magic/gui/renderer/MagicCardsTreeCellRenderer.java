@@ -38,7 +38,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 					.getManaSymbol(EnumColors.GREEN.getCode()).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 			map.put(EnumColors.UNCOLOR, new ImageIcon(
 					IconsProvider.getInstance().getManaSymbol("X").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
@@ -47,12 +47,12 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
 			boolean isLeaf, int row, boolean focused) {
-		JLabel c = (JLabel) new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded,
+		final JLabel c = (JLabel) new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded,
 				isLeaf, row, focused);
 		try {
-			if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGEdition ed) {
+			if (((DefaultMutableTreeNode) value).getUserObject() instanceof final MTGEdition ed) {
 				c.setIcon(IconsProvider.getInstance().get16(ed.getId()));
-			} else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGCard mc) {
+			} else if (((DefaultMutableTreeNode) value).getUserObject() instanceof final MTGCard mc) {
 
 				c.setOpaque(false);
 				c.setIcon(MTGConstants.ICON_MANA_INCOLOR);
@@ -72,7 +72,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 				c.setIcon(MTGConstants.ICON_TAB_BACK);
 			}
 			return c;
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return c;
 		}
 	}

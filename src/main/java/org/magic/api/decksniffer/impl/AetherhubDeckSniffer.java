@@ -26,10 +26,10 @@ import com.google.gson.JsonElement;
 
 public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
-	private MTGHttpClient httpclient;
-	private Map<String, String> formats;
-	private String postReqData = "{\"draw\":1,\"columns\":[{\"data\":\"name\",\"name\":\"name\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"color\",\"name\":\"color\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"tags\",\"name\":\"tags\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"rarity\",\"name\":\"rarity\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"price\",\"name\":\"price\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"views\",\"name\":\"views\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"exports\",\"name\":\"exports\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"updated\",\"name\":\"updated\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"7\",\"regex\":false}},{\"data\":\"updatedhidden\",\"name\":\"updatedhidden\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"popularity\",\"name\":\"popularity\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":9,\"dir\":\"desc\"}],\"start\":0,\"length\":40,\"search\":{\"value\":\"\",\"regex\":false}}";
-	private String uriPost = "https://aetherhub.com/Meta/FetchMetaListAdv";
+	private final MTGHttpClient httpclient;
+	private final Map<String, String> formats;
+	private final String postReqData = "{\"draw\":1,\"columns\":[{\"data\":\"name\",\"name\":\"name\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"color\",\"name\":\"color\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"tags\",\"name\":\"tags\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"rarity\",\"name\":\"rarity\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"price\",\"name\":\"price\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"views\",\"name\":\"views\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"exports\",\"name\":\"exports\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"updated\",\"name\":\"updated\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"7\",\"regex\":false}},{\"data\":\"updatedhidden\",\"name\":\"updatedhidden\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"popularity\",\"name\":\"popularity\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":9,\"dir\":\"desc\"}],\"start\":0,\"length\":40,\"search\":{\"value\":\"\",\"regex\":false}}";
+	private final String uriPost = "https://aetherhub.com/Meta/FetchMetaListAdv";
 
 	public AetherhubDeckSniffer() {
 
@@ -60,8 +60,9 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}
@@ -78,33 +79,34 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	boolean sideboard = false;
 
-	
+
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-	    
-		String uri = "https://aetherhub.com/Deck/FetchDeckExport?deckId=" + info.getUrl().getQuery().replace("id=", "");
-		var data = URLTools.extractAsJson(uri).getAsString();
 
-		MTGDeck deck = info.toBaseDeck();
+		final String uri = "https://aetherhub.com/Deck/FetchDeckExport?deckId=" + info.getUrl().getQuery().replace("id=", "");
+		final var data = URLTools.extractAsJson(uri).getAsString();
+
+		final MTGDeck deck = info.toBaseDeck();
 		sideboard = false;
 
 		data.lines().forEach(s -> {
-			String line = s.trim();
+			final String line = s.trim();
 
 			if (line.startsWith("Sideboard") || line.startsWith("Maybeboard")) {
 				sideboard = true;
 			} else if (!StringUtils.isBlank(line) && !line.equals("Deck")) {
 
-				var entry = parseString(line);
+				final var entry = parseString(line);
 				try {
-					var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true)
+					final var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true)
 							.get(0);
 					notify(mc);
-					if (sideboard)
-						deck.getSideBoard().put(mc, entry.getValue());
-					else
-						deck.getMain().put(mc, entry.getValue());
-				} catch (Exception _) {
+					if (sideboard) {
+					    deck.getSideBoard().put(mc, entry.getValue());
+					} else {
+					    deck.getMain().put(mc, entry.getValue());
+					}
+				} catch (final Exception _) {
 					logger.error("couldn't not find {}", entry.getKey());
 				}
 			}
@@ -114,8 +116,8 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
-		var list = new ArrayList<RetrievableDeck>();
-		var headers = new HashMap<String, String>();
+		final var list = new ArrayList<RetrievableDeck>();
+		final var headers = new HashMap<String, String>();
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		headers.put(URLTools.ACCEPT, "application/json, text/javascript, */*; q=0.01");
 		headers.put(URLTools.ACCEPT_ENCODING, "gzip, deflate, br, zstd");
@@ -125,25 +127,25 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		headers.put(URLTools.REFERER, "https://aetherhub.com/Decks/Traditional-Standard");
 		headers.put("x-requested-with", "XMLHttpRequest");
 		headers.putAll(URLTools.createSecHeaders());
-		
-		
+
+
 		httpclient.doGet("https://aetherhub.com/Decks/Traditional-Standard/");
-		
-		var ret = httpclient.doPost(uriPost + formats.get(filter), URLTools.toJson(postReqData), headers);
+
+		final var ret = httpclient.doPost(uriPost + formats.get(filter), URLTools.toJson(postReqData), headers);
 
 		logger.debug(ret);
-		var el = ret.getAsJsonObject();
-		var arr = el.get("metadecks").getAsJsonArray();
+		final var el = ret.getAsJsonObject();
+		final var arr = el.get("metadecks").getAsJsonArray();
 
-		for (JsonElement je : arr) {
-			var d = new RetrievableDeck();
+		for (final JsonElement je : arr) {
+			final var d = new RetrievableDeck();
 			d.setAuthor(je.getAsJsonObject().get("username").getAsString());
 			d.setName(je.getAsJsonObject().get("name").getAsString());
 			d.setDescription(
 					UITools.formatDate(Instant.ofEpochMilli(je.getAsJsonObject().get("updated").getAsLong() / 1000)));
 
-			var colors = je.getAsJsonObject().get("color").getAsJsonArray();
-			var temp = new StringBuilder();
+			final var colors = je.getAsJsonObject().get("color").getAsJsonArray();
+			final var temp = new StringBuilder();
 			if (colors.get(0).getAsInt() > 0) {
 				temp.append("{W}");
 			}
@@ -163,7 +165,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 			try {
 				d.setUrl(new URI("https://aetherhub.com/Deck/Public?id=" + je.getAsJsonObject().get("id").getAsInt()));
-			} catch (URISyntaxException e) {
+			} catch (final URISyntaxException e) {
 				logger.error(e);
 			}
 

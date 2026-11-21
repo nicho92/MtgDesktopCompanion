@@ -15,17 +15,18 @@ public class SCGGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		var ret = RequestBuilder.build()
+		final var ret = RequestBuilder.build()
 				.url("https://api.gosgc.com/v1/pop-report/GetCertAuthCode/" + identifier + "/empty/empty").get()
 				.newClient().toJson().getAsJsonObject();
 
-		Entry<String, JsonElement> entry = ret.entrySet().stream().filter(e -> e.getValue().getAsString().equals("1"))
+		final Entry<String, JsonElement> entry = ret.entrySet().stream().filter(e -> e.getValue().getAsString().equals("1"))
 				.findFirst().orElse(null);
 
-		if (entry == null)
-			return new MTGGrading();
+		if (entry == null) {
+		    return new MTGGrading();
+		}
 
-		var grad = new MTGGrading();
+		final var grad = new MTGGrading();
 		grad.setNumberID(identifier);
 		grad.setUrlInfo("https://www.gosgc.com/auth-code");
 		grad.setGraderName(getName());

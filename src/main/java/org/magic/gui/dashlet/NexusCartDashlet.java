@@ -7,10 +7,10 @@ import org.magic.api.interfaces.abstracts.extra.AbstractNexusDashlet;
 
 public class NexusCartDashlet extends AbstractNexusDashlet {
 
-  
+
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -23,5 +23,5 @@ public class NexusCartDashlet extends AbstractNexusDashlet {
     protected JComponent getNexusComponent() {
 	return new NexusCartPanel();
     }
-    
+
 }

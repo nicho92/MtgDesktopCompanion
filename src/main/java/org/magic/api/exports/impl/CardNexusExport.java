@@ -24,11 +24,11 @@ public class CardNexusExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		var ret = new ArrayList<MTGCardStock>();
+		final var ret = new ArrayList<MTGCardStock>();
 
 		matches(content, true).forEach(m -> {
-			var mcs = MTGControler.getInstance().getDefaultStock();
-			var mc = parseMatcherWithGroup(m, 3, 6, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NUMBER);
+			final var mcs = MTGControler.getInstance().getDefaultStock();
+			final var mc = parseMatcherWithGroup(m, 3, 6, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NUMBER);
 
 			if (mc != null) {
 				mcs.setQte(Integer.parseInt(m.group(1)));
@@ -54,9 +54,9 @@ public class CardNexusExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var builder = new StringBuilder(COLUMNS).append(System.lineSeparator());
+		final var builder = new StringBuilder(COLUMNS).append(System.lineSeparator());
 
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			builder.append("\"").append(mcs.getQte()).append("\"").append(getSeparator());
 			builder.append("\"").append(mcs.getProduct().getName().replace("\"", "")).append("\"")
 					.append(getSeparator());
@@ -77,11 +77,13 @@ public class CardNexusExport extends AbstractFormattedFileCardExport {
 	}
 
 	private String parseFinish(MTGCardStock mcs) {
-		if (mcs.isFoil())
-			return "Foil";
+		if (mcs.isFoil()) {
+		    return "Foil";
+		}
 
-		if (mcs.isEtched())
-			return "Etched";
+		if (mcs.isEtched()) {
+		    return "Etched";
+		}
 
 		return "Standard";
 

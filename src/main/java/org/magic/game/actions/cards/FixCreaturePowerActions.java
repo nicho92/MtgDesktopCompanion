@@ -24,7 +24,7 @@ public class FixCreaturePowerActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		String res = JOptionPane.showInputDialog("Power/Toughness ?");
+		final String res = JOptionPane.showInputDialog("Power/Toughness ?");
 
 		card.getMagicCard().setPower(res.split("/")[0]);
 		card.getMagicCard().setToughness(res.split("/")[1]);

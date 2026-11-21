@@ -36,7 +36,7 @@ public class ChangeBackGroundActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		var choose = new JFileChooser(lastDir);
+		final var choose = new JFileChooser(lastDir);
 		choose.showOpenDialog(GamePanelGUI.getInstance().getPanelBattleField());
 		if (choose.getSelectedFile() != null) {
 
@@ -50,7 +50,7 @@ public class ChangeBackGroundActions extends AbstractAction {
 
 				MTGControler.getInstance().setProperty("/game/player-profil/background",
 						choose.getSelectedFile().getAbsolutePath());
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				logger.error(e1);
 			}
 

@@ -50,13 +50,13 @@ public class PlayInShopper extends AbstractMagicShopper {
 			try {
 
 				logger.info("connection with : {}", getAuthenticator().getLogin());
-				var res = RequestBuilder.build().setClient(client).post().url(urlLogin)
+				final var res = RequestBuilder.build().setClient(client).post().url(urlLogin)
 						.addContent("_email", getAuthenticator().getLogin())
 						.addContent("_pwd", getAuthenticator().getPassword()).addContent("_submit_login", "Log in")
 						.addContent("redirect", "/user/list_order.php").toHtml();
 
 				logger.info("{} connection response : {}", getName(), res);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 		}
@@ -67,14 +67,14 @@ public class PlayInShopper extends AbstractMagicShopper {
 
 		init();
 
-		List<RetrievableTransaction> entries = new ArrayList<>();
+		final List<RetrievableTransaction> entries = new ArrayList<>();
 
-		Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
-		Elements e = listOrders.select("div.total_list a");
+		final Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
+		final Elements e = listOrders.select("div.total_list a");
 
-		for (Element element : e) {
+		for (final Element element : e) {
 
-			var o = new RetrievableTransaction();
+			final var o = new RetrievableTransaction();
 			o.setSource(getName());
 			o.setSourceId(element.select("div.num_commande").text());
 			o.setDateTransaction(UITools.parseDate(element.select("div.hide_mobile").first().html(), "MM/dd/yy"));
@@ -92,24 +92,26 @@ public class PlayInShopper extends AbstractMagicShopper {
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 
-		var t = buildTransaction(rt);
+		final var t = buildTransaction(rt);
 
-		var doc = RequestBuilder.build().setClient(client).url(urlBase + rt.getUrl()).get().toHtml();
+		final var doc = RequestBuilder.build().setClient(client).url(urlBase + rt.getUrl()).get().toHtml();
 
-		Elements table = doc.select("div.table div.tr");
+		final Elements table = doc.select("div.table div.tr");
 		table.remove(0);
-		for (Element e : table) {
-			boolean iscard = e.hasAttr("attribute_default");
-			var elementName = e.select("div.td.name");
+		for (final Element e : table) {
+			final boolean iscard = e.hasAttr("attribute_default");
+			final var elementName = e.select("div.td.name");
 			if (!elementName.isEmpty()) {
 				if (iscard) {
-					var b = buildCard(e, elementName);
-					if (b != null)
-						t.getItems().add(b);
+					final var b = buildCard(e, elementName);
+					if (b != null) {
+					    t.getItems().add(b);
+					}
 				} else {
-					var b = buildSealed(e, elementName);
-					if (b != null)
-						t.getItems().add(b);
+					final var b = buildSealed(e, elementName);
+					if (b != null) {
+					    t.getItems().add(b);
+					}
 				}
 				notify(t);
 			}
@@ -119,68 +121,72 @@ public class PlayInShopper extends AbstractMagicShopper {
 	}
 
 	private MTGStockItem buildSealed(Element e, Elements elementName) {
-		String name = elementName.first().text();
-		var value = UITools.parseDouble(StringEscapeUtils.unescapeHtml4(e.select("div.price").html().trim()));
-		var qty = Integer.parseInt(StringEscapeUtils.unescapeHtml4(e.select("div.qty").html().trim()));
-		var productUrl = elementName.first().getElementsByTag("a").first().attr("href").replace("/produit/", "");
+		final String name = elementName.first().text();
+		final var value = UITools.parseDouble(StringEscapeUtils.unescapeHtml4(e.select("div.price").html().trim()));
+		final var qty = Integer.parseInt(StringEscapeUtils.unescapeHtml4(e.select("div.qty").html().trim()));
+		final var productUrl = elementName.first().getElementsByTag("a").first().attr("href").replace("/produit/", "");
 
 		try {
 
-			var ed = CardsManagerService.detectEdition(name);
+			final var ed = CardsManagerService.detectEdition(name);
 
 			if (ed == null) {
 				logger.warn("can't found ed product for {}", name);
 				return null;
 			} else {
 				var typeProduct = EnumItems.SET;
-				if (name.toLowerCase().contains("booster"))
-					typeProduct = EnumItems.BOOSTER;
+				if (name.toLowerCase().contains("booster")) {
+				    typeProduct = EnumItems.BOOSTER;
+				}
 
-				if (name.toLowerCase().startsWith("boite de") || name.contains("Display"))
-					typeProduct = EnumItems.BOX;
+				if (name.toLowerCase().startsWith("boite de") || name.contains("Display")) {
+				    typeProduct = EnumItems.BOX;
+				}
 
-				if (name.toLowerCase().contains("Bundle"))
-					typeProduct = EnumItems.BUNDLE;
+				if (name.toLowerCase().contains("Bundle")) {
+				    typeProduct = EnumItems.BUNDLE;
+				}
 
-				var products = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, typeProduct);
-				var st = new MTGSealedStock(products.get(0));
+				final var products = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, typeProduct);
+				final var st = new MTGSealedStock(products.get(0));
 				st.setComment(name);
 				st.setPrice(value);
 				st.setQte(qty);
-				if (name.contains("VF") || name.contains(FRENCH) || name.contains("FR"))
-					st.setLanguage(FRENCH);
-				else
-					st.setLanguage("English");
+				if (name.contains("VF") || name.contains(FRENCH) || name.contains("FR")) {
+				    st.setLanguage(FRENCH);
+				} else {
+				    st.setLanguage("English");
+				}
 
 				st.getTiersAppIds().put(getName(), productUrl.substring(0, productUrl.indexOf('-')));
 
 				return st;
 			}
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error(ex);
 			return null;
 		}
 	}
 
 	private MTGStockItem buildCard(Element e, Elements elementName) {
-		String name = URLTools.extractElementText(elementName.first());
-		String set = e.select("div.td.ext img").attr("title");
-		var productUrl = elementName.get(1).getElementsByTag("a").first().attr("href").replace("/magic/carte/", "");
+		final String name = URLTools.extractElementText(elementName.first());
+		final String set = e.select("div.td.ext img").attr("title");
+		final var productUrl = elementName.get(1).getElementsByTag("a").first().attr("href").replace("/magic/carte/", "");
 
 		try {
-			var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
-			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition, false).get(0);
-			var langEtat = URLTools.extractElementText(e.select("div.update_variation_sell").first()).split(" - ");
+			final var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
+			final var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition, false).get(0);
+			final var langEtat = URLTools.extractElementText(e.select("div.update_variation_sell").first()).split(" - ");
 
-			var st = new MTGCardStock(card);
+			final var st = new MTGCardStock(card);
 			st.setPrice(UITools.parseDouble(e.attr("attribute_price")));
 			st.setLanguage(langEtat[0].equalsIgnoreCase("Fr") ? FRENCH : "English");
 			st.setCondition(aliases.getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));
 			st.setQte(Integer.parseInt(URLTools.extractElementText(e.select("div.qty").first())));
 			st.getTiersAppIds().put(getName(), productUrl);
 			return st;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error(ex);
 			return null;
 		}

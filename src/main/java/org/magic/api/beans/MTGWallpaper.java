@@ -130,8 +130,9 @@ public class MTGWallpaper implements Comparable<MTGWallpaper>, MTGSerializable {
 
 	@Override
 	public int compareTo(MTGWallpaper o) {
-		if (getPublishDate() != null && o != null && o.getPublishDate() != null)
-			return getPublishDate().compareTo(o.getPublishDate());
+		if (getPublishDate() != null && o != null && o.getPublishDate() != null) {
+		    return getPublishDate().compareTo(o.getPublishDate());
+		}
 
 		return -1;
 	}

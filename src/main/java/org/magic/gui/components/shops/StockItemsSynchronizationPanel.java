@@ -18,10 +18,10 @@ import org.magic.services.tools.UITools;
 public class StockItemsSynchronizationPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JXTable table;
-	private MapTableModel<String, String> model;
+	private final JXTable table;
+	private final MapTableModel<String, String> model;
 	private MTGStockItem st;
-	private JComboBox<MTGCardsExport> cboPlugins;
+	private final JComboBox<MTGCardsExport> cboPlugins;
 
 	public StockItemsSynchronizationPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -41,12 +41,12 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 
 		add(new JScrollPane(table));
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
-		var btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE,
+		final var btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE,
 				"Delete Sync");
-		var btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "Add Sync");
+		final var btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "Add Sync");
 		cboPlugins = UITools.createComboboxPlugins(MTGCardsExport.class, false);
 		panel.add(btnDelete);
 
@@ -55,7 +55,7 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 
 		btnDelete.addActionListener(_ -> {
 
-			String name = UITools.getTableSelection(table, 0);
+			final String name = UITools.getTableSelection(table, 0);
 
 			if (name != null) {
 				st.getTiersAppIds().remove(name);

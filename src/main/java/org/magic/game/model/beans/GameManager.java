@@ -6,12 +6,12 @@ import java.util.List;
 
 public class GameManager {
 
-	private List<Player> players;
+	private final List<Player> players;
 
 	private static GameManager instance;
 	private List<Turn> turns;
 
-	private SpellStack stack;
+	private final SpellStack stack;
 	private TriggerManager triggers;
 
 	private GameManager() {
@@ -34,8 +34,9 @@ public class GameManager {
 	}
 
 	public Turn getActualTurn() {
-		if (turns.isEmpty())
-			return new Turn();
+		if (turns.isEmpty()) {
+		    return new Turn();
+		}
 		return turns.getLast();
 	}
 
@@ -60,8 +61,9 @@ public class GameManager {
 	}
 
 	public static GameManager getInstance() {
-		if (instance == null)
-			instance = new GameManager();
+		if (instance == null) {
+		    instance = new GameManager();
+		}
 
 		return instance;
 	}
@@ -76,8 +78,9 @@ public class GameManager {
 	}
 
 	public void initGame() {
-		for (Player player : players)
-			player.init();
+		for (final Player player : players) {
+		    player.init();
+		}
 
 		turns = new ArrayList<>();
 		stack.clean();

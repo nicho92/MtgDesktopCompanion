@@ -19,12 +19,12 @@ public class EbayPricer extends AbstractPricesProvider {
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		var prices = new ArrayList<MTGPrice>();
-		var clientId = getAuthenticator().get("CLIENT_ID");
-		var clientSecret = getAuthenticator().get("CLIENT_SECRET");
-		var domain = "https://api.ebay.com";
+		final var prices = new ArrayList<MTGPrice>();
+		final var clientId = getAuthenticator().get("CLIENT_ID");
+		final var clientSecret = getAuthenticator().get("CLIENT_SECRET");
+		final var domain = "https://api.ebay.com";
 
-		var token = RequestBuilder.build().newClient().url(domain + "/identity/v1/oauth2/token")
+		final var token = RequestBuilder.build().newClient().url(domain + "/identity/v1/oauth2/token")
 				.addHeader(URLTools.CONTENT_TYPE, "application/x-www-form-urlencoded")
 				.addHeader(URLTools.AUTHORIZATION,
 						"Basic " + CryptoUtils.toBase64((clientId + ":" + clientSecret).getBytes()))
@@ -36,18 +36,19 @@ public class EbayPricer extends AbstractPricesProvider {
 				.addHeader(URLTools.AUTHORIZATION, "bearer " + token)
 				.addContent("q", card.getName() + (getBoolean("FILTER_SET") ? " " + card.getEdition().getSet() : ""));
 
-		if (!getString(CCG_CATEG_ID).isEmpty())
-			query = query.addContent("category_ids", getString(CCG_CATEG_ID));
+		if (!getString(CCG_CATEG_ID).isEmpty()) {
+		    query = query.addContent("category_ids", getString(CCG_CATEG_ID));
+		}
 
-		var result = query.get().toJson().getAsJsonObject();
+		final var result = query.get().toJson().getAsJsonObject();
 
 		logger.trace("result : {}", result);
 
 		if (result.get("total").getAsInt() > 0) {
 			result.get("itemSummaries").getAsJsonArray().forEach(je -> {
-				var obj = je.getAsJsonObject();
+				final var obj = je.getAsJsonObject();
 
-				var price = new MTGPrice();
+				final var price = new MTGPrice();
 				price.setValue(obj.get("price").getAsJsonObject().get("value").getAsDouble());
 				price.setCurrency(obj.get("price").getAsJsonObject().get("currency").getAsString());
 				price.setCardData(card);

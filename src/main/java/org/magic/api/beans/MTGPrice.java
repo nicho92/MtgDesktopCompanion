@@ -78,8 +78,9 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	}
 
 	public String getLanguage() {
-		if (language == null)
-			return "";
+		if (language == null) {
+		    return "";
+		}
 		return language;
 	}
 
@@ -100,8 +101,9 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	}
 
 	public void setCurrency(String currencyCode) {
-		if (!currencyCode.isEmpty())
-			priceValue.setCurrency(Currency.getInstance(currencyCode.toUpperCase()));
+		if (!currencyCode.isEmpty()) {
+		    priceValue.setCurrency(Currency.getInstance(currencyCode.toUpperCase()));
+		}
 	}
 
 	public void setCurrency(Currency currency) {
@@ -148,7 +150,7 @@ public class MTGPrice implements Comparable<MTGPrice> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof MTGPrice p) {
+		if (obj instanceof final MTGPrice p) {
 			return p.getValue() == this.getValue();
 		}
 		return false;

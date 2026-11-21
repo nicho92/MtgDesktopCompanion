@@ -25,11 +25,12 @@ public class MagicEditionCellRenderer extends JLabel implements TableCellRendere
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
-		if (value == null)
-			return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-					column);
+		if (value == null) {
+		    return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
+		    		column);
+		}
 
-		var ed = (MTGEdition) value;
+		final var ed = (MTGEdition) value;
 		setIcon(IconsProvider.getInstance().get16(ed.getId()));
 		setText(ed.getSet());
 		setToolTipText(ed.getSet());

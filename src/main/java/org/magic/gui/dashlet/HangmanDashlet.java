@@ -26,15 +26,15 @@ public class HangmanDashlet extends AbstractJDashlet {
 
 	@Override
 	public void initGUI() {
-	    
+
 	    	setLayout(new BorderLayout());
-	    	
+
 	    	gamePanel = new HangmanPanel();
-	    	
+
 		getContentPane().add(gamePanel, BorderLayout.CENTER);
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);

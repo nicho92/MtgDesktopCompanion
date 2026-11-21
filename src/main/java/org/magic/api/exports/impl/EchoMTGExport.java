@@ -43,7 +43,7 @@ public class EchoMTGExport extends AbstractCardExport {
 	private void connect() throws IOException {
 		client = URLTools.newClient();
 
-		var con = RequestBuilder.build().post().url(BASE_URL + "/api/user/auth/")
+		final var con = RequestBuilder.build().post().url(BASE_URL + "/api/user/auth/")
 				.addContent("email", getAuthenticator().get("EMAIL"))
 				.addContent("password", getAuthenticator().get("PASSWORD")).addHeader(URLTools.ACCEPT, "*/*")
 				.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br").setClient(client).toJson();
@@ -57,13 +57,14 @@ public class EchoMTGExport extends AbstractCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		if (client == null)
-			connect();
+		if (client == null) {
+		    connect();
+		}
 
 		stock.forEach(entry -> {
 
 			try {
-			  var   list = RequestBuilder.build().post().url(BASE_URL + "/api/inventory/add/").addContent("auth", authToken)
+			  final var   list = RequestBuilder.build().post().url(BASE_URL + "/api/inventory/add/").addContent("auth", authToken)
 			    		.addContent("mid", entry.getProduct().getMultiverseid())
 			    		.addContent("quantity", String.valueOf(entry.getQte()))
 			    		.addContent("condition", aliases.getConditionFor(this, entry.getCondition()))
@@ -71,19 +72,19 @@ public class EchoMTGExport extends AbstractCardExport {
 
 				logger.debug(list);
 
-				if (list.getAsJsonObject().get("status").getAsString().equalsIgnoreCase("error"))
-					logger.error("error loading {}: {}", entry.getProduct(),
-							list.getAsJsonObject().get("message").getAsString());
-				else {
+				if (list.getAsJsonObject().get("status").getAsString().equalsIgnoreCase("error")) {
+				    logger.error("error loading {}: {}", entry.getProduct(),
+				    		list.getAsJsonObject().get("message").getAsString());
+				} else {
 					logger.debug("export: {}", list.getAsJsonObject().get("message").getAsString());
 					entry.getTiersAppIds().put(getName(), list.getAsJsonObject().get("inventory_id").getAsString());
 					entry.setUpdated(true);
 
 				}
 				notify(entry.getProduct());
-			    
-			    
-			} catch (IOException e) {
+
+
+			} catch (final IOException e) {
 			   logger.error(e);
 			}
 
@@ -92,28 +93,29 @@ public class EchoMTGExport extends AbstractCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		if (client == null)
-			connect();
+		if (client == null) {
+		    connect();
+		}
 
-		var list = RequestBuilder.build().get().url(BASE_URL + "/api/inventory/view/").addContent("auth", authToken)
+		final var list = RequestBuilder.build().get().url(BASE_URL + "/api/inventory/view/").addContent("auth", authToken)
 				.addContent("start", "0").addContent("limit", "100").setClient(client).toJson();
 
-		var arr = list.getAsJsonObject().get("items").getAsJsonArray();
-		var ret = new ArrayList<MTGCardStock>();
+		final var arr = list.getAsJsonObject().get("items").getAsJsonArray();
+		final var ret = new ArrayList<MTGCardStock>();
 		arr.forEach(element -> {
-			var ob = element.getAsJsonObject();
+			final var ob = element.getAsJsonObject();
 			MTGEdition ed = null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("set_code").getAsString());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error("error with {}", ob, e);
 			}
 
 			try {
-				List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class)
+				final List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class)
 						.searchCardByName(ob.get("name").getAsString(), ed, true);
 
-				var mcs = MTGControler.getInstance().getDefaultStock();
+				final var mcs = MTGControler.getInstance().getDefaultStock();
 				mcs.setProduct(cards.get(0));
 
 				mcs.setCondition(aliases.getReversedConditionFor(this,
@@ -125,7 +127,7 @@ public class EchoMTGExport extends AbstractCardExport {
 
 				ret.add(mcs);
 				notify(mcs.getProduct());
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 
@@ -146,8 +148,9 @@ public class EchoMTGExport extends AbstractCardExport {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

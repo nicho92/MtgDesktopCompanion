@@ -18,5 +18,5 @@ public class NexusCartOptimizerDashlet extends AbstractNexusDashlet {
     protected JComponent getNexusComponent() {
 	return new NexusWizardPanel();
     }
-    
+
 }

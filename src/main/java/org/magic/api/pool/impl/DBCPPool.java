@@ -27,7 +27,7 @@ public class DBCPPool extends AbstractPoolProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var map = new HashMap<String, MTGProperty>();
+		final var map = new HashMap<String, MTGProperty>();
 
 		map.put("defaultAutoCommit", MTGProperty.newBooleanProperty(TRUE,
 				"The default auto-commit state of connections created by this pool. If not set then the setAutoCommit method will not be called."));
@@ -113,7 +113,7 @@ public class DBCPPool extends AbstractPoolProvider {
 		props.entrySet().forEach(ks -> {
 			try {
 				BeanUtils.setProperty(dataSource, ks.getKey().toString(), ks.getValue());
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 		});

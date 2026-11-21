@@ -27,8 +27,8 @@ import org.magic.services.tools.Chrono;
 public class MtgDesktopCompanion {
 
 	private final Logger logger = MTGLogger.getLogger(this.getClass());
-	private MTGSplashScreen launch;
-	private Chrono chrono;
+	private final MTGSplashScreen launch;
+	private final Chrono chrono;
 
 	static void main() {
 		new MtgDesktopCompanion();
@@ -41,7 +41,7 @@ public class MtgDesktopCompanion {
 
 		try {
 			MTGLogger.getMTGAppender().addObserver(launch);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error getting MTGLogger : {} ", e.getMessage());
 		}
 
@@ -50,20 +50,21 @@ public class MtgDesktopCompanion {
 		try {
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 
-			boolean updated = MTGControler.getInstance().updateConfigMods();
+			final boolean updated = MTGControler.getInstance().updateConfigMods();
 			MTGControler.getInstance().loadAccountsConfiguration();
 
 			logger.trace("result config updated : {}", updated);
 
-			if (updated)
-				MTGControler.getInstance().notify(
-						new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
+			if (updated) {
+			    MTGControler.getInstance().notify(
+			    		new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
+			}
 
 			getEnabledPlugin(MTGCardsProvider.class).init();
 			getEnabledPlugin(MTGDao.class).init();
 
 			logger.info("Init {} GUI", MTGConstants.MTG_APP_NAME);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error initialisation", e);
 			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),
 					JOptionPane.ERROR_MESSAGE);
@@ -74,7 +75,7 @@ public class MtgDesktopCompanion {
 
 			@Override
 			protected void auditedRun() {
-				var gui = new MagicGUI();
+				final var gui = new MagicGUI();
 				MTGControler.getInstance().getLafService()
 						.setFont(new FontUIResource(MTGControler.getInstance().getFont()));
 				MTGControler.getInstance().getLafService().setLookAndFeel(gui,
@@ -89,11 +90,11 @@ public class MtgDesktopCompanion {
 				listEnabledPlugins(MTGServer.class).stream().filter(MTGServer::isAutostart).forEach(s -> {
 					try {
 						s.start();
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.error(e);
 					}
 				});
-				long time = chrono.stop();
+				final long time = chrono.stop();
 				logger.info("{} started in {} sec", MTGConstants.MTG_APP_NAME, time);
 
 			}

@@ -40,13 +40,13 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		StringBuilder temp = new StringBuilder();
-		var endOfLine = "\r\n";
+		final StringBuilder temp = new StringBuilder();
+		final var endOfLine = "\r\n";
 		temp.append(
 				"Set\tName (Oracle)\tName\tVersion\tLanguage\tQty (R)\tQty (F)\tBuy Qty\tProxies\tNotes\tRarity\tNumber\tColor\tCost\tP/T\tArtist\tBorder\tCopyright\tType\tSell Qty\tGrade (R)\tGrade (F)\tPrice (R)\tPrice (F)\tUsed\tType (Oracle)\tLegality\tBuy Price\tSell Price\tRating\tObject\r\n");
 		temp.append(endOfLine);
 
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			temp.append(aliases.getReversedSetIdFor(this, mcs.getProduct().getEdition().getId())).append("\t");
 			temp.append(mcs.getProduct().getName()).append("\t");
 			temp.append(mcs.getProduct().getForeignNames().get(0).getName()).append("\t");
@@ -78,23 +78,23 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		var ret = new ArrayList<MTGCardStock>();
+		final var ret = new ArrayList<MTGCardStock>();
 		matches(content, true).forEach(m -> {
 
-			var foilnumber = (!m.group(7).isEmpty()) ? Integer.parseInt(m.group(7)) : 0;
-			var regularNumber = (!m.group(6).isEmpty()) ? Integer.parseInt(m.group(6)) : 0;
-			var proxyNumber = (!m.group(9).isEmpty()) ? Integer.parseInt(m.group(9)) : 0;
-			var setCode = aliases.getReversedSetIdFor(this, m.group(1));
-			var lang = m.group(5);
-			var cardName = m.group(2).replace("’", "'").replace("│", " // ");
+			final var foilnumber = (!m.group(7).isEmpty()) ? Integer.parseInt(m.group(7)) : 0;
+			final var regularNumber = (!m.group(6).isEmpty()) ? Integer.parseInt(m.group(6)) : 0;
+			final var proxyNumber = (!m.group(9).isEmpty()) ? Integer.parseInt(m.group(9)) : 0;
+			final var setCode = aliases.getReversedSetIdFor(this, m.group(1));
+			final var lang = m.group(5);
+			final var cardName = m.group(2).replace("’", "'").replace("│", " // ");
 
 			MTGCard mc = null;
 
 			if (!m.group(12).isEmpty()) {
 				try {
-					var cardNumber = m.group(12).split("/")[0].replaceFirst("^0+(?!$)", "");
+					final var cardNumber = m.group(12).split("/")[0].replaceFirst("^0+(?!$)", "");
 					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cardNumber, setCode);
-				} catch (Exception _) {
+				} catch (final Exception _) {
 					mc = null;
 				}
 
@@ -102,7 +102,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 			if (mc == null) {
 				try {
-					var listmc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName,
+					final var listmc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName,
 							MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setCode), true);
 
 					if (listmc.isEmpty()) {
@@ -111,7 +111,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					} else {
 						mc = listmc.get(0);
 					}
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					mc = null;
 					logger.error(e);
 				}
@@ -121,7 +121,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			if (mc != null) {
 
 				if (regularNumber > 0) {
-					var mcs = MTGControler.getInstance().getDefaultStock();
+					final var mcs = MTGControler.getInstance().getDefaultStock();
 					mcs.setProduct(mc);
 					mcs.setQte(regularNumber);
 					mcs.setLanguage(lang);
@@ -130,7 +130,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 				}
 
 				if (foilnumber > 0) {
-					var mcsF = MTGControler.getInstance().getDefaultStock();
+					final var mcsF = MTGControler.getInstance().getDefaultStock();
 					mcsF.setProduct(mc);
 					mcsF.setQte(foilnumber);
 					mcsF.setLanguage(lang);
@@ -139,7 +139,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 				}
 
 				if (proxyNumber > 0) {
-					var mcsP = MTGControler.getInstance().getDefaultStock();
+					final var mcsP = MTGControler.getInstance().getDefaultStock();
 					mcsP.setProduct(mc);
 					mcsP.setQte(proxyNumber);
 					mcsP.setLanguage(lang);

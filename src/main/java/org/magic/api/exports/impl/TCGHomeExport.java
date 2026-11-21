@@ -26,10 +26,10 @@ public class TCGHomeExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		var builder = new StringBuilder(COLUMNS);
+		final var builder = new StringBuilder(COLUMNS);
 		builder.append(System.lineSeparator());
 
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			builder.append(mcs.getQte()).append(getSeparator());
 			builder.append(commated(mcs.getProduct().getName())).append(getSeparator());
 			builder.append(mcs.isFoil() ? "foil" : mcs.isEtched() ? "etched" : "normal").append(getSeparator());

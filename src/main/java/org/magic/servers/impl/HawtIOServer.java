@@ -26,7 +26,7 @@ public class HawtIOServer extends AbstractWarServer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("AUTHENTICATION", MTGProperty.newBooleanProperty("false", "enable or not hawt authentication"));
 
 		return m;

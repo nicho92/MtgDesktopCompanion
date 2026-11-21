@@ -45,12 +45,12 @@ public class RenderingHintsDialog extends JDialog {
 
     private void buildUI(RenderingHints initialHints) {
 
-        var mainPanel = new JPanel(new BorderLayout(10, 10));
+        final var mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        var hintsPanel = new JPanel(new GridBagLayout());
+        final var hintsPanel = new JPanel(new GridBagLayout());
 
-        var gbc = new GridBagConstraints();
+        final var gbc = new GridBagConstraints();
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
@@ -195,11 +195,11 @@ public class RenderingHintsDialog extends JDialog {
         mainPanel.add(new JScrollPane(hintsPanel), BorderLayout.CENTER);
 
         // Buttons
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        final JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        JButton resetButton = new JButton("Reset");
-        JButton cancelButton = new JButton("Cancel");
-        JButton okButton = new JButton("Apply");
+        final JButton resetButton = new JButton("Reset");
+        final JButton cancelButton = new JButton("Cancel");
+        final JButton okButton = new JButton("Apply");
 
         resetButton.addActionListener(_ -> reset());
 
@@ -241,9 +241,9 @@ public class RenderingHintsDialog extends JDialog {
 
         panel.add(new JLabel(label + ":"), gbc);
 
-        JComboBox<Option> combo = new JComboBox<>();
+        final JComboBox<Option> combo = new JComboBox<>();
 
-        for (Object value : values) {
+        for (final Object value : values) {
             combo.addItem(new Option(value));
         }
 
@@ -266,7 +266,7 @@ public class RenderingHintsDialog extends JDialog {
 
         controls.forEach((key, combo) -> {
 
-            Object value = hints.get(key);
+            final Object value = hints.get(key);
 
             if (value == null) {
                 return;
@@ -274,7 +274,7 @@ public class RenderingHintsDialog extends JDialog {
 
             for (int i = 0; i < combo.getItemCount(); i++) {
 
-                Option option = combo.getItemAt(i);
+                final Option option = combo.getItemAt(i);
 
                 if (option.value().equals(value)) {
                     combo.setSelectedIndex(i);
@@ -286,11 +286,11 @@ public class RenderingHintsDialog extends JDialog {
 
     private RenderingHints createRenderingHints() {
 
-        RenderingHints hints = new RenderingHints(null);
+        final RenderingHints hints = new RenderingHints(null);
 
         controls.forEach((key, combo) -> {
 
-            Option option = (Option) combo.getSelectedItem();
+            final Option option = (Option) combo.getSelectedItem();
 
             if (option != null) {
                 hints.put(key, option.value());

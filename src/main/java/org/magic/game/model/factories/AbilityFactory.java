@@ -27,8 +27,9 @@ public class AbilityFactory implements Serializable {
 
 	public static AbilityFactory getInstance() {
 
-		if (inst == null)
-			inst = new AbilityFactory();
+		if (inst == null) {
+		    inst = new AbilityFactory();
+		}
 
 		return inst;
 	}
@@ -47,7 +48,7 @@ public class AbilityFactory implements Serializable {
 
 	public List<AbstractAbilities> getAbilities(MTGCard mc) {
 		mc.setText(removeParenthesis(mc.getText()));
-		List<AbstractAbilities> ret = new ArrayList<>();
+		final List<AbstractAbilities> ret = new ArrayList<>();
 		ret.addAll(getActivatedAbilities(mc));
 		ret.addAll(getLoyaltyAbilities(mc));
 		ret.addAll(getTriggeredAbility(mc));
@@ -61,18 +62,19 @@ public class AbilityFactory implements Serializable {
 	}
 
 	public List<AbstractAbilities> getActivatedAbilities(MTGCard mc) {
-		List<AbstractAbilities> ret = new ArrayList<>();
+		final List<AbstractAbilities> ret = new ArrayList<>();
 		if (!mc.isPlaneswalker() && !mc.isSaga()) {
-			for (String s : listSentences(mc)) {
-				int end = s.indexOf('.');
+			for (final String s : listSentences(mc)) {
+				final int end = s.indexOf('.');
 
 				if (s.indexOf(':') > 1 && s.indexOf(':') < end) {
-					String[] costs = s.substring(0, s.indexOf(':')).split(",");
-					var abs = new ActivatedAbilities();
+					final String[] costs = s.substring(0, s.indexOf(':')).split(",");
+					final var abs = new ActivatedAbilities();
 					abs.setCard(mc);
 
-					for (String c : costs)
-						abs.addCost(CostsFactory.getInstance().parseCosts(c.trim()));
+					for (final String c : costs) {
+					    abs.addCost(CostsFactory.getInstance().parseCosts(c.trim()));
+					}
 
 					abs.addEffect(EffectsFactory.getInstance().parseEffect(mc, s.substring(s.indexOf(':') + 1)));
 
@@ -85,15 +87,16 @@ public class AbilityFactory implements Serializable {
 	}
 
 	public List<SagaAbilities> getSagaAbilities(MTGCard mc) {
-		var list = new ArrayList<SagaAbilities>();
-		if (!mc.isSaga())
-			return list;
+		final var list = new ArrayList<SagaAbilities>();
+		if (!mc.isSaga()) {
+		    return list;
+		}
 
-		for (String s : listSentences(mc)) {
+		for (final String s : listSentences(mc)) {
 
-			Matcher m = EnumCardsPatterns.extract(s, EnumCardsPatterns.SAGA_PATTERN);
+			final Matcher m = EnumCardsPatterns.extract(s, EnumCardsPatterns.SAGA_PATTERN);
 			if (m.matches()) {
-				var abilities = new SagaAbilities();
+				final var abilities = new SagaAbilities();
 				abilities.setCard(mc);
 				abilities.setCost(new ActionCost("Put Lore Counter"));
 				abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc, m.group(2)));
@@ -106,21 +109,21 @@ public class AbilityFactory implements Serializable {
 	}
 
 	public List<LoyaltyAbilities> getLoyaltyAbilities(MTGCard mc) {
-		List<LoyaltyAbilities> list = new ArrayList<>();
+		final List<LoyaltyAbilities> list = new ArrayList<>();
 		if (mc.isPlaneswalker()) {
 
-			for (String s : listSentences(mc)) {
+			for (final String s : listSentences(mc)) {
 
-				Matcher m = EnumCardsPatterns.extract(s, EnumCardsPatterns.LOYALTY_PATTERN);
+				final Matcher m = EnumCardsPatterns.extract(s, EnumCardsPatterns.LOYALTY_PATTERN);
 				if (m.matches()) {
 
-					var abilities = new LoyaltyAbilities();
+					final var abilities = new LoyaltyAbilities();
 					abilities.setCard(mc);
-					String c = m.group(1);
+					final String c = m.group(1);
 					if (c.startsWith("+")) {
 						try {
 							abilities.setCost(new LoyaltyCost(Integer.parseInt(c.substring(1))));
-						} catch (Exception _) {
+						} catch (final Exception _) {
 							abilities.setCost(new LoyaltyCost("+"));
 						}
 					} else if (c.startsWith("0")) {
@@ -128,7 +131,7 @@ public class AbilityFactory implements Serializable {
 					} else {
 						try {
 							abilities.setCost(new LoyaltyCost(-Integer.parseInt(c.substring(1))));
-						} catch (Exception _) {
+						} catch (final Exception _) {
 							abilities.setCost(new LoyaltyCost("-"));
 						}
 					}
@@ -147,12 +150,12 @@ public class AbilityFactory implements Serializable {
 	}
 
 	public List<TriggeredAbilities> getTriggeredAbility(MTGCard mc) {
-		List<TriggeredAbilities> arr = new ArrayList<>();
+		final List<TriggeredAbilities> arr = new ArrayList<>();
 		var i = 0;
-		for (String s : listSentences(mc)) {
-			for (KEYWORDS k : TriggeredAbilities.KEYWORDS.values()) {
+		for (final String s : listSentences(mc)) {
+			for (final KEYWORDS k : TriggeredAbilities.KEYWORDS.values()) {
 				if (s.split(" ")[0].equalsIgnoreCase(k.name())) {
-					var t = new TriggeredAbilities();
+					final var t = new TriggeredAbilities();
 					t.setCard(mc);
 					t.setCost(null);
 					t.init(k, listSentences(mc).subList(i, listSentences(mc).size()));

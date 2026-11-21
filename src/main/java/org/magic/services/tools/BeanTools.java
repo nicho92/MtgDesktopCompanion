@@ -32,11 +32,11 @@ public class BeanTools {
 	}
 
 	public static String toString(Object o, String separator) {
-		var build = new StringBuilder();
+		final var build = new StringBuilder();
 		try {
 			describe(o).entrySet().forEach(e -> build.append(e.getKey()).append(separator).append(e.getValue())
 					.append(System.lineSeparator()));
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 		return build.toString();
@@ -46,7 +46,7 @@ public class BeanTools {
 		try {
 			return PropertyUtils.describe(o).entrySet().stream().sorted(Map.Entry.comparingByKey())
 					.collect(LinkedHashMap::new, (m, v) -> m.put(v.getKey(), v.getValue()), LinkedHashMap::putAll);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return new HashMap<>();
 		}
@@ -55,19 +55,19 @@ public class BeanTools {
 	public static Object readProperty(Object o, String k) {
 		try {
 			return PropertyUtils.getNestedProperty(o, k);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return null;
 		}
 	}
 
 	public static String createString(Object mc, String text) {
-		var p = Pattern.compile("\\" + TOKEN_START + EnumCardsPatterns.REGEX_ANY_STRING + "\\" + TOKEN_END);
-		var m = p.matcher(text);
-		var temp = new StringBuilder();
+		final var p = Pattern.compile("\\" + TOKEN_START + EnumCardsPatterns.REGEX_ANY_STRING + "\\" + TOKEN_END);
+		final var m = p.matcher(text);
+		final var temp = new StringBuilder();
 
 		while (m.find()) {
-			String k = m.group(1);
+			final String k = m.group(1);
 			m.appendReplacement(temp, readProperty(mc, k) + "");
 		}
 		m.appendTail(temp);
@@ -75,8 +75,8 @@ public class BeanTools {
 	}
 
 	public static <T> T cloneBean(T ed) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
-		
-	    Cloner cloner = new Cloner();
+
+	    final Cloner cloner = new Cloner();
 	    return cloner.deepClone(ed);
 	}
 

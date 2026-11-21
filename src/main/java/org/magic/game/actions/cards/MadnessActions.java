@@ -16,7 +16,7 @@ public class MadnessActions extends AbstractCardAction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String k = "Madness";
+	private final String k = "Madness";
 
 	public MadnessActions(DisplayableCard card) {
 		super(card, "Madness");
@@ -27,17 +27,18 @@ public class MadnessActions extends AbstractCardAction {
 	private String parse() {
 		String cost;
 		try {
-			String regex = "/*" + k + " \\{(.*?)\\ ";
-			String text = card.getMagicCard().getText();
-			var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
-			var m = p.matcher(text);
+			final String regex = "/*" + k + " \\{(.*?)\\ ";
+			final String text = card.getMagicCard().getText();
+			final var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
+			final var m = p.matcher(text);
 
-			if (m.find())
-				cost = m.group().replaceAll(k, "").trim();
-			else
-				cost = text.substring(text.indexOf(k + "\u2014") + k.length(), text.indexOf('('));
+			if (m.find()) {
+			    cost = m.group().replaceAll(k, "").trim();
+			} else {
+			    cost = text.substring(text.indexOf(k + "\u2014") + k.length(), text.indexOf('('));
+			}
 
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			cost = "";
 		}
 		return cost;

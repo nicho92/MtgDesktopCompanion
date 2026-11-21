@@ -19,8 +19,9 @@ import org.magic.services.network.URLTools;
 public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implements MTGNetworkClient {
 
 	protected Player player;
-	private JsonExport serializer;
+	private final JsonExport serializer;
 
+	@Override
 	public Player getPlayer() {
 		return player;
 	}
@@ -41,12 +42,13 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	@Override
 	public AbstractMessage consume() throws IOException {
 
-		var txt = read();
+		final var txt = read();
 
-		if (txt == null)
-			return null;
+		if (txt == null) {
+		    return null;
+		}
 
-		var json = URLTools.toJson(txt);
+		final var json = URLTools.toJson(txt);
 
 		switch (AbstractMessage.MSG_TYPE.valueOf(json.getAsJsonObject().get("typeMessage").getAsString())) {
 			case TALK :

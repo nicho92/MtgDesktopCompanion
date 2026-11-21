@@ -26,7 +26,7 @@ public class FileDropDecorator {
 	private Border normalBorder;
 	private DropTargetListener dropListener;
 	private static Color defaultBorderColor = new Color(0f, 0f, 1f, 0.25f);
-	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
 	private Color defaultColor;
 
 	public void init(final Component c, final DropListener listener) {
@@ -34,7 +34,7 @@ public class FileDropDecorator {
 			@Override
 			public void dragEnter(DropTargetDragEvent evt) {
 				if (isDragOk(evt)) {
-					if (c instanceof JComponent jc) {
+					if (c instanceof final JComponent jc) {
 						normalBorder = jc.getBorder();
 						jc.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor));
 						defaultColor = jc.getBackground();
@@ -53,24 +53,26 @@ public class FileDropDecorator {
 			@Override
 			public void drop(DropTargetDropEvent evt) {
 				try {
-					var tr = evt.getTransferable();
+					final var tr = evt.getTransferable();
 					if (tr.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
 						evt.acceptDrop(DnDConstants.ACTION_COPY);
 						@SuppressWarnings("unchecked")
+						final
 						var fileList = (List<File>) tr.getTransferData(DataFlavor.javaFileListFlavor);
 
-						if (listener != null)
-							listener.filesDropped(fileList.toArray(new File[fileList.size()]));
+						if (listener != null) {
+						    listener.filesDropped(fileList.toArray(new File[fileList.size()]));
+						}
 
 						evt.getDropTargetContext().dropComplete(true);
 						c.setBackground(defaultColor);
 					}
 
-				} catch (Exception io) {
+				} catch (final Exception io) {
 					logger.error("FileDrop: IOException - abort:", io);
 					evt.rejectDrop();
 				} finally {
-					if (c instanceof JComponent jc) {
+					if (c instanceof final JComponent jc) {
 						jc.setBorder(normalBorder);
 					}
 				}
@@ -78,7 +80,7 @@ public class FileDropDecorator {
 
 			@Override
 			public void dragExit(DropTargetEvent evt) {
-				if (c instanceof JComponent jc) {
+				if (c instanceof final JComponent jc) {
 					jc.setBorder(normalBorder);
 					c.setBackground(defaultColor);
 				}
@@ -87,10 +89,11 @@ public class FileDropDecorator {
 
 			@Override
 			public void dropActionChanged(DropTargetDragEvent evt) {
-				if (isDragOk(evt))
-					evt.acceptDrag(DnDConstants.ACTION_COPY);
-				else
-					evt.rejectDrag();
+				if (isDragOk(evt)) {
+				    evt.acceptDrag(DnDConstants.ACTION_COPY);
+				} else {
+				    evt.rejectDrag();
+				}
 			}
 		};
 		makeDropTarget(c);
@@ -101,30 +104,33 @@ public class FileDropDecorator {
 		final var dt = new DropTarget();
 		try {
 			dt.addDropTargetListener(dropListener);
-		} catch (TooManyListenersException e) {
+		} catch (final TooManyListenersException e) {
 			logger.error("Do you have another listener attached ?", e);
 		}
 
 		c.addHierarchyListener(_ -> {
-			Component parent = c.getParent();
-			if (parent == null)
-				c.setDropTarget(null);
-			else
-				new DropTarget(c, dropListener);
+			final Component parent = c.getParent();
+			if (parent == null) {
+			    c.setDropTarget(null);
+			} else {
+			    new DropTarget(c, dropListener);
+			}
 		});
 
-		if (c.getParent() != null)
-			new DropTarget(c, dropListener);
+		if (c.getParent() != null) {
+		    new DropTarget(c, dropListener);
+		}
 
-		if (c instanceof Container cont) {
-			for (Component cp : cont.getComponents())
-				makeDropTarget(cp);
+		if (c instanceof final Container cont) {
+			for (final Component cp : cont.getComponents()) {
+			    makeDropTarget(cp);
+			}
 		}
 	}
 
 	private boolean isDragOk(final DropTargetDragEvent evt) {
 		var ok = false;
-		DataFlavor[] flavors = evt.getCurrentDataFlavors();
+		final DataFlavor[] flavors = evt.getCurrentDataFlavors();
 		var i = 0;
 		while (!ok && i < flavors.length) {
 			final DataFlavor curFlavor = flavors[i];

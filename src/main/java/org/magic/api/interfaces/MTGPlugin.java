@@ -44,6 +44,7 @@ public interface MTGPlugin extends Comparable<MTGPlugin>, MTGIconable {
 
 	public void enable(boolean t);
 
+	@Override
 	public String getName();
 
 	public STATUT getStatut();
@@ -85,14 +86,15 @@ public interface MTGPlugin extends Comparable<MTGPlugin>, MTGIconable {
 	@Override
 	default int compareTo(MTGPlugin o) {
 
-		if (o == null)
-			return -1;
+		if (o == null) {
+		    return -1;
+		}
 
 		return getId().compareTo(o.getId());
 	}
 
 	public default JsonObject toJson() {
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 		obj.addProperty("name", getName());
 		obj.addProperty("type", getType().toString());
 		obj.addProperty("enabled", isEnable());

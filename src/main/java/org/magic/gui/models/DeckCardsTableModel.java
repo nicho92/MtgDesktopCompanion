@@ -19,23 +19,26 @@ public class DeckCardsTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String[] columns = new String[]{"NAME", "CARD_TYPES", "CARD_MANA", "CARD_EDITION", "QTY", "ARENA"};
+	private final String[] columns = new String[]{"NAME", "CARD_TYPES", "CARD_MANA", "CARD_EDITION", "QTY", "ARENA"};
 
 	private MTGDeck deck;
 
-	private BOARD t;
+	private final BOARD t;
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 
-		if (columnIndex == 3)
-			return List.class;
+		if (columnIndex == 3) {
+		    return List.class;
+		}
 
-		if (columnIndex == 5)
-			return Boolean.class;
+		if (columnIndex == 5) {
+		    return Boolean.class;
+		}
 
-		if (columnIndex == 4)
-			return Integer.class;
+		if (columnIndex == 4) {
+		    return Integer.class;
+		}
 
 		return super.getColumnClass(columnIndex);
 	}
@@ -74,17 +77,21 @@ public class DeckCardsTableModel extends DefaultTableModel {
 				break;
 		}
 
-		if (column == 0)
-			return mc;
+		if (column == 0) {
+		    return mc;
+		}
 
-		if (column == 1)
-			return mc.getFullType();
+		if (column == 1) {
+		    return mc.getFullType();
+		}
 
-		if (column == 2)
-			return mc.getCost();
+		if (column == 2) {
+		    return mc.getCost();
+		}
 
-		if (column == 3)
-			return mc.getEditions();
+		if (column == 3) {
+		    return mc.getEditions();
+		}
 
 		if (column == 4) {
 			switch (t) {
@@ -98,16 +105,18 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 		}
 
-		if (column == 5)
-			return mc.isArenaCard();
+		if (column == 5) {
+		    return mc.isArenaCard();
+		}
 
 		return null;
 	}
 
 	@Override
 	public int getRowCount() {
-		if (deck == null)
-			return 0;
+		if (deck == null) {
+		    return 0;
+		}
 
 		switch (t) {
 			case MAIN :
@@ -152,10 +161,10 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		}
 
 		if (column == 3) {
-			MTGEdition ed = (MTGEdition) aValue;
+			final MTGEdition ed = (MTGEdition) aValue;
 
 			if (!ed.equals(mc.getEdition())) {
-				var newC = CardsManagerService.switchEditions(mc, ed);
+				final var newC = CardsManagerService.switchEditions(mc, ed);
 				if (t == BOARD.MAIN) {
 					deck.getMain().remove(mc);
 					deck.getMain().put(newC, qty);

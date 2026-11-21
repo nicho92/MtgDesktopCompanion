@@ -9,7 +9,7 @@ import org.jfree.data.general.Dataset;
 public abstract class MTGUI2DChartComponent<T, U extends Dataset> extends AbstractChartComponent<T> {
 
 	private static final long serialVersionUID = 1L;
-	private ChartPanel chartPanel;
+	private final ChartPanel chartPanel;
 	protected JFreeChart chart;
 
 	protected MTGUI2DChartComponent() {
@@ -35,8 +35,9 @@ public abstract class MTGUI2DChartComponent<T, U extends Dataset> extends Abstra
 		createNewChart();
 		chartPanel.setChart(chart);
 
-		if (chart != null)
-			chart.fireChartChanged();
+		if (chart != null) {
+		    chart.fireChartChanged();
+		}
 
 		initPlot();
 	}

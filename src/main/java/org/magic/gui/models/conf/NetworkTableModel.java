@@ -16,11 +16,13 @@ public class NetworkTableModel extends GenericTableModel<NetworkInfo> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex == 2 || columnIndex == 3)
-			return Instant.class;
+		if (columnIndex == 2 || columnIndex == 3) {
+		    return Instant.class;
+		}
 
-		if (columnIndex == 4)
-			return Long.class;
+		if (columnIndex == 4) {
+		    return Long.class;
+		}
 
 		return super.getColumnClass(columnIndex);
 	}

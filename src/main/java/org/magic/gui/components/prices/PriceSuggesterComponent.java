@@ -28,9 +28,9 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 	public PriceSuggesterComponent() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		var panel1 = new JPanel();
-		var panel2 = new JPanel();
-		var panel3 = new JPanel();
+		final var panel1 = new JPanel();
+		final var panel2 = new JPanel();
+		final var panel3 = new JPanel();
 
 		btnValidate = new JButton(MTGConstants.ICON_OPEN);
 
@@ -39,7 +39,7 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 		rdoPricer = new JRadioButton("Pricer");
 		cboPricer = UITools.createComboboxPlugins(MTGPricesProvider.class, false);
 
-		var group = new ButtonGroup();
+		final var group = new ButtonGroup();
 		group.add(rdoDashBoard);
 		group.add(rdoPricer);
 
@@ -72,10 +72,11 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 	}
 
 	public MTGPriceSuggester getSelectedPlugin() {
-		if (rdoDashBoard.isSelected())
-			return (MTGDashBoard) cboDashBoard.getSelectedItem();
-		else
-			return (MTGPricesProvider) cboPricer.getSelectedItem();
+		if (rdoDashBoard.isSelected()) {
+		    return (MTGDashBoard) cboDashBoard.getSelectedItem();
+		} else {
+		    return (MTGPricesProvider) cboPricer.getSelectedItem();
+		}
 	}
 
 	@Override

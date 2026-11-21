@@ -130,8 +130,8 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 	public static final String MTG_JSON_ALL_PRICES_ZIP = MTGJSON_API_URL + "/AllPrices.json.zip";
 	public static final String MTG_JSON_PRODUCTS = "https://github.com/mtgjson/mtg-sealed-content/raw/main/outputs/products.json";
 
-	private File tempZipFile = new File(MTGConstants.DATA_DIR, "mtgJsonTempFile.zip");
-	private File fversion = new File(MTGConstants.DATA_DIR, "mtgjsonVersion");
+	private final File tempZipFile = new File(MTGConstants.DATA_DIR, "mtgJsonTempFile.zip");
+	private final File fversion = new File(MTGConstants.DATA_DIR, "mtgjsonVersion");
 
 	private String version;
 	protected Chrono chrono = new Chrono();
@@ -150,7 +150,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 				FileTools.saveFile(fversion, version);
 				setProperty(FORCE_RELOAD, "false");
 			}
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
 			logger.error(e1);
 		}
 
@@ -161,7 +161,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 
 		try {
 			return searchCardByCriteria(SCRYFALL_ID, crit, null, true).get(0);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 	}
@@ -170,7 +170,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 	public MTGCard getCardById(String id) throws IOException {
 		try {
 			return searchCardByCriteria(UUID, id, null, true).get(0);
-		} catch (IndexOutOfBoundsException _) {
+		} catch (final IndexOutOfBoundsException _) {
 			return null;
 		}
 	}
@@ -179,7 +179,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 	public MTGCard getCardByArenaId(String id) {
 		try {
 			return searchByCriteria(new MTGCrit<>(MTG_ARENA_ID, OPERATOR.EQ, id)).get(0);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return null;
 		}
@@ -196,11 +196,13 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 
 		var ret = searchCardByCriteria(NAME, name, me, exact, extra);
 
-		if (ret.isEmpty())
-			ret = searchCardByCriteria(FACENAME, name, me, exact, extra);
+		if (ret.isEmpty()) {
+		    ret = searchCardByCriteria(FACENAME, name, me, exact, extra);
+		}
 
-		if (ret.isEmpty())
-			ret = searchCardByCriteria(ASCII_NAME, name, me, false, extra);
+		if (ret.isEmpty()) {
+		    ret = searchCardByCriteria(ASCII_NAME, name, me, false, extra);
+		}
 
 		return ret;
 	}
@@ -208,16 +210,19 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 	@Override
 	public List<QueryAttribute> loadQueryableAttributs() {
 
-		List<QueryAttribute> arr = new ArrayList<>();
+		final List<QueryAttribute> arr = new ArrayList<>();
 
-		for (String s : Lists.newArrayList(NAME, ARTIST, TEXT, FLAVOR_TEXT, FRAME_VERSION, MANA_COST, TYPE,FRAME_VERSION, WATERMARK))
-			arr.add(new QueryAttribute(s, String.class));
+		for (final String s : Lists.newArrayList(NAME, ARTIST, TEXT, FLAVOR_TEXT, FRAME_VERSION, MANA_COST, TYPE,FRAME_VERSION, WATERMARK)) {
+		    arr.add(new QueryAttribute(s, String.class));
+		}
 
-		for (String s : Lists.newArrayList(CONVERTED_MANA_COST, POWER, TOUGHNESS, MULTIVERSE_ID, NUMBER))
-			arr.add(new QueryAttribute(s, Integer.class));
+		for (final String s : Lists.newArrayList(CONVERTED_MANA_COST, POWER, TOUGHNESS, MULTIVERSE_ID, NUMBER)) {
+		    arr.add(new QueryAttribute(s, Integer.class));
+		}
 
-		for (String s : Lists.newArrayList(IS_RESERVED, HAS_FOIL, HAS_NON_FOIL, IS_FUNNY))
-			arr.add(new QueryAttribute(s, Boolean.class));
+		for (final String s : Lists.newArrayList(IS_RESERVED, HAS_FOIL, HAS_NON_FOIL, IS_FUNNY)) {
+		    arr.add(new QueryAttribute(s, Boolean.class));
+		}
 
 		arr.add(new QueryAttribute(LAYOUT, EnumLayout.class));
 		arr.add(new QueryAttribute(RARITY, EnumRarity.class));
@@ -236,10 +241,10 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 	@Override
 	public List<String> loadCardsLangs() {
 
-		var ret = new ArrayList<String>();
+		final var ret = new ArrayList<String>();
 		try {
 		    URLTools.extractAsJson(MTG_JSON_ENUM_VALUES).getAsJsonObject().get("data").getAsJsonObject().get(FOREIGN_DATA).getAsJsonObject().get(LANGUAGE).getAsJsonArray().forEach(je -> ret.add(je.getAsString()));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 		  logger.error(e);
 		}
 		return ret;
@@ -248,15 +253,16 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 	@Override
 	public MTGCard getCardByNumber(String num, MTGEdition me) throws IOException {
 
-		if (me == null)
-			throw new IOException("Edition must not be null");
+		if (me == null) {
+		    throw new IOException("Edition must not be null");
+		}
 
 		return searchCardByCriteria(NUMBER, num, me, true).get(0);
 	}
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 		m.put(FORCE_RELOAD, MTGProperty.newBooleanProperty("false",
 				"force data reloading at initialisation. Will be back to false after update"));
 		return m;
@@ -278,16 +284,16 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 		var temp = "";
 		try {
 			temp = FileTools.readFile(fversion);
-		} catch (FileNotFoundException _) {
+		} catch (final FileNotFoundException _) {
 			logger.error("{} doesn't exist", fversion);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error(e);
 		}
 
 		try {
 			logger.debug("check new version of {} ({})", this, temp);
 
-			var d = URLTools.extractAsJson(MTG_JSON_VERSION);
+			final var d = URLTools.extractAsJson(MTG_JSON_VERSION);
 			version = d.getAsJsonObject().get("data").getAsJsonObject().get("version").getAsString();
 			if (!version.equals(temp)) {
 				logger.info("new version datafile exist ({}).", version);
@@ -296,7 +302,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 
 			logger.debug("check new version of {} : up to date", this);
 			return false;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			version = temp;
 			logger.error("Error getting last version", e);
 			return false;
@@ -307,8 +313,9 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

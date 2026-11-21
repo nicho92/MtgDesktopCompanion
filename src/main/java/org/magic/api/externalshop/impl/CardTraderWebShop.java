@@ -43,14 +43,15 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	private void init() {
 		try {
-			if (service == null)
-				service = new CardTraderService(getAuthenticator().get(TOKEN));
+			if (service == null) {
+			    service = new CardTraderService(getAuthenticator().get(TOKEN));
+			}
 
 			service.setForceExpansionLoadingIfNotFound(false);
 
 			service.setListener((URLCallInfo callInfo) -> {
 
-				var ni = new NetworkInfo();
+				final var ni = new NetworkInfo();
 				ni.setStart(callInfo.getStart());
 				ni.setEnd(callInfo.getEnd());
 				ni.setReponse(callInfo.getResponse());
@@ -60,20 +61,20 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 			});
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("No authenticator", e);
 		}
 	}
 
 	private MTGStockItem toItem(MarketProduct mp) {
-		var prod = ProductFactory
+		final var prod = ProductFactory
 				.createDefaultProduct(mp.getCategorie().getId() == 1 ? EnumItems.CARD : EnumItems.SEALED);
 		prod.setProductId(mp.getIdBlueprint().longValue());
 		prod.setName(mp.getName());
 		prod.setEdition(toExpansion(mp.getExpansion()));
 		prod.setCategory(toCategory(mp.getCategorie()));
 
-		var it = ProductFactory.generateStockItem(prod);
+		final var it = ProductFactory.generateStockItem(prod);
 		it.setId(mp.getId());
 		it.setAltered(mp.isAltered());
 		it.setComment("");
@@ -83,8 +84,9 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		it.setQte(mp.getQty());
 		it.setPrice(mp.getPrice().getValue());
 
-		if (mp.getCondition() != null)
-			it.setCondition(aliases.getReversedConditionFor(this, mp.getCondition().name(), EnumCondition.NEAR_MINT));
+		if (mp.getCondition() != null) {
+		    it.setCondition(aliases.getReversedConditionFor(this, mp.getCondition().name(), EnumCondition.NEAR_MINT));
+		}
 
 		return it;
 	}
@@ -102,7 +104,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		init();
 		return service.listBluePrints(name, null).stream().map(bp -> {
 
-			var product = ProductFactory.createDefaultProduct(bp.isCard() ? EnumItems.CARD : EnumItems.SEALED);
+			final var product = ProductFactory.createDefaultProduct(bp.isCard() ? EnumItems.CARD : EnumItems.SEALED);
 			product.setName(bp.getName());
 			product.setUrl(bp.getImageUrl());
 			product.setProductId(bp.getId().longValue());
@@ -114,13 +116,14 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	private MTGEdition toExpansion(org.api.cardtrader.modele.Expansion expansion) {
-		if (expansion == null)
-			return null;
+		if (expansion == null) {
+		    return null;
+		}
 
 		var exp = new MTGEdition();
 		try {
 			exp = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(expansion.getCode());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			exp.setId(expansion.getCode());
 			exp.setSet(expansion.getName());
@@ -130,10 +133,11 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	private Category toCategory(Categorie categorie) {
-		if (categorie == null)
-			return null;
+		if (categorie == null) {
+		    return null;
+		}
 
-		var cat = new Category();
+		final var cat = new Category();
 		cat.setCategoryName(categorie.getName());
 		cat.setIdCategory(categorie.getId());
 
@@ -145,7 +149,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		init();
 		try {
 			return service.listCategories().stream().map(this::toCategory).toList();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return new ArrayList<>();
 		}
 	}
@@ -156,7 +160,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	private Transaction toTransaction(Order o) {
-		var trans = new Transaction();
+		final var trans = new Transaction();
 		trans.setSourceShopName(getName());
 		trans.setSourceShopId(String.valueOf(o.getId()));
 		trans.setId(o.getId());
@@ -164,14 +168,17 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		trans.setDatePayment(o.getDatePaid());
 		trans.setDateCreation(o.getDateCreation());
 
-		if (o.getDatePaid() != null)
-			trans.setStatut(EnumTransactionStatus.PAID);
+		if (o.getDatePaid() != null) {
+		    trans.setStatut(EnumTransactionStatus.PAID);
+		}
 
-		if (o.getDateSend() != null)
-			trans.setStatut(EnumTransactionStatus.SENT);
+		if (o.getDateSend() != null) {
+		    trans.setStatut(EnumTransactionStatus.SENT);
+		}
 
-		if (o.getDateCancel() != null)
-			trans.setStatut(EnumTransactionStatus.CANCELED);
+		if (o.getDateCancel() != null) {
+		    trans.setStatut(EnumTransactionStatus.CANCELED);
+		}
 
 		trans.setPaymentProvider(EnumPaymentProvider.SHOP_PLATEFORM);
 		trans.setShippingPrice(o.getShippingMethod().getSellerPrice().getValue());
@@ -182,10 +189,11 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 		User u = o.getBuyer();
 
-		if (u == null)
-			u = o.getSeller();
+		if (u == null) {
+		    u = o.getSeller();
+		}
 
-		var c = new Contact();
+		final var c = new Contact();
 		c.setName(u.getUsername());
 		c.setAddress(o.getBillingAddress().getStreet());
 		c.setZipCode(o.getBillingAddress().getZip());
@@ -203,17 +211,17 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		AbstractStockItem<? extends AbstractProduct> item;
 		if (oi.getScryfallId() != null && !oi.getScryfallId().isEmpty()) {
 			try {
-				var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
+				final var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
 				prod.setEdition(prod.getEdition());
 				item = ProductFactory.generateStockItem(prod);
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
-				var prod = ProductFactory.createDefaultProduct(EnumItems.CARD);
+				final var prod = ProductFactory.createDefaultProduct(EnumItems.CARD);
 				prod.setName(oi.getName());
 				item = ProductFactory.generateStockItem(prod);
 			}
 		} else {
-			var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
+			final var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 			prod.setProductId(Long.valueOf(oi.getBluePrintId()));
 			prod.setName(oi.getName());
 			prod.setEdition(toExpansion(oi.getExpansionProduct()));
@@ -261,12 +269,13 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, String id) throws IOException {
-		var opt = service.listStock().stream().filter(item -> item.getId() == Integer.parseInt(id)).findFirst();
+		final var opt = service.listStock().stream().filter(item -> item.getId() == Integer.parseInt(id)).findFirst();
 
-		if (opt.isPresent())
-			return toItem(opt.get());
-		else
-			return null;
+		if (opt.isPresent()) {
+		    return toItem(opt.get());
+		} else {
+		    return null;
+		}
 
 	}
 

@@ -46,7 +46,7 @@ public class DeckPricePanel extends MTGUIComponent {
 		try {
 			lblPrice.setText(UITools.formatDouble(d.getAveragePrice()));
 			enableControle(true);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			lblPrice.setText("");
 		}
 
@@ -70,7 +70,7 @@ public class DeckPricePanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
-		var panel = new JPanel();
+		final var panel = new JPanel();
 
 		add(panel, BorderLayout.NORTH);
 
@@ -82,7 +82,7 @@ public class DeckPricePanel extends MTGUIComponent {
 		btnCheckPrice.addActionListener(_ -> {
 			model.clear();
 
-			AbstractObservableWorker<List<MTGPrice>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(
+			final AbstractObservableWorker<List<MTGPrice>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(
 					(MTGPricesProvider) cboPricers.getSelectedItem()) {
 
 				@Override
@@ -95,10 +95,10 @@ public class DeckPricePanel extends MTGUIComponent {
 
 					try {
 						total = get().stream().mapToDouble(MTGPrice::getValue).sum();
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
 						logger.error("Interruption");
-					} catch (ExecutionException e) {
+					} catch (final ExecutionException e) {
 						logger.error("error getting prices", e);
 					}
 
@@ -132,9 +132,9 @@ public class DeckPricePanel extends MTGUIComponent {
 					ev.consume();
 					try {
 
-						MTGPrice url = UITools.getTableSelection(tablePrice, 0);
+						final MTGPrice url = UITools.getTableSelection(tablePrice, 0);
 						UITools.browse(url.getUrl());
-					} catch (Exception e) {
+					} catch (final Exception e) {
 						logger.error(e);
 					}
 

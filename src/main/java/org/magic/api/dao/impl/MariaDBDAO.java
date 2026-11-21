@@ -31,7 +31,7 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.get(SERVERPORT).setDefaultValue("3306");
 		m.get(PARAMS).setDefaultValue(
 				"?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&sslMode=disable");

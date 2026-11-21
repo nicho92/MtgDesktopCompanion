@@ -17,16 +17,16 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 
 	protected AbstractBuzyIndicatorComponent buzy;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	private Observer o;
+	private final Observer o;
 	protected P plug;
 
 	public T getResult() {
 		try {
 			return get();
-		} catch (InterruptedException _) {
+		} catch (final InterruptedException _) {
 			Thread.currentThread().interrupt();
 			return null;
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return null;
 		}
 	}
@@ -50,10 +50,11 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 		o = createObserver();
 		plug.addObserver(o);
 
-		if (size > -1)
-			buzy.start(size);
-		else
-			buzy.start();
+		if (size > -1) {
+		    buzy.start(size);
+		} else {
+		    buzy.start();
+		}
 	}
 
 	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy, P plug) {
@@ -78,7 +79,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 
 		} catch (InterruptedException | CancellationException _) {
 			Thread.currentThread().interrupt();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			error(e);
 		}
 		notifyEnd();

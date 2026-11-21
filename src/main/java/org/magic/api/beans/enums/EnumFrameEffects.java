@@ -40,7 +40,7 @@ public enum EnumFrameEffects implements MTGEnumeration {
 	public static EnumFrameEffects parseByLabel(String s) {
 		try {
 			return EnumFrameEffects.valueOf(s.trim().toUpperCase());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.warn("FrameEffect {} is not found", s);
 			return null;
 		}

@@ -28,27 +28,27 @@ public class ChromeDownloader extends JDialog {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		var panelCenter = new JPanel();
+		final var panelCenter = new JPanel();
 		getContentPane().add(panelCenter, BorderLayout.CENTER);
 		txtDirectory = new JTextFieldFileChooser(30, JFileChooser.DIRECTORIES_ONLY, System.getProperty("user.home"));
 		panelCenter.add(txtDirectory);
 
-		var panelButtons = new JPanel();
+		final var panelButtons = new JPanel();
 		getContentPane().add(panelButtons, BorderLayout.SOUTH);
 
-		var btnCancel = new JButton(MTGConstants.ICON_DELETE);
+		final var btnCancel = new JButton(MTGConstants.ICON_DELETE);
 		btnCancel.addActionListener(_ -> dispose());
 
 		panelButtons.add(btnCancel);
 
-		var btnExport = new JButton(MTGConstants.ICON_EXPORT);
+		final var btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		btnExport.addActionListener(_ -> {
 			try {
 				FileTools.copyDirJarToDirectory(MTGConstants.MTG_CHROME_PLUGIN_DIR, txtDirectory.getFile());
 				MTGControler.getInstance().notify(
 						new MTGNotification("Export", "Plugin copied in " + txtDirectory.getFile(), MESSAGE_TYPE.INFO));
 				dispose();
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				logger.error("error extracting files ", e1);
 				MTGControler.getInstance().notify(e1);
 			}
@@ -60,6 +60,6 @@ public class ChromeDownloader extends JDialog {
 	}
 
 	private static final long serialVersionUID = 1L;
-	private JTextFieldFileChooser txtDirectory;
+	private final JTextFieldFileChooser txtDirectory;
 
 }

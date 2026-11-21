@@ -16,11 +16,13 @@ public class TaskTableModel extends GenericTableModel<TaskInfo> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex == 1 || columnIndex == 2 || columnIndex == 3)
-			return Instant.class;
+		if (columnIndex == 1 || columnIndex == 2 || columnIndex == 3) {
+		    return Instant.class;
+		}
 
-		if (columnIndex == 6)
-			return Long.class;
+		if (columnIndex == 6) {
+		    return Long.class;
+		}
 
 		return super.getColumnClass(columnIndex);
 	}

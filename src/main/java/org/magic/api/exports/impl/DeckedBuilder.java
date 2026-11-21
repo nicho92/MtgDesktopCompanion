@@ -32,15 +32,16 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var temp = new StringBuilder(COLUMNS);
+		final var temp = new StringBuilder(COLUMNS);
 		temp.append(System.lineSeparator());
 		stock.forEach(st -> {
 			temp.append(st.getQte()).append(getSeparator());
 
-			if (st.isFoil())
-				temp.append(0).append(getSeparator()).append(st.getQte()).append(getSeparator());
-			else
-				temp.append(st.getQte()).append(getSeparator()).append(0).append(getSeparator());
+			if (st.isFoil()) {
+			    temp.append(0).append(getSeparator()).append(st.getQte()).append(getSeparator());
+			} else {
+			    temp.append(st.getQte()).append(getSeparator()).append(0).append(getSeparator());
+			}
 
 			temp.append(commated(st.getProduct().getName())).append(getSeparator());
 
@@ -48,18 +49,20 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			temp.append(st.getProduct().getCost()).append(getSeparator());
 			temp.append(st.getProduct().getFullType()).append(getSeparator());
 
-			if (st.getProduct().getColors().size() > 1)
-				temp.append("Gold").append(getSeparator());
-			else
-				temp.append(st.getProduct().getColors()).append(getSeparator());
+			if (st.getProduct().getColors().size() > 1) {
+			    temp.append("Gold").append(getSeparator());
+			} else {
+			    temp.append(st.getProduct().getColors()).append(getSeparator());
+			}
 
 			temp.append(st.getProduct().getRarity()).append(getSeparator());
 			temp.append(st.getProduct().getMultiverseid()).append(getSeparator());
 
-			if (st.isFoil())
-				temp.append(0.0).append(getSeparator()).append(st.getValue().doubleValue()).append(getSeparator());
-			else
-				temp.append(st.getValue().doubleValue()).append(getSeparator()).append(0.0).append(getSeparator());
+			if (st.isFoil()) {
+			    temp.append(0.0).append(getSeparator()).append(st.getValue().doubleValue()).append(getSeparator());
+			} else {
+			    temp.append(st.getValue().doubleValue()).append(getSeparator()).append(0.0).append(getSeparator());
+			}
 
 			temp.append("MtgCompanion").append(getSeparator());
 			temp.append("\"").append(st.getComment()).append("\"").append(getSeparator());
@@ -74,15 +77,15 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		var stocks = new ArrayList<MTGCardStock>();
+		final var stocks = new ArrayList<MTGCardStock>();
 
 		matches(content, true).forEach(m -> {
-			var qtyRegular = Integer.parseInt(m.group(2));
-			var qtyFoil = Integer.parseInt(m.group(3));
-			var mc = parseMatcherWithGroup(m, 4, 5, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
+			final var qtyRegular = Integer.parseInt(m.group(2));
+			final var qtyFoil = Integer.parseInt(m.group(3));
+			final var mc = parseMatcherWithGroup(m, 4, 5, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
 			if (mc != null) {
 				if (qtyFoil > 0) {
-					var stock = new MTGCardStock(mc);
+					final var stock = new MTGCardStock(mc);
 					stock.setPrice(Double.parseDouble(m.group(12)));
 					stock.setFoil(true);
 					stock.setQte(qtyFoil);
@@ -90,7 +93,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 				}
 
 				if (qtyRegular > 0) {
-					var stock = new MTGCardStock(mc);
+					final var stock = new MTGCardStock(mc);
 					stock.setPrice(Double.parseDouble(m.group(11)));
 					stock.setFoil(false);
 					stock.setQte(qtyRegular);

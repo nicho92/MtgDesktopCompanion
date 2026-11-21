@@ -16,9 +16,9 @@ import org.magic.services.tools.UITools;
 public class DateTableCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
-	private JXDatePicker picker;
-	private boolean enableTime;
-	private JLabel l;
+	private final JXDatePicker picker;
+	private final boolean enableTime;
+	private final JLabel l;
 
 	@Override
 	public Object getCellEditorValue() {
@@ -40,15 +40,17 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
-		if (value instanceof Date date) {
-			if (enableTime)
-				l.setText(UITools.formatDateTime(date));
-			else
-				l.setText(UITools.formatDate(date));
+		if (value instanceof final Date date) {
+			if (enableTime) {
+			    l.setText(UITools.formatDateTime(date));
+			} else {
+			    l.setText(UITools.formatDate(date));
+			}
 		}
 
-		if (value instanceof Instant date)
-			l.setText(UITools.formatDate(date));
+		if (value instanceof final Instant date) {
+		    l.setText(UITools.formatDate(date));
+		}
 
 		if (isSelected) {
 			l.setBackground(table.getSelectionBackground());

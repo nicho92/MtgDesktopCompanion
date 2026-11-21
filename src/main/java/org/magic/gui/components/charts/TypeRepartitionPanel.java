@@ -20,8 +20,8 @@ public class TypeRepartitionPanel extends Abstract3DPieChart<MTGCard, String> {
 
 	@Override
 	public PieDataset3D<String> getDataSet() {
-		var dataset = new StandardPieDataset3D<String>();
-		for (Entry<String, Integer> entry : manager.analyseTypes(items).entrySet()) {
+		final var dataset = new StandardPieDataset3D<String>();
+		for (final Entry<String, Integer> entry : manager.analyseTypes(items).entrySet()) {
 			dataset.add(entry.getKey(), entry.getValue());
 		}
 		return dataset;

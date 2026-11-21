@@ -13,7 +13,7 @@ public class RetrievableDeck {
 	private String color;
 
 	public MTGDeck toBaseDeck() {
-		var deck = new MTGDeck();
+		final var deck = new MTGDeck();
 		deck.setName(getName());
 		deck.setDescription("Import from : " + getUrl());
 

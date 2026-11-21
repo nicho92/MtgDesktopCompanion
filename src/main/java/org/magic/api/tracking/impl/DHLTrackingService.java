@@ -19,17 +19,18 @@ public class DHLTrackingService extends AbstractTrackingService {
 	@Override
 	public Tracking track(String number, Contact c) throws IOException {
 
-		if (getAuthenticator().get(API_KEY).isEmpty())
-			throw new IOException("Authenticator need  to set API_KEY filled");
+		if (getAuthenticator().get(API_KEY).isEmpty()) {
+		    throw new IOException("Authenticator need  to set API_KEY filled");
+		}
 
-		var t = new Tracking(number);
+		final var t = new Tracking(number);
 
-		var res = RequestBuilder.build().newClient().url(BASEURL + number).get()
+		final var res = RequestBuilder.build().newClient().url(BASEURL + number).get()
 				.addHeader("DHL-API-Key", getAuthenticator().get(API_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject().get("shipments")
 				.getAsJsonArray();
 
-		var e = res.get(0).getAsJsonObject();
+		final var e = res.get(0).getAsJsonObject();
 
 		logger.trace("result = {}", e);
 

@@ -37,7 +37,7 @@ public class ShoppingServer extends AbstractWebServer {
 
 	@Override
 	public void extraConfig() {
-		var holderCss = new ServletHolder("extraCssServlet", new DefaultServlet() {
+		final var holderCss = new ServletHolder("extraCssServlet", new DefaultServlet() {
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -46,7 +46,7 @@ public class ShoppingServer extends AbstractWebServer {
 				try {
 					response.getWriter()
 							.println(MTGControler.getInstance().getWebshopService().getWebConfig().getExtraCss());
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					logger.error(e);
 				}

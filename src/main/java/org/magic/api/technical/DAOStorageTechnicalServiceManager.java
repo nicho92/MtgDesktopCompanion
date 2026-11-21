@@ -16,7 +16,7 @@ public class DAOStorageTechnicalServiceManager extends AbstractTechnicalServiceM
 	protected <T extends AbstractAuditableItem> void store(Class<T> c, List<T> list) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).storeTechnicalItem(c, list);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			throw new IOException(e);
 		}
 
@@ -27,7 +27,7 @@ public class DAOStorageTechnicalServiceManager extends AbstractTechnicalServiceM
 			throws IOException {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).restoreTechnicalItem(c, start, end);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			throw new IOException(e);
 		}
 	}

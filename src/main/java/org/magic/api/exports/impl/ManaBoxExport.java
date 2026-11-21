@@ -47,24 +47,25 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {
 
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 		d.setName(name);
 		d.setDescription("Imported from " + getName());
 
-		var p = Pattern.compile(aliases.getRegexFor(this, "deck"));
+		final var p = Pattern.compile(aliases.getRegexFor(this, "deck"));
 		var map = d.getMain();
 
-		for (String s : UITools.stringLineSplit(f, false)) {
-			var m = p.matcher(s);
+		for (final String s : UITools.stringLineSplit(f, false)) {
+			final var m = p.matcher(s);
 
-			if (s.contains("SIDEBOARD"))
-				map = d.getSideBoard();
+			if (s.contains("SIDEBOARD")) {
+			    map = d.getSideBoard();
+			}
 
 			if (m.find()) {
-				var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(4), m.group(3));
+				final var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(4), m.group(3));
 
 				if (card != null) {
-					var qty = Integer.parseInt(m.group(1));
+					final var qty = Integer.parseInt(m.group(1));
 					map.put(card, qty);
 				} else {
 					logger.error("No card found for {}", s);
@@ -78,11 +79,11 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		var list = new ArrayList<MTGCardStock>();
+		final var list = new ArrayList<MTGCardStock>();
 
 		matches(content, true, aliases.getRegexFor(this, "stock")).forEach(m -> {
-			var stock = MTGControler.getInstance().getDefaultStock();
-			var mc = parseMatcherWithGroup(m, 4, 2, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
+			final var stock = MTGControler.getInstance().getDefaultStock();
+			final var mc = parseMatcherWithGroup(m, 4, 2, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
 
 			if (mc != null) {
 				stock.setProduct(mc);
@@ -107,12 +108,12 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		StringBuilder tmp = new StringBuilder();
+		final StringBuilder tmp = new StringBuilder();
 		tmp.append(
 				"Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,ManaBox ID,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Purchase price currency")
 				.append(System.lineSeparator());
 
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			if (mcs.getProduct().getFullName().contains(",")) {
 				tmp.append("\"").append(mcs.getProduct().getFullName()).append("\"").append(getSeparator());
 			} else {
@@ -143,7 +144,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
-		StringBuilder temp = new StringBuilder();
+		final StringBuilder temp = new StringBuilder();
 
 		build(deck.getMain(), temp);
 
@@ -158,7 +159,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	}
 
 	private void build(Map<MTGCard, Integer> map, StringBuilder temp) {
-		for (var e : map.entrySet()) {
+		for (final var e : map.entrySet()) {
 			temp.append(e.getValue()).append(" ").append(e.getKey().getFullName()).append(" ").append("(")
 					.append(e.getKey().getEdition().getId()).append(") ").append(e.getKey().getNumber())
 					.append(System.lineSeparator());
@@ -168,7 +169,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("CURRENCY",
 				new MTGProperty(Currency.getInstance(Locale.getDefault()).getCurrencyCode(),
 						"Choose current currency for your prices", Currency.getAvailableCurrencies().stream()

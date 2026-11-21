@@ -23,7 +23,7 @@ public abstract class AbstractPicturesEditorProvider extends AbstractMTGPlugin i
 
 	protected File toFile(String url, String fileName) throws IOException {
 		if (url.startsWith("http")) {
-			var f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, fileName);
+			final var f = new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, fileName);
 			URLTools.download(url, f);
 			return f;
 		} else {
@@ -31,32 +31,35 @@ public abstract class AbstractPicturesEditorProvider extends AbstractMTGPlugin i
 		}
 
 	}
-	
+
 	protected abstract BufferedImage generatePicture(MTGCard mc, MTGEdition ed) throws IOException;
 
 	protected abstract EnumFrameVersion getFrameVersion();
-	
+
 
 	private void updateCardData(MTGCard mc) {
 		mc.getCustomMetadata().put(EnumExtraCardMetaData.PLUGIN_NAME, getName());
-	
-		if (mc.getRarity() == EnumRarity.MYTHIC || mc.getRarity() == EnumRarity.RARE)
-			mc.setSecurityStamp(EnumSecurityStamp.OVAL);
-		else
-			mc.setSecurityStamp(EnumSecurityStamp.NONE);
-		
-		if(mc.isRetro())
+
+		if (mc.getRarity() == EnumRarity.MYTHIC || mc.getRarity() == EnumRarity.RARE) {
+		    mc.setSecurityStamp(EnumSecurityStamp.OVAL);
+		} else {
+		    mc.setSecurityStamp(EnumSecurityStamp.NONE);
+		}
+
+		if(mc.isRetro()) {
 		    mc.setFrameVersion(EnumFrameVersion.FRAME_1993);
-		else
-    		    mc.setFrameVersion(getFrameVersion());
-		
-		
+		} else {
+		    mc.setFrameVersion(getFrameVersion());
+		}
+
+
 	}
 
+	@Override
 	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 	    updateCardData(mc);
 	    return generatePicture(mc, me);
 	}
-	
+
 
 }

@@ -16,7 +16,7 @@ public class JResizerPanel extends JComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblDimension;
-	private Dimension dimension;
+	private final Dimension dimension;
 	private JSpinner spinner;
 
 	public JResizerPanel(Dimension d) {
@@ -39,9 +39,9 @@ public class JResizerPanel extends JComponent {
 
 		update();
 		spinner.addChangeListener(_ -> {
-			Number val = (Number) spinner.getValue();
-			int w = (int) (dimension.getWidth() + val.intValue());
-			int h = (int) (w * MTGConstants.CARD_PICS_RATIO);
+			final Number val = (Number) spinner.getValue();
+			final int w = (int) (dimension.getWidth() + val.intValue());
+			final int h = (int) (w * MTGConstants.CARD_PICS_RATIO);
 			dimension.setSize(w, h);
 			update();
 		});

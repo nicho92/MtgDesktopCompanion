@@ -24,11 +24,11 @@ public class MTGMintCardsPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		var ret = new ArrayList<MTGPrice>();
-		var client = URLTools.newClient();
+		final var ret = new ArrayList<MTGPrice>();
+		final var client = URLTools.newClient();
 
 		// 15 is for variants, 11 for regular
-		var category = (card.isBorderLess() || card.isExtendedArt() || card.isShowCase() || card.isRetro())
+		final var category = (card.isBorderLess() || card.isExtendedArt() || card.isShowCase() || card.isRetro())
 				? "15"
 				: "11";
 
@@ -61,16 +61,16 @@ public class MTGMintCardsPricer extends AbstractPricesProvider {
 
 	private void parse(MTGCard card, ArrayList<MTGPrice> ret, Elements trs, boolean foil) {
 
-		for (var tr : trs) {
+		for (final var tr : trs) {
 			tr.select("td").remove(0);
 			if (tr.select("td a.opacityit").attr("href").contains(card.getEdition().getId().toLowerCase())) {
 
-				var elementsQuality = tr.getElementsByTag("TD").get(3).select("div:not(:empty)");
-				var elementsPrice = tr.getElementsByTag("TD").get(4).select("td strong");
-				var stockAvailable = tr.getElementsByTag("TD").get(6).select("div");
+				final var elementsQuality = tr.getElementsByTag("TD").get(3).select("div:not(:empty)");
+				final var elementsPrice = tr.getElementsByTag("TD").get(4).select("td strong");
+				final var stockAvailable = tr.getElementsByTag("TD").get(6).select("div");
 
 				for (int i = 0; i < elementsQuality.size(); i++) {
-					var p = new MTGPrice();
+					final var p = new MTGPrice();
 					p.setCardData(card);
 					p.setCurrency("USD");
 					p.setCountry("Hong-Kong");
@@ -83,8 +83,9 @@ public class MTGMintCardsPricer extends AbstractPricesProvider {
 					p.setValue(UITools.parseDouble(elementsPrice.get(i).text()));
 					p.setLanguage("English");
 					p.setFoil(foil);
-					if (!stockAvailable.get(i).text().contains("Out of Stock"))
-						ret.add(p);
+					if (!stockAvailable.get(i).text().contains("Out of Stock")) {
+					    ret.add(p);
+					}
 				}
 
 			}

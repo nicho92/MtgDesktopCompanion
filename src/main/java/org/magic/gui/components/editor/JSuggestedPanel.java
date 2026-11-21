@@ -32,11 +32,11 @@ public class JSuggestedPanel extends JComponent {
 	public JSuggestedPanel(MagicTextPane jTextPane) {
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
-		var suggestions = new JPanel();
+		final var suggestions = new JPanel();
 		suggestions.setLayout(new FlowLayout(FlowLayout.LEFT));
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 
-		var btn = new JButton(MTGConstants.ICON_TAB_SUGGESTION);
+		final var btn = new JButton(MTGConstants.ICON_TAB_SUGGESTION);
 		btn.setToolTipText("text generator");
 		btn.addActionListener(_ -> {
 
@@ -52,9 +52,9 @@ public class JSuggestedPanel extends JComponent {
 				protected void done() {
 					try {
 						jTextPane.setText(get());
-					} catch (InterruptedException _) {
+					} catch (final InterruptedException _) {
 						Thread.currentThread().interrupt();
-					} catch (ExecutionException e) {
+					} catch (final ExecutionException e) {
 						logger.error(e);
 					}
 
@@ -96,11 +96,12 @@ public class JSuggestedPanel extends JComponent {
 			public void update() {
 
 				if (jTextPane.getText().endsWith(" ")) {
-					int index = jTextPane.getText().lastIndexOf('\n');
+					final int index = jTextPane.getText().lastIndexOf('\n');
 
 					caracters = jTextPane.getText().split(" ");
-					if (index > 0)
-						caracters = jTextPane.getText().substring(index + 1).split(" ");
+					if (index > 0) {
+					    caracters = jTextPane.getText().substring(index + 1).split(" ");
+					}
 
 					suggestions.removeAll();
 
@@ -109,7 +110,7 @@ public class JSuggestedPanel extends JComponent {
 
 						@Override
 						protected Void doInBackground() throws Exception {
-							for (String s : MTG.getEnabledPlugin(MTGTextGenerator.class).suggestWords(caracters)) {
+							for (final String s : MTG.getEnabledPlugin(MTGTextGenerator.class).suggestWords(caracters)) {
 								publish(s);
 							}
 							return null;
@@ -119,15 +120,15 @@ public class JSuggestedPanel extends JComponent {
 						@Override
 						protected void process(List<String> chunks) {
 
-							for (var s : chunks) {
-								var t = new TagLabel(s);
+							for (final var s : chunks) {
+								final var t = new TagLabel(s);
 								t.addMouseListener(new MouseAdapter() {
 									@Override
 									public void mouseClicked(MouseEvent e) {
 										try {
 											jTextPane.getDocument().insertString(jTextPane.getCaretPosition(),
 													t.getText() + " ", null);
-										} catch (BadLocationException _) {
+										} catch (final BadLocationException _) {
 											jTextPane.setText(jTextPane.getText() + " " + t.getText() + " ");
 										}
 									}

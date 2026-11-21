@@ -33,27 +33,27 @@ public class CryptoUtils {
 	static {
 		try {
 			random = SecureRandom.getInstanceStrong();
-		} catch (NoSuchAlgorithmException _) {
+		} catch (final NoSuchAlgorithmException _) {
 			logger.error("Can't generate Strong Instance");
 		}
 	}
 
 	public static String encrypt(String strToEncrypt, String secret) {
-		var textEncryptor = new AES256TextEncryptor();
+		final var textEncryptor = new AES256TextEncryptor();
 		textEncryptor.setPasswordCharArray(secret.toCharArray());
 		return textEncryptor.encrypt(strToEncrypt);
 	}
 
 	public static String decrypt(String strToDecrypt, String secret) {
-		var textEncryptor = new AES256TextEncryptor();
+		final var textEncryptor = new AES256TextEncryptor();
 		textEncryptor.setPasswordCharArray(secret.toCharArray());
 		return textEncryptor.decrypt(strToDecrypt);
 	}
 
 	public static String getMD5(byte[] input) {
-		byte[] bytes = DigestUtils.getMd5Digest().digest(input);
-		var sb = new StringBuilder();
-		for (byte b : bytes) {
+		final byte[] bytes = DigestUtils.getMd5Digest().digest(input);
+		final var sb = new StringBuilder();
+		for (final byte b : bytes) {
 			sb.append(String.format("%02x", b));
 		}
 
@@ -90,12 +90,12 @@ public class CryptoUtils {
 
 	public static List<X509Certificate> getCertificates(File keystoreFile, String password)
 			throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-		var ret = new ArrayList<X509Certificate>();
-		var keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+		final var ret = new ArrayList<X509Certificate>();
+		final var keystore = KeyStore.getInstance(KeyStore.getDefaultType());
 		keystore.load(new FileInputStream(keystoreFile), password.toCharArray());
-		var aliases = keystore.aliases();
+		final var aliases = keystore.aliases();
 		while (aliases.hasMoreElements()) {
-			var alias = aliases.nextElement();
+			final var alias = aliases.nextElement();
 			if (keystore.getCertificate(alias).getType().equals("X.509")) {
 				ret.add((X509Certificate) keystore.getCertificate(alias));
 			}

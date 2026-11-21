@@ -17,7 +17,7 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 	@Override
 	public Map<String, Long> getDBSize() {
 
-		var map = new HashMap<String, Long>();
+		final var map = new HashMap<String, Long>();
 		map.put("file", FileTools.sizeOf(getFile(SERVERNAME)));
 		return map;
 	}
@@ -25,7 +25,7 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 
 		m.put(SERVERNAME,
 				MTGProperty.newFileProperty(Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "mtgcompanion.sqlite")));
@@ -38,9 +38,9 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 	@Override
 	protected int getGeneratedKey(PreparedStatement pst) {
 		try (var c = pool.getConnection(); var ps = c.prepareStatement("select last_insert_rowid();")) {
-			var rs = ps.executeQuery();
+			final var rs = ps.executeQuery();
 			return rs.getInt(1);
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error("error getting last id {}", e.getMessage());
 			return -1;
 		}

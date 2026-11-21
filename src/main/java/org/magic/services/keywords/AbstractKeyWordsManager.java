@@ -30,14 +30,15 @@ public abstract class AbstractKeyWordsManager {
 	private JsonObject ret;
 
 	public static AbstractKeyWordsManager getInstance() {
-		if (inst == null)
-			inst = new MTGJsonKeyWordsProvider();
+		if (inst == null) {
+		    inst = new MTGJsonKeyWordsProvider();
+		}
 
 		return inst;
 	}
 
 	public List<MTGKeyWord> getList() {
-		List<MTGKeyWord> keys = new ArrayList<>();
+		final List<MTGKeyWord> keys = new ArrayList<>();
 		keys.addAll(getActivatedAbilities());
 		keys.addAll(getStaticsAbilities());
 		keys.addAll(getTriggeredAbilities());
@@ -47,9 +48,11 @@ public abstract class AbstractKeyWordsManager {
 	}
 
 	public MTGKeyWord generateFromKeyString(String key) {
-		for (MTGKeyWord k : getList())
-			if (key.equalsIgnoreCase(k.getKeyword()))
-				return k;
+		for (final MTGKeyWord k : getList()) {
+		    if (key.equalsIgnoreCase(k.getKeyword())) {
+		        return k;
+		    }
+		}
 
 		return null;
 	}
@@ -59,8 +62,9 @@ public abstract class AbstractKeyWordsManager {
 	}
 
 	public Set<MTGKeyWord> getKeywordsFrom(String cardContent) {
-		if (cardContent == null)
-			return new HashSet<>();
+		if (cardContent == null) {
+		    return new HashSet<>();
+		}
 
 		return getList().stream()
 				.filter(kw -> String.valueOf(cardContent.toLowerCase()).contains(kw.getKeyword().toLowerCase()))
@@ -72,21 +76,23 @@ public abstract class AbstractKeyWordsManager {
 	}
 
 	public JsonObject toJson() {
-		if (ret != null)
-			return ret;
+		if (ret != null) {
+		    return ret;
+		}
 
 		ret = new JsonObject();
 
-		for (TYPE t : TYPE.values()) {
-			var arr = new JsonArray();
+		for (final TYPE t : TYPE.values()) {
+			final var arr = new JsonArray();
 
 			getList().stream().filter(k -> k.getType() == t).forEach(kw -> {
-				var o = new JsonObject();
+				final var o = new JsonObject();
 				o.addProperty("name", kw.getKeyword());
 				o.addProperty("reminder", kw.getReminder());
 				o.addProperty("description", kw.getDescription());
-				if (kw.getEvent() != null)
-					o.addProperty("event", kw.getEvent().name());
+				if (kw.getEvent() != null) {
+				    o.addProperty("event", kw.getEvent().name());
+				}
 
 				arr.add(o);
 			});

@@ -65,10 +65,11 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date, Double>> {
 	}
 
 	private Date getLastValueAt(int val) {
-		if (isEmpty())
-			return null;
+		if (isEmpty()) {
+		    return null;
+		}
 
-		var res = new ArrayList<Entry<Date, Double>>(entrySet());
+		final var res = new ArrayList<>(entrySet());
 		return res.get(res.size() - val).getKey();
 	}
 
@@ -109,7 +110,7 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date, Double>> {
 	public Double get(Date d) {
 		try {
 			return variations.get(d);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return 0.0;
 		}
 	}
@@ -134,17 +135,17 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date, Double>> {
 	public CardShake toCardShake() {
 
 		if (!variations.isEmpty()) {
-			Date now = getLastDay();
-			Date yesterday = getYesterday();
-			Date week = getLastWeek();
+			final Date now = getLastDay();
+			final Date yesterday = getYesterday();
+			final Date week = getLastWeek();
 
-			double valDay = get(now) - get(yesterday);
-			double valWeek = get(now) - get(week);
-			double pcWeek = (get(now) - get(week)) / get(week) * 100;
-			double pcDay = (get(now) - get(yesterday)) / get(yesterday) * 100;
-			var cs = new CardShake();
+			final double valDay = get(now) - get(yesterday);
+			final double valWeek = get(now) - get(week);
+			final double pcWeek = (get(now) - get(week)) / get(week) * 100;
+			final double pcDay = (get(now) - get(yesterday)) / get(yesterday) * 100;
+			final var cs = new CardShake();
 
-			if (pack instanceof MTGCard mc) {
+			if (pack instanceof final MTGCard mc) {
 				cs.setName(mc.getName());
 				cs.setEd(mc.getEdition().getSet());
 			}

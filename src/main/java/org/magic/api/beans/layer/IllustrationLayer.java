@@ -46,20 +46,23 @@ public class IllustrationLayer extends AbstractLayer {
     public void reload() {
 	     	try {
         	  image=URLTools.extractAsImage(url.toString());
-        	} catch (IOException e) {
+        	} catch (final IOException e) {
         	    MTGLogger.getLogger(this.getClass()).error(e);
         	}
     }
-    
+
     @Override
     public void paintLayer(Graphics2D g2) {
 
-	if (getImage() == null) return;
+	if (getImage() == null) {
+	    return;
+	}
 
-	if(getFadeSize()>0)
+	if(getFadeSize()>0) {
 	    paintFade(g2);
-	else
+	} else {
 	    g2.drawImage(getImage(), getX(), getY(), getWidth(), getHeight(), null);
+	}
 
     }
 
@@ -84,8 +87,8 @@ public class IllustrationLayer extends AbstractLayer {
     private void paintFade(Graphics2D g2) {
 
 	// 1. Création d'une image tampon aux dimensions de la couche
-	var bufferedFade = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-	var gLayer = bufferedFade.createGraphics();
+	final var bufferedFade = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+	final var gLayer = bufferedFade.createGraphics();
 
 	// 2. Dessiner l'image d'origine dans le buffer
 	gLayer.drawImage(getImage(), 0, 0, getWidth(), getHeight(), null);
@@ -93,9 +96,9 @@ public class IllustrationLayer extends AbstractLayer {
 	// 3. Appliquer le masque d'effacement Alpha (DST_OUT) sur les bords du buffer
 	gLayer.setComposite(AlphaComposite.DstOut);
 
-	float sizeX = Math.min(fadeSize, getWidth() / 2.0f);
-	float sizeY = Math.min(fadeSize, getHeight() / 2.0f);
-	int alpha = Math.round(Math.min(1.0f, getFadeStrength()) * 255);
+	final float sizeX = Math.min(fadeSize, getWidth() / 2.0f);
+	final float sizeY = Math.min(fadeSize, getHeight() / 2.0f);
+	final int alpha = Math.round(Math.min(1.0f, getFadeStrength()) * 255);
 
 	// GAUCHE
 	gLayer.setPaint(new GradientPaint(0, 0, new Color(0, 0, 0, alpha), sizeX, 0, new Color(0, 0, 0, 0)));

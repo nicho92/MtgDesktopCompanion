@@ -16,7 +16,7 @@ import nl.basjes.parse.useragent.UserAgent.MutableUserAgent;
 public class UserAgentAdapter implements JsonSerializer<UserAgent>, JsonDeserializer<UserAgent> {
 	@Override
 	public JsonElement serialize(UserAgent src, Type typeOfSrc, JsonSerializationContext context) {
-		var objUa = new JsonObject();
+		final var objUa = new JsonObject();
 		src.toMap().entrySet().forEach(e -> objUa.addProperty(e.getKey(), e.getValue()));
 		return objUa;
 	}
@@ -24,7 +24,7 @@ public class UserAgentAdapter implements JsonSerializer<UserAgent>, JsonDeserial
 	@Override
 	public UserAgent deserialize(JsonElement obj, Type typeOfT, JsonDeserializationContext context)
 			throws JsonParseException {
-		var ua = new MutableUserAgent();
+		final var ua = new MutableUserAgent();
 		obj.getAsJsonObject().entrySet().forEach(s -> ua.set(s.getKey(), s.getValue().getAsString(), 1));
 		return ua;
 	}

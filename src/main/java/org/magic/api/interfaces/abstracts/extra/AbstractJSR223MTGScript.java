@@ -23,32 +23,36 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}
 
 	@Override
 	public void setOutput(Writer w) {
-		if (engine == null)
-			init();
+		if (engine == null) {
+		    init();
+		}
 
 		engine.getContext().setWriter(w);
 	}
 
 	@Override
 	public Object runContent(String content) throws ScriptException {
-		if (engine == null)
-			init();
+		if (engine == null) {
+		    init();
+		}
 
 		return engine.eval(content, binds);
 	}
 
 	@Override
 	public void addVariable(String k, Object o) {
-		if (engine == null)
-			init();
+		if (engine == null) {
+		    init();
+		}
 
 		binds.put(k, o);
 	}
@@ -70,12 +74,13 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript {
 
 	@Override
 	public String getVersion() {
-		if (engine == null)
-			init();
+		if (engine == null) {
+		    init();
+		}
 
 		try {
 			return engine.getFactory().getEngineVersion();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return "-1";
 		}
 

@@ -13,7 +13,7 @@ import org.magic.gui.components.renderer.MessageRendererPanel;
 public class MessageRenderer extends JPanel implements ListCellRenderer<AbstractMessage> {
 
 	private static final long serialVersionUID = 1L;
-	private MessageRendererPanel pane;
+	private final MessageRendererPanel pane;
 
 	public MessageRenderer() {
 		pane = new MessageRendererPanel();
@@ -25,7 +25,7 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Abstract
 	@Override
 	public Component getListCellRendererComponent(JList<? extends AbstractMessage> list, AbstractMessage value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-	    	
+
 	    	pane.setFixedWidth(list.getWidth());
 		pane.setMessage(value);
 
@@ -36,14 +36,14 @@ public class MessageRenderer extends JPanel implements ListCellRenderer<Abstract
 			pane.setBackground(list.getBackground());
 			pane.setForeground(list.getForeground());
 		}
-		
+
 		// force un layout complet avec la taille réelle de la cellule
 		pane.invalidate();
 		invalidate();
 		setSize(getPreferredSize());
 		doLayout();
 		pane.doLayout();
-		
+
 		return this;
 	}
 }

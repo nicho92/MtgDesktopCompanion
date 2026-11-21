@@ -50,9 +50,9 @@ public class Zone implements Serializable {
 	}
 
 	public Set<String> getTypesIncludes() {
-		Set<String> set = new LinkedHashSet<>();
+		final Set<String> set = new LinkedHashSet<>();
 
-		for (MTGCard mc : cards) {
+		for (final MTGCard mc : cards) {
 			set.addAll(mc.getTypes());
 		}
 		return set;

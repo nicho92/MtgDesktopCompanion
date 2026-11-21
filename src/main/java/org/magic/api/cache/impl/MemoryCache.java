@@ -10,7 +10,7 @@ import org.magic.services.tools.MemoryTools;
 
 public class MemoryCache extends AbstractCacheProvider {
 
-	private Map<String, BufferedImage> cache;
+	private final Map<String, BufferedImage> cache;
 
 	@Override
 	public STATUT getStatut() {
@@ -56,8 +56,9 @@ public class MemoryCache extends AbstractCacheProvider {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
+		if (obj == null) {
+		    return false;
+		}
 
 		return hashCode() == obj.hashCode();
 	}

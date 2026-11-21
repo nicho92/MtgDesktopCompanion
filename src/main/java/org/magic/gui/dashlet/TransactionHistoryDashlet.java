@@ -35,8 +35,8 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		chart = new TransactionHistoryChartPanel();
-		var panel = new JPanel();
-		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh");
+		final var panel = new JPanel();
+		final var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh");
 
 		getContentPane().add(panel, BorderLayout.NORTH);
 		getContentPane().add(chart, BorderLayout.CENTER);
@@ -45,7 +45,7 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 		panel.add(buzy);
 
 		if (getProperties().size() > 0) {
-			var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+			final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 					(int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 			setBounds(r);
@@ -58,7 +58,7 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 		buzy.start();
-		var sw = new SwingWorker<List<Transaction>, Void>() {
+		final var sw = new SwingWorker<List<Transaction>, Void>() {
 			@Override
 			protected List<Transaction> doInBackground() throws Exception {
 				return getEnabledPlugin(MTGExternalShop.class).listTransaction();
@@ -67,9 +67,9 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 			protected void done() {
 				try {
 					chart.init(get());
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					logger.error(e);
 				}
 				buzy.end();

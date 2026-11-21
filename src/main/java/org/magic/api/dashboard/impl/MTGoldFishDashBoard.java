@@ -33,7 +33,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String WEBSITE = "https://www.mtggoldfish.com";
 	private static final String SET_EXTRA = "SET_EnumExtra";
 	private static final String MOVERS_DETAILS = WEBSITE + "/movers-details/";
-	private MTGHttpClient client;
+	private final MTGHttpClient client;
 	private final Pattern p =Pattern.compile("d \\+= \\\"\\\\n(.*?), (.*?)\\\";");
 	boolean isPaperparsing = true;
 
@@ -49,11 +49,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
 
-		var history = new HistoryPrice<MTGSealedProduct>(packaging);
+		final var history = new HistoryPrice<>(packaging);
 		history.setCurrency(getCurrency());
 
-		if (packaging == null || packaging.getEdition() == null)
-			return history;
+		if (packaging == null || packaging.getEdition() == null) {
+		    return history;
+		}
 
 		logger.debug("loading prices for {}", packaging);
 		parsing(history);
@@ -63,11 +64,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition me) throws IOException {
-		var historyPrice = new HistoryPrice<MTGEdition>(me);
+		final var historyPrice = new HistoryPrice<>(me);
 		historyPrice.setCurrency(getCurrency());
 
-		if (me == null)
-			return historyPrice;
+		if (me == null) {
+		    return historyPrice;
+		}
 
 		parsing(historyPrice);
 
@@ -77,12 +79,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 
-		var historyPrice = new HistoryPrice<MTGCard>(mc);
+		final var historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());
 		historyPrice.setFoil(foil);
 
-		if (mc == null)
-			return historyPrice;
+		if (mc == null) {
+		    return historyPrice;
+		}
 
 		parsing(historyPrice);
 
@@ -93,14 +96,16 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	private String readXcrf() throws IOException {
 
-		if (!token.isEmpty())
-			return token;
+		if (!token.isEmpty()) {
+		    return token;
+		}
 
-		var meta = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml()
+		final var meta = RequestBuilder.build().setClient(client).url(WEBSITE).get().toHtml()
 				.getElementsByAttributeValue("name", "csrf-token").first();
 
-		if (meta == null)
-			throw new IOException("No csrf token present");
+		if (meta == null) {
+		    throw new IOException("No csrf token present");
+		}
 
 		token = meta.attr("content");
 
@@ -108,7 +113,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private String suggestCardId(MTGCard c, boolean foil) throws IOException {
-		var arr = RequestBuilder.build().url(WEBSITE + "/autocomplete").setClient(client).get()
+		final var arr = RequestBuilder.build().url(WEBSITE + "/autocomplete").setClient(client).get()
 				.addContent("term", c.getName()).addHeader(URLTools.REFERER, WEBSITE)
 				.addHeader("x-requested-with", "XMLHttpRequest").addHeader(URLTools.ACCEPT, "*/*")
 				.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7")
@@ -121,23 +126,24 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				.filter(je -> je.getAsJsonObject().get("set_code").getAsString()
 						.equalsIgnoreCase(aliases.getReversedSetIdFor(this, c.getEdition())));
 
-		if (foil)
-			q = q.filter(je -> je.getAsJsonObject().get("finish").getAsString().contains("foil"));
+		if (foil) {
+		    q = q.filter(je -> je.getAsJsonObject().get("finish").getAsString().contains("foil"));
+		}
 
-		var res = q.toList();
+		final var res = q.toList();
 		logger.debug("return {}", res);
 
 		if (res.size() == 1) {
 			return res.get(0).getAsJsonObject().get("id").getAsString();
 		} else if (res.size() > 1) {
 			try {
-				var l = res.stream().filter(je -> !je.getAsJsonObject().get(CARD_NUM).isJsonNull())
+				final var l = res.stream().filter(je -> !je.getAsJsonObject().get(CARD_NUM).isJsonNull())
 						.filter(je -> je.getAsJsonObject().get(CARD_NUM).getAsString().equals(c.getNumber())).toList();
 
 				logger.debug("filtering by num return {}", l);
 
 				return l.getFirst().getAsJsonObject().get("id").getAsString();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 		}
@@ -149,17 +155,17 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	private void parsing(HistoryPrice<?> history) throws IOException {
 
-		var url = WEBSITE + "/price_history_component";
+		final var url = WEBSITE + "/price_history_component";
 
 		var cardid = "";
 		var pricetype = "card";
 
-		if (history.getItem() instanceof MTGCard card) {
+		if (history.getItem() instanceof final MTGCard card) {
 			cardid = suggestCardId(card, history.isFoil());
-		} else if (history.getItem() instanceof MTGEdition set) {
+		} else if (history.getItem() instanceof final MTGEdition set) {
 			cardid = set.getId() + "-main_set";
 			pricetype = "set";
-		} else if (history.getItem() instanceof MTGSealedProduct packaging) {
+		} else if (history.getItem() instanceof final MTGSealedProduct packaging) {
 			var selead = "";
 			if (packaging.getExtra() != null) {
 				switch (packaging.getExtra()) {
@@ -219,35 +225,37 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					+ aliases.getReversedSetIdFor(this, packaging.getEdition()) + "]";
 		}
 
-		var q = RequestBuilder.build().url(url).setClient(client).get().addContent("card_id", cardid)
+		final var q = RequestBuilder.build().url(url).setClient(client).get().addContent("card_id", cardid)
 				.addContent("selector", "#tab-" + getString(FORMAT).toLowerCase())
 				.addContent("type", getString(FORMAT).toLowerCase()).addContent("price_type", pricetype)
 				.addHeader("referer", WEBSITE).addHeader("x-requested-with", "XMLHttpRequest")
 				.addHeader("x-csrf-token", readXcrf()).toHtml();
 
-		var res = q.select("a span").html();
+		final var res = q.select("a span").html();
 
-		var m = p.matcher(res);
+		final var m = p.matcher(res);
 
-		while (m.find())
-			history.put(UITools.parseDate(m.group(1), "yyyy-MM-dd"), UITools.parseDouble(m.group(2)));
+		while (m.find()) {
+		    history.put(UITools.parseDate(m.group(1), "yyyy-MM-dd"), UITools.parseDouble(m.group(2)));
+		}
 
 	}
 
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
-		var list = new ArrayList<CardShake>();
+		final var list = new ArrayList<CardShake>();
 
 		var gameFormat = "all";
-		if (f != null)
-			gameFormat = f.name();
+		if (f != null) {
+		    gameFormat = f.name();
+		}
 
-		var urlW = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
-		var urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/" + getString(DAILY_WEEKLY);
+		final var urlW = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
+		final var urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/" + getString(DAILY_WEEKLY);
 
 		logger.trace("Loading Shake {} and {}", urlW, urlL);
-		var doc = URLTools.extractAsHtml(urlW);
-		var doc2 = URLTools.extractAsHtml(urlL);
+		final var doc = URLTools.extractAsHtml(urlW);
+		final var doc2 = URLTools.extractAsHtml(urlL);
 
 		Element table = null;
 		try {
@@ -255,8 +263,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			table = doc.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag("tbody").first().appendChild(doc2
 					.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag(MTGConstants.HTML_TAG_TBODY).get(0));
 
-			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
-				var cs = new CardShake();
+			for (final Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
+				final var cs = new CardShake();
 				cs.setProviderName(getName());
 				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).select("span a").last().text());
 				cs.setLink(WEBSITE + e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
@@ -264,15 +272,15 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));
 				cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()) / 100);
 				cs.setFoil(false);
-				var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(2).attr("data-card-id");
-				
-				
+				final var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(2).attr("data-card-id");
+
+
 				cs.setEd(aliases.getSetIdFor(this, StringUtils.substringBetween(set, "[", "]").toUpperCase()));
 
 				list.add(cs);
 
 			}
-		} catch (IndexOutOfBoundsException e) {
+		} catch (final IndexOutOfBoundsException e) {
 			logger.error("error parsing ", e);
 		}
 		return list;
@@ -281,13 +289,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MTGEdition edition) throws IOException {
-		var list = new EditionsShakers();
+		final var list = new EditionsShakers();
 		list.setEdition(edition);
 		list.setProviderName(getName());
 		list.setDate(new Date());
 
-		if (edition == null)
-			return list;
+		if (edition == null) {
+		    return list;
+		}
 
 		var urlEditionChecker = WEBSITE + "/sets/" + aliases.getReversedSetIdFor(this, edition) + "/All+Cards";
 
@@ -295,29 +304,32 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		var page = "Main+Set";
 
-		if (getBoolean(SET_EXTRA))
-			page = "All+Cards";
+		if (getBoolean(SET_EXTRA)) {
+		    page = "All+Cards";
+		}
 
-		if (edition.isOnlineOnly())
-			urlEditionChecker += "/" + page + "#online";
-		else
-			urlEditionChecker += "/" + page + "#" + getString(FORMAT);
+		if (edition.isOnlineOnly()) {
+		    urlEditionChecker += "/" + page + "#online";
+		} else {
+		    urlEditionChecker += "/" + page + "#" + getString(FORMAT);
+		}
 
-		var doc = URLTools.extractAsHtml(urlEditionChecker);
+		final var doc = URLTools.extractAsHtml(urlEditionChecker);
 
-		var trs = URLTools.toJson(doc.select("div[data-react-class=CardsContainer]").attr("data-react-props"));
+		final var trs = URLTools.toJson(doc.select("div[data-react-class=CardsContainer]").attr("data-react-props"));
 
 		logger.debug("result={}", trs);
 
-		for (var e : trs.getAsJsonObject().get("cards").getAsJsonArray()) {
+		for (final var e : trs.getAsJsonObject().get("cards").getAsJsonArray()) {
 
-			var obj = e.getAsJsonObject();
-			var tags = obj.get("tags").getAsJsonArray().asList().stream().map(el->el.getAsString().toLowerCase()).toList();
-			
-			if (obj.get("subset_id").getAsString().equals("sealed"))
-				continue;
+			final var obj = e.getAsJsonObject();
+			final var tags = obj.get("tags").getAsJsonArray().asList().stream().map(el->el.getAsString().toLowerCase()).toList();
 
-			var cs = new CardShake();
+			if (obj.get("subset_id").getAsString().equals("sealed")) {
+			    continue;
+			}
+
+			final var cs = new CardShake();
 			cs.setCurrency(getCurrency());
 			cs.setName(obj.get("display_name").getAsString());
 			cs.setLink(WEBSITE + obj.get("links").getAsJsonObject().get("default").getAsString());
@@ -326,36 +338,38 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			cs.setEd(edition.getId());
 			cs.setProviderName(getName());
 
-			if (!obj.get(CARD_NUM).isJsonNull())
-				cs.setNumber(obj.get(CARD_NUM).getAsString());
+			if (!obj.get(CARD_NUM).isJsonNull()) {
+			    cs.setNumber(obj.get(CARD_NUM).getAsString());
+			}
 
 			try {
 
-				var pobj = obj.get("prices").getAsJsonObject().get(getString(FORMAT).toLowerCase()).getAsJsonObject();
+				final var pobj = obj.get("prices").getAsJsonObject().get(getString(FORMAT).toLowerCase()).getAsJsonObject();
 
 				cs.setPrice(pobj.get("current_price").getAsDouble());
 				cs.setPriceDayChange(pobj.get("dod_delta").getAsDouble());
 				cs.setPercentDayChange(pobj.get("dod_pct").getAsDouble());
 				cs.setPriceWeekChange(pobj.get("wow_delta").getAsDouble());
 				cs.setPercentWeekChange(pobj.get("wow_pct").getAsDouble());
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				cs.setPrice(0.0);
 			}
 
-			if (tags.contains("extended"))
-				cs.setCardVariation(EnumCardVariation.EXTENDEDART);
-			else if (tags.contains("showcase"))
-				cs.setCardVariation(EnumCardVariation.SHOWCASE);
-			else if (tags.contains("borderless"))
-				cs.setCardVariation(EnumCardVariation.BORDERLESS);
-			else if (tags.contains("timeshifted"))
-				cs.setCardVariation(EnumCardVariation.TIMESHIFTED);
-			else if (tags.contains("retro"))
-				cs.setCardVariation(EnumCardVariation.RETRO);
-			else if (tags.contains("japanese"))
-				cs.setCardVariation(EnumCardVariation.JAPANESEALT);
-			else if (tags.contains("serialized"))
-				cs.setCardVariation(EnumCardVariation.SERIALIZED);
+			if (tags.contains("extended")) {
+			    cs.setCardVariation(EnumCardVariation.EXTENDEDART);
+			} else if (tags.contains("showcase")) {
+			    cs.setCardVariation(EnumCardVariation.SHOWCASE);
+			} else if (tags.contains("borderless")) {
+			    cs.setCardVariation(EnumCardVariation.BORDERLESS);
+			} else if (tags.contains("timeshifted")) {
+			    cs.setCardVariation(EnumCardVariation.TIMESHIFTED);
+			} else if (tags.contains("retro")) {
+			    cs.setCardVariation(EnumCardVariation.RETRO);
+			} else if (tags.contains("japanese")) {
+			    cs.setCardVariation(EnumCardVariation.JAPANESEALT);
+			} else if (tags.contains("serialized")) {
+			    cs.setCardVariation(EnumCardVariation.SERIALIZED);
+			}
 
 			list.addShake(cs);
 			notify(cs);
@@ -376,7 +390,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					.extractAsHtml(MOVERS_DETAILS + getString(FORMAT) + "/all/winners/" + getString(DAILY_WEEKLY))
 					.getElementsByClass("timeago").get(0).attr("title"), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
 			logger.error(e1);
 		}
 
@@ -385,7 +399,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 
 		m.put(FORMAT, new MTGProperty("paper", "paper = price of physical cards, online= price of MTGO cards", "paper",
 				"online"));

@@ -27,12 +27,12 @@ public class MoveGraveyardActions extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String res = JOptionPane.showInputDialog("How many card to discard ?");
+		final String res = JOptionPane.showInputDialog("How many card to discard ?");
 		if (res != null) {
-			var c = Integer.parseInt(res);
-			List<MTGCard> disc = GamePanelGUI.getInstance().getPlayer().discardCardFromLibrary(c);
+			final var c = Integer.parseInt(res);
+			final List<MTGCard> disc = GamePanelGUI.getInstance().getPlayer().discardCardFromLibrary(c);
 
-			for (MTGCard mc : disc) {
+			for (final MTGCard mc : disc) {
 				GamePanelGUI.getInstance().getPanelGrave().addComponent(
 						new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true));
 			}

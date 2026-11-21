@@ -13,23 +13,23 @@ public class POMReader {
 
 	public static synchronized String readVersionFromPom(Class<?> clazz, String pomProperties) {
 		String version = null;
-		var logger = MTGLogger.getLogger(POMReader.class);
+		final var logger = MTGLogger.getLogger(POMReader.class);
 		// try reading the pom.properties file from the jar
 		try {
-			var p = new Properties();
+			final var p = new Properties();
 			try (var is = clazz.getResourceAsStream(pomProperties)) {
 				if (is != null) {
 					p.load(is);
 					version = p.getProperty("version", null);
 				}
 			}
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			version = null;
 			logger.warn("Could not read version for {} from file {}", clazz.getName(), pomProperties);
 		}
 
 		if (version == null) {
-			var p = clazz.getPackage();
+			final var p = clazz.getPackage();
 			if (p != null) {
 				version = p.getImplementationVersion();
 				if (version == null) {

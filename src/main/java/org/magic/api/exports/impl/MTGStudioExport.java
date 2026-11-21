@@ -22,7 +22,7 @@ import org.magic.services.tools.XMLTools;
 
 public class MTGStudioExport extends AbstractCardExport {
 
-	private String cardRegex = "(.*?)( \\[(.*?)\\])?( \\((\\d+)\\))?$";
+	private final String cardRegex = "(.*?)( \\[(.*?)\\])?( \\((\\d+)\\))?$";
 
 	@Override
 	public String getName() {
@@ -52,9 +52,9 @@ public class MTGStudioExport extends AbstractCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var builder = new StringBuilder("Name,Set,Qty,Foil,Price,Condition,Notes").append(System.lineSeparator());
+		final var builder = new StringBuilder("Name,Set,Qty,Foil,Price,Condition,Notes").append(System.lineSeparator());
 
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			builder.append(commated(mcs.getProduct().getName())).append(",");
 			builder.append(aliases.getReversedSetIdFor(this, mcs.getProduct().getEdition())).append(",");
 			builder.append(mcs.getQte()).append(",");
@@ -69,52 +69,58 @@ public class MTGStudioExport extends AbstractCardExport {
 
 	@Override
 	public MTGDeck importDeck(String content, String name) throws IOException {
-		var d = new MTGDeck();
+		final var d = new MTGDeck();
 
 		try {
-			var builder = XMLTools.createSecureXMLDocumentBuilder();
-			var xmlDocument = builder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
+			final var builder = XMLTools.createSecureXMLDocumentBuilder();
+			final var xmlDocument = builder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
 			var nodes = XMLTools.parseNodes(xmlDocument, "/mtgstudiodeck/deck/deckinfo/*");
 
 			for (var i = 0; i < nodes.getLength(); i++) {
-				var info = nodes.item(i);
+				final var info = nodes.item(i);
 
-				if (info.getNodeName().equalsIgnoreCase("title"))
-					d.setName(info.getTextContent());
+				if (info.getNodeName().equalsIgnoreCase("title")) {
+				    d.setName(info.getTextContent());
+				}
 
-				if (info.getNodeName().equalsIgnoreCase("description"))
-					d.setDescription(info.getTextContent());
+				if (info.getNodeName().equalsIgnoreCase("description")) {
+				    d.setDescription(info.getTextContent());
+				}
 
-				if (info.getNodeName().equalsIgnoreCase("created"))
-					d.setCreationDate(UITools.parseDate(info.getTextContent(), "yyyy-MM-dd"));
+				if (info.getNodeName().equalsIgnoreCase("created")) {
+				    d.setCreationDate(UITools.parseDate(info.getTextContent(), "yyyy-MM-dd"));
+				}
 
-				if (info.getNodeName().equalsIgnoreCase("modified"))
-					d.setDateUpdate(UITools.parseDate(info.getTextContent(), "yyyy-MM-dd"));
+				if (info.getNodeName().equalsIgnoreCase("modified")) {
+				    d.setDateUpdate(UITools.parseDate(info.getTextContent(), "yyyy-MM-dd"));
+				}
 			}
 
 			nodes = XMLTools.parseNodes(xmlDocument, "/mtgstudiodeck/deck/cards/*");
 			for (var i = 0; i < nodes.getLength(); i++) {
-				var c = nodes.item(i);
+				final var c = nodes.item(i);
 
-				var qtyMain = Integer.parseInt(c.getAttributes().getNamedItem("deck").getTextContent());
-				var qtySide = Integer.parseInt(c.getAttributes().getNamedItem("sb").getTextContent());
-				var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(
+				final var qtyMain = Integer.parseInt(c.getAttributes().getNamedItem("deck").getTextContent());
+				final var qtySide = Integer.parseInt(c.getAttributes().getNamedItem("sb").getTextContent());
+				final var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(
 						aliases.getReversedSetIdFor(this, c.getAttributes().getNamedItem("edition").getTextContent()));
-				var m = Pattern.compile(cardRegex).matcher(c.getTextContent());
+				final var m = Pattern.compile(cardRegex).matcher(c.getTextContent());
 				if (m.find()) {
-					var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cleanName(m.group(1)),
+					final var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cleanName(m.group(1)),
 							set, true, null);
 					if (!cards.isEmpty()) {
 
-						if (qtyMain > 0)
-							d.getMain().put(cards.get(0), qtyMain);
+						if (qtyMain > 0) {
+						    d.getMain().put(cards.get(0), qtyMain);
+						}
 
-						if (qtySide > 0)
-							d.getSideBoard().put(cards.get(0), qtySide);
+						if (qtySide > 0) {
+						    d.getSideBoard().put(cards.get(0), qtySide);
+						}
 					}
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -123,7 +129,7 @@ public class MTGStudioExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		var builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")
+		final var builder = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")
 				.append(System.lineSeparator());
 		builder.append("<mtgstudiodeck version=\"1.0\"><deck>").append(System.lineSeparator());
 
@@ -153,44 +159,46 @@ public class MTGStudioExport extends AbstractCardExport {
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
-		var list = new ArrayList<MTGCardStock>();
+		final var list = new ArrayList<MTGCardStock>();
 
 		try {
-			var builder = XMLTools.createSecureXMLDocumentBuilder();
-			var xmlDocument = builder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
-			String expression = "/CACHE/LINES/LINE";
-			var nodes = XMLTools.parseNodes(xmlDocument, expression);
+			final var builder = XMLTools.createSecureXMLDocumentBuilder();
+			final var xmlDocument = builder.parse(new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
+			final String expression = "/CACHE/LINES/LINE";
+			final var nodes = XMLTools.parseNodes(xmlDocument, expression);
 
 			for (int i = 1; i < nodes.getLength() - 1; i++) {
-				var cells = nodes.item(i).getChildNodes();
-				var qty = Integer.parseInt(cells.item(7).getTextContent());
-				var condition = cells.item(21).getTextContent();
-				var foil = cells.item(23).getTextContent().equalsIgnoreCase("true");
-				var comment = cells.item(25).getTextContent();
-				var cardName = cells.item(3).getTextContent().trim();
-				var cardSet = MTG.getEnabledPlugin(MTGCardsProvider.class)
+				final var cells = nodes.item(i).getChildNodes();
+				final var qty = Integer.parseInt(cells.item(7).getTextContent());
+				final var condition = cells.item(21).getTextContent();
+				final var foil = cells.item(23).getTextContent().equalsIgnoreCase("true");
+				final var comment = cells.item(25).getTextContent();
+				final var cardName = cells.item(3).getTextContent().trim();
+				final var cardSet = MTG.getEnabledPlugin(MTGCardsProvider.class)
 						.getSetById(aliases.getReversedSetIdFor(this, cells.item(5).getTextContent()));
-				var price = UITools.parseDouble(cells.item(13).getTextContent());
-				var m = Pattern.compile(cardRegex).matcher(cardName);
+				final var price = UITools.parseDouble(cells.item(13).getTextContent());
+				final var m = Pattern.compile(cardRegex).matcher(cardName);
 
 				if (m.find()) {
-					var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cleanName(m.group(1)),
+					final var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cleanName(m.group(1)),
 							cardSet, true, null);
 
 					if (!cards.isEmpty()) {
-						var mcs = MTGControler.getInstance().getDefaultStock();
+						final var mcs = MTGControler.getInstance().getDefaultStock();
 						mcs.setQte(qty);
 						mcs.setFoil(foil);
 						mcs.setComment(comment);
 						mcs.setPrice(price);
-						if (cells.item(29).getTextContent().equals("Proxy"))
-							mcs.setCondition(EnumCondition.PROXY);
-						else
-							mcs.setCondition(aliases.getReversedConditionFor(this, condition, EnumCondition.MINT));
+						if (cells.item(29).getTextContent().equals("Proxy")) {
+						    mcs.setCondition(EnumCondition.PROXY);
+						} else {
+						    mcs.setCondition(aliases.getReversedConditionFor(this, condition, EnumCondition.MINT));
+						}
 
 						var index = 0;
-						if (cards.size() > 1 && m.groupCount() > 1 && m.group(5) != null)
-							index = Integer.parseInt(m.group(5)) - 1;
+						if (cards.size() > 1 && m.groupCount() > 1 && m.group(5) != null) {
+						    index = Integer.parseInt(m.group(5)) - 1;
+						}
 
 						mcs.setProduct(cards.get(index));
 						notify(mcs.getProduct());
@@ -201,7 +209,7 @@ public class MTGStudioExport extends AbstractCardExport {
 
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 

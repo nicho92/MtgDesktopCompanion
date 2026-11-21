@@ -23,7 +23,7 @@ public class UnselectAllAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (DisplayableCard card : GamePanelGUI.getInstance().getPanelBattleField().getSelectedCards()) {
+		for (final DisplayableCard card : GamePanelGUI.getInstance().getPanelBattleField().getSelectedCards()) {
 			card.setSelected(!card.isSelected());
 			card.repaint();
 		}

@@ -14,7 +14,7 @@ import com.google.gson.JsonSerializer;
 public class ColorAdapter implements JsonSerializer<Color>, JsonDeserializer<Color> {
 	@Override
 	public JsonElement serialize(Color src, Type typeOfSrc, JsonSerializationContext context) {
-		var obj = new JsonObject();
+		final var obj = new JsonObject();
 		obj.addProperty("R", src.getRed());
 		obj.addProperty("G", src.getGreen());
 		obj.addProperty("B", src.getBlue());
@@ -25,7 +25,7 @@ public class ColorAdapter implements JsonSerializer<Color>, JsonDeserializer<Col
 	@Override
 	public Color deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
 			throws JsonParseException {
-		var obj = json.getAsJsonObject();
+		final var obj = json.getAsJsonObject();
 
 		return new Color(obj.get("R").getAsInt(), obj.get("G").getAsInt(), obj.get("B").getAsInt(),
 				obj.get("A").getAsInt());

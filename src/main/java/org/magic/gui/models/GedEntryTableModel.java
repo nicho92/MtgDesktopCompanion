@@ -14,14 +14,17 @@ public class GedEntryTableModel extends GenericTableModel<GedEntry<MTGSerializab
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		if (column == 0)
-			return items.get(row);
+		if (column == 0) {
+		    return items.get(row);
+		}
 
-		if (column == 3)
-			return items.get(row).isImage();
+		if (column == 3) {
+		    return items.get(row).isImage();
+		}
 
-		if (column == 4)
-			return items.get(row).getLength();
+		if (column == 4) {
+		    return items.get(row).getLength();
+		}
 
 		return super.getValueAt(row, column);
 	}

@@ -34,15 +34,16 @@ public class ServerLauncher {
 
 		try {
 			MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex(false);
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
-		var arg = args[0];
+		final var arg = args[0];
 
 		if (arg.indexOf(',') > -1) {
-			for (String s : arg.split(","))
-				preparing(s).start();
+			for (final String s : arg.split(",")) {
+			    preparing(s).start();
+			}
 		} else {
 			preparing(arg).start();
 		}
@@ -61,7 +62,7 @@ public class ServerLauncher {
 
 	private static MTGServer preparing(String servername) {
 
-		MTGServer serv = getPlugin(servername, MTGServer.class);
+		final MTGServer serv = getPlugin(servername, MTGServer.class);
 		if (!serv.isEnable()) {
 			MTGLogger.getLogger(ServerLauncher.class).error("{} is not enabled", servername);
 			System.exit(-1);

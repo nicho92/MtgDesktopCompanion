@@ -24,34 +24,35 @@ public class IAVirtualUser {
 	public static void stop() throws IOException {
 		client.logout();
 	}
-	
+
 	public static Player toPlayer(MTGIA plug)
 	{
-	    var p = new Player(plug.getName());
+	    final var p = new Player(plug.getName());
 			p.setAvatar(ImageTools.toImage(plug.getIcon()));
 			p.setColor(plug.getChatColor());
-			
+
 			return p;
 	}
-	
-	
+
+
 	public static void init(String address) throws IOException {
 
 		client = new ActiveMQNetworkClient();
-		var plug = MTG.getEnabledPlugin(MTGIA.class);
-		var ia = plug.toAssistant();
+		final var plug = MTG.getEnabledPlugin(MTGIA.class);
+		final var ia = plug.toAssistant();
 
-		var p =toPlayer(plug);
+		final var p =toPlayer(plug);
 
 		client.join(p, address, ActiveMQServer.DEFAULT_TOPIC);
 
 		while (client.isActive()) {
-			var msg = client.consume();
+			final var msg = client.consume();
 
 			// response only to my question
-			if (msg instanceof TalkMessage t && !t.getMessage().isEmpty()
-					&& t.getAuthor().getName().equals(MTGControler.getInstance().getProfilPlayer().getName()))
-				client.sendMessage(new TalkMessage(ia.ask(t.getMessage())));
+			if (msg instanceof final TalkMessage t && !t.getMessage().isEmpty()
+					&& t.getAuthor().getName().equals(MTGControler.getInstance().getProfilPlayer().getName())) {
+			    client.sendMessage(new TalkMessage(ia.ask(t.getMessage())));
+			}
 
 		}
 

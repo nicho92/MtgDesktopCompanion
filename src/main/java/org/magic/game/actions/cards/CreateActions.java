@@ -29,7 +29,7 @@ public class CreateActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MTGCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
+			final MTGCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
 
 			if (tok == null) {
 				MTGControler.getInstance().notify(new Exception("Can't generate token for " + card.getMagicCard()));
@@ -37,13 +37,13 @@ public class CreateActions extends AbstractCardAction {
 			}
 
 			logger.info("Generating token for {} = {}", card.getMagicCard(), tok);
-			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
+			final var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);
 			GamePanelGUI.getInstance().getPanelBattleField().revalidate();
 			GamePanelGUI.getInstance().getPanelBattleField().repaint();
 			GamePanelGUI.getInstance().getPlayer().playToken(tok);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error("error creating action", ex);
 		}
 

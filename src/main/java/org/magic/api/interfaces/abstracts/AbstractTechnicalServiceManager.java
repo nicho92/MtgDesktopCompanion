@@ -33,21 +33,22 @@ public abstract class AbstractTechnicalServiceManager {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected JsonExport serializer;
 
-	private List<JsonQueryInfo> jsonInfo;
-	private List<DAOInfo> daoInfos;
-	private List<NetworkInfo> networkInfos;
-	private List<TaskInfo> tasksInfos;
-	private List<MessageInfo> messageInfos;
-	private List<FileAccessInfo> fileInfos;
-	private List<TalkMessage> jsonMessages;
+	private final List<JsonQueryInfo> jsonInfo;
+	private final List<DAOInfo> daoInfos;
+	private final List<NetworkInfo> networkInfos;
+	private final List<TaskInfo> tasksInfos;
+	private final List<MessageInfo> messageInfos;
+	private final List<FileAccessInfo> fileInfos;
+	private final List<TalkMessage> jsonMessages;
 
 	private static final int SCHEDULE_TIMER_MINS = 2;
 
 	private static AbstractTechnicalServiceManager inst;
 
 	public static AbstractTechnicalServiceManager inst() {
-		if (inst == null)
-			inst = new FileStorageTechnicalServiceManager();
+		if (inst == null) {
+		    inst = new FileStorageTechnicalServiceManager();
+		}
 
 		return inst;
 	}
@@ -58,14 +59,15 @@ public abstract class AbstractTechnicalServiceManager {
 
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) {
 
-		if (items.isEmpty())
-			return;
+		if (items.isEmpty()) {
+		    return;
+		}
 
 		try {
 			store(classe, items);
 			items.forEach(a -> a.setStored(true));
 			logger.debug("Persist {} new  items for {}", items.size(), classe.getSimpleName());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 	}
@@ -138,27 +140,34 @@ public abstract class AbstractTechnicalServiceManager {
 		if (isEnable()) {
 			try {
 
-				if (persisteEnableFor(JsonQueryInfo.class))
-					storeItems(JsonQueryInfo.class, getJsonInfo().stream().filter(it -> !it.isStored()).toList());
+				if (persisteEnableFor(JsonQueryInfo.class)) {
+				    storeItems(JsonQueryInfo.class, getJsonInfo().stream().filter(it -> !it.isStored()).toList());
+				}
 
-				if (persisteEnableFor(DAOInfo.class))
-					storeItems(DAOInfo.class, getDaoInfos().stream().filter(it -> !it.isStored()).toList());
+				if (persisteEnableFor(DAOInfo.class)) {
+				    storeItems(DAOInfo.class, getDaoInfos().stream().filter(it -> !it.isStored()).toList());
+				}
 
-				if (persisteEnableFor(NetworkInfo.class))
-					storeItems(NetworkInfo.class, getNetworkInfos().stream().filter(it -> !it.isStored()).toList());
+				if (persisteEnableFor(NetworkInfo.class)) {
+				    storeItems(NetworkInfo.class, getNetworkInfos().stream().filter(it -> !it.isStored()).toList());
+				}
 
-				if (persisteEnableFor(TaskInfo.class))
-					storeItems(TaskInfo.class, getTasksInfos().stream().filter(it -> !it.isStored()).toList());
+				if (persisteEnableFor(TaskInfo.class)) {
+				    storeItems(TaskInfo.class, getTasksInfos().stream().filter(it -> !it.isStored()).toList());
+				}
 
-				if (persisteEnableFor(MessageInfo.class))
-					storeItems(MessageInfo.class, getMessagesInfo().stream().filter(it -> !it.isStored()).toList());
+				if (persisteEnableFor(MessageInfo.class)) {
+				    storeItems(MessageInfo.class, getMessagesInfo().stream().filter(it -> !it.isStored()).toList());
+				}
 
-				if (persisteEnableFor(FileAccessInfo.class))
-					storeItems(FileAccessInfo.class, getFileInfos().stream().filter(it -> !it.isStored()).toList());
+				if (persisteEnableFor(FileAccessInfo.class)) {
+				    storeItems(FileAccessInfo.class, getFileInfos().stream().filter(it -> !it.isStored()).toList());
+				}
 
-				if (persisteEnableFor(TalkMessage.class))
-					storeItems(TalkMessage.class, getJsonMessages().stream().filter(it -> !it.isStored()).toList());
-			} catch (Exception e) {
+				if (persisteEnableFor(TalkMessage.class)) {
+				    storeItems(TalkMessage.class, getJsonMessages().stream().filter(it -> !it.isStored()).toList());
+				}
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 		}
@@ -175,20 +184,20 @@ public abstract class AbstractTechnicalServiceManager {
 
 		item.setStored(false);
 
-		if (item instanceof JsonQueryInfo info) {
+		if (item instanceof final JsonQueryInfo info) {
 			info.setLocation(IPTranslator.getInstance().getLocationFor(info.getIp()));
 			getJsonInfo().add(info);
-		} else if (item instanceof MessageInfo info) {
+		} else if (item instanceof final MessageInfo info) {
 			getMessagesInfo().add(info);
-		} else if (item instanceof FileAccessInfo info) {
+		} else if (item instanceof final FileAccessInfo info) {
 			getFileInfos().add(info);
-		} else if (item instanceof NetworkInfo info) {
+		} else if (item instanceof final NetworkInfo info) {
 			getNetworkInfos().add(info);
-		} else if (item instanceof TaskInfo info) {
+		} else if (item instanceof final TaskInfo info) {
 			getTasksInfos().add(info);
-		} else if (item instanceof DAOInfo info) {
+		} else if (item instanceof final DAOInfo info) {
 			getDaoInfos().add(info);
-		} else if (item instanceof TalkMessage info) {
+		} else if (item instanceof final TalkMessage info) {
 			info.setLocation(IPTranslator.getInstance().getLocationFor(info.getIp()));
 			getJsonMessages().add(info);
 		}

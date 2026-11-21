@@ -9,7 +9,7 @@ import org.utils.patterns.observer.Observable;
 
 public class SpellStack extends Observable {
 
-	private Deque<AbstractSpell> stack;
+	private final Deque<AbstractSpell> stack;
 
 	public SpellStack() {
 		stack = new ArrayDeque<>();
@@ -35,8 +35,8 @@ public class SpellStack extends Observable {
 
 	@Override
 	public String toString() {
-		var b = new StringBuilder();
-		Iterator<AbstractSpell> it = stack.iterator();
+		final var b = new StringBuilder();
+		final Iterator<AbstractSpell> it = stack.iterator();
 		while (it.hasNext()) {
 			b.append(it.next()).append("\n");
 		}
@@ -45,7 +45,7 @@ public class SpellStack extends Observable {
 
 	public void unstack() {
 		while (!stack.isEmpty()) {
-			AbstractSpell sp = pop();
+			final AbstractSpell sp = pop();
 			sp.resolve();
 			setChanged();
 			notifyObservers(null);

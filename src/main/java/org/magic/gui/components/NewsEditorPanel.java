@@ -17,21 +17,21 @@ public class NewsEditorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private MTGNews magicNews = new MTGNews();
-	private JTextField categorieJTextField;
-	private JTextField nameJTextField;
-	private JTextField urlJTextField;
-	private JComboBox<MTGNewsProvider> cboType;
+	private final JTextField categorieJTextField;
+	private final JTextField nameJTextField;
+	private final JTextField urlJTextField;
+	private final JComboBox<MTGNewsProvider> cboType;
 
 	public NewsEditorPanel() {
-		var gridBagLayout = new GridBagLayout();
+		final var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0E-4};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0E-4};
 		setLayout(gridBagLayout);
 
-		var lblType = new JLabel("Type:");
-		var gbclblType = new GridBagConstraints();
+		final var lblType = new JLabel("Type:");
+		final var gbclblType = new GridBagConstraints();
 		gbclblType.anchor = GridBagConstraints.EAST;
 		gbclblType.insets = new Insets(0, 0, 5, 5);
 		gbclblType.gridx = 0;
@@ -40,51 +40,51 @@ public class NewsEditorPanel extends JPanel {
 
 		cboType = UITools.createComboboxPlugins(MTGNewsProvider.class, false);
 
-		var gbccboType = new GridBagConstraints();
+		final var gbccboType = new GridBagConstraints();
 		gbccboType.insets = new Insets(0, 0, 5, 0);
 		gbccboType.fill = GridBagConstraints.HORIZONTAL;
 		gbccboType.gridx = 1;
 		gbccboType.gridy = 0;
 		add(cboType, gbccboType);
 
-		var categorieLabel = new JLabel("Category:");
-		var labelGbc0 = new GridBagConstraints();
+		final var categorieLabel = new JLabel("Category:");
+		final var labelGbc0 = new GridBagConstraints();
 		labelGbc0.insets = new Insets(5, 5, 5, 5);
 		labelGbc0.gridx = 0;
 		labelGbc0.gridy = 1;
 		add(categorieLabel, labelGbc0);
 
 		categorieJTextField = new JTextField();
-		var componentGbc0 = new GridBagConstraints();
+		final var componentGbc0 = new GridBagConstraints();
 		componentGbc0.insets = new Insets(5, 0, 5, 0);
 		componentGbc0.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc0.gridx = 1;
 		componentGbc0.gridy = 1;
 		add(categorieJTextField, componentGbc0);
 
-		var labelGbc2 = new GridBagConstraints();
+		final var labelGbc2 = new GridBagConstraints();
 		labelGbc2.insets = new Insets(5, 5, 5, 5);
 		labelGbc2.gridx = 0;
 		labelGbc2.gridy = 2;
 		add(new JLangLabel("NAME", true), labelGbc2);
 
 		nameJTextField = new JTextField();
-		var componentGbc2 = new GridBagConstraints();
+		final var componentGbc2 = new GridBagConstraints();
 		componentGbc2.insets = new Insets(5, 0, 5, 0);
 		componentGbc2.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc2.gridx = 1;
 		componentGbc2.gridy = 2;
 		add(nameJTextField, componentGbc2);
 
-		var urlLabel = new JLabel("Url:");
-		var labelGbc3 = new GridBagConstraints();
+		final var urlLabel = new JLabel("Url:");
+		final var labelGbc3 = new GridBagConstraints();
 		labelGbc3.insets = new Insets(5, 5, 0, 5);
 		labelGbc3.gridx = 0;
 		labelGbc3.gridy = 3;
 		add(urlLabel, labelGbc3);
 
 		urlJTextField = new JTextField();
-		var componentGbc3 = new GridBagConstraints();
+		final var componentGbc3 = new GridBagConstraints();
 		componentGbc3.insets = new Insets(5, 0, 0, 0);
 		componentGbc3.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc3.gridx = 1;

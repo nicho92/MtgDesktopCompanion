@@ -26,7 +26,7 @@ public class HikariPool extends AbstractPoolProvider {
 	public void close() throws SQLException {
 		try {
 			datasource.close();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new SQLException(e);
 		}
 
@@ -34,7 +34,7 @@ public class HikariPool extends AbstractPoolProvider {
 
 	@Override
 	public void init(String url, String user, String pass) {
-		var c = new HikariConfig(props);
+		final var c = new HikariConfig(props);
 		c.setJdbcUrl(url);
 		c.setUsername(user);
 		c.setPassword(pass);
@@ -57,7 +57,7 @@ public class HikariPool extends AbstractPoolProvider {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var map = new HashMap<String, MTGProperty>();
+		final var map = new HashMap<String, MTGProperty>();
 
 		map.put("autoCommit", MTGProperty.newBooleanProperty(TRUE,
 				"This property controls the default auto-commit behavior of connections returned from the pool. It is a boolean value."));

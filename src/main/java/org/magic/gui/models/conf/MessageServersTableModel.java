@@ -16,11 +16,13 @@ public class MessageServersTableModel extends GenericTableModel<MessageInfo> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if (columnIndex == 0 || columnIndex == 1)
-			return Instant.class;
+		if (columnIndex == 0 || columnIndex == 1) {
+		    return Instant.class;
+		}
 
-		if (columnIndex == 2)
-			return Long.class;
+		if (columnIndex == 2) {
+		    return Long.class;
+		}
 
 		return super.getColumnClass(columnIndex);
 	}

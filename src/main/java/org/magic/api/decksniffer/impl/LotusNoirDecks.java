@@ -30,37 +30,40 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		MTGDeck deck = info.toBaseDeck();
+		final MTGDeck deck = info.toBaseDeck();
 
 		logger.debug("get deck at {}", info.getUrl());
 
-		var d = URLTools.extractAsHtml(info.getUrl().toString());
-		var e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
+		final var d = URLTools.extractAsHtml(info.getUrl().toString());
+		final var e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
 		var sideboard = false;
-		for (Element cont : e) {
-			var cont2 = cont.select("span.card_title_us");
+		for (final Element cont : e) {
+			final var cont2 = cont.select("span.card_title_us");
 
-			if (cont.text().startsWith("R\u00E9serve"))
-				sideboard = true;
+			if (cont.text().startsWith("R\u00E9serve")) {
+			    sideboard = true;
+			}
 
 			if (!cont2.text().isEmpty()) {
 
-				Integer qte = parseString(cont2.text()).getValue();
+				final Integer qte = parseString(cont2.text()).getValue();
 				String cardName = parseString(cont2.text()).getKey();
 
-				if (cardName.contains("//")) // for transformatble cards
+				if (cardName.contains("//")) { // for transformatble cards
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
+				}
 
 				try {
-					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
+					final MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
 
 					notify(mc);
 
-					if (!sideboard)
-						deck.getMain().put(mc, qte);
-					else
-						deck.getSideBoard().put(mc, qte);
-				} catch (Exception ex) {
+					if (!sideboard) {
+					    deck.getMain().put(mc, qte);
+					} else {
+					    deck.getSideBoard().put(mc, qte);
+					}
+				} catch (final Exception ex) {
 					logger.error("Error loading card {}", cont, ex);
 				}
 
@@ -72,29 +75,29 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
-		var baseUrl = "http://www.lotusnoir.info/magic/decks/";
+		final var baseUrl = "http://www.lotusnoir.info/magic/decks/";
 
-		String decksUrl = baseUrl + "?dpage=" + getString(MAX_PAGE) + "&action=" + filter;
+		final String decksUrl = baseUrl + "?dpage=" + getString(MAX_PAGE) + "&action=" + filter;
 
 		logger.debug("snif decks : {} ", decksUrl);
 
-		int nbPage = getInt(MAX_PAGE);
-		List<RetrievableDeck> list = new ArrayList<>();
+		final int nbPage = getInt(MAX_PAGE);
+		final List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 1; i <= nbPage; i++) {
-			var d = URLTools.extractAsHtml(baseUrl + "?dpage=" + i + "&action=" + filter);
-			var e = d.select("div.thumb_page");
+			final var d = URLTools.extractAsHtml(baseUrl + "?dpage=" + i + "&action=" + filter);
+			final var e = d.select("div.thumb_page");
 
-			for (Element cont : e) {
-				var deck = new RetrievableDeck();
-				var info = cont.select("a").get(0);
-				var name = info.attr("title").replace("Lien vers ", "").trim();
-				var url = info.attr("href");
-				var auteur = cont.select("small").select("a").text();
-				var value = URLTools.extractAsHtml(url).select("span.card_title_us");
-				var deckColor = new StringBuilder();
-				for (Element element : value) {
-					var land = element.text().split(" ")[1];
+			for (final Element cont : e) {
+				final var deck = new RetrievableDeck();
+				final var info = cont.select("a").get(0);
+				final var name = info.attr("title").replace("Lien vers ", "").trim();
+				final var url = info.attr("href");
+				final var auteur = cont.select("small").select("a").text();
+				final var value = URLTools.extractAsHtml(url).select("span.card_title_us");
+				final var deckColor = new StringBuilder();
+				for (final Element element : value) {
+					final var land = element.text().split(" ")[1];
 					switch (land) {
 						case "Plain", "Plains" :
 							deckColor.append("{W}");
@@ -118,7 +121,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				deck.setName(name);
 				try {
 					deck.setUrl(new URI(url));
-				} catch (URISyntaxException _) {
+				} catch (final URISyntaxException _) {
 					deck.setUrl(null);
 				}
 				deck.setAuthor(auteur);
@@ -142,7 +145,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put(MAX_PAGE, MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
 		return m;
 	}

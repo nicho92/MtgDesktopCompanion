@@ -48,11 +48,11 @@ public class ImageDesc {
 			.defaultScore(detDesc.getDescriptionType());
 	private static AssociateDescription<TupleDesc_F64> associate = FactoryAssociation.greedy(new ConfigAssociateGreedy(true), scorer);
 
-	private AverageHash hash;
+	private final AverageHash hash;
 	private AverageHash flipped;
 	private DogArray<TupleDesc_F64> desc = UtilFeature.createArray(detDesc, 0);
 	private List<Point2D_F64> points = new ArrayList<>(0);
-	private int size;
+	private final int size;
 
 	public ImageDesc(BufferedImage in, BufferedImage flipin) {
 		if (!AverageHash.isInitiated()) {
@@ -62,14 +62,14 @@ public class ImageDesc {
 		if (flipin != null) {
 			flipped = AverageHash.avgHash(flipin, 2, 2);
 		}
-		var histogram = new int[256];
-		var transform = new int[256];
-		var img = ConvertBufferedImage.convertFromSingle(in, null, GrayU8.class);
-		var norm = img.createSameShape();
+		final var histogram = new int[256];
+		final var transform = new int[256];
+		final var img = ConvertBufferedImage.convertFromSingle(in, null, GrayU8.class);
+		final var norm = img.createSameShape();
 		ImageStatistics.histogram(img, 0, histogram);
 		EnhanceImageOps.equalize(histogram, transform);
 		EnhanceImageOps.applyTransform(img, transform, norm);
-		var normf = new GrayF32(img.width, img.height);
+		final var normf = new GrayF32(img.width, img.height);
 		ConvertImage.convert(norm, normf);
 		desc.reset();
 		size = describeImage(normf, desc, points);
@@ -89,11 +89,11 @@ public class ImageDesc {
 	public void writeOut(DataOutputStream out) throws IOException {
 		out.writeInt(size);
 		for (var i = 0; i < size; i++) {
-			var f = desc.get(i);
-			for (double val : f.data) {
+			final var f = desc.get(i);
+			for (final double val : f.data) {
 				out.writeDouble(val);
 			}
-			Point2D_F64 pt = points.get(i);
+			final Point2D_F64 pt = points.get(i);
 			out.writeDouble(pt.x);
 			out.writeDouble(pt.y);
 		}
@@ -101,25 +101,25 @@ public class ImageDesc {
 	}
 
 	public static ImageDesc readIn(ByteBuffer buf) {
-		var size = buf.getInt();
-		var points = new ArrayList<Point2D_F64>(size);
-		var descs = UtilFeature.createArray(detDesc, size);
-		
+		final var size = buf.getInt();
+		final var points = new ArrayList<Point2D_F64>(size);
+		final var descs = UtilFeature.createArray(detDesc, size);
+
 		for (var i = 0; i < size; i++) {
-			var f = detDesc.createDescription();
+			final var f = detDesc.createDescription();
 			for (var j = 0; j < f.size(); j++) {
 				f.data[j] = buf.getDouble();
 			}
 			descs.grow().setTo(f);
 			points.add(new Point2D_F64(buf.getDouble(), buf.getDouble()));
 		}
-		var hash = AverageHash.readIn(buf);
+		final var hash = AverageHash.readIn(buf);
 		return new ImageDesc(descs, points, hash);
 	}
 
 	private static int describeImage(GrayF32 input, DogArray<TupleDesc_F64> descs, List<Point2D_F64> points) {
 		detDesc.detect(input);
-		var size = detDesc.getNumberOfFeatures();
+		final var size = detDesc.getNumberOfFeatures();
 		for (var i = 0; i < size; i++) {
 			descs.grow().setTo(detDesc.getDescription(i));
 			points.add(detDesc.getLocation(i));
@@ -132,11 +132,11 @@ public class ImageDesc {
 		associate.setDestination(i2.desc);
 		associate.associate();
 
-		double max = Math.max(desc.size(), i2.desc.size());
-		var matches = associate.getMatches();
+		final double max = Math.max(desc.size(), i2.desc.size());
+		final var matches = associate.getMatches();
 		double score = 0;
 		for (var i = 0; i < matches.size(); i++) {
-			AssociatedIndex match = matches.get(i);
+			final AssociatedIndex match = matches.get(i);
 			score += 1 - match.fitScore;
 		}
 		score = score / max;

@@ -23,16 +23,17 @@ public class ClaudeAI extends AbstractIA {
 
 	@Override
 	public ChatModel getEngine(ResponseFormat format) {
-		var b = AnthropicChatModel.builder().apiKey(getAuthenticator().get("API_KEY"))
+		final var b = AnthropicChatModel.builder().apiKey(getAuthenticator().get("API_KEY"))
 				.modelName(AnthropicChatModelName.valueOf(getString("MODEL"))).logRequests(getBoolean("LOG"))
 				.logResponses(getBoolean("LOG")).temperature(getDouble("TEMPERATURE"));
 
-		if (format != null)
-			b.responseFormat(format);
+		if (format != null) {
+		    b.responseFormat(format);
+		}
 
-		
-		
-		
+
+
+
 		return b.build();
 	}
 
@@ -49,7 +50,7 @@ public class ClaudeAI extends AbstractIA {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var map = super.getDefaultAttributes();
+		final var map = super.getDefaultAttributes();
 		map.put("MODEL", new MTGProperty(AnthropicChatModelName.CLAUDE_SONNET_4_6.name(), "choose langage model",
 				Arrays.stream(AnthropicChatModelName.values()).map(Enum::name).toList().toArray(new String[0])));
 		return map;

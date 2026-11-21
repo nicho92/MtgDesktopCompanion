@@ -14,12 +14,12 @@ import org.magic.services.MTGControler;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
-	private String[] columnsNames = {capitalize("PROVIDERS"), capitalize("VALUE"), "Version", capitalize("ENABLED")};
+	private final String[] columnsNames = {capitalize("PROVIDERS"), capitalize("VALUE"), "Version", capitalize("ENABLED")};
 
 	private static final int ENABLED_INDEX = 3;
 
 	private MTGPlugin selectedProvider = null;
-	private List<T> listElements;
+	private final List<T> listElements;
 	private boolean multipleSelection = false;
 
 	public PluginTreeTableModel(boolean multipleSelection, List<T> listPlugins) {
@@ -31,8 +31,9 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 
 	protected int getPosition(Entry<String, Object> k, Properties p) {
 		for (var i = 0; i < p.keySet().size(); i++) {
-			if (p.keySet().toArray()[i].toString().equals(k.getKey()))
-				return i;
+			if (p.keySet().toArray()[i].toString().equals(k.getKey())) {
+			    return i;
+			}
 		}
 		return -1;
 	}
@@ -40,7 +41,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	@Override
 	public Object getChild(Object parent, int index) {
 		if (parent instanceof MTGPlugin) {
-			var dept = (T) parent;
+			final var dept = (T) parent;
 			return dept.getProperties().entrySet().toArray()[index];
 		}
 		return new ArrayList<>(listElements).get(index);
@@ -49,7 +50,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	@Override
 	public int getChildCount(Object parent) {
 		if (parent instanceof MTGPlugin) {
-			var dept = (T) parent;
+			final var dept = (T) parent;
 			return dept.getProperties().size();
 		}
 		return listElements.size();
@@ -58,7 +59,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	@Override
 	public void setValueAt(Object value, Object node, int column) {
 
-		var strValue = String.valueOf(value);
+		final var strValue = String.valueOf(value);
 
 		if (node instanceof MTGPlugin) {
 			selectedProvider = (T) node;
@@ -67,11 +68,12 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 				selectedProvider.enable(Boolean.parseBoolean(strValue));
 				MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 
-				if (!multipleSelection)
-					listElements.stream().filter(p -> p != selectedProvider).forEach(p -> {
-						p.enable(false);
-						MTGControler.getInstance().setProperty(p, p.isEnable());
-					});
+				if (!multipleSelection) {
+				    listElements.stream().filter(p -> p != selectedProvider).forEach(p -> {
+				    	p.enable(false);
+				    	MTGControler.getInstance().setProperty(p, p.isEnable());
+				    });
+				}
 
 				if (listElements.stream().filter(MTGPlugin::isEnable).count() == 0) {
 					selectedProvider.enable(true);
@@ -80,8 +82,8 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 
 			}
 		}
-		if (node instanceof Entry e && (column == 1)) {
-			String k = (String) e.getKey();
+		if (node instanceof final Entry e && (column == 1)) {
+			final String k = (String) e.getKey();
 			selectedProvider.setProperty(k, strValue);
 			e.setValue(strValue);
 		}
@@ -89,7 +91,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 
 	@Override
 	public Object getValueAt(Object node, int column) {
-		if (node instanceof MTGPlugin prov) {
+		if (node instanceof final MTGPlugin prov) {
 
 			switch (column) {
 				case 0 :
@@ -104,7 +106,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 					return "";
 			}
 		} else if (node instanceof Entry) {
-			Entry<String, String> emp = (Entry<String, String>) node;
+			final Entry<String, String> emp = (Entry<String, String>) node;
 			switch (column) {
 				case 0 :
 					return emp.getKey();
@@ -119,8 +121,8 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		MTGPlugin dept = (MTGPlugin) parent;
-		Entry k = (Entry) child;
+		final MTGPlugin dept = (MTGPlugin) parent;
+		final Entry k = (Entry) child;
 		return getPosition(k, dept.getProperties());
 	}
 
@@ -141,8 +143,9 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 
 	@Override
 	public Class<?> getColumnClass(int column) {
-		if (column == ENABLED_INDEX)
-			return Boolean.class;
+		if (column == ENABLED_INDEX) {
+		    return Boolean.class;
+		}
 
 		return super.getColumnClass(column);
 	}

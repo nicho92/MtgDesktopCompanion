@@ -38,14 +38,14 @@ public class DrawActions extends AbstractAction {
 					.setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getHand().size()));
 			GamePanelGUI.getInstance().getLblLibraryCount()
 					.setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getLibrary().size()));
-			var c = new DisplayableCard(
+			final var c = new DisplayableCard(
 					GamePanelGUI.getInstance().getPlayer().getHand().getCards()
 							.get(GamePanelGUI.getInstance().getPlayer().getHand().size() - 1),
 					MTGControler.getInstance().getCardsGameDimension(), true);
 			c.enableDrag(true);
 			GamePanelGUI.getInstance().getHandPanel().addComponent(c);
 
-		} catch (IndexOutOfBoundsException _) {
+		} catch (final IndexOutOfBoundsException _) {
 			MTG.notifyError("Not enougth cards in library");
 		}
 	}

@@ -116,7 +116,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JLabel lblCount;
 
 	private JComboBox<String> cboSelections;
-	private String[] selections = new String[]{"", MTGControler.getInstance().getLangService().get("NEW"),
+	private final String[] selections = new String[]{"", MTGControler.getInstance().getLangService().get("NEW"),
 			MTGControler.getInstance().getLangService().get("UPDATED"),
 			MTGControler.getInstance().getLangService().get("ALL")};
 	private File fileImport;
@@ -138,8 +138,8 @@ public class StockPanelGUI extends MTGUIComponent {
 		initGUI();
 
 		btnSave.addActionListener(_ -> {
-			List<MTGCardStock> updates = model.getItems().stream().filter(MTGCardStock::isUpdated).toList();
-			var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading,
+			final List<MTGCardStock> updates = model.getItems().stream().filter(MTGCardStock::isUpdated).toList();
+			final var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading,
 					getEnabledPlugin(MTGDao.class), updates.size()) {
 				@Override
 				protected void done() {
@@ -149,11 +149,11 @@ public class StockPanelGUI extends MTGUIComponent {
 
 				@Override
 				protected Void doInBackground() {
-					for (MTGCardStock ms : updates) {
+					for (final MTGCardStock ms : updates) {
 						try {
 							plug.saveOrUpdateCardStock(ms);
 							ms.setUpdated(false);
-						} catch (Exception e1) {
+						} catch (final Exception e1) {
 							logger.error(e1);
 						}
 					}
@@ -167,9 +167,9 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!multiselection && !event.getValueIsAdjusting()) {
-				int viewRow = table.getSelectedRow();
+				final int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
-					MTGCardStock selectedStock = UITools.getTableSelection(table, 0);
+					final MTGCardStock selectedStock = UITools.getTableSelection(table, 0);
 					btnDelete.setEnabled(true);
 					btnDuplicate.setEnabled(true);
 					updatePanels(selectedStock);
@@ -184,10 +184,11 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnMerge.addActionListener(_ -> {
 
-			List<MTGCardStock> lines = UITools.getTableSelections(table, 0);
+			final List<MTGCardStock> lines = UITools.getTableSelections(table, 0);
 
-			if (lines.isEmpty())
-				return;
+			if (lines.isEmpty()) {
+			    return;
+			}
 
 			if (lines.stream().map(MTGCardStock::hashId).distinct().count() > 1) {
 				MTGControler.getInstance()
@@ -195,12 +196,12 @@ public class StockPanelGUI extends MTGUIComponent {
 				return;
 			}
 
-			var firstOne = lines.get(0);
+			final var firstOne = lines.get(0);
 			firstOne.setQte(lines.stream().mapToInt(MTGCardStock::getQte).sum());
 
 			lines.remove(0);
 
-			var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading,
+			final var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading,
 					getEnabledPlugin(MTGDao.class), lines.size()) {
 
 				@Override
@@ -221,15 +222,15 @@ public class StockPanelGUI extends MTGUIComponent {
 		});
 
 		btnDelete.addActionListener(_ -> {
-			int res = JOptionPane.showConfirmDialog(null,
+			final int res = JOptionPane.showConfirmDialog(null,
 					capitalize("CONFIRM_DELETE", table.getSelectedRows().length + " item(s)"),
 					capitalize("DELETE") + " ?", JOptionPane.YES_NO_OPTION);
 
 			if (res == JOptionPane.YES_OPTION) {
 
-				List<MTGCardStock> stocks = UITools.getTableSelections(table, 0);
+				final List<MTGCardStock> stocks = UITools.getTableSelections(table, 0);
 				model.removeItem(stocks);
-				var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading,
+				final var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading,
 						getEnabledPlugin(MTGDao.class), stocks.size()) {
 					@Override
 					protected Void doInBackground() {
@@ -238,7 +239,7 @@ public class StockPanelGUI extends MTGUIComponent {
 							try {
 								plug.deleteStock(stocks);
 
-							} catch (Exception e) {
+							} catch (final Exception e) {
 								logger.error(e);
 							}
 						}
@@ -265,10 +266,11 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnReload.addActionListener(_ -> {
 
 			if (model.getItems().stream().anyMatch(mcs -> mcs.isUpdated())) {
-				int res = JOptionPane.showConfirmDialog(null, capitalize("CANCEL_CHANGES"), capitalize("CONFIRM_UNDO"),
+				final int res = JOptionPane.showConfirmDialog(null, capitalize("CANCEL_CHANGES"), capitalize("CONFIRM_UNDO"),
 						JOptionPane.YES_NO_OPTION);
-				if (res == JOptionPane.YES_OPTION)
-					ThreadManager.getInstance().runInEdt(newLoadWorker(), "reload stock");
+				if (res == JOptionPane.YES_OPTION) {
+				    ThreadManager.getInstance().runInEdt(newLoadWorker(), "reload stock");
+				}
 			} else {
 				ThreadManager.getInstance().runInEdt(newLoadWorker(), "reload stock");
 			}
@@ -277,14 +279,14 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnshowMassPanel.addActionListener(_ -> rightPanel.setVisible(!rightPanel.isVisible()));
 
 		btnImport.addActionListener(ae -> {
-			var menu = new JPopupMenu();
+			final var menu = new JPopupMenu();
 
-			var mnuImportSearch = new JMenuItem(
+			final var mnuImportSearch = new JMenuItem(
 					capitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
 			mnuImportSearch.addActionListener(_ -> {
-				var cdSearch = new CardImporterDialog();
+				final var cdSearch = new CardImporterDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.hasSelected()) {
 					cdSearch.getSelectedItems().forEach(this::addCard);
@@ -295,11 +297,11 @@ public class StockPanelGUI extends MTGUIComponent {
 			for (final MTGCardsExport exp : listEnabledPlugins(MTGCardsExport.class)) {
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
-					var it = new JMenuItem();
+					final var it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
 					it.addActionListener(_ -> {
-						var jf = new JFileChooser(".");
+						final var jf = new JFileChooser(".");
 						jf.setFileHidingEnabled(false);
 						jf.setFileFilter(new FileFilter() {
 
@@ -310,8 +312,9 @@ public class StockPanelGUI extends MTGUIComponent {
 
 							@Override
 							public boolean accept(File f) {
-								if (f.isDirectory())
-									return true;
+								if (f.isDirectory()) {
+								    return true;
+								}
 								return f.getName().endsWith(exp.getStockFileExtension());
 							}
 						});
@@ -328,7 +331,7 @@ public class StockPanelGUI extends MTGUIComponent {
 							try {
 								res = -1;
 								exp.importStockFromFile(null).forEach(this::addStock);
-							} catch (IOException e1) {
+							} catch (final IOException e1) {
 								logger.error(e1);
 							}
 						}
@@ -336,10 +339,11 @@ public class StockPanelGUI extends MTGUIComponent {
 						if (res == JFileChooser.APPROVE_OPTION) {
 
 							int total = -1;
-							if (fileImport != null)
-								total = FileTools.linesCount(fileImport);
+							if (fileImport != null) {
+							    total = FileTools.linesCount(fileImport);
+							}
 
-							AbstractObservableWorker<List<MTGCardStock>, MTGCard, MTGCardsExport> sw = new AbstractObservableWorker<>(
+							final AbstractObservableWorker<List<MTGCardStock>, MTGCard, MTGCardsExport> sw = new AbstractObservableWorker<>(
 									lblLoading, exp, total) {
 								@Override
 								protected List<MTGCardStock> doInBackground() throws Exception {
@@ -359,7 +363,7 @@ public class StockPanelGUI extends MTGUIComponent {
 								protected void done() {
 									super.done();
 									if (getResult() != null) {
-										for (MTGCardStock mc : getResult()) {
+										for (final MTGCardStock mc : getResult()) {
 											addStock(mc);
 										}
 										model.fireTableDataChanged();
@@ -375,8 +379,8 @@ public class StockPanelGUI extends MTGUIComponent {
 				}
 			}
 
-			var b = (Component) ae.getSource();
-			var p = b.getLocationOnScreen();
+			final var b = (Component) ae.getSource();
+			final var p = b.getLocationOnScreen();
 			menu.show(b, 0, 0);
 			menu.setLocation(p.x, p.y + b.getHeight());
 		});
@@ -386,33 +390,35 @@ public class StockPanelGUI extends MTGUIComponent {
 			@Override
 			public List<MTGCardStock> call() throws Exception {
 
-				List<MTGCardStock> export = UITools.getTableSelections(table, 0);
+				final List<MTGCardStock> export = UITools.getTableSelections(table, 0);
 
-				if (export.isEmpty())
-					return model.getItems();
-				else
-					return export;
+				if (export.isEmpty()) {
+				    return model.getItems();
+				} else {
+				    return export;
+				}
 			}
 		}, lblLoading);
 
 		btnDuplicate.addActionListener(_ -> {
 			try {
-				List<MTGCardStock> list = UITools.getTableSelections(table, 0);
+				final List<MTGCardStock> list = UITools.getTableSelections(table, 0);
 
-				for (var mcs : list) {
+				for (final var mcs : list) {
 
-					var mcs2 = BeanTools.cloneBean(mcs);
+					final var mcs2 = BeanTools.cloneBean(mcs);
 					mcs2.setId(-1);
 
-					if (chkboxForceFoil.isSelected())
-						mcs2.setFoil(true);
+					if (chkboxForceFoil.isSelected()) {
+					    mcs2.setFoil(true);
+					}
 
 					mcs2.setUpdated(true);
 					model.addItem(mcs2);
 				}
 				model.fireTableDataChanged();
 
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				logger.error(e1);
 			}
 
@@ -421,15 +427,15 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnGeneratePrice.addActionListener(_ -> {
 			lblLoading.start(table.getSelectedRows().length);
 
-			var comp = new PriceSuggesterComponent();
-			var jd = MTGUIComponent.createJDialog(comp, false, true);
+			final var comp = new PriceSuggesterComponent();
+			final var jd = MTGUIComponent.createJDialog(comp, false, true);
 			comp.getBtnValidate().addActionListener(_ -> jd.dispose());
 
 			jd.setVisible(true);
 
-			MTGPriceSuggester suggester = comp.getSelectedPlugin();
+			final MTGPriceSuggester suggester = comp.getSelectedPlugin();
 
-			SwingWorker<Void, MTGCardStock> sw = new SwingWorker<>() {
+			final SwingWorker<Void, MTGCardStock> sw = new SwingWorker<>() {
 
 				@Override
 				public void done() {
@@ -444,16 +450,17 @@ public class StockPanelGUI extends MTGUIComponent {
 
 				@Override
 				protected Void doInBackground() {
-					List<MTGCardStock> sts = UITools.getTableSelections(table, 0);
-					for (MTGCardStock s : sts) {
+					final List<MTGCardStock> sts = UITools.getTableSelections(table, 0);
+					for (final MTGCardStock s : sts) {
 						try {
 
-							var price = suggester.getSuggestedPrice(s.getProduct(), s.isFoil());
-							double old = s.getValue().doubleValue();
+							final var price = suggester.getSuggestedPrice(s.getProduct(), s.isFoil());
+							final double old = s.getValue().doubleValue();
 							s.setPrice(price);
-							if (old != s.getValue().doubleValue())
-								s.setUpdated(true);
-						} catch (NullPointerException e) {
+							if (old != s.getValue().doubleValue()) {
+							    s.setUpdated(true);
+							}
+						} catch (final NullPointerException e) {
 							logger.error("{} is not found : ", s.getProduct(), e);
 						}
 
@@ -482,8 +489,9 @@ public class StockPanelGUI extends MTGUIComponent {
 				table.clearSelection();
 
 				for (var i = 0; i < table.getRowCount(); i++) {
-					if (((MTGCardStock) table.getValueAt(i, 0)).isUpdated())
-						table.addRowSelectionInterval(i, i);
+					if (((MTGCardStock) table.getValueAt(i, 0)).isUpdated()) {
+					    table.addRowSelectionInterval(i, i);
+					}
 				}
 			} else if (String.valueOf(cboSelections.getSelectedItem()).equals(selections[3])) {
 				table.clearSelection();
@@ -493,32 +501,41 @@ public class StockPanelGUI extends MTGUIComponent {
 		});
 
 		btnApplyModification.addActionListener(_ -> {
-			int res = JOptionPane.showConfirmDialog(null, capitalize("CHANGE_X_ITEMS", table.getSelectedRowCount()),
+			final int res = JOptionPane.showConfirmDialog(null, capitalize("CHANGE_X_ITEMS", table.getSelectedRowCount()),
 					capitalize("CONFIRMATION"), JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 
-				List<MTGCardStock> list = UITools.getTableSelections(table, 0);
+				final List<MTGCardStock> list = UITools.getTableSelections(table, 0);
 
-				for (MTGCardStock s : list) {
+				for (final MTGCardStock s : list) {
 					s.setUpdated(true);
-					if (((Integer) spinner.getValue()).intValue() > -1)
-						s.setQte((Integer) spinner.getValue());
-					if (!textPane.getText().equals(""))
-						s.setComment(textPane.getText());
-					if (cboAltered.getSelectedItem() != null)
-						s.setAltered((Boolean) cboAltered.getSelectedItem());
-					if (cboSigned.getSelectedItem() != null)
-						s.setSigned((Boolean) cboSigned.getSelectedItem());
-					if (cboFoil.getSelectedItem() != null)
-						s.setFoil((Boolean) cboFoil.getSelectedItem());
-					if (cboLanguages.getSelectedItem() != null)
-						s.setLanguage(String.valueOf(cboLanguages.getSelectedItem()));
-					if (cboQuality.getSelectedItem() != null)
-						s.setCondition((EnumCondition) cboQuality.getSelectedItem());
-					if (cboCollection.getSelectedItem() != null)
-						s.setMagicCollection((MTGCollection) cboCollection.getSelectedItem());
-					if (cboDigital.getSelectedItem() != null)
-						s.setDigital((Boolean) cboDigital.getSelectedItem());
+					if (((Integer) spinner.getValue()).intValue() > -1) {
+					    s.setQte((Integer) spinner.getValue());
+					}
+					if (!textPane.getText().equals("")) {
+					    s.setComment(textPane.getText());
+					}
+					if (cboAltered.getSelectedItem() != null) {
+					    s.setAltered((Boolean) cboAltered.getSelectedItem());
+					}
+					if (cboSigned.getSelectedItem() != null) {
+					    s.setSigned((Boolean) cboSigned.getSelectedItem());
+					}
+					if (cboFoil.getSelectedItem() != null) {
+					    s.setFoil((Boolean) cboFoil.getSelectedItem());
+					}
+					if (cboLanguages.getSelectedItem() != null) {
+					    s.setLanguage(String.valueOf(cboLanguages.getSelectedItem()));
+					}
+					if (cboQuality.getSelectedItem() != null) {
+					    s.setCondition((EnumCondition) cboQuality.getSelectedItem());
+					}
+					if (cboCollection.getSelectedItem() != null) {
+					    s.setMagicCollection((MTGCollection) cboCollection.getSelectedItem());
+					}
+					if (cboDigital.getSelectedItem() != null) {
+					    s.setDigital((Boolean) cboDigital.getSelectedItem());
+					}
 				}
 				model.fireTableDataChanged();
 			}
@@ -548,7 +565,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	public void addCard(MTGCard mc) {
-		MTGCardStock ms = MTGControler.getInstance().getDefaultStock();
+		final MTGCardStock ms = MTGControler.getInstance().getDefaultStock();
 		ms.setId(-1);
 		ms.setUpdated(true);
 		ms.setProduct(mc);
@@ -560,7 +577,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		JSplitPane splitPane;
 
-		var bottomPanel = new JPanel();
+		final var bottomPanel = new JPanel();
 		gradePanel = new GradingEditorPane();
 		gedPanel = new GedPanel<>();
 		setLayout(new BorderLayout(0, 0));
@@ -571,15 +588,15 @@ public class StockPanelGUI extends MTGUIComponent {
 		pricePanel = new PricesTablePanel();
 		syncPanel = new StockItemsSynchronizationPanel();
 		chkboxForceFoil = new JCheckBox("Force foil on duplication");
-		var importLogPanel = new LoggerViewPanel();
+		final var importLogPanel = new LoggerViewPanel();
 
 		importLogPanel.enabledAutoLoad();
 		importLogPanel.setLevel(Level.ERROR);
 
-		var centerPanel = new JPanel();
+		final var centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));
-		var actionPanel = new JPanel();
+		final var actionPanel = new JPanel();
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
 
 		btnDuplicate = UITools.createBindableJButton(null, MTGConstants.ICON_COPY, KeyEvent.VK_C, "duplicate ligne");
@@ -659,8 +676,9 @@ public class StockPanelGUI extends MTGUIComponent {
 		addContextComponent(gedPanel);
 		addContextComponent(importLogPanel);
 
-		if (MTG.readPropertyAsBoolean("debug-json-panel"))
-			addContextComponent(jsonPanel);
+		if (MTG.readPropertyAsBoolean("debug-json-panel")) {
+		    addContextComponent(jsonPanel);
+		}
 
 		initRightPanel();
 
@@ -671,10 +689,10 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		gradePanel.getBtnSave().addActionListener(_ -> {
 			try {
-				MTGCardStock st = UITools.getTableSelection(table, 0);
+				final MTGCardStock st = UITools.getTableSelection(table, 0);
 				gradePanel.saveTo(st);
 				model.fireTableDataChanged();
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				MTG.notifyError("Choose a stock");
 			}
 		});
@@ -686,7 +704,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		rightPanel.setVisible(false);
 		add(rightPanel, BorderLayout.EAST);
 
-		var gblrightPanel = new GridBagLayout();
+		final var gblrightPanel = new GridBagLayout();
 		gblrightPanel.columnWidths = new int[]{84, 103, 0};
 		gblrightPanel.rowHeights = new int[]{83, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gblrightPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
@@ -721,7 +739,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		spinner = new JSpinner(new SpinnerNumberModel(-1, -1, null, 1));
 		rightPanel.add(spinner, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 
-		var lModel = new DefaultComboBoxModel<String>();
+		final var lModel = new DefaultComboBoxModel<String>();
 		lModel.addElement(null);
 
 		MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages().forEach(lModel::addElement);
@@ -750,19 +768,19 @@ public class StockPanelGUI extends MTGUIComponent {
 		textPane = new JTextPane();
 		rightPanel.add(textPane, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 11, 2, 3));
 
-		var gbcbtnApplyModification = new GridBagConstraints();
+		final var gbcbtnApplyModification = new GridBagConstraints();
 		gbcbtnApplyModification.gridwidth = 2;
 		gbcbtnApplyModification.gridx = 0;
 		gbcbtnApplyModification.gridy = 14;
 		rightPanel.add(btnApplyModification, gbcbtnApplyModification);
 
-		var gbcSep = new GridBagConstraints();
+		final var gbcSep = new GridBagConstraints();
 		gbcSep.gridwidth = 2;
 		gbcSep.gridx = 0;
 		gbcSep.gridy = 15;
 		rightPanel.add(new JSeparator(), gbcSep);
 
-		var gbcSepFoil = new GridBagConstraints();
+		final var gbcSepFoil = new GridBagConstraints();
 		gbcSepFoil.gridwidth = 2;
 		gbcSepFoil.gridx = 0;
 		gbcSepFoil.gridy = 16;
@@ -796,24 +814,25 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	public void updateCount(List<MTGCardStock> selection) {
-		if (selection == null)
-			lblCount.setText(
-					capitalize("ITEMS_IN_STOCK") + ": " + model.getItems().stream().mapToLong(mcs -> mcs.getQte()).sum()
-							+ "( distinct cards :" + model.getRowCount() + ")  / "
-							+ UITools.formatDouble(model.getItems().stream().mapToDouble(
-									mcs -> mcs.getValue().doubleValue() * (mcs.getQte() == 0 ? 1 : mcs.getQte())).sum())
-							+ " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-		else
-			lblCount.setText(
-					capitalize("ITEMS_IN_STOCK") + ": " + model.getItems().stream().mapToLong(mcs -> mcs.getQte()).sum()
-							+ "( distinct cards :" + model.getRowCount() + ")  / "
-							+ UITools.formatDouble(model.getItems().stream().mapToDouble(
-									mcs -> mcs.getValue().doubleValue() * (mcs.getQte() == 0 ? 1 : mcs.getQte())).sum())
-							+ " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency()
-							+ " selection= "
-							+ UITools.formatDouble(selection.stream().mapToDouble(
-									mcs -> mcs.getValue().doubleValue() * (mcs.getQte() == 0 ? 1 : mcs.getQte())).sum())
-							+ MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+		if (selection == null) {
+		    lblCount.setText(
+		    		capitalize("ITEMS_IN_STOCK") + ": " + model.getItems().stream().mapToLong(mcs -> mcs.getQte()).sum()
+		    				+ "( distinct cards :" + model.getRowCount() + ")  / "
+		    				+ UITools.formatDouble(model.getItems().stream().mapToDouble(
+		    						mcs -> mcs.getValue().doubleValue() * (mcs.getQte() == 0 ? 1 : mcs.getQte())).sum())
+		    				+ " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+		} else {
+		    lblCount.setText(
+		    		capitalize("ITEMS_IN_STOCK") + ": " + model.getItems().stream().mapToLong(mcs -> mcs.getQte()).sum()
+		    				+ "( distinct cards :" + model.getRowCount() + ")  / "
+		    				+ UITools.formatDouble(model.getItems().stream().mapToDouble(
+		    						mcs -> mcs.getValue().doubleValue() * (mcs.getQte() == 0 ? 1 : mcs.getQte())).sum())
+		    				+ " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency()
+		    				+ " selection= "
+		    				+ UITools.formatDouble(selection.stream().mapToDouble(
+		    						mcs -> mcs.getValue().doubleValue() * (mcs.getQte() == 0 ? 1 : mcs.getQte())).sum())
+		    				+ MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+		}
 	}
 
 }

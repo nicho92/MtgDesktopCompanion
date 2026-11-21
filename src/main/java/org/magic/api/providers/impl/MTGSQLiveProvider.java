@@ -53,10 +53,10 @@ import org.magic.services.tools.UITools;
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	private MTGPool pool;
-	private MultiValuedMap<String, MTGCardNames> mapForeignData = new ArrayListValuedHashMap<>();
-	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
-	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
-	private String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.* FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
+	private final MultiValuedMap<String, MTGCardNames> mapForeignData = new ArrayListValuedHashMap<>();
+	private final MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
+	private final MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
+	private final String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.* FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
 
 	@Override
 	protected String getOnlineDataFileZip() {
@@ -65,7 +65,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
-		var b = new SQLCriteriaBuilder();
+		final var b = new SQLCriteriaBuilder();
 		b.addConvertor(Boolean.class, (Boolean source) -> source.booleanValue() ? "1" : "0");
 		initBuilder(b);
 		return b;
@@ -79,10 +79,10 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	@Override
 	public List<MTGBooster> generateBooster(MTGEdition me, EnumExtra typeBooster, int qty) throws IOException {
 
-		var list = new ArrayList<MTGBooster>();
+		final var list = new ArrayList<MTGBooster>();
 
 		// get boosters structures for set
-		var itemWeights = new ArrayList<Pair<Integer, Double>>();
+		final var itemWeights = new ArrayList<Pair<Integer, Double>>();
 		try (var c = pool.getConnection();
 				var pst = c.prepareStatement(
 						"select boosterIndex,boosterWeight from setBoosterContentWeights where setCode=? and boosterName=?")) {
@@ -90,45 +90,49 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			pst.setString(2, typeBooster.getMtgjsonname());
 
 			try (ResultSet rs = pst.executeQuery()) {
-				while (rs.next())
-					itemWeights.add(new Pair<>(rs.getInt(BOOSTER_INDEX), rs.getDouble(BOOSTER_WEIGHT)));
+				while (rs.next()) {
+				    itemWeights.add(new Pair<>(rs.getInt(BOOSTER_INDEX), rs.getDouble(BOOSTER_WEIGHT)));
+				}
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 
-		if (itemWeights.isEmpty())
-			throw new IOException("No booster found for " + me.getId() + " / " + typeBooster.getMtgjsonname());
+		if (itemWeights.isEmpty()) {
+		    throw new IOException("No booster found for " + me.getId() + " / " + typeBooster.getMtgjsonname());
+		}
 
-		var boosters = new EnumeratedDistribution<>(itemWeights);
-		var boosterIndex = boosters.sample(qty, new Integer[qty]);
+		final var boosters = new EnumeratedDistribution<>(itemWeights);
+		final var boosterIndex = boosters.sample(qty, new Integer[qty]);
 		logger.debug("pick booster {} with index ={}", typeBooster.getMtgjsonname(), Arrays.asList(boosterIndex));
 
 		// get cards pickup chance
-		var cardsSheets = new HashMap<String, List<Pair<MTGCard, Double>>>();
+		final var cardsSheets = new HashMap<String, List<Pair<MTGCard, Double>>>();
 		try (var c = pool.getConnection();
 				var pst = c.prepareStatement(
 						"SELECT cards.*, cardIdentifiers.*,setBoosterSheetCards.* FROM cards, cardIdentifiers,setBoosterSheetCards WHERE cards.uuid=setBoosterSheetCards.cardUuid AND cardIdentifiers.uuid=cards.uuid AND setBoosterSheetCards.setCode=?")) {
 			pst.setString(1, me.getId());
 
 			try (var rs = pst.executeQuery()) {
-				while (rs.next())
-					cardsSheets.compute(rs.getString(BOOSTER_SHEET_NAME), (_, v) -> v != null ? v : new ArrayList<>())
-							.add(new Pair<>(generateCardsFromRs(rs, true), rs.getDouble(BOOSTER_CARD_WEIGHT)));
+				while (rs.next()) {
+				    cardsSheets.compute(rs.getString(BOOSTER_SHEET_NAME), (_, v) -> v != null ? v : new ArrayList<>())
+				    		.add(new Pair<>(generateCardsFromRs(rs, true), rs.getDouble(BOOSTER_CARD_WEIGHT)));
+				}
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 
-		if (cardsSheets.isEmpty())
-			throw new IOException("No cardsdatasheet found for " + me.getId() + " / " + typeBooster.getMtgjsonname()
-					+ " for index=" + Arrays.asList(boosterIndex));
+		if (cardsSheets.isEmpty()) {
+		    throw new IOException("No cardsdatasheet found for " + me.getId() + " / " + typeBooster.getMtgjsonname()
+		    		+ " for index=" + Arrays.asList(boosterIndex));
+		}
 
 		logger.debug("cards loaded for {}/{}", me.getId(), typeBooster.getMtgjsonname());
 
 		// build boosters
-		for (int i : boosterIndex) {
-			Map<String, Integer> boosterStructure = new HashMap<>();
+		for (final int i : boosterIndex) {
+			final Map<String, Integer> boosterStructure = new HashMap<>();
 			try (var c = pool.getConnection();
 					var pst = c.prepareStatement(
 							"select sheetName,sheetPicks from setBoosterContents where setCode=? and boosterName=? and boosterIndex=?")) {
@@ -137,28 +141,30 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				pst.setInt(3, i);
 
 				try (var rs = pst.executeQuery()) {
-					while (rs.next())
-						boosterStructure.put(rs.getString(BOOSTER_SHEET_NAME), rs.getInt(BOOSTER_SHEET_PICKS));
+					while (rs.next()) {
+					    boosterStructure.put(rs.getString(BOOSTER_SHEET_NAME), rs.getInt(BOOSTER_SHEET_PICKS));
+					}
 				}
-				if (boosterStructure.isEmpty())
-					throw new IOException("No boosterStructure found for " + me.getId() + " / " + typeBooster
-							+ " for index=" + boosterIndex);
+				if (boosterStructure.isEmpty()) {
+				    throw new IOException("No boosterStructure found for " + me.getId() + " / " + typeBooster
+				    		+ " for index=" + boosterIndex);
+				}
 
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				logger.error(e);
 			}
 
 			logger.debug("generating boosters for {}/{} with structure = {}", me.getId(), typeBooster.getMtgjsonname(),
 					boosterStructure);
 
-			var booster = new MTGBooster();
+			final var booster = new MTGBooster();
 			booster.setEdition(me);
 			booster.setTypeBooster(typeBooster);
 			booster.setBoosterNumber(i);
 			notify(booster);
 
-			for (var e : boosterStructure.entrySet()) {
-				var picker = new EnumeratedDistribution<>(cardsSheets.get(e.getKey())).sample(e.getValue(),
+			for (final var e : boosterStructure.entrySet()) {
+				final var picker = new EnumeratedDistribution<>(cardsSheets.get(e.getKey())).sample(e.getValue(),
 						new MTGCard[e.getValue()]);
 				booster.getCards().addAll(Arrays.asList(picker));
 			}
@@ -170,14 +176,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	@Override
 	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
 
-		List<MTGCard> cards = new ArrayList<>();
+		final List<MTGCard> cards = new ArrayList<>();
 		try (var c = pool.getConnection(); var pst = c.createStatement()) {
-			var sql = getMTGQueryManager().build(crits).toString();
+			final var sql = getMTGQueryManager().build(crits).toString();
 			try (ResultSet rs = pst.executeQuery(sql)) {
-				while (rs.next())
-					cards.add(generateCardsFromRs(rs, true));
+				while (rs.next()) {
+				    cards.add(generateCardsFromRs(rs, true));
+				}
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 		return cards;
@@ -197,11 +204,12 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			pst.setString(2, "%" + mc.getName() + "%");
 			pst.setString(3, "%" + layout.toPrettyString() + "%");
 			pst.setString(4, "%" + mc.getEdition().getId().toUpperCase());
-			var rs = pst.executeQuery();
+			final var rs = pst.executeQuery();
 
-			if (rs.next())
-				return generateTokenFromRs(rs, mc.getEdition());
-		} catch (Exception e) {
+			if (rs.next()) {
+			    return generateTokenFromRs(rs, mc.getEdition());
+			}
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 		logger.error("No token found for {} with layout={}", mc, layout);
@@ -211,18 +219,18 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	@Override
 	public List<MTGCard> listToken(MTGEdition ed) throws IOException {
 
-		var ret = new ArrayList<MTGCard>();
+		final var ret = new ArrayList<MTGCard>();
 
 		try (var c = pool.getConnection();
 				var pst = c.prepareStatement(
 						"select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers where setCode like ? and tokenIdentifiers.uuid=tokens.uuid")) {
 			pst.setString(1, "%" + ed.getId().toUpperCase());
-			var rs = pst.executeQuery();
+			final var rs = pst.executeQuery();
 
 			while (rs.next()) {
 				ret.add(generateTokenFromRs(rs, ed));
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 		return ret;
@@ -230,14 +238,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	}
 
 	private MTGCard generateTokenFromRs(ResultSet rs, MTGEdition ed) throws SQLException {
-		var mc = new MTGCard();
+		final var mc = new MTGCard();
 		mc.setId(rs.getString(UUID));
 		mc.setName(rs.getString(NAME));
 
-		if (rs.getString(TEXT) != null)
-			mc.setText(rs.getString(TEXT));
-		else
-			mc.setText("");
+		if (rs.getString(TEXT) != null) {
+		    mc.setText(rs.getString(TEXT));
+		} else {
+		    mc.setText("");
+		}
 
 		mc.setScryfallId(rs.getString(SCRYFALL_ID));
 		mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
@@ -252,32 +261,39 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		mc.setLayout(EnumLayout.parseByLabel(rs.getString(LAYOUT)));
 
 		try {
-			if (rs.getString(SUBSETS) != null)
-				mc.setSubsets(rs.getString(SUBSETS));
-		} catch (Exception _) {
+			if (rs.getString(SUBSETS) != null) {
+			    mc.setSubsets(rs.getString(SUBSETS));
+			}
+		} catch (final Exception _) {
 			// do nothing, subsets is not in tokenn table
 		}
 
-		if (rs.getString(SUPERTYPES) != null)
-			mc.setSupertypes(splitArrayValue(rs.getString(SUPERTYPES)));
+		if (rs.getString(SUPERTYPES) != null) {
+		    mc.setSupertypes(splitArrayValue(rs.getString(SUPERTYPES)));
+		}
 
-		if (rs.getString(SUBTYPES) != null)
-			mc.setSubtypes(splitArrayValue(rs.getString(SUBTYPES)));
+		if (rs.getString(SUBTYPES) != null) {
+		    mc.setSubtypes(splitArrayValue(rs.getString(SUBTYPES)));
+		}
 
-		if (rs.getString(COLOR_IDENTITY) != null)
-			mc.setColorIdentity(
-					splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).sorted().toList());
+		if (rs.getString(COLOR_IDENTITY) != null) {
+		    mc.setColorIdentity(
+		    		splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).sorted().toList());
+		}
 
-		if (rs.getString(COLORS) != null)
-			mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).sorted().toList());
-		
-		if (rs.getString(PRODUCED_MANA) != null)
+		if (rs.getString(COLORS) != null) {
+		    mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).sorted().toList());
+		}
+
+		if (rs.getString(PRODUCED_MANA) != null) {
 		    mc.setProducedMana(splitArrayValue(rs.getString(PRODUCED_MANA)).stream().map(EnumColors::colorByCode).sorted().toList());
-	
-		
-		if (rs.getString(KEYWORDS) != null)
-			mc.getKeywords().addAll(
-					splitArrayValue(KEYWORDS).stream().map(s -> new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
+		}
+
+
+		if (rs.getString(KEYWORDS) != null) {
+		    mc.getKeywords().addAll(
+		    		splitArrayValue(KEYWORDS).stream().map(s -> new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
+		}
 
 		mc.setNumber(rs.getString(NUMBER));
 		mc.getEditions().add(getSetById(ed.getId()));
@@ -314,36 +330,40 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			exact = true;
 		}
 
-		var temp = new StringBuilder(sqlCardBaseQuery).append(" AND ").append(att.equals("uuid") ? "cards." : "")
+		final var temp = new StringBuilder(sqlCardBaseQuery).append(" AND ").append(att.equals("uuid") ? "cards." : "")
 				.append(att);
 
-		if (exact)
-			temp.append(" = ");
-		else
-			temp.append(" like ");
+		if (exact) {
+		    temp.append(" = ");
+		} else {
+		    temp.append(" like ");
+		}
 
 		temp.append("?");
 
-		if (ed != null && !ed.getId().isEmpty())
-			temp.append(" AND " + SETCODE + " ='").append(ed.getId()).append("'");
+		if (ed != null && !ed.getId().isEmpty()) {
+		    temp.append(" AND " + SETCODE + " ='").append(ed.getId()).append("'");
+		}
 
-		List<MTGCard> cards = new ArrayList<>();
+		final List<MTGCard> cards = new ArrayList<>();
 
 		logger.trace("executing {}", temp);
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(temp.toString())) {
-			if (exact)
-				pst.setString(1, crit);
-			else
-				pst.setString(1, "%" + crit + "%");
+			if (exact) {
+			    pst.setString(1, crit);
+			} else {
+			    pst.setString(1, "%" + crit + "%");
+			}
 
 			try (var rs = pst.executeQuery()) {
-				while (rs.next())
-					cards.add(generateCardsFromRs(rs, true));
+				while (rs.next()) {
+				    cards.add(generateCardsFromRs(rs, true));
+				}
 
 			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 		return cards;
@@ -351,14 +371,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public List<MTGCard> listAllCards() throws IOException {
-		List<MTGCard> cards = new ArrayList<>();
+		final List<MTGCard> cards = new ArrayList<>();
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sqlCardBaseQuery)) {
 			try (ResultSet rs = pst.executeQuery()) {
-				while (rs.next())
-					cards.add(generateCardsFromRs(rs, true));
+				while (rs.next()) {
+				    cards.add(generateCardsFromRs(rs, true));
+				}
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 		return cards;
@@ -371,10 +392,11 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			return;
 		}
 
-		if (id.contains(","))
-			id = id.split(",")[0];
+		if (id.contains(",")) {
+		    id = id.split(",")[0];
+		}
 
-		var sql = sqlCardBaseQuery + " AND cards.uuid = ?";
+		final var sql = sqlCardBaseQuery + " AND cards.uuid = ?";
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
 			pst.setString(1, id);
@@ -384,7 +406,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setRotatedCard(generateCardsFromRs(rs, false));
 			}
 
-			String name = mc.getName();
+			final String name = mc.getName();
 			if (side.equals("b")) {
 				mc.setName(name.substring(name.indexOf('/') + 2).trim());
 				mc.getRotatedCard().setName(name.substring(0, name.indexOf('/')).trim());
@@ -394,13 +416,13 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("Error generating rotatedcard for {} id={} side={} msg={}", mc, id, side, e.getMessage());
 		}
 	}
 
 	private MTGCard generateCardsFromRs(ResultSet rs, boolean load) throws SQLException {
-		var mc = new MTGCard();
+		final var mc = new MTGCard();
 		mc.setName(rs.getString(NAME));
 		mc.setCmc(rs.getInt(CONVERTED_MANA_COST));
 		mc.setCost(rs.getString(MANA_COST));
@@ -414,18 +436,20 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		mc.getRulings().addAll(getRulings(mc.getId()));
 		mc.setArtist(rs.getString(ARTIST));
 
-		if (rs.getString(FLAVOR_TEXT) != null)
-			mc.setFlavor(StringEscapeUtils.unescapeJava(rs.getString(FLAVOR_TEXT)));
+		if (rs.getString(FLAVOR_TEXT) != null) {
+		    mc.setFlavor(StringEscapeUtils.unescapeJava(rs.getString(FLAVOR_TEXT)));
+		}
 
 		mc.setWatermarks(rs.getString(WATERMARK));
 		mc.setAsciiName(rs.getString(ASCII_NAME));
 
 		mc.setJapanese(rs.getString(LANGUAGE).equals("Japanese"));
 
-		if (rs.getString(TEXT) != null)
-			mc.setText(StringEscapeUtils.unescapeJava(rs.getString(TEXT)));
-		else
-			mc.setText("");
+		if (rs.getString(TEXT) != null) {
+		    mc.setText(StringEscapeUtils.unescapeJava(rs.getString(TEXT)));
+		} else {
+		    mc.setText("");
+		}
 
 		if (rs.getString(AVAILABILITY) != null) {
 			mc.setArenaCard(rs.getString(AVAILABILITY).contains("arena"));
@@ -457,60 +481,73 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		mc.setDefense(rs.getInt(DEFENSE));
 		mc.setAlternative(rs.getBoolean(IS_ALTERNATIVE));
 		mc.setGameChanger(rs.getBoolean(IS_GAME_CHANGER));
-		
-		if (rs.getString(FINISHES) != null)
-			mc.getFinishes()
-					.addAll(splitArrayValue(rs.getString(FINISHES)).stream().map(EnumFinishes::parseByLabel).toList());
 
-		if (rs.getString(FRAME_EFFECTS) != null)
-			mc.getFrameEffects().addAll(
-					splitArrayValue(rs.getString(FRAME_EFFECTS)).stream().map(EnumFrameEffects::parseByLabel).toList());
+		if (rs.getString(FINISHES) != null) {
+		    mc.getFinishes()
+		    		.addAll(splitArrayValue(rs.getString(FINISHES)).stream().map(EnumFinishes::parseByLabel).toList());
+		}
 
-		if (rs.getString(PROMO_TYPE) != null)
-			mc.getPromotypes().addAll(
-					splitArrayValue(rs.getString(PROMO_TYPE)).stream().map(EnumPromoType::parseByLabel).toList());
+		if (rs.getString(FRAME_EFFECTS) != null) {
+		    mc.getFrameEffects().addAll(
+		    		splitArrayValue(rs.getString(FRAME_EFFECTS)).stream().map(EnumFrameEffects::parseByLabel).toList());
+		}
 
-		if (rs.getString(KEYWORDS) != null)
-			mc.getKeywords().addAll(splitArrayValue(rs.getString(KEYWORDS)).stream()
-					.map(s -> new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
+		if (rs.getString(PROMO_TYPE) != null) {
+		    mc.getPromotypes().addAll(
+		    		splitArrayValue(rs.getString(PROMO_TYPE)).stream().map(EnumPromoType::parseByLabel).toList());
+		}
 
-		if (rs.getString(COLOR_IDENTITY) != null)
-			mc.setColorIdentity(
-					splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).sorted().toList());
+		if (rs.getString(KEYWORDS) != null) {
+		    mc.getKeywords().addAll(splitArrayValue(rs.getString(KEYWORDS)).stream()
+		    		.map(s -> new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
+		}
 
-		if (rs.getString(COLORS) != null)
-			mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).sorted().toList());
-		
-		if (rs.getString(PRODUCED_MANA) != null)
+		if (rs.getString(COLOR_IDENTITY) != null) {
+		    mc.setColorIdentity(
+		    		splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).sorted().toList());
+		}
+
+		if (rs.getString(COLORS) != null) {
+		    mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).sorted().toList());
+		}
+
+		if (rs.getString(PRODUCED_MANA) != null) {
 		    mc.setProducedMana(splitArrayValue(rs.getString(PRODUCED_MANA)).stream().map(EnumColors::colorByCode).sorted().toList());
+		}
 
-		if (rs.getString(COLOR_INDICATOR) != null)
-			mc.setColorIndicator(
-					splitArrayValue(rs.getString(COLOR_INDICATOR)).stream().map(EnumColors::colorByCode).sorted().toList());
+		if (rs.getString(COLOR_INDICATOR) != null) {
+		    mc.setColorIndicator(
+		    		splitArrayValue(rs.getString(COLOR_INDICATOR)).stream().map(EnumColors::colorByCode).sorted().toList());
+		}
 
-		if (rs.getString(SUPERTYPES) != null)
-			mc.getSupertypes().addAll(splitArrayValue(rs.getString(SUPERTYPES)));
+		if (rs.getString(SUPERTYPES) != null) {
+		    mc.getSupertypes().addAll(splitArrayValue(rs.getString(SUPERTYPES)));
+		}
 
-		if (rs.getString(TYPES) != null)
-			mc.getTypes().addAll(splitArrayValue(rs.getString(TYPES)));
+		if (rs.getString(TYPES) != null) {
+		    mc.getTypes().addAll(splitArrayValue(rs.getString(TYPES)));
+		}
 
-		if (rs.getString(SUBTYPES) != null)
-			mc.getSubtypes().addAll(splitArrayValue(rs.getString(SUBTYPES)));
+		if (rs.getString(SUBTYPES) != null) {
+		    mc.getSubtypes().addAll(splitArrayValue(rs.getString(SUBTYPES)));
+		}
 
-		if (rs.getString(ATTRACTION_LIGHTS) != null)
-			mc.setAttractionLights(splitArrayValue(rs.getString(ATTRACTION_LIGHTS)).stream().mapToInt(Integer::parseInt)
-					.boxed().toList());
+		if (rs.getString(ATTRACTION_LIGHTS) != null) {
+		    mc.setAttractionLights(splitArrayValue(rs.getString(ATTRACTION_LIGHTS)).stream().mapToInt(Integer::parseInt)
+		    		.boxed().toList());
+		}
 
 		try {
-			if (rs.getString(SUBSETS) != null)
-				mc.setSubsets(rs.getString(SUBSETS));
-		} catch (Exception _) {
+			if (rs.getString(SUBSETS) != null) {
+			    mc.setSubsets(rs.getString(SUBSETS));
+			}
+		} catch (final Exception _) {
 			// do nothing, subsets is not in tokenn table
 		}
 
 		try {
 			mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));
-		} catch (NumberFormatException _) {
+		} catch (final NumberFormatException _) {
 			mc.setLoyalty(0);
 		}
 
@@ -519,19 +556,20 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		mc.setNumber(rs.getString(NUMBER));
 		mc.setMultiverseid(rs.getString(MULTIVERSE_ID));
 
-		var set = getSetById(rs.getString(SETCODE));
+		final var set = getSetById(rs.getString(SETCODE));
 
 		mc.getEditions().add(set);
 		mc.setEdition(set);
 
-		if (rs.getString("printings") != null)
-			for (String ids : splitArrayValue(rs.getString("printings"))) {
-				if (!ids.equals(set.getId())) {
-					mc.getEditions().add(getSetById(ids));
-				}
-			}
+		if (rs.getString("printings") != null) {
+		    for (final String ids : splitArrayValue(rs.getString("printings"))) {
+		    	if (!ids.equals(set.getId())) {
+		    		mc.getEditions().add(getSetById(ids));
+		    	}
+		    }
+		}
 
-		var split = mc.getName().indexOf("//");
+		final var split = mc.getName().indexOf("//");
 		if (split > 1 && load) {
 			initRotatedCard(mc, rs.getString("otherFaceIds"), mc.getSide());
 		}
@@ -545,17 +583,18 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
 
-		List<MTGEdition> eds = new ArrayList<>();
-		var maps = new HashMap<String, Integer>();
+		final List<MTGEdition> eds = new ArrayList<>();
+		final var maps = new HashMap<String, Integer>();
 
 		try (var c = pool.getConnection();
 				var pst = c.prepareStatement(
 						"SELECT setCode, count(1) as physicalCount FROM cards where side='a' or side IS NULL AND isRebalanced IS NULL GROUP BY setCode");
 				ResultSet rs = pst.executeQuery()) {
-			while (rs.next())
-				maps.put(rs.getString("setCode"), rs.getInt("physicalCount"));
+			while (rs.next()) {
+			    maps.put(rs.getString("setCode"), rs.getInt("physicalCount"));
+			}
 
-		} catch (SQLException e1) {
+		} catch (final SQLException e1) {
 			logger.error(e1);
 		}
 
@@ -564,7 +603,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				var rs = pst.executeQuery()) {
 
 			while (rs.next()) {
-				var ed = new MTGEdition();
+				final var ed = new MTGEdition();
 				ed.setSet(rs.getString(NAME));
 				ed.setId(rs.getString("code"));
 				ed.setBlock(rs.getString("block"));
@@ -584,7 +623,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 						.isAfter(LocalDate.now(ZoneId.systemDefault())));
 				eds.add(ed);
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			throw new IOException(e);
 		}
 
@@ -594,18 +633,19 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				var rs = pst.executeQuery()) {
 			while (rs.next()) {
 
-				for (var ed : eds) {
+				for (final var ed : eds) {
 					if (ed.getId().equalsIgnoreCase(rs.getString("set"))) {
 
-						var e = EnumExtra.parseByLabel(rs.getString("sheet"));
-						if (e != null)
-							ed.getBooster().add(e);
+						final var e = EnumExtra.parseByLabel(rs.getString("sheet"));
+						if (e != null) {
+						    ed.getBooster().add(e);
+						}
 
 					}
 				}
 
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 		}
 
@@ -617,15 +657,16 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		try {
 			ed.setMkmName(rs.getString(MCM_NAME));
 			ed.setMkmid(rs.getInt(MCM_ID));
-		} catch (SQLException _) {
+		} catch (final SQLException _) {
 			// do nothing
 		}
 	}
 
 	private List<MTGCardNames> getTranslations(MTGCard mc) {
 
-		if (mapForeignData.isEmpty())
-			initForeign();
+		if (mapForeignData.isEmpty()) {
+		    initForeign();
+		}
 
 		return (List<MTGCardNames>) mapForeignData.get(mc.getId());
 
@@ -636,16 +677,16 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cardRulings")) {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
-					var names = new MTGRuling();
+					final var names = new MTGRuling();
 					names.setText(rs.getString("text"));
 					names.setDate(UITools.parseDate(rs.getString("date"), "yyyy-MM-dd"));
-					var id = rs.getString(UUID);
+					final var id = rs.getString(UUID);
 
 					mapRules.put(id, names);
 				}
 			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error("error loading rules", e);
 		}
 	}
@@ -653,36 +694,37 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initLegalities() {
 		logger.debug("legalities empty. Loading it");
 
-		List<String> formats = new ArrayList<>();
+		final List<String> formats = new ArrayList<>();
 		try (var c = pool.getConnection();
 				PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cardLegalities)");
 				var rs = pst.executeQuery()) {
 			while (rs.next()) {
-				var format = rs.getString("name");
+				final var format = rs.getString("name");
 				if (!format.equals("uuid")) {
 					formats.add(format);
 				}
 
 			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error("error loading legalities", e);
 		}
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cardLegalities")) {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
-					var id = rs.getString(UUID);
+					final var id = rs.getString(UUID);
 
-					for (String f : formats) {
-						if (rs.getString(f) != null)
-							mapLegalities.put(id,
-									new MTGFormat(f, AUTHORIZATION.valueOf(rs.getString(f).toUpperCase())));
+					for (final String f : formats) {
+						if (rs.getString(f) != null) {
+						    mapLegalities.put(id,
+						    		new MTGFormat(f, AUTHORIZATION.valueOf(rs.getString(f).toUpperCase())));
+						}
 					}
 				}
 			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error("error loading legalities", e);
 		}
 	}
@@ -694,42 +736,44 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				PreparedStatement pst = c.prepareStatement("SELECT * FROM cardForeignData")) {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
-					var names = new MTGCardNames();
+					final var names = new MTGCardNames();
 					names.setFlavor(rs.getString(FLAVOR_TEXT));
 					names.setGathererId(rs.getInt(MULTIVERSE_ID));
 					names.setLanguage(rs.getString(LANGUAGE));
 					names.setName(rs.getString(NAME));
 					names.setText(rs.getString(TEXT));
 					names.setType(rs.getString(TYPE));
-					var id = rs.getString(UUID);
+					final var id = rs.getString(UUID);
 
 					mapForeignData.put(id, names);
 				}
 			}
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error("error loading foreignData", e);
 		}
 
 	}
 
 	private List<MTGRuling> getRulings(String uuid) {
-		if (mapRules.isEmpty())
-			initRules();
+		if (mapRules.isEmpty()) {
+		    initRules();
+		}
 
 		return (List<MTGRuling>) mapRules.get(uuid);
 	}
 
 	private List<MTGFormat> getLegalities(String uuid) {
-		if (mapLegalities.isEmpty())
-			initLegalities();
+		if (mapLegalities.isEmpty()) {
+		    initLegalities();
+		}
 
 		return (List<MTGFormat>) mapLegalities.get(uuid);
 	}
 
 	@Override
 	public List<String> loadCardsLangs() {
-		List<String> ret = new ArrayList<>();
+		final List<String> ret = new ArrayList<>();
 		try (var c = pool.getConnection();
 				PreparedStatement pst = c.prepareStatement("Select DISTINCT " + LANGUAGE + " from cardForeignData");
 				ResultSet rs = pst.executeQuery()) {
@@ -737,7 +781,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			while (rs.next()) {
 				ret.add(rs.getString(LANGUAGE));
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 
 		}
@@ -747,40 +791,41 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public List<QueryAttribute> loadQueryableAttributs() {
-		List<QueryAttribute> ret = new ArrayList<>();
+		final List<QueryAttribute> ret = new ArrayList<>();
 
 		try (var c = pool.getConnection();
 				PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cards)");
 				ResultSet rs = pst.executeQuery()) {
 			while (rs.next()) {
-				if (rs.getString(NAME).startsWith("is") || rs.getString(NAME).startsWith("has"))
-					ret.add(new QueryAttribute(rs.getString(NAME), Boolean.class));
-				else if (rs.getString(NAME).equals(SETCODE))
-					ret.add(new QueryAttribute(rs.getString(NAME), String.class));
-				else if (rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY)|| rs.getString(NAME).equals(COLOR_INDICATOR)|| rs.getString(NAME).equals(PRODUCED_MANA))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumColors.class));
-				else if (rs.getString(NAME).equals(LAYOUT))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumLayout.class));
-				else if (rs.getString(NAME).equals(RARITY))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumRarity.class));
-				else if (rs.getString(NAME).equals(FRAME_EFFECTS))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumFrameEffects.class));
-				else if (rs.getString(NAME).equals(FRAME_VERSION))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumFrameVersion.class));
-				else if (rs.getString(NAME).equals(PROMO_TYPE))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumPromoType.class));
-				else if (rs.getString(NAME).equals(FINISHES))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumFinishes.class));
-				else if (rs.getString(NAME).equals(SECURITYSTAMP))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumSecurityStamp.class));
-				else if (rs.getString(NAME).equals(KEYWORDS))
-					ret.add(new QueryAttribute(rs.getString(NAME), MTGKeyWord.class));
-				else if (rs.getString(NAME).equals(BORDER_COLOR))
-					ret.add(new QueryAttribute(rs.getString(NAME), EnumBorders.class));
-				else
-					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
+				if (rs.getString(NAME).startsWith("is") || rs.getString(NAME).startsWith("has")) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), Boolean.class));
+				} else if (rs.getString(NAME).equals(SETCODE)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), String.class));
+				} else if (rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY)|| rs.getString(NAME).equals(COLOR_INDICATOR)|| rs.getString(NAME).equals(PRODUCED_MANA)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumColors.class));
+				} else if (rs.getString(NAME).equals(LAYOUT)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumLayout.class));
+				} else if (rs.getString(NAME).equals(RARITY)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumRarity.class));
+				} else if (rs.getString(NAME).equals(FRAME_EFFECTS)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumFrameEffects.class));
+				} else if (rs.getString(NAME).equals(FRAME_VERSION)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumFrameVersion.class));
+				} else if (rs.getString(NAME).equals(PROMO_TYPE)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumPromoType.class));
+				} else if (rs.getString(NAME).equals(FINISHES)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumFinishes.class));
+				} else if (rs.getString(NAME).equals(SECURITYSTAMP)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumSecurityStamp.class));
+				} else if (rs.getString(NAME).equals(KEYWORDS)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), MTGKeyWord.class));
+				} else if (rs.getString(NAME).equals(BORDER_COLOR)) {
+				    ret.add(new QueryAttribute(rs.getString(NAME), EnumBorders.class));
+				} else {
+				    ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
+				}
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 
 		}
@@ -791,7 +836,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			while (rs.next()) {
 				ret.add(new QueryAttribute(rs.getString(NAME), String.class));
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.error(e);
 
 		}
@@ -804,14 +849,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	}
 
 	private Class<?> sqlToJavaType(String string) {
-		if (string.startsWith("TEXT") || string.startsWith("VARCHAR"))
-			return String.class;
-		else if (string.startsWith("INTEGER"))
-			return Integer.class;
-		else if (string.startsWith("BOOL"))
-			return Boolean.class;
-		else
-			return Float.class;
+		if (string.startsWith("TEXT") || string.startsWith("VARCHAR")) {
+		    return String.class;
+		} else if (string.startsWith("INTEGER")) {
+		    return Integer.class;
+		} else if (string.startsWith("BOOL")) {
+		    return Boolean.class;
+		} else {
+		    return Float.class;
+		}
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import org.magic.services.tools.ImageTools;
 
 public class AutoDetectAreaStrat extends AbstractRecognitionArea {
 
-	private ArrayList<MatchResult> results = new ArrayList<>();
+	private final ArrayList<MatchResult> results = new ArrayList<>();
 	private List<ContourBoundingBox> bounds = new ArrayList<>();
 
 	@Override
@@ -22,12 +22,12 @@ public class AutoDetectAreaStrat extends AbstractRecognitionArea {
 		results.clear();
 		bounds = ContourBoundingBox.getContourBoundingBox(in);
 
-		for (ContourBoundingBox bound : bounds) {
-			var norm = ImageTools.getScaledImage(bound.getTransformedImage(in, false));
-			var flip = ImageTools.getScaledImage(bound.getTransformedImage(in, true));
-			var i = new ImageDesc(norm, flip);
+		for (final ContourBoundingBox bound : bounds) {
+			final var norm = ImageTools.getScaledImage(bound.getTransformedImage(in, false));
+			final var flip = ImageTools.getScaledImage(bound.getTransformedImage(in, true));
+			final var i = new ImageDesc(norm, flip);
 
-			MatchResult mr = strat.getMatch(i, recogTresh / 100.0);
+			final MatchResult mr = strat.getMatch(i, recogTresh / 100.0);
 			if (mr != null) {
 				results.add(mr);
 			}
@@ -78,7 +78,7 @@ public class AutoDetectAreaStrat extends AbstractRecognitionArea {
 
 	@Override
 	public void draw(Graphics g) {
-		for (ContourBoundingBox bb : bounds) {
+		for (final ContourBoundingBox bb : bounds) {
 			bb.draw(g);
 		}
 	}

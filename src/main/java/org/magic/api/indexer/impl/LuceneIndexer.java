@@ -49,13 +49,13 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	private static final String MAX_RESULTS = "maxResults";
 	private static final String FIELDS = "fields";
 	private Directory dir;
-	private Analyzer analyzer;
-	private JsonExport serializer;
+	private final Analyzer analyzer;
+	private final JsonExport serializer;
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put(BOOST, MTGProperty.newBooleanProperty("false", "enable Document level field boosting"));
 		m.put(MIN_TERM_FREQ, MTGProperty.newIntegerProperty("1",
 				"Sets the frequency below which terms will be ignored in the source doc", 1, -1));
@@ -68,7 +68,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 					"cost,text,scryfallId,numbercolor,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted,retro",
 					"indexed fields for cards. Separated by comma",
 					BeanUtils.describe(new MTGCard()).keySet().stream().toArray(value -> new String[value])));
-		} catch (Exception _) {
+		} catch (final Exception _) {
 
 			m.put(FIELDS, new MTGProperty(
 					"cost,text,scryfallId,numbercolor,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted,retro",
@@ -82,19 +82,21 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		serializer = new JsonExport();
 		analyzer = new StandardAnalyzer();
 
-		if (!getFile(DIRECTORY).exists())
-			logger.warn("Index is not initiated at {}, please launch it from config panel", getFile(DIRECTORY));
+		if (!getFile(DIRECTORY).exists()) {
+		    logger.warn("Index is not initiated at {}, please launch it from config panel", getFile(DIRECTORY));
+		}
 	}
 
 	@Override
 	public String[] listFields() {
-		if (dir == null)
-			open();
+		if (dir == null) {
+		    open();
+		}
 
 		try (var indexReader = DirectoryReader.open(dir)) {
-			var fields = FieldInfos.getIndexedFields(indexReader);
+			final var fields = FieldInfos.getIndexedFields(indexReader);
 			return fields.toArray(new String[fields.size()]);
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			return new String[0];
 		}
 	}
@@ -107,15 +109,16 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	@Override
 	public List<String> suggestCardName(String q) {
 
-		var query = new StringBuilder("");
-		var split = q.split(" ");
+		final var query = new StringBuilder("");
+		final var split = q.split(" ");
 		for (var i = 0; i < split.length; i++) {
 			query.append("name:").append(split[i]);
 
-			if (i < split.length - 1)
-				query.append(" AND ");
-			else
-				query.append("*");
+			if (i < split.length - 1) {
+			    query.append(" AND ");
+			} else {
+			    query.append("*");
+			}
 		}
 
 		return search(query.toString().trim()).stream().map(MTGCard::getFullName).distinct().toList();
@@ -123,26 +126,28 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 	@Override
 	public List<MTGCard> search(String q) {
-		if (dir == null)
-			open();
+		if (dir == null) {
+		    open();
+		}
 
-		var ret = new ArrayList<MTGCard>();
+		final var ret = new ArrayList<MTGCard>();
 
 		try (var indexReader = DirectoryReader.open(dir)) {
-			var searcher = new IndexSearcher(indexReader);
-			var query = new QueryParser("name", analyzer).parse(q);
+			final var searcher = new IndexSearcher(indexReader);
+			final var query = new QueryParser("name", analyzer).parse(q);
 			logger.trace(query);
 
-			var count = searcher.count(query);
-			var top = searcher.search(query, Math.max(1, count));
+			final var count = searcher.count(query);
+			final var top = searcher.search(query, Math.max(1, count));
 
 			logger.debug("found {} items for {}", top.totalHits, q);
 
-			for (var i = 0; i < top.totalHits.value(); i++)
-				ret.add(serializer.fromJson(searcher.storedFields().document(top.scoreDocs[i].doc).get("data"),
-						MTGCard.class));
+			for (var i = 0; i < top.totalHits.value(); i++) {
+			    ret.add(serializer.fromJson(searcher.storedFields().document(top.scoreDocs[i].doc).get("data"),
+			    		MTGCard.class));
+			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.trace(e);
 		}
 
@@ -156,24 +161,25 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 	@Override
 	public Map<String, Long> terms(String field) {
-		if (dir == null)
-			open();
+		if (dir == null) {
+		    open();
+		}
 
-		var map = new LinkedHashMap<String, Long>();
+		final var map = new LinkedHashMap<String, Long>();
 
 		logger.debug("looking terms for {}", field);
 
 		try {
-			var reader = DirectoryReader.open(dir);
-			var terms = MultiTerms.getTerms(reader, field);
-			var it = terms.iterator();
+			final var reader = DirectoryReader.open(dir);
+			final var terms = MultiTerms.getTerms(reader, field);
+			final var it = terms.iterator();
 			var term = it.next();
 			while (term != null) {
 				map.put(term.utf8ToString(), it.totalTermFreq());
 				term = it.next();
 			}
 			logger.debug("looking terms for {} : {} ", field, map.size());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error ", e);
 		}
 		return map;
@@ -181,38 +187,41 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 	@Override
 	public Map<MTGCard, Float> similarity(MTGCard mc) throws IOException {
-		var ret = new LinkedHashMap<MTGCard, Float>();
+		final var ret = new LinkedHashMap<MTGCard, Float>();
 
-		if (mc == null)
-			return ret;
+		if (mc == null) {
+		    return ret;
+		}
 
-		if (dir == null)
-			open();
+		if (dir == null) {
+		    open();
+		}
 
 		logger.debug("search similar cards for {}", mc);
 
 		try (var indexReader = DirectoryReader.open(dir)) {
 
-			var searcher = new IndexSearcher(indexReader);
-			var query = new QueryParser("text", analyzer).parse("name:\"" + mc.getName() + "\"");
+			final var searcher = new IndexSearcher(indexReader);
+			final var query = new QueryParser("text", analyzer).parse("name:\"" + mc.getName() + "\"");
 			logger.trace(query);
-			var top = searcher.search(query, 1);
+			final var top = searcher.search(query, 1);
 
 			if (top.totalHits.value() > 0) {
-				var mlt = new MoreLikeThis(indexReader);
+				final var mlt = new MoreLikeThis(indexReader);
 				mlt.setFieldNames(getArray(FIELDS));
 				mlt.setAnalyzer(analyzer);
 				mlt.setMinTermFreq(getInt(MIN_TERM_FREQ));
 				mlt.setBoost(getBoolean(BOOST));
 
-				var scoreDoc = top.scoreDocs[0];
-				var like = mlt.like(scoreDoc.doc);
+				final var scoreDoc = top.scoreDocs[0];
+				final var like = mlt.like(scoreDoc.doc);
 				logger.trace("Like query={}", like);
-				var likes = searcher.search(like, getInt(MAX_RESULTS));
+				final var likes = searcher.search(like, getInt(MAX_RESULTS));
 
-				for (var l : likes.scoreDocs)
-					ret.put(serializer.fromJson(searcher.storedFields().document(l.doc).get("data"), MTGCard.class),
-							l.score);
+				for (final var l : likes.scoreDocs) {
+				    ret.put(serializer.fromJson(searcher.storedFields().document(l.doc).get("data"), MTGCard.class),
+				    		l.score);
+				}
 
 				logger.debug("found {} results", likes.scoreDocs.length);
 				close();
@@ -221,7 +230,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 				logger.error("can't found {}", mc);
 			}
 
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			logger.error(e);
 		}
 		return ret;
@@ -238,17 +247,18 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 		logger.info("Loading cards indexing.... may takes few minutes...");
 
-		if (dir == null)
-			open();
+		if (dir == null) {
+		    open();
+		}
 
-		var iwc = new IndexWriterConfig(analyzer);
+		final var iwc = new IndexWriterConfig(analyzer);
 		iwc.setOpenMode(OpenMode.CREATE);
-		var indexWriter = new IndexWriter(dir, iwc);
+		final var indexWriter = new IndexWriter(dir, iwc);
 
-		for (var mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards()) {
+		for (final var mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards()) {
 			try {
 				indexWriter.addDocument(toDocuments(mc));
-			} catch (IllegalArgumentException e) {
+			} catch (final IllegalArgumentException e) {
 				logger.error("Error indexing {} {}", mc, mc.getEdition(), e);
 			}
 		}
@@ -261,7 +271,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		try {
 			dir = FSDirectory.open(getFile(DIRECTORY).toPath());
 			return true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 			return false;
 		}
@@ -273,8 +283,8 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	}
 
 	private Document toDocuments(MTGCard mc) {
-		var doc = new Document();
-		var fieldType = new FieldType();
+		final var doc = new Document();
+		final var fieldType = new FieldType();
 		fieldType.setStored(true);
 		fieldType.setStoreTermVectors(true);
 		fieldType.setTokenized(true);
@@ -284,18 +294,21 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		doc.add(new Field("name", mc.getName(), fieldType));
 		doc.add(new Field("number", mc.getNumber(), fieldType));
 
-		if (mc.getCost() != null)
-			doc.add(new Field("cost", mc.getCost(), fieldType));
-		else
-			doc.add(new Field("cost", "", fieldType));
+		if (mc.getCost() != null) {
+		    doc.add(new Field("cost", mc.getCost(), fieldType));
+		} else {
+		    doc.add(new Field("cost", "", fieldType));
+		}
 
-		if (mc.getText() != null)
-			doc.add(new Field("text", mc.getText(), fieldType));
-		else
-			doc.add(new Field("text", "", fieldType));
+		if (mc.getText() != null) {
+		    doc.add(new Field("text", mc.getText(), fieldType));
+		} else {
+		    doc.add(new Field("text", "", fieldType));
+		}
 
-		if (mc.getCmc() != null)
-			doc.add(new StoredField("cmc", mc.getCmc()));
+		if (mc.getCmc() != null) {
+		    doc.add(new StoredField("cmc", mc.getCmc()));
+		}
 
 		doc.add(new Field("type", mc.getFullType(), fieldType));
 		doc.add(new Field("set", mc.getEdition().getId(), fieldType));
@@ -310,14 +323,14 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		doc.add(new Field("retro", String.valueOf(mc.isRetro()), fieldType));
 
 		if (!mc.getExtra().isEmpty()) {
-			for (var l : mc.getExtra()) {
+			for (final var l : mc.getExtra()) {
 				doc.add(new Field("extraLayout", l.toString(), fieldType));
 			}
 		} else {
 			doc.add(new Field("extraLayout", "", fieldType));
 		}
 
-		for (EnumColors color : mc.getColors().stream().filter(c -> c != null).toList()) {
+		for (final EnumColors color : mc.getColors().stream().filter(c -> c != null).toList()) {
 			doc.add(new Field("color", color.getCode(), fieldType));
 		}
 
@@ -341,10 +354,11 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 	@Override
 	public Date getIndexDate() {
-		if (getFile(DIRECTORY).exists())
-			return new Date(getFile(DIRECTORY).lastModified());
-		else
-			return null;
+		if (getFile(DIRECTORY).exists()) {
+		    return new Date(getFile(DIRECTORY).lastModified());
+		} else {
+		    return null;
+		}
 	}
 
 }

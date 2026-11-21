@@ -48,8 +48,9 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 	}
 
 	public Dimension getCardsDimension() {
-		if (d == null)
-			d = MTGControler.getInstance().getCardsGameDimension();
+		if (d == null) {
+		    d = MTGControler.getInstance().getCardsGameDimension();
+		}
 
 		return d;
 	}
@@ -61,14 +62,15 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 	}
 
 	public List<DisplayableCard> lookupCardBy(String prop, String value) {
-		List<DisplayableCard> ret = new ArrayList<>();
+		final List<DisplayableCard> ret = new ArrayList<>();
 
-		for (Component c : getComponents()) {
+		for (final Component c : getComponents()) {
 			try {
-				var card = (DisplayableCard) c;
-				if (BeanUtils.describe(card.getMagicCard()).get(prop).equalsIgnoreCase(value))
-					ret.add(card);
-			} catch (Exception e) {
+				final var card = (DisplayableCard) c;
+				if (BeanUtils.describe(card.getMagicCard()).get(prop).equalsIgnoreCase(value)) {
+				    ret.add(card);
+				}
+			} catch (final Exception e) {
 				logger.error("error lookup", e);
 			}
 		}

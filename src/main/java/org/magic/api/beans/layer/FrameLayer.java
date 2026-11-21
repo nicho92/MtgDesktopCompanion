@@ -17,43 +17,43 @@ public class FrameLayer extends AbstractLayer {
     private transient BufferedImage image;
     private String path;
     private FrameType frameType;
-    
+
     private boolean adaptedLegendaryFrame = false;
     private boolean alphalayout;
-    
-    
-    
-    
+
+
+
+
     public void setAlphalayout(boolean alphalayout) {
 	this.alphalayout = alphalayout;
     }
-    
+
    public boolean isAlphalayout() {
     return alphalayout;
 }
-    
+
    public boolean isBothLines() {
   	return frameType==FrameType.BOTH_BORDER;
       }
-   
-   
+
+
     public boolean isTypesLine() {
 	return frameType==FrameType.TYPE_BORDER;
     }
-    
+
     public boolean isTitleLine() {
    	return frameType==FrameType.TITLE_BORDER;
        }
-    
+
     public void setAdaptedLegendaryFrame(boolean adaptedLegendaryFrame) {
 	this.adaptedLegendaryFrame = adaptedLegendaryFrame;
     }
-    
+
     public boolean isAdaptedLegendaryFrame() {
 	return adaptedLegendaryFrame;
     }
 
-    
+
     public void setFrameType(FrameType frameType) {
 	this.frameType = frameType;
     }
@@ -64,38 +64,39 @@ public class FrameLayer extends AbstractLayer {
 
     @Override
     public void paintLayer(Graphics2D g2) {
-	
+
 	var print = getImage();
-	
-	if(image==null)
+
+	if(image==null) {
 	    return;
-	
+	}
+
 	if(isTitleLine())
 	{
 	    print=image.getSubimage(0, 0, 2665, 261);
 	    setHeight(261);
 	}
-	
+
 	if(isTypesLine())
 	{
 	    print= image.getSubimage(0, 2149, 2665, 261);
 	    setHeight(261);
-	} 
-	
+	}
+
 	if(getFrameType()==FrameType.FRAME && isAdaptedLegendaryFrame())
 	{
-	    var nh = print.getHeight()-350;
+	    final var nh = print.getHeight()-350;
 	    print= image.getSubimage(0, 350, print.getWidth(), nh );
 	    setHeight(nh);
-	} 
-	
+	}
+
 	if(alphalayout)
 	{
 	   print= ImageTools.applyZoneOpacity(print, 0.5f, new Rectangle(83, 2470, 2549, 1214));
 	}
-	
-	
-	
+
+
+
 	g2.drawImage(
 		print,
 	        getX(),
@@ -105,26 +106,26 @@ public class FrameLayer extends AbstractLayer {
 	        null
 	    );
     }
-    
+
     public File getFile()
     {
 	return new File(MTGConstants.MTG_COMPOSER_DIR,path);
     }
-    
+
     public void setFile(File f)
     {
 	this.path= MTGConstants.MTG_COMPOSER_DIR.toURI().relativize(f.toURI()).getPath();
     }
-    
+
     public String getPath() {
 	return path;
     }
-    
+
     public void setPath(String path) {
 	this.path = path;
     }
-    
-    
+
+
     public FrameLayer(File source) {
 	setFile(source);
 	setName(source.getName());
@@ -137,16 +138,16 @@ public class FrameLayer extends AbstractLayer {
         return image;
     }
 
-    
+
     @Override
     public void reload() {
-	
+
 	try {
 	    this.image =  ImageTools.read(getFile());
-	} catch (IOException e) {
+	} catch (final IOException e) {
 	    MTGLogger.getLogger(this.getClass()).error("{} : error with file {} : {}",getName(),getFile(),e.getMessage());
 	}
-       
+
      }
 
 

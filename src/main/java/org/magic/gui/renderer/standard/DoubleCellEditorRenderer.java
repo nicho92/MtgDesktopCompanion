@@ -20,10 +20,10 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JFormattedTextField fmtTxtField;
+	private final JFormattedTextField fmtTxtField;
 	private NumberFormat format = new DecimalFormat();
-	private boolean enableArrow;
-	private JLabel lab;
+	private final boolean enableArrow;
+	private final JLabel lab;
 
 	public DoubleCellEditorRenderer() {
 		this(false);
@@ -38,8 +38,9 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 	}
 
 	public DoubleCellEditorRenderer(boolean enablePercent, boolean enabledArrow) {
-		if (enablePercent)
-			this.format = NumberFormat.getPercentInstance();
+		if (enablePercent) {
+		    this.format = NumberFormat.getPercentInstance();
+		}
 
 		lab = new JLabel();
 		lab.setOpaque(true);
@@ -69,13 +70,15 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 
 		Double val = -1.0;
 
-		if (value == null)
-			return lab;
+		if (value == null) {
+		    return lab;
+		}
 
-		if (value instanceof Long l)
-			val = l.doubleValue();
-		else if (value instanceof Double l)
-			val = l;
+		if (value instanceof final Long l) {
+		    val = l.doubleValue();
+		} else if (value instanceof final Double l) {
+		    val = l;
+		}
 
 		lab.setText(format.format(val));
 
@@ -90,14 +93,17 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 
 		if (enableArrow) {
 			lab.setHorizontalTextPosition(SwingConstants.LEFT);
-			if (val > 0)
-				lab.setIcon(MTGConstants.ICON_UP);
+			if (val > 0) {
+			    lab.setIcon(MTGConstants.ICON_UP);
+			}
 
-			if (val < 0)
-				lab.setIcon(MTGConstants.ICON_DOWN);
+			if (val < 0) {
+			    lab.setIcon(MTGConstants.ICON_DOWN);
+			}
 
-			if (val == 0)
-				lab.setIcon(MTGConstants.ICON_STANDBY);
+			if (val == 0) {
+			    lab.setIcon(MTGConstants.ICON_STANDBY);
+			}
 
 		}
 

@@ -15,7 +15,7 @@ public class TriggerManager extends Observable {
 		CREATURE_CAST, CRANK, SPELL_CAST, CREATURE_DEALS_DAMAGE, CREATURE_DIES, CREATURE_ATTACKS, BECOME_BLOCKED, AURA_ATTACH, ENCOUNTER, TAPPED
 	}
 
-	private Map<TRIGGERS, List<AbstractSpell>> triggers;
+	private final Map<TRIGGERS, List<AbstractSpell>> triggers;
 
 	public TriggerManager() {
 		triggers = new EnumMap<>(TRIGGERS.class);

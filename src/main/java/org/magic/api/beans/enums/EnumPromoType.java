@@ -153,7 +153,7 @@ public enum EnumPromoType implements MTGEnumeration {
 	public static EnumPromoType parseByLabel(String s) {
 		try {
 			return EnumPromoType.valueOf(s.trim().toUpperCase());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			logger.warn("EnumPromoType {} is not found", s);
 			return null;
 		}

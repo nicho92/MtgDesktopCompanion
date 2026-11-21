@@ -22,9 +22,10 @@ public class SelectedTapActions extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (var card : GamePanelGUI.getInstance().getPanelBattleField().getSelectedCards()) {
-			if (card.isTappable())
-				card.tap(!card.isTapped());
+		for (final var card : GamePanelGUI.getInstance().getPanelBattleField().getSelectedCards()) {
+			if (card.isTappable()) {
+			    card.tap(!card.isTapped());
+			}
 		}
 
 	}

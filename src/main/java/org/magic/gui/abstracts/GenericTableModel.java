@@ -52,9 +52,9 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	public Class<?> getColumnClass(int columnIndex) {
 
 		try {
-			var it = items.get(0);
+			final var it = items.get(0);
 			return PropertyUtils.getNestedProperty(it, columns[columnIndex]).getClass();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			return super.getColumnClass(columnIndex);
 		}
 
@@ -67,10 +67,10 @@ public class GenericTableModel<T> extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		var it = items.get(row);
+		final var it = items.get(row);
 		try {
 			return PropertyUtils.getNestedProperty(it, columns[column]);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -90,10 +90,11 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	}
 
 	public void init(List<T> t) {
-		if (t == null)
-			items = new ArrayList<>();
-		else
-			items = new ArrayList<>(t);
+		if (t == null) {
+		    items = new ArrayList<>();
+		} else {
+		    items = new ArrayList<>(t);
+		}
 
 		changed = false;
 		fireTableDataChanged();
@@ -105,8 +106,9 @@ public class GenericTableModel<T> extends AbstractTableModel {
 
 	public void addItems(List<T> t) {
 
-		if (t != null)
-			t.forEach(items::add);
+		if (t != null) {
+		    t.forEach(items::add);
+		}
 
 		fireTableDataChanged();
 	}
@@ -118,15 +120,17 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	}
 
 	public boolean isEmpty() {
-		if (items != null)
-			return items.isEmpty();
+		if (items != null) {
+		    return items.isEmpty();
+		}
 
 		return true;
 	}
 
 	public void removeItem(List<T> list) {
-		for (T it : list)
-			items.remove(it);
+		for (final T it : list) {
+		    items.remove(it);
+		}
 
 		changed = true;
 		fireTableDataChanged();
@@ -144,8 +148,9 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	}
 
 	public void removeRows(List<Integer> selectedRows) {
-		for (Integer i : selectedRows)
-			removeRow(i);
+		for (final Integer i : selectedRows) {
+		    removeRow(i);
+		}
 	}
 
 	public boolean isWritable() {
@@ -154,10 +159,11 @@ public class GenericTableModel<T> extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		if (items != null)
-			return items.size();
-		else
-			return 0;
+		if (items != null) {
+		    return items.size();
+		} else {
+		    return 0;
+		}
 	}
 
 	public String getColumn(int ind) {
@@ -171,8 +177,9 @@ public class GenericTableModel<T> extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		if (columns == null)
-			return 0;
+		if (columns == null) {
+		    return 0;
+		}
 		return columns.length;
 	}
 

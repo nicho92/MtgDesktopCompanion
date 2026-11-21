@@ -11,7 +11,7 @@ import org.magic.game.model.beans.ZoneEnum;
 public class RemoveCounterActions extends AbstractCardAction {
 
 	private static final long serialVersionUID = 1L;
-	private AbstractCounter counter;
+	private final AbstractCounter counter;
 
 	public RemoveCounterActions(DisplayableCard displayableCard, AbstractCounter counter) {
 		super(displayableCard, "remove a " + counter.describe());

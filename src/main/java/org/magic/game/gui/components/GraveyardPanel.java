@@ -30,8 +30,9 @@ public class GraveyardPanel extends DraggablePanel {
 
 	@Override
 	public void addComponent(DisplayableCard i) {
-		if (i.isTapped())
-			i.tap(false);
+		if (i.isTapped()) {
+		    i.tap(false);
+		}
 
 		add(i);
 
@@ -73,7 +74,7 @@ public class GraveyardPanel extends DraggablePanel {
 		var nb = 0;
 
 		for (var i = getComponents().length - 1; i >= 0; i--) {
-			DisplayableCard card = (DisplayableCard) getComponent(i);
+			final DisplayableCard card = (DisplayableCard) getComponent(i);
 			card.setBounds(5, 10 + nb, card.getWidth(), card.getHeight());
 			nb = nb + 30;
 		}

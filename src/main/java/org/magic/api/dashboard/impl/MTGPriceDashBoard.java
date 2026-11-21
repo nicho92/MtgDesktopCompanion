@@ -32,7 +32,7 @@ import org.magic.services.tools.UITools;
 public class MTGPriceDashBoard extends AbstractDashBoard {
 	private static final String WEBSITE = "https://www.mtgprice.com";
 	private Date updateTime;
-	private Pattern p;
+	private final Pattern p;
 
 	@Override
 	public STATUT getStatut() {
@@ -45,60 +45,63 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
-		var list = new ArrayList<CardShake>();
-		var url = WEBSITE + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
-		var doc = URLTools.extractAsHtml(url);
+		final var list = new ArrayList<CardShake>();
+		final var url = WEBSITE + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
+		final var doc = URLTools.extractAsHtml(url);
 		try {
 
-			var date = doc.getElementsByClass("span6").get(1).text().replace("Updated:", "").replace("UTC ", "").trim();
-			var forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
+			final var date = doc.getElementsByClass("span6").get(1).text().replace("Updated:", "").replace("UTC ", "").trim();
+			final var forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
 			updateTime = forma.parse(date);
-		} catch (ParseException e1) {
+		} catch (final ParseException e1) {
 			logger.error(e1);
 		}
 		var gameFormat = MTGFormat.toString(f);
-		if (f == MTGFormat.FORMATS.LEGACY || f == MTGFormat.FORMATS.COMMANDER)
-			gameFormat = "All";
+		if (f == MTGFormat.FORMATS.LEGACY || f == MTGFormat.FORMATS.COMMANDER) {
+		    gameFormat = "All";
+		}
 
-		var table = doc.getElementById("top50" + gameFormat);
-		var table2 = doc.getElementById("bottom50" + gameFormat);
+		final var table = doc.getElementById("top50" + gameFormat);
+		final var table2 = doc.getElementById("bottom50" + gameFormat);
 
 		try {
 
-			if (table != null)
-				for (Element e : table.select(MTGConstants.HTML_TAG_TR)) {
-					var cs = new CardShake();
-					cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-					cs.setPrice(UITools.parseDouble(
-							e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
-					cs.setPriceDayChange(UITools.parseDouble(
-							e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
-					cs.setProviderName(getName());
-					var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-					cs.setFoil(set.contains("(Foil)"));
-					set = set.replace("_\\(Foil\\)", "");
-					cs.setEd(getCodeForExt(set));
-					list.add(cs);
-					notify(cs);
-				}
+			if (table != null) {
+			    for (final Element e : table.select(MTGConstants.HTML_TAG_TR)) {
+			    	final var cs = new CardShake();
+			    	cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+			    	cs.setPrice(UITools.parseDouble(
+			    			e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
+			    	cs.setPriceDayChange(UITools.parseDouble(
+			    			e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
+			    	cs.setProviderName(getName());
+			    	var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+			    	cs.setFoil(set.contains("(Foil)"));
+			    	set = set.replace("_\\(Foil\\)", "");
+			    	cs.setEd(getCodeForExt(set));
+			    	list.add(cs);
+			    	notify(cs);
+			    }
+			}
 
-			if (table2 != null)
-				for (Element e : table2.select(MTGConstants.HTML_TAG_TR)) {
-					var cs = new CardShake();
-					cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-					cs.setPrice(UITools.parseDouble(
-							e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
-					cs.setPriceDayChange(UITools.parseDouble(
-							e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
-					cs.setProviderName(getName());
-					var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-					cs.setFoil(set.contains("(Foil)"));
-					set = set.replace("_\\(Foil\\)", "");
-					cs.setEd(getCodeForExt(set));
-					list.add(cs);
-					notify(cs);
-				}
-		} catch (Exception e) {
+			if (table2 != null) {
+			    for (final Element e : table2.select(MTGConstants.HTML_TAG_TR)) {
+			    	final var cs = new CardShake();
+			    	cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+			    	cs.setPrice(UITools.parseDouble(
+			    			e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
+			    	cs.setPriceDayChange(UITools.parseDouble(
+			    			e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
+			    	cs.setProviderName(getName());
+			    	var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+			    	cs.setFoil(set.contains("(Foil)"));
+			    	set = set.replace("_\\(Foil\\)", "");
+			    	cs.setEd(getCodeForExt(set));
+			    	list.add(cs);
+			    	notify(cs);
+			    }
+			}
+		} catch (final Exception e) {
 			logger.error("error retrieve cardshake for {}", gameFormat, e);
 		}
 		return list;
@@ -106,10 +109,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	private String getCodeForExt(String name) {
 		try {
-			for (MTGEdition ed : getEnabledPlugin(MTGCardsProvider.class).listEditions())
-				if (ed.getSet().toUpperCase().contains(name.toUpperCase()))
-					return ed.getId();
-		} catch (Exception e) {
+			for (final MTGEdition ed : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+			    if (ed.getSet().toUpperCase().contains(name.toUpperCase())) {
+			        return ed.getId();
+			    }
+			}
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 
@@ -119,39 +124,39 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MTGEdition edition) throws IOException {
 
-		String name = convert(edition.getSet()).replace(" ", "_");
+		final String name = convert(edition.getSet()).replace(" ", "_");
 
-		String url = WEBSITE + "/spoiler_lists/" + name;
+		final String url = WEBSITE + "/spoiler_lists/" + name;
 		logger.debug("get Prices for {} at {}", name, url);
 
-		Document doc = URLTools.extractAsHtml(url);
+		final Document doc = URLTools.extractAsHtml(url);
 
-		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
+		final Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 
-		var list = new EditionsShakers();
+		final var list = new EditionsShakers();
 		list.setProviderName(getName());
 		list.setEdition(edition);
 		list.setDate(new Date());
 
 		var data = table.html();
 		data = StringUtils.substringBetween(data, "[", "]");
-		var root = URLTools.toJson(data);
-		var arr = root.getAsJsonArray();
+		final var root = URLTools.toJson(data);
+		final var arr = root.getAsJsonArray();
 		for (var i = 0; i < arr.size(); i++) {
-			var card = arr.get(i).getAsJsonObject();
-			var shake = new CardShake();
+			final var card = arr.get(i).getAsJsonObject();
+			final var shake = new CardShake();
 			shake.setProviderName(getName());
 			shake.setName(card.get("name").getAsString());
 			shake.setEd(edition.getId());
 			shake.setPrice(card.get("fair_price").getAsDouble());
 			try {
 				shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				// do nothing
 			}
 			try {
 				shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
-			} catch (Exception _) {
+			} catch (final Exception _) {
 				// do nothing
 			}
 			shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
@@ -165,11 +170,13 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	private String convert(String name) {
 
-		if (name == null)
-			return "";
+		if (name == null) {
+		    return "";
+		}
 
-		if (name.equalsIgnoreCase("Limited Edition Alpha"))
-			return "Alpha";
+		if (name.equalsIgnoreCase("Limited Edition Alpha")) {
+		    return "Alpha";
+		}
 
 		return name;
 	}
@@ -182,7 +189,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 
-		HistoryPrice<MTGCard> historyPrice = new HistoryPrice<>(mc);
+		final HistoryPrice<MTGCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setFoil(foil);
 
 		if (mc == null) {
@@ -197,21 +204,21 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		edition = mc.getEdition().getSet();
 		edition = edition.replace(" ", "_");
 
-		String url = WEBSITE + "/sets/" + edition + "/" + name;
-		var d = URLTools.extractAsHtml(url);
+		final String url = WEBSITE + "/sets/" + edition + "/" + name;
+		final var d = URLTools.extractAsHtml(url);
 
 		logger.debug("get Prices for {} at {}", name, url);
 
-		Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(29);
+		final Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(29);
 
 		String html = js.html();
 		html = StringUtils.substringBetween(html, "[[", "]]");
 
-		var m = p.matcher(html);
+		final var m = p.matcher(html);
 		while (m.find()) {
 
-			var date = new Date(Long.parseLong(m.group(1).split(",")[0]));
-			var val = Double.parseDouble(m.group(1).split(",")[1]);
+			final var date = new Date(Long.parseLong(m.group(1).split(",")[0]));
+			final var val = Double.parseDouble(m.group(1).split(",")[1]);
 
 			historyPrice.put(date, val);
 		}
@@ -231,7 +238,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
 
-		var m = super.getDefaultAttributes();
+		final var m = super.getDefaultAttributes();
 		m.put("PERIOD", new MTGProperty("WEEKLY", "choose periode for cards update WEEKLY or DAILY"));
 
 		return m;

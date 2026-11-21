@@ -17,8 +17,8 @@ public class BooleanCellEditorRenderer extends AbstractCellEditor implements Tab
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JCheckBox cbox;
-	private JPanel p;
+	private final JCheckBox cbox;
+	private final JPanel p;
 
 	public BooleanCellEditorRenderer() {
 		cbox = new JCheckBox();
@@ -40,15 +40,17 @@ public class BooleanCellEditorRenderer extends AbstractCellEditor implements Tab
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 
-		if (value == null)
-			return p;
+		if (value == null) {
+		    return p;
+		}
 
 		cbox.setSelected(Boolean.parseBoolean(value.toString()));
 
-		if (isSelected)
-			p.setBackground(table.getSelectionBackground());
-		else
-			p.setBackground(table.getBackground());
+		if (isSelected) {
+		    p.setBackground(table.getSelectionBackground());
+		} else {
+		    p.setBackground(table.getBackground());
+		}
 
 		return p;
 	}

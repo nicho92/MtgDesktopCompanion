@@ -19,21 +19,22 @@ public class EuropeanGrader extends AbstractGradersProvider {
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
-		String url = getWebSite() + "/en/card-verifier";
+		final String url = getWebSite() + "/en/card-verifier";
 
-		Document d = RequestBuilder.build().get().newClient().url(url).addContent("certificate", identifier).toHtml();
+		final Document d = RequestBuilder.build().get().newClient().url(url).addContent("certificate", identifier).toHtml();
 
-		Elements trs = d.select("table").first().select("thead div.justify-content-center");
+		final Elements trs = d.select("table").first().select("thead div.justify-content-center");
 
-		if (trs.isEmpty())
-			return null;
+		if (trs.isEmpty()) {
+		    return null;
+		}
 
-		var grad = new MTGGrading();
+		final var grad = new MTGGrading();
 		grad.setGraderName(getName());
 		grad.setNumberID(identifier);
 		grad.setUrlInfo(url + "?certificate=" + identifier);
 
-		var item = trs.select("p.header_etiqueta_notas");
+		final var item = trs.select("p.header_etiqueta_notas");
 
 		if (!item.isEmpty()) {
 			grad.setCentering(UITools.parseDouble(item.get(0).text().replace("CENTERING ", "")));

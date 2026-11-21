@@ -23,8 +23,8 @@ import org.magic.services.tools.UITools;
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
     private static final String MAX_PAGE = "MAX_PAGE";
-    private Map<Integer, String> cacheColor;
-    private HashMap<String, Integer> formats;
+    private final Map<Integer, String> cacheColor;
+    private final HashMap<String, Integer> formats;
     private static final String BASE_URL="https://deckstats.net";
 
     public DeckstatsDeckSniffer() {
@@ -98,19 +98,19 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
     @Override
     public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-	var deck = info.toBaseDeck();
+	final var deck = info.toBaseDeck();
 
 	logger.debug("get deck {}", info.getUrl());
-	var d = URLTools.extractAsHtml(info.getUrl().toString());
-	var jsonContent = URLTools.toJson(d.selectFirst("script[data-page=app]").html()).getAsJsonObject();
-	var props = jsonContent.get("props").getAsJsonObject();
+	final var d = URLTools.extractAsHtml(info.getUrl().toString());
+	final var jsonContent = URLTools.toJson(d.selectFirst("script[data-page=app]").html()).getAsJsonObject();
+	final var props = jsonContent.get("props").getAsJsonObject();
 
-	for(var entry : props.get("entries").getAsJsonArray())
+	for(final var entry : props.get("entries").getAsJsonArray())
 	{
-	    var obj = entry.getAsJsonObject();
-	    var zone = obj.get("zone").getAsString();
-	    var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(obj.get("printing").getAsJsonObject().get("scryfall_id").getAsString());
-	    var qty = obj.get("amount").getAsInt();
+	    final var obj = entry.getAsJsonObject();
+	    final var zone = obj.get("zone").getAsString();
+	    final var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(obj.get("printing").getAsJsonObject().get("scryfall_id").getAsString());
+	    final var qty = obj.get("amount").getAsInt();
 
 	    notify(card);
 	    switch (zone) {
@@ -132,13 +132,14 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
     private String getCardId(MTGCard card) throws IOException
     {
-	var content = URLTools.extractAsJson(BASE_URL+"/api/cards/autocomplete?q="+URLTools.encode(card.getName())).getAsJsonObject().get("results").getAsJsonArray();
-	var opt = content.asList().stream().filter(je->je.getAsJsonObject().get("scryfall_id").getAsString().equals(card.getScryfallId())).findFirst();
+	final var content = URLTools.extractAsJson(BASE_URL+"/api/cards/autocomplete?q="+URLTools.encode(card.getName())).getAsJsonObject().get("results").getAsJsonArray();
+	final var opt = content.asList().stream().filter(je->je.getAsJsonObject().get("scryfall_id").getAsString().equals(card.getScryfallId())).findFirst();
 
-	if(opt.isPresent())
+	if(opt.isPresent()) {
 	    return opt.get().getAsJsonObject().get("idcards").getAsString();
-	else
+	} else {
 	    return content.get(0).getAsJsonObject().get("idcards").getAsString();
+	}
     }
 
 
@@ -146,29 +147,30 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
     @Override
     public List<RetrievableDeck> getDeckList(String filter, MTGCard mc) throws IOException {
 
-	List<RetrievableDeck> list = new ArrayList<>();
+	final List<RetrievableDeck> list = new ArrayList<>();
 
 	for (var i = 1; i <= getInt(MAX_PAGE); i++) {
 
-	    var q = RequestBuilder.build().get().newClient().url(BASE_URL+"/api/explore")
+	    final var q = RequestBuilder.build().get().newClient().url(BASE_URL+"/api/explore")
 		    .addContent("format_id", "" + formats.get(filter))
 		    .addContent("sort", getString("TYPES_ORDER"))
 		    .addContent("offset", "" + i)
 		    .addContent("limit", "100");
 
-	    if (mc != null)
+	    if (mc != null) {
 		q.addContent("card_ids[]", getCardId(mc));
+	    }
 
-	    var d = q.toJson();
+	    final var d = q.toJson();
 
-	    for (var item : d.getAsJsonObject().get("items").getAsJsonArray()) {
-		var deck = new RetrievableDeck();
+	    for (final var item : d.getAsJsonObject().get("items").getAsJsonArray()) {
+		final var deck = new RetrievableDeck();
 
-		var cont = item.getAsJsonObject();
+		final var cont = item.getAsJsonObject();
 		deck.setName(cont.get("name").getAsString());
 		try {
 		    deck.setUrl(new URI(BASE_URL+cont.get("url").getAsString()));
-		} catch (URISyntaxException _) {
+		} catch (final URISyntaxException _) {
 		    deck.setUrl(null);
 		}
 		deck.setAuthor(cont.get("owner_name").getAsString());
@@ -187,7 +189,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
     @Override
     public Map<String, MTGProperty> getDefaultAttributes() {
-	var m = super.getDefaultAttributes();
+	final var m = super.getDefaultAttributes();
 	m.put(MAX_PAGE, MTGProperty.newIntegerProperty("2", "number of page to query", 1, 10));
 	m.put("TYPES_ORDER",
 		new MTGProperty("updated", "How to sort search results", "updated", "likes", "views", "price", "name"));

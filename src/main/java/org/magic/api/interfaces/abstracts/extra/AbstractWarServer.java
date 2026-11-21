@@ -21,10 +21,11 @@ public abstract class AbstractWarServer extends AbstractMTGServer {
 	protected abstract String getWarFileName();
 
 	private File downloadVersion() throws IOException {
-		var f = new File(MTGConstants.DATA_DIR, getWarFileName());
+		final var f = new File(MTGConstants.DATA_DIR, getWarFileName());
 
-		if (!f.exists())
-			URLTools.download(warUri(), f);
+		if (!f.exists()) {
+		    URLTools.download(warUri(), f);
+		}
 
 		return f;
 	}
@@ -32,18 +33,18 @@ public abstract class AbstractWarServer extends AbstractMTGServer {
 	public void init() {
 		preinit();
 		server = new Server(getInt("PORT"));
-		var handlers = new Handler.Sequence();
+		final var handlers = new Handler.Sequence();
 		handlers.setServer(server);
 		server.setHandler(handlers);
 		try {
 			handlers.addHandler(createWebapp(server, "http", "/"));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("error on Init", e);
 		}
 	}
 
 	private WebAppContext createWebapp(Server server, String scheme, String context) throws IOException {
-		var webapp = new WebAppContext();
+		final var webapp = new WebAppContext();
 		webapp.setServer(server);
 		webapp.setContextPath(context);
 		webapp.setParentLoaderPriority(true);
@@ -60,7 +61,7 @@ public abstract class AbstractWarServer extends AbstractMTGServer {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 		m.put("AUTOSTART", MTGProperty.newBooleanProperty(FALSE, "Run server at startup"));
 		m.put("PORT", MTGProperty.newIntegerProperty("8083", "listening port for webserver", 80, -1));
 		return m;
@@ -71,7 +72,7 @@ public abstract class AbstractWarServer extends AbstractMTGServer {
 		try {
 			init();
 			server.start();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new IOException(e);
 		}
 
@@ -81,7 +82,7 @@ public abstract class AbstractWarServer extends AbstractMTGServer {
 	public void stop() throws IOException {
 		try {
 			server.stop();
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			throw new IOException();
 		}
 
@@ -89,8 +90,9 @@ public abstract class AbstractWarServer extends AbstractMTGServer {
 
 	@Override
 	public boolean isAlive() {
-		if (server != null)
-			return server.isRunning();
+		if (server != null) {
+		    return server.isRunning();
+		}
 
 		return false;
 	}

@@ -32,7 +32,7 @@ public class MTGJsonKeyWordsProvider extends AbstractKeyWordsManager {
 
 				list.add(new MTGKeyWord("Flip", TYPE.ACTION));
 
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.error(e);
 			}
 

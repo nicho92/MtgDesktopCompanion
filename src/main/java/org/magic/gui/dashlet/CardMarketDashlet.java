@@ -16,7 +16,7 @@ import org.mkm.gui.MkmPanel;
 public class CardMarketDashlet extends AbstractJDashlet {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class CardMarketDashlet extends AbstractJDashlet {
 	getContentPane().add(new MkmPanel());
 
 	if (getProperties().size() > 0) {
-	    var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
+	    final var r = new Rectangle((int) Double.parseDouble(getString("x")), (int) Double.parseDouble(getString("y")),
 		    (int) Double.parseDouble(getString("w")), (int) Double.parseDouble(getString("h")));
 
 	    setBounds(r);
@@ -46,7 +46,7 @@ public class CardMarketDashlet extends AbstractJDashlet {
     public void init() {
 	try {
 	    MkmAPIConfig.getInstance().init(AccountsManager.inst().getAuthenticator(new MagicCardMarketPricer2()).getTokensAsProperties());
-	} catch (MkmException e) {
+	} catch (final MkmException e) {
 	    logger.error(e);
 	}
 

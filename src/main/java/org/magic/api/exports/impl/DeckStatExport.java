@@ -23,7 +23,7 @@ import org.magic.services.tools.MTG;
 public class DeckStatExport extends AbstractFormattedFileCardExport {
 
 	private static final String FORMAT = "FORMAT";
-	private String columns = "amount,card_name,is_foil,is_pinned,is_signed,set_id,set_code,collector_number,language,condition,comment,added\n";
+	private final String columns = "amount,card_name,is_foil,is_pinned,is_signed,set_id,set_code,collector_number,language,condition,comment,added\n";
 
 	@Override
 	public String getStockFileExtension() {
@@ -42,12 +42,13 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
-		var line = new StringBuilder(columns);
-		for (MTGCardStock mc : stock) {
-			if (getString(FORMAT).equalsIgnoreCase("TXT"))
-				line.append(exportAsTxt(mc));
-			else
-				line.append(exportAsCSV(mc));
+		final var line = new StringBuilder(columns);
+		for (final MTGCardStock mc : stock) {
+			if (getString(FORMAT).equalsIgnoreCase("TXT")) {
+			    line.append(exportAsTxt(mc));
+			} else {
+			    line.append(exportAsCSV(mc));
+			}
 
 			line.append("\n");
 
@@ -80,27 +81,28 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 	}
 
 	private MTGCardStock parseAsCsv(Matcher m) {
-		var mc = parseMatcherWithGroup(m, 8, 7, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
+		final var mc = parseMatcherWithGroup(m, 8, 7, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
 
-		var mcs = MTGControler.getInstance().getDefaultStock();
+		final var mcs = MTGControler.getInstance().getDefaultStock();
 		mcs.setProduct(mc);
 		mcs.setQte(Integer.parseInt(m.group(1)));
 		mcs.setFoil(!StringUtils.isEmpty(m.group(3)));
 		mcs.setSigned(!StringUtils.isEmpty(m.group(5)));
 		mcs.setCondition(aliases.getReversedConditionFor(this, m.group(10), EnumCondition.NEAR_MINT));
 
-		if (!StringUtils.isEmpty(m.group(9)))
-			mcs.setLanguage(m.group(9));
+		if (!StringUtils.isEmpty(m.group(9))) {
+		    mcs.setLanguage(m.group(9));
+		}
 
 		return mcs;
 	}
 
 	private MTGCardStock parseAsTxt(Matcher m) {
 
-		var mcs = MTGControler.getInstance().getDefaultStock();
+		final var mcs = MTGControler.getInstance().getDefaultStock();
 
-		var setId = m.group(2).split("#")[0];
-		var setNumber = m.group(2).split("#")[1];
+		final var setId = m.group(2).split("#")[0];
+		final var setNumber = m.group(2).split("#")[1];
 
 		try {
 			mcs.setProduct(MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(setNumber, setId));
@@ -110,7 +112,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 			mcs.setLanguage(parseAttributs("LNG", m.group(4)));
 			mcs.setCondition(
 					aliases.getReversedConditionFor(this, parseAttributs("COND", m.group(4)), EnumCondition.NEAR_MINT));
-		} catch (IOException _) {
+		} catch (final IOException _) {
 			logger.error("can't find card with {} for the set {}", setNumber, setId);
 		}
 
@@ -119,11 +121,12 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 
 	private String parseAttributs(String key, String data) {
 
-		var p = Pattern.compile("\\(" + key + "=(.*?)\\)");
-		var m = p.matcher(data);
+		final var p = Pattern.compile("\\(" + key + "=(.*?)\\)");
+		final var m = p.matcher(data);
 
-		if (m.find())
-			return m.group(1);
+		if (m.find()) {
+		    return m.group(1);
+		}
 
 		return "";
 	}
@@ -131,14 +134,15 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MTGCardStock> list = new ArrayList<>();
+		final List<MTGCardStock> list = new ArrayList<>();
 
 		matches(content, true).forEach(m -> {
 
-			if (getString(FORMAT).equalsIgnoreCase("TXT"))
-				list.add(parseAsTxt(m));
-			else
-				list.add(parseAsCsv(m));
+			if (getString(FORMAT).equalsIgnoreCase("TXT")) {
+			    list.add(parseAsTxt(m));
+			} else {
+			    list.add(parseAsCsv(m));
+			}
 
 		});
 
@@ -167,7 +171,7 @@ public class DeckStatExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public Map<String, MTGProperty> getDefaultAttributes() {
-		var m = new HashMap<String, MTGProperty>();
+		final var m = new HashMap<String, MTGProperty>();
 		m.put(FORMAT, new MTGProperty("CSV", "select format for import/export items", "CSV", "TXT"));
 
 		return m;

@@ -21,9 +21,9 @@ public class JListFilterDecorator {
 		if (!(jList.getModel() instanceof DefaultListModel)) {
 			throw new IllegalArgumentException("List model must be an instance of DefaultListModel");
 		}
-		var model = (DefaultListModel<T>) jList.getModel();
-		var items = getItems(model);
-		var textField = new JTextField();
+		final var model = (DefaultListModel<T>) jList.getModel();
+		final var items = getItems(model);
+		final var textField = new JTextField();
 		textField.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
@@ -42,7 +42,7 @@ public class JListFilterDecorator {
 
 			private void filter() {
 				model.clear();
-				for (T item : items) {
+				for (final T item : items) {
 					if (userFilter.test(item, textField.getText())) {
 						model.addElement(item);
 					}
@@ -50,19 +50,19 @@ public class JListFilterDecorator {
 			}
 		});
 
-		var panel = new JPanel(new BorderLayout());
+		final var panel = new JPanel(new BorderLayout());
 		panel.add(textField, BorderLayout.SOUTH);
-		var pane = new JScrollPane(jList);
+		final var pane = new JScrollPane(jList);
 		panel.add(pane);
 
-		var decorator = new JListFilterDecorator();
+		final var decorator = new JListFilterDecorator();
 		decorator.contentPanel = panel;
 		decorator.filterField = textField;
 		return decorator;
 	}
 
 	private static <T> List<T> getItems(DefaultListModel<T> model) {
-		List<T> list = new ArrayList<>();
+		final List<T> list = new ArrayList<>();
 		for (var i = 0; i < model.size(); i++) {
 			list.add(model.elementAt(i));
 		}

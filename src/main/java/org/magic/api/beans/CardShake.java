@@ -44,11 +44,13 @@ public class CardShake implements Serializable {
 		this.price = new MoneyValue(price, Currency.getInstance("USD"));
 		priceDayChange = price - lastDayPrice;
 
-		if (lastDayPrice == 0)
-			lastDayPrice = 1;
+		if (lastDayPrice == 0) {
+		    lastDayPrice = 1;
+		}
 
-		if (lastWeekPrice == 0)
-			lastWeekPrice = 1;
+		if (lastWeekPrice == 0) {
+		    lastWeekPrice = 1;
+		}
 
 		percentDayChange = ((price - lastDayPrice) / lastDayPrice) / 100;
 		priceWeekChange = price - lastWeekPrice;

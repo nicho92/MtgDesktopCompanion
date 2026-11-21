@@ -35,25 +35,25 @@ public class CardCanvas extends JPanel {
     private transient RenderingHints  hints;
     private transient Stroke stroke = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, new float[] { 6, 6 }, 0);
     private Color strokeColor = Color.WHITE;
-    
-    
+
+
     public CardCanvas() {
 
 	setBackground(Color.LIGHT_GRAY);
 	hints = new RenderingHints(Map.of(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON,
-							    RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY, 
-							    RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, 
+							    RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY,
+							    RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY,
 							    RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
 							    RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC));
-		 
-	
-	var mouseHandler = new MouseAdapter() {
+
+
+	final var mouseHandler = new MouseAdapter() {
 
 	    @Override
 	    public void mousePressed(MouseEvent e) {
 
 		selectLayerAt(toCanvasX(e.getX()), toCanvasY(e.getY()));
-		
+
 		notifyLayerChanged();
 	    }
 
@@ -64,15 +64,15 @@ public class CardCanvas extends JPanel {
 		    return;
 		}
 
-		int mouseX = toCanvasX(e.getX());
-		int mouseY = toCanvasY(e.getY());
+		final int mouseX = toCanvasX(e.getX());
+		final int mouseY = toCanvasY(e.getY());
 
 		selectedLayer.setX(mouseX - dragOffsetX);
 		selectedLayer.setY(mouseY - dragOffsetY);
-		
+
 		notifyLayerChanged();
 
-		
+
 		repaint();
 	    }
 	};
@@ -80,29 +80,29 @@ public class CardCanvas extends JPanel {
 	addMouseListener(mouseHandler);
 	addMouseMotionListener(mouseHandler);
     }
-    
+
     public void setStroke(Stroke stroke) {
 	this.stroke = stroke;
     }
-    
+
     public void setStrokeColor(Color strokeColor) {
 	this.strokeColor = strokeColor;
     }
-    
-    
+
+
 
     public double getZoom() {
 	return zoom;
     }
-    
+
     public void setHints(RenderingHints hints) {
 	this.hints = hints;
     }
-    
+
     public RenderingHints getHints() {
 	return hints;
     }
-    
+
 
     public void setZoom(double zoom) {
 	if (zoom <= 0) {
@@ -139,13 +139,13 @@ public class CardCanvas extends JPanel {
     public void setLayerChangeListener(LayerChangeListener listener) {
 	    this.layerChangeListener = listener;
     }
-    
+
     private void notifyLayerChanged() {
 	    if (layerChangeListener != null) {
 	        layerChangeListener.layerChanged(selectedLayer);
 	    }
 	}
-    
+
     // =====================================================================
     // Layers
     // =====================================================================
@@ -188,7 +188,7 @@ public class CardCanvas extends JPanel {
 	    return;
 	}
 
-	int index = layers.indexOf(layer);
+	final int index = layers.indexOf(layer);
 
 	if (index < 0) {
 	    return;
@@ -218,7 +218,7 @@ public class CardCanvas extends JPanel {
 	    return;
 	}
 
-	int index = layers.indexOf(layer);
+	final int index = layers.indexOf(layer);
 
 	if (index < 0 || index >= layers.size() - 1) {
 
@@ -238,7 +238,7 @@ public class CardCanvas extends JPanel {
 	    return;
 	}
 
-	int index = layers.indexOf(layer);
+	final int index = layers.indexOf(layer);
 
 	if (index <= 0) {
 	    return;
@@ -250,16 +250,16 @@ public class CardCanvas extends JPanel {
 
 	repaint();
     }
-    
-   
+
+
     public BufferedImage getCardImage()
     {
-	    int minX = getLayers().stream()
+	    final int minX = getLayers().stream()
 	            .mapToInt(Layer::getX)
 	            .min()
 	            .orElse(0);
 
-	    int minY = getLayers().stream()
+	    final int minY = getLayers().stream()
 	            .mapToInt(Layer::getY)
 	            .min()
 	            .orElse(0);
@@ -273,29 +273,30 @@ public class CardCanvas extends JPanel {
 //	            .mapToInt(layer -> layer.getY() + layer.getHeight())
 //	            .max()
 //	            .orElse(0);
-//	    
-	var opt = getLayers().stream().filter(b->b.getLayerType().equals("BorderLayer")).findFirst();
-	
-	Layer l = null;
-	
-	if(opt.isPresent())
-	    l = opt.get();
-	else
-	    l = getLayers().stream().filter(b->b.getLayerType().equals("FrameLayer")).map(FrameLayer.class::cast).filter(fl->fl.getFrameType()==FrameType.BORDERED_FRAME).findFirst().get();
+//
+	final var opt = getLayers().stream().filter(b->b.getLayerType().equals("BorderLayer")).findFirst();
 
-	var width=l.getWidth();
-	var height=l.getHeight();
-	    
-	var awtImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-	var g = awtImage.createGraphics();
+	Layer l = null;
+
+	if(opt.isPresent()) {
+	    l = opt.get();
+	} else {
+	    l = getLayers().stream().filter(b->b.getLayerType().equals("FrameLayer")).map(FrameLayer.class::cast).filter(fl->fl.getFrameType()==FrameType.BORDERED_FRAME).findFirst().get();
+	}
+
+	final var width=l.getWidth();
+	final var height=l.getHeight();
+
+	final var awtImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	final var g = awtImage.createGraphics();
 	 g.translate(-minX, -minY);
 	 paintCard(g);
 
 	return awtImage;
-	
-	
+
+
     }
-    
+
 
 
     // =====================================================================
@@ -310,7 +311,7 @@ public class CardCanvas extends JPanel {
 
 	for (int i = layers.size() - 1; i >= 0; i--) {
 
-	    Layer layer = layers.get(i);
+	    final Layer layer = layers.get(i);
 
 	    if (layer.contains(x, y)) {
 
@@ -342,7 +343,7 @@ public class CardCanvas extends JPanel {
 	    selectionListener.layerSelected(selectedLayer);
 	}
     }
-   
+
 
     // =====================================================================
     // Painting
@@ -351,9 +352,9 @@ public class CardCanvas extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
-	var g2 = (Graphics2D) g.create();
+	final var g2 = (Graphics2D) g.create();
 	try {
-	    
+
 	    g2.setRenderingHints(hints);
 	    g2.scale(zoom, zoom);
 
@@ -361,8 +362,8 @@ public class CardCanvas extends JPanel {
 	    // Layers
 	    // -------------------------------------------------------------
 	    paintCard(g2);
-	   
-	    
+
+
 	    if (selectedLayer != null) {
 		drawSelection(g2, selectedLayer);
 	    }
@@ -372,21 +373,21 @@ public class CardCanvas extends JPanel {
     }
 
     private void paintCard(Graphics2D g2) {
-	 for (var layer : layers) {
+	 for (final var layer : layers) {
 		layer.paint(g2);
 	    }
-	
+
     }
 
     private void drawSelection(Graphics2D g2, Layer layer) {
 
-	int x = layer.getX();
-	int y = layer.getY();
+	final int x = layer.getX();
+	final int y = layer.getY();
 
-	int width = layer.getWidth();
-	int height = layer.getHeight();
-	var oldStroke = g2.getStroke();
-	
+	final int width = layer.getWidth();
+	final int height = layer.getHeight();
+	final var oldStroke = g2.getStroke();
+
 	g2.setStroke(stroke);
 	g2.setColor(strokeColor);
 	g2.drawRect(x, y, width, height);
@@ -397,7 +398,7 @@ public class CardCanvas extends JPanel {
 	layers.clear();
 	notifyLayerChanged();
 	repaint();
-	
+
     }
 
 }

@@ -26,13 +26,13 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 1L;
 	private MTGDeck savedDeck;
-	private MTGDeck bckDeck;
-	private JLabel lblDecksize;
-	private LightDescribeCardPanel lightDescribeCardPanel;
-	private JList<MTGCard> listMain;
-	private JList<MTGCard> listSide;
-	private DefaultListModel<MTGCard> modMain;
-	private DefaultListModel<MTGCard> modSide;
+	private final MTGDeck bckDeck;
+	private final JLabel lblDecksize;
+	private final LightDescribeCardPanel lightDescribeCardPanel;
+	private final JList<MTGCard> listMain;
+	private final JList<MTGCard> listSide;
+	private final DefaultListModel<MTGCard> modMain;
+	private final DefaultListModel<MTGCard> modSide;
 
 	public DeckSideBoardSwitcherDialog(MTGDeck deck) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -56,22 +56,23 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		listSide.setCellRenderer(new MagicCardListRenderer());
 		getContentPane().add(new JScrollPane(listSide), BorderLayout.EAST);
 
-		var panel = new JPanel();
+		final var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-		var btnAdd = new JButton(">>>");
+		final var btnAdd = new JButton(">>>");
 		btnAdd.addActionListener(_ -> {
-			for (MTGCard mc : listMain.getSelectedValuesList()) {
+			for (final MTGCard mc : listMain.getSelectedValuesList()) {
 				modSide.addElement(mc);
 				modMain.removeElement(mc);
 
 				savedDeck.getMain().put(mc, savedDeck.getMain().get(mc) - 1);
 
-				if (savedDeck.getSideBoard().get(mc) == null)
-					savedDeck.getSideBoard().put(mc, 1);
-				else
-					savedDeck.getSideBoard().put(mc, savedDeck.getSideBoard().get(mc) + 1);
+				if (savedDeck.getSideBoard().get(mc) == null) {
+				    savedDeck.getSideBoard().put(mc, 1);
+				} else {
+				    savedDeck.getSideBoard().put(mc, savedDeck.getSideBoard().get(mc) + 1);
+				}
 
 				refresh();
 			}
@@ -79,18 +80,19 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		btnAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnAdd);
 
-		var btnRemove = new JButton("<<<");
+		final var btnRemove = new JButton("<<<");
 		btnRemove.addActionListener(_ -> {
-			for (MTGCard mc : listSide.getSelectedValuesList()) {
+			for (final MTGCard mc : listSide.getSelectedValuesList()) {
 				modMain.addElement(mc);
 				modSide.removeElement(mc);
 
 				savedDeck.getSideBoard().put(mc, savedDeck.getSideBoard().get(mc) - 1);
 
-				if (savedDeck.getMain().get(mc) == null)
-					savedDeck.getMain().put(mc, 1);
-				else
-					savedDeck.getMain().put(mc, savedDeck.getMain().get(mc) + 1);
+				if (savedDeck.getMain().get(mc) == null) {
+				    savedDeck.getMain().put(mc, 1);
+				} else {
+				    savedDeck.getMain().put(mc, savedDeck.getMain().get(mc) + 1);
+				}
 
 				refresh();
 			}
@@ -98,7 +100,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnRemove);
 
-		var btnRestore = new JButton("Restore");
+		final var btnRestore = new JButton("Restore");
 		btnRestore.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnRestore);
 		btnRestore.addActionListener(_ -> {
@@ -110,15 +112,15 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		lightDescribeCardPanel = new LightDescribeCardPanel();
 		panel.add(lightDescribeCardPanel);
 
-		var panel1 = new JPanel();
+		final var panel1 = new JPanel();
 		getContentPane().add(panel1, BorderLayout.SOUTH);
 
-		var btnOk = new JButton(MTGConstants.ICON_CHECK);
+		final var btnOk = new JButton(MTGConstants.ICON_CHECK);
 		btnOk.addActionListener(_ -> dispose());
 
 		panel1.add(btnOk);
 
-		var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
+		final var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
 		btnCancel.addActionListener(_ -> {
 			savedDeck = bckDeck;
 			dispose();
@@ -145,11 +147,13 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		modMain.removeAllElements();
 		modSide.removeAllElements();
 
-		for (MTGCard mc : bckDeck.getMainAsList())
-			modMain.addElement(mc);
+		for (final MTGCard mc : bckDeck.getMainAsList()) {
+		    modMain.addElement(mc);
+		}
 
-		for (MTGCard mc : bckDeck.getSideAsList())
-			modSide.addElement(mc);
+		for (final MTGCard mc : bckDeck.getSideAsList()) {
+		    modSide.addElement(mc);
+		}
 
 		refresh();
 	}

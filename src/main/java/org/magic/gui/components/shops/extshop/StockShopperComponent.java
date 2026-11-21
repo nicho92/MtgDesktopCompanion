@@ -35,25 +35,25 @@ import org.magic.services.workers.AbstractObservableWorker;
 public class StockShopperComponent extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JComboBox<MTGExternalShop> cboInput;
-	private JXTable tableInput;
-	private StockItemTableModel modelInput;
-	private AbstractBuzyIndicatorComponent buzy;
+	private final JComboBox<MTGExternalShop> cboInput;
+	private final JXTable tableInput;
+	private final StockItemTableModel modelInput;
+	private final AbstractBuzyIndicatorComponent buzy;
 	private MTGStockItem selectedItem;
-	private JButton btnSave;
-	private JButton btnBind;
+	private final JButton btnSave;
+	private final JButton btnBind;
 
 	public StockShopperComponent() {
 		setLayout(new BorderLayout(0, 0));
 
-		var panelCenter = new JPanel();
-		var txtSearch = new JTextField(15);
-		var panelNorth = new JPanel();
-		var panelSouth = new JPanel();
-		var btnLoad = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH, KeyEvent.VK_F, "search stocks");
+		final var panelCenter = new JPanel();
+		final var txtSearch = new JTextField(15);
+		final var panelNorth = new JPanel();
+		final var panelSouth = new JPanel();
+		final var btnLoad = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH, KeyEvent.VK_F, "search stocks");
 
 		btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "save stocks");
-		var btnReload = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "reload stocks");
+		final var btnReload = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "reload stocks");
 		btnBind = UITools.createBindableJButton("", MTGConstants.ICON_MERGE, KeyEvent.VK_B, "Bind with");
 		btnBind.setEnabled(false);
 		panelCenter.setLayout(new BorderLayout());
@@ -64,8 +64,9 @@ public class StockShopperComponent extends MTGUIComponent {
 		tableInput = UITools.createNewTable(modelInput, true);
 		tableInput.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		for (var i : new int[]{4, 5, 8})
-			tableInput.getColumnExt(modelInput.getColumnName(i)).setVisible(false);
+		for (final var i : new int[]{4, 5, 8}) {
+		    tableInput.getColumnExt(modelInput.getColumnName(i)).setVisible(false);
+		}
 
 		add(panelNorth, BorderLayout.NORTH);
 		add(panelCenter, BorderLayout.CENTER);
@@ -92,21 +93,21 @@ public class StockShopperComponent extends MTGUIComponent {
 				.addListSelectionListener(_ -> btnBind.setEnabled(tableInput.getSelectedRow() > -1));
 
 		btnBind.addActionListener(_ -> {
-			var menu = new JPopupMenu();
-			for (MTGExternalShop exp : MTG.listPlugins(MTGExternalShop.class)) {
-				var it = new JMenuItem(exp.getName(), exp.getIcon());
+			final var menu = new JPopupMenu();
+			for (final MTGExternalShop exp : MTG.listPlugins(MTGExternalShop.class)) {
+				final var it = new JMenuItem(exp.getName(), exp.getIcon());
 				menu.add(it);
 				it.addActionListener(_ -> {
 
-					MTGStockItem sourceItem = UITools.getTableSelection(tableInput, 0);
+					final MTGStockItem sourceItem = UITools.getTableSelection(tableInput, 0);
 
-					var comp = new StockShopperComponent();
+					final var comp = new StockShopperComponent();
 					comp.setSelectedProvider(exp);
-					var diag = MTGUIComponent.createJDialog(comp, true, true);
+					final var diag = MTGUIComponent.createJDialog(comp, true, true);
 					comp.enableSelectionMode(true, diag);
 					diag.setVisible(true);
 
-					MTGStockItem destItem = comp.getSelectedItem();
+					final MTGStockItem destItem = comp.getSelectedItem();
 
 					if (destItem != null) {
 						sourceItem.getTiersAppIds().put(exp.getName(), String.valueOf(destItem.getId()));
@@ -116,25 +117,26 @@ public class StockShopperComponent extends MTGUIComponent {
 				});
 
 			}
-			var p = btnBind.getLocationOnScreen();
+			final var p = btnBind.getLocationOnScreen();
 			menu.show(btnBind, 0, 0);
 			menu.setLocation(p.x, p.y + btnBind.getHeight());
 		});
 
 		btnSave.addActionListener(_ -> {
-			var ret = modelInput.getItems().stream().filter(MTGStockItem::isUpdated).toList();
+			final var ret = modelInput.getItems().stream().filter(MTGStockItem::isUpdated).toList();
 
-			var shop = (MTGExternalShop) cboInput.getSelectedItem();
+			final var shop = (MTGExternalShop) cboInput.getSelectedItem();
 
-			var rets = JOptionPane.showConfirmDialog(this, "Update " + ret.size() + " items ?", "Update",
+			final var rets = JOptionPane.showConfirmDialog(this, "Update " + ret.size() + " items ?", "Update",
 					JOptionPane.YES_NO_OPTION);
 
-			if (rets == JOptionPane.YES_OPTION)
-				try {
-					shop.saveOrUpdateStock(ret, true);
-				} catch (IOException e1) {
-					logger.error(e1);
-				}
+			if (rets == JOptionPane.YES_OPTION) {
+			    try {
+			    	shop.saveOrUpdateStock(ret, true);
+			    } catch (final IOException e1) {
+			    	logger.error(e1);
+			    }
+			}
 		});
 	}
 
@@ -171,7 +173,7 @@ public class StockShopperComponent extends MTGUIComponent {
 	private void loadProducts(MTGExternalShop ext, StockItemTableModel model, String search) {
 		model.clear();
 
-		var sw = new AbstractObservableWorker<List<MTGStockItem>, MTGStockItem, MTGExternalShop>(buzy, ext) {
+		final var sw = new AbstractObservableWorker<List<MTGStockItem>, MTGStockItem, MTGExternalShop>(buzy, ext) {
 			@Override
 			protected List<MTGStockItem> doInBackground() throws Exception {
 				return plug.listStock(search);
@@ -182,9 +184,9 @@ public class StockShopperComponent extends MTGUIComponent {
 				try {
 					super.done();
 					model.addItems(get());
-				} catch (InterruptedException _) {
+				} catch (final InterruptedException _) {
 					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
+				} catch (final ExecutionException e) {
 					logger.error(e);
 				}
 			}

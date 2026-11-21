@@ -18,8 +18,8 @@ import org.utils.patterns.observer.Observer;
 @Plugin(name = "MTGAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
 public class MTGAppender extends AbstractAppender {
 
-	private List<LogEvent> events;
-	private Observable obs;
+	private final List<LogEvent> events;
+	private final Observable obs;
 
 	public List<LogEvent> getEvents() {
 		return events;
@@ -51,7 +51,7 @@ public class MTGAppender extends AbstractAppender {
 		obs.setChanged();
 		try {
 			obs.notifyObservers(event.getMessage());
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 	}

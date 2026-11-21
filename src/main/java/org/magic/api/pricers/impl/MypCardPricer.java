@@ -37,40 +37,40 @@ public class MypCardPricer extends AbstractPricesProvider {
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		List<MTGPrice> list = new ArrayList<>();
+		final List<MTGPrice> list = new ArrayList<>();
 
-		String set = card.getEdition().getId();
+		final String set = card.getEdition().getId();
 
 		if (client == null) {
 			client = URLTools.newClient();
 			RequestBuilder.build().url("https://mypcards.com/magic").setClient(client).get().execute(); // init cookies
 		}
 
-		String url = BASE_URL + "/produto/search";
+		final String url = BASE_URL + "/produto/search";
 
-		JsonElement e = RequestBuilder.build().url(url).setClient(client).get().addContent("term", card.getName())
+		final JsonElement e = RequestBuilder.build().url(url).setClient(client).get().addContent("term", card.getName())
 				.toJson();
 		JsonObject o = null;
 
 		try {
 			o = e.getAsJsonArray().get(0).getAsJsonObject();
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.error("error getting {} at {} ", card, url, ex);
 			return new ArrayList<>();
 		}
 
-		var qtyVariation = o.get("qtd").getAsInt();
+		final var qtyVariation = o.get("qtd").getAsInt();
 
 		if (qtyVariation == 1) {
 			parsingOffers(BASE_URL + "/produto/" + o.get("idproduto").getAsInt() + "/"
 					+ o.get("slugnomeptproduto").getAsString(), list, card);
 		} else {
-			Elements divs = RequestBuilder.build().get().url(BASE_URL + "/magic").setClient(client)
+			final Elements divs = RequestBuilder.build().get().url(BASE_URL + "/magic").setClient(client)
 					.addContent("ProdutoSearch[query]", card.getName()).toHtml().select("div.card");
 
-			for (Element div : divs) {
+			for (final Element div : divs) {
 				if (div.select("a div").toString().contains("magic_" + set.toLowerCase() + "_")) {
-					String urlC = BASE_URL + div.select("a").attr("href");
+					final String urlC = BASE_URL + div.select("a").attr("href");
 					parsingOffers(urlC, list, card);
 					return list;
 				}
@@ -82,15 +82,15 @@ public class MypCardPricer extends AbstractPricesProvider {
 	}
 
 	private void parsingOffers(String urlC, List<MTGPrice> list, MTGCard card) throws IOException {
-		Elements trs = URLTools.extractAsHtml(urlC).select("table.table tr[data-key]");
-		for (Element tr : trs) {
-			Elements tds = tr.select("td");
+		final Elements trs = URLTools.extractAsHtml(urlC).select("table.table tr[data-key]");
+		for (final Element tr : trs) {
+			final Elements tds = tr.select("td");
 			if (tds.isEmpty()) {
 				logger.debug("{} found no offer", getName());
 				return;
 			}
 
-			var mp = new MTGPrice();
+			final var mp = new MTGPrice();
 			mp.setCardData(card);
 			mp.setCountry("Brazil");
 			mp.setCurrency(Currency.getInstance("BRL"));
@@ -99,8 +99,8 @@ public class MypCardPricer extends AbstractPricesProvider {
 			mp.setFoil(tds.get(1).text().toLowerCase().contains("foil"));
 			mp.setSellerUrl(BASE_URL + "/" + mp.getSeller());
 
-			var q = tds.get(2).text();
-			var sub = q.indexOf(' ');
+			final var q = tds.get(2).text();
+			final var sub = q.indexOf(' ');
 
 			mp.setQuality(aliases.getReversedConditionFor(this, sub > 0 ? q.substring(0, sub).trim() : q,
 					EnumCondition.NEAR_MINT));

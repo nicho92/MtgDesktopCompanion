@@ -19,40 +19,48 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin implement
 
 	private static final String PACKAGING_DIR_NAME = "packaging";
 
+	@Override
 	public List<MTGSealedProduct> getItemsFor(String me) {
 		return getItemsFor(new MTGEdition(me));
 	}
 
+	@Override
 	public List<MTGSealedProduct> get(MTGEdition me, EnumItems t, String lang, EnumExtra extra) {
 		return get(me, t).stream().filter(e -> e.getLang().equalsIgnoreCase(lang) && e.getExtra() == extra).toList();
 	}
 
+	@Override
 	public List<MTGSealedProduct> get(MTGEdition me, EnumItems t, String lang) {
 		return get(me, t).stream().filter(e -> e.getLang().equalsIgnoreCase(lang)).toList();
 	}
 
+	@Override
 	public List<MTGSealedProduct> get(MTGEdition me, EnumItems t, EnumExtra extra) {
-		if (extra == null)
-			return get(me, t);
+		if (extra == null) {
+		    return get(me, t);
+		}
 
 		return get(me, t).stream().filter(e -> e.getExtra() == extra).toList();
 	}
 
+	@Override
 	public List<MTGSealedProduct> get(MTGEdition me, EnumItems t) {
 		return getItemsFor(me).stream().filter(e -> e.getTypeProduct() == t).toList();
 	}
 
+	@Override
 	public BufferedImage getPictureFor(MTGSealedProduct p) {
 		try {
-			var b = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,
+			final var b = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,
 					p.getEdition().getId().replace("CON", "CON_"), p.getTypeProduct().name(), p.getStoreId() + ".png")
 					.toFile();
 
-			if (b.exists())
-				return ImageTools.read(b);
-			else
-				return caching(false, p);
-		} catch (Exception e) {
+			if (b.exists()) {
+			    return ImageTools.read(b);
+			} else {
+			    return caching(false, p);
+			}
+		} catch (final Exception e) {
 			logger.error("[{}] ERROR for {}-{} : {}", p.getEdition().getId(), p.getTypeProduct(), p.getUrl(),
 					e.getMessage());
 			return null;
@@ -61,22 +69,23 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin implement
 
 	protected BufferedImage caching(boolean force, MTGSealedProduct p) {
 
-		if (p.getUrl() == null)
-			return null;
+		if (p.getUrl() == null) {
+		    return null;
+		}
 
-		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,
+		final var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,
 				p.getEdition().getId().replace("CON", "CON_"), p.getTypeProduct().name()).toFile();
-		var pkgFile = new File(f, p.getStoreId() + ".png");
+		final var pkgFile = new File(f, p.getStoreId() + ".png");
 
 		try {
 			FileTools.forceMkdir(f);
 			if (force || !pkgFile.exists()) {
-				BufferedImage im = URLTools.extractAsImage(p.getUrl());
+				final BufferedImage im = URLTools.extractAsImage(p.getUrl());
 				ImageTools.saveImage(im, pkgFile, "PNG");
 				logger.debug("[{}] SAVED for {}-{}", p.getEdition().getId(), p.getTypeProduct(), p);
 				return im;
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("[{}] ERROR for {}-{} : {}", p.getEdition().getId(), p.getTypeProduct(), p.getUrl(),
 					e.getMessage());
 		}

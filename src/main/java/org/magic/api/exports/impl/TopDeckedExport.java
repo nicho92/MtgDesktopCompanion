@@ -33,10 +33,10 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
-		var builder = new StringBuilder(COLUMNS);
+		final var builder = new StringBuilder(COLUMNS);
 		builder.append(System.lineSeparator());
 
-		for (var mcs : stock) {
+		for (final var mcs : stock) {
 			builder.append(mcs.getQte()).append(getSeparator());
 			builder.append(commated(mcs.getProduct().getName())).append(getSeparator());
 			builder.append(mcs.getProduct().getEdition().getId()).append(getSeparator());
@@ -55,30 +55,32 @@ public class TopDeckedExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		var ret = new ArrayList<MTGCardStock>();
+		final var ret = new ArrayList<MTGCardStock>();
 
 		matches(content, true).forEach(m -> {
 
-			var mcs = new MTGCardStock();
+			final var mcs = new MTGCardStock();
 
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(9));
+				final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(9));
 				mcs.setProduct(mc);
 				mcs.setQte(Integer.parseInt(m.group(1)));
 				mcs.setFoil("foil".equals(m.group(6)));
 				mcs.setPrice(UITools.parseDouble(m.group(7)));
 
-				if (!getString(DEFAULT_COLLECTION).isEmpty())
-					mcs.setMagicCollection(new MTGCollection(getString(DEFAULT_COLLECTION)));
+				if (!getString(DEFAULT_COLLECTION).isEmpty()) {
+				    mcs.setMagicCollection(new MTGCollection(getString(DEFAULT_COLLECTION)));
+				}
 
-				if (!getString(DEFAULT_CONDITION).isEmpty())
-					mcs.setCondition(EnumCondition.valueOf(getString(DEFAULT_CONDITION)));
+				if (!getString(DEFAULT_CONDITION).isEmpty()) {
+				    mcs.setCondition(EnumCondition.valueOf(getString(DEFAULT_CONDITION)));
+				}
 
 				notify(mc);
 
 				ret.add(mcs);
 
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				logger.error("can't find card with scryfallID = {}", m.group(9));
 			}
 		});

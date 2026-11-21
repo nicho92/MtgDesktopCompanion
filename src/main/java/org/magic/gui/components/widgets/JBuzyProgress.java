@@ -13,7 +13,7 @@ public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JProgressBar progress;
+	private final JProgressBar progress;
 
 	public JBuzyProgress() {
 		super();
@@ -36,8 +36,9 @@ public class JBuzyProgress extends AbstractBuzyIndicatorComponent {
 
 	@Override
 	public void setText(String s) {
-		if (progress.isIndeterminate())
-			progress.setString(s);
+		if (progress.isIndeterminate()) {
+		    progress.setString(s);
+		}
 	}
 
 	@Override

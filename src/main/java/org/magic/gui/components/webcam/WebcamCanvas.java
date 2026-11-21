@@ -16,7 +16,7 @@ import com.github.sarxos.webcam.WebcamLockException;
 public class WebcamCanvas extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private transient Webcam webcam;
-	private Canvas canvas;
+	private final Canvas canvas;
 	private transient BufferedImage lastDrawn;
 	private transient BufferedImage buf;
 	private transient AbstractRecognitionArea strat;
@@ -34,30 +34,33 @@ public class WebcamCanvas extends JPanel {
 		canvas.addMouseListener(strat);
 		canvas.addMouseMotionListener(strat);
 
-		if (strat != null)
-			strat.init(webcam.getViewSize().width, webcam.getViewSize().height);
+		if (strat != null) {
+		    strat.init(webcam.getViewSize().width, webcam.getViewSize().height);
+		}
 	}
 
 	public void setWebcam(Webcam w) {
 		webcam = w;
 		try {
 			webcam.setViewSize(webcam.getDevice().getResolutions()[webcam.getDevice().getResolutions().length - 1]);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error(e);
 		}
 		setSize(w.getViewSize());
 		canvas.setSize(w.getViewSize());
 
-		if (strat != null)
-			strat.init(webcam.getViewSize().width, webcam.getViewSize().height);
+		if (strat != null) {
+		    strat.init(webcam.getViewSize().width, webcam.getViewSize().height);
+		}
 
 		canvas.setPreferredSize(new Dimension(webcam.getViewSize().width, webcam.getViewSize().height));
 		add(canvas);
 	}
 
 	public void setAreaStrat(AbstractRecognitionArea s) {
-		if (s == null)
-			return;
+		if (s == null) {
+		    return;
+		}
 
 		strat = s;
 		canvas.removeMouseListener(strat);
@@ -90,7 +93,7 @@ public class WebcamCanvas extends JPanel {
 				webcam.open();
 				logger.debug("webcam open = {}", webcam.isOpen());
 
-			} catch (WebcamLockException _) {
+			} catch (final WebcamLockException _) {
 				logger.error("{} is locked", webcam);
 			}
 		}
@@ -111,19 +114,21 @@ public class WebcamCanvas extends JPanel {
 		if (buf == null || buf.getHeight() != lastDrawn.getHeight() || buf.getWidth() != lastDrawn.getWidth()) {
 			buf = new BufferedImage(lastDrawn.getWidth(), lastDrawn.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 		}
-		var gi = canvas.getGraphics();
-		var g = buf.getGraphics();
+		final var gi = canvas.getGraphics();
+		final var g = buf.getGraphics();
 		g.drawImage(lastDrawn, 0, 0, null);
 
-		if (strat != null)
-			strat.draw(g);
+		if (strat != null) {
+		    strat.draw(g);
+		}
 
-		if (gi != null)
-			gi.drawImage(buf, 0, 0, null);
+		if (gi != null) {
+		    gi.drawImage(buf, 0, 0, null);
+		}
 	}
 
 	public void close() {
-		boolean ret = webcam.close();
+		final boolean ret = webcam.close();
 		logger.debug("{} is closed :{} ", webcam, ret);
 
 	}

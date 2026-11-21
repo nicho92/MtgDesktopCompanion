@@ -33,11 +33,11 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
 	@Override
 	public JComponent getSelectComponent() {
 
-		var component = new JPanel();
-		var panelManaSymbols = new JPanel();
+		final var component = new JPanel();
+		final var panelManaSymbols = new JPanel();
 
-		var lblResults = new JLabel();
-		var btnClear = UITools.createBindableJButton("", MTGConstants.ICON_SMALL_CLEAR, KeyEvent.VK_DELETE,
+		final var lblResults = new JLabel();
+		final var btnClear = UITools.createBindableJButton("", MTGConstants.ICON_SMALL_CLEAR, KeyEvent.VK_DELETE,
 				"clearmana");
 
 		symbols = new ArrayList<>();
@@ -60,8 +60,8 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
 			@Override
 			protected void auditedRun() {
 
-				for (var s : MTGCard.getManaCosts()) {
-					var lblMana = new JLabel(
+				for (final var s : MTGCard.getManaCosts()) {
+					final var lblMana = new JLabel(
 							ImageTools.resize(new ImageIcon(IconsProvider.getInstance().getManaSymbol(s)), 16, 16));
 					lblMana.addMouseListener(new MouseAdapter() {
 
@@ -93,11 +93,11 @@ public class ManaCostDialog extends AbstractDelegatedImporterDialog<String> {
 	public String getSelectedItem() {
 
 		symbols.sort(Comparator.comparingInt(sym -> {
-			var index = MTGCard.getManaCosts().indexOf(sym);
+			final var index = MTGCard.getManaCosts().indexOf(sym);
 			return index >= 0 ? index : Integer.MAX_VALUE;
 		}));
 
-		var sortedCost = new StringBuilder();
+		final var sortedCost = new StringBuilder();
 		symbols.forEach(sym -> sortedCost.append("{").append(sym).append("}"));
 
 		return sortedCost.toString();

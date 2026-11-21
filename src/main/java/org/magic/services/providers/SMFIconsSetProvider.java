@@ -13,7 +13,7 @@ import org.magic.services.tools.MTG;
 
 public class SMFIconsSetProvider {
 
-	private HashMap<String, String> map;
+	private final HashMap<String, String> map;
 
 	public SMFIconsSetProvider() {
 		map = new HashMap<>();
@@ -88,7 +88,7 @@ public class SMFIconsSetProvider {
 		return map.keySet().stream().map(id -> {
 			try {
 				return MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(id);
-			} catch (IOException _) {
+			} catch (final IOException _) {
 				return null;
 			}
 		}).filter(Objects::nonNull).sorted().toList();

@@ -1,6 +1,5 @@
 package org.magic.api.beans.layer;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
@@ -29,8 +28,8 @@ public class BorderLayer extends AbstractLayer {
 	setHeight(4180);
 	this.color = c;
 	setName(c.toString());
-	
-	
+
+
     }
 
     @Override
@@ -46,8 +45,8 @@ public class BorderLayer extends AbstractLayer {
     @Override
     public void paintLayer(Graphics2D g2) {
 
-	var graphics = (Graphics2D) g2.create();
-	    var border = new RoundRectangle2D.Double(
+	final var graphics = (Graphics2D) g2.create();
+	    final var border = new RoundRectangle2D.Double(
 		    getX(),
 		    getY(),
 		    getWidth(),
@@ -84,7 +83,7 @@ public class BorderLayer extends AbstractLayer {
 		 graphics.fill(border);
 	     }
 	     graphics.dispose();
-	
+
     }
 
     public BorderColor getColor() {
@@ -104,10 +103,11 @@ public class BorderLayer extends AbstractLayer {
     @Override
     public void reload() {
 	try {
-	    if(color==BorderColor.BORDERLESS)
+	    if(color==BorderColor.BORDERLESS) {
 		this.image = URLTools.extractAsImage(uri.toASCIIString());
-    
-	} catch (IOException e) {
+	    }
+
+	} catch (final IOException e) {
 	    MTGLogger.getLogger(this.getClass()).error(e);
 	}
     }
@@ -157,15 +157,15 @@ public class BorderLayer extends AbstractLayer {
 	    return;
 	}
 
-	double scaleX = (double) getWidth() / image.getWidth(null);
-	double scaleY = (double) getHeight() / image.getHeight(null);
+	final double scaleX = (double) getWidth() / image.getWidth(null);
+	final double scaleY = (double) getHeight() / image.getHeight(null);
 
 	imageScale = Math.max(scaleX, scaleY);
 
-	int scaledWidth =
+	final int scaledWidth =
 		(int) (image.getWidth(null) * imageScale);
 
-	int scaledHeight =
+	final int scaledHeight =
 		(int) (image.getHeight(null) * imageScale);
 
 	imageOffsetX =

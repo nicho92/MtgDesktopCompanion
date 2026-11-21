@@ -34,13 +34,13 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	@Override
 	public List<RetrievableTransaction> listOrders() throws IOException {
 		init();
-		var ret = new ArrayList<RetrievableTransaction>();
-		for (Element tr : s.select("div.ant-accordion__content div.ant-order__right")) {
-			var id = tr.select("div.ant-order__name span").get(0).text().replace("Order #", "");
-			var date = tr.select("div.ant-order__name span").get(1).text().replace("from ", "");
-			var price = tr.select("div.ant-order__articles span").text().trim();
+		final var ret = new ArrayList<RetrievableTransaction>();
+		for (final Element tr : s.select("div.ant-accordion__content div.ant-order__right")) {
+			final var id = tr.select("div.ant-order__name span").get(0).text().replace("Order #", "");
+			final var date = tr.select("div.ant-order__name span").get(1).text().replace("from ", "");
+			final var price = tr.select("div.ant-order__articles span").text().trim();
 
-			var rt = new RetrievableTransaction();
+			final var rt = new RetrievableTransaction();
 			rt.setSourceId(id);
 			rt.setSource(getName());
 			rt.setUrl(BASE_URL + "/en/index.php?controller=order-detail&id_order=" + id + "&ajax=true");
@@ -56,14 +56,14 @@ public class PhilibertShopper extends AbstractMagicShopper {
 
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
-		var t = buildTransaction(rt);
+		final var t = buildTransaction(rt);
 
-		var orderPage = RequestBuilder.build().url(rt.getUrl()).setClient(client).get()
+		final var orderPage = RequestBuilder.build().url(rt.getUrl()).setClient(client).get()
 				.addHeader("x-requested-with", "XMLHttpRequest").toHtml();
 
-		var stepsTable = orderPage.select("table.detail_step_by_step tbody");
+		final var stepsTable = orderPage.select("table.detail_step_by_step tbody");
 
-		for (var tr : stepsTable.select("tr")) {
+		for (final var tr : stepsTable.select("tr")) {
 			if (tr.select("TD").get(1).text().equals("Order cashed")) {
 				t.setDatePayment(UITools.parseDate(tr.select("td").get(0).text(), DATE_FORMAT));
 				t.setStatut(EnumTransactionStatus.PAID);
@@ -81,25 +81,26 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		}
 
 		try {
-			var trackingTable = orderPage.select("table[data-sort=false]").get(1);
+			final var trackingTable = orderPage.select("table[data-sort=false]").get(1);
 			t.setTransporterShippingCode(URLTools.extractElementText(trackingTable.select("td a").first()));
 			t.setTransporter(trackingTable.select("td").get(1).text());
 			t.setShippingPrice(UITools.parseDouble(trackingTable.select("td").get(2).attr("data-value")));
 
-		} catch (Exception _) {
+		} catch (final Exception _) {
 			// do nothing
 		}
 
-		for (Element tr : orderPage.select("div.detail-table-row")) {
+		for (final Element tr : orderPage.select("div.detail-table-row")) {
 
-			var stock = new MTGSealedStock(new MTGSealedProduct());
+			final var stock = new MTGSealedStock(new MTGSealedProduct());
 			stock.setComment(tr.select("div.detail-table-row__name").text());
 			stock.setPrice(UITools.parseDouble(URLTools
 					.extractElementText(tr.select("div.detail-table-row__price div.detail-table-row__value").first())));
 			stock.setQte(Integer.parseInt(tr.select("div.detail-table-row__qty div.detail-table-row__value").text()));
 
-			if (stock.getValue().doubleValue() > 0)
-				t.getItems().add(stock);
+			if (stock.getValue().doubleValue() > 0) {
+			    t.getItems().add(stock);
+			}
 		}
 
 		return t;
@@ -120,7 +121,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 
 				logger.info("return {}", s);
 
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error(e);
 			}
 		}

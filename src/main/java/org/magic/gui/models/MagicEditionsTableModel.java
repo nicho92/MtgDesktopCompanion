@@ -34,17 +34,17 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 		try {
 			calculate();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.error("error calculate", e);
 		}
 
 	}
 
 	public void calculate() {
-		var collection = new MTGCollection(MTGControler.getInstance().get("default-library"));
+		final var collection = new MTGCollection(MTGControler.getInstance().get("default-library"));
 		try {
 			mapCount = CollectionEvaluator.analyse(collection);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.error("can't evaluate for {} : {}", collection, e.getMessage());
 		}
 	}
@@ -89,45 +89,56 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		MTGEdition e = items.get(row);
-		if (column == 0)
-			return ImageTools.addOutline(IconsProvider.getInstance().get24(e.getId()), new Color(255, 255, 255, 180),
-					1);
+		final MTGEdition e = items.get(row);
+		if (column == 0) {
+		    return ImageTools.addOutline(IconsProvider.getInstance().get24(e.getId()), new Color(255, 255, 255, 180),
+		    		1);
+		}
 
-		if (column == 1)
-			return e;
+		if (column == 1) {
+		    return e;
+		}
 
-		if (column == 2)
-			return mapCount.get(e) == null ? 0 : mapCount.get(e);
+		if (column == 2) {
+		    return mapCount.get(e) == null ? 0 : mapCount.get(e);
+		}
 
-		if (column == 3)
-			return e.getCardCountPhysical();
+		if (column == 3) {
+		    return e.getCardCountPhysical();
+		}
 
 		if (column == 4) {
 
-			if (mapCount.get(e) == null)
-				return 0.0;
+			if (mapCount.get(e) == null) {
+			    return 0.0;
+			}
 
-			if (e.getCardCountPhysical() > 0)
-				return (double) mapCount.get(e) / e.getCardCountPhysical();
-			else
-				return (double) mapCount.get(e) / 1;
+			if (e.getCardCountPhysical() > 0) {
+			    return (double) mapCount.get(e) / e.getCardCountPhysical();
+			} else {
+			    return (double) mapCount.get(e) / 1;
+			}
 		}
 
-		if (column == 5)
-			return e.getReleaseDate();
+		if (column == 5) {
+		    return e.getReleaseDate();
+		}
 
-		if (column == 6)
-			return e.getType();
+		if (column == 6) {
+		    return e.getType();
+		}
 
-		if (column == 7)
-			return e.getBlock();
+		if (column == 7) {
+		    return e.getBlock();
+		}
 
-		if (column == 8)
-			return e.isOnlineOnly();
+		if (column == 8) {
+		    return e.isOnlineOnly();
+		}
 
-		if (column == 9)
-			return e.isPreview();
+		if (column == 9) {
+		    return e.isPreview();
+		}
 
 		return "";
 
