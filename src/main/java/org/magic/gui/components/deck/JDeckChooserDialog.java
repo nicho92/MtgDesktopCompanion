@@ -40,8 +40,8 @@ public class JDeckChooserDialog extends JDialog {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JXTable table;
-	private CmcChartPanel cmcChartPanel;
+	private final JXTable table;
+	private final CmcChartPanel cmcChartPanel;
 	private MTGDeck selectedDeck;
 	private JTagsPanel tagsPanel;
 	private AbstractBuzyIndicatorComponent buzy;

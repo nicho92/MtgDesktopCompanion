@@ -66,7 +66,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JXTable editionsTable;
-	private MagicEditionDetailPanel magicEditionDetailPanel;
+	private final MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardEditorPanel magicCardEditorPanel;
 	private MagicEditionsTableModel editionModel;
 	private JComboBox<MTGEdition> cboSets;
