@@ -684,7 +684,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		btnImportConfig.addActionListener(_ -> {
 
 			final var chooser = new JFileChooser(MTGConstants.DATA_DIR);
-			final int res = chooser.showOpenDialog(ConfigurationPanel.this);
+			final int res = chooser.showOpenDialog(this);
 			chooser.setFileFilter(new FileFilter() {
 
 				@Override

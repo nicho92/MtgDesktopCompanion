@@ -14,7 +14,7 @@ public class BonusCounterActions extends AbstractCardAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient BonusCounter bonusCounter;
+	private final transient BonusCounter bonusCounter;
 
 	public BonusCounterActions(DisplayableCard displayableCard, BonusCounter bonusCounter) {
 		super(displayableCard, "put a " + bonusCounter.describe());

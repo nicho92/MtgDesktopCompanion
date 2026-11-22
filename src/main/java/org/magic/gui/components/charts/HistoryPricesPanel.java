@@ -187,10 +187,9 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 						final Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
 						final TimeSeriesDataItem item = series1.getDataItem(new Day(d));
 						if (item != null) {
-							final var x = item.getPeriod().getFirstMillisecond();
+							final var x = Long.valueOf(item.getPeriod().getFirstMillisecond()).doubleValue();
 							final var y = item.getValue().doubleValue();
-							final var annot = new XYImageAnnotation(x, y,
-									IconsProvider.getInstance().get16(edition.getId()).getImage());
+							final var annot = new XYImageAnnotation(x, y,IconsProvider.getInstance().get16(edition.getId()).getImage());
 							annot.setToolTipText(edition.getSet());
 
 							((XYPlot) chart.getPlot()).addAnnotation(annot);

@@ -111,7 +111,7 @@ public class GuessGameService {
 	    current = BeanTools.cloneBean(result);
 	    current.setName(anonymise(result.getName()));
 	    current.setText(anonymise(result.getText()));
-	} catch (final Exception e) {
+	} catch (final Exception _) {
 	   //do nothing
 	}
 

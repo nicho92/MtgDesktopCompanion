@@ -31,7 +31,7 @@ public class CardTransfertHandler extends TransferHandler {
 	private static JWindow window = new JWindow();
 	private static JLabel dragLab = new JLabel();
 
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private final transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public CardTransfertHandler() {
 

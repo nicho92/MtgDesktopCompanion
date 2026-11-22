@@ -40,13 +40,13 @@ import org.magic.services.workers.AbstractObservableWorker;
 public class AnnouncesGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private GedPanel<MTGAnnounce> gedPanel;
-	private StockItemPanel itemsPanel;
-	private AnnouncesTableModel modelAnnounces;
-	private AbstractBuzyIndicatorComponent buzy;
-	private ContactPanel contactPanel;
-	private JXTable tableAnnounces;
-	private AnnounceDetailPanel detailsPanel;
+	private final GedPanel<MTGAnnounce> gedPanel;
+	private final StockItemPanel itemsPanel;
+	private final AnnouncesTableModel modelAnnounces;
+	private final AbstractBuzyIndicatorComponent buzy;
+	private final ContactPanel contactPanel;
+	private final JXTable tableAnnounces;
+	private final AnnounceDetailPanel detailsPanel;
 
 	public AnnouncesGUI() {
 		setLayout(new BorderLayout(0, 0));

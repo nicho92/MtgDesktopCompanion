@@ -14,7 +14,7 @@ public class LoyaltyActions extends AbstractCardAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient LoyaltyCounter val;
+	private final transient LoyaltyCounter val;
 
 	public LoyaltyActions(DisplayableCard card, LoyaltyCounter loyaltyCounter) {
 		super(card, loyaltyCounter.describe());

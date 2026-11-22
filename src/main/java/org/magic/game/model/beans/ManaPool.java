@@ -18,7 +18,7 @@ public class ManaPool extends Observable implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final Map<String, Integer> pool;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private final transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private final Pattern p;
 
 	public ManaPool() {

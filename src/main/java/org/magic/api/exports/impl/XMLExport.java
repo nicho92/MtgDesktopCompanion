@@ -29,7 +29,7 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class XMLExport extends AbstractCardExport {
 
-	private XStream xstream;
+	private final XStream xstream;
 
 	@Override
 	public String getStockFileExtension() {

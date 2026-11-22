@@ -22,7 +22,7 @@ public class ChangeBackGroundActions extends AbstractAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private final transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private File lastDir = MTGConstants.DATA_DIR;
 

@@ -14,7 +14,7 @@ public class ItemCounterActions extends AbstractCardAction {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient ItemCounter itemCounter;
+	private final transient ItemCounter itemCounter;
 
 	public ItemCounterActions(DisplayableCard displayableCard, ItemCounter itemCounter) {
 		super(displayableCard, "put a " + itemCounter.describe());

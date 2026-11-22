@@ -96,7 +96,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private ZoneEnum position;
 	private boolean rightActions;
 	private transient Observable obs;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private final transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private Player owner;
 
 	public Player getOwner() {
