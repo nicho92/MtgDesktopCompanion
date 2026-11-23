@@ -6,7 +6,7 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 
 public enum TextRole {
-
+        
     TITLE (134,"Beleren Bold",SwingConstants.LEFT, Font.PLAIN),
     TYPE_LINE (130,"Beleren Bold",SwingConstants.LEFT,Font.PLAIN),
     TEXT (128,"MPlantin",SwingConstants.LEFT,Font.PLAIN),

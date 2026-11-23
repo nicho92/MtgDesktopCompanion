@@ -36,6 +36,8 @@ import dev.langchain4j.service.AiServices;
 
 public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
+	private static final String SIDEBOARD = "sideboard";
+	private static final String MAINBOARD = "mainboard";
 	private static final String QUANTITY = "quantity";
 	private static final String NAME = "name";
 	private static final String LOYALTY = "loyalty";
@@ -101,15 +103,15 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 						JsonSchema.builder().name("MTG Deck")
 								.rootElement(
 										JsonObjectSchema.builder().addStringProperty(NAME)
-												.addProperty("mainboard", JsonArraySchema.builder()
+												.addProperty(MAINBOARD, JsonArraySchema.builder()
 														.items(JsonObjectSchema.builder().addStringProperty(NAME)
 																.addIntegerProperty(QUANTITY).build())
 														.build())
-												.addProperty("sideboard", JsonArraySchema.builder()
+												.addProperty(SIDEBOARD, JsonArraySchema.builder()
 														.items(JsonObjectSchema.builder().addStringProperty(NAME)
 																.addIntegerProperty(QUANTITY).build())
 														.build())
-												.addStringProperty("description").required("description", "mainboard")
+												.addStringProperty("description").required("description", MAINBOARD)
 												.build())
 								.build())
 				.build();
@@ -149,7 +151,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		d.setDescription(obj.get("description").getAsString());
 		d.setName(obj.get(NAME).getAsString());
 
-		obj.get("mainboard").getAsJsonArray().forEach(je -> {
+		obj.get(MAINBOARD).getAsJsonArray().forEach(je -> {
 
 			try {
 				final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
@@ -162,8 +164,8 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
 		});
 
-		if (obj.get("sideboard") != null && !obj.get("sideboard").isJsonNull()) {
-		    obj.get("sideboard").getAsJsonArray().forEach(je -> {
+		if (obj.get(SIDEBOARD) != null && !obj.get(SIDEBOARD).isJsonNull()) {
+		    obj.get(SIDEBOARD).getAsJsonArray().forEach(je -> {
 
 		    	try {
 		    		final var mc = MTG.getEnabledPlugin(MTGCardsProvider.class)
