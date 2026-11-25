@@ -70,9 +70,9 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 
 			final var res = RequestBuilder.build().url(WEBSITE + "/user/").post().setClient(client)
 					.addContent("email", getAuthenticator().get("EMAIL"))
-					.addContent("password", getAuthenticator().get("PASSWORD")).toHtml();
+					.addContent("password", getAuthenticator().get("PASSWORD")).toHtml().select("title").text();
 
-			logger.info("logged as {}", res.select("title").text());
+			logger.info("logged as {}", res);
 		}
 
 	}

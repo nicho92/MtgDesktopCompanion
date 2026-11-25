@@ -27,8 +27,8 @@ import org.magic.services.GuessGameService.GameStatus;
 public class HangmanPanel extends MTGUIComponent {
 
     private static final long serialVersionUID = 1L;
-    private final GuessGameService game = new GuessGameService();
-    private final MTGCompanionComposerProvider provider = new MTGCompanionComposerProvider();
+    private final transient GuessGameService game = new GuessGameService();
+    private final transient MTGCompanionComposerProvider provider = new MTGCompanionComposerProvider();
 
 
     // Écran de jeu

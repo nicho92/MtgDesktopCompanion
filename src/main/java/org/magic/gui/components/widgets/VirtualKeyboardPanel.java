@@ -21,7 +21,7 @@ public class VirtualKeyboardPanel extends JPanel {
     }
 
     private final Map<Character, JButton> keyButtons = new LinkedHashMap<>();
-    private KeyListener listener;
+    private transient KeyListener listener;
     private boolean autoDisableOnPress = false;
 
     public VirtualKeyboardPanel(Layout layout) {

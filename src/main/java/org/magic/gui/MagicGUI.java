@@ -61,7 +61,7 @@ public class MagicGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
-	private OSTrayNotifier osNotifier;
+	private transient OSTrayNotifier osNotifier;
 	private CardSearchPanel searchPanel;
 
 	public MagicGUI() {

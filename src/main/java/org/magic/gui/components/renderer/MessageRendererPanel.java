@@ -45,7 +45,7 @@ public class MessageRendererPanel extends JPanel {
 	private final JTextPane textArea;
 	private final int iconSize = 25;
 	private final JPanel separator;
-	private final PrettyTime prettyTime;
+	private final transient PrettyTime prettyTime;
 
 	private int fixedWidth = -1;
 

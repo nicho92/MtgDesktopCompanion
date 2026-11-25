@@ -67,7 +67,7 @@
 		<rhino.version>1.9.2</rhino.version>
 		<commonmark.version>0.33.0</commonmark.version>
 		<langchain4j.version>1.24.0</langchain4j.version>
-		<telegram.version>10.3.0</telegram.version>
+		<telegram.version>10.4.0</telegram.version>
 	</properties>
 
 	<repositories>

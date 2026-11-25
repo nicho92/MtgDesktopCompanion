@@ -35,7 +35,7 @@ public class ImageGalleryPanel extends MTGUIComponent {
 	private boolean openingLargePic = true;
 	private transient SwingWorker<Void, MTGWallpaper> sw2;
 	private final boolean multipleSelection;
-	private final MTGHttpClient client;
+	private final transient MTGHttpClient client;
 
 	public ImageGalleryPanel(boolean openingLarge, boolean multiple) {
 		client = URLTools.newClient();
